@@ -504,9 +504,28 @@ const TeacherClassesPage: React.FC = () => {
             
             {/* Free tier limit info */}
             {!isSubscribed && (
-              <div className="mt-4 md:mt-6 text-center text-xs md:text-sm text-black/60 px-2">
-                <p>Free tier is limited to 1 class. You've created {classes.length} of 1 allowed classes.</p>
-                <p className="mt-1">Need more classes? <Link to="/teachers/settings#subscription" className="text-greyed-blue hover:underline font-medium">Upgrade to unlimited for £8/month</Link></p>
+              <div className="mt-4 md:mt-6 flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className={`inline-flex items-center ${
+                    classes.length >= 1
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-greyed-navy hover:bg-greyed-navy/90"
+                  } text-white px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap`}
+                  disabled={classes.length >= 1}
+                  title={classes.length >= 1 ? "Free tier limited to 1 class" : "Create new class"}
+                >
+                  <PlusCircle size={16} className="mr-2" />
+                  Add New Class
+                </button>
+
+                <Link
+                  to="/teachers/settings#subscription"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-greyed-blue/10 text-greyed-navy hover:bg-greyed-blue/20 transition-colors"
+                  title="Free tier: 1 class limit. Upgrade for unlimited classes."
+                >
+                  <AlertCircle size={20} />
+                </Link>
               </div>
             )}
             
