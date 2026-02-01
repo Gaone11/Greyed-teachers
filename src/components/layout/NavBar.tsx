@@ -182,10 +182,10 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="w-full px-4 pl-4 pr-0 py-4 flex items-center justify-between md:justify-start">
-        {/* Left section: Logo or empty for teacher pages */}
+      <div className="w-full px-4 pl-4 pr-4 py-4 flex items-center justify-between">
+        {/* Left section: Logo or Welcome message for teacher dashboard */}
         <div className="flex items-center gap-2">
-          {!isTeacherPage && (
+          {!isTeacherPage ? (
             <Link to="/" className={`hidden md:block ${logoTextClass}`}>
               <img
                 src="/favicon.svg"
@@ -194,7 +194,16 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
                 loading="eager"
               />
             </Link>
-          )}
+          ) : location.pathname === '/teachers/dashboard' && user ? (
+            <div className="hidden md:block">
+              <h1 className="text-lg font-headline font-bold text-[#212754] tracking-tight leading-tight">
+                Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
+              </h1>
+              <p className="text-[#292828] text-opacity-70 text-xs font-medium">
+                Here's what's happening with your classes today
+              </p>
+            </div>
+          ) : null}
         </div>
 
         {/* Center section: GreyEd Logo (mobile only, not on teacher pages) */}
@@ -208,9 +217,6 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
             />
           </Link>
         )}
-
-        {/* Spacer for layout balance on desktop */}
-        <div className="flex-1 hidden md:block"></div>
 
         {/* Right section: Desktop Menu - Hidden on mobile */}
         <div className="hidden md:flex items-center space-x-6 ml-auto">

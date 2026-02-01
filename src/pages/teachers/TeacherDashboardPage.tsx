@@ -185,17 +185,6 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
             )}
 
-            <div className="flex items-center mb-3 animate-fade-in">
-              <div>
-                <h1 className="text-lg md:text-xl font-headline font-bold text-[#212754] tracking-tight">
-                  Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
-                </h1>
-                <p className="text-[#292828] text-opacity-70 text-xs font-medium">
-                  Here's what's happening with your classes today
-                </p>
-              </div>
-            </div>
-
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up">
