@@ -16,7 +16,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
             <div className="relative">
               <div className="mx-auto flex items-center justify-center animate-pulse-glow">
                 <img
-                  src="/Logo PNG copy.png"
+                  src="/favicon.svg"
                   alt="GreyEd"
                   className="h-24 w-auto"
                   loading="eager"
@@ -36,7 +36,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
       <div className="relative">
         <div className="flex items-center justify-center animate-pulse">
           <img
-            src="/Logo PNG copy.png"
+            src="/favicon.svg"
             alt="GreyEd"
             className="h-12 w-auto"
             loading="eager"

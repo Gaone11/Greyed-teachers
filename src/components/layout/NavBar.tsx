@@ -183,36 +183,31 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       transition={{ duration: 0.5 }}
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between md:justify-start">
-        {/* Left section: Sidebar toggle button (desktop only) and logo */}
+        {/* Left section: Logo or empty for teacher pages */}
         <div className="flex items-center gap-2">
-          {showSidebarToggle && onToggleSidebar && (
-            <button
-              onClick={onToggleSidebar}
-              className={`hidden md:block p-2 rounded-lg transition-all duration-200 hover:bg-black/5 ${textColorClass}`}
-              aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-            </button>
+          {!isTeacherPage && (
+            <Link to="/" className={`hidden md:block ${logoTextClass}`}>
+              <img
+                src="/favicon.svg"
+                alt="GreyEd Logo"
+                className="h-8 w-auto"
+                loading="eager"
+              />
+            </Link>
           )}
-          <Link to="/" className={`hidden md:block ${logoTextClass}`}>
+        </div>
+
+        {/* Center section: GreyEd Logo (mobile only, not on teacher pages) */}
+        {!isTeacherPage && (
+          <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 ${logoTextClass}`}>
             <img
-              src="/Logo PNG copy.png"
+              src="/favicon.svg"
               alt="GreyEd Logo"
               className="h-8 w-auto"
               loading="eager"
             />
           </Link>
-        </div>
-
-        {/* Center section: GreyEd Logo (mobile only) */}
-        <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 ${logoTextClass}`}>
-          <img
-            src="/Logo PNG copy.png"
-            alt="GreyEd Logo"
-            className="h-8 w-auto"
-            loading="eager"
-          />
-        </Link>
+        )}
 
         {/* Spacer for layout balance on desktop */}
         <div className="flex-1 hidden md:block"></div>

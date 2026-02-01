@@ -66,7 +66,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
           <div className="md:col-span-4">
             <div className="mb-6">
               <img
-                src="/Logo PNG copy.png"
+                src="/favicon.svg"
                 alt="GreyEd Logo"
                 className="h-10 w-auto mb-2"
                 loading="lazy"
