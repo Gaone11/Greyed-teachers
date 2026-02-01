@@ -182,9 +182,9 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between md:justify-start">
         {/* Left section: Sidebar toggle button (desktop only) and logo */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2">
           {showSidebarToggle && onToggleSidebar && (
             <button
               onClick={onToggleSidebar}
@@ -194,7 +194,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
               {sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
             </button>
           )}
-          <Link to="/" className={`${logoTextClass}`}>
+          <Link to="/" className={`hidden md:block ${logoTextClass}`}>
             <img
               src="/Logo PNG copy.png"
               alt="GreyEd Logo"
@@ -204,41 +204,51 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
           </Link>
         </div>
 
-        {/* Mobile Menu Button - Right side on mobile */}
-        <button
-          className={`md:hidden p-2 ${mobileMenuButtonClass}`}
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Center section: GreyEd Logo (mobile only) */}
+        <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 ${logoTextClass}`}>
+          <img
+            src="/Logo PNG copy.png"
+            alt="GreyEd Logo"
+            className="h-8 w-auto"
+            loading="eager"
+          />
+        </Link>
+
+        {/* Spacer for layout balance on desktop */}
+        <div className="flex-1 hidden md:block"></div>
 
         {/* Right section: Desktop Menu - Hidden on mobile */}
-        <div className="hidden md:flex items-center gap-8 flex-shrink-0">
+        <div className="hidden md:flex items-center space-x-6 ml-auto">
           {showNavMenu && (
-            <nav className="flex items-center gap-8">
-              {navLinks.map((link, index) => {
-                const isActive = location.pathname === link.to || location.pathname.startsWith(link.to + '/');
-                return (
+            <>
+              <nav className="hidden md:flex items-center space-x-6">
+                {navLinks.map((link, index) => (
                   <Link
                     key={index}
                     to={link.to}
-                    className={`relative ${textColorClass} ${textHoverClass} transition-all font-medium ${
-                      isActive ? 'text-greyed-blue' : ''
+                    className={`${textColorClass} ${textHoverClass} transition-colors ${
+                      location.pathname === link.to || location.pathname.startsWith(link.to + '/') ? 'text-greyed-blue' : ''
                     }`}
                   >
                     {link.label}
-                    {isActive && (
-                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-greyed-blue rounded-full"></span>
-                    )}
                   </Link>
-                );
-              })}
-            </nav>
+                ))}
+              </nav>
+
+              {/* Mobile Menu Button */}
+              <button
+                className={`md:hidden p-2 ${mobileMenuButtonClass}`}
+                onClick={toggleMenu}
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </>
           )}
 
           {/* Dyslexia Mode Toggle - visible for all authenticated users */}
           {user && <DyslexiaModeToggle />}
+
 
           {/* User menu - visible for all logged in users */}
           {user ? (
@@ -246,7 +256,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
           ) : showNavMenu ? (
             <button
               onClick={handleLogin}
-              className="bg-greyed-blue text-greyed-navy px-5 py-2 rounded-full font-medium hover:bg-greyed-white transition-colors"
+              className="bg-greyed-blue text-greyed-navy px-5 py-2 rounded-full font-medium hover:bg-greyed-white transition-colors hidden md:block"
             >
               Log In
             </button>
