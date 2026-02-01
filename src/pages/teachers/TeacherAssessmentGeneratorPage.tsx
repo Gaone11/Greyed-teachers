@@ -352,34 +352,16 @@ export default function TeacherAssessmentGeneratorPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b">
-        <div className="px-4 sm:px-6 lg:px-8 py-4">
-          {/* Page Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4">
-            <div className="flex items-center flex-1 min-w-0">
-              <button
-                onClick={() => navigate('/teachers/assessments')}
-                className="md:hidden mr-2 p-2 rounded-lg hover:bg-gray-100 flex-shrink-0"
-              >
-                <ArrowLeft size={20} />
-              </button>
-
-              <div className="min-w-0">
-                <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
-                  Generate Assessment
-                </h1>
-                <p className="text-xs md:text-sm text-black/70">
-                  Create a detailed, curriculum-aligned assessment
-                </p>
-              </div>
-            </div>
-
+        <div className=" px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             <button
               onClick={() => navigate('/teachers/assessments')}
-              className="hidden md:flex items-center text-gray-600 hover:text-gray-900"
+              className="flex items-center text-gray-600 hover:text-gray-900"
             >
               <ArrowLeft className="h-5 w-5 mr-2" />
               Back to Assessments
             </button>
+            <h1 className="text-xl font-semibold text-gray-900">Generate Assessment</h1>
           </div>
         </div>
       </div>

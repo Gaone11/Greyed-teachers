@@ -165,18 +165,11 @@ const TeacherCoursesPage: React.FC = () => {
           !isMobile && !sidebarCollapsed ? 'ml-64' : !isMobile ? 'ml-20' : ''
         }`}>
           <div className="max-w-5xl mx-auto">
-            {/* Page Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
-              <div className="flex items-center flex-1 min-w-0">
-                <div className="min-w-0">
-                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
-                    Professional Development
-                  </h1>
-                  <p className="text-xs md:text-sm text-black/70">
-                    Enhance your skills with specialized training courses
-                  </p>
-                </div>
-              </div>
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-greyed-navy mb-2">Professional Development</h1>
+              <p className="text-greyed-navy/70">
+                Enhance your skills with specialized training courses
+              </p>
             </div>
 
             {courses.length === 0 ? (

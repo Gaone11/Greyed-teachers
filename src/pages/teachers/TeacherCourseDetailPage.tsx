@@ -294,25 +294,25 @@ const TeacherCourseDetailPage: React.FC = () => {
           !isMobile && !sidebarCollapsed ? 'ml-64' : !isMobile ? 'ml-20' : ''
         }`}>
           <div className="max-w-5xl mx-auto">
-            {/* Page Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
-              <div className="flex items-center flex-1 min-w-0">
-                <div className="min-w-0">
-                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
-                    {course.title}
-                  </h1>
-                  <p className="text-xs md:text-sm text-black/70">
-                    {course.description}
-                  </p>
-                </div>
-              </div>
-
-              {courseCompleted && (
-                <Award className="w-12 h-12 text-yellow-500" />
-              )}
-            </div>
+            <button
+              onClick={() => navigate('/teachers/courses')}
+              className="flex items-center gap-2 text-greyed-navy hover:text-greyed-navy/70 mb-6 transition-colors"
+            >
+              <ArrowLeft size={20} />
+              <span>Back to Courses</span>
+            </button>
 
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h1 className="text-3xl font-bold text-greyed-navy mb-2">{course.title}</h1>
+                  <p className="text-greyed-navy/70">{course.description}</p>
+                </div>
+                {courseCompleted && (
+                  <Award className="w-12 h-12 text-yellow-500" />
+                )}
+              </div>
+
               <div className="flex gap-4 border-b border-greyed-navy/10 mb-6">
                 <button
                   onClick={() => setCurrentView('modules')}
