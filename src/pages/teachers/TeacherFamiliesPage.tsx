@@ -783,50 +783,16 @@ const TeacherFamiliesPage: React.FC = () => {
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Success message */}
-            {success && (
-              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
-                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{success}</span>
-              </div>
-            )}
-            
-            {/* Error message */}
-            {error && (
-              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
-            
-            {!isSubscribed && (
-              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">You're using the free version</p>
-                    <p className="mt-1">Free version allows {limits.familyUpdates} family updates per month. Upgrade for unlimited updates.</p>
-                    <Link 
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-          
             {/* Breadcrumb & Back */}
             <div className="flex items-center mb-6">
-              <button 
+              <button
                 className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => navigate('/teachers/dashboard')}
                 className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
               >
@@ -834,7 +800,7 @@ const TeacherFamiliesPage: React.FC = () => {
                 Back to Dashboard
               </button>
             </div>
-            
+
             {/* Main header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
               <div>
@@ -845,9 +811,9 @@ const TeacherFamiliesPage: React.FC = () => {
                   Send updates to families and communicate with parents
                 </p>
               </div>
-              
+
               <div className="mt-4 md:mt-0 flex space-x-2">
-                <button 
+                <button
                   onClick={() => setShowComposeModal(true)}
                   className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
                 >
@@ -857,6 +823,41 @@ const TeacherFamiliesPage: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {/* Success message */}
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <span>{success}</span>
+              </div>
+            )}
+
+            {/* Error message */}
+            {error && (
+              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
+                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            {!isSubscribed && (
+              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium">You're using the free version</p>
+                    <p className="mt-1">Free version allows {limits.familyUpdates} family updates per month. Upgrade for unlimited updates.</p>
+                    <Link
+                      to="/teachers/settings#subscription"
+                      className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
+                    >
+                      Upgrade Now
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+
             
             {/* Class selection */}
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6">

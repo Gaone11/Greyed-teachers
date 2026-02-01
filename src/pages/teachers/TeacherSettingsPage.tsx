@@ -413,14 +413,14 @@ const TeacherSettingsPage: React.FC = () => {
           <main className="px-4 sm:px-6 lg:px-8 py-1">
             {/* Breadcrumb & Back */}
             <div className="flex items-center mb-4">
-              <button 
+              <button
                 className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => navigate('/teachers/dashboard')}
                 className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
               >
@@ -428,7 +428,14 @@ const TeacherSettingsPage: React.FC = () => {
                 Back to Dashboard
               </button>
             </div>
-            
+
+            {/* Main header */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+              <h1 className="text-2xl font-headline font-bold text-black">
+                Settings
+              </h1>
+            </div>
+
             {/* Success message */}
             {success && (
               <div className="bg-greyed-beige/20 border border-greyed-blue/20 text-greyed-navy px-4 py-3 rounded-lg mb-4 flex items-start">
@@ -436,7 +443,7 @@ const TeacherSettingsPage: React.FC = () => {
                 <span>{success}</span>
               </div>
             )}
-            
+
             {/* Error message */}
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-4 flex items-start">
@@ -444,13 +451,7 @@ const TeacherSettingsPage: React.FC = () => {
                 <span>{error}</span>
               </div>
             )}
-            
-            {/* Main header */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-              <h1 className="text-2xl font-headline font-bold text-black">
-                Settings
-              </h1>
-            </div>
+
             
             {/* Settings tabs and content */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">

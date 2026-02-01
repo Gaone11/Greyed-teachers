@@ -519,50 +519,16 @@ const TeacherLessonPlannerPage: React.FC = () => {
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         } overflow-x-hidden`}>
           <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Success message */}
-            {success && (
-              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
-                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{success}</span>
-              </div>
-            )}
-            
-            {/* Error message */}
-            {error && (
-              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
-            
-            {!isSubscribed && (
-              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">You're using the free version</p>
-                    <p className="mt-1">You have created {limits.usedLessonPlans} of {limits.lessonPlans} free lesson plans. Upgrade for unlimited lesson plans.</p>
-                    <button 
-                      onClick={() => navigate('/teachers/settings#subscription')}
-                      className="mt-2 bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          
             {/* Breadcrumb & Back */}
             <div className="flex items-center mb-6">
-              <button 
+              <button
                 className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => navigate('/teachers/dashboard')}
                 className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
               >
@@ -570,7 +536,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                 Back to Dashboard
               </button>
             </div>
-            
+
             {/* Main header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
               <div>
@@ -581,9 +547,9 @@ const TeacherLessonPlannerPage: React.FC = () => {
                   Create and manage lesson plans for your classes
                 </p>
               </div>
-              
+
               <div className="mt-4 md:mt-0">
-                <button 
+                <button
                   onClick={() => navigate('/teachers/lesson-planner/generate')}
                   className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
                 >
@@ -592,6 +558,41 @@ const TeacherLessonPlannerPage: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {/* Success message */}
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <span>{success}</span>
+              </div>
+            )}
+
+            {/* Error message */}
+            {error && (
+              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
+                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            {!isSubscribed && (
+              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium">You're using the free version</p>
+                    <p className="mt-1">You have created {limits.usedLessonPlans} of {limits.lessonPlans} free lesson plans. Upgrade for unlimited lesson plans.</p>
+                    <button
+                      onClick={() => navigate('/teachers/settings#subscription')}
+                      className="mt-2 bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
+                    >
+                      Upgrade Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             
             {/* Filters */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">

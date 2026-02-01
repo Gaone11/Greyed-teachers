@@ -295,32 +295,6 @@ const TeacherClassesPage: React.FC = () => {
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {error && (
-              <div className="bg-greyed-beige/30 border-2 border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
-            
-            {/* Subscription warning for free tier */}
-            {!isSubscribed && classes.length >= 1 && (
-              <div className="bg-greyed-blue/10 border-2 border-greyed-blue/30 text-greyed-navy px-3 py-2.5 md:px-4 md:py-3 rounded-lg mb-4 md:mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-4 w-4 md:h-5 md:w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm md:text-base">You've reached your free tier limit</p>
-                    <p className="mt-1 text-xs md:text-sm">Free tier is limited to 1 class. Upgrade to create unlimited classes.</p>
-                    <Link
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-3 py-1 rounded text-xs md:text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-          
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
               <div className="flex items-center flex-1 min-w-0">
                 <button
@@ -356,6 +330,33 @@ const TeacherClassesPage: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {error && (
+              <div className="bg-greyed-beige/30 border-2 border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
+                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            {/* Subscription warning for free tier */}
+            {!isSubscribed && classes.length >= 1 && (
+              <div className="bg-greyed-blue/10 border-2 border-greyed-blue/30 text-greyed-navy px-3 py-2.5 md:px-4 md:py-3 rounded-lg mb-4 md:mb-6">
+                <div className="flex items-start">
+                  <AlertCircle className="h-4 w-4 md:h-5 md:w-5 mr-2 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm md:text-base">You've reached your free tier limit</p>
+                    <p className="mt-1 text-xs md:text-sm">Free tier is limited to 1 class. Upgrade to create unlimited classes.</p>
+                    <Link
+                      to="/teachers/settings#subscription"
+                      className="mt-2 inline-block bg-greyed-navy text-white px-3 py-1 rounded text-xs md:text-sm hover:bg-greyed-navy/90 transition-colors"
+                    >
+                      Upgrade Now
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+
             
             {/* Search and filters - Simplified layout with less padding */}
             <div className="bg-white rounded-xl shadow-sm p-2.5 md:p-3 mb-3 md:mb-4">

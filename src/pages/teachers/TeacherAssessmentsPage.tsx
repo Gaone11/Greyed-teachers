@@ -677,6 +677,56 @@ const TeacherAssessmentsPage: React.FC = () => {
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8 py-1">
+            {/* Breadcrumb & Back */}
+            <div className="flex items-center mb-4">
+              <button
+                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                onClick={toggleMobileMenu}
+              >
+                <Menu size={20} />
+              </button>
+
+              <button
+                onClick={() => navigate('/teachers/dashboard')}
+                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
+              >
+                <ArrowLeft size={16} className="mr-1" />
+                Back to Dashboard
+              </button>
+            </div>
+
+            {/* Main header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
+                  Assessments
+                </h1>
+                <p className="text-black">
+                  Create, manage and grade assessments for your classes
+                </p>
+              </div>
+
+              <div className="mt-4 md:mt-0 flex gap-2">
+                <Link
+                  to="/teachers/assessment-grading"
+                  className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors"
+                >
+                  <Upload size={16} className="mr-2" />
+                  <span className="hidden md:inline">AI Auto-Grading</span>
+                  <span className="md:hidden">Auto-Grade</span>
+                </Link>
+
+                <button
+                  onClick={() => navigate('/teachers/assessments/generate')}
+                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                >
+                  <PlusCircle size={16} className="mr-2" />
+                  <span className="hidden md:inline">Create Assessment</span>
+                  <span className="md:hidden">Create</span>
+                </button>
+              </div>
+            </div>
+
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
                 <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
@@ -691,7 +741,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                   <div>
                     <p className="font-medium">You're using the free version</p>
                     <p className="mt-1">You have {limits.assessments - limits.usedAssessments} free assessments remaining this month. Upgrade for unlimited assessments.</p>
-                    <Link 
+                    <Link
                       to="/teachers/settings#subscription"
                       className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
                     >
@@ -701,56 +751,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 </div>
               </div>
             )}
-          
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-4">
-              <button 
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-              
-              <button 
-                onClick={() => navigate('/teachers/dashboard')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Dashboard
-              </button>
-            </div>
-            
-            {/* Main header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                  Assessments
-                </h1>
-                <p className="text-black">
-                  Create, manage and grade assessments for your classes
-                </p>
-              </div>
-              
-              <div className="mt-4 md:mt-0 flex gap-2">
-                <Link
-                  to="/teachers/assessment-grading"
-                  className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors"
-                >
-                  <Upload size={16} className="mr-2" />
-                  <span className="hidden md:inline">AI Auto-Grading</span>
-                  <span className="md:hidden">Auto-Grade</span>
-                </Link>
-                
-                <button 
-                  onClick={() => navigate('/teachers/assessments/generate')}
-                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
-                >
-                  <PlusCircle size={16} className="mr-2" />
-                  <span className="hidden md:inline">Create Assessment</span>
-                  <span className="md:hidden">Create</span>
-                </button>
-              </div>
-            </div>
+
             
             {/* Search and filters */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
