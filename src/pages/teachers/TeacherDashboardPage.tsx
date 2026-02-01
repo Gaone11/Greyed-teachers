@@ -151,13 +151,13 @@ const TeacherDashboardPage: React.FC = () => {
         
         {/* Left sidebar navigation */}
         <div className={`${
-          isMobile 
+          isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
-            : 'relative'
-        }`}>
-          <TeacherSidebar 
-            activePage="dashboard" 
-            onLogout={handleLogout} 
+            : 'fixed top-16 left-0 bottom-0 z-40'
+        } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+          <TeacherSidebar
+            activePage="dashboard"
+            onLogout={handleLogout}
             collapsed={sidebarCollapsed}
             onToggleCollapse={toggleSidebar}
           />
@@ -174,7 +174,9 @@ const TeacherDashboardPage: React.FC = () => {
         </div>
         
         {/* Main content area - Reduced top padding */}
-        <div className="flex-1 ml-0 md:ml-0 pt-2 pb-16 md:pb-0">
+        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        }`}>
           <main className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-5 py-4 rounded-2xl mb-6 flex items-start shadow-premium backdrop-blur-sm animate-slide-down">

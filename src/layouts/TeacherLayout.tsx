@@ -68,15 +68,21 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   return (
     <div className="min-h-screen bg-greyed-white">
       {/* Left sidebar navigation - Fixed position */}
-      <TeacherSidebar
-        activePage={activePage}
-        onLogout={handleLogout}
-        collapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-        isMobile={isMobile}
-        isOpen={showMobileMenu}
-        onClose={() => setShowMobileMenu(false)}
-      />
+      <div className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300 ${
+        isMobile
+          ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72`
+          : (sidebarCollapsed ? 'w-16' : 'w-64')
+      }`}>
+        <TeacherSidebar
+          activePage={activePage}
+          onLogout={handleLogout}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={toggleSidebar}
+          isMobile={isMobile}
+          isOpen={showMobileMenu}
+          onClose={() => setShowMobileMenu(false)}
+        />
+      </div>
 
       {/* Mobile menu overlay */}
       {showMobileMenu && isMobile && (
