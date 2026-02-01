@@ -195,7 +195,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
               />
             </Link>
           ) : location.pathname === '/teachers/dashboard' && user ? (
-            <div className="hidden md:block ml-56">
+            <div className="hidden md:block ml-80">
               <h1 className="text-lg font-headline font-bold text-[#212754] tracking-tight leading-tight whitespace-nowrap">
                 Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
               </h1>
