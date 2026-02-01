@@ -14,7 +14,6 @@ import {
   Sparkles,
   GraduationCap
 } from 'lucide-react';
-import DyslexiaModeToggle from '../accessibility/DyslexiaModeToggle';
 
 interface TeacherSidebarProps {
   activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses';
@@ -263,15 +262,6 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
           )}
         </Link>
       </nav>
-
-      {/* Accessibility Section */}
-      {!isCollapsed && (
-        <div className={`${isMobile ? 'px-4 pb-3' : 'px-3 pb-3'}`}>
-          <div className="flex items-center justify-center">
-            <DyslexiaModeToggle />
-          </div>
-        </div>
-      )}
 
       {/* Logout Button */}
       <div className={`${isMobile ? 'p-4' : 'p-3'} border-t border-premium-neutral-200`}>
