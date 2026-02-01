@@ -207,25 +207,14 @@ const TeacherClassDetailPage: React.FC = () => {
               </div>
             )}
           
-            {/* Breadcrumb & Back - reduced bottom margin */}
-            <div className="mb-3">
-              <button 
-                onClick={() => navigate('/teachers/classes')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Classes
-              </button>
-            </div>
-            
-            {/* Class header - reduced padding and margin */}
-            <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
-              <div className="flex flex-col md:flex-row justify-between">
-                <div>
-                  <h1 className="text-xl md:text-2xl font-headline font-bold text-black">
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
+              <div className="flex items-center flex-1 min-w-0">
+                <div className="min-w-0">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
                     {classData?.name || 'Class Details'}
                   </h1>
-                  <div className="flex items-center flex-wrap gap-2 mt-2">
+                  <div className="flex items-center flex-wrap gap-2 mt-1">
                     <span className="bg-greyed-blue/20 text-greyed-navy px-2 py-1 rounded text-sm">
                       {classData?.subject || 'Subject'}
                     </span>
@@ -243,16 +232,16 @@ const TeacherClassDetailPage: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                
-                <div className="mt-4 md:mt-0 flex space-x-3">
-                  <button 
-                    onClick={() => setShowSettingsModal(true)}
-                    className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center shadow-sm"
-                  >
-                    <Settings size={16} className="mr-2" />
-                    Class Settings
-                  </button>
-                </div>
+              </div>
+
+              <div className="mt-4 md:mt-0 flex space-x-3">
+                <button
+                  onClick={() => setShowSettingsModal(true)}
+                  className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center shadow-sm"
+                >
+                  <Settings size={16} className="mr-2" />
+                  Class Settings
+                </button>
               </div>
             </div>
             

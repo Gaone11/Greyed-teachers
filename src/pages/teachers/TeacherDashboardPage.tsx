@@ -185,6 +185,27 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
             )}
 
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
+              <div className="flex items-center flex-1 min-w-0">
+                <button
+                  className="md:hidden mr-2 p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
+                  onClick={() => setShowMobileMenu(true)}
+                >
+                  <Menu size={20} />
+                </button>
+
+                <div className="min-w-0">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
+                    Welcome back, {user?.email?.split('@')[0] || 'Teacher'}
+                  </h1>
+                  <p className="text-xs md:text-sm text-black/70">
+                    Here's what's happening today
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up">

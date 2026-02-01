@@ -411,22 +411,25 @@ const TeacherSettingsPage: React.FC = () => {
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-4">
-              <button 
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-              
-              <button 
-                onClick={() => navigate('/teachers/dashboard')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Dashboard
-              </button>
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
+              <div className="flex items-center flex-1 min-w-0">
+                <button
+                  className="md:hidden mr-2 p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
+                  onClick={toggleMobileMenu}
+                >
+                  <Menu size={20} />
+                </button>
+
+                <div className="min-w-0">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
+                    Settings
+                  </h1>
+                  <p className="text-xs md:text-sm text-black/70">
+                    Manage your account and preferences
+                  </p>
+                </div>
+              </div>
             </div>
             
             {/* Success message */}
@@ -444,14 +447,7 @@ const TeacherSettingsPage: React.FC = () => {
                 <span>{error}</span>
               </div>
             )}
-            
-            {/* Main header */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-              <h1 className="text-2xl font-headline font-bold text-black">
-                Settings
-              </h1>
-            </div>
-            
+
             {/* Settings tabs and content */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
               {/* Tabs */}

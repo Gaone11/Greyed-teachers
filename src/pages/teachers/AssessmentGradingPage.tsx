@@ -398,33 +398,24 @@ const AssessmentGradingPage: React.FC = () => {
               </div>
             )}
           
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-4">
-              <button 
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-              
-              <button 
-                onClick={() => navigate('/teachers/assessments')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Assessments
-              </button>
-            </div>
-            
-            {/* Main header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                  AI Auto-Grading
-                </h1>
-                <p className="text-black/70">
-                  Upload and automatically grade student assessments with AI
-                </p>
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
+              <div className="flex items-center flex-1 min-w-0">
+                <button
+                  className="md:hidden mr-2 p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
+                  onClick={toggleMobileMenu}
+                >
+                  <Menu size={20} />
+                </button>
+
+                <div className="min-w-0">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
+                    AI Auto-Grading
+                  </h1>
+                  <p className="text-xs md:text-sm text-black/70">
+                    Upload and automatically grade student assessments with AI
+                  </p>
+                </div>
               </div>
             </div>
             
