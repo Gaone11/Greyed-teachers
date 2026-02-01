@@ -174,31 +174,30 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
               <h2 className="text-lg font-bold text-premium-navy">GreyEd</h2>
               <p className="text-xs text-premium-neutral-500">Teacher Portal</p>
             </div>
+            {!isMobile && (
+              <button
+                onClick={handleToggleCollapse}
+                className="text-premium-navy hover:text-greyed-navy transition-colors duration-300"
+                title="Collapse sidebar"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
       )}
 
       {isCollapsed && !isMobile && (
-        <div className="pt-6 px-2 pb-4 border-b border-premium-neutral-200 flex justify-center">
+        <div className="pt-6 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
-        </div>
-      )}
-
-      {/* Toggle Button - Desktop only */}
-      {!isMobile && (
-        <div className="absolute -right-3 top-24 z-50">
           <button
             onClick={handleToggleCollapse}
-            className="bg-white border-2 border-premium-neutral-200 rounded-full p-1.5 shadow-premium hover:bg-premium-neutral-50 transition-all duration-300 hover:scale-110"
-            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            className="text-premium-navy hover:text-greyed-navy transition-colors duration-300"
+            title="Expand sidebar"
           >
-            {isCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-premium-navy" />
-            ) : (
-              <ChevronLeft className="w-4 h-4 text-premium-navy" />
-            )}
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       )}
