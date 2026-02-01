@@ -177,29 +177,27 @@ const TeacherDashboardPage: React.FC = () => {
         <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
+          <main className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-1">
             {error && (
-              <div className="bg-white border border-[#e8e6e0] text-[#212754] px-5 py-4 rounded-2xl mb-6 flex items-start shadow-md animate-slide-down">
+              <div className="bg-white border border-[#e8e6e0] text-[#212754] px-5 py-4 rounded-2xl mb-4 flex items-start shadow-md animate-slide-down">
                 <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 animate-fade-in">
-              <div className="flex items-center">
-                <div>
-                  <h1 className="text-xl md:text-2xl font-headline font-bold text-[#212754] mb-1 tracking-tight">
-                    Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
-                  </h1>
-                  <p className="text-[#292828] text-opacity-70 text-xs md:text-sm font-medium">
-                    Here's what's happening with your classes today
-                  </p>
-                </div>
+            <div className="flex items-center mb-3 animate-fade-in">
+              <div>
+                <h1 className="text-lg md:text-xl font-headline font-bold text-[#212754] tracking-tight">
+                  Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
+                </h1>
+                <p className="text-[#292828] text-opacity-70 text-xs font-medium">
+                  Here's what's happening with your classes today
+                </p>
               </div>
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up">
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#212754]/10 flex items-center justify-center">
@@ -251,7 +249,7 @@ const TeacherDashboardPage: React.FC = () => {
             </div>
 
             {/* Today's Schedule - Premium Card Timeline */}
-            <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] mb-6 overflow-hidden animate-slide-up hover:shadow-lg transition-shadow duration-300">
+            <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] mb-4 overflow-hidden animate-slide-up hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                 <h3 className="font-bold text-[#212754] flex items-center text-base">
                   <div className="w-8 h-8 rounded-lg bg-[#bbd7eb]/20 flex items-center justify-center mr-2">
@@ -326,7 +324,7 @@ const TeacherDashboardPage: React.FC = () => {
             </div>
             
             {/* Two-column layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {/* Recent Classes */}
               <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
                 <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
