@@ -340,7 +340,7 @@ const TeacherClassesPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="w-full md:w-auto flex-shrink-0">
+              <div className="w-full md:w-auto flex-shrink-0 flex gap-2">
                 <button
                   onClick={() => setShowCreateModal(true)}
                   className={`w-full md:w-auto inline-flex items-center justify-center ${
@@ -354,6 +354,22 @@ const TeacherClassesPage: React.FC = () => {
                   <PlusCircle size={16} className="mr-2" />
                   Create New Class
                 </button>
+
+                {!isSubscribed && (
+                  <button
+                    onClick={() => setShowCreateModal(true)}
+                    className={`inline-flex items-center ${
+                      classes.length >= 1
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-greyed-navy hover:bg-greyed-navy/90"
+                    } text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base whitespace-nowrap`}
+                    disabled={classes.length >= 1}
+                    title={classes.length >= 1 ? "Free tier limited to 1 class" : "Create new class"}
+                  >
+                    <PlusCircle size={16} className="mr-2" />
+                    Add New Class
+                  </button>
+                )}
               </div>
             </div>
             
@@ -504,21 +520,7 @@ const TeacherClassesPage: React.FC = () => {
             
             {/* Free tier limit info */}
             {!isSubscribed && (
-              <div className="mt-4 md:mt-6 flex items-center justify-center gap-3">
-                <button
-                  onClick={() => setShowCreateModal(true)}
-                  className={`inline-flex items-center ${
-                    classes.length >= 1
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-greyed-navy hover:bg-greyed-navy/90"
-                  } text-white px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap`}
-                  disabled={classes.length >= 1}
-                  title={classes.length >= 1 ? "Free tier limited to 1 class" : "Create new class"}
-                >
-                  <PlusCircle size={16} className="mr-2" />
-                  Add New Class
-                </button>
-
+              <div className="mt-4 md:mt-6 flex items-center justify-center">
                 <Link
                   to="/teachers/settings#subscription"
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-greyed-blue/10 text-greyed-navy hover:bg-greyed-blue/20 transition-colors"
