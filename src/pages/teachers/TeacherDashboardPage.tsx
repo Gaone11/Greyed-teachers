@@ -179,7 +179,7 @@ const TeacherDashboardPage: React.FC = () => {
         }`}>
           <main className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
             {error && (
-              <div className="bg-white border border-[#e8e6e0] text-[#212754] px-5 py-4 rounded-2xl mb-6 flex items-start shadow-sm animate-slide-down">
+              <div className="bg-white border border-[#e8e6e0] text-[#212754] px-5 py-4 rounded-2xl mb-6 flex items-start shadow-md animate-slide-down">
                 <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
@@ -210,7 +210,7 @@ const TeacherDashboardPage: React.FC = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-              <div className="rounded-xl bg-white shadow-sm border border-[#e8e6e0] p-4 hover:shadow-md transition-all duration-300 animate-slide-up">
+              <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up">
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#212754]/10 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#212754]" viewBox="0 0 20 20" fill="currentColor">
@@ -222,7 +222,7 @@ const TeacherDashboardPage: React.FC = () => {
                 <div className="text-xs text-[#292828] text-opacity-70 font-medium">Total Classes</div>
               </div>
 
-              <div className="rounded-xl bg-white shadow-sm border border-[#e8e6e0] p-4 hover:shadow-md transition-all duration-300 animate-slide-up" style={{ animationDelay: '50ms' }}>
+              <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '50ms' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#212754]/10 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#212754]" viewBox="0 0 20 20" fill="currentColor">
@@ -234,7 +234,7 @@ const TeacherDashboardPage: React.FC = () => {
                 <div className="text-xs text-[#292828] text-opacity-70 font-medium">Total Students</div>
               </div>
 
-              <div className="rounded-xl bg-white shadow-sm border border-[#e8e6e0] p-4 hover:shadow-md transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
+              <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#212754]/10 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#212754]" viewBox="0 0 20 20" fill="currentColor">
@@ -246,7 +246,7 @@ const TeacherDashboardPage: React.FC = () => {
                 <div className="text-xs text-[#292828] text-opacity-70 font-medium">Lesson Plans</div>
               </div>
 
-              <div className="rounded-xl bg-white shadow-sm border border-[#e8e6e0] p-4 hover:shadow-md transition-all duration-300 animate-slide-up" style={{ animationDelay: '150ms' }}>
+              <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '150ms' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#212754]/10 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#212754]" viewBox="0 0 20 20" fill="currentColor">
@@ -261,7 +261,7 @@ const TeacherDashboardPage: React.FC = () => {
             </div>
 
             {/* Today's Schedule - Premium Card Timeline */}
-            <div className="rounded-2xl bg-white shadow-sm border border-[#e8e6e0] mb-6 overflow-hidden animate-slide-up hover:shadow-md transition-shadow duration-300">
+            <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] mb-6 overflow-hidden animate-slide-up hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                 <h3 className="font-bold text-[#212754] flex items-center text-base">
                   <div className="w-8 h-8 rounded-lg bg-[#bbd7eb]/20 flex items-center justify-center mr-2">
@@ -289,7 +289,7 @@ const TeacherDashboardPage: React.FC = () => {
                     {todaySchedule.map((session, index) => (
                       <div
                         key={session.id}
-                        className="group relative rounded-2xl p-3 sm:p-4 bg-white border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-md transition-all duration-200 touch-manipulation"
+                        className="group relative rounded-2xl p-3 sm:p-4 bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-lg transition-all duration-200 touch-manipulation"
                       >
                         <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
                           <div className="flex items-start gap-3 sm:gap-4 flex-1 w-full">
@@ -338,7 +338,7 @@ const TeacherDashboardPage: React.FC = () => {
             {/* Two-column layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {/* Recent Classes */}
-              <div className="rounded-2xl bg-white shadow-sm border border-[#e8e6e0] overflow-hidden hover:shadow-md transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
+              <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
                 <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                   <h3 className="font-bold text-[#212754] flex items-center text-base">
                     <div className="w-8 h-8 rounded-lg bg-[#bbd7eb]/20 flex items-center justify-center mr-2">
@@ -371,7 +371,7 @@ const TeacherDashboardPage: React.FC = () => {
                         <Link
                           key={cls.id}
                           to={`/teachers/classes/${cls.id}`}
-                          className="group block p-4 rounded-2xl border border-[#e8e6e0] hover:border-[#212754] hover:shadow-md hover:bg-[#bbd7eb]/5 transition-all duration-300"
+                          className="group block p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:shadow-lg hover:bg-[#bbd7eb]/5 transition-all duration-300"
                         >
                           <div className="flex items-start justify-between mb-3">
                             <h4 className="font-bold text-[#212754] text-base transition-colors flex-1">
@@ -409,7 +409,7 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
               
               {/* AI Suggestions */}
-              <div className="rounded-2xl bg-white shadow-sm border border-[#e8e6e0] overflow-hidden hover:shadow-md transition-all duration-300 animate-slide-up" style={{ animationDelay: '200ms' }}>
+              <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '200ms' }}>
                 <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                   <h3 className="font-bold text-[#212754] flex items-center text-base">
                     AI Suggestions
@@ -431,7 +431,7 @@ const TeacherDashboardPage: React.FC = () => {
                         <Link
                           key={suggestion.id}
                           to={suggestion.actionLink}
-                          className="group block rounded-2xl bg-white border border-[#e8e6e0] hover:border-[#212754] hover:shadow-md hover:bg-[#bbd7eb]/5 transition-all duration-300 overflow-hidden"
+                          className="group block rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:shadow-lg hover:bg-[#bbd7eb]/5 transition-all duration-300 overflow-hidden"
                         >
                           <div className="flex gap-4 p-4">
                             <div className="flex-shrink-0">
@@ -467,7 +467,7 @@ const TeacherDashboardPage: React.FC = () => {
             </div>
             
             {/* Quick Actions */}
-            <div className="rounded-2xl bg-white shadow-sm border border-[#e8e6e0] overflow-hidden hover:shadow-md transition-all duration-300 animate-slide-up" style={{ animationDelay: '300ms' }}>
+            <div className="rounded-2xl bg-white shadow-md border border-[#e8e6e0] overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '300ms' }}>
               <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                 <h3 className="font-bold text-[#212754] text-base">Quick Actions</h3>
               </div>
@@ -476,7 +476,7 @@ const TeacherDashboardPage: React.FC = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
                   <Link
                     to="/teachers/lesson-planner"
-                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-md transition-all duration-200 bg-white touch-manipulation min-h-[120px]"
+                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#bbd7eb] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -488,7 +488,7 @@ const TeacherDashboardPage: React.FC = () => {
 
                   <Link
                     to="/teachers/assessments"
-                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-md transition-all duration-200 bg-white touch-manipulation min-h-[120px]"
+                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#bbd7eb] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -500,7 +500,7 @@ const TeacherDashboardPage: React.FC = () => {
 
                   <Link
                     to="/teachers/families"
-                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-md transition-all duration-200 bg-white touch-manipulation min-h-[120px]"
+                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#bbd7eb] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -512,7 +512,7 @@ const TeacherDashboardPage: React.FC = () => {
 
                   <Link
                     to="/teachers/el-ai"
-                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-md transition-all duration-200 bg-white touch-manipulation min-h-[120px]"
+                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#212754] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <Snowflake className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -522,7 +522,7 @@ const TeacherDashboardPage: React.FC = () => {
 
                   <Link
                     to="/teachers/settings"
-                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-md transition-all duration-200 bg-white touch-manipulation min-h-[120px]"
+                    className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#212754] hover:bg-[#bbd7eb]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#292828] bg-opacity-70 text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <Settings className="h-6 w-6 sm:h-7 sm:w-7" />
