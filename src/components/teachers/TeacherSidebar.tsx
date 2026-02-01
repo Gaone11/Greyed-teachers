@@ -157,14 +157,14 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
   return (
     <div
       ref={sidebarRef}
-      className={`bg-gradient-to-b from-premium-neutral-100 via-white to-premium-neutral-50 flex flex-col transition-all duration-300 shadow-premiumLg w-full h-full overflow-y-auto ${!isMobile ? 'pt-16' : ''}`}
+      className={`bg-gradient-to-b from-premium-neutral-100 via-white to-premium-neutral-50 flex flex-col transition-all duration-300 shadow-premiumLg w-full h-full overflow-y-auto`}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       {/* Logo/Brand Section */}
       {(!isCollapsed || isMobile) && (
-        <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-6 px-4 pb-4'} border-b border-premium-neutral-200`}>
+        <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-4 px-4 pb-4'} border-b border-premium-neutral-200`}>
           <div className="flex items-center gap-3">
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
               <Sparkles className="w-5 h-5 text-white" />
@@ -187,7 +187,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       )}
 
       {isCollapsed && !isMobile && (
-        <div className="pt-6 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
+        <div className="pt-4 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
