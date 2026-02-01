@@ -241,9 +241,23 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
             </>
           )}
 
+          {/* Add New Class Button - visible only on teacher dashboard */}
+          {user && role === 'teacher' && location.pathname === '/teachers/dashboard' && (
+            <Link
+              to="/teachers/classes"
+              className="group inline-flex items-center gap-1.5 rounded-lg bg-[#212754] text-white px-4 py-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:rotate-90 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+              Add New Class
+            </Link>
+          )}
+
           {/* Dyslexia Mode Toggle - visible for all authenticated users */}
           {user && <DyslexiaModeToggle />}
-
 
           {/* User menu - visible for all logged in users */}
           {user ? (

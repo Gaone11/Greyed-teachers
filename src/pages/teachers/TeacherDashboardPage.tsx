@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  Loader, 
-  PlusCircle,
+import {
+  Loader,
   AlertCircle,
   X,
   Menu,
   Snowflake,
-  Settings
+  Settings,
+  PlusCircle
 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
@@ -195,16 +195,6 @@ const TeacherDashboardPage: React.FC = () => {
                     Here's what's happening with your classes today
                   </p>
                 </div>
-              </div>
-
-              <div className="mt-4 md:mt-0">
-                <Link
-                  to="/teachers/classes"
-                  className="group inline-flex items-center gap-1.5 rounded-lg bg-[#212754] text-white px-4 py-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm"
-                >
-                  <PlusCircle size={16} className="group-hover:rotate-90 transition-transform duration-300" />
-                  Add New Class
-                </Link>
               </div>
             </div>
 
