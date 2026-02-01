@@ -8,6 +8,8 @@ import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassForm from '../../components/teachers/ClassForm';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
+import DyslexiaModeToggle from '../../components/accessibility/DyslexiaModeToggle';
+import NavBarUserMenu from '../../components/layout/NavBarUserMenu';
 import { fetchTeacherClasses, createClass, deleteClass, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -308,16 +310,18 @@ const TeacherClassesPage: React.FC = () => {
                   <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
                     Manage Classes
                   </h1>
-                  <p className="text-xs md:text-sm text-black/70">
+                  <p className="text-xs md:text-sm text-black/70 hidden md:block">
                     Create and manage your teaching classes
                   </p>
                 </div>
               </div>
 
-              <div className="w-full md:w-auto flex-shrink-0">
+              <div className="flex items-center gap-2 md:gap-3 w-full md:w-auto flex-shrink-0">
+                <DyslexiaModeToggle />
+
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className={`w-full md:w-auto inline-flex items-center justify-center ${
+                  className={`flex-1 md:flex-none inline-flex items-center justify-center ${
                     !isSubscribed && classes.length >= 1
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-greyed-navy hover:bg-greyed-navy/90"
@@ -328,6 +332,8 @@ const TeacherClassesPage: React.FC = () => {
                   <PlusCircle size={16} className="mr-2" />
                   Create New Class
                 </button>
+
+                <NavBarUserMenu onLogout={handleLogout} />
               </div>
             </div>
 
