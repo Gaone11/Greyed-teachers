@@ -90,20 +90,23 @@ const TeacherGreyEdTAPage: React.FC = () => {
         
         {/* Left sidebar navigation */}
         <div className={`${
-          isMobile 
+          isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
-            : 'relative'
-        }`}>
-          <TeacherSidebar 
-            activePage="grey-ed-ta" 
+            : 'fixed top-0 left-0 bottom-0 z-40'
+        } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+          <TeacherSidebar
+            activePage="grey-ed-ta"
             onLogout={handleLogout}
             collapsed={sidebarCollapsed}
             onToggleCollapse={toggleSidebar}
+            isMobile={isMobile}
+            isOpen={showMobileMenu}
+            onClose={() => setShowMobileMenu(false)}
           />
 
           {/* Close button for mobile menu */}
           {showMobileMenu && isMobile && (
-            <button 
+            <button
               onClick={() => setShowMobileMenu(false)}
               className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
             >
@@ -111,10 +114,12 @@ const TeacherGreyEdTAPage: React.FC = () => {
             </button>
           )}
         </div>
-        
+
         {/* Main content area */}
-        <div className="flex-1 ml-0 md:ml-0 pt-8 pb-0">
-          <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <div className={`flex-1 transition-all duration-300 ${
+          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        } pt-8 pb-0`}>
+          <div className="px-4 sm:px-6 lg:px-8">
             {/* Breadcrumb & Back */}
             <div className="flex items-center mb-4">
               <button 
