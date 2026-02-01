@@ -184,7 +184,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     >
       <div className="w-full px-4 pl-4 pr-4 py-4 flex items-center justify-between">
         {/* Left section: Logo or Welcome message for teacher dashboard */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0">
           {!isTeacherPage ? (
             <Link to="/" className={`hidden md:block ${logoTextClass}`}>
               <img
@@ -196,10 +196,10 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
             </Link>
           ) : location.pathname === '/teachers/dashboard' && user ? (
             <div className="hidden md:block">
-              <h1 className="text-lg font-headline font-bold text-[#212754] tracking-tight leading-tight">
+              <h1 className="text-lg font-headline font-bold text-[#212754] tracking-tight leading-tight whitespace-nowrap">
                 Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
               </h1>
-              <p className="text-[#292828] text-opacity-70 text-xs font-medium">
+              <p className="text-[#292828] text-opacity-70 text-xs font-medium whitespace-nowrap">
                 Here's what's happening with your classes today
               </p>
             </div>
@@ -219,7 +219,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         )}
 
         {/* Right section: Desktop Menu - Hidden on mobile */}
-        <div className="hidden md:flex items-center space-x-6 ml-auto">
+        <div className="hidden md:flex items-center space-x-4 flex-shrink-0">
           {showNavMenu && (
             <>
               <nav className="hidden md:flex items-center space-x-6">
