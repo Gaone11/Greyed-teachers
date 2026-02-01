@@ -294,7 +294,7 @@ const TeacherClassesPage: React.FC = () => {
         <div className={`flex-1 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'md:ml-14' : 'md:ml-52')
         } pt-8 pb-20 md:pb-0`}>
-          <div className="max-w-7xl mx-auto pl-[1cm] pr-4 md:pr-6 lg:pr-8">
+          <div className="px-4 sm:px-6 lg:px-8">
             {error && (
               <div className="bg-greyed-beige/30 border-2 border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
                 <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />

@@ -177,7 +177,7 @@ const TeacherDashboardPage: React.FC = () => {
         <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-1">
+          <main className="px-4 sm:px-6 lg:px-8 py-1">
             {error && (
               <div className="bg-white border border-[#e8e6e0] text-[#212754] px-5 py-4 rounded-2xl mb-4 flex items-start shadow-md animate-slide-down">
                 <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />

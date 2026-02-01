@@ -97,7 +97,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
       <div className={`min-h-screen transition-all duration-300 ${
         isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
       }`}>
-        <main className="p-3 sm:p-4 md:p-6 pb-20 md:pb-6">
+        <main className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 md:py-6 pb-20 md:pb-6">
           {children}
         </main>
       </div>
