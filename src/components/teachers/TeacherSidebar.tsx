@@ -220,8 +220,8 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
               style={{ animationDelay: `${index * 50}ms` }}
               title={isCollapsed && !isMobile ? item.label : undefined}
             >
-              <div className={`relative flex items-center justify-center ${isMobile ? 'w-9 h-9' : 'w-8 h-8'} rounded-lg bg-gradient-to-br ${item.color} shadow-md ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'} ${isActive ? 'scale-105' : 'group-hover:scale-105 group-active:scale-100'} transition-transform duration-300`}>
-                <Icon className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'} text-white`} />
+              <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
+                <Icon className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${isActive ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
                 {item.special && (
                   <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-greyed-beige rounded-full border-2 border-white animate-pulse shadow-sm"></div>
                 )}
@@ -252,8 +252,8 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
           } touch-manipulation`}
           title={isCollapsed && !isMobile ? "Settings" : undefined}
         >
-          <div className={`relative flex items-center justify-center ${isMobile ? 'w-9 h-9' : 'w-8 h-8'} rounded-lg bg-gradient-to-br from-premium-neutral-600 to-premium-neutral-700 shadow-md ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'} ${activePage === 'settings' ? 'scale-105' : 'group-hover:scale-105 group-active:scale-100'} transition-transform duration-300`}>
-            <Settings className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'} text-white`} />
+          <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
+            <Settings className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${activePage === 'settings' ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
           </div>
           {(!isCollapsed || isMobile) && (
             <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} ${activePage === 'settings' ? 'text-greyed-navy' : 'text-premium-neutral-700 group-hover:text-greyed-navy'} transition-colors duration-200 truncate block`}>
@@ -270,8 +270,8 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
           className={`group w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg bg-greyed-navy/5 hover:bg-greyed-navy/10 active:bg-greyed-navy/15 border border-greyed-navy/10 hover:border-greyed-navy/20 transition-all duration-300 hover:shadow-sm touch-manipulation`}
           title={isCollapsed && !isMobile ? "Logout" : undefined}
         >
-          <div className={`flex items-center justify-center ${isMobile ? 'w-9 h-9' : 'w-8 h-8'} rounded-lg bg-gradient-to-br from-greyed-navy to-greyed-navy shadow-md ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'} group-hover:scale-105 group-active:scale-100 transition-transform duration-300`}>
-            <LogOut className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'} text-white`} />
+          <div className={`flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
+            <LogOut className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} text-greyed-navy transition-colors duration-200`} />
           </div>
           {(!isCollapsed || isMobile) && (
             <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} text-greyed-navy transition-colors duration-200`}>
