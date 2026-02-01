@@ -1,0 +1,148 @@
+{
+  "name": "GreyEd - El AI Tutoring Platform",
+  "short_name": "GreyEd",
+  "description": "Meet El AI — the tutor that actually gets you. Ace GCSE, IGCSE & A Level exams with lessons built around your brain, mood and schedule.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#212754",
+  "background_color": "#efeae4",
+  "categories": ["education", "productivity", "lifestyle"],
+  "lang": "en-GB",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "GreyEd Home Dashboard"
+    },
+    {
+      "src": "/screenshots/mobile-dashboard.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Student Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Student Dashboard",
+      "short_name": "Dashboard",
+      "description": "Access your personalized learning dashboard",
+      "url": "/students/dashboard",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Chat with El AI",
+      "short_name": "Chat",
+      "description": "Start a conversation with El AI tutor",
+      "url": "/students/chat",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Practice Exercises",
+      "short_name": "Practice",
+      "description": "Access your practice exercises",
+      "url": "/students/practice",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Teacher Portal",
+      "short_name": "Teaching",
+      "description": "Access teacher dashboard and tools",
+      "url": "/teachers/dashboard",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "media",
+          "accept": ["image/*", "application/pdf", "text/*"]
+        }
+      ]
+    }
+  },
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "features": [
+    "Cross-platform support",
+    "Offline functionality",
+    "Push notifications",
+    "AI-powered tutoring",
+    "Personalized learning paths",
+    "Multi-language support"
+  ],
+  "permissions": [
+    "notifications",
+    "camera",
+    "microphone"
+  ]
+}

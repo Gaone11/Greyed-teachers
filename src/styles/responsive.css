@@ -1,0 +1,87 @@
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  /* Add bottom padding to account for the bottom navigation */
+  .has-bottom-nav {
+    padding-bottom: 80px;
+  }
+  
+  body {
+    touch-action: manipulation;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Larger touch targets for better usability */
+  button, a, input, select, textarea, .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Adjust padding and margins */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  /* Improve form elements on mobile */
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+  
+  /* Mobile-specific table handling */
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Hide scrollbars but allow scrolling */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Hide the footer when user is logged in */
+.auth-user-logged-in footer {
+  display: none;
+}
+
+/* Improve touch area for interactive elements */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effects only for non-touch devices */
+@media (hover: hover) {
+  .hover-effect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Better scrolling experience */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improve focus styles for accessibility */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid rgba(187, 215, 235, 0.5);
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-support {
+    /* Dark mode styles would go here in a full implementation */
+  }
+}

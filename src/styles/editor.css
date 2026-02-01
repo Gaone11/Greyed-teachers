@@ -1,0 +1,86 @@
+/* Enhanced text editing styles */
+.editable-content-area {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  min-height: 200px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.editable-content-area:focus {
+  outline: none;
+  border-color: #bbd7eb;
+  box-shadow: 0 0 0 3px rgba(187, 215, 235, 0.3);
+}
+
+/* View mode styles */
+.content-display {
+  white-space: pre-wrap;
+  overflow: auto;
+  min-height: 200px;
+  padding: 1rem;
+  line-height: 1.6;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+}
+
+/* Mobile-optimized editing */
+@media (max-width: 768px) {
+  .editable-content-area {
+    font-size: 16px; /* Prevent zooming on iOS */
+    padding: 0.75rem;
+  }
+  
+  .toolbar-button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+}
+
+/* Editor toolbar */
+.editor-toolbar {
+  display: flex;
+  padding: 0.5rem;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  gap: 0.25rem;
+}
+
+/* Formatting buttons */
+.format-button {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: transparent;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.format-button:hover {
+  background-color: #e2e8f0;
+}
+
+.format-button.active {
+  background-color: #bbd7eb;
+  color: #212754;
+}
+
+/* Auto-grow textarea */
+.auto-grow {
+  overflow: hidden;
+  resize: none;
+  min-height: 100px;
+  transition: height 0.2s ease;
+}
