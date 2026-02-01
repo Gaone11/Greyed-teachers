@@ -157,7 +157,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
   return (
     <div
       ref={sidebarRef}
-      className={`bg-gradient-to-b from-premium-neutral-100 via-white to-premium-neutral-50 flex flex-col transition-all duration-300 shadow-premiumLg w-full h-full overflow-y-auto`}
+      className={`bg-gradient-to-b from-premium-neutral-100 via-white to-premium-neutral-50 flex flex-col transition-all duration-300 shadow-premiumLg w-full h-full overflow-y-auto ${!isMobile ? 'pt-16' : ''}`}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

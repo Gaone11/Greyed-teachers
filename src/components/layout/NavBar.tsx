@@ -182,7 +182,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between md:justify-start">
+      <div className="w-full px-4 pl-4 pr-0 py-4 flex items-center justify-between md:justify-start">
         {/* Left section: Logo or empty for teacher pages */}
         <div className="flex items-center gap-2">
           {!isTeacherPage && (

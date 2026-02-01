@@ -153,7 +153,7 @@ const TeacherDashboardPage: React.FC = () => {
         <div className={`${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
-            : 'fixed top-16 left-0 bottom-0 z-40'
+            : 'fixed top-0 left-0 bottom-0 z-40'
         } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
           <TeacherSidebar
             activePage="dashboard"
