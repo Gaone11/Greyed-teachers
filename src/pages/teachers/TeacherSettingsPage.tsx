@@ -407,10 +407,10 @@ const TeacherSettingsPage: React.FC = () => {
         </div>
         
         {/* Main content area */}
-        <div className={`flex-1 transition-all duration-300 ${
+        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
-        } pt-6 pb-6`}>
-          <div className="px-4 sm:px-6 lg:px-8">
+        }`}>
+          <main className="px-4 sm:px-6 lg:px-8 py-1">
             {/* Breadcrumb & Back */}
             <div className="flex items-center mb-4">
               <button 
@@ -1074,7 +1074,7 @@ const TeacherSettingsPage: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </LandingLayout>

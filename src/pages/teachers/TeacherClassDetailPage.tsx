@@ -197,9 +197,9 @@ const TeacherClassDetailPage: React.FC = () => {
           />
         </div>
 
-        {/* Main content area - Dynamic spacing based on sidebar state */}
-        <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'} pt-6`}>
-          <div className="px-4 sm:px-6 lg:px-8 py-4">
+        {/* Main content area - Reduced top padding */}
+        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+          <main className="px-4 sm:px-6 lg:px-8 py-1">
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-4 flex items-start">
                 <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
@@ -581,7 +581,7 @@ const TeacherClassDetailPage: React.FC = () => {
                 )}
               </div>
             </div>
-          </div>
+          </main>
         </div>
       </div>
       

@@ -779,10 +779,10 @@ const TeacherFamiliesPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 transition-all duration-300 ${
+        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
-        } pt-8`}>
-          <div className="px-4 sm:px-6 lg:px-8">
+        }`}>
+          <main className="px-4 sm:px-6 lg:px-8 py-1">
             {/* Success message */}
             {success && (
               <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
@@ -1106,7 +1106,7 @@ const TeacherFamiliesPage: React.FC = () => {
                 <p>Need unlimited family updates? <Link to="/teachers/settings#subscription" className="text-greyed-blue hover:underline">Upgrade for just £8/month</Link></p>
               </div>
             )}
-          </div>
+          </main>
         </div>
       </div>
       
