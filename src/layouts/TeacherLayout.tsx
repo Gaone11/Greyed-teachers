@@ -66,25 +66,17 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   }
 
   return (
-    <div className="min-h-screen flex bg-greyed-white">
-      {/* Left sidebar navigation - Full height */}
-      <div className={`${
-        isMobile
-          ? `fixed inset-y-0 left-0 z-50 transition-transform duration-300 ease-out ${
-              showMobileMenu ? 'translate-x-0' : '-translate-x-full'
-            }`
-          : 'relative'
-      }`}>
-        <TeacherSidebar
-          activePage={activePage}
-          onLogout={handleLogout}
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={toggleSidebar}
-          isMobile={isMobile}
-          isOpen={showMobileMenu}
-          onClose={() => setShowMobileMenu(false)}
-        />
-      </div>
+    <div className="min-h-screen bg-greyed-white">
+      {/* Left sidebar navigation - Fixed position */}
+      <TeacherSidebar
+        activePage={activePage}
+        onLogout={handleLogout}
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={toggleSidebar}
+        isMobile={isMobile}
+        isOpen={showMobileMenu}
+        onClose={() => setShowMobileMenu(false)}
+      />
 
       {/* Mobile menu overlay */}
       {showMobileMenu && isMobile && (
@@ -95,8 +87,8 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
         />
       )}
 
-      {/* Main content area */}
-      <div className={`flex-1 transition-all duration-300 ${
+      {/* Main content area with proper left margin */}
+      <div className={`min-h-screen transition-all duration-300 ${
         isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
       }`}>
         <main className="p-3 sm:p-4 md:p-6 pb-20 md:pb-6">
