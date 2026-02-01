@@ -218,7 +218,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         <div className="flex-1 hidden md:block"></div>
 
         {/* Right section: Desktop Menu - Hidden on mobile */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-6 ml-auto">
           {showNavMenu && (
             <>
               <nav className="hidden md:flex items-center space-x-6">
