@@ -677,27 +677,36 @@ const TeacherAssessmentsPage: React.FC = () => {
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8 py-1">
+            {/* Breadcrumb & Back */}
+            <div className="flex items-center mb-4">
+              <button
+                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                onClick={toggleMobileMenu}
+              >
+                <Menu size={20} />
+              </button>
+
+              <button
+                onClick={() => navigate('/teachers/dashboard')}
+                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
+              >
+                <ArrowLeft size={16} className="mr-1" />
+                Back to Dashboard
+              </button>
+            </div>
+
             {/* Main header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div className="flex items-center flex-1 min-w-0">
-                <button
-                  className="md:hidden mr-2 p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
-                  onClick={toggleMobileMenu}
-                >
-                  <Menu size={20} />
-                </button>
-
-                <div className="min-w-0">
-                  <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                    Assessments
-                  </h1>
-                  <p className="text-black hidden md:block">
-                    Create, manage and grade assessments for your classes
-                  </p>
-                </div>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
+                  Assessments
+                </h1>
+                <p className="text-black">
+                  Create, manage and grade assessments for your classes
+                </p>
               </div>
 
-              <div className="mt-4 md:mt-0 flex gap-2 w-full md:w-auto">
+              <div className="mt-4 md:mt-0 flex gap-2">
                 <Link
                   to="/teachers/assessment-grading"
                   className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors"
