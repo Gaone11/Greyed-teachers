@@ -22,13 +22,13 @@ const PersonalityCTA: React.FC = () => {
           variants={containerVariants}
         >
           <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
-            Why thousands of students start here: Faster grades, zero cringe tutoring, data safe.
+            Empowering Cophetsheni teachers with AI: CAPS-aligned plans, smart assessments, inclusive education.
           </h2>
         </motion.div>
       ) : (
         <div className="container mx-auto px-4">
           <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
-            Why thousands of students start here: Faster grades, zero cringe tutoring, data safe.
+            Empowering Cophetsheni teachers with AI: CAPS-aligned plans, smart assessments, inclusive education.
           </h2>
         </div>
       )}
@@ -39,20 +39,20 @@ const PersonalityCTA: React.FC = () => {
       >
         <Card
           number="01"
-          title="Personality-based learning"
-          description="El AI adapts to your learning style, mood, and how your brain processes information."
+          title="CAPS-Aligned Planning"
+          description="AI generates lesson plans aligned to the South African Curriculum and Assessment Policy Statement."
           delay={0}
         />
         <Card
           number="02"
-          title="Exam-ready material"
-          description="Every lesson is mapped to GCSE, IGCSE & A Level curriculum requirements."
+          title="Smart Assessment Builder"
+          description="Create tests, worksheets, and exams instantly — mapped to your grade and subject requirements."
           delay={0.15}
         />
         <Card
           number="03"
-          title="Progress tracking"
-          description="See where you're improving and where you need more focus with smart analytics."
+          title="Inclusive by Design"
+          description="Built-in neurodiversity accommodations for every learner — ADHD, dyslexia, ASD, and more."
           delay={0.3}
         />
       </AnimatedSection>

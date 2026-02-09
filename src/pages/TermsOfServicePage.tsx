@@ -42,13 +42,13 @@ const TermsOfServicePage: React.FC = () => {
                     1. Acceptance of Terms
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Welcome to GreyEd, Inc. ("GreyEd," "we," "us," or "our"), a Delaware corporation with principal offices at 690 Saratoga Ave, San Jose, CA 95129. These Terms of Service ("Terms," "Agreement") constitute a legally binding agreement between you ("you," "your," "User," "Teacher," "Subscriber") and GreyEd governing your access to and use of the GreyEd platform, website, mobile applications, software, services, and all related features, content, and functionality (collectively, the "Services").
+                    Welcome to Cophetsheni Primary School ("Cophetsheni," "we," "us," or "our"), a public school located in Mpumalanga Province, Republic of South Africa. These Terms of Service ("Terms," "Agreement") constitute a legally binding agreement between you ("you," "your," "User," "Teacher," "Subscriber") and Cophetsheni Primary School governing your access to and use of the Siyafunda platform, website, mobile applications, software, services, and all related features, content, and functionality (collectively, the "Services").
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     By accessing, browsing, registering for, or using any part of our Services, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and our Refund Policy, which are incorporated herein by reference. If you do not agree to these Terms in their entirety, you must immediately discontinue all use of our Services and may not create an account or access any features of the platform.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    <strong>IMPORTANT:</strong> These Terms contain provisions that limit our liability to you and require you to resolve disputes with us through binding arbitration on an individual basis and not as part of any class or representative action. Please review Sections 15 (Limitation of Liability) and 16 (Dispute Resolution and Arbitration) carefully.
+                    <strong>IMPORTANT:</strong> These Terms contain provisions that limit our liability to you and outline procedures for resolving disputes. Please review Sections 11 (Limitation of Liability) and 13 (Dispute Resolution) carefully. Disputes are governed by the laws of the Republic of South Africa, including the Consumer Protection Act 68 of 2008.
                   </p>
                 </div>
               </div>
@@ -123,9 +123,9 @@ const TermsOfServicePage: React.FC = () => {
                     You expressly agree NOT to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li>Violate any local, state, national, or international law or regulation</li>
-                    <li>Infringe upon the intellectual property rights of GreyEd or any third party</li>
-                    <li>Harass, abuse, threaten, or intimidate any other user or GreyEd personnel</li>
+                    <li>Violate any local, provincial, national, or international law or regulation</li>
+                    <li>Infringe upon the intellectual property rights of Cophetsheni Primary School or any third party</li>
+                    <li>Harass, abuse, threaten, or intimidate any other user or Cophetsheni Primary School personnel</li>
                     <li>Impersonate any person or entity or falsely represent your affiliation</li>
                     <li>Attempt to gain unauthorized access to any part of the Services, other accounts, or computer systems</li>
                     <li>Introduce viruses, malware, or any malicious code into the Services</li>
@@ -159,13 +159,13 @@ const TermsOfServicePage: React.FC = () => {
                   </h2>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    4.1 GreyEd's Proprietary Rights
+                    4.1 Cophetsheni Primary School's Proprietary Rights
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    The Services and all content, features, and functionality, including but not limited to all information, software, code, text, displays, graphics, photographs, video, audio, design, presentation, selection, and arrangement, are owned by GreyEd, its licensors, or other providers of such material and are protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
+                    The Services and all content, features, and functionality, including but not limited to all information, software, code, text, displays, graphics, photographs, video, audio, design, presentation, selection, and arrangement, are owned by Cophetsheni Primary School, its licensors, or other providers of such material and are protected by South African and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Subject to your compliance with these Terms, GreyEd grants you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to access and use the Services for your personal, non-commercial educational purposes. This license does not include any right to:
+                    Subject to your compliance with these Terms, Cophetsheni Primary School grants you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to access and use the Services for your personal, non-commercial educational purposes. This license does not include any right to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Use, copy, reproduce, modify, or create derivative works of the Services or any content</li>
@@ -178,14 +178,14 @@ const TermsOfServicePage: React.FC = () => {
                     4.2 User-Generated Content
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You retain ownership of any original content you create using the Services, including lesson plans, assessments, classroom materials, and educational resources ("User Content"). However, by uploading, posting, or transmitting User Content through the Services, you grant GreyEd a worldwide, perpetual, irrevocable, royalty-free, sublicensable, and transferable license to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, perform, and display such User Content in connection with operating, providing, improving, and marketing the Services.
+                    You retain ownership of any original content you create using the Services, including lesson plans, assessments, classroom materials, and educational resources ("User Content"). However, by uploading, posting, or transmitting User Content through the Services, you grant Cophetsheni Primary School a worldwide, perpetual, irrevocable, royalty-free, sublicensable, and transferable license to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, perform, and display such User Content in connection with operating, providing, improving, and marketing the Services.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     4.3 Trademarks
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    "GreyEd," the GreyEd logo, and all related names, logos, product and service names, designs, and slogans are trademarks of GreyEd, Inc. You may not use such marks without our prior written permission. All other names, logos, product and service names, designs, and slogans on the Services are the trademarks of their respective owners.
+                    "Siyafunda," the Siyafunda logo, "Cophetsheni Primary School," and all related names, logos, product and service names, designs, and slogans are trademarks of Cophetsheni Primary School. You may not use such marks without our prior written permission. All other names, logos, product and service names, designs, and slogans on the Services are the trademarks of their respective owners.
                   </p>
                 </div>
               </div>
@@ -203,7 +203,7 @@ const TermsOfServicePage: React.FC = () => {
                     5.1 Subscription Plans
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Access to certain features requires a paid subscription. By purchasing a subscription, you agree to pay all applicable fees, including subscription fees, taxes, and any other charges incurred in connection with your use of the Services. All fees are stated in U.S. Dollars unless otherwise indicated.
+                    Access to certain features requires a paid subscription. By purchasing a subscription, you agree to pay all applicable fees, including subscription fees, taxes, and any other charges incurred in connection with your use of the Services. All fees are stated in South African Rand (ZAR) unless otherwise indicated.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -291,10 +291,10 @@ const TermsOfServicePage: React.FC = () => {
                     We comply with applicable educational privacy laws, including:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li><strong>FERPA</strong> (Family Educational Rights and Privacy Act) for education records</li>
-                    <li><strong>COPPA</strong> (Children's Online Privacy Protection Act) for children under 13</li>
-                    <li><strong>GDPR</strong> (General Data Protection Regulation) for users in the European Union</li>
-                    <li><strong>CCPA</strong> (California Consumer Privacy Act) for California residents</li>
+                    <li><strong>POPIA</strong> (Protection of Personal Information Act 4 of 2013) — South Africa's data protection law</li>
+                    <li><strong>South African Schools Act</strong> (Act 84 of 1996) for education records and learner information</li>
+                    <li><strong>Children's Act</strong> (Act 38 of 2005) for the protection of children's personal information</li>
+                    <li><strong>Consumer Protection Act</strong> (Act 68 of 2008) for consumer rights</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -323,7 +323,7 @@ const TermsOfServicePage: React.FC = () => {
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    8.2 Termination by GreyEd
+                    8.2 Termination by Cophetsheni Primary School
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     We reserve the right to suspend or terminate your account immediately, without prior notice or liability, for any reason, including but not limited to:
@@ -332,7 +332,7 @@ const TermsOfServicePage: React.FC = () => {
                     <li>Violation of these Terms or any applicable law</li>
                     <li>Fraudulent, abusive, or illegal activity</li>
                     <li>Providing false or misleading information</li>
-                    <li>Engaging in conduct that harms or could harm GreyEd or other users</li>
+                    <li>Engaging in conduct that harms or could harm Cophetsheni Primary School or other users</li>
                     <li>Non-payment of fees or chargebacks</li>
                     <li>Prolonged inactivity</li>
                   </ul>
@@ -356,7 +356,7 @@ const TermsOfServicePage: React.FC = () => {
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    The Services may contain links to third-party websites, applications, services, or resources that are not owned or controlled by GreyEd. We have no control over and assume no responsibility for the content, privacy policies, practices, or availability of any third-party sites or services. You acknowledge and agree that GreyEd is not responsible or liable for any damage or loss caused by or in connection with your use of any third-party content, goods, or services.
+                    The Services may contain links to third-party websites, applications, services, or resources that are not owned or controlled by Cophetsheni Primary School. We have no control over and assume no responsibility for the content, privacy policies, practices, or availability of any third-party sites or services. You acknowledge and agree that Cophetsheni Primary School is not responsible or liable for any damage or loss caused by or in connection with your use of any third-party content, goods, or services.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
                     We may integrate with third-party educational tools, learning management systems, payment processors, or analytics services. Your use of such third-party services is governed by their respective terms and conditions and privacy policies. We recommend reviewing these documents before using any third-party services through our platform.
@@ -377,7 +377,7 @@ const TermsOfServicePage: React.FC = () => {
                     10.1 No Warranties
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.</strong> TO THE FULLEST EXTENT PERMITTED BY LAW, GREYED DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+                    <strong>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.</strong> TO THE FULLEST EXTENT PERMITTED BY LAW, COPHETSHENI PRIMARY SCHOOL DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -413,7 +413,7 @@ const TermsOfServicePage: React.FC = () => {
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL GREYED, ITS AFFILIATES, LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, REVENUE, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM:</strong>
+                    <strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL COPHETSHENI PRIMARY SCHOOL, ITS AFFILIATES, LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, REVENUE, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM:</strong>
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Your access to, use of, or inability to access or use the Services</li>
@@ -426,7 +426,7 @@ const TermsOfServicePage: React.FC = () => {
                     <li>Bugs, viruses, trojan horses, or the like transmitted through the Services</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>IN NO EVENT SHALL GREYED'S TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATED TO THE SERVICES EXCEED THE GREATER OF (A) THE AMOUNT YOU PAID TO GREYED IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) ONE HUNDRED DOLLARS ($100).</strong>
+                    <strong>IN NO EVENT SHALL COPHETSHENI PRIMARY SCHOOL'S TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATED TO THE SERVICES EXCEED THE GREATER OF (A) THE AMOUNT YOU PAID TO COPHETSHENI PRIMARY SCHOOL IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) ONE THOUSAND RAND (R1,000).</strong>
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
                     Some jurisdictions do not allow the exclusion or limitation of incidental or consequential damages, so the above limitations may not apply to you. In such jurisdictions, our liability is limited to the maximum extent permitted by law.
@@ -444,7 +444,7 @@ const TermsOfServicePage: React.FC = () => {
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    You agree to defend, indemnify, and hold harmless GreyEd, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to:
+                    You agree to defend, indemnify, and hold harmless Cophetsheni Primary School, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Your violation of these Terms or any applicable law or regulation</li>
@@ -473,31 +473,31 @@ const TermsOfServicePage: React.FC = () => {
                     13.1 Informal Resolution
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Before filing a claim, you agree to contact us at legal@greyed.com and attempt to resolve the dispute informally by providing a written description of the dispute and your proposed resolution. We will have 60 days to respond and attempt to resolve the issue. If we cannot resolve the dispute within 60 days, either party may proceed with formal arbitration.
+                    Before filing a claim, you agree to contact us at legal@cophetsheni.edu.za and attempt to resolve the dispute informally by providing a written description of the dispute and your proposed resolution. We will have 60 days to respond and attempt to resolve the issue. If we cannot resolve the dispute within 60 days, either party may proceed with formal dispute resolution as outlined below.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    13.2 Binding Arbitration
+                    13.2 Formal Dispute Resolution
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>YOU AND GREYED AGREE THAT ANY DISPUTE, CLAIM, OR CONTROVERSY BETWEEN YOU AND GREYED ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICES SHALL BE RESOLVED BY BINDING ARBITRATION ON AN INDIVIDUAL BASIS, EXCEPT AS PROVIDED BELOW.</strong>
+                    <strong>YOU AND COPHETSHENI PRIMARY SCHOOL AGREE THAT ANY DISPUTE, CLAIM, OR CONTROVERSY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICES SHALL BE RESOLVED IN ACCORDANCE WITH THE LAWS OF THE REPUBLIC OF SOUTH AFRICA.</strong>
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Arbitration will be conducted by a single arbitrator in accordance with the Commercial Arbitration Rules of the American Arbitration Association (AAA). The arbitration shall take place in Santa Clara County, California, unless otherwise agreed in writing. The arbitrator's decision will be final and binding and may be entered as a judgment in any court of competent jurisdiction.
+                    Any dispute that cannot be resolved informally shall be submitted to the jurisdiction of the Magistrate's Court or the High Court of South Africa (Mpumalanga Division), as applicable, in accordance with the Magistrates' Courts Act 32 of 1944 or the Superior Courts Act 10 of 2013. Consumers may also lodge complaints with the National Consumer Commission or the relevant provincial consumer protection authority under the Consumer Protection Act 68 of 2008.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    13.3 Class Action Waiver
+                    13.3 Consumer Protection Rights
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>YOU AND GREYED AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN YOUR OR ITS INDIVIDUAL CAPACITY AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING.</strong> Unless both parties agree otherwise, the arbitrator may not consolidate more than one person's claims and may not preside over any form of representative or class proceeding.
+                    Nothing in these Terms limits your rights under the Consumer Protection Act 68 of 2008 or any other applicable South African legislation. You retain all statutory rights afforded to you by South African law, including the right to lodge complaints with the National Consumer Tribunal.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    13.4 Exceptions to Arbitration
+                    13.4 Small Claims and Equitable Relief
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    Either party may bring a claim in small claims court if it qualifies. Additionally, either party may seek equitable relief in court for infringement or misuse of intellectual property rights, confidential information, or proprietary rights.
+                    Either party may bring a claim in the Small Claims Court if it qualifies under the Small Claims Courts Act 61 of 1984. Additionally, either party may seek equitable relief in court for infringement or misuse of intellectual property rights, confidential information, or proprietary rights.
                   </p>
                 </div>
               </div>
@@ -512,7 +512,7 @@ const TermsOfServicePage: React.FC = () => {
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    These Terms and your use of the Services shall be governed by and construed in accordance with the laws of the State of California and the federal laws of the United States, without regard to conflict of law principles. To the extent arbitration does not apply, you agree to submit to the personal and exclusive jurisdiction of the state and federal courts located in Santa Clara County, California. You waive any objection to venue in these courts and any claim that such courts are an inconvenient forum.
+                    These Terms and your use of the Services shall be governed by and construed in accordance with the laws of the Republic of South Africa. You agree to submit to the jurisdiction of the courts of the Republic of South Africa, specifically the Magistrate's Court or the High Court of South Africa (Mpumalanga Division), as applicable. You waive any objection to venue in these courts and any claim that such courts are an inconvenient forum.
                   </p>
                 </div>
               </div>
@@ -548,7 +548,7 @@ const TermsOfServicePage: React.FC = () => {
                     16.1 Entire Agreement
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    These Terms, together with our Privacy Policy and Refund Policy, constitute the entire agreement between you and GreyEd regarding the Services and supersede all prior agreements, understandings, and communications, whether written or oral.
+                    These Terms, together with our Privacy Policy and Refund Policy, constitute the entire agreement between you and Cophetsheni Primary School regarding the Services and supersede all prior agreements, understandings, and communications, whether written or oral.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -587,15 +587,14 @@ const TermsOfServicePage: React.FC = () => {
                   </p>
                   <div className="bg-greyed-beige/20 p-6 rounded-lg mt-4">
                     <p className="text-greyed-navy">
-                      <strong>GreyEd, Inc.</strong><br />
+                      <strong>Cophetsheni Primary School</strong><br />
                       Legal Department<br />
-                      690 Saratoga Ave<br />
-                      San Jose, CA 95129<br />
-                      United States
+                      Mpumalanga Province<br />
+                      Republic of South Africa
                     </p>
                     <p className="text-greyed-navy mt-3">
-                      <strong>Email:</strong> legal@greyed.com<br />
-                      <strong>Support:</strong> support@greyed.com
+                      <strong>Email:</strong> legal@cophetsheni.edu.za<br />
+                      <strong>Support:</strong> support@cophetsheni.edu.za
                     </p>
                   </div>
                 </div>
@@ -606,7 +605,7 @@ const TermsOfServicePage: React.FC = () => {
               <div className="bg-greyed-navy/5 p-6 rounded-lg">
                 <h3 className="font-semibold text-greyed-navy mb-3">Acknowledgment</h3>
                 <p className="text-greyed-navy/80 text-sm leading-relaxed">
-                  BY USING THE SERVICES, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF SERVICE, UNDERSTAND THEM, AND AGREE TO BE BOUND BY THEM. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT ACCESS OR USE THE SERVICES. These Terms constitute a legally binding agreement between you and GreyEd, Inc.
+                  BY USING THE SERVICES, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF SERVICE, UNDERSTAND THEM, AND AGREE TO BE BOUND BY THEM. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT ACCESS OR USE THE SERVICES. These Terms constitute a legally binding agreement between you and Cophetsheni Primary School.
                 </p>
               </div>
             </section>

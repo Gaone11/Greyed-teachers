@@ -43,10 +43,10 @@ const RefundPolicyPage: React.FC = () => {
                     1. Overview and Scope
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    This Refund Policy ("Policy") governs all payment transactions and refund requests made through GreyEd, Inc. ("GreyEd," "we," "us," or "our"), a Delaware corporation with principal offices at 690 Saratoga Ave, San Jose, CA 95129. This Policy applies to all users, subscribers, customers, educational institutions, and business entities ("you," "your," or "User") who purchase, subscribe to, or otherwise engage with our educational technology platform and services.
+                    This Refund Policy ("Policy") governs all payment transactions and refund requests made through Cophetsheni Primary School ("Cophetsheni," "we," "us," or "our"), a public school located in Mpumalanga Province, Republic of South Africa. This Policy applies to all users, subscribers, customers, educational institutions, and business entities ("you," "your," or "User") who purchase, subscribe to, or otherwise engage with our Siyafunda educational technology platform and services.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    By accessing or using GreyEd's services, creating an account, making a payment, or accepting these terms through any means, you acknowledge that you have read, understood, and agree to be bound by this Policy in its entirety. If you do not agree with any provision of this Policy, you must immediately cease using our services and refrain from making any payments.
+                    By accessing or using Cophetsheni Primary School's Siyafunda services, creating an account, making a payment, or accepting these terms through any means, you acknowledge that you have read, understood, and agree to be bound by this Policy in its entirety. If you do not agree with any provision of this Policy, you must immediately cease using our services and refrain from making any payments.
                   </p>
                 </div>
               </div>
@@ -173,14 +173,14 @@ const RefundPolicyPage: React.FC = () => {
                     The 20% progress payment may be eligible for refund ONLY if all of the following conditions are met:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li><strong>Timing:</strong> Refund request must be submitted in writing within 7 calendar days from the date the progress payment was received by GreyEd. This deadline is absolute and cannot be extended.</li>
+                    <li><strong>Timing:</strong> Refund request must be submitted in writing within 7 calendar days from the date the progress payment was received by Cophetsheni Primary School. This deadline is absolute and cannot be extended.</li>
                     <li><strong>Documented Deficiency:</strong> Client must provide detailed written documentation demonstrating material failure to meet agreed-upon milestones, deliverables, or performance standards as explicitly defined in the service agreement.</li>
-                    <li><strong>Good Faith Effort:</strong> Client must demonstrate good faith efforts to work with GreyEd to resolve issues through our standard support and escalation channels before requesting a refund.</li>
+                    <li><strong>Good Faith Effort:</strong> Client must demonstrate good faith efforts to work with Cophetsheni Primary School to resolve issues through our standard support and escalation channels before requesting a refund.</li>
                     <li><strong>No Material Use:</strong> Client must not have materially implemented, deployed, or utilized the services, features, or deliverables associated with the progress payment milestone.</li>
-                    <li><strong>Mutual Agreement:</strong> Refund is subject to mutual written agreement between GreyEd and the Client regarding the specific deficiencies and remediation attempts.</li>
+                    <li><strong>Mutual Agreement:</strong> Refund is subject to mutual written agreement between Cophetsheni Primary School and the Client regarding the specific deficiencies and remediation attempts.</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    After the 7-day window expires, the progress payment becomes non-refundable regardless of circumstances. GreyEd reserves the sole and absolute discretion to approve or deny any refund request, even if the above conditions are met.
+                    After the 7-day window expires, the progress payment becomes non-refundable regardless of circumstances. Cophetsheni Primary School reserves the sole and absolute discretion to approve or deny any refund request, even if the above conditions are met.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -192,7 +192,7 @@ const RefundPolicyPage: React.FC = () => {
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Refunds will be issued to the original payment method within 30 business days of written approval</li>
                     <li>Processing fees, transaction costs, and administrative fees (up to 5% of the payment amount) may be deducted from the refund</li>
-                    <li>All access to GreyEd services, platforms, APIs, and resources will be immediately terminated</li>
+                    <li>All access to Siyafunda services, platforms, APIs, and resources will be immediately terminated</li>
                     <li>Any work product, deliverables, code, documentation, or materials provided must be destroyed and cannot be retained or used</li>
                     <li>Client agrees to execute a mutual release of claims as a condition of receiving the refund</li>
                   </ul>
@@ -208,7 +208,7 @@ const RefundPolicyPage: React.FC = () => {
                     <li>Client remains responsible for payment of any invoiced amounts for work completed</li>
                     <li>Client must pay for any third-party costs, vendor fees, or committed expenses incurred on their behalf</li>
                     <li>No refunds will be provided for anticipated future value, projected savings, or expected outcomes</li>
-                    <li>GreyEd retains all intellectual property rights to any work product, code, or materials developed</li>
+                    <li>Cophetsheni Primary School retains all intellectual property rights to any work product, code, or materials developed</li>
                   </ul>
                 </div>
               </div>
@@ -226,13 +226,13 @@ const RefundPolicyPage: React.FC = () => {
                     4.1 Billing Errors and Technical Failures
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    In the rare event of a verified billing error, duplicate charge, or technical processing failure directly attributable to GreyEd's systems:
+                    In the rare event of a verified billing error, duplicate charge, or technical processing failure directly attributable to Cophetsheni Primary School's systems:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Confirmed duplicate charges will be refunded in full within 10 business days</li>
                     <li>Billing errors caused by incorrect pricing display or system malfunction will be corrected</li>
                     <li>You must report suspected billing errors within 60 days of the charge date</li>
-                    <li>GreyEd will conduct a thorough investigation and provide written findings</li>
+                    <li>Cophetsheni Primary School will conduct a thorough investigation and provide written findings</li>
                     <li>Billing disputes do not exempt you from paying undisputed amounts</li>
                   </ul>
 
@@ -240,11 +240,11 @@ const RefundPolicyPage: React.FC = () => {
                     4.2 Service Unavailability and Platform Outages
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    GreyEd strives to maintain 99.5% uptime but does not guarantee uninterrupted service availability. In cases of extended service outages:
+                    Cophetsheni Primary School strives to maintain 99.5% uptime but does not guarantee uninterrupted service availability. In cases of extended service outages:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>No refunds will be provided for brief outages, scheduled maintenance, or routine service interruptions</li>
-                    <li>For documented outages exceeding 72 consecutive hours that prevent all platform access, GreyEd may, at its sole discretion, provide service credits (not cash refunds) equivalent to the pro-rated daily value of the affected subscription period</li>
+                    <li>For documented outages exceeding 72 consecutive hours that prevent all platform access, Cophetsheni Primary School may, at its sole discretion, provide service credits (not cash refunds) equivalent to the pro-rated daily value of the affected subscription period</li>
                     <li>Service credits must be requested in writing within 15 days of the outage resolution</li>
                     <li>Service credits are applied to future subscription periods and cannot be redeemed for cash</li>
                     <li>Outages caused by circumstances beyond our reasonable control (see Section 6.3) are excluded</li>
@@ -257,7 +257,7 @@ const RefundPolicyPage: React.FC = () => {
                     If you believe your account has been compromised or charges were made without your authorization:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li>Immediately notify GreyEd in writing at support@greyed.com</li>
+                    <li>Immediately notify Cophetsheni Primary School in writing at support@cophetsheni.edu.za</li>
                     <li>Provide detailed information about the unauthorized activity</li>
                     <li>Cooperate fully with our security investigation</li>
                     <li>If we verify unauthorized access, refunds may be issued for fraudulent charges</li>
@@ -286,7 +286,7 @@ const RefundPolicyPage: React.FC = () => {
                     5.1 Payment Methods and Processing
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    We accept major credit cards, debit cards, ACH transfers, and other payment methods as displayed at checkout. By providing payment information, you:
+                    We accept major credit cards, debit cards, EFT (Electronic Funds Transfer), and other payment methods as displayed at checkout. By providing payment information, you:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Represent that you are authorized to use the payment method</li>
@@ -321,7 +321,7 @@ const RefundPolicyPage: React.FC = () => {
                     5.4 Currency and Exchange Rates
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    All prices are stated in United States Dollars (USD) unless otherwise specified. If you pay in a different currency, the conversion rate applied by your financial institution or payment processor will determine the final charge. GreyEd is not responsible for currency conversion fees, exchange rate fluctuations, or international transaction fees imposed by your bank or payment provider.
+                    All prices are stated in South African Rand (ZAR) unless otherwise specified. If you pay in a different currency, the conversion rate applied by your financial institution or payment processor will determine the final charge. Cophetsheni Primary School is not responsible for currency conversion fees, exchange rate fluctuations, or international transaction fees imposed by your bank or payment provider.
                   </p>
                 </div>
               </div>
@@ -342,34 +342,34 @@ const RefundPolicyPage: React.FC = () => {
                     Before initiating any formal dispute or chargeback, you agree to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li>Contact GreyEd customer support at support@greyed.com with a detailed description of the issue</li>
+                    <li>Contact Cophetsheni Primary School support at support@cophetsheni.edu.za with a detailed description of the issue</li>
                     <li>Provide us with at least 30 days to investigate and respond to your concern</li>
                     <li>Engage in good faith negotiations to reach a mutually acceptable resolution</li>
-                    <li>Escalate unresolved issues to our billing department at billing@greyed.com</li>
+                    <li>Escalate unresolved issues to our administration at info@cophetsheni.edu.za</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     6.2 Chargebacks and Payment Disputes
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Initiating a chargeback or payment dispute without first attempting to resolve the issue with GreyEd may result in:
+                    Initiating a chargeback or payment dispute without first attempting to resolve the issue with Cophetsheni Primary School may result in:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Immediate suspension or termination of your account and all services</li>
                     <li>Loss of access to all data, content, and materials associated with your account</li>
                     <li>Reporting to credit bureaus or collection agencies for unpaid fees</li>
                     <li>Legal action to recover owed amounts plus collection costs, attorney fees, and damages</li>
-                    <li>Prohibition from creating new accounts or accessing GreyEd services in the future</li>
+                    <li>Prohibition from creating new accounts or accessing Siyafunda services in the future</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    If a chargeback is filed, GreyEd will provide evidence to the financial institution demonstrating that services were properly delivered and charges were authorized. You acknowledge that chargebacks are inappropriate for services that were delivered as promised, and you may be liable for chargeback fees and related costs.
+                    If a chargeback is filed, Cophetsheni Primary School will provide evidence to the financial institution demonstrating that services were properly delivered and charges were authorized. You acknowledge that chargebacks are inappropriate for services that were delivered as promised, and you may be liable for chargeback fees and related costs.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     6.3 Force Majeure and Limitation of Liability
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    GreyEd shall not be liable for any failure or delay in performance due to circumstances beyond our reasonable control, including but not limited to:
+                    Cophetsheni Primary School shall not be liable for any failure or delay in performance due to circumstances beyond our reasonable control, including but not limited to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Acts of God, natural disasters, pandemics, or public health emergencies</li>
@@ -380,24 +380,24 @@ const RefundPolicyPage: React.FC = () => {
                     <li>Labor disputes, strikes, or shortage of qualified personnel</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    In no event shall GreyEd's total liability to you for all claims arising from or related to this Policy or our services exceed the total amount you paid to GreyEd in the twelve (12) months preceding the claim. We are not liable for any indirect, incidental, consequential, special, exemplary, or punitive damages.
+                    In no event shall Cophetsheni Primary School's total liability to you for all claims arising from or related to this Policy or our services exceed the total amount you paid to Cophetsheni Primary School in the twelve (12) months preceding the claim. We are not liable for any indirect, incidental, consequential, special, exemplary, or punitive damages.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    6.4 Binding Arbitration and Class Action Waiver
+                    6.4 Dispute Resolution
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Any dispute, controversy, or claim arising out of or relating to this Policy shall be resolved through binding arbitration in accordance with the Commercial Arbitration Rules of the American Arbitration Association. Arbitration shall take place in Santa Clara County, California, and shall be conducted in English.
+                    Any dispute, controversy, or claim arising out of or relating to this Policy shall be resolved in accordance with the laws of the Republic of South Africa. You may lodge a complaint with the National Consumer Commission under the Consumer Protection Act 68 of 2008, or refer the dispute to the Magistrate's Court or the High Court of South Africa (Mpumalanga Division), as applicable.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>YOU AGREE TO WAIVE YOUR RIGHT TO PARTICIPATE IN A CLASS ACTION LAWSUIT OR CLASS-WIDE ARBITRATION.</strong> All claims must be brought in an individual capacity and not as a plaintiff or class member in any purported class or representative proceeding.
+                    Nothing in this Policy limits your statutory rights under the Consumer Protection Act 68 of 2008 or any other applicable South African legislation. You retain all rights afforded to consumers under South African law.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     6.5 Governing Law and Jurisdiction
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    This Policy shall be governed by and construed in accordance with the laws of the State of California and the federal laws of the United States, without regard to conflict of law principles. To the extent arbitration does not apply, you agree to submit to the exclusive jurisdiction of the state and federal courts located in Santa Clara County, California. You waive any objection to venue or inconvenient forum.
+                    This Policy shall be governed by and construed in accordance with the laws of the Republic of South Africa. You agree to submit to the jurisdiction of the courts of the Republic of South Africa, specifically the Magistrate's Court or the High Court of South Africa (Mpumalanga Division), as applicable.
                   </p>
                 </div>
               </div>
@@ -426,10 +426,10 @@ const RefundPolicyPage: React.FC = () => {
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    7.2 Account Termination by GreyEd
+                    7.2 Account Termination by Cophetsheni Primary School
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    GreyEd reserves the right to suspend or terminate your account immediately if you:
+                    Cophetsheni Primary School reserves the right to suspend or terminate your account immediately if you:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Violate our Terms of Service or Acceptable Use Policy</li>
@@ -439,14 +439,14 @@ const RefundPolicyPage: React.FC = () => {
                     <li>Fail to pay amounts owed within specified timeframes</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    Termination by GreyEd for cause does not entitle you to any refund of fees paid. You remain liable for all charges incurred prior to termination, including any early termination fees specified in your agreement.
+                    Termination by Cophetsheni Primary School for cause does not entitle you to any refund of fees paid. You remain liable for all charges incurred prior to termination, including any early termination fees specified in your agreement.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     7.3 Data Deletion and Recovery
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    After account termination, your data will be retained for a period of 90 days for recovery purposes. After 90 days, data may be permanently deleted and cannot be recovered. GreyEd is not responsible for data loss resulting from account termination or cancellation. You are responsible for exporting any data you wish to retain before cancelling your account.
+                    After account termination, your data will be retained for a period of 90 days for recovery purposes. After 90 days, data may be permanently deleted and cannot be recovered. Cophetsheni Primary School is not responsible for data loss resulting from account termination or cancellation. You are responsible for exporting any data you wish to retain before cancelling your account.
                   </p>
                 </div>
               </div>
@@ -464,14 +464,14 @@ const RefundPolicyPage: React.FC = () => {
                     8.1 Right to Modify Policy
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    GreyEd reserves the right to modify, amend, or replace this Refund Policy at any time at our sole discretion. Changes may be made to:
+                    Cophetsheni Primary School reserves the right to modify, amend, or replace this Refund Policy at any time at our sole discretion. Changes may be made to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Comply with legal or regulatory requirements</li>
                     <li>Reflect changes in our business practices or service offerings</li>
                     <li>Address new payment methods or billing structures</li>
                     <li>Improve clarity, organization, or user understanding</li>
-                    <li>Protect GreyEd's legitimate business interests</li>
+                    <li>Protect Cophetsheni Primary School's legitimate interests</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -487,7 +487,7 @@ const RefundPolicyPage: React.FC = () => {
                     <li>For B2B customers, we will provide written notice per the terms of your service agreement</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    Your continued use of GreyEd services after changes become effective constitutes acceptance of the revised Policy. If you do not agree to the changes, you must cancel your account before the effective date of the changes.
+                    Your continued use of Siyafunda services after changes become effective constitutes acceptance of the revised Policy. If you do not agree to the changes, you must cancel your account before the effective date of the changes.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -514,28 +514,27 @@ const RefundPolicyPage: React.FC = () => {
 
                   <div className="bg-greyed-beige/20 p-6 rounded-lg space-y-3">
                     <p className="text-greyed-navy">
-                      <strong>GreyEd, Inc.</strong><br />
-                      690 Saratoga Ave<br />
-                      San Jose, CA 95129<br />
-                      United States
+                      <strong>Cophetsheni Primary School</strong><br />
+                      Mpumalanga Province<br />
+                      Republic of South Africa
                     </p>
                     <p className="text-greyed-navy">
                       <strong>Email Support:</strong><br />
-                      General Inquiries: support@greyed.com<br />
-                      Billing Questions: billing@greyed.com<br />
-                      Enterprise Sales: enterprise@greyed.com
+                      General Inquiries: info@cophetsheni.edu.za<br />
+                      Support: support@cophetsheni.edu.za<br />
+                      Privacy: privacy@cophetsheni.edu.za
                     </p>
                     <p className="text-greyed-navy">
-                      <strong>Phone:</strong> Available to enterprise customers through your dedicated account manager
+                      <strong>Phone:</strong> +27 (0)13 XXX XXXX
                     </p>
                     <p className="text-greyed-navy/70 text-sm mt-4">
-                      Support hours: Monday-Friday, 9:00 AM - 5:00 PM Pacific Time (excluding holidays)
+                      Support hours: Monday-Friday, 08:00 - 16:00 SAST (excluding public holidays)
                     </p>
                   </div>
 
                   <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                     <p className="text-amber-900 text-sm">
-                      <strong>Important Notice:</strong> Before contacting payment processors or financial institutions to dispute charges, we strongly encourage you to contact GreyEd support directly. Many billing concerns can be resolved quickly through direct communication, and initiating chargebacks without contacting us may result in account termination and additional fees.
+                      <strong>Important Notice:</strong> Before contacting payment processors or financial institutions to dispute charges, we strongly encourage you to contact Cophetsheni Primary School support directly. Many billing concerns can be resolved quickly through direct communication, and initiating chargebacks without contacting us may result in account termination and additional fees.
                     </p>
                   </div>
                 </div>
@@ -546,7 +545,7 @@ const RefundPolicyPage: React.FC = () => {
               <div className="bg-greyed-navy/5 p-6 rounded-lg">
                 <h3 className="font-semibold text-greyed-navy mb-3">Acknowledgment</h3>
                 <p className="text-greyed-navy/80 text-sm leading-relaxed">
-                  By using GreyEd's services and making any payment, you acknowledge that you have read, understood, and agree to be bound by this Refund Policy. You further acknowledge that this Policy has been made available to you prior to purchase, you have had adequate opportunity to review it, and you accept the terms including the no-refund provisions for consumer services and the limited refund provisions for B2B services. This Policy forms an integral part of your agreement with GreyEd and should be read in conjunction with our Terms of Service and Privacy Policy.
+                  By using Cophetsheni Primary School's Siyafunda services and making any payment, you acknowledge that you have read, understood, and agree to be bound by this Refund Policy. You further acknowledge that this Policy has been made available to you prior to purchase, you have had adequate opportunity to review it, and you accept the terms including the no-refund provisions for consumer services and the limited refund provisions for B2B services. This Policy forms an integral part of your agreement with Cophetsheni Primary School and should be read in conjunction with our Terms of Service and Privacy Policy.
                 </p>
               </div>
             </section>

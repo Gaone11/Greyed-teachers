@@ -81,17 +81,20 @@ export const pricingPlans: Plan[] = [
   },
   {
     id: 'teacher',
-    name: 'GreyEd Teachers',
+    name: 'Siyafunda Pro',
     badge: '14-day free trial',
     monthlyPriceGBP: 8,
-    annualPriceGBP: 80, // Approximate yearly price
+    annualPriceGBP: 80,
+    monthlyPriceZAR: 199,
+    annualPriceZAR: 1990,
     ctaLabel: 'Start Free Trial',
     ctaLink: '#',
     features: [
-      'Unlimited AI lesson plans',
+      'Unlimited CAPS-aligned AI lesson plans',
       'Unlimited assessments with auto-grading',
       'Weekly family updates',
-      'Advanced analytics dashboard',
+      'Student management dashboard',
+      'Government document template compliance',
       'Priority support'
     ],
     stripePriceId: 'price_1RUB57KhB7e46jXjQaGUjQU6'
@@ -234,7 +237,7 @@ export const faqItems: FAQ[] = [
   },
   {
     id: 'teacher-trial',
-    question: 'How does the GreyEd Teachers free trial work?',
-    answer: 'Teachers get a 14-day free trial with full access to all features. After the trial period, you\'ll be billed £8/month (P150, $11, or R199 depending on your region) unless you cancel before the trial ends.'
+    question: 'How does the Siyafunda Pro free trial work?',
+    answer: 'Teachers at Cophetsheni Primary get a 14-day free trial with full access to all features including CAPS-aligned lesson plans, assessments, and student management. After the trial, the subscription is R199/month unless you cancel before the trial ends.'
   }
 ];

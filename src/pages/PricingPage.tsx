@@ -18,13 +18,13 @@ interface PricingPageProps {
 const PricingPage: React.FC<PricingPageProps> = ({ openAdminLoginModal }) => {
   // Set document title and meta description for SEO
   useEffect(() => {
-    document.title = "Pricing | GreyEd – Flexible Plans for Every Learner";
+    document.title = "Pricing | Cophetsheni Primary — Siyafunda Plans for Teachers";
     
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Choose the GreyEd plan that fits your study style – from a forever-free AI tutor to full hybrid packages with certified human tutors.');
+        'Choose the Siyafunda plan that fits your teaching needs — from CAPS-aligned lesson plans to full AI-powered classroom management.');
     }
   }, []);
 

@@ -62,16 +62,23 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
       <style>{pulseKeyframes}</style>
       
       <div className="container mx-auto px-4">
+        {/* siSwati Proverb Banner */}
+        <div className="text-center mb-8 pb-6 border-b border-white/10">
+          <p className="text-greyed-blue italic font-headline text-lg">"Umuntfu ngumuntfu ngabantfu"</p>
+          <p className="text-greyed-white/60 text-sm mt-1">A person is a person through other people — Ubuntu Philosophy</p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
             <div className="mb-6">
               <img
                 src="/favicon.svg"
-                alt="GreyEd Logo"
+                alt="Cophetsheni Primary School"
                 className="h-10 w-auto mb-2"
                 loading="lazy"
               />
-              <p className="text-greyed-blue">Personalized AI tutoring</p>
+              <p className="text-greyed-blue font-headline font-semibold">Cophetsheni Primary School</p>
+              <p className="text-greyed-white/70 text-sm">Siyafunda — We are learning</p>
             </div>
             
             <div className="flex space-x-4 mb-6">
@@ -104,9 +111,9 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
             </div>
             
             <p className="text-greyed-white/60 text-sm">
-              GreyEd, Inc.<br />
-              690 Saratoga Ave<br />
-              San Jose, CA 95129
+              Cophetsheni Primary School<br />
+              Mpumalanga Province<br />
+              South Africa
             </p>
           </div>
           
@@ -115,7 +122,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
               <div>
                 <h4 className="font-headline font-semibold mb-4 text-greyed-blue">Products</h4>
                 <ul className="space-y-2">
-                  {["El AI Tutor", "Study Planner", "Practice Tests", "Exam Prep"].map((item, index) => (
+                  {["Lesson Planner", "Assessments", "Class Manager", "Family Updates"].map((item, index) => (
                     enabled ? (
                       <motion.li
                         key={index}
@@ -225,7 +232,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
         
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-greyed-white/60 mb-4 md:mb-0">
-            © 2024 GreyEd. All rights reserved.
+                        © {new Date().getFullYear()} Cophetsheni Primary School. Siyafunda — We are learning.
           </p>
           
           <div className="flex flex-wrap gap-4 justify-center">

@@ -189,9 +189,8 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
             <Link to="/" className={`hidden md:block ${logoTextClass}`}>
               <img
                 src="/favicon.svg"
-                alt="GreyEd Logo"
+                alt="Cophetsheni Primary School"
                 className="h-8 w-auto"
-                loading="eager"
               />
             </Link>
           ) : location.pathname === '/teachers/dashboard' && user ? (
@@ -211,7 +210,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
           <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 ${logoTextClass}`}>
             <img
               src="/favicon.svg"
-              alt="GreyEd Logo"
+              alt="Cophetsheni Primary School"
               className="h-8 w-auto"
               loading="eager"
             />

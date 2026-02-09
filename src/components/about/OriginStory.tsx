@@ -38,12 +38,12 @@ const OriginStory: React.FC = () => {
                 <div className="relative w-full max-w-md aspect-[3/4] rounded-xl overflow-hidden">
                   <img 
                     src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                    alt="Monti Kgengwenyane, Founder" 
+                    alt="Cophetsheni Primary School, Mpumalanga" 
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-greyed-navy/70 p-4">
-                    <p className="text-greyed-white font-headline font-semibold">Monti Kgengwenyane</p>
-                    <p className="text-greyed-blue text-sm">Founder & CEO</p>
+                    <p className="text-greyed-white font-headline font-semibold">Cophetsheni Primary School</p>
+                    <p className="text-greyed-blue text-sm">Mpumalanga Province, South Africa</p>
                   </div>
                 </div>
               </motion.div>
@@ -54,17 +54,20 @@ const OriginStory: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
+                <p className="text-lg italic text-greyed-navy/70 mb-6">
+                  "Umuntfu ngumuntfu ngabantfu" — A person is a person through other people.
+                </p>
                 <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-                  It started with a challenge.
+                  It started with a vision.
                 </h2>
                 <p className="text-greyed-black/80 mb-4">
-                  Growing up with dyslexia in Gaborone, Monti struggled with traditional education. Teachers labeled him "slow" despite his creative problem-solving abilities. After developing a personalized learning system that helped him excel, Monti realized other students could benefit from similar adaptations.
+                  At Cophetsheni Primary School in rural Mpumalanga, teachers faced an all-too-common challenge: delivering quality education with limited resources. Large class sizes, scarce teaching materials, and connectivity gaps made it difficult to give every learner the attention they deserved.
                 </p>
                 <p className="text-greyed-black/80 mb-4">
-                  In 2023, he sketched the initial concept for GreyEd at a Stanbic Bank innovation event—an AI tutor that could adapt to different learning styles, just as he had done manually for himself.
+                  The school recognised that rural Mpumalanga teachers needed AI-powered tools to deliver quality CAPS-aligned education despite these resource constraints. Siyafunda — siSwati for "We are learning" — was born from this vision, leveraging technology to empower teachers in under-resourced communities.
                 </p>
                 <p className="text-greyed-black/80">
-                  The first pilots launched in Botswana schools in early 2024, showing remarkable results in both urban and rural settings. Now, GreyEd is expanding globally with a mission to ensure every student receives the personalized education they deserve.
+                  Siyafunda AI now supports teachers across Mpumalanga with lesson planning, learner assessments, and personalised learning pathways — all aligned to the South African CAPS curriculum. What began at one school is now uplifting entire communities, guided by the Ubuntu philosophy that binds us together.
                 </p>
               </motion.div>
             </>
@@ -74,28 +77,31 @@ const OriginStory: React.FC = () => {
                 <div className="relative w-full max-w-md aspect-[3/4] rounded-xl overflow-hidden">
                   <img 
                     src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                    alt="Monti Kgengwenyane, Founder" 
+                    alt="Cophetsheni Primary School, Mpumalanga" 
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-greyed-navy/70 p-4">
-                    <p className="text-greyed-white font-headline font-semibold">Monti Kgengwenyane</p>
-                    <p className="text-greyed-blue text-sm">Founder & CEO</p>
+                    <p className="text-greyed-white font-headline font-semibold">Cophetsheni Primary School</p>
+                    <p className="text-greyed-blue text-sm">Mpumalanga Province, South Africa</p>
                   </div>
                 </div>
               </div>
               
               <div>
+                <p className="text-lg italic text-greyed-navy/70 mb-6">
+                  "Umuntfu ngumuntfu ngabantfu" — A person is a person through other people.
+                </p>
                 <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-                  It started with a challenge.
+                  It started with a vision.
                 </h2>
                 <p className="text-greyed-black/80 mb-4">
-                  Growing up with dyslexia in Gaborone, Monti struggled with traditional education. Teachers labeled him "slow" despite his creative problem-solving abilities. After developing a personalized learning system that helped him excel, Monti realized other students could benefit from similar adaptations.
+                  At Cophetsheni Primary School in rural Mpumalanga, teachers faced an all-too-common challenge: delivering quality education with limited resources. Large class sizes, scarce teaching materials, and connectivity gaps made it difficult to give every learner the attention they deserved.
                 </p>
                 <p className="text-greyed-black/80 mb-4">
-                  In 2023, he sketched the initial concept for GreyEd at a Stanbic Bank innovation event—an AI tutor that could adapt to different learning styles, just as he had done manually for himself.
+                  The school recognised that rural Mpumalanga teachers needed AI-powered tools to deliver quality CAPS-aligned education despite these resource constraints. Siyafunda — siSwati for "We are learning" — was born from this vision, leveraging technology to empower teachers in under-resourced communities.
                 </p>
                 <p className="text-greyed-black/80">
-                  The first pilots launched in Botswana schools in early 2024, showing remarkable results in both urban and rural settings. Now, GreyEd is expanding globally with a mission to ensure every student receives the personalized education they deserve.
+                  Siyafunda AI now supports teachers across Mpumalanga with lesson planning, learner assessments, and personalised learning pathways — all aligned to the South African CAPS curriculum. What began at one school is now uplifting entire communities, guided by the Ubuntu philosophy that binds us together.
                 </p>
               </div>
             </>

@@ -8,25 +8,17 @@ const CurriculumGrid: React.FC = () => {
   
   const subjects = [
     { name: "Mathematics", available: true },
-    { name: "Additional Mathematics", available: true },
-    { name: "Physics", available: true },
-    { name: "Chemistry", available: true },
-    { name: "Biology", available: true },
-    { name: "Combined Science", available: true },
-    { name: "English Language", available: true },
-    { name: "English Literature", available: true },
-    { name: "Computer Science", available: true },
-    { name: "Information & Communication Technology", available: true },
-    { name: "Geography", available: true },
-    { name: "History", available: true },
-    { name: "Economics", available: true },
-    { name: "Business Studies", available: true },
-    { name: "Accounting", available: true },
-    { name: "Foreign Languages", available: true },
-    { name: "Art & Design", available: true },
+    { name: "Home Language (siSwati)", available: true },
+    { name: "First Additional Language (English)", available: true },
+    { name: "Life Skills", available: true },
+    { name: "Natural Sciences", available: true },
+    { name: "Social Sciences", available: true },
+    { name: "Technology", available: true },
+    { name: "Economic & Management Sciences", available: true },
+    { name: "Creative Arts", available: true },
+    { name: "Life Orientation", available: true },
     { name: "Physical Education", available: true },
-    { name: "Music", available: true },
-    { name: "Drama", available: true }
+    { name: "Second Additional Language", available: true }
   ];
   
   const gridItemVariants = {
@@ -62,10 +54,10 @@ const CurriculumGrid: React.FC = () => {
       <div className="container mx-auto px-4">
         <AnimatedSection className="text-center mb-12">
           <h2 className="text-2xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            Curriculum Coverage
+            CAPS Curriculum Coverage
           </h2>
           <p className="text-base md:text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            El AI supports all major exam boards including AQA, Edexcel, OCR, WJEC, and Cambridge International.
+            Full alignment with the South African Curriculum and Assessment Policy Statement (CAPS) for Foundation, Intermediate, and Senior phases.
           </p>
         </AnimatedSection>
         

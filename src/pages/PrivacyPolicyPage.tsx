@@ -42,13 +42,13 @@ const PrivacyPolicyPage: React.FC = () => {
                     1. Introduction and Scope
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    GreyEd, Inc. ("GreyEd," "we," "us," or "our") is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy ("Policy") explains how we collect, use, disclose, store, and protect information about you when you access or use our educational technology platform, website, mobile applications, and related services (collectively, the "Services").
+                    Cophetsheni Primary School ("Cophetsheni," "we," "us," or "our"), located in Mpumalanga Province, Republic of South Africa, is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy ("Policy") explains how we collect, use, disclose, store, and protect information about you when you access or use our Siyafunda educational technology platform, website, mobile applications, and related services (collectively, the "Services").
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     This Policy applies to all users of our Services, including teachers, educational professionals, administrators, and visitors. By accessing or using our Services, you acknowledge that you have read, understood, and agree to the collection, use, and disclosure of your information as described in this Policy.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    We are committed to compliance with applicable privacy laws, including the Family Educational Rights and Privacy Act (FERPA), the Children's Online Privacy Protection Act (COPPA), the General Data Protection Regulation (GDPR), and the California Consumer Privacy Act (CCPA).
+                    We are committed to compliance with applicable privacy laws, including the Protection of Personal Information Act 4 of 2013 (POPIA), the South African Schools Act 84 of 1996, the Children's Act 38 of 2005, and the Consumer Protection Act 68 of 2008.
                   </p>
                 </div>
               </div>
@@ -108,7 +108,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     2.4 Sensitive Information
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    We do not intentionally collect sensitive personal information such as Social Security numbers, financial account numbers, health information, or information about racial or ethnic origin, political opinions, religious beliefs, or biometric data, except when explicitly provided for specific purposes with your consent and as permitted by law.
+                    We do not intentionally collect special personal information as defined in POPIA, such as South African identity numbers, financial account numbers, health information, or information about racial or ethnic origin, political opinions, religious beliefs, or biometric data, except when explicitly provided for specific purposes with your consent and as permitted by law.
                   </p>
                 </div>
               </div>
@@ -205,7 +205,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     <li>Monitor and prevent prohibited or illegal activities</li>
                     <li>Enforce our Terms of Service and other policies</li>
                     <li>Comply with legal obligations and respond to legal requests</li>
-                    <li>Protect the rights, property, and safety of GreyEd, our users, and the public</li>
+                    <li>Protect the rights, property, and safety of Cophetsheni Primary School, our users, and the public</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -261,7 +261,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     5.3 Educational Institutions
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    If your school or district has a subscription agreement with us, we may share relevant usage data, progress reports, and performance analytics with authorized school administrators and educational personnel as permitted by FERPA and other applicable laws.
+                    If your school or district has a subscription agreement with us, we may share relevant usage data, progress reports, and performance analytics with authorized school administrators and educational personnel as permitted by POPIA, the South African Schools Act, and other applicable laws.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -273,7 +273,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Comply with legal obligations, court orders, subpoenas, or government requests</li>
                     <li>Enforce our Terms of Service and other agreements</li>
-                    <li>Protect the rights, property, and safety of GreyEd, our users, or the public</li>
+                    <li>Protect the rights, property, and safety of Cophetsheni Primary School, our users, or the public</li>
                     <li>Detect, prevent, or address fraud, security, or technical issues</li>
                     <li>Respond to claims that content violates the rights of others</li>
                   </ul>
@@ -282,7 +282,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     5.5 Business Transfers
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    If GreyEd is involved in a merger, acquisition, reorganization, sale of assets, bankruptcy, or similar business transaction, your information may be transferred as part of that transaction. We will notify you via email and/or prominent notice on our Services of any change in ownership or use of your personal information.
+                    If Cophetsheni Primary School is involved in a merger, acquisition, reorganization, transfer of assets, or similar institutional transaction, your information may be transferred as part of that transaction. We will notify you via email and/or prominent notice on our Services of any change in ownership or use of your personal information.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -360,7 +360,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     7.1 Access and Correction
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You can access, review, and update your account information at any time by logging into your account settings. If you need assistance accessing or correcting your information, please contact us at privacy@greyed.com.
+                    You can access, review, and update your account information at any time by logging into your account settings. If you need assistance accessing or correcting your information, please contact us at privacy@cophetsheni.edu.za.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -374,7 +374,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     7.3 Deletion Rights
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You have the right to request deletion of your personal information, subject to certain exceptions required by law or legitimate business purposes. To request deletion, please contact us at privacy@greyed.com. We will respond within 30 days.
+                    You have the right to request deletion of your personal information, subject to certain exceptions required by law or legitimate business purposes. To request deletion, please contact us at privacy@cophetsheni.edu.za. We will respond within 30 days.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -386,7 +386,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Clicking the "unsubscribe" link in any promotional email</li>
                     <li>Adjusting your email preferences in your account settings</li>
-                    <li>Contacting us at support@greyed.com</li>
+                    <li>Contacting us at support@cophetsheni.edu.za</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     Please note that even if you opt out of marketing communications, we will still send you service-related messages, such as transaction confirmations, account notifications, and security alerts.
@@ -407,17 +407,17 @@ const PrivacyPolicyPage: React.FC = () => {
                 <AlertCircle className="w-6 h-6 text-greyed-blue mr-3 mt-1 flex-shrink-0" />
                 <div>
                   <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-3">
-                    8. Children's Privacy (COPPA Compliance)
+                    8. Children's Privacy (POPIA and Children's Act Compliance)
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Our Services are not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13 without verified parental consent as required by the Children's Online Privacy Protection Act (COPPA).
+                    Our Services are not directed to children under the age of 18 without the involvement of a competent person (parent, guardian, or school), and we do not knowingly collect personal information from children without verified parental or guardian consent as required by POPIA and the Children's Act 38 of 2005.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    If a school or parent provides consent for a child under 13 to use our Services, we collect and use the child's information only for educational purposes as authorized by the school or parent. We do not use children's information for targeted advertising.
+                    If a school or parent/guardian provides consent for a child to use our Services, we collect and use the child's information only for educational purposes as authorized by the school or parent/guardian. We do not use children's information for targeted advertising or direct marketing.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    If we learn that we have collected personal information from a child under 13 without proper consent, we will delete that information as quickly as possible. If you believe we have collected information from a child under 13 without consent, please contact us immediately at privacy@greyed.com.
+                    If we learn that we have collected personal information from a child without proper consent, we will delete that information as quickly as possible. If you believe we have collected information from a child without consent, please contact us immediately at privacy@cophetsheni.edu.za.
                   </p>
                 </div>
               </div>
@@ -428,46 +428,46 @@ const PrivacyPolicyPage: React.FC = () => {
                 <FileText className="w-6 h-6 text-greyed-blue mr-3 mt-1 flex-shrink-0" />
                 <div>
                   <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-3">
-                    9. California Privacy Rights (CCPA)
+                    9. Data Subject Rights Under POPIA
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    If you are a California resident, you have specific rights under the California Consumer Privacy Act (CCPA):
+                    As a data subject under the Protection of Personal Information Act (POPIA), you have the following rights:
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    9.1 Right to Know
+                    9.1 Right to Access
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You have the right to request disclosure of the categories and specific pieces of personal information we have collected, the sources of that information, the purposes for which we use it, and the categories of third parties with whom we share it.
+                    You have the right to request confirmation of whether we hold personal information about you, and to request access to and a description of such personal information, including the categories of recipients who have or will receive the information.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    9.2 Right to Delete
+                    9.2 Right to Correction or Deletion
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You have the right to request deletion of your personal information, subject to certain exceptions.
+                    You have the right to request the correction or deletion of your personal information that is inaccurate, irrelevant, excessive, out of date, incomplete, misleading, or obtained unlawfully.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    9.3 Right to Opt-Out of Sale
+                    9.3 Right to Object to Processing
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    We do not sell your personal information as defined by the CCPA.
+                    You have the right to object to the processing of your personal information for purposes of direct marketing or where the processing causes or is likely to cause you damage or distress.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    9.4 Right to Non-Discrimination
+                    9.4 Right to Lodge a Complaint
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    We will not discriminate against you for exercising your CCPA rights, including by denying services, charging different prices, or providing a different level of service quality.
+                    You have the right to lodge a complaint with the Information Regulator (South Africa) if you believe your personal information has been processed in violation of POPIA. The Information Regulator can be contacted at: inforeg@justice.gov.za.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     9.5 Exercising Your Rights
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    To exercise your CCPA rights, please contact us at privacy@greyed.com or call 1-800-XXX-XXXX. We will verify your identity before processing your request and respond within 45 days. You may designate an authorized agent to make requests on your behalf by providing written authorization.
+                    To exercise your POPIA rights, please contact us at privacy@cophetsheni.edu.za or call +27 (0)13 XXX XXXX. We will verify your identity before processing your request and respond within a reasonable time. You may designate an authorised representative to make requests on your behalf by providing written authorisation.
                   </p>
                 </div>
               </div>
@@ -478,11 +478,11 @@ const PrivacyPolicyPage: React.FC = () => {
                 <Globe className="w-6 h-6 text-greyed-blue mr-3 mt-1 flex-shrink-0" />
                 <div>
                   <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-3">
-                    10. International Data Transfers (GDPR)
+                    10. Cross-Border Data Transfers
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    If you are located in the European Economic Area (EEA), United Kingdom, or Switzerland, you have certain rights under the General Data Protection Regulation (GDPR):
+                    Under POPIA, personal information may only be transferred outside of South Africa if certain conditions are met. We ensure compliance with POPIA Section 72 for any cross-border transfers of personal information:
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -499,26 +499,26 @@ const PrivacyPolicyPage: React.FC = () => {
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
-                    10.2 GDPR Rights
+                    10.2 Your Rights Under POPIA
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Under the GDPR, you have the right to:
+                    Under POPIA, you have the right to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li>Access your personal information</li>
-                    <li>Rectify inaccurate or incomplete information</li>
-                    <li>Request erasure of your information ("right to be forgotten")</li>
-                    <li>Restrict or object to processing</li>
-                    <li>Data portability</li>
+                    <li>Access your personal information held by us</li>
+                    <li>Request correction of inaccurate or incomplete information</li>
+                    <li>Request deletion of your information where applicable</li>
+                    <li>Object to the processing of your personal information</li>
+                    <li>Request a copy of your personal information in a readable format</li>
                     <li>Withdraw consent at any time</li>
-                    <li>Lodge a complaint with your local data protection authority</li>
+                    <li>Lodge a complaint with the Information Regulator (South Africa)</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     10.3 Data Transfers
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    Your information may be transferred to and processed in the United States or other countries where we or our service providers operate. We ensure appropriate safeguards are in place for international transfers, including Standard Contractual Clauses approved by the European Commission. For more information about our data transfer mechanisms, please contact privacy@greyed.com.
+                    Your information may be transferred to and processed in countries outside the Republic of South Africa where we or our service providers operate. We ensure appropriate safeguards are in place in accordance with POPIA Section 72, including ensuring that the recipient country has adequate data protection laws or that binding agreements are in place. For more information about our data transfer mechanisms, please contact privacy@cophetsheni.edu.za.
                   </p>
                 </div>
               </div>
@@ -562,26 +562,25 @@ const PrivacyPolicyPage: React.FC = () => {
 
                   <div className="bg-greyed-beige/20 p-6 rounded-lg space-y-3">
                     <p className="text-greyed-navy">
-                      <strong>GreyEd, Inc.</strong><br />
+                      <strong>Cophetsheni Primary School</strong><br />
                       Privacy Department<br />
-                      690 Saratoga Ave<br />
-                      San Jose, CA 95129<br />
-                      United States
+                      Mpumalanga Province<br />
+                      Republic of South Africa
                     </p>
                     <p className="text-greyed-navy">
-                      <strong>Email:</strong> privacy@greyed.com<br />
-                      <strong>Support:</strong> support@greyed.com<br />
-                      <strong>Phone:</strong> Available to enterprise customers
+                      <strong>Email:</strong> privacy@cophetsheni.edu.za<br />
+                      <strong>Support:</strong> support@cophetsheni.edu.za<br />
+                      <strong>Phone:</strong> +27 (0)13 XXX XXXX
                     </p>
                     <p className="text-greyed-navy/70 text-sm mt-4">
-                      For GDPR-related inquiries, please include "GDPR Request" in your subject line.<br />
-                      For CCPA-related inquiries, please include "CCPA Request" in your subject line.
+                      For POPIA-related inquiries, please include "POPIA Request" in your subject line.<br />
+                      For data subject access requests, please include "Data Subject Request" in your subject line.
                     </p>
                   </div>
 
                   <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                     <p className="text-blue-900 text-sm">
-                      <strong>Data Protection Officer:</strong> For privacy matters requiring escalation, you may contact our Data Protection Officer at dpo@greyed.com.
+                      <strong>Information Officer:</strong> For privacy matters requiring escalation, you may contact our Information Officer at privacy@cophetsheni.edu.za. You may also contact the Information Regulator at inforeg@justice.gov.za.
                     </p>
                   </div>
                 </div>

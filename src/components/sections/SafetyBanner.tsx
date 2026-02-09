@@ -89,10 +89,10 @@ const SafetyBanner: React.FC = () => {
             
             <div>
               <h3 className="text-xl font-headline font-semibold text-greyed-navy mb-2">
-                Safety & Privacy First
+                Safety & Privacy — POPIA Compliant
               </h3>
               <p className="text-greyed-black/70">
-                El AI is designed with student privacy at its core. We never sell data, use it for ads, or share it with third parties. All interactions are encrypted, and we comply with GDPR, FERPA, and COPPA regulations.
+                Cophetsheni's platform is built with learner and teacher privacy at its core. We comply with South Africa's Protection of Personal Information Act (POPIA), as well as GDPR standards. All data is encrypted and never shared with third parties.
               </p>
             </div>
           </div>

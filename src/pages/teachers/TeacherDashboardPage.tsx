@@ -38,7 +38,7 @@ const TeacherDashboardPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
-    document.title = "Teacher Dashboard | GreyEd";
+    document.title = "Teacher Dashboard | Cophetsheni Primary School";
     
     // Redirect if not logged in
     if (!authLoading && !user) {

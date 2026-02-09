@@ -19,23 +19,23 @@ const MeetEl: React.FC = () => {
   const features = [
     {
       icon: <Bot size={24} />,
-      title: "Personality-Matched",
-      description: "El AI adapts its teaching style to match your personality and learning preferences, making learning more engaging and effective."
+      title: "CAPS-Smart Planning",
+      description: "Generates lesson plans, activities, and resources aligned to South Africa's Curriculum and Assessment Policy Statement."
     },
     {
       icon: <Brain size={24} />,
-      title: "Brain-Optimized",
-      description: "Lessons are structured according to cognitive science principles, with optimal spacing, retrieval practice, and interleaving techniques."
+      title: "Neurodiversity Aware",
+      description: "Built-in accommodations for ADHD, dyslexia, and ASD learners — following SIAS policy guidelines."
     },
     {
       icon: <Calendar size={24} />,
-      title: "Schedule-Aware",
-      description: "El AI learns your best study times and energy patterns, suggesting optimal moments for different types of learning activities."
+      title: "Term Planner",
+      description: "Organizes your teaching schedule across terms, tracks lesson delivery, and manages assessment timelines."
     },
     {
       icon: <Zap size={24} />,
-      title: "Mood-Responsive",
-      description: "On tough days, El AI adjusts its approach to be more supportive and breaks content into smaller chunks to maintain motivation."
+      title: "Instant Assessments",
+      description: "Create differentiated tests, worksheets, and activities in seconds — auto-graded and ready to print."
     }
   ];
 
@@ -44,10 +44,13 @@ const MeetEl: React.FC = () => {
       <div className="container mx-auto px-4">
         <AnimatedSection className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            Meet El – Your AI Tutor
+            Meet Your AI Teaching Assistant
           </h2>
           <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            El AI doesn't just know the curriculum – it gets to know you.
+            Your AI assistant understands CAPS, knows your learners, and works around the clock.
+          </p>
+          <p className="text-sm text-greyed-black/50 mt-2 italic">
+            "Imfundo yisikhali esiyiso" — Education is the right weapon
           </p>
         </AnimatedSection>
         

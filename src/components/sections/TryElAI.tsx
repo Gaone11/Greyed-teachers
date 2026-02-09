@@ -46,10 +46,11 @@ const TryElAI: React.FC = () => {
   };
 
   const features = [
-    "Unlimited AI lesson plans",
-    "Auto-graded assessments",
+    "Unlimited CAPS-aligned AI lesson plans",
+    "Auto-graded assessments & worksheets",
     "Weekly family updates",
-    "Analytics dashboard",
+    "Student management dashboard",
+    "Government template compliance",
     "Cancel anytime"
   ];
 
@@ -58,10 +59,13 @@ const TryElAI: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">
-            GreyEd Teachers
+            Siyafunda Pro for Teachers
           </h2>
           <p className="text-xl text-greyed-blue">
             Start with a free 14-day trial. No credit card required to begin.
+          </p>
+          <p className="text-sm text-greyed-white/60 mt-2 italic">
+            "Umntwana akakhuliswa ngumuntu munye" — A child is not raised by one person alone
           </p>
         </div>
         
@@ -116,7 +120,7 @@ const TryElAI: React.FC = () => {
           </ul>
           
           <div className="text-center mb-6">
-            <div className="text-2xl font-bold">P150 | £8 | $11 | R199<span className="text-sm font-normal">/month</span></div>
+            <div className="text-2xl font-bold">R199<span className="text-sm font-normal">/month</span></div>
             <div className="text-sm text-greyed-white/70 mt-1">After 14-day free trial</div>
           </div>
           

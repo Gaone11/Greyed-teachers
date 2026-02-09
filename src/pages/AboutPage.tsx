@@ -18,13 +18,13 @@ interface AboutPageProps {
 const AboutPage: React.FC<AboutPageProps> = ({ openAdminLoginModal }) => {
   // Set document title and meta description for SEO
   useEffect(() => {
-    document.title = "About Us | GreyEd";
+    document.title = "About Us | Siyafunda — Cophetsheni Primary School";
     
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Learn how GreyEd began in Botswana, grew into a global ed-tech innovator, and why our mission is to deliver empathic, personalised education for every learner.');
+        'Learn how Siyafunda was born at Cophetsheni Primary School in Mpumalanga, South Africa — empowering rural teachers with AI-powered, CAPS-aligned tools to deliver quality education in under-resourced communities.');
     }
     
     // Track page view

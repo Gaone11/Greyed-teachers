@@ -82,7 +82,7 @@ const HeroAbout: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              From Botswana to the world.
+              From Mpumalanga, for every classroom.
             </motion.h1>
             
             <motion.p 
@@ -92,7 +92,7 @@ const HeroAbout: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              GreyEd began with one dyslexic student and a belief: every learner deserves hyper-personalised, empathic education.
+              Siyafunda was born at Cophetsheni Primary School with a belief: every teacher in rural South Africa deserves AI-powered tools to deliver quality, CAPS-aligned education.
             </motion.p>
             
             <motion.div
@@ -113,11 +113,11 @@ const HeroAbout: React.FC = () => {
         ) : (
           <>
             <h1 className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
-              From Botswana to the world.
+              From Mpumalanga, for every classroom.
             </h1>
             
             <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10">
-              GreyEd began with one dyslexic student and a belief: every learner deserves hyper-personalised, empathic education.
+              Siyafunda was born at Cophetsheni Primary School with a belief: every teacher in rural South Africa deserves AI-powered tools to deliver quality, CAPS-aligned education.
             </p>
             
             <div>

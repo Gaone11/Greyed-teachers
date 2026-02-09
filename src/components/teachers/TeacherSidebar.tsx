@@ -136,7 +136,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     },
     {
       id: 'el-ai',
-      label: 'El AI Assistant',
+      label: 'Siyafunda AI',
       icon: Snowflake,
       path: '/teachers/el-ai',
       color: 'from-greyed-navy to-greyed-navy',
@@ -145,7 +145,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     },
     {
       id: 'grey-ed-ta',
-      label: 'GreyEd TA',
+      label: 'Teaching Assistant',
       icon: Sparkles,
       path: '/teachers/grey-ed-ta',
       color: 'from-greyed-blue to-greyed-blue',
@@ -170,8 +170,8 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-premium-navy">GreyEd</h2>
-              <p className="text-xs text-premium-neutral-500">Teacher Portal</p>
+              <h2 className="text-lg font-bold text-premium-navy">Cophetsheni PS</h2>
+              <p className="text-xs text-premium-neutral-500">Siyafunda — We are learning</p>
             </div>
             {!isMobile && (
               <button

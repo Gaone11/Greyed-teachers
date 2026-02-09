@@ -15,24 +15,24 @@ const GlobalFootprint: React.FC = () => {
   
   const locations = [
     {
-      x: "26%", // Botswana
-      y: "65%",
-      label: "Gaborone, Botswana",
-      program: "HQ",
+      x: "55%", // Mpumalanga
+      y: "68%",
+      label: "Cophetsheni, Mpumalanga",
+      program: "Home School",
       delay: 0
     },
     {
-      x: "22%", // Ghana
-      y: "53%",
-      label: "Accra, Ghana",
-      program: "Pilot",
+      x: "50%", // Nelspruit / Mbombela
+      y: "64%",
+      label: "Mbombela, Mpumalanga",
+      program: "Partner Schools",
       delay: 0.3
     },
     {
-      x: "47%", // UK
-      y: "30%",
-      label: "London, UK",
-      program: "Office",
+      x: "48%", // Pretoria / Gauteng
+      y: "62%",
+      label: "Gauteng, South Africa",
+      program: "Expansion",
       delay: 0.6
     }
   ];
@@ -65,11 +65,11 @@ const GlobalFootprint: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Global Footprint
+            Community Impact — Mpumalanga Schools
           </motion.h2>
         ) : (
           <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center">
-            Global Footprint
+            Community Impact — Mpumalanga Schools
           </h2>
         )}
         
@@ -85,13 +85,13 @@ const GlobalFootprint: React.FC = () => {
               <svg 
                 viewBox="0 0 1000 500" 
                 className="w-full h-auto"
-                aria-label="World map showing GreyEd locations"
+                aria-label="Map showing Cophetsheni Primary School and Siyafunda partner locations in Mpumalanga"
                 role="img"
               >
-                <title>GreyEd Global Locations</title>
-                <desc>World map showing GreyEd locations in Botswana, Ghana, and the UK</desc>
+                <title>Siyafunda — Cophetsheni Primary School Locations</title>
+                <desc>Map showing Siyafunda locations in Mpumalanga Province, South Africa</desc>
                 
-                {/* Simplified world map path - this would be a more detailed SVG in production */}
+                {/* Simplified South Africa map path - this would be a more detailed SVG in production */}
                 <path 
                   d="M170,120 L280,120 L300,180 L250,250 L160,240 L140,170 Z M350,140 L420,100 L490,110 L510,200 L470,230 L400,220 L380,180 Z M550,120 L600,150 L630,120 L700,130 L730,170 L690,230 L630,210 L580,170 Z M180,270 L260,280 L290,350 L220,380 L170,340 Z M400,260 L480,250 L500,290 L490,340 L420,330 Z M570,280 L650,270 L680,320 L640,370 L580,350 Z" 
                   fill="#dedbc2" 
@@ -117,13 +117,13 @@ const GlobalFootprint: React.FC = () => {
               <svg 
                 viewBox="0 0 1000 500" 
                 className="w-full h-auto"
-                aria-label="World map showing GreyEd locations"
+                aria-label="Map showing Cophetsheni Primary School and Siyafunda partner locations in Mpumalanga"
                 role="img"
               >
-                <title>GreyEd Global Locations</title>
-                <desc>World map showing GreyEd locations in Botswana, Ghana, and the UK</desc>
+                <title>Siyafunda — Cophetsheni Primary School Locations</title>
+                <desc>Map showing Siyafunda locations in Mpumalanga Province, South Africa</desc>
                 
-                {/* Simplified world map path - this would be a more detailed SVG in production */}
+                {/* Simplified South Africa map path - this would be a more detailed SVG in production */}
                 <path 
                   d="M170,120 L280,120 L300,180 L250,250 L160,240 L140,170 Z M350,140 L420,100 L490,110 L510,200 L470,230 L400,220 L380,180 Z M550,120 L600,150 L630,120 L700,130 L730,170 L690,230 L630,210 L580,170 Z M180,270 L260,280 L290,350 L220,380 L170,340 Z M400,260 L480,250 L500,290 L490,340 L420,330 Z M570,280 L650,270 L680,320 L640,370 L580,350 Z" 
                   fill="#dedbc2" 

@@ -32,39 +32,40 @@ const WhyGreyEd: React.FC = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <AnimatedSection className="text-center mb-12">
+          <p className="text-greyed-blue italic mb-3">"Isandla sihlamba esinye" — One hand washes the other</p>
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            Why Students Love GreyEd
+            Why Cophetsheni Teachers Choose Siyafunda
           </h2>
           <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            Traditional tutoring doesn't work for everyone. El AI adapts to your unique needs.
+            From CAPS-aligned lesson plans to AI-powered assessments — everything you need to teach with confidence.
           </p>
         </AnimatedSection>
         
         <div className="max-w-4xl mx-auto">
           <TableRow
-            title="Personalized Learning Path"
-            description="Adapts to your learning style and pace"
-            compared="Generic lesson plans that don't adjust"
+            title="CAPS-Aligned Lesson Plans"
+            description="AI generates plans aligned to the South African CAPS curriculum"
+            compared="Hours spent manually writing plans from scratch"
           />
           <TableRow
-            title="Mood-Based Approach"
-            description="Adjusts teaching style based on how you're feeling"
-            compared="One-size-fits-all teaching regardless of your state"
+            title="Smart Assessments"
+            description="Auto-generated tests and worksheets for any grade or subject"
+            compared="Repetitive test creation every term"
           />
           <TableRow
-            title="24/7 Availability"
-            description="Study whenever works for your schedule, no appointments"
-            compared="Fixed schedules, cancellation fees, limited hours"
+            title="Neurodiversity Support"
+            description="Built-in accommodations for ADHD, dyslexia, and ASD learners"
+            compared="One-size-fits-all resources that leave learners behind"
           />
           <TableRow
-            title="Privacy-First Design"
-            description="Your data stays yours, no third-party sharing"
-            compared="Data often shared or sold to education marketers"
+            title="Family Communication"
+            description="AI-powered weekly updates keep parents engaged in learning"
+            compared="Scattered WhatsApp messages with no structure"
           />
           <TableRow
-            title="Exam-Specific Practice"
-            description="Materials tailored to your specific exam board"
-            compared="Generic curriculum that may miss exam-specific details"
+            title="Works on Any Device"
+            description="Optimized for low-data, works on phones, tablets, and desktops"
+            compared="Heavy platforms that need fast Wi-Fi and expensive devices"
           />
         </div>
       </div>

@@ -34,11 +34,11 @@ const FeaturedOn: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.6 }}
           >
-            As Seen On
+            As Recognised By
           </motion.h2>
         ) : (
           <h2 className="text-2xl font-headline font-semibold mb-10 text-center text-greyed-navy">
-            As Seen On
+            As Recognised By
           </h2>
         )}
         

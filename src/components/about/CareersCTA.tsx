@@ -38,12 +38,12 @@ const CareersCTA: React.FC = () => {
               variants={contentVariants}
             >
               <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white">
-                Join the team shaping empathic education.
+                Join Siyafunda — help empower Mpumalanga's teachers.
               </h2>
               
               <div className="flex justify-center">
                 <a 
-                  href="https://greyed.org/careers"
+                  href="https://cophetsheni.edu.za/careers"
                   className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
                   
                   target="_blank"
@@ -64,12 +64,12 @@ const CareersCTA: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center">
               <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white">
-                Join the team shaping empathic education.
+                Join Siyafunda — help empower Mpumalanga's teachers.
               </h2>
               
               <div className="flex justify-center">
                 <a 
-                  href="https://greyed.org/careers"
+                  href="https://cophetsheni.edu.za/careers"
                   className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
                   
                   target="_blank"

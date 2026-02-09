@@ -137,17 +137,27 @@ const Hero: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              GreyEd Teachers: AI for Education Excellence
+              Siyafunda — We Are Learning
             </motion.h1>
             
             <motion.p 
-              className="text-lg md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10 px-2"
+              className="text-lg md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-4 px-2"
               initial="hidden"
               animate="visible"
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              Generate lesson plans, assessments, and family updates with AI. Start your 14-day free trial.
+              AI-Powered Teaching Tools for Cophetsheni Primary School, Mpumalanga
+            </motion.p>
+
+            <motion.p
+              className="text-base md:text-lg text-greyed-white/70 max-w-2xl mx-auto mb-10 px-2 italic"
+              initial="hidden"
+              animate="visible"
+              variants={subheadVariants}
+              transition={{ duration: 0.45, ease: "easeOut", delay: 0.25 }}
+            >
+              "Indlela ibuzwa kwabaphambili" — The path is asked from those who have walked it before
             </motion.p>
             
             <motion.div 
@@ -175,11 +185,15 @@ const Hero: React.FC = () => {
         ) : (
           <>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6 px-1">
-              GreyEd Teachers: AI for Education Excellence
+              Siyafunda — We Are Learning
             </h1>
             
-            <p className="text-lg md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10 px-2">
-              Generate lesson plans, assessments, and family updates with AI. Start your 14-day free trial.
+            <p className="text-lg md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-4 px-2">
+              AI-Powered Teaching Tools for Cophetsheni Primary School, Mpumalanga
+            </p>
+
+            <p className="text-base md:text-lg text-greyed-white/70 max-w-2xl mx-auto mb-10 px-2 italic">
+              "Indlela ibuzwa kwabaphambili" — The path is asked from those who have walked it before
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

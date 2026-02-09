@@ -45,7 +45,7 @@ const AdminDashboardPage: React.FC = () => {
   
   // Set document title
   useEffect(() => {
-    document.title = "Admin Dashboard | GreyEd";
+    document.title = "Admin Dashboard | Cophetsheni Primary School";
   }, []);
   
   // Handle search input

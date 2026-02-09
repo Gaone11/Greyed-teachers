@@ -4,54 +4,68 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Cophetsheni Primary School — Mpumalanga Earth Palette
+        // greyed-* aliases preserved for backward compatibility across 130+ files
         greyed: {
-          navy: '#212754',
-          blue: '#bbd7eb',
-          black: '#292828',
-          white: '#efeae4',
-          beige: '#dedbc2',
+          navy: '#1B4332',      // Deep Forest Green (was navy #212754)
+          blue: '#D4A843',      // African Gold / Sunrise (was blue #bbd7eb)
+          black: '#2D1B0E',     // Rich Earth Brown (was black #292828)
+          white: '#FDF6EC',     // Warm Cream / Ivory (was white #efeae4)
+          beige: '#E8D5B7',     // Sandy Bushveld (was beige #dedbc2)
+        },
+        // Semantic aliases for the new brand
+        cps: {
+          green: '#1B4332',       // Primary — Deep Mpumalanga Forest
+          greenLight: '#2D6A4F',  // Lighter forest
+          gold: '#D4A843',        // Accent — African Sunrise Gold
+          goldLight: '#E8C96A',   // Lighter gold
+          brown: '#2D1B0E',       // Text — Rich Earth
+          cream: '#FDF6EC',       // Background — Warm Ivory
+          sand: '#E8D5B7',        // Secondary bg — Bushveld Sand
+          terracotta: '#C4572A',  // Alert / Warm Accent
+          sky: '#5B9BD5',         // Info / Links
         },
         sand: {
-          50: '#F9FAFB',
-          100: '#F3F6F8'
+          50: '#FEFCF8',
+          100: '#FDF6EC'
         },
         navy: {
-          900: '#0F1C2C',
-          700: '#19324A'
+          900: '#0B2B1A',
+          700: '#1B4332'
         },
-        indigoBrand: '#3F51B5',
-        mint: '#1EB6B8',
+        indigoBrand: '#2D6A4F',
+        mint: '#52B788',
         premium: {
-          navy: '#1a2332',
-          navyLight: '#2a3752',
-          navyDark: '#0f1419',
-          slate: '#f8f9fb',
+          navy: '#1B4332',
+          navyLight: '#2D6A4F',
+          navyDark: '#0B2B1A',
+          slate: '#FDF6EC',
           slateLight: '#ffffff',
-          slateDark: '#e8eaf0',
-          accent: '#4f6bff',
-          accentLight: '#7a8fff',
-          accentHover: '#3d56e0',
-          gold: '#f59e0b',
-          goldLight: '#fbbf24',
-          emerald: '#10b981',
-          emeraldLight: '#34d399',
-          rose: '#f43f5e',
-          roseLight: '#fb7185',
-          amber: '#f59e0b',
-          amberLight: '#fbbf24',
-          sky: '#0ea5e9',
-          skyLight: '#38bdf8',
+          slateDark: '#E8D5B7',
+          accent: '#D4A843',
+          accentLight: '#E8C96A',
+          accentHover: '#B8922F',
+          gold: '#D4A843',
+          goldLight: '#E8C96A',
+          emerald: '#52B788',
+          emeraldLight: '#74C69D',
+          rose: '#C4572A',
+          roseLight: '#D97750',
+          amber: '#D4A843',
+          amberLight: '#E8C96A',
+          sky: '#5B9BD5',
+          skyLight: '#7DB8E0',
           neutral: {
-            50: '#fafafa',
-            100: '#f5f5f5',
-            200: '#e5e5e5',
-            300: '#d4d4d4',
-            400: '#a3a3a3',
-            500: '#737373',
-            600: '#525252',
-            700: '#404040',
-            800: '#262626',
-            900: '#171717',
+            50: '#FEFCF8',
+            100: '#FDF6EC',
+            200: '#E8D5B7',
+            300: '#D4C4A8',
+            400: '#A89070',
+            500: '#7A6548',
+            600: '#5C4A33',
+            700: '#3D2E1C',
+            800: '#2D1B0E',
+            900: '#1A0F06',
           }
         }
       },
