@@ -111,6 +111,33 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   // Determine if we are in a teacher page
   const isTeacherPage = location.pathname.startsWith('/teachers');
 
+  // Get teacher page title/subtitle for the top bar
+  const getTeacherPageInfo = (): { title: string; subtitle: string } | null => {
+    const path = location.pathname;
+    if (path === '/teachers/dashboard') {
+      return {
+        title: `Welcome back, ${user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}`,
+        subtitle: "Here's what's happening with your classes today"
+      };
+    }
+    if (path === '/teachers/families') return { title: 'Family Communications', subtitle: 'Send updates and communicate with parents' };
+    if (path === '/teachers/assessments') return { title: 'Assessments', subtitle: 'Create, manage and grade assessments' };
+    if (path === '/teachers/classes') return { title: 'Manage Classes', subtitle: 'Create and manage your teaching classes' };
+    if (/^\/teachers\/classes\/.+/.test(path)) return { title: 'Class Details', subtitle: 'View and manage your class' };
+    if (path === '/teachers/lesson-planner') return { title: 'Lesson Planner', subtitle: 'Create and manage lesson plans' };
+    if (/^\/teachers\/lesson-planner\/.+/.test(path)) return { title: 'Generate Lesson Plan', subtitle: 'Create an AI-powered lesson plan' };
+    if (path === '/teachers/settings') return { title: 'Settings', subtitle: 'Manage your account and preferences' };
+    if (path === '/teachers/grey-ed-ta') return { title: 'GreyEd Teaching Assistant', subtitle: 'AI-powered virtual teaching support' };
+    if (path === '/teachers/courses') return { title: 'Professional Development', subtitle: 'Enhance your skills with training courses' };
+    if (/^\/teachers\/courses\/.+/.test(path)) return { title: 'Course Details', subtitle: 'Continue your professional development' };
+    if (path === '/teachers/assessment-grading') return { title: 'AI Auto-Grading', subtitle: 'Upload and grade assessments with AI' };
+    if (path === '/teachers/el-ai') return { title: 'Siyafunda AI', subtitle: 'Your intelligent teaching assistant' };
+    return null;
+  };
+
+  const teacherPageInfo = isTeacherPage ? getTeacherPageInfo() : null;
+  const sidebarOffset = sidebarCollapsed ? 'md:left-16' : 'md:left-64';
+
   // Determine text color class based on scroll position and section background
   const textColorClass = isTeacherPage || location.pathname.startsWith('/admin')
     ? 'text-black'
@@ -175,7 +202,9 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+      className={`fixed top-0 right-0 z-50 transition-all duration-300 ${
+        isTeacherPage ? `left-0 ${sidebarOffset}` : 'left-0'
+      } ${
         isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
@@ -183,7 +212,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       transition={{ duration: 0.5 }}
     >
       <div className="w-full px-4 pl-4 pr-4 py-4 flex items-center justify-between">
-        {/* Left section: Logo or Welcome message for teacher dashboard */}
+        {/* Left section: Logo or page title for teacher pages */}
         <div className="flex items-center gap-2 min-w-0">
           {!isTeacherPage ? (
             <Link to="/" className={`hidden md:block ${logoTextClass}`}>
@@ -193,13 +222,13 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
                 className="h-8 w-auto"
               />
             </Link>
-          ) : location.pathname === '/teachers/dashboard' && user ? (
-            <div className="hidden md:block ml-[calc(14rem+1cm)]">
-              <h1 className="text-lg font-headline font-bold text-[#212754] tracking-tight leading-tight whitespace-nowrap">
-                Welcome back, {user?.user_metadata?.first_name || user?.user_metadata?.name || 'Teacher'}
+          ) : teacherPageInfo ? (
+            <div className="hidden md:block">
+              <h1 className="text-lg font-headline font-bold text-[#1B4332] tracking-tight leading-tight whitespace-nowrap">
+                {teacherPageInfo.title}
               </h1>
               <p className="text-[#292828] text-opacity-70 text-xs font-medium whitespace-nowrap">
-                Here's what's happening with your classes today
+                {teacherPageInfo.subtitle}
               </p>
             </div>
           ) : null}

@@ -18,7 +18,7 @@ const ACCOMMODATION_OPTIONS = [
     id: 'adhd',
     label: 'ADHD',
     description: 'Attention and focus support',
-    color: 'bg-blue-100 text-blue-800 border-blue-300',
+    color: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/40',
     features: [
       'Shorter activity segments',
       'Built-in movement breaks',
@@ -42,7 +42,7 @@ const ACCOMMODATION_OPTIONS = [
     id: 'asd',
     label: 'ASD',
     description: 'Autism spectrum support',
-    color: 'bg-purple-100 text-purple-800 border-purple-300',
+    color: 'bg-greyed-navy/10 text-greyed-navy border-greyed-navy/30',
     features: [
       'Clear, explicit instructions',
       'Predictable routines',

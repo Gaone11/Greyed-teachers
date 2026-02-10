@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, ArrowLeft, Search, PlusCircle, AlertCircle, BookOpen, Calendar, CreditCard as Edit2, Trash2, Download, Brain, Menu, X, CheckCircle, Filter, ChevronDown, Wand2 } from 'lucide-react';
+import { Loader, Search, PlusCircle, AlertCircle, BookOpen, Calendar, CreditCard as Edit2, Trash2, Download, Brain, Menu, X, CheckCircle, Filter, ChevronDown, Wand2 } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
 import NavBar from '../../components/layout/NavBar';
@@ -475,9 +475,9 @@ const TeacherLessonPlannerPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex overflow-x-hidden">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex overflow-x-hidden">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
@@ -515,40 +515,19 @@ const TeacherLessonPlannerPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         } overflow-x-hidden`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-6">
+          <main className="px-4 sm:px-6 lg:px-8">
+            {/* Action bar */}
+            <div className="flex items-center justify-end mb-2">
               <button
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-
-              <button
-                onClick={() => navigate('/teachers/dashboard')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Dashboard
-              </button>
-            </div>
-
-            {/* Main header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
               <div>
-                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                  Lesson Planner
-                </h1>
-                <p className="text-black">
-                  Create and manage lesson plans for your classes
-                </p>
-              </div>
-
-              <div className="mt-4 md:mt-0">
                 <button
                   onClick={() => navigate('/teachers/lesson-planner/generate')}
                   className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
@@ -717,7 +696,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                                   ? 'bg-gray-100 text-gray-800' 
                                   : plan.status === 'ready' 
                                   ? 'bg-green-100 text-green-800' 
-                                  : 'bg-blue-100 text-blue-800'
+                                  : 'bg-greyed-blue/20 text-greyed-navy'
                               }`}>
                                 {plan.status === 'draft' ? 'Draft' : plan.status === 'ready' ? 'Ready' : 'Taught'}
                               </span>

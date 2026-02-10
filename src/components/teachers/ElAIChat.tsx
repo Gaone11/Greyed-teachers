@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { processTeacherQuery } from '../../lib/api';
+import { supabase } from '../../lib/supabase';
 import { Snowflake, Send, Loader, Zap, CornerDownLeft } from 'lucide-react';
 
 interface Message {
@@ -12,27 +13,77 @@ interface Message {
 interface ElAIChatProps {
   className?: string;
   isFullPage?: boolean;
+  conversationId?: string | null;
+  userId?: string;
+  onConversationCreated?: (id: string) => void;
 }
 
-const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false }) => {
+const WELCOME_MESSAGE = "Hello! I'm El AI, your teaching assistant. I can help you create lesson plans, assessments, and teaching resources. I'm here to support your teaching journey - just let me know what you need!";
+
+const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false, conversationId, userId, onConversationCreated }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const currentConvIdRef = useRef<string | null | undefined>(conversationId);
 
-  // Add initial welcome message
+  // Load messages when conversation changes
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcomeMessage: Message = {
-        id: Date.now().toString(),
-        content: "Hello! I'm El AI, your teaching assistant. I can help you create lesson plans, assessments, and teaching resources. I'm here to support your teaching journey - just let me know what you need!",
+    currentConvIdRef.current = conversationId;
+
+    if (conversationId && userId) {
+      loadConversationMessages(conversationId);
+    } else {
+      // New chat - show welcome message
+      setMessages([{
+        id: 'welcome',
+        content: WELCOME_MESSAGE,
         role: 'assistant',
         timestamp: new Date()
-      };
-      setMessages([welcomeMessage]);
+      }]);
     }
-  }, [messages]);
+  }, [conversationId, userId]);
+
+  const loadConversationMessages = async (convId: string) => {
+    try {
+      setLoadingMessages(true);
+      const { data, error } = await supabase
+        .from('teacher_ai_messages')
+        .select('*')
+        .eq('conversation_id', convId)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setMessages(data.map((m: any) => ({
+          id: m.id,
+          content: m.content,
+          role: m.role,
+          timestamp: new Date(m.created_at)
+        })));
+      } else {
+        setMessages([{
+          id: 'welcome',
+          content: WELCOME_MESSAGE,
+          role: 'assistant',
+          timestamp: new Date()
+        }]);
+      }
+    } catch {
+      console.error('Failed to load messages');
+      setMessages([{
+        id: 'welcome',
+        content: WELCOME_MESSAGE,
+        role: 'assistant',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
 
   // Scroll to bottom when new messages are added
   useEffect(() => {
@@ -51,6 +102,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false 
       timestamp: new Date()
     };
 
+    const userInput = inputText;
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
     setIsTyping(true);
@@ -60,7 +112,35 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false 
       inputRef.current?.focus();
     }, 0);
 
+    // Create or use existing conversation
+    let activeConvId = currentConvIdRef.current;
+
     try {
+      // If no conversation exists yet, create one
+      if (!activeConvId && userId) {
+        const title = userInput.slice(0, 60) + (userInput.length > 60 ? '...' : '');
+        const { data: newConv, error: convError } = await supabase
+          .from('teacher_ai_conversations')
+          .insert({ teacher_id: userId, title })
+          .select()
+          .single();
+
+        if (convError) throw convError;
+        activeConvId = newConv.id;
+        currentConvIdRef.current = activeConvId;
+        onConversationCreated?.(newConv.id);
+      }
+
+      // Save user message to DB
+      if (activeConvId && userId) {
+        await supabase.from('teacher_ai_messages').insert({
+          conversation_id: activeConvId,
+          teacher_id: userId,
+          role: 'user',
+          content: userInput
+        });
+      }
+
       // Check if user is asking about El AI's identity
       const identityQuestions = [
         /who (made|created|developed) you/i,
@@ -74,27 +154,39 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false 
       
       let aiResponse;
       
-      if (identityQuestions.some(pattern => pattern.test(inputText))) {
-        // Respond with information about Uhuru AI
+      if (identityQuestions.some(pattern => pattern.test(userInput))) {
         aiResponse = "I'm El AI, an education-focused AI assistant powered by Uhuru 2.1, a state-of-the-art language model developed by GreyEd. I'm specifically designed to help teachers with lesson planning, assessment creation, and educational resource development. My advanced capabilities allow me to understand educational context and provide personalized teaching support.";
       } else {
-        // Get response from AI service for other questions
-        aiResponse = await processTeacherQuery(inputText, 'teacher');
+        aiResponse = await processTeacherQuery(userInput, 'teacher');
       }
 
-      // Create an assistant message with the response
       const assistantMessage: Message = {
-        id: Date.now().toString(),
+        id: (Date.now() + 1).toString(),
         content: aiResponse,
         role: 'assistant',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, assistantMessage]);
+
+      // Save assistant message to DB
+      if (activeConvId && userId) {
+        await supabase.from('teacher_ai_messages').insert({
+          conversation_id: activeConvId,
+          teacher_id: userId,
+          role: 'assistant',
+          content: aiResponse
+        });
+
+        // Update conversation timestamp
+        await supabase
+          .from('teacher_ai_conversations')
+          .update({ updated_at: new Date().toISOString() })
+          .eq('id', activeConvId);
+      }
     } catch {
-      
       const errorMessage: Message = {
-        id: Date.now().toString(),
+        id: (Date.now() + 1).toString(),
         content: "I'm sorry, I encountered an error while processing your request. Please try again.",
         role: 'assistant',
         timestamp: new Date()
@@ -153,6 +245,12 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false 
       {/* Chat Messages - Full screen optimized */}
       <div className="flex-1 overflow-y-auto px-3 md:px-4 py-4 md:py-6 bg-greyed-beige/5">
         <div className="max-w-4xl mx-auto space-y-4 md:space-y-6">
+          {loadingMessages ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="w-6 h-6 border-2 border-greyed-blue/30 border-t-greyed-blue rounded-full animate-spin" />
+            </div>
+          ) : (
+          <>
           {messages.map(message => (
             <div 
               key={message.id} 
@@ -203,6 +301,8 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false 
             </div>
           )}
           <div ref={messagesEndRef} />
+          </>
+          )}
         </div>
       </div>
       

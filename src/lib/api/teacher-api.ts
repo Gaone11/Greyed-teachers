@@ -76,6 +76,7 @@ interface TeacherProfile {
   title?: string;
   subjects?: string[];
   bio?: string;
+  updated_at?: string;
 }
 
 interface TeacherLimits {
@@ -813,13 +814,34 @@ export async function getTeacherProfile(userId?: string): Promise<TeacherProfile
  */
 export async function updateTeacherProfile(userId: string, profile: Partial<TeacherProfile>) {
   try {
+    // Always set updated_at on save
+    const updateData = {
+      ...profile,
+      updated_at: new Date().toISOString()
+    };
+
     const { data, error } = await supabase
       .from('profiles')
-      .update(profile)
+      .update(updateData)
       .eq('id', userId)
       .select();
     
     if (error) throw error;
+    
+    if (!data || data.length === 0) {
+      throw new Error('Profile not found. Please refresh and try again.');
+    }
+
+    // Also sync first_name/last_name to auth user metadata so NavBar stays current
+    if (profile.first_name || profile.last_name) {
+      await supabase.auth.updateUser({
+        data: {
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          name: `${profile.first_name || ''} ${profile.last_name || ''}`.trim()
+        }
+      });
+    }
     
     return data[0] as TeacherProfile;
   } catch (error) {

@@ -263,7 +263,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
     if (!fileType) return <File className="w-6 h-6 text-gray-400" />;
     
     if (fileType.includes('image')) {
-      return <FileImage className="w-6 h-6 text-blue-500" />;
+      return <FileImage className="w-6 h-6 text-greyed-blue" />;
     } else if (fileType.includes('pdf') || fileType.includes('document')) {
       return <FileText className="w-6 h-6 text-red-500" />;
     }
@@ -471,7 +471,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   <div className="text-center">
                     <div className="flex items-center justify-center mb-2">
                       {selectedFile.type.includes('image') ? (
-                        <FileImage className="w-8 h-8 text-blue-500" />
+                        <FileImage className="w-8 h-8 text-greyed-blue" />
                       ) : selectedFile.type.includes('pdf') ? (
                         <FileText className="w-8 h-8 text-red-500" />
                       ) : (

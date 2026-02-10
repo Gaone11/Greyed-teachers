@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, ArrowLeft, Search, Filter, PlusCircle, AlertCircle, Wand2, CreditCard as Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain, Crown } from 'lucide-react';
+import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, CreditCard as Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain, Crown } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -437,8 +437,8 @@ const TeacherAssessmentsPage: React.FC = () => {
   if (authLoading) {
     return (
       <LandingLayout disableSnapScroll={true}>
-        <NavBar />
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+        <NavBar sidebarCollapsed={sidebarCollapsed} />
+        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#f8f8f6]">
           <div className="text-center">
             <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
             <p className="mt-4 text-black font-semibold">Loading...</p>
@@ -644,9 +644,9 @@ const TeacherAssessmentsPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
@@ -673,40 +673,19 @@ const TeacherAssessmentsPage: React.FC = () => {
         </div>
         
         {/* Main content area */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-4">
+          <main className="px-4 sm:px-6 lg:px-8">
+            {/* Action bar */}
+            <div className="flex items-center justify-end mb-2">
               <button
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-
-              <button
-                onClick={() => navigate('/teachers/dashboard')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Dashboard
-              </button>
-            </div>
-
-            {/* Main header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                  Assessments
-                </h1>
-                <p className="text-black">
-                  Create, manage and grade assessments for your classes
-                </p>
-              </div>
-
-              <div className="mt-4 md:mt-0 flex gap-2">
+              <div className="flex gap-2">
                 <Link
                   to="/teachers/assessment-grading"
                   className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors"
@@ -850,7 +829,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                                 : assessment.status === 'published' 
                                 ? 'bg-green-100 text-green-800' 
                                 : assessment.status === 'completed' 
-                                ? 'bg-blue-100 text-blue-800'
+                                ? 'bg-greyed-blue/20 text-greyed-navy'
                                 : ''
                             }`}>
                               {assessment.status === 'draft' && <Edit2 size={12} className="mr-1" />}

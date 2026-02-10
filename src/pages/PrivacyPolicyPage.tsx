@@ -9,7 +9,7 @@ const PrivacyPolicyPage: React.FC = () => {
   return (
     <LandingLayout>
       <NavBar />
-      <div className="min-h-screen bg-greyed-white pt-24 pb-16">
+      <div className="min-h-screen bg-greyed-white pt-16 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -578,8 +578,8 @@ const PrivacyPolicyPage: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-blue-900 text-sm">
+                  <div className="mt-6 p-4 bg-greyed-blue/10 border border-greyed-blue/30 rounded-lg">
+                    <p className="text-greyed-navy text-sm">
                       <strong>Information Officer:</strong> For privacy matters requiring escalation, you may contact our Information Officer at privacy@cophetsheni.edu.za. You may also contact the Information Regulator at inforeg@justice.gov.za.
                     </p>
                   </div>

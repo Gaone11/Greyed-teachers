@@ -74,8 +74,8 @@ const FamilyUpdateStats: React.FC<FamilyUpdateStatsProps> = ({ stats }) => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="sent" name="Updates Sent" fill="#212754" />
-              <Bar dataKey="opened" name="Updates Opened" fill="#bbd7eb" />
+              <Bar dataKey="sent" name="Updates Sent" fill="#1B4332" />
+              <Bar dataKey="opened" name="Updates Opened" fill="#D4A843" />
             </BarChart>
           </ResponsiveContainer>
         </div>

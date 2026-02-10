@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, ArrowLeft, Search, PlusCircle, CreditCard as Edit2, Mail, Eye, RefreshCw, Calendar as CalendarIcon, CheckCircle, AlertTriangle, AlertCircle, X, Menu, Wand2, FileText, ChevronRight, Download, ExternalLink, Trash2, Users, CircleUser as UserCircle, Filter, School } from 'lucide-react';
+import { Loader, Search, PlusCircle, CreditCard as Edit2, Mail, Eye, RefreshCw, Calendar as CalendarIcon, CheckCircle, AlertTriangle, AlertCircle, X, Menu, Wand2, FileText, ChevronRight, Download, ExternalLink, Trash2, Users, CircleUser as UserCircle, Filter, School } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -451,10 +451,10 @@ const TeacherFamiliesPage: React.FC = () => {
             <title>Weekly Update - ${update.className}</title>
             <style>
               body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-              h1 { color: #212754; }
-              h2 { color: #212754; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+              h1 { color: #1B4332; }
+              h2 { color: #1B4332; border-bottom: 1px solid #eee; padding-bottom: 10px; }
               .section { margin-bottom: 30px; }
-              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #bbd7eb; }
+              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #D4A843; }
               .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
             </style>
           </head>
@@ -534,10 +534,10 @@ const TeacherFamiliesPage: React.FC = () => {
           <title>Weekly Update - ${update.className}</title>
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-            h1 { color: #212754; }
-            h2 { color: #212754; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+            h1 { color: #1B4332; }
+            h2 { color: #1B4332; border-bottom: 1px solid #eee; padding-bottom: 10px; }
             .section { margin-bottom: 30px; }
-            .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #bbd7eb; }
+            .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #D4A843; }
             .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
           </style>
         </head>
@@ -743,9 +743,9 @@ const TeacherFamiliesPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
@@ -779,40 +779,19 @@ const TeacherFamiliesPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-6">
+          <main className="px-4 sm:px-6 lg:px-8">
+            {/* Action bar */}
+            <div className="flex items-center justify-end mb-2">
               <button
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-
-              <button
-                onClick={() => navigate('/teachers/dashboard')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Dashboard
-              </button>
-            </div>
-
-            {/* Main header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                  Family Communications
-                </h1>
-                <p className="text-black">
-                  Send updates to families and communicate with parents
-                </p>
-              </div>
-
-              <div className="mt-4 md:mt-0 flex space-x-2">
+              <div className="flex space-x-2">
                 <button
                   onClick={() => setShowComposeModal(true)}
                   className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"

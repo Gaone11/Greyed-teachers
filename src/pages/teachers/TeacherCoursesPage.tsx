@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader as LoaderIcon, BookOpen, Award, CheckCircle, Clock, ChevronRight } from 'lucide-react';
+import { Loader as LoaderIcon, BookOpen, Award, CheckCircle, Clock, ChevronRight, X } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
@@ -26,13 +26,14 @@ interface CourseProgress {
 }
 
 const TeacherCoursesPage: React.FC = () => {
-  const { user, loading: authLoading } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
   const [progress, setProgress] = useState<Record<number, CourseProgress>>({});
   const [error, setError] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -90,10 +91,19 @@ const TeacherCoursesPage: React.FC = () => {
     }
 
     const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed) {
-      setSidebarCollapsed(savedCollapsed === 'true');
+    if (savedCollapsed === 'true') {
+      setSidebarCollapsed(true);
     }
   }, [user, authLoading, navigate]);
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+  };
 
   const handleToggleSidebar = () => {
     const newState = !sidebarCollapsed;
@@ -107,29 +117,44 @@ const TeacherCoursesPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col bg-greyed-white">
-        <NavBar
-          sidebarCollapsed={sidebarCollapsed}
-          onToggleSidebar={handleToggleSidebar}
-          showSidebarToggle={!isMobile}
-        />
-        <div className="flex-1 flex">
-          {!isMobile && (
+      <div className="min-h-screen bg-[#f8f8f6]">
+        <NavBar sidebarCollapsed={sidebarCollapsed} />
+
+        <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+          {showMobileMenu && isMobile && (
+            <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
+          )}
+
+          <div className={`${
+            isMobile
+              ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
+              : 'fixed top-0 left-0 bottom-0 z-40'
+          } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
             <TeacherSidebar
               activePage="courses"
+              onLogout={handleLogout}
               collapsed={sidebarCollapsed}
-              onToggle={handleToggleSidebar}
+              onToggleCollapse={handleToggleSidebar}
+              isMobile={isMobile}
+              isOpen={showMobileMenu}
+              onClose={() => setShowMobileMenu(false)}
             />
-          )}
-          <main className={`flex-1 p-6 ${!isMobile && !sidebarCollapsed ? 'ml-64' : !isMobile ? 'ml-20' : ''}`}>
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-                <p className="text-red-800">{error}</p>
+          </div>
+
+          <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+            isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          }`}>
+            <main className="px-4 sm:px-6 lg:px-8">
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                  <p className="text-red-800">{error}</p>
+                </div>
               </div>
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
-        {isMobile && <MobileBottomNavigation activePage="settings" />}
+
+        <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
       </div>
     );
   }
@@ -145,113 +170,131 @@ const TeacherCoursesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-greyed-white">
-      <NavBar
-        sidebarCollapsed={sidebarCollapsed}
-        onToggleSidebar={handleToggleSidebar}
-        showSidebarToggle={!isMobile}
-      />
+    <div className="min-h-screen bg-[#f8f8f6]">
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="flex-1 flex pt-16">
-        {!isMobile && (
-          <TeacherSidebar
-            activePage="courses"
-            collapsed={sidebarCollapsed}
-            onToggle={handleToggleSidebar}
-          />
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+        {/* Mobile menu overlay */}
+        {showMobileMenu && isMobile && (
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
 
-        <main className={`flex-1 p-6 transition-all duration-300 ${
-          !isMobile && !sidebarCollapsed ? 'ml-64' : !isMobile ? 'ml-20' : ''
+        {/* Left sidebar navigation */}
+        <div className={`${
+          isMobile
+            ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
+            : 'fixed top-0 left-0 bottom-0 z-40'
+        } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+          <TeacherSidebar
+            activePage="courses"
+            onLogout={handleLogout}
+            collapsed={sidebarCollapsed}
+            onToggleCollapse={handleToggleSidebar}
+            isMobile={isMobile}
+            isOpen={showMobileMenu}
+            onClose={() => setShowMobileMenu(false)}
+          />
+
+          {/* Close button for mobile menu */}
+          {showMobileMenu && isMobile && (
+            <button
+              onClick={() => setShowMobileMenu(false)}
+              className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
+            >
+              <X size={20} />
+            </button>
+          )}
+        </div>
+
+        {/* Main content area */}
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <div className="max-w-5xl mx-auto">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-greyed-navy mb-2">Professional Development</h1>
-              <p className="text-greyed-navy/70">
-                Enhance your skills with specialized training courses
-              </p>
-            </div>
+          <main className="px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
 
-            {courses.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                <BookOpen className="w-16 h-16 text-greyed-navy/30 mx-auto mb-4" />
-                <p className="text-greyed-navy/60">No courses available at this time</p>
-              </div>
-            ) : (
-              <div className="grid gap-6">
-                {courses.map((course) => {
-                  const progressPercent = getCourseProgress(course.id, course.module_count);
-                  const completed = isCourseCompleted(course.id);
+              {courses.length === 0 ? (
+                <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+                  <BookOpen className="w-16 h-16 text-greyed-navy/30 mx-auto mb-4" />
+                  <p className="text-greyed-navy/60">No courses available at this time</p>
+                </div>
+              ) : (
+                <div className="grid gap-6">
+                  {courses.map((course) => {
+                    const progressPercent = getCourseProgress(course.id, course.module_count);
+                    const completed = isCourseCompleted(course.id);
 
-                  return (
-                    <div
-                      key={course.id}
-                      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-greyed-navy/10"
-                    >
-                      <div className="p-6">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                              <h2 className="text-2xl font-bold text-greyed-navy">{course.title}</h2>
-                              {completed && (
-                                <span className="flex items-center gap-1 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                                  <CheckCircle size={16} />
-                                  Completed
-                                </span>
-                              )}
-                            </div>
-                            <p className="text-greyed-navy/70 mb-4">{course.description}</p>
-
-                            <div className="flex items-center gap-6 text-sm text-greyed-navy/60">
-                              <div className="flex items-center gap-2">
-                                <Clock size={16} />
-                                <span>{course.duration_minutes} minutes</span>
+                    return (
+                      <div
+                        key={course.id}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-greyed-navy/10"
+                      >
+                        <div className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-2">
+                                <h2 className="text-2xl font-bold text-greyed-navy">{course.title}</h2>
+                                {completed && (
+                                  <span className="flex items-center gap-1 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                    <CheckCircle size={16} />
+                                    Completed
+                                  </span>
+                                )}
                               </div>
-                              <div className="flex items-center gap-2">
-                                <BookOpen size={16} />
-                                <span>{course.module_count} modules</span>
+                              <p className="text-greyed-navy/70 mb-4">{course.description}</p>
+
+                              <div className="flex items-center gap-6 text-sm text-greyed-navy/60">
+                                <div className="flex items-center gap-2">
+                                  <Clock size={16} />
+                                  <span>{course.duration_minutes} minutes</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <BookOpen size={16} />
+                                  <span>{course.module_count} modules</span>
+                                </div>
                               </div>
                             </div>
+
+                            {completed && (
+                              <Award className="w-12 h-12 text-yellow-500" />
+                            )}
                           </div>
 
-                          {completed && (
-                            <Award className="w-12 h-12 text-yellow-500" />
+                          {progressPercent > 0 && !completed && (
+                            <div className="mb-4">
+                              <div className="flex items-center justify-between text-sm text-greyed-navy/70 mb-2">
+                                <span>Progress</span>
+                                <span>{progressPercent}%</span>
+                              </div>
+                              <div className="w-full bg-greyed-navy/10 rounded-full h-2">
+                                <div
+                                  className="bg-greyed-blue h-2 rounded-full transition-all duration-300"
+                                  style={{ width: `${progressPercent}%` }}
+                                />
+                              </div>
+                            </div>
                           )}
+
+                          <button
+                            onClick={() => navigate(`/teachers/courses/${course.id}`)}
+                            className="flex items-center gap-2 bg-greyed-navy text-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors font-medium"
+                          >
+                            {completed ? 'Review Course' : progressPercent > 0 ? 'Continue Course' : 'Start Course'}
+                            <ChevronRight size={20} />
+                          </button>
                         </div>
-
-                        {progressPercent > 0 && !completed && (
-                          <div className="mb-4">
-                            <div className="flex items-center justify-between text-sm text-greyed-navy/70 mb-2">
-                              <span>Progress</span>
-                              <span>{progressPercent}%</span>
-                            </div>
-                            <div className="w-full bg-greyed-navy/10 rounded-full h-2">
-                              <div
-                                className="bg-greyed-blue h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${progressPercent}%` }}
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        <button
-                          onClick={() => navigate(`/teachers/courses/${course.id}`)}
-                          className="flex items-center gap-2 bg-greyed-navy text-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors font-medium"
-                        >
-                          {completed ? 'Review Course' : progressPercent > 0 ? 'Continue Course' : 'Start Course'}
-                          <ChevronRight size={20} />
-                        </button>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </main>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </main>
+        </div>
       </div>
 
-      {isMobile && <MobileBottomNavigation activePage="settings" />}
+      {/* Mobile bottom navigation */}
+      <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
     </div>
   );
 };

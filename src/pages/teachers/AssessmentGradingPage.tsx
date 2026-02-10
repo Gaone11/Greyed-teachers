@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { ArrowLeft, Upload, FileText, FileImage, File as FilePdf, Loader, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List, Menu, Lock, Crown, Wand2 } from 'lucide-react';
+import { Upload, FileText, FileImage, File as FilePdf, Loader, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List, Menu, Lock, Crown, Wand2 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -272,13 +272,13 @@ const AssessmentGradingPage: React.FC = () => {
   const getFileTypeIcon = () => {
     switch (fileType) {
       case 'image':
-        return <FileImage className="w-12 h-12 text-blue-500" />;
+        return <FileImage className="w-12 h-12 text-greyed-blue" />;
       case 'pdf':
         return <FilePdf className="w-12 h-12 text-red-500" />;
       case 'word':
-        return <FileText className="w-12 h-12 text-blue-700" />;
+        return <FileText className="w-12 h-12 text-greyed-navy" />;
       case 'scanned':
-        return <FileImage className="w-12 h-12 text-purple-500" />;
+        return <FileImage className="w-12 h-12 text-greyed-navy/70" />;
       default:
         return <FileUp className="w-12 h-12 text-greyed-navy/50" />;
     }
@@ -310,8 +310,8 @@ const AssessmentGradingPage: React.FC = () => {
   if (authLoading) {
     return (
       <LandingLayout disableSnapScroll={true}>
-        <NavBar />
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+        <NavBar sidebarCollapsed={sidebarCollapsed} />
+        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#f8f8f6]">
           <div className="text-center">
             <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
             <p className="mt-4 text-black font-semibold">Loading...</p>
@@ -324,9 +324,9 @@ const AssessmentGradingPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
@@ -360,10 +360,10 @@ const AssessmentGradingPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
+          <main className="px-4 sm:px-6 lg:px-8">
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
                 <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
@@ -398,34 +398,14 @@ const AssessmentGradingPage: React.FC = () => {
               </div>
             )}
           
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-4">
+            {/* Mobile menu toggle */}
+            <div className="md:hidden mb-2">
               <button 
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                className="p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-              
-              <button 
-                onClick={() => navigate('/teachers/assessments')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Assessments
-              </button>
-            </div>
-            
-            {/* Main header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-headline font-bold text-black">
-                  AI Auto-Grading
-                </h1>
-                <p className="text-black/70">
-                  Upload and automatically grade student assessments with AI
-                </p>
-              </div>
             </div>
             
             {/* Tabs */}
@@ -500,7 +480,7 @@ const AssessmentGradingPage: React.FC = () => {
                             onClick={() => handleFileTypeSelect('scanned')}
                             className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
                           >
-                            <FileImage className="w-10 h-10 text-purple-500 mb-4" />
+                            <FileImage className="w-10 h-10 text-greyed-navy/70 mb-4" />
                             <h4 className="font-medium text-greyed-navy">Scanned Document</h4>
                             <p className="text-xs text-center text-greyed-navy/70 mt-2">
                               Scanned handwritten or printed assessments
@@ -511,7 +491,7 @@ const AssessmentGradingPage: React.FC = () => {
                             onClick={() => handleFileTypeSelect('image')}
                             className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
                           >
-                            <FileImage className="w-10 h-10 text-blue-500 mb-4" />
+                            <FileImage className="w-10 h-10 text-greyed-blue mb-4" />
                             <h4 className="font-medium text-greyed-navy">Photo/Image</h4>
                             <p className="text-xs text-center text-greyed-navy/70 mt-2">
                               Photos of handwritten or printed pages
@@ -533,7 +513,7 @@ const AssessmentGradingPage: React.FC = () => {
                             onClick={() => handleFileTypeSelect('word')}
                             className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
                           >
-                            <FileText className="w-10 h-10 text-blue-700 mb-4" />
+                            <FileText className="w-10 h-10 text-greyed-navy mb-4" />
                             <h4 className="font-medium text-greyed-navy">Word Document</h4>
                             <p className="text-xs text-center text-greyed-navy/70 mt-2">
                               Microsoft Word documents (.doc, .docx)
@@ -820,7 +800,7 @@ const AssessmentGradingPage: React.FC = () => {
                                   <div className="mt-2 sm:mt-0">
                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                       student.grade.startsWith('A') ? 'bg-green-100 text-green-800' :
-                                      student.grade.startsWith('B') ? 'bg-blue-100 text-blue-800' :
+                                      student.grade.startsWith('B') ? 'bg-greyed-blue/20 text-greyed-navy' :
                                       student.grade.startsWith('C') ? 'bg-yellow-100 text-yellow-800' :
                                       'bg-red-100 text-red-800'
                                     }`}>

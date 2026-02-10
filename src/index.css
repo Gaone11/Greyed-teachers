@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 :root {
-  --color-greyed-navy: #212754;
-  --color-greyed-blue: #bbd7eb;
-  --color-greyed-black: #292828;
-  --color-greyed-white: #efeae4;
-  --color-greyed-beige: #dedbc2;
+  --color-greyed-navy: #1B4332;
+  --color-greyed-blue: #D4A843;
+  --color-greyed-black: #2D1B0E;
+  --color-greyed-white: #FDF6EC;
+  --color-greyed-beige: #E8D5B7;
 }
 
 html {

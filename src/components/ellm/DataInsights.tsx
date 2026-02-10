@@ -107,7 +107,7 @@ const DataInsights: React.FC = () => {
                       <Line 
                         type="monotone" 
                         dataKey="detections" 
-                        stroke="#bbd7eb" 
+                        stroke="#D4A843" 
                         strokeWidth={2} 
                         dot={{ r: 4, strokeWidth: 1 }}
                         animationDuration={1500}

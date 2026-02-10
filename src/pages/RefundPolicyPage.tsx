@@ -10,7 +10,7 @@ const RefundPolicyPage: React.FC = () => {
   return (
     <LandingLayout>
       <NavBar />
-      <div className="min-h-screen bg-greyed-white pt-24 pb-16">
+      <div className="min-h-screen bg-greyed-white pt-16 pb-16">
         <Container className="max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, ArrowLeft, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, Award, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye } from 'lucide-react';
+import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, Award, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -173,15 +173,30 @@ const TeacherSettingsPage: React.FC = () => {
     setError(null);
     
     try {
-      // Create a unique file path
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+      // Create a unique file path using user ID for easy identification
+      const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const fileName = `${user.id}-avatar.${fileExt}`;
       const filePath = `avatars/${fileName}`;
       
-      // Upload to Supabase Storage
+      // Delete old avatar if it exists in storage (ignore errors)
+      if (profileData.avatar_url) {
+        try {
+          const oldPath = profileData.avatar_url.split('/uploads/')[1];
+          if (oldPath) {
+            await supabase.storage.from('uploads').remove([decodeURIComponent(oldPath)]);
+          }
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
+      
+      // Upload to Supabase Storage with upsert to handle re-uploads
       const { error: uploadError } = await supabase.storage
         .from('uploads')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
         
       if (uploadError) throw uploadError;
       
@@ -198,9 +213,8 @@ const TeacherSettingsPage: React.FC = () => {
         avatar_url: urlData.publicUrl
       });
       
-      // Update the profile in the database
+      // Update only the avatar_url in the database
       await updateTeacherProfile(user.id, {
-        ...profileData,
         avatar_url: urlData.publicUrl
       });
       
@@ -232,9 +246,20 @@ const TeacherSettingsPage: React.FC = () => {
     setError(null);
     
     try {
-      // Update the profile in the database with empty avatar_url
+      // Delete old avatar from storage if possible
+      if (profileData.avatar_url) {
+        try {
+          const oldPath = profileData.avatar_url.split('/uploads/')[1];
+          if (oldPath) {
+            await supabase.storage.from('uploads').remove([decodeURIComponent(oldPath)]);
+          }
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
+
+      // Update only the avatar_url in the database
       await updateTeacherProfile(user.id, {
-        ...profileData,
         avatar_url: ''
       });
       
@@ -358,8 +383,8 @@ const TeacherSettingsPage: React.FC = () => {
   if (authLoading || (loading && user)) {
     return (
       <LandingLayout disableSnapScroll={true}>
-        <NavBar />
-        <div className="min-h-screen pt-20 pb-10 flex items-center justify-center bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark">
+        <NavBar sidebarCollapsed={sidebarCollapsed} />
+        <div className="min-h-screen pt-20 pb-10 flex items-center justify-center bg-[#f8f8f6]">
           <div className="text-center">
             <Loader className="w-8 h-8 text-greyed-blue mx-auto animate-spin" />
           </div>
@@ -371,9 +396,9 @@ const TeacherSettingsPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
@@ -407,33 +432,18 @@ const TeacherSettingsPage: React.FC = () => {
         </div>
         
         {/* Main content area */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
-            {/* Breadcrumb & Back */}
-            <div className="flex items-center mb-4">
+          <main className="px-4 sm:px-6 lg:px-8">
+            {/* Mobile menu toggle */}
+            <div className="md:hidden mb-2">
               <button
-                className="md:hidden mr-3 p-2 rounded-lg hover:bg-greyed-navy/10"
+                className="p-2 rounded-lg hover:bg-greyed-navy/10"
                 onClick={toggleMobileMenu}
               >
                 <Menu size={20} />
               </button>
-
-              <button
-                onClick={() => navigate('/teachers/dashboard')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Dashboard
-              </button>
-            </div>
-
-            {/* Main header */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-              <h1 className="text-2xl font-headline font-bold text-black">
-                Settings
-              </h1>
             </div>
 
             {/* Success message */}

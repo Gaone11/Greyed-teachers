@@ -277,10 +277,10 @@ const AdminDashboardPage: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            entry.role === 'student' ? 'bg-blue-100 text-blue-800' :
+                            entry.role === 'student' ? 'bg-greyed-blue/20 text-greyed-navy' :
                             entry.role === 'parent' ? 'bg-green-100 text-green-800' :
-                            entry.role === 'teacher' ? 'bg-purple-100 text-purple-800' :
-                            'bg-gray-100 text-gray-800'
+                            entry.role === 'teacher' ? 'bg-greyed-navy/10 text-greyed-navy' :
+                            'bg-greyed-beige text-greyed-navy'
                           }`}>
                             {entry.role.charAt(0).toUpperCase() + entry.role.slice(1)}
                           </span>

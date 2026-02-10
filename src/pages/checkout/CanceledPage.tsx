@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LandingLayout from '../../components/layout/LandingLayout';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import { XCircle, ArrowLeft } from 'lucide-react';
+import { XCircle } from 'lucide-react';
 
 const CanceledPage: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const CanceledPage: React.FC = () => {
                 onClick={() => navigate(isFromTeacherSettings ? '/teachers/settings#subscription' : '/pricing')}
                 className="bg-greyed-navy text-greyed-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center justify-center"
               >
-                <ArrowLeft className="mr-2 w-4 h-4" />
+                <img src="/favicon.svg" alt="GreyEd" className="w-5 h-5 mr-2" />
                 {isFromTeacherSettings ? 'Return to Settings' : 'Return to Pricing'}
               </button>
               

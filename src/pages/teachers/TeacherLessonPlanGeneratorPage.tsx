@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { fetchTeacherClasses, generateLessonPlan, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
 import Loader from '../../components/ui/Loader';
-import { ArrowLeft, Wand2, AlertCircle, CheckCircle, PlusCircle, X, Download, BookOpen, FileText } from 'lucide-react';
+import { Wand2, AlertCircle, CheckCircle, PlusCircle, X, Download, BookOpen, FileText } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
@@ -363,10 +363,10 @@ export default function TeacherLessonPlanGeneratorPage() {
           <div className="flex items-center justify-between h-16">
             <button
               onClick={() => navigate('/teachers/lesson-planner')}
-              className="flex items-center text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-sm font-medium"
+              title="Back to Lesson Plans"
             >
-              <ArrowLeft className="h-5 w-5 mr-2" />
-              Back to Lesson Plans
+              ← Back
             </button>
             <h1 className="text-xl font-semibold text-gray-900">Generate Lesson Plan</h1>
           </div>

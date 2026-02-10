@@ -253,9 +253,9 @@ const TeacherClassesPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
@@ -293,30 +293,19 @@ const TeacherClassesPage: React.FC = () => {
         </div>
 
         {/* Main content area - Reduced top padding */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
-              <div className="flex items-center flex-1 min-w-0">
-                <button
-                  className="md:hidden mr-2 p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
-                  onClick={toggleMobileMenu}
-                >
-                  <Menu size={20} />
-                </button>
+          <main className="px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-end mb-2 gap-3 md:gap-4">
+              <button
+                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
+                onClick={toggleMobileMenu}
+              >
+                <Menu size={20} />
+              </button>
 
-                <div className="min-w-0">
-                  <h1 className="text-xl md:text-2xl lg:text-3xl font-headline font-bold text-black truncate">
-                    Manage Classes
-                  </h1>
-                  <p className="text-xs md:text-sm text-black/70 hidden md:block">
-                    Create and manage your teaching classes
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 md:gap-3 w-full md:w-auto flex-shrink-0">
+              <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
                 <DyslexiaModeToggle />
 
                 <button

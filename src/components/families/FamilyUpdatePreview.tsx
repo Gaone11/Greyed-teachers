@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Download, Mail, ChevronLeft, Loader, CheckCircle, AlertCircle } from 'lucide-react';
+import { X, Download, Mail, Loader, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface FamilyUpdatePreviewProps {
@@ -51,10 +51,10 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
             <title>Weekly Class Update</title>
             <style>
               body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-              h1 { color: #212754; }
-              h2 { color: #212754; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+              h1 { color: #1B4332; }
+              h2 { color: #1B4332; border-bottom: 1px solid #eee; padding-bottom: 10px; }
               .section { margin-bottom: 30px; }
-              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #bbd7eb; }
+              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #D4A843; }
               .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
             </style>
           </head>
@@ -182,8 +182,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
               onClick={() => navigate(-1)}
               className="flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
             >
-              <ChevronLeft size={20} className="mr-1" />
-              Back to Family Updates
+              <img src="/favicon.svg" alt="GreyEd" className="w-6 h-6" />
             </button>
             
             <div className="flex items-center space-x-2">

@@ -23,7 +23,7 @@ export default {
           cream: '#FDF6EC',       // Background — Warm Ivory
           sand: '#E8D5B7',        // Secondary bg — Bushveld Sand
           terracotta: '#C4572A',  // Alert / Warm Accent
-          sky: '#5B9BD5',         // Info / Links
+          sky: '#2D6A4F',         // Info / Links (was blue #5B9BD5)
         },
         sand: {
           50: '#FEFCF8',
@@ -53,8 +53,8 @@ export default {
           roseLight: '#D97750',
           amber: '#D4A843',
           amberLight: '#E8C96A',
-          sky: '#5B9BD5',
-          skyLight: '#7DB8E0',
+          sky: '#2D6A4F',
+          skyLight: '#52B788',
           neutral: {
             50: '#FEFCF8',
             100: '#FDF6EC',
@@ -79,8 +79,8 @@ export default {
         premium: '0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 8px -2px rgba(0, 0, 0, 0.05)',
         premiumHover: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08)',
         premiumLg: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.08)',
-        glow: '0 0 20px rgba(79, 107, 255, 0.15)',
-        glowHover: '0 0 30px rgba(79, 107, 255, 0.25)',
+        glow: '0 0 20px rgba(212, 168, 67, 0.15)',
+        glowHover: '0 0 30px rgba(212, 168, 67, 0.25)',
       },
       borderRadius: {
         16: '16px',

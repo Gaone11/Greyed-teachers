@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
-  ArrowLeft,
   CheckCircle,
   Circle,
   Award,
   FileText,
   Download,
-  Sparkles
+  Sparkles,
+  X
 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
@@ -76,7 +76,7 @@ interface Course {
 
 const TeacherCourseDetailPage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const { user, loading: authLoading } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<Course | null>(null);
@@ -89,6 +89,7 @@ const TeacherCourseDetailPage: React.FC = () => {
   const [courseCompleted, setCourseCompleted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -147,10 +148,19 @@ const TeacherCourseDetailPage: React.FC = () => {
     fetchCourseData();
 
     const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed) {
-      setSidebarCollapsed(savedCollapsed === 'true');
+    if (savedCollapsed === 'true') {
+      setSidebarCollapsed(true);
     }
   }, [user, authLoading, navigate, courseId]);
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+  };
 
   const handleToggleSidebar = () => {
     const newState = !sidebarCollapsed;
@@ -237,35 +247,50 @@ const TeacherCourseDetailPage: React.FC = () => {
 
   if (error || !course) {
     return (
-      <div className="min-h-screen flex flex-col bg-greyed-white">
-        <NavBar
-          sidebarCollapsed={sidebarCollapsed}
-          onToggleSidebar={handleToggleSidebar}
-          showSidebarToggle={!isMobile}
-        />
-        <div className="flex-1 flex">
-          {!isMobile && (
+      <div className="min-h-screen bg-[#f8f8f6]">
+        <NavBar sidebarCollapsed={sidebarCollapsed} />
+
+        <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+          {showMobileMenu && isMobile && (
+            <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
+          )}
+
+          <div className={`${
+            isMobile
+              ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
+              : 'fixed top-0 left-0 bottom-0 z-40'
+          } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
             <TeacherSidebar
               activePage="courses"
+              onLogout={handleLogout}
               collapsed={sidebarCollapsed}
-              onToggle={handleToggleSidebar}
+              onToggleCollapse={handleToggleSidebar}
+              isMobile={isMobile}
+              isOpen={showMobileMenu}
+              onClose={() => setShowMobileMenu(false)}
             />
-          )}
-          <main className={`flex-1 p-6 ${!isMobile && !sidebarCollapsed ? 'ml-64' : !isMobile ? 'ml-20' : ''}`}>
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-                <p className="text-red-800">{error || 'Course not found'}</p>
-                <button
-                  onClick={() => navigate('/teachers/courses')}
-                  className="mt-4 text-greyed-navy hover:underline"
-                >
-                  Return to Courses
-                </button>
+          </div>
+
+          <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+            isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          }`}>
+            <main className="px-4 sm:px-6 lg:px-8">
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                  <p className="text-red-800">{error || 'Course not found'}</p>
+                  <button
+                    onClick={() => navigate('/teachers/courses')}
+                    className="mt-4 text-greyed-navy hover:underline"
+                  >
+                    Return to Courses
+                  </button>
+                </div>
               </div>
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
-        {isMobile && <MobileBottomNavigation activePage="settings" />}
+
+        <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
       </div>
     );
   }
@@ -274,35 +299,50 @@ const TeacherCourseDetailPage: React.FC = () => {
   const allModulesCompleted = completedModules.length === course.content.modules.length;
 
   return (
-    <div className="min-h-screen flex flex-col bg-greyed-white">
-      <NavBar
-        sidebarCollapsed={sidebarCollapsed}
-        onToggleSidebar={handleToggleSidebar}
-        showSidebarToggle={!isMobile}
-      />
+    <div className="min-h-screen bg-[#f8f8f6]">
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="flex-1 flex pt-16">
-        {!isMobile && (
-          <TeacherSidebar
-            activePage="courses"
-            collapsed={sidebarCollapsed}
-            onToggle={handleToggleSidebar}
-          />
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+        {/* Mobile menu overlay */}
+        {showMobileMenu && isMobile && (
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
 
-        <main className={`flex-1 p-6 transition-all duration-300 ${
-          !isMobile && !sidebarCollapsed ? 'ml-64' : !isMobile ? 'ml-20' : ''
-        }`}>
-          <div className="max-w-5xl mx-auto">
-            <button
-              onClick={() => navigate('/teachers/courses')}
-              className="flex items-center gap-2 text-greyed-navy hover:text-greyed-navy/70 mb-6 transition-colors"
-            >
-              <ArrowLeft size={20} />
-              <span>Back to Courses</span>
-            </button>
+        {/* Left sidebar navigation */}
+        <div className={`${
+          isMobile
+            ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
+            : 'fixed top-0 left-0 bottom-0 z-40'
+        } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+          <TeacherSidebar
+            activePage="courses"
+            onLogout={handleLogout}
+            collapsed={sidebarCollapsed}
+            onToggleCollapse={handleToggleSidebar}
+            isMobile={isMobile}
+            isOpen={showMobileMenu}
+            onClose={() => setShowMobileMenu(false)}
+          />
 
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          {/* Close button for mobile menu */}
+          {showMobileMenu && isMobile && (
+            <button
+              onClick={() => setShowMobileMenu(false)}
+              className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
+            >
+              <X size={20} />
+            </button>
+          )}
+        </div>
+
+        {/* Main content area */}
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        }`}>
+          <main className="px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+
+            <div className="bg-white rounded-lg shadow-sm p-6 mb-3">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h1 className="text-3xl font-bold text-greyed-navy mb-2">{course.title}</h1>
@@ -791,8 +831,10 @@ const TeacherCourseDetailPage: React.FC = () => {
           </div>
         </main>
       </div>
+      </div>
 
-      {isMobile && <MobileBottomNavigation activePage="settings" />}
+      {/* Mobile bottom navigation */}
+      <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
     </div>
   );
 };

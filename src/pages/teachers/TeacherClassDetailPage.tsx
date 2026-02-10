@@ -3,7 +3,6 @@ import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   Loader, 
-  ArrowLeft,
   Folder,
   BookMarked,
   FileText,
@@ -166,8 +165,8 @@ const TeacherClassDetailPage: React.FC = () => {
   if (authLoading || (loading && user)) {
     return (
       <LandingLayout disableSnapScroll={true}>
-        <NavBar />
-        <div className="min-h-screen pt-24 pb-16 flex items-center justify-center bg-greyed-white">
+        <NavBar sidebarCollapsed={sidebarCollapsed} />
+        <div className="min-h-screen pt-24 pb-16 flex items-center justify-center bg-[#f8f8f6]">
           <div className="text-center">
             <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
             <p className="mt-4 text-black font-semibold">Loading class details...</p>
@@ -180,9 +179,9 @@ const TeacherClassDetailPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark flex">
+      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Left sidebar navigation */}
         <div className={`fixed top-0 left-0 bottom-0 z-40 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
           <TeacherSidebar
@@ -198,8 +197,8 @@ const TeacherClassDetailPage: React.FC = () => {
         </div>
 
         {/* Main content area - Reduced top padding */}
-        <div className={`flex-1 pt-2 pb-16 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-          <main className="px-4 sm:px-6 lg:px-8 py-1">
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+          <main className="px-4 sm:px-6 lg:px-8">
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-4 flex items-start">
                 <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
@@ -207,17 +206,6 @@ const TeacherClassDetailPage: React.FC = () => {
               </div>
             )}
           
-            {/* Breadcrumb & Back - reduced bottom margin */}
-            <div className="mb-3">
-              <button 
-                onClick={() => navigate('/teachers/classes')}
-                className="inline-flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Classes
-              </button>
-            </div>
-            
             {/* Class header - reduced padding and margin */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
               <div className="flex flex-col md:flex-row justify-between">
@@ -407,7 +395,7 @@ const TeacherClassDetailPage: React.FC = () => {
                                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                                     plan.status === 'ready' ? 'bg-green-100 text-green-800' :
                                     plan.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-blue-100 text-blue-800'
+                                    'bg-greyed-blue/20 text-greyed-navy'
                                   }`}>
                                     {plan.status === 'ready' ? 'Ready to teach' :
                                      plan.status === 'draft' ? 'Draft' :
@@ -492,7 +480,7 @@ const TeacherClassDetailPage: React.FC = () => {
                                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                                     assessment.status === 'published' ? 'bg-green-100 text-green-800' :
                                     assessment.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-blue-100 text-blue-800'
+                                    'bg-greyed-blue/20 text-greyed-navy'
                                   }`}>
                                     {assessment.status}
                                   </span>

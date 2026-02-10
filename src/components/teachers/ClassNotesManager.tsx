@@ -162,7 +162,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
       case 'lesson':
         return <BookOpen className="w-5 h-5 text-green-500" />;
       case 'student':
-        return <User className="w-5 h-5 text-purple-500" />;
+        return <User className="w-5 h-5 text-greyed-navy" />;
       default:
         return <Pencil className="w-5 h-5 text-greyed-blue" />;
     }
@@ -270,7 +270,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         <span>Updated {formatDate(note.updatedAt)}</span>
                         
                         {note.type === 'student' && note.associatedWith && (
-                          <span className="ml-2 bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs">
+                          <span className="ml-2 bg-greyed-navy/10 text-greyed-navy px-2 py-0.5 rounded-full text-xs">
                             {note.associatedWith.name}
                           </span>
                         )}

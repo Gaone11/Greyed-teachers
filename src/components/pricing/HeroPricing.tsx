@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft } from 'lucide-react';
+// Logo used as back navigation
 import { Link } from 'react-router-dom';
 import { MotionContext } from '../../context/MotionContext';
 
@@ -25,9 +25,9 @@ const HeroPricing: React.FC = () => {
           <Link 
             to="/" 
             className="inline-flex items-center text-greyed-white/80 hover:text-greyed-blue transition-colors"
+            title="Back to Home"
           >
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            <span>Back to Home</span>
+            <img src="/favicon.svg" alt="GreyEd" className="w-7 h-7" />
           </Link>
         </div>
       </div>
