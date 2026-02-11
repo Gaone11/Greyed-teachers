@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { PlusCircle, Pencil, Trash2, User, BookOpen, Users, Calendar, Search, Import as SortAsc, Filter, X } from 'lucide-react';
+import { PlusCircle, Pencil, Trash2, User, BookOpen, Users, Calendar, Search, Import as SortAsc, Filter, X, AlertCircle } from 'lucide-react';
+import ConfirmDialog from '../ui/ConfirmDialog';
 import EditableContent from '../ui/EditableContent';
 
 interface Note {
@@ -61,6 +62,8 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
     content: '',
     type: 'class'
   });
+  const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // Filter notes based on active tab and search term
   const filteredNotes = notes.filter(note => {
@@ -107,15 +110,21 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
 
   // Delete a note
   const handleDeleteNote = (noteId: string) => {
-    if (window.confirm('Are you sure you want to delete this note?')) {
-      setNotes(notes.filter(note => note.id !== noteId));
+    setNoteToDelete(noteId);
+  };
+
+  const confirmDeleteNote = () => {
+    if (noteToDelete) {
+      setNotes(notes.filter(note => note.id !== noteToDelete));
+      setNoteToDelete(null);
     }
   };
 
   // Save a note (new or edited)
   const handleSaveNote = () => {
+    setFormError(null);
     if (!newNote.title || !newNote.content) {
-      alert('Please provide a title and content for the note.');
+      setFormError('Please provide a title and content for the note.');
       return;
     }
 
@@ -336,6 +345,12 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
             </div>
             
             <div className="p-5 flex-1 overflow-auto">
+              {formError && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 flex items-start" role="alert">
+                  <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">{formError}</span>
+                </div>
+              )}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                 <input
@@ -437,6 +452,15 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        isOpen={!!noteToDelete}
+        title="Delete Note"
+        message="Are you sure you want to delete this note? This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={confirmDeleteNote}
+        onCancel={() => setNoteToDelete(null)}
+      />
     </>
   );
 };

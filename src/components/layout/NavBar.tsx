@@ -224,10 +224,10 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
             </Link>
           ) : teacherPageInfo ? (
             <div className="hidden md:block">
-              <h1 className="text-lg font-headline font-bold text-[#1B4332] tracking-tight leading-tight whitespace-nowrap">
+              <h1 className="text-lg font-headline font-bold text-primary tracking-tight leading-tight whitespace-nowrap">
                 {teacherPageInfo.title}
               </h1>
-              <p className="text-[#292828] text-opacity-70 text-xs font-medium whitespace-nowrap">
+              <p className="text-text-muted text-opacity-70 text-xs font-medium whitespace-nowrap">
                 {teacherPageInfo.subtitle}
               </p>
             </div>

@@ -1,23 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain, Crown } from 'lucide-react';
-import NavBar from '../../components/layout/NavBar';
-import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
-import TeacherSidebar from '../../components/teachers/TeacherSidebar';
+import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, Edit2, FileText, X, Eye, Download, RefreshCw, Upload, Brain } from 'lucide-react';
+import TeacherPageLayout from '../../components/teachers/TeacherPageLayout';
+import PageHeader from '../../components/ui/PageHeader';
+import Card from '../../components/ui/Card';
+import EmptyState from '../../components/ui/EmptyState';
+import StatusBadge from '../../components/ui/StatusBadge';
 import ClassForm from '../../components/teachers/ClassForm';
 import AssessmentViewModal from '../../components/teachers/AssessmentViewModal';
 import { fetchAssessments, fetchTeacherClasses, generateAssessment, hasActiveSubscription, getTeacherLimits, createClass } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
-import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 // Map of syllabus to required tests
 const syllabusRequiredTests: Record<string, string[]> = {
   'Cambridge IGCSE': [
-    'End of Unit Test', 
-    'Mid-Term Assessment', 
-    'Mock Examination', 
+    'End of Unit Test',
+    'Mid-Term Assessment',
+    'Mock Examination',
     'Practical Assessment',
     'Final Examination'
   ],
@@ -61,14 +61,13 @@ const TeacherAssessmentsPage: React.FC = () => {
     assessments: 5,
     usedAssessments: 0
   });
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedAssessment, setSelectedAssessment] = useState<any | null>(null);
   const [selectedQuestions, setSelectedQuestions] = useState<any[]>([]);
   const [showViewModal, setShowViewModal] = useState(false);
   const [requiredTestsForSyllabus, setRequiredTestsForSyllabus] = useState<string[]>([]);
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
   // Form data for creating assessment
   const [formData, setFormData] = useState({
     title: '',
@@ -83,36 +82,36 @@ const TeacherAssessmentsPage: React.FC = () => {
 
   useEffect(() => {
     document.title = "Assessments | GreyEd Teachers";
-    
+
     // Redirect if not logged in
     if (!authLoading && !user) {
       navigate('/');
       return;
     }
-    
+
     const fetchData = async () => {
       if (!user) return;
-      
+
       try {
         setLoading(true);
         setError(null);
-        
+
         // Check subscription status
         const subscriptionActive = await hasActiveSubscription();
         setIsSubscribed(subscriptionActive);
-        
+
         // Get limits
         const userLimits = await getTeacherLimits(user.id);
         setLimits(userLimits);
-        
+
         // Fetch assessments from API
         const assessmentData = await fetchAssessments(user.id);
         setAssessments(assessmentData);
-        
+
         // Fetch classes from API
         const classData = await fetchTeacherClasses(user.id);
         setClasses(classData);
-        
+
         // If there's at least one class, pre-select it for the form
         if (classData.length > 0) {
           const firstClass = classData[0];
@@ -134,7 +133,7 @@ const TeacherAssessmentsPage: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     if (user) {
       fetchData();
     }
@@ -156,26 +155,25 @@ const TeacherAssessmentsPage: React.FC = () => {
     navigate('/');
   };
 
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
-  };
-
   // Toggle sidebar
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    try { localStorage.setItem('sidebarCollapsed', String(newState)); } catch { /* private browsing */ }
+    try {
+      localStorage.setItem('sidebarCollapsed', String(newState));
+    } catch {
+      /* private browsing */
+    }
   };
-  
+
   // Filter assessments by search term and status
   const filteredAssessments = assessments.filter(assessment => {
-    const matchesSearch = assessment.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = assessment.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           assessment.className.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === '' || assessment.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
-  
+
   // Format date
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-GB', {
@@ -184,11 +182,11 @@ const TeacherAssessmentsPage: React.FC = () => {
       day: 'numeric'
     });
   };
-  
+
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
+
     // If classId is 'new_class', show the class creation modal
     if (name === 'classId' && value === 'new_class') {
       setShowCreateClassModal(true);
@@ -219,7 +217,7 @@ const TeacherAssessmentsPage: React.FC = () => {
       }));
     }
   };
-  
+
   // Handle checkbox changes
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
@@ -228,34 +226,37 @@ const TeacherAssessmentsPage: React.FC = () => {
       [name]: checked
     });
   };
-  
+
   // Create assessment
   const handleCreateAssessment = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!user) return;
-    
+
+    // Clear previous errors
+    setFormErrors({});
+
     // Validate form
     if (!formData.title) {
-      alert('Please enter an assessment title');
+      setFormErrors(prev => ({ ...prev, title: 'Please enter an assessment title' }));
       return;
     }
-    
+
     if (!formData.classId) {
-      alert('Please select a class');
+      setFormErrors(prev => ({ ...prev, classId: 'Please select a class' }));
       return;
     }
-    
+
     // Check if the user is not subscribed and has no remaining assessments
     if (!isSubscribed && limits.assessments <= limits.usedAssessments) {
       setError("You've reached your limit of free assessments. Please upgrade to continue.");
       setShowCreateModal(false);
       return;
     }
-    
+
     setIsGenerating(true);
     setError(null);
-    
+
     try {
       // Generate the assessment via API
       const result = await generateAssessment({
@@ -268,7 +269,7 @@ const TeacherAssessmentsPage: React.FC = () => {
         topic: formData.topic,
         requiredTest: formData.requiredTest // Add the required test to the API call
       });
-      
+
       // Add the assessment to state
       const newAssessment = {
         id: result.assessment.id,
@@ -281,9 +282,9 @@ const TeacherAssessmentsPage: React.FC = () => {
         averageScore: null,
         submissionRate: `0/${classes.find(c => c.id === formData.classId)?.student_count || 0}`
       };
-      
+
       setAssessments([newAssessment, ...assessments]);
-      
+
       // Reset form and close modal
       setFormData({
         title: '',
@@ -296,7 +297,7 @@ const TeacherAssessmentsPage: React.FC = () => {
         requiredTest: ''
       });
       setShowCreateModal(false);
-      
+
       // Set selected assessment to view the new assessment
       setSelectedAssessment(newAssessment);
       setSelectedQuestions(result.questions);
@@ -307,7 +308,7 @@ const TeacherAssessmentsPage: React.FC = () => {
       setIsGenerating(false);
     }
   };
-  
+
   // Handle creating a new class
   const handleCreateClass = async (classData: {
     name: string;
@@ -316,10 +317,10 @@ const TeacherAssessmentsPage: React.FC = () => {
     description: string;
   }) => {
     if (!user) return;
-    
+
     try {
       setError(null);
-      
+
       // Create the class via API
       const newClass = await createClass({
         teacher_id: user.id,
@@ -328,43 +329,43 @@ const TeacherAssessmentsPage: React.FC = () => {
         grade: classData.grade,
         description: classData.description
       });
-      
+
       // Add the new class to state
       setClasses(prevClasses => [...prevClasses, newClass]);
-      
+
       // Select the new class in the form
       setFormData(prev => ({
         ...prev,
         classId: newClass.id
       }));
-      
+
       // Close the modal
       setShowCreateClassModal(false);
-      
+
       return newClass;
     } catch (err: any) {
       throw err; // Re-throw to be handled by the form component
     }
   };
-  
+
   // View assessment details
   const handleViewAssessment = async (assessment: any) => {
     try {
       setLoading(true);
-      
+
       // In a real app, we would fetch assessment details from the API
       // Simulating an API call to get assessment questions
       // Replace this with actual API call in production
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       // Set up questions for this assessment
       // This is normally where you'd fetch from the database
       const mockQuestions = generateMockQuestions(assessment.questionCount, assessment.title);
-      
+
       // Set the selected assessment and questions
       setSelectedAssessment(assessment);
       setSelectedQuestions(mockQuestions);
-      
+
       // Open the view modal
       setShowViewModal(true);
     } catch {
@@ -373,11 +374,11 @@ const TeacherAssessmentsPage: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
   // Generate mock questions for demo purposes
   const generateMockQuestions = (count: number, topic: string) => {
     const questions = [];
-    
+
     for (let i = 1; i <= count; i++) {
       let question = {
         id: `q-${i}`,
@@ -387,7 +388,7 @@ const TeacherAssessmentsPage: React.FC = () => {
         answer: '',
         explanation: `Explanation for question ${i} about ${topic}.`
       };
-      
+
       if (question.type === 'multiple-choice') {
         question.options = [
           'The first option related to the topic',
@@ -402,56 +403,34 @@ const TeacherAssessmentsPage: React.FC = () => {
       } else {
         question.answer = `The answer explains the main concept of ${topic} in detail.`;
       }
-      
+
       questions.push(question);
     }
-    
+
     return questions;
   };
-  
+
   // Save assessment changes
   const handleSaveAssessment = async (updatedAssessment: any, updatedQuestions: any[]) => {
     try {
       // In a real app, we would save the assessment to the API
       // Simulating an API call to save assessment
       await new Promise(resolve => setTimeout(resolve, 800));
-      
+
       // Update the assessment in state
-      setAssessments(assessments.map(a => 
+      setAssessments(assessments.map(a =>
         a.id === updatedAssessment.id ? {...a, ...updatedAssessment} : a
       ));
-      
+
       // Update the selected assessment
       setSelectedAssessment({...selectedAssessment, ...updatedAssessment});
       setSelectedQuestions(updatedQuestions);
-      
+
       return true;
     } catch {
       throw new Error('Failed to save assessment. Please try again.');
     }
   };
-
-  // Calculate sidebar class based on mobile status
-  const sidebarClass = `${
-    isMobile
-      ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
-      : 'fixed top-0 left-0 bottom-0 z-40'
-  } ${sidebarCollapsed ? 'w-16' : 'w-64'}`;
-
-  if (authLoading) {
-    return (
-      <LandingLayout disableSnapScroll={true}>
-        <NavBar sidebarCollapsed={sidebarCollapsed} />
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#f8f8f6]">
-          <div className="text-center">
-            <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
-            <p className="mt-4 text-black font-semibold">Loading...</p>
-          </div>
-        </div>
-        <Footer />
-      </LandingLayout>
-    );
-  }
 
   // Create assessment modal
   const CreateAssessmentModal = () => {
@@ -460,34 +439,35 @@ const TeacherAssessmentsPage: React.FC = () => {
         <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
           <div className="p-5 border-b border-gray-200 flex justify-between items-center">
             <h3 className="text-lg font-headline font-bold">Create Assessment</h3>
-            <button 
+            <button
               onClick={() => setShowCreateModal(false)}
               className="text-gray-400 hover:text-gray-500 touch-target"
             >
               <X size={20} />
             </button>
           </div>
-          
+
           <form onSubmit={handleCreateAssessment} className="p-5">
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Assessment Title</label>
               <input
                 type="text"
                 name="title"
-                className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary touch-target"
                 placeholder="e.g. End of Unit Physics Test"
                 value={formData.title}
                 onChange={handleInputChange}
                 required
               />
+              {formErrors.title && <p className="mt-1 text-xs text-error">{formErrors.title}</p>}
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Class</label>
               <div className="relative">
                 <select
                   name="classId"
-                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none pr-10 touch-target"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none pr-10 touch-target"
                   value={formData.classId}
                   onChange={handleInputChange}
                   required
@@ -498,7 +478,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                       {cls.name} ({cls.subject})
                     </option>
                   ))}
-                  <option value="new_class" className="font-medium text-greyed-blue">
+                  <option value="new_class" className="font-medium text-primary">
                     + Create New Class
                   </option>
                 </select>
@@ -508,10 +488,11 @@ const TeacherAssessmentsPage: React.FC = () => {
                   </svg>
                 </div>
               </div>
+              {formErrors.classId && <p className="mt-1 text-xs text-error">{formErrors.classId}</p>}
               {formData.classId === 'new_class' && (
                 <button
                   type="button"
-                  className="mt-2 inline-flex items-center text-sm text-greyed-blue hover:text-greyed-navy"
+                  className="mt-2 inline-flex items-center text-sm text-primary hover:text-primary"
                   onClick={() => setShowCreateClassModal(true)}
                 >
                   <PlusCircle size={14} className="mr-1" />
@@ -526,7 +507,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Required Test (from syllabus)</label>
                 <select
                   name="requiredTest"
-                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none touch-target"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none touch-target"
                   value={formData.requiredTest}
                   onChange={handleInputChange}
                 >
@@ -537,13 +518,13 @@ const TeacherAssessmentsPage: React.FC = () => {
                 </select>
               </div>
             )}
-            
+
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Assessment Type</label>
                 <select
                   name="assessmentType"
-                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none touch-target"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none touch-target"
                   value={formData.assessmentType}
                   onChange={handleInputChange}
                 >
@@ -557,7 +538,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty</label>
                 <select
                   name="difficulty"
-                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none touch-target"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none touch-target"
                   value={formData.difficulty}
                   onChange={handleInputChange}
                 >
@@ -568,12 +549,12 @@ const TeacherAssessmentsPage: React.FC = () => {
                 </select>
               </div>
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Number of Questions</label>
               <select
                 name="questionCount"
-                className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none touch-target"
                 value={formData.questionCount}
                 onChange={handleInputChange}
               >
@@ -585,19 +566,19 @@ const TeacherAssessmentsPage: React.FC = () => {
                 <option value="30">30 questions</option>
               </select>
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Topic/Content Area</label>
               <textarea
                 name="topic"
-                className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary touch-target"
                 rows={3}
                 placeholder="Describe what topics this assessment should cover..."
                 value={formData.topic}
                 onChange={handleInputChange}
               ></textarea>
             </div>
-            
+
             <div className="mb-4">
               <label className="flex items-center">
                 <input
@@ -610,7 +591,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 <span className="text-sm text-gray-700">Include answer key and grading rubric</span>
               </label>
             </div>
-            
+
             <div className="flex justify-end pt-4 border-t border-gray-200 gap-3">
               <button
                 type="button"
@@ -623,7 +604,7 @@ const TeacherAssessmentsPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isGenerating}
-                className={`px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center touch-target ${
+                className={`px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 flex items-center touch-target ${
                   isGenerating ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
@@ -647,311 +628,264 @@ const TeacherAssessmentsPage: React.FC = () => {
   };
 
   return (
-    <LandingLayout disableSnapScroll={true}>
-      <NavBar sidebarCollapsed={sidebarCollapsed} />
-      
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
-        {/* Mobile menu overlay */}
-        {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
-        )}
-        
-        {/* Left sidebar navigation */}
-        <div className={sidebarClass}>
-          <TeacherSidebar 
-            activePage="assessments" 
-            onLogout={handleLogout}
-            collapsed={sidebarCollapsed}
-            onToggleCollapse={toggleSidebar}
-          />
-
-          {/* Close button for mobile menu */}
-          {showMobileMenu && isMobile && (
-            <button 
-              onClick={() => setShowMobileMenu(false)}
-              className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
+    <TeacherPageLayout
+      activePage="assessments"
+      onLogout={handleLogout}
+      sidebarCollapsed={sidebarCollapsed}
+      onToggleSidebar={toggleSidebar}
+      loading={authLoading || (loading && !!user)}
+      loadingMessage="Loading your assessments..."
+    >
+      <PageHeader
+        title="Assessments"
+        subtitle="Create, manage, and grade assessments."
+        actions={
+          <>
+            <Link
+              to="/teachers/assessment-grading"
+              className="inline-flex items-center bg-primary/10 text-primary px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors"
             >
-              <X size={20} />
+              <Upload size={16} className="mr-2" />
+              <span className="hidden md:inline">AI Auto-Grading</span>
+              <span className="md:hidden">Auto-Grade</span>
+            </Link>
+
+            <button
+              onClick={() => navigate('/teachers/assessments/generate')}
+              className="inline-flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              <PlusCircle size={16} className="mr-2" />
+              <span className="hidden md:inline">Create Assessment</span>
+              <span className="md:hidden">Create</span>
             </button>
-          )}
+          </>
+        }
+      />
+
+      {error && (
+        <div className="bg-accent/20 border border-primary/20 text-text px-4 py-3 rounded-lg mb-6 flex items-start">
+          <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+          <span>{error}</span>
         </div>
-        
-        {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
-        }`}>
-          <main className="px-4 sm:px-6 lg:px-8">
-            {/* Action bar */}
-            <div className="flex items-center justify-end mb-2">
-              <button
-                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
+      )}
+
+      {!isSubscribed && (
+        <div className="bg-primary/10 border border-primary/30 text-primary px-4 py-3 rounded-lg mb-6">
+          <div className="flex items-start">
+            <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-medium">You're using the free version</p>
+              <p className="mt-1">You have {limits.assessments - limits.usedAssessments} free assessments remaining this month. Upgrade for unlimited assessments.</p>
+              <Link
+                to="/teachers/settings#subscription"
+                className="mt-2 inline-block bg-primary text-white px-4 py-1 rounded text-sm hover:bg-primary/90 transition-colors"
               >
-                <Menu size={20} />
-              </button>
-              <div className="flex gap-2">
-                <Link
-                  to="/teachers/assessment-grading"
-                  className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors"
-                >
-                  <Upload size={16} className="mr-2" />
-                  <span className="hidden md:inline">AI Auto-Grading</span>
-                  <span className="md:hidden">Auto-Grade</span>
-                </Link>
-
-                <button
-                  onClick={() => navigate('/teachers/assessments/generate')}
-                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
-                >
-                  <PlusCircle size={16} className="mr-2" />
-                  <span className="hidden md:inline">Create Assessment</span>
-                  <span className="md:hidden">Create</span>
-                </button>
-              </div>
+                Upgrade Now
+              </Link>
             </div>
-
-            {error && (
-              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            {!isSubscribed && (
-              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">You're using the free version</p>
-                    <p className="mt-1">You have {limits.assessments - limits.usedAssessments} free assessments remaining this month. Upgrade for unlimited assessments.</p>
-                    <Link
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            
-            {/* Search and filters */}
-            <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
-              <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
-                <div className="relative flex-1">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
-                    placeholder="Search assessments..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Filter className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <select
-                    className="pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
-                    value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value)}
-                  >
-                    <option value="">All Statuses</option>
-                    <option value="draft">Draft</option>
-                    <option value="published">Published</option>
-                    <option value="completed">Completed</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            
-            {/* Assessments list */}
-            {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader className="w-8 h-8 text-greyed-blue animate-spin" />
-              </div>
-            ) : filteredAssessments.length === 0 ? (
-              <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-                <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <FileText className="w-8 h-8 text-greyed-navy" />
-                </div>
-                <h2 className="text-xl font-headline font-semibold text-black mb-2">No assessments found</h2>
-                <p className="text-black/70 max-w-md mx-auto mb-6">
-                  {searchTerm || filterStatus 
-                    ? "Try adjusting your search or filters to see more results." 
-                    : "You haven't created any assessments yet. Create your first assessment to get started."}
-                </p>
-                {!searchTerm && !filterStatus && (
-                  <button 
-                    onClick={() => setShowCreateModal(true)}
-                    className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
-                  >
-                    <PlusCircle size={18} className="mr-2" />
-                    Create Your First Assessment
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead>
-                      <tr className="bg-greyed-navy/5">
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Assessment</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Class</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Created</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Status</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Submissions</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Avg. Score</th>
-                        <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-black uppercase tracking-wider">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {filteredAssessments.map((assessment) => (
-                        <tr key={assessment.id} className="hover:bg-greyed-navy/5">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="font-medium text-black hover:text-greyed-blue cursor-pointer" onClick={() => handleViewAssessment(assessment)}>
-                              {assessment.title}
-                            </div>
-                            <div className="text-xs text-black/60">{assessment.questionCount} questions</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-black">
-                            {assessment.className}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-black">
-                            {formatDate(assessment.created)}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              assessment.status === 'draft' 
-                                ? 'bg-gray-100 text-gray-800' 
-                                : assessment.status === 'published' 
-                                ? 'bg-green-100 text-green-800' 
-                                : assessment.status === 'completed' 
-                                ? 'bg-greyed-blue/20 text-greyed-navy'
-                                : ''
-                            }`}>
-                              {assessment.status === 'draft' && <Edit2 size={12} className="mr-1" />}
-                              {assessment.status === 'published' && <AlertCircle size={12} className="mr-1" />}
-                              {assessment.status === 'completed' && <CheckCircle size={12} className="mr-1" />}
-                              {assessment.status.charAt(0).toUpperCase() + assessment.status.slice(1)}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-black">
-                            {assessment.submissionRate}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-black">
-                            {assessment.averageScore !== null ? `${assessment.averageScore}%` : 'N/A'}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
-                            <div className="flex items-center justify-end space-x-2">
-                              <button 
-                                className="text-greyed-blue hover:text-greyed-navy p-1 rounded hover:bg-greyed-navy/5 transition-colors"
-                                onClick={() => handleViewAssessment(assessment)}
-                                title="View assessment"
-                              >
-                                <Eye size={18} />
-                              </button>
-                              
-                              {assessment.status === 'draft' && (
-                                <button 
-                                  className="text-greyed-blue hover:text-greyed-navy p-1 rounded hover:bg-greyed-navy/5 transition-colors"
-                                  onClick={() => handleViewAssessment(assessment)}
-                                  title="Edit assessment"
-                                >
-                                  <Edit2 size={18} />
-                                </button>
-                              )}
-                              
-                              <button 
-                                className="text-greyed-blue hover:text-greyed-navy p-1 rounded hover:bg-greyed-navy/5 transition-colors"
-                                onClick={() => handleViewAssessment(assessment)}
-                                title="Download assessment"
-                              >
-                                <Download size={18} />
-                              </button>
-                              
-                              {assessment.status === 'completed' && (
-                                <button 
-                                  className="text-greyed-blue hover:text-greyed-navy p-1 rounded hover:bg-greyed-navy/5 transition-colors"
-                                  onClick={() => handleViewAssessment(assessment)}
-                                  title="View results"
-                                >
-                                  <RefreshCw size={18} />
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-            
-            {/* Feature callout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              <div className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-greyed-blue relative overflow-hidden">
-                {!isSubscribed && (
-                  <div className="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 text-xs font-medium rounded-bl-md">
-                    Premium
-                  </div>
-                )}
-                <div className="flex items-start">
-                  <div className="mr-4 bg-greyed-blue/20 p-3 rounded-full">
-                    <Brain className="w-6 h-6 text-greyed-blue" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-black text-lg mb-3">AI Auto-Grading</h3>
-                    <p className="text-black/70 text-sm mb-4">
-                      Save hours of marking time with our intelligent auto-grading system. Works with multiple choice, short answer, and even long-form responses.
-                    </p>
-                    <Link to="/teachers/assessment-grading" className="px-3 py-1.5 bg-greyed-navy text-white rounded text-sm hover:bg-greyed-navy/90 transition-colors inline-flex items-center">
-                      <Upload size={14} className="mr-1" />
-                      Grade Assessments
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-greyed-beige">
-                <h3 className="font-medium text-black text-lg mb-3">Student Performance Insights</h3>
-                <p className="text-black/70 text-sm mb-4">
-                  Get detailed analytics on student performance, identify knowledge gaps, and automatically generate targeted intervention materials.
-                </p>
-                <Link to="/teachers/assessment-grading" className="px-3 py-1.5 bg-greyed-navy text-white rounded text-sm hover:bg-greyed-navy/90 transition-colors">
-                  View Sample Report
-                </Link>
-              </div>
-            </div>
-            
-            {/* Usage limit info */}
-            {!isSubscribed && (
-              <div className="mt-8 text-center text-sm text-black/60">
-                <p>You have {limits.assessments - limits.usedAssessments} out of 5 free assessments remaining this month.</p>
-                <p>Need unlimited assessments? <Link to="/teachers/settings#subscription" className="text-greyed-blue hover:underline">Upgrade your plan</Link></p>
-              </div>
-            )}
-          </main>
+          </div>
         </div>
+      )}
+
+
+      {/* Search and filters */}
+      <Card padding="sm" className="mb-6">
+        <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 p-1">
+          <div className="relative flex-1">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              placeholder="Search assessments..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Filter className="h-5 w-5 text-gray-400" />
+            </div>
+            <select
+              className="pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary appearance-none bg-white"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <option value="">All Statuses</option>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+      </Card>
+
+      {/* Assessments list */}
+      {filteredAssessments.length === 0 ? (
+        <Card>
+          <EmptyState
+            icon={FileText}
+            title="No assessments found"
+            description={
+              searchTerm || filterStatus
+                ? "Try adjusting your search or filters to see more results."
+                : "You haven't created any assessments yet. Create your first assessment to get started."
+            }
+            action={
+              !searchTerm && !filterStatus ? (
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="inline-flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                  <PlusCircle size={18} className="mr-2" />
+                  Create Your First Assessment
+                </button>
+              ) : undefined
+            }
+          />
+        </Card>
+      ) : (
+        <Card padding="none" variant="elevated">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr className="bg-primary/5">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-text uppercase tracking-wider">Assessment</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-text uppercase tracking-wider">Class</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-text uppercase tracking-wider">Created</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-text uppercase tracking-wider">Status</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-text uppercase tracking-wider">Submissions</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-text uppercase tracking-wider">Avg. Score</th>
+                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-text uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredAssessments.map((assessment) => (
+                  <tr key={assessment.id} className="hover:bg-primary/5">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="font-medium text-text hover:text-primary cursor-pointer" onClick={() => handleViewAssessment(assessment)}>
+                        {assessment.title}
+                      </div>
+                      <div className="text-xs text-text-muted">{assessment.questionCount} questions</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-text">
+                      {assessment.className}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-text">
+                      {formatDate(assessment.created)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <StatusBadge status={assessment.status} />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-text">
+                      {assessment.submissionRate}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-text">
+                      {assessment.averageScore !== null ? `${assessment.averageScore}%` : 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                      <div className="flex items-center justify-end space-x-2">
+                        <button
+                          className="text-primary hover:text-primary p-1 rounded hover:bg-primary/5 transition-colors"
+                          onClick={() => handleViewAssessment(assessment)}
+                          title="View assessment"
+                        >
+                          <Eye size={18} />
+                        </button>
+
+                        {assessment.status === 'draft' && (
+                          <button
+                            className="text-primary hover:text-primary p-1 rounded hover:bg-primary/5 transition-colors"
+                            onClick={() => handleViewAssessment(assessment)}
+                            title="Edit assessment"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                        )}
+
+                        <button
+                          className="text-primary hover:text-primary p-1 rounded hover:bg-primary/5 transition-colors"
+                          onClick={() => handleViewAssessment(assessment)}
+                          title="Download assessment"
+                        >
+                          <Download size={18} />
+                        </button>
+
+                        {assessment.status === 'completed' && (
+                          <button
+                            className="text-primary hover:text-primary p-1 rounded hover:bg-primary/5 transition-colors"
+                            onClick={() => handleViewAssessment(assessment)}
+                            title="View results"
+                          >
+                            <RefreshCw size={18} />
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
+
+      {/* Feature callout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <Card className="border-l-4 border-primary relative overflow-hidden">
+          {!isSubscribed && (
+            <div className="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 text-xs font-medium rounded-bl-md">
+              Premium
+            </div>
+          )}
+          <div className="flex items-start">
+            <div className="mr-4 bg-primary/10 p-3 rounded-full">
+              <Brain className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-medium text-text text-lg mb-3">AI Auto-Grading</h3>
+              <p className="text-text-muted text-sm mb-4">
+                Save hours of marking time with our intelligent auto-grading system. Works with multiple choice, short answer, and even long-form responses.
+              </p>
+              <Link to="/teachers/assessment-grading" className="px-3 py-1.5 bg-primary text-white rounded text-sm hover:bg-primary/90 transition-colors inline-flex items-center">
+                <Upload size={14} className="mr-1" />
+                Grade Assessments
+              </Link>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="border-l-4 border-accent">
+          <h3 className="font-medium text-text text-lg mb-3">Student Performance Insights</h3>
+          <p className="text-text-muted text-sm mb-4">
+            Get detailed analytics on student performance, identify knowledge gaps, and automatically generate targeted intervention materials.
+          </p>
+          <Link to="/teachers/assessment-grading" className="px-3 py-1.5 bg-primary text-white rounded text-sm hover:bg-primary/90 transition-colors">
+            View Sample Report
+          </Link>
+        </Card>
       </div>
-      
+
+      {/* Usage limit info */}
+      {!isSubscribed && (
+        <div className="mt-8 text-center text-sm text-text-muted">
+          <p>You have {limits.assessments - limits.usedAssessments} out of 5 free assessments remaining this month.</p>
+          <p>Need unlimited assessments? <Link to="/teachers/settings#subscription" className="text-primary hover:underline">Upgrade your plan</Link></p>
+        </div>
+      )}
+
       {/* Create Assessment Modal */}
       {showCreateModal && <CreateAssessmentModal />}
-      
+
       {/* Create Class Modal */}
       <ClassForm
         isOpen={showCreateClassModal}
         onClose={() => setShowCreateClassModal(false)}
         onSubmit={handleCreateClass}
       />
-      
+
       {/* View/Edit Assessment Modal */}
       {selectedAssessment && (
         <AssessmentViewModal
@@ -963,7 +897,7 @@ const TeacherAssessmentsPage: React.FC = () => {
           readOnly={selectedAssessment.status === 'completed'}
         />
       )}
-    </LandingLayout>
+    </TeacherPageLayout>
   );
 };
 

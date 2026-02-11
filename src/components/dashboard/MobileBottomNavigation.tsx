@@ -25,8 +25,8 @@ const MobileBottomNavigation: React.FC<MobileBottomNavigationProps> = ({
         {mobileBottomNavItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.path);
-          const activeColor = item.special ? 'text-greyed-blue' : 'text-greyed-navy';
-          const indicatorColor = item.special ? 'bg-greyed-blue' : 'bg-greyed-navy';
+          const activeColor = item.special ? 'text-accent' : 'text-primary';
+          const indicatorColor = item.special ? 'bg-accent' : 'bg-primary';
 
           return (
             <Link

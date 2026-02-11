@@ -12,6 +12,7 @@ import {
   Loader,
   X
 } from 'lucide-react';
+import ConfirmDialog from '../ui/ConfirmDialog';
 import { supabase } from '../../lib/supabase';
 import { format } from 'date-fns';
 
@@ -43,6 +44,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
+  const [docToDelete, setDocToDelete] = useState<{ id: string; path: string } | null>(null);
 
   // Fetch documents on component mount
   useEffect(() => {
@@ -210,10 +212,14 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
   };
 
   // Delete a document
-  const handleDelete = async (documentId: string, documentPath: string) => {
-    if (!window.confirm('Are you sure you want to delete this document?')) {
-      return;
-    }
+  const handleDeleteClick = (documentId: string, documentPath: string) => {
+    setDocToDelete({ id: documentId, path: documentPath });
+  };
+
+  const handleDelete = async () => {
+    if (!docToDelete) return;
+    const { id: documentId, path: documentPath } = docToDelete;
+    setDocToDelete(null);
 
     try {
       setError(null);
@@ -416,7 +422,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                         <Download size={16} />
                       </a>
                       <button 
-                        onClick={() => handleDelete(doc.id, doc.path)}
+                        onClick={() => handleDeleteClick(doc.id, doc.path)}
                         className="p-1 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
                         title="Delete"
                       >
@@ -614,6 +620,15 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
           </div>
         </div>
       )}
+      <ConfirmDialog
+        isOpen={!!docToDelete}
+        title="Delete Document"
+        message="Are you sure you want to delete this document? This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={handleDelete}
+        onCancel={() => setDocToDelete(null)}
+      />
     </div>
   );
 };

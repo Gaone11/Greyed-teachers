@@ -243,11 +243,11 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
   return (
     <div className={`flex flex-col h-full ${className}`}>
       {/* Chat Messages - Full screen optimized */}
-      <div className="flex-1 overflow-y-auto px-3 md:px-4 py-4 md:py-6 bg-greyed-beige/5">
+      <div className="flex-1 overflow-y-auto px-3 md:px-4 py-4 md:py-6 bg-surface-muted">
         <div className="max-w-4xl mx-auto space-y-4 md:space-y-6">
           {loadingMessages ? (
             <div className="flex items-center justify-center py-12">
-              <div className="w-6 h-6 border-2 border-greyed-blue/30 border-t-greyed-blue rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
             </div>
           ) : (
           <>
@@ -257,8 +257,8 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-full bg-greyed-blue/20 flex items-center justify-center mr-2 flex-shrink-0 self-end mb-2">
-                  <Snowflake size={16} className="text-greyed-navy" />
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2 flex-shrink-0 self-end mb-2">
+                  <Snowflake size={16} className="text-primary" />
                 </div>
               )}
               
@@ -266,20 +266,20 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                 className={`
                   max-w-[85%] md:max-w-[80%] rounded-2xl p-3 md:p-4
                   ${message.role === 'user'
-                    ? 'bg-greyed-navy text-white'
-                    : 'bg-white border border-gray-200 shadow-sm text-black'}
+                    ? 'bg-primary text-white'
+                    : 'bg-white border border-gray-200 shadow-sm text-text'}
                 `}
               >
                 {formatMessageContent(message.content)}
                 <div className="text-right mt-1">
-                  <span className={`text-xs ${message.role === 'user' ? 'text-white/60' : 'text-black/60'}`}>
+                  <span className={`text-xs ${message.role === 'user' ? 'text-white/60' : 'text-text-muted'}`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
               </div>
               
               {message.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-greyed-navy/80 flex items-center justify-center ml-2 flex-shrink-0 self-end mb-2">
+                <div className="w-8 h-8 rounded-full bg-primary/80 flex items-center justify-center ml-2 flex-shrink-0 self-end mb-2">
                   <span className="text-xs font-medium text-white">You</span>
                 </div>
               )}
@@ -288,14 +288,14 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
           
           {isTyping && (
             <div className="flex justify-start">
-              <div className="w-8 h-8 rounded-full bg-greyed-blue/20 flex items-center justify-center mr-2 flex-shrink-0 self-end mb-2">
-                <Snowflake size={16} className="text-greyed-navy" />
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2 flex-shrink-0 self-end mb-2">
+                <Snowflake size={16} className="text-primary" />
               </div>
               <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm">
                 <div className="flex space-x-2">
-                  <div className="h-2 w-2 bg-greyed-blue/50 rounded-full animate-bounce"></div>
-                  <div className="h-2 w-2 bg-greyed-blue/50 rounded-full animate-bounce delay-100"></div>
-                  <div className="h-2 w-2 bg-greyed-blue/50 rounded-full animate-bounce delay-200"></div>
+                  <div className="h-2 w-2 bg-primary/50 rounded-full animate-bounce"></div>
+                  <div className="h-2 w-2 bg-primary/50 rounded-full animate-bounce delay-100"></div>
+                  <div className="h-2 w-2 bg-primary/50 rounded-full animate-bounce delay-200"></div>
                 </div>
               </div>
             </div>
@@ -312,8 +312,8 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
         {messages.length === 1 && (
           <div className="absolute inset-x-0 bottom-24 md:bottom-28 px-3 md:px-4 pointer-events-none">
             <div className="max-w-4xl mx-auto pointer-events-auto">
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-lg border border-greyed-navy/10">
-                <h3 className="text-xs md:text-sm font-medium text-greyed-navy mb-2">Try asking:</h3>
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-lg border border-premium-neutral-200">
+                <h3 className="text-xs md:text-sm font-medium text-primary mb-2">Try asking:</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {suggestedQuestions.map((question, index) => (
                     <button
@@ -327,9 +327,9 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                           }
                         }, 0);
                       }}
-                      className="text-xs md:text-sm bg-greyed-navy/5 hover:bg-greyed-navy/10 text-black text-left px-3 py-2 rounded-lg transition-colors flex items-start"
+                      className="text-xs md:text-sm bg-primary/5 hover:bg-primary/10 text-black text-left px-3 py-2 rounded-lg transition-colors flex items-start"
                     >
-                      <Zap size={14} className="mr-2 mt-1 text-greyed-blue flex-shrink-0" />
+                      <Zap size={14} className="mr-2 mt-1 text-primary flex-shrink-0" />
                       <span>{question}</span>
                     </button>
                   ))}
@@ -340,7 +340,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
         )}
 
         <form onSubmit={handleSubmitMessage} className="max-w-4xl mx-auto">
-          <div className="relative bg-white shadow-sm rounded-lg border border-gray-300 focus-within:border-greyed-blue focus-within:ring-2 focus-within:ring-greyed-blue/50">
+          <div className="relative bg-white shadow-sm rounded-lg border border-gray-300 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/50">
             <textarea
               ref={inputRef}
               value={inputText}
@@ -359,7 +359,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                 className={`p-2 rounded-lg ${
                   !inputText.trim() || isTyping
                     ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-greyed-navy hover:bg-greyed-navy/10'
+                    : 'text-primary hover:bg-primary/10'
                 } transition-colors`}
                 title={inputText.trim() ? "Send message" : "Enter a message"}
               >

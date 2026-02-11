@@ -39,16 +39,16 @@ const TeacherPageLayout: React.FC<TeacherPageLayoutProps> = ({
     return (
       <LandingLayout disableSnapScroll={true}>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#f8f8f6]">
+        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-muted">
           <div className="text-center animate-fade-in">
             <div className="relative">
-              <div className="w-20 h-20 rounded-2xl bg-[#1B4332] mx-auto flex items-center justify-center shadow-sm animate-pulse">
+              <div className="w-20 h-20 rounded-2xl bg-primary mx-auto flex items-center justify-center shadow-sm animate-pulse">
                 <LoaderIcon className="w-10 h-10 text-white animate-spin" />
               </div>
-              <div className="absolute inset-0 rounded-2xl bg-[#D4A843]/20 blur-2xl animate-pulse"></div>
+              <div className="absolute inset-0 rounded-2xl bg-accent/20 blur-2xl animate-pulse"></div>
             </div>
-            <p className="mt-6 text-[#1B4332] font-bold text-base">{loadingMessage}</p>
-            <p className="mt-2 text-[#292828] text-opacity-70 text-sm">Just a moment</p>
+            <p className="mt-6 text-primary font-bold text-base">{loadingMessage}</p>
+            <p className="mt-2 text-text-muted text-opacity-70 text-sm">Just a moment</p>
           </div>
         </div>
         <Footer />
@@ -60,7 +60,7 @@ const TeacherPageLayout: React.FC<TeacherPageLayoutProps> = ({
     <LandingLayout disableSnapScroll={true}>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-16 bg-surface-muted flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
@@ -86,7 +86,7 @@ const TeacherPageLayout: React.FC<TeacherPageLayoutProps> = ({
           {showMobileMenu && isMobile && (
             <button
               onClick={() => setShowMobileMenu(false)}
-              className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
+              className="absolute top-4 right-4 p-2 text-white bg-primary/50 rounded-full"
             >
               <X size={20} />
             </button>

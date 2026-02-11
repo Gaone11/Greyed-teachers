@@ -25,6 +25,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [sendSuccess, setSendSuccess] = useState(false);
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   
@@ -168,7 +169,8 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
     // In a real app, generate and download a PDF
     // For this demo, we'll just show an alert
     
-    alert('In a production environment, this would download a PDF version of the family update.');
+    setInfoMessage('PDF download coming soon. This feature will be available in a future update.');
+    setTimeout(() => setInfoMessage(null), 3000);
   };
   
   // If rendered as a standalone page

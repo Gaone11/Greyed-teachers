@@ -108,7 +108,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
     <>
       {/* Sidebar panel — inline push on desktop, overlay on mobile */}
       <div
-        className={`bg-greyed-navy flex flex-col transition-all duration-300 ease-in-out ${
+        className={`bg-primary flex flex-col transition-all duration-300 ease-in-out ${
           isMobile
             ? `fixed inset-y-0 left-0 w-72 z-50 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
             : `flex-shrink-0 ${isOpen ? 'w-72' : 'w-0'} overflow-hidden`
@@ -120,7 +120,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
         <div className="p-4 border-b border-white/10">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-greyed-blue/30 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-accent/30 flex items-center justify-center">
                 <Snowflake size={16} className="text-white" />
               </div>
               <span className="font-headline font-semibold text-white text-sm">Siyafunda AI</span>
@@ -234,11 +234,11 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
       {!isOpen && !isMobile && (
         <button
           onClick={onToggle}
-          className="flex-shrink-0 w-10 bg-greyed-navy flex flex-col items-center justify-start pt-4 gap-3 hover:bg-greyed-navy/90 transition-colors"
+          className="flex-shrink-0 w-10 bg-primary flex flex-col items-center justify-start pt-4 gap-3 hover:bg-primary/90 transition-colors"
           title="Expand sidebar"
         >
           <PanelLeftOpen size={18} className="text-white/70" />
-          <div className="w-6 h-6 rounded-full bg-greyed-blue/30 flex items-center justify-center">
+          <div className="w-6 h-6 rounded-full bg-accent/30 flex items-center justify-center">
             <Snowflake size={12} className="text-white" />
           </div>
         </button>

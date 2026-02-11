@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, CreditCard as Edit2, Download, Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, PenTool, FileText } from 'lucide-react';
+import ConfirmDialog from '../ui/ConfirmDialog';
 import { saveAs } from 'file-saver';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, BorderStyle, WidthType } from 'docx';
 
@@ -36,6 +37,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
   const [assessmentData, setAssessmentData] = useState(assessment);
   const [questions, setQuestions] = useState<AssessmentQuestion[]>(initialQuestions || []);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(null);
+  const [questionToDelete, setQuestionToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     // Reset the state when the modal is opened with a new assessment
@@ -119,9 +121,14 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
   };
 
   const removeQuestion = (index: number) => {
-    if (window.confirm('Are you sure you want to delete this question?')) {
-      setQuestions(questions.filter((_, i) => i !== index));
+    setQuestionToDelete(index);
+  };
+
+  const confirmRemoveQuestion = () => {
+    if (questionToDelete !== null) {
+      setQuestions(questions.filter((_, i) => i !== questionToDelete));
       setActiveQuestionIndex(null);
+      setQuestionToDelete(null);
     }
   };
 
@@ -233,9 +240,9 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
   };
   
   const downloadAsPDF = () => {
-    // In a real implementation, this would convert to PDF
-    // For this demo, we'll just alert that this would be a PDF
-    alert('In a production environment, this would generate a PDF version of the assessment.');
+    // PDF generation placeholder - will be implemented with a proper PDF library
+    setSuccess('PDF export coming soon. Please use DOCX download for now.');
+    setTimeout(() => setSuccess(null), 3000);
   };
 
   const downloadAsText = () => {
@@ -686,6 +693,15 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
           )}
         </div>
       </div>
+      <ConfirmDialog
+        isOpen={questionToDelete !== null}
+        title="Delete Question"
+        message="Are you sure you want to delete this question?"
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={confirmRemoveQuestion}
+        onCancel={() => setQuestionToDelete(null)}
+      />
     </div>
   );
 };

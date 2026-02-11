@@ -192,12 +192,12 @@ export default function TeacherAssessmentGeneratorPage() {
     e.preventDefault();
     
     if (!formData.classId || !formData.selectedSubject || !formData.selectedTopic) {
-      alert('Please fill in all required fields');
+      setError('Please fill in all required fields');
       return;
     }
 
     if (!hasAccess && limits.used >= limits.assessments) {
-      alert('You have reached your assessment limit. Please upgrade to continue.');
+      setError('You have reached your assessment limit. Please upgrade to continue.');
       return;
     }
 

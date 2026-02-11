@@ -101,7 +101,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       {(!isCollapsed || isMobile) && (
         <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-4 px-4 pb-4'} border-b border-premium-neutral-200`}>
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-light shadow-premium">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -111,7 +111,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
             {!isMobile && (
               <button
                 onClick={handleToggleCollapse}
-                className="text-premium-navy hover:text-greyed-navy transition-colors duration-300"
+                className="text-premium-navy hover:text-primary transition-colors duration-300"
                 title="Collapse sidebar"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -123,12 +123,12 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
       {isCollapsed && !isMobile && (
         <div className="pt-4 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-light shadow-premium">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <button
             onClick={handleToggleCollapse}
-            className="text-premium-navy hover:text-greyed-navy transition-colors duration-300"
+            className="text-premium-navy hover:text-primary transition-colors duration-300"
             title="Expand sidebar"
           >
             <ChevronRight className="w-5 h-5" />
@@ -149,22 +149,22 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
               onClick={handleLinkClick}
               className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
                 isActive
-                  ? 'bg-gradient-to-r from-greyed-blue/10 to-transparent border-l-4 border-greyed-navy shadow-sm'
+                  ? 'bg-gradient-to-r from-primary/10 to-transparent border-l-4 border-primary shadow-sm'
                   : 'hover:bg-premium-neutral-50 active:bg-premium-neutral-100 border-l-4 border-transparent'
               } animate-slide-up touch-manipulation`}
               style={{ animationDelay: `${index * 50}ms` }}
               title={isCollapsed && !isMobile ? item.label : undefined}
             >
               <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-                <Icon className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${isActive ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
+                <Icon className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${isActive ? 'text-primary' : 'text-premium-neutral-600 group-hover:text-primary'} transition-colors duration-200`} />
                 {item.special && (
-                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-greyed-beige rounded-full border-2 border-white animate-pulse shadow-sm"></div>
+                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-accent rounded-full border-2 border-white animate-pulse shadow-sm"></div>
                 )}
               </div>
 
               {(!isCollapsed || isMobile) && (
                 <div className="flex-1 min-w-0">
-                  <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} ${isActive ? 'text-greyed-navy' : 'text-premium-neutral-700 group-hover:text-greyed-navy'} transition-colors duration-200 truncate block`}>
+                  <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} ${isActive ? 'text-primary' : 'text-premium-neutral-700 group-hover:text-primary'} transition-colors duration-200 truncate block`}>
                     {item.label}
                   </span>
                 </div>
@@ -182,16 +182,16 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
           onClick={handleLinkClick}
           className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
             activePage === 'settings'
-              ? 'bg-gradient-to-r from-greyed-blue/10 to-transparent border-l-4 border-greyed-navy shadow-sm'
+              ? 'bg-gradient-to-r from-primary/10 to-transparent border-l-4 border-primary shadow-sm'
               : 'hover:bg-premium-neutral-50 active:bg-premium-neutral-100 border-l-4 border-transparent'
           } touch-manipulation`}
           title={isCollapsed && !isMobile ? "Settings" : undefined}
         >
           <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-            <Settings className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${activePage === 'settings' ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
+            <Settings className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${activePage === 'settings' ? 'text-primary' : 'text-premium-neutral-600 group-hover:text-primary'} transition-colors duration-200`} />
           </div>
           {(!isCollapsed || isMobile) && (
-            <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} ${activePage === 'settings' ? 'text-greyed-navy' : 'text-premium-neutral-700 group-hover:text-greyed-navy'} transition-colors duration-200 truncate block`}>
+            <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} ${activePage === 'settings' ? 'text-primary' : 'text-premium-neutral-700 group-hover:text-primary'} transition-colors duration-200 truncate block`}>
               Settings
             </span>
           )}
@@ -202,14 +202,14 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       <div className={`${isMobile ? 'p-4' : 'p-3'} border-t border-premium-neutral-200`}>
         <button
           onClick={onLogout}
-          className={`group w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg bg-greyed-navy/5 hover:bg-greyed-navy/10 active:bg-greyed-navy/15 border border-greyed-navy/10 hover:border-greyed-navy/20 transition-all duration-300 hover:shadow-sm touch-manipulation`}
+          className={`group w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg bg-primary/5 hover:bg-primary/10 active:bg-primary/15 border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:shadow-sm touch-manipulation`}
           title={isCollapsed && !isMobile ? "Logout" : undefined}
         >
           <div className={`flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-            <LogOut className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} text-greyed-navy transition-colors duration-200`} />
+            <LogOut className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} text-primary transition-colors duration-200`} />
           </div>
           {(!isCollapsed || isMobile) && (
-            <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} text-greyed-navy transition-colors duration-200`}>
+            <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-sm'} text-primary transition-colors duration-200`}>
               Logout
             </span>
           )}

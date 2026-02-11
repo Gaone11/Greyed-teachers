@@ -68,14 +68,14 @@ const ElAIAssistantPage: React.FC = () => {
 
   if (authLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-greyed-white">
-        <Loader className="w-12 h-12 text-greyed-blue animate-spin" />
+      <div className="h-screen flex items-center justify-center bg-surface-white">
+        <Loader className="w-12 h-12 text-primary animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex bg-greyed-beige/5">
+    <div className="h-screen flex bg-surface-muted">
       {/* AI Sidebar with chat history - push layout */}
       {user && (
         <ElAISidebar
@@ -92,12 +92,12 @@ const ElAIAssistantPage: React.FC = () => {
       {/* Chat container - takes remaining space */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Minimal top bar */}
-        <div className="bg-white border-b border-greyed-navy/10 p-3 flex items-center">
-          <div className="w-8 h-8 rounded-full bg-greyed-blue/20 flex items-center justify-center mr-2">
-            <Snowflake size={18} className="text-greyed-navy" />
+        <div className="bg-white border-b border-premium-neutral-200 p-3 flex items-center">
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+            <Snowflake size={18} className="text-primary" />
           </div>
           <div className="flex-1">
-            <h2 className="font-headline font-semibold text-black text-sm">Siyafunda AI Teacher Assistant</h2>
+            <h2 className="font-headline font-semibold text-text text-sm">Siyafunda AI Teacher Assistant</h2>
           </div>
         </div>
 
