@@ -56,10 +56,10 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-greyed-white snap-start">
+    <section className="py-16 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-headline font-bold mb-8 text-greyed-navy text-center">
+          <h2 className="text-2xl md:text-3xl font-headline font-bold mb-8 text-primary text-center">
             Send us a message
           </h2>
           
@@ -80,14 +80,14 @@ const ContactForm: React.FC = () => {
               
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="name" className="block text-primary font-medium mb-1 text-sm">
                     Your Name
                   </label>
                   <input
                     id="name"
                     type="text"
                     {...register("name")}
-                    className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="John Doe"
                     aria-invalid={errors.name ? "true" : "false"}
                   />
@@ -99,14 +99,14 @@ const ContactForm: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="email" className="block text-primary font-medium mb-1 text-sm">
                     Email Address
                   </label>
                   <input
                     id="email"
                     type="email"
                     {...register("email")}
-                    className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="your.email@example.com"
                     aria-invalid={errors.email ? "true" : "false"}
                   />
@@ -118,14 +118,14 @@ const ContactForm: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="subject" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="subject" className="block text-primary font-medium mb-1 text-sm">
                     Subject
                   </label>
                   <input
                     id="subject"
                     type="text"
                     {...register("subject")}
-                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="How can we help you?"
                     aria-invalid={errors.subject ? "true" : "false"}
                   />
@@ -137,14 +137,14 @@ const ContactForm: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="message" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="message" className="block text-primary font-medium mb-1 text-sm">
                     Message
                   </label>
                   <textarea
                     id="message"
                     {...register("message")}
                     rows={5}
-                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="Tell us more about your inquiry..."
                     aria-invalid={errors.message ? "true" : "false"}
                   ></textarea>
@@ -159,16 +159,16 @@ const ContactForm: React.FC = () => {
                   type="submit"
                   disabled={isSubmitting || !isValid}
                   aria-disabled={isSubmitting || !isValid}
-                  className={`w-full bg-greyed-navy text-greyed-white py-3 rounded-lg font-medium transition-colors ${
+                  className={`w-full bg-primary text-surface-white py-3 rounded-lg font-medium transition-colors ${
                     isSubmitting || !isValid 
                       ? 'opacity-60 cursor-not-allowed' 
-                      : 'hover:bg-greyed-navy/90'
+                      : 'hover:bg-primary/90'
                   }`}
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
                 
-                <p className="text-greyed-black/60 text-sm mt-4 text-center">
+                <p className="text-text/60 text-sm mt-4 text-center">
                   We'll never share your information with third parties.
                 </p>
               </form>
@@ -184,14 +184,14 @@ const ContactForm: React.FC = () => {
               
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="name" className="block text-primary font-medium mb-1 text-sm">
                     Your Name
                   </label>
                   <input
                     id="name"
                     type="text"
                     {...register("name")}
-                    className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="John Doe"
                     aria-invalid={errors.name ? "true" : "false"}
                   />
@@ -203,14 +203,14 @@ const ContactForm: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="email" className="block text-primary font-medium mb-1 text-sm">
                     Email Address
                   </label>
                   <input
                     id="email"
                     type="email"
                     {...register("email")}
-                    className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="your.email@example.com"
                     aria-invalid={errors.email ? "true" : "false"}
                   />
@@ -222,14 +222,14 @@ const ContactForm: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="subject" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="subject" className="block text-primary font-medium mb-1 text-sm">
                     Subject
                   </label>
                   <input
                     id="subject"
                     type="text"
                     {...register("subject")}
-                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="How can we help you?"
                     aria-invalid={errors.subject ? "true" : "false"}
                   />
@@ -241,14 +241,14 @@ const ContactForm: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="message" className="block text-greyed-navy font-medium mb-1 text-sm">
+                  <label htmlFor="message" className="block text-primary font-medium mb-1 text-sm">
                     Message
                   </label>
                   <textarea
                     id="message"
                     {...register("message")}
                     rows={5}
-                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                     placeholder="Tell us more about your inquiry..."
                     aria-invalid={errors.message ? "true" : "false"}
                   ></textarea>
@@ -263,16 +263,16 @@ const ContactForm: React.FC = () => {
                   type="submit"
                   disabled={isSubmitting || !isValid}
                   aria-disabled={isSubmitting || !isValid}
-                  className={`w-full bg-greyed-navy text-greyed-white py-3 rounded-lg font-medium transition-colors ${
+                  className={`w-full bg-primary text-surface-white py-3 rounded-lg font-medium transition-colors ${
                     isSubmitting || !isValid 
                       ? 'opacity-60 cursor-not-allowed' 
-                      : 'hover:bg-greyed-navy/90'
+                      : 'hover:bg-primary/90'
                   }`}
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
                 
-                <p className="text-greyed-black/60 text-sm mt-4 text-center">
+                <p className="text-text/60 text-sm mt-4 text-center">
                   We'll never share your information with third parties.
                 </p>
               </form>

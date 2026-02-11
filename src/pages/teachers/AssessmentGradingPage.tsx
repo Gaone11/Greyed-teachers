@@ -573,7 +573,7 @@ const AssessmentGradingPage: React.FC = () => {
 
                       {/* AI Processing Options */}
                       {selectedFile && (
-                        <div className="bg-greyed-beige/10 rounded-lg p-5 mb-6 border border-premium-neutral-200">
+                        <div className="bg-surface/10 rounded-lg p-5 mb-6 border border-premium-neutral-200">
                           <h3 className="font-medium text-primary mb-4 flex items-center">
                             <Brain className="w-5 h-5 mr-2 text-primary" />
                             AI Processing Options
@@ -769,7 +769,7 @@ const AssessmentGradingPage: React.FC = () => {
                       </div>
 
                       {/* Recommendations */}
-                      <div className="mt-6 bg-greyed-beige/10 p-5 rounded-lg border-l-4 border-primary">
+                      <div className="mt-6 bg-surface/10 p-5 rounded-lg border-l-4 border-primary">
                         <h3 className="font-medium text-primary mb-2">Teaching Recommendations</h3>
                         <p className="text-sm text-primary/80 mb-4">
                           Based on the assessment results, El AI recommends:

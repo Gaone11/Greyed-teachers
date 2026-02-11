@@ -156,22 +156,22 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
   return (
     <div>
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <BookOpen className="w-8 h-8 text-greyed-navy" />
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <BookOpen className="w-8 h-8 text-primary" />
         </div>
         
-        <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2">
           Learning Style Assessment
         </h2>
         
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           Let's discover how you learn most effectively.
         </p>
       </div>
       
       {/* Part A: Primary Learning Style */}
       <div className="mb-8">
-        <h3 className="text-lg font-medium text-greyed-navy mb-3">
+        <h3 className="text-lg font-medium text-primary mb-3">
           I learn best when...
         </h3>
         
@@ -181,8 +181,8 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
               key={style.id}
               className={`relative p-4 border-2 rounded-lg cursor-pointer transition-all ${
                 primaryStyle === style.id
-                  ? 'border-greyed-blue bg-greyed-blue/10' 
-                  : 'border-greyed-navy/20 hover:border-greyed-navy/40'
+                  ? 'border-accent bg-accent/10' 
+                  : 'border-primary/20 hover:border-primary/40'
               }`}
             >
               <input
@@ -194,17 +194,17 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
                 onChange={() => handlePrimaryStyleChange(style.id)}
               />
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-greyed-blue/20 rounded-full flex items-center justify-center mr-3 text-greyed-navy">
+                <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center mr-3 text-primary">
                   {style.icon}
                 </div>
                 <div>
-                  <div className="font-medium text-greyed-navy">{style.label}</div>
-                  <p className="text-sm text-greyed-navy/70 mt-1">{style.description}</p>
+                  <div className="font-medium text-primary">{style.label}</div>
+                  <p className="text-sm text-primary/70 mt-1">{style.description}</p>
                 </div>
               </div>
               
               {primaryStyle === style.id && (
-                <div className="absolute top-2 right-2 w-4 h-4 bg-greyed-blue rounded-full"></div>
+                <div className="absolute top-2 right-2 w-4 h-4 bg-accent rounded-full"></div>
               )}
             </label>
           ))}
@@ -213,11 +213,11 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
       
       {/* Part B: Ranked Preferences */}
       <div className="mb-8">
-        <h3 className="text-lg font-medium text-greyed-navy mb-3">
+        <h3 className="text-lg font-medium text-primary mb-3">
           Rank your learning preferences (drag to reorder)
         </h3>
         
-        <div className="bg-greyed-white/50 p-4 rounded-lg">
+        <div className="bg-surface-white/50 p-4 rounded-lg">
           {/* Available styles to rank */}
           <div className="flex flex-wrap gap-2 mb-4">
             {learningStyleOptions
@@ -227,12 +227,12 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
                   key={style.id}
                   draggable
                   onDragStart={() => handleDragStart(style.id)}
-                  className="bg-white px-3 py-2 rounded-lg border border-greyed-navy/20 cursor-grab flex items-center"
+                  className="bg-white px-3 py-2 rounded-lg border border-primary/20 cursor-grab flex items-center"
                 >
-                  <div className="w-6 h-6 bg-greyed-blue/20 rounded-full flex items-center justify-center mr-2 text-greyed-navy">
+                  <div className="w-6 h-6 bg-accent/20 rounded-full flex items-center justify-center mr-2 text-primary">
                     {style.icon}
                   </div>
-                  <span className="text-sm font-medium text-greyed-navy">{style.label}</span>
+                  <span className="text-sm font-medium text-primary">{style.label}</span>
                 </div>
               ))}
           </div>
@@ -250,20 +250,20 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
                     draggable
                     onDragStart={() => handleDragStart(styleId)}
                     onDragOver={e => handleDragOver(e, index)}
-                    className="bg-white px-3 py-3 rounded-lg border border-greyed-navy/20 cursor-grab flex items-center"
+                    className="bg-white px-3 py-3 rounded-lg border border-primary/20 cursor-grab flex items-center"
                   >
-                    <div className="w-6 h-6 bg-greyed-blue rounded-full flex items-center justify-center mr-3 text-greyed-navy">
+                    <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center mr-3 text-primary">
                       {index + 1}
                     </div>
-                    <div className="w-6 h-6 bg-greyed-blue/20 rounded-full flex items-center justify-center mr-2 text-greyed-navy">
+                    <div className="w-6 h-6 bg-accent/20 rounded-full flex items-center justify-center mr-2 text-primary">
                       {style.icon}
                     </div>
-                    <span className="font-medium text-greyed-navy">{style.label}</span>
+                    <span className="font-medium text-primary">{style.label}</span>
                   </div>
                 );
               })
             ) : (
-              <p className="text-sm text-greyed-navy/60 text-center py-4">
+              <p className="text-sm text-primary/60 text-center py-4">
                 Drag learning styles here to rank them in your order of preference
               </p>
             )}
@@ -273,14 +273,14 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
       
       {/* Part C: Scenario-based questions */}
       <div>
-        <h3 className="text-lg font-medium text-greyed-navy mb-3">
+        <h3 className="text-lg font-medium text-primary mb-3">
           Learning Scenarios
         </h3>
         
         <div className="space-y-6">
           {scenarios.map(scenario => (
-            <div key={scenario.id} className="bg-greyed-white/50 p-4 rounded-lg">
-              <p className="font-medium text-greyed-navy mb-3">{scenario.question}</p>
+            <div key={scenario.id} className="bg-surface-white/50 p-4 rounded-lg">
+              <p className="font-medium text-primary mb-3">{scenario.question}</p>
               
               <div className="space-y-2">
                 {scenario.options.map(option => (
@@ -288,8 +288,8 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
                     key={option.id}
                     className={`flex items-start p-3 border rounded-lg cursor-pointer transition-colors ${
                       scenarioResponses[scenario.id] === option.id
-                        ? 'border-greyed-blue bg-greyed-blue/10' 
-                        : 'border-greyed-navy/20 hover:border-greyed-navy/30 bg-white'
+                        ? 'border-accent bg-accent/10' 
+                        : 'border-primary/20 hover:border-primary/30 bg-white'
                     }`}
                   >
                     <input
@@ -299,7 +299,7 @@ const LearningStyleStep: React.FC<LearningStyleStepProps> = ({ onValidityChange 
                       checked={scenarioResponses[scenario.id] === option.id}
                       onChange={() => handleScenarioResponse(scenario.id, option.id)}
                     />
-                    <span className="text-greyed-navy">{option.text}</span>
+                    <span className="text-primary">{option.text}</span>
                   </label>
                 ))}
               </div>

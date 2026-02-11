@@ -167,13 +167,13 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
   const getNoteTypeIcon = (type: 'class' | 'lesson' | 'student') => {
     switch (type) {
       case 'class':
-        return <Users className="w-5 h-5 text-greyed-blue" />;
+        return <Users className="w-5 h-5 text-accent" />;
       case 'lesson':
         return <BookOpen className="w-5 h-5 text-green-500" />;
       case 'student':
-        return <User className="w-5 h-5 text-greyed-navy" />;
+        return <User className="w-5 h-5 text-primary" />;
       default:
-        return <Pencil className="w-5 h-5 text-greyed-blue" />;
+        return <Pencil className="w-5 h-5 text-accent" />;
     }
   };
 
@@ -184,7 +184,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
           <h2 className="text-lg font-semibold text-black">Class Notes</h2>
           <button 
             onClick={handleCreateNote}
-            className="px-3 py-1.5 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
+            className="px-3 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm transition-colors flex items-center"
           >
             <PlusCircle size={14} className="mr-1" />
             New Note
@@ -202,7 +202,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                 placeholder="Search notes..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
               />
               {searchTerm && (
                 <button
@@ -218,25 +218,25 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
           <div className="flex rounded-lg border border-gray-300 overflow-hidden">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'bg-accent/20 font-medium' : 'hover:bg-gray-100'}`}
             >
               All
             </button>
             <button
               onClick={() => setActiveTab('class')}
-              className={`px-3 py-2 text-sm ${activeTab === 'class' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'class' ? 'bg-accent/20 font-medium' : 'hover:bg-gray-100'}`}
             >
               Class
             </button>
             <button
               onClick={() => setActiveTab('lesson')}
-              className={`px-3 py-2 text-sm ${activeTab === 'lesson' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'lesson' ? 'bg-accent/20 font-medium' : 'hover:bg-gray-100'}`}
             >
               Lessons
             </button>
             <button
               onClick={() => setActiveTab('student')}
-              className={`px-3 py-2 text-sm ${activeTab === 'student' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'student' ? 'bg-accent/20 font-medium' : 'hover:bg-gray-100'}`}
             >
               Students
             </button>
@@ -244,8 +244,8 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
         </div>
         
         {filteredNotes.length === 0 ? (
-          <div className="text-center py-12 border-2 border-dashed border-greyed-navy/10 rounded-lg">
-            <Pencil className="w-12 h-12 text-greyed-navy/30 mx-auto mb-4" />
+          <div className="text-center py-12 border-2 border-dashed border-primary/10 rounded-lg">
+            <Pencil className="w-12 h-12 text-primary/30 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-black mb-2">No notes found</h3>
             <p className="text-black/70 max-w-md mx-auto mb-4">
               {searchTerm 
@@ -254,7 +254,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
             </p>
             <button 
               onClick={handleCreateNote}
-              className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors inline-flex items-center"
             >
               <PlusCircle size={16} className="mr-2" />
               Create Your First Note
@@ -279,7 +279,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         <span>Updated {formatDate(note.updatedAt)}</span>
                         
                         {note.type === 'student' && note.associatedWith && (
-                          <span className="ml-2 bg-greyed-navy/10 text-greyed-navy px-2 py-0.5 rounded-full text-xs">
+                          <span className="ml-2 bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs">
                             {note.associatedWith.name}
                           </span>
                         )}
@@ -291,7 +291,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         )}
                         
                         {note.type === 'class' && (
-                          <span className="ml-2 bg-greyed-blue/20 text-greyed-navy px-2 py-0.5 rounded-full text-xs">
+                          <span className="ml-2 bg-accent/20 text-primary px-2 py-0.5 rounded-full text-xs">
                             Class Note
                           </span>
                         )}
@@ -301,7 +301,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                   <div className="flex space-x-1">
                     <button
                       onClick={() => handleEditNote(note)}
-                      className="p-1 text-gray-500 hover:text-greyed-blue hover:bg-greyed-blue/10 rounded"
+                      className="p-1 text-gray-500 hover:text-accent hover:bg-accent/10 rounded"
                     >
                       <Pencil size={16} />
                     </button>
@@ -318,7 +318,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                 </div>
                 <button
                   onClick={() => handleEditNote(note)}
-                  className="mt-3 text-xs text-greyed-blue hover:underline"
+                  className="mt-3 text-xs text-accent hover:underline"
                 >
                   View and edit
                 </button>
@@ -357,7 +357,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                   type="text"
                   value={newNote.title}
                   onChange={(e) => setNewNote({...newNote, title: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                   placeholder="Enter note title"
                 />
               </div>
@@ -367,7 +367,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                 <select
                   value={newNote.type}
                   onChange={(e) => setNewNote({...newNote, type: e.target.value as 'class' | 'lesson' | 'student'})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                 >
                   <option value="class">Class Note</option>
                   <option value="lesson">Lesson Note</option>
@@ -387,7 +387,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         name: e.target.options[e.target.selectedIndex].text
                       }
                     })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                   >
                     <option value="">Select a student</option>
                     <option value="student-1">John Smith</option>
@@ -410,7 +410,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         name: e.target.options[e.target.selectedIndex].text
                       }
                     })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                   >
                     <option value="">Select a lesson</option>
                     <option value="lesson-1">Newton's Laws of Motion</option>
@@ -426,7 +426,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                 <textarea
                   value={newNote.content}
                   onChange={(e) => setNewNote({...newNote, content: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                   placeholder="Enter note content"
                   rows={10}
                 />
@@ -444,7 +444,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
               <button
                 type="button"
                 onClick={handleSaveNote}
-                className="px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90"
+                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
               >
                 Save Note
               </button>

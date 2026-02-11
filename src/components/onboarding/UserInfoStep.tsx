@@ -91,19 +91,19 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-6 text-center">
+      <h2 className="text-2xl font-headline font-bold text-primary mb-6 text-center">
         Tell Us About Yourself
       </h2>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         {/* First Name */}
         <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-greyed-navy mb-1">
+          <label htmlFor="firstName" className="block text-sm font-medium text-primary mb-1">
             First Name
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <User className="h-5 w-5 text-greyed-navy/40" />
+              <User className="h-5 w-5 text-primary/40" />
             </div>
             <input
               type="text"
@@ -111,7 +111,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
               name="firstName"
               value={onboardingData.firstName}
               onChange={handleInputChange}
-              className={`block w-full pl-10 pr-3 py-2 border ${errors.firstName ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+              className={`block w-full pl-10 pr-3 py-2 border ${errors.firstName ? 'border-red-500' : 'border-primary/20'} rounded-md shadow-sm focus:ring-accent focus:border-accent sm:text-sm`}
               placeholder="Your first name"
             />
           </div>
@@ -122,7 +122,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
         
         {/* Last Name */}
         <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-greyed-navy mb-1">
+          <label htmlFor="lastName" className="block text-sm font-medium text-primary mb-1">
             Last Name
           </label>
           <input
@@ -131,7 +131,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
             name="lastName"
             value={onboardingData.lastName}
             onChange={handleInputChange}
-            className={`block w-full px-3 py-2 border ${errors.lastName ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            className={`block w-full px-3 py-2 border ${errors.lastName ? 'border-red-500' : 'border-primary/20'} rounded-md shadow-sm focus:ring-accent focus:border-accent sm:text-sm`}
             placeholder="Your last name"
           />
           {errors.lastName && (
@@ -142,12 +142,12 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
       
       {/* Email */}
       <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-greyed-navy mb-1">
+        <label htmlFor="email" className="block text-sm font-medium text-primary mb-1">
           Email Address
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Mail className="h-5 w-5 text-greyed-navy/40" />
+            <Mail className="h-5 w-5 text-primary/40" />
           </div>
           <input
             type="email"
@@ -155,7 +155,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
             name="email"
             value={onboardingData.email}
             onChange={handleInputChange}
-            className={`block w-full pl-10 pr-3 py-2 border ${errors.email ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            className={`block w-full pl-10 pr-3 py-2 border ${errors.email ? 'border-red-500' : 'border-primary/20'} rounded-md shadow-sm focus:ring-accent focus:border-accent sm:text-sm`}
             placeholder="you@example.com"
           />
         </div>
@@ -167,7 +167,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         {/* Age */}
         <div>
-          <label htmlFor="age" className="block text-sm font-medium text-greyed-navy mb-1">
+          <label htmlFor="age" className="block text-sm font-medium text-primary mb-1">
             Age
           </label>
           <input
@@ -178,7 +178,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
             max="99"
             value={onboardingData.age}
             onChange={handleInputChange}
-            className={`block w-full px-3 py-2 border ${errors.age ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            className={`block w-full px-3 py-2 border ${errors.age ? 'border-red-500' : 'border-primary/20'} rounded-md shadow-sm focus:ring-accent focus:border-accent sm:text-sm`}
             placeholder="Your age"
           />
           {errors.age && (
@@ -188,7 +188,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
         
         {/* Country */}
         <div>
-          <label htmlFor="country" className="block text-sm font-medium text-greyed-navy mb-1">
+          <label htmlFor="country" className="block text-sm font-medium text-primary mb-1">
             Country of Residence
           </label>
           <select
@@ -196,7 +196,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
             name="country"
             value={onboardingData.country}
             onChange={handleInputChange}
-            className={`block w-full px-3 py-2 border ${errors.country ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            className={`block w-full px-3 py-2 border ${errors.country ? 'border-red-500' : 'border-primary/20'} rounded-md shadow-sm focus:ring-accent focus:border-accent sm:text-sm`}
           >
             <option value="">Select your country</option>
             {countries.map(country => (
@@ -211,19 +211,19 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
       
       {/* Education Level */}
       <div className="mb-4">
-        <label htmlFor="educationLevel" className="block text-sm font-medium text-greyed-navy mb-1">
+        <label htmlFor="educationLevel" className="block text-sm font-medium text-primary mb-1">
           Education Level
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <School className="h-5 w-5 text-greyed-navy/40" />
+            <School className="h-5 w-5 text-primary/40" />
           </div>
           <select
             id="educationLevel"
             name="educationLevel"
             value={onboardingData.educationLevel}
             onChange={handleInputChange}
-            className={`block w-full pl-10 pr-3 py-2 border ${errors.educationLevel ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            className={`block w-full pl-10 pr-3 py-2 border ${errors.educationLevel ? 'border-red-500' : 'border-primary/20'} rounded-md shadow-sm focus:ring-accent focus:border-accent sm:text-sm`}
           >
             <option value="">Select your education level</option>
             {educationLevels.map(level => (
@@ -236,10 +236,10 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
         )}
       </div>
       
-      <div className="mt-4 text-sm text-greyed-navy/60">
+      <div className="mt-4 text-sm text-primary/60">
         <p>
           This information helps us personalize your learning experience and is kept private in accordance with our 
-          <a href="/privacy" className="text-greyed-blue hover:underline"> Privacy Policy</a>.
+          <a href="/privacy" className="text-accent hover:underline"> Privacy Policy</a>.
         </p>
       </div>
     </div>

@@ -101,7 +101,7 @@ const HeroELLM: React.FC = () => {
   };
 
   return (
-    <section className="min-h-[70vh] flex items-center justify-center relative bg-greyed-navy snap-start">
+    <section className="min-h-[70vh] flex items-center justify-center relative bg-primary">
       {/* Animated background */}
       {enabled && (
         <canvas 
@@ -115,7 +115,7 @@ const HeroELLM: React.FC = () => {
         {enabled ? (
           <>
             <motion.h1 
-              className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6"
+              className="text-5xl md:text-6xl font-headline font-bold text-surface-white mb-6"
               initial="hidden"
               animate="visible"
               variants={headlineVariants}
@@ -125,7 +125,7 @@ const HeroELLM: React.FC = () => {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10"
+              className="text-xl md:text-2xl text-accent max-w-3xl mx-auto mb-10"
               initial="hidden"
               animate="visible"
               variants={subheadVariants}
@@ -142,7 +142,7 @@ const HeroELLM: React.FC = () => {
             >
               <a 
                 href="/docs/ellm_whitepaper.pdf" 
-                className="inline-flex items-center border border-greyed-white text-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                className="inline-flex items-center border border-surface-white text-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
                 
                 target="_blank"
                 rel="noopener noreferrer"
@@ -154,18 +154,18 @@ const HeroELLM: React.FC = () => {
           </>
         ) : (
           <>
-            <h1 className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
+            <h1 className="text-5xl md:text-6xl font-headline font-bold text-surface-white mb-6">
               Empathy meets intelligence.
             </h1>
             
-            <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10">
+            <p className="text-xl md:text-2xl text-accent max-w-3xl mx-auto mb-10">
               GreyEd's eLLM understands not just what you say, but how you feel when you say it.
             </p>
             
             <div>
               <a 
                 href="/docs/ellm_whitepaper.pdf" 
-                className="inline-flex items-center border border-greyed-white text-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                className="inline-flex items-center border border-surface-white text-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
                 
                 target="_blank"
                 rel="noopener noreferrer"

@@ -107,7 +107,7 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">Class</label>
             <select
               name="classId"
-              className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+              className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent appearance-none"
               value={formData.classId}
               onChange={handleInputChange}
               required
@@ -130,7 +130,7 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
               <input
                 type="date"
                 name="weekStart"
-                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                 value={formData.weekStart}
                 onChange={handleInputChange}
                 required
@@ -194,7 +194,7 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes (Optional)</label>
             <textarea
               name="additionalNotes"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               rows={3}
               placeholder="Add any specific information you'd like to include in this update..."
               value={formData.additionalNotes}
@@ -214,7 +214,7 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center ${
+              className={`px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 flex items-center ${
                 isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
               }`}
             >

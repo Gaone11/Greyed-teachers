@@ -62,38 +62,38 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
   return (
     <div>
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2">
           Your Learning Profile
         </h2>
         
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           Review your personalized learning profile below.
         </p>
       </div>
       
       {/* User Info Summary */}
-      <div className="bg-greyed-white/50 p-4 rounded-lg mb-6">
-        <h3 className="text-lg font-medium text-greyed-navy mb-3">
+      <div className="bg-surface-white/50 p-4 rounded-lg mb-6">
+        <h3 className="text-lg font-medium text-primary mb-3">
           {onboardingData.firstName} {onboardingData.lastName}
         </h3>
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           {onboardingData.age} years old · {onboardingData.country && onboardingData.country.charAt(0).toUpperCase() + onboardingData.country.slice(1)} · {onboardingData.educationLevel && onboardingData.educationLevel.charAt(0).toUpperCase() + onboardingData.educationLevel.slice(1)} Education
         </p>
       </div>
       
       {/* Learning Profile */}
-      <div className="bg-white border border-greyed-navy/10 rounded-lg mb-6">
-        <div className="px-6 py-4 border-b border-greyed-navy/10">
-          <h3 className="text-lg font-medium text-greyed-navy">Learning Profile</h3>
+      <div className="bg-white border border-primary/10 rounded-lg mb-6">
+        <div className="px-6 py-4 border-b border-primary/10">
+          <h3 className="text-lg font-medium text-primary">Learning Profile</h3>
         </div>
         <div className="p-6 space-y-4">
           {/* Learning Style */}
           <div>
-            <div className="text-sm text-greyed-navy/60 mb-1">Learning Style</div>
-            <div className="font-medium text-greyed-navy">
+            <div className="text-sm text-primary/60 mb-1">Learning Style</div>
+            <div className="font-medium text-primary">
               {primaryStyle || 'Multimodal Learner'}
               {personalityAssessment.learningStyles.length > 1 && (
-                <span className="font-normal text-greyed-navy/80">
+                <span className="font-normal text-primary/80">
                   {' · '}Secondary: {
                     personalityAssessment.learningStyles.filter(s => s !== primaryStyle)[0] || 'Varied'
                   }
@@ -104,16 +104,16 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
           
           {/* Personality Traits */}
           <div>
-            <div className="text-sm text-greyed-navy/60 mb-1">Personality Traits</div>
-            <div className="font-medium text-greyed-navy">
+            <div className="text-sm text-primary/60 mb-1">Personality Traits</div>
+            <div className="font-medium text-primary">
               {getBigFiveDescription(personalityAssessment.bigFive)}
             </div>
           </div>
           
           {/* Creativity Style */}
           <div>
-            <div className="text-sm text-greyed-navy/60 mb-1">Creativity Style</div>
-            <div className="font-medium text-greyed-navy">
+            <div className="text-sm text-primary/60 mb-1">Creativity Style</div>
+            <div className="font-medium text-primary">
               {personalityAssessment.creativityProfile || 'Balanced Approach'} Thinker
             </div>
           </div>
@@ -121,8 +121,8 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
           {/* Learning Needs */}
           {personalityAssessment.neurodivergence.length > 0 && personalityAssessment.neurodivergence[0] !== 'none' && (
             <div>
-              <div className="text-sm text-greyed-navy/60 mb-1">Learning Accommodations</div>
-              <div className="font-medium text-greyed-navy">
+              <div className="text-sm text-primary/60 mb-1">Learning Accommodations</div>
+              <div className="font-medium text-primary">
                 {personalityAssessment.neurodivergence.map(need => 
                   need === 'adhd' ? 'Focus Support' : 
                   need === 'dyslexia' ? 'Reading Support' : 
@@ -137,9 +137,9 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
       </div>
       
       {/* AI Persona Assignment */}
-      <div className="bg-greyed-navy p-6 rounded-lg text-white">
+      <div className="bg-primary p-6 rounded-lg text-white">
         <div className="flex items-start">
-          <div className="w-12 h-12 bg-greyed-blue/30 rounded-full flex items-center justify-center mr-4 text-greyed-white">
+          <div className="w-12 h-12 bg-accent/30 rounded-full flex items-center justify-center mr-4 text-surface-white">
             {aiPersonaName === 'Nova' ? (
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
             ) : aiPersonaName === 'Lex' ? (
@@ -154,15 +154,15 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
           </div>
           
           <div>
-            <h3 className="text-xl font-medium text-greyed-white flex items-center">
+            <h3 className="text-xl font-medium text-surface-white flex items-center">
               Meet {aiPersonaName}
-              <CheckCircle className="w-4 h-4 ml-2 text-greyed-blue" />
+              <CheckCircle className="w-4 h-4 ml-2 text-accent" />
             </h3>
-            <p className="text-greyed-white/80 mt-1">
+            <p className="text-surface-white/80 mt-1">
               Your personalized El AI assistant, tailored to your learning profile.
             </p>
             
-            <p className="mt-4 text-sm text-greyed-white/90 bg-greyed-white/10 p-3 rounded-lg">
+            <p className="mt-4 text-sm text-surface-white/90 bg-surface-white/10 p-3 rounded-lg">
               {aiPersonaName === 'Nova' ? (
                 "Hi! I'm Nova — your personal El AI tutor. I love using visuals, stories, and creative angles to help you master your learning journey."
               ) : aiPersonaName === 'Lex' ? (
@@ -181,7 +181,7 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
         </div>
       </div>
       
-      <div className="mt-6 text-sm text-greyed-navy/60 text-center">
+      <div className="mt-6 text-sm text-primary/60 text-center">
         <p>
           This profile helps El AI understand how you think, feel, and learn. 
           Your responses shape your AI assistant to create the most effective learning experience for you.

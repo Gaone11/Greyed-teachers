@@ -11,15 +11,14 @@ interface LandingLayoutProps {
   };
 }
 
-const LandingLayout: React.FC<LandingLayoutProps> = ({ 
-  children, 
+const LandingLayout: React.FC<LandingLayoutProps> = ({
+  children,
   disableSnapScroll = false,
-  footerProps
+  footerProps,
 }) => {
   const { user } = useAuth();
-  
+
   useEffect(() => {
-    // Add viewport meta tag to ensure proper mobile rendering
     let viewportMeta = document.querySelector('meta[name="viewport"]');
     if (!viewportMeta) {
       viewportMeta = document.createElement('meta');
@@ -27,9 +26,8 @@ const LandingLayout: React.FC<LandingLayoutProps> = ({
       document.head.appendChild(viewportMeta);
     }
     viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
-    
+
     return () => {
-      // Restore default viewport when component unmounts
       if (viewportMeta) {
         viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
       }
@@ -38,8 +36,8 @@ const LandingLayout: React.FC<LandingLayoutProps> = ({
 
   return (
     <MotionProvider>
-      <div className="font-display text-greyed-black">
-        <main className={`scroll-smooth ${disableSnapScroll ? '' : 'snap-mandatory snap-y'} overflow-y-auto h-screen`}>
+      <div className="font-display text-text">
+        <main className="scroll-smooth overflow-y-auto h-screen">
           {children}
         </main>
       </div>

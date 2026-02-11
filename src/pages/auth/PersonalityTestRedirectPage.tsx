@@ -21,10 +21,10 @@ const PersonalityTestRedirectPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
         <div className="text-center">
-          <div className="w-10 h-10 border-4 border-greyed-blue border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-greyed-navy font-medium">Redirecting to GreyEd Teachers signup...</p>
+          <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-primary font-medium">Redirecting to GreyEd Teachers signup...</p>
         </div>
       </div>
       

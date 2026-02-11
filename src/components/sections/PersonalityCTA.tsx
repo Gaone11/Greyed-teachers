@@ -12,7 +12,7 @@ const PersonalityCTA: React.FC = () => {
   };
 
   return (
-    <section className="py-14 bg-greyed-white snap-start" id="how-it-works">
+    <section className="py-14 bg-surface-white" id="how-it-works">
       {enabled ? (
         <motion.div
           className="container mx-auto px-4"
@@ -21,13 +21,13 @@ const PersonalityCTA: React.FC = () => {
           viewport={{ once: true, amount: 0.8 }}
           variants={containerVariants}
         >
-          <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
+          <h2 className="text-xl md:text-2xl font-semibold text-center text-primary">
             Empowering Cophetsheni teachers with AI: CAPS-aligned plans, smart assessments, inclusive education.
           </h2>
         </motion.div>
       ) : (
         <div className="container mx-auto px-4">
-          <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
+          <h2 className="text-xl md:text-2xl font-semibold text-center text-primary">
             Empowering Cophetsheni teachers with AI: CAPS-aligned plans, smart assessments, inclusive education.
           </h2>
         </div>
@@ -82,9 +82,9 @@ const Card: React.FC<CardProps> = ({ number, title, description, delay }) => {
   if (!enabled) {
     return (
       <div className="bg-white rounded-lg p-6 shadow-md">
-        <div className="text-3xl font-bold text-greyed-blue mb-4">{number}</div>
-        <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-        <p className="text-greyed-black/80">{description}</p>
+        <div className="text-3xl font-bold text-accent mb-4">{number}</div>
+        <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+        <p className="text-text/80">{description}</p>
       </div>
     );
   }
@@ -97,9 +97,9 @@ const Card: React.FC<CardProps> = ({ number, title, description, delay }) => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.6 }}
     >
-      <div className="text-3xl font-bold text-greyed-blue mb-4">{number}</div>
-      <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-      <p className="text-greyed-black/80">{description}</p>
+      <div className="text-3xl font-bold text-accent mb-4">{number}</div>
+      <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+      <p className="text-text/80">{description}</p>
     </motion.div>
   );
 };

@@ -1015,7 +1015,7 @@ const TeacherFamiliesPage: React.FC = () => {
           </button>
         </div>
 
-        <div className="bg-white p-5 rounded-lg shadow-sm border-l-4 border-greyed-beige">
+        <div className="bg-white p-5 rounded-lg shadow-sm border-l-4 border-surface">
           <h3 className="font-medium text-text text-lg mb-3">Engagement Analytics</h3>
           <p className="text-text-muted text-sm mb-4">
             Track which families are engaging with your updates and identify students who might need additional support.

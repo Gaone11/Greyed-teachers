@@ -55,16 +55,16 @@ const TryElAI: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-greyed-navy text-greyed-white snap-start" id="try-elai">
+    <section className="py-20 bg-primary text-surface-white" id="try-elai">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">
             Siyafunda Pro for Teachers
           </h2>
-          <p className="text-xl text-greyed-blue">
+          <p className="text-xl text-accent">
             Start with a free 14-day trial. No credit card required to begin.
           </p>
-          <p className="text-sm text-greyed-white/60 mt-2 italic">
+          <p className="text-sm text-surface-white/60 mt-2 italic">
             "Umntwana akakhuliswa ngumuntu munye" — A child is not raised by one person alone
           </p>
         </div>
@@ -73,7 +73,7 @@ const TryElAI: React.FC = () => {
           {/* Price Badge */}
           {enabled ? (
             <motion.div 
-              className="absolute top-6 right-6 bg-greyed-blue text-greyed-navy font-bold py-2 px-4 rounded-full"
+              className="absolute top-6 right-6 bg-accent text-primary font-bold py-2 px-4 rounded-full"
               variants={badgeVariants}
               initial="hidden"
               whileInView="visible"
@@ -82,7 +82,7 @@ const TryElAI: React.FC = () => {
               14-DAY FREE TRIAL
             </motion.div>
           ) : (
-            <div className="absolute top-6 right-6 bg-greyed-blue text-greyed-navy font-bold py-2 px-4 rounded-full">
+            <div className="absolute top-6 right-6 bg-accent text-primary font-bold py-2 px-4 rounded-full">
               14-DAY FREE TRIAL
             </div>
           )}
@@ -103,15 +103,15 @@ const TryElAI: React.FC = () => {
                   viewport={{ once: true }}
                   className="flex items-start"
                 >
-                  <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
-                    <div className="w-3 h-3 rounded-full bg-greyed-blue"></div>
+                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                    <div className="w-3 h-3 rounded-full bg-accent"></div>
                   </div>
                   <span>{feature}</span>
                 </motion.li>
               ) : (
                 <li key={index} className="flex items-start">
-                  <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
-                    <div className="w-3 h-3 rounded-full bg-greyed-blue"></div>
+                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                    <div className="w-3 h-3 rounded-full bg-accent"></div>
                   </div>
                   <span>{feature}</span>
                 </li>
@@ -121,12 +121,12 @@ const TryElAI: React.FC = () => {
           
           <div className="text-center mb-6">
             <div className="text-2xl font-bold">R199<span className="text-sm font-normal">/month</span></div>
-            <div className="text-sm text-greyed-white/70 mt-1">After 14-day free trial</div>
+            <div className="text-sm text-surface-white/70 mt-1">After 14-day free trial</div>
           </div>
           
           <button 
             onClick={handleStartFree}
-            className="block w-full bg-greyed-blue hover:bg-greyed-white text-greyed-navy font-medium py-3 px-6 rounded-lg text-center transition-colors flex items-center justify-center"
+            className="block w-full bg-accent hover:bg-surface-white text-primary font-medium py-3 px-6 rounded-lg text-center transition-colors flex items-center justify-center"
           >
             {user ? (
               <>
@@ -138,7 +138,7 @@ const TryElAI: React.FC = () => {
             )}
           </button>
           
-          <div className="mt-4 text-center text-xs text-greyed-white/70">
+          <div className="mt-4 text-center text-xs text-surface-white/70">
             Cancel anytime during trial period at no cost
           </div>
         </div>

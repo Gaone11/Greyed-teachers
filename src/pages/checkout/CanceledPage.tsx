@@ -19,18 +19,18 @@ const CanceledPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8 text-center">
-            <div className="text-greyed-navy/70 mb-6">
+            <div className="text-primary/70 mb-6">
               <XCircle className="h-16 w-16 mx-auto" />
             </div>
             
-            <h1 className="text-2xl font-headline font-bold text-greyed-navy mb-4">
+            <h1 className="text-2xl font-headline font-bold text-primary mb-4">
               Payment Canceled
             </h1>
             
-            <p className="text-greyed-navy/70 mb-8">
+            <p className="text-primary/70 mb-8">
               Your payment was canceled and you have not been charged.
               If you have any questions or need assistance, please don't hesitate to contact our support team.
             </p>
@@ -38,7 +38,7 @@ const CanceledPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={() => navigate(isFromTeacherSettings ? '/teachers/settings#subscription' : '/pricing')}
-                className="bg-greyed-navy text-greyed-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center justify-center"
+                className="bg-primary text-surface-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center"
               >
                 <img src="/favicon.svg" alt="GreyEd" className="w-5 h-5 mr-2" />
                 {isFromTeacherSettings ? 'Return to Settings' : 'Return to Pricing'}
@@ -46,7 +46,7 @@ const CanceledPage: React.FC = () => {
               
               <button 
                 onClick={() => navigate('/contact')}
-                className="bg-greyed-white text-greyed-navy border border-greyed-navy/20 px-6 py-3 rounded-lg hover:bg-greyed-navy/5 transition-colors"
+                className="bg-surface-white text-primary border border-primary/20 px-6 py-3 rounded-lg hover:bg-primary/5 transition-colors"
               >
                 Contact Support
               </button>

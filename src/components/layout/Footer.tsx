@@ -9,239 +9,161 @@ interface FooterProps {
   openAdminLoginModal?: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
-  const { enabled } = useContext(MotionContext);
-  const { user } = useAuth();
-  
-  const socialLinks = [
-    { icon: <Facebook size={20} />, href: "#", label: "Facebook" },
-    { icon: <Twitter size={20} />, href: "#", label: "Twitter" },
-    { icon: <Instagram size={20} />, href: "#", label: "Instagram" },
-    { icon: <GitHub size={20} />, href: "#", label: "GitHub" }
-  ];
-  
-  const footerLinks = [
-    { text: "About Us", href: "/about" },
-    { text: "Privacy Policy", href: "/privacy" },
-    { text: "Terms of Service", href: "/terms" },
-    { text: "Refund Policy", href: "/refund-policy" },
-    { text: "Contact", href: "/contact" }
-  ];
-  
-  const socialItemVariants = {
-    hidden: { opacity: 0 },
-    visible: (i: number) => ({
-      opacity: 1,
-      transition: { delay: 0.1 * i, duration: 0.3 }
-    })
-  };
-  
-  const navItemVariants = {
-    hidden: { opacity: 0 },
-    visible: (i: number) => ({
-      opacity: 1,
-      transition: { delay: 0.05 * i, duration: 0.3 }
-    })
-  };
-  
-  // CSS animation for pulsing the chatbot button
-  const pulseKeyframes = `
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.9; }
-    }
-  `;
+const itemVariants = {
+  hidden: { opacity: 0 },
+  visible: (i: number) => ({
+    opacity: 1,
+    transition: { delay: 0.05 * i, duration: 0.3 },
+  }),
+};
 
-  // If user is logged in, don't render the footer (it will be hidden by CSS)
-  if (user) {
-    return null;
+/** Extracted FooterLink — eliminates the enabled ? motion.li : li duplication */
+const FooterLink: React.FC<{
+  to: string;
+  children: React.ReactNode;
+  index: number;
+  onClick?: () => void;
+}> = ({ to, children, index, onClick }) => {
+  const { enabled } = useContext(MotionContext);
+  const Li = enabled ? motion.li : ('li' as any);
+  const motionProps = enabled
+    ? { custom: index, variants: itemVariants, initial: 'hidden', whileInView: 'visible', viewport: { once: true } }
+    : {};
+
+  if (onClick) {
+    return (
+      <Li {...motionProps}>
+        <button onClick={onClick} className="text-surface-white/80 hover:text-accent transition-colors">
+          {children}
+        </button>
+      </Li>
+    );
   }
 
   return (
-    <footer className="py-12 bg-greyed-navy text-greyed-white snap-start">
-      <style>{pulseKeyframes}</style>
-      
+    <Li {...motionProps}>
+      <Link to={to} className="text-surface-white/80 hover:text-accent transition-colors">
+        {children}
+      </Link>
+    </Li>
+  );
+};
+
+const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
+  const { enabled } = useContext(MotionContext);
+  const { user } = useAuth();
+  const A = enabled ? motion.a : ('a' as any);
+
+  const socialLinks = [
+    { icon: <Facebook size={20} />, href: '#', label: 'Facebook' },
+    { icon: <Twitter size={20} />, href: '#', label: 'Twitter' },
+    { icon: <Instagram size={20} />, href: '#', label: 'Instagram' },
+    { icon: <GitHub size={20} />, href: '#', label: 'GitHub' },
+  ];
+
+  const bottomLinks = [
+    { text: 'About Us', href: '/about' },
+    { text: 'Privacy Policy', href: '/privacy' },
+    { text: 'Terms of Service', href: '/terms' },
+    { text: 'Refund Policy', href: '/refund-policy' },
+    { text: 'Contact', href: '/contact' },
+  ];
+
+  if (user) return null;
+
+  return (
+    <footer className="py-12 bg-primary text-surface-white">
       <div className="container mx-auto px-4">
         {/* siSwati Proverb Banner */}
         <div className="text-center mb-8 pb-6 border-b border-white/10">
-          <p className="text-greyed-blue italic font-headline text-lg">"Umuntfu ngumuntfu ngabantfu"</p>
-          <p className="text-greyed-white/60 text-sm mt-1">A person is a person through other people — Ubuntu Philosophy</p>
+          <p className="text-accent italic font-headline text-lg">"Umuntfu ngumuntfu ngabantfu"</p>
+          <p className="text-surface-white/60 text-sm mt-1">A person is a person through other people — Ubuntu Philosophy</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Brand column */}
           <div className="md:col-span-4">
             <div className="mb-6">
-              <img
-                src="/favicon.svg"
-                alt="Cophetsheni Primary School"
-                className="h-10 w-auto mb-2"
-                loading="lazy"
-              />
-              <p className="text-greyed-blue font-headline font-semibold">Cophetsheni Primary School</p>
-              <p className="text-greyed-white/70 text-sm">Siyafunda — We are learning</p>
+              <img src="/favicon.svg" alt="Cophetsheni Primary School" className="h-10 w-auto mb-2" loading="lazy" />
+              <p className="text-accent font-headline font-semibold">Cophetsheni Primary School</p>
+              <p className="text-surface-white/70 text-sm">Siyafunda — We are learning</p>
             </div>
-            
+
             <div className="flex space-x-4 mb-6">
-              {socialLinks.map((link, index) => (
-                enabled ? (
-                  <motion.a
+              {socialLinks.map((link, index) => {
+                const motionProps = enabled
+                  ? { custom: index, variants: itemVariants, initial: 'hidden', whileInView: 'visible', viewport: { once: true } }
+                  : {};
+                return (
+                  <A
                     key={index}
                     href={link.href}
                     aria-label={link.label}
-                    custom={index}
-                    variants={socialItemVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-greyed-blue hover:text-greyed-navy transition-colors"
+                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary transition-colors"
+                    {...motionProps}
                   >
                     {link.icon}
-                  </motion.a>
-                ) : (
-                  <a
-                    key={index}
-                    href={link.href}
-                    aria-label={link.label}
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-greyed-blue hover:text-greyed-navy transition-colors"
-                  >
-                    {link.icon}
-                  </a>
-                )
-              ))}
+                  </A>
+                );
+              })}
             </div>
-            
-            <p className="text-greyed-white/60 text-sm">
+
+            <p className="text-surface-white/60 text-sm">
               Cophetsheni Primary School<br />
               Mpumalanga Province<br />
               South Africa
             </p>
           </div>
-          
+
+          {/* Links columns */}
           <div className="md:col-span-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
               <div>
-                <h4 className="font-headline font-semibold mb-4 text-greyed-blue">Products</h4>
+                <h4 className="font-headline font-semibold mb-4 text-accent">Products</h4>
                 <ul className="space-y-2">
-                  {["Lesson Planner", "Assessments", "Class Manager", "Family Updates"].map((item, index) => (
-                    enabled ? (
-                      <motion.li
-                        key={index}
-                        custom={index}
-                        variants={navItemVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                      >
-                        <a href="#" className="text-greyed-white/80 hover:text-greyed-blue transition-colors">
-                          {item}
-                        </a>
-                      </motion.li>
-                    ) : (
-                      <li key={index}>
-                        <a href="#" className="text-greyed-white/80 hover:text-greyed-blue transition-colors">
-                          {item}
-                        </a>
-                      </li>
-                    )
+                  {['Lesson Planner', 'Assessments', 'Class Manager', 'Family Updates'].map((item, i) => (
+                    <FooterLink key={i} to="/features" index={i}>{item}</FooterLink>
                   ))}
                 </ul>
               </div>
-              
+
               <div>
-                <h4 className="font-headline font-semibold mb-4 text-greyed-blue">Resources</h4>
-                <ul className="space-y-2">
-                  {["Blog", "Student Stories", "Research", "FAQs"].map((item, index) => (
-                    enabled ? (
-                      <motion.li
-                        key={index}
-                        custom={index}
-                        variants={navItemVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                      >
-                        <a href="#" className="text-greyed-white/80 hover:text-greyed-blue transition-colors">
-                          {item}
-                        </a>
-                      </motion.li>
-                    ) : (
-                      <li key={index}>
-                        <a href="#" className="text-greyed-white/80 hover:text-greyed-blue transition-colors">
-                          {item}
-                        </a>
-                      </li>
-                    )
-                  ))}
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="font-headline font-semibold mb-4 text-greyed-blue">Company</h4>
+                <h4 className="font-headline font-semibold mb-4 text-accent">Resources</h4>
                 <ul className="space-y-2">
                   {[
-                    { name: "About", path: "/about" },
-                    { name: "Careers", path: "#" },
-                    { name: "Press", path: "#" },
-                    { name: "Contact", path: "/contact" },
-                    { name: "Admin", path: "#", onClick: openAdminLoginModal }
-                  ].map((item, index) => (
-                    enabled ? (
-                      <motion.li
-                        key={index}
-                        custom={index}
-                        variants={navItemVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                      >
-                        {item.onClick ? (
-                          <button 
-                            onClick={item.onClick}
-                            className="text-greyed-white/80 hover:text-greyed-blue transition-colors"
-                          >
-                            {item.name}
-                          </button>
-                        ) : (
-                          <Link to={item.path} className="text-greyed-white/80 hover:text-greyed-blue transition-colors">
-                            {item.name}
-                          </Link>
-                        )}
-                      </motion.li>
-                    ) : (
-                      <li key={index}>
-                        {item.onClick ? (
-                          <button 
-                            onClick={item.onClick}
-                            className="text-greyed-white/80 hover:text-greyed-blue transition-colors"
-                          >
-                            {item.name}
-                          </button>
-                        ) : (
-                          <Link to={item.path} className="text-greyed-white/80 hover:text-greyed-blue transition-colors">
-                            {item.name}
-                          </Link>
-                        )}
-                      </li>
-                    )
+                    { name: 'About', to: '/about' },
+                    { name: 'eLLM Research', to: '/ellm' },
+                    { name: 'Tutoring', to: '/tutoring' },
+                    { name: 'FAQs', to: '/contact' },
+                  ].map((item, i) => (
+                    <FooterLink key={i} to={item.to} index={i}>{item.name}</FooterLink>
                   ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-headline font-semibold mb-4 text-accent">Company</h4>
+                <ul className="space-y-2">
+                  <FooterLink to="/about" index={0}>About</FooterLink>
+                  <FooterLink to="/contact" index={1}>Contact</FooterLink>
+                  <FooterLink to="/pricing" index={2}>Pricing</FooterLink>
+                  {openAdminLoginModal && (
+                    <FooterLink to="#" index={3} onClick={openAdminLoginModal}>Admin</FooterLink>
+                  )}
                 </ul>
               </div>
             </div>
           </div>
         </div>
-        
+
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-greyed-white/60 mb-4 md:mb-0">
-                        © {new Date().getFullYear()} Cophetsheni Primary School. Siyafunda — We are learning.
+          <p className="text-sm text-surface-white/60 mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} Cophetsheni Primary School. Siyafunda — We are learning.
           </p>
-          
+
           <div className="flex flex-wrap gap-4 justify-center">
-            {footerLinks.map((link, index) => (
-              <Link 
-                key={index}
-                to={link.href}
-                className="text-sm text-greyed-white/60 hover:text-greyed-blue transition-colors"
-              >
+            {bottomLinks.map((link, index) => (
+              <Link key={index} to={link.href} className="text-sm text-surface-white/60 hover:text-accent transition-colors">
                 {link.text}
               </Link>
             ))}

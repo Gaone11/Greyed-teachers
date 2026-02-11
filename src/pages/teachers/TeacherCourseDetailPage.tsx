@@ -617,7 +617,7 @@ const TeacherCourseDetailPage: React.FC = () => {
                               {question.options.map((option, oIndex) => (
                                 <label
                                   key={oIndex}
-                                  className="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors hover:bg-greyed-beige/10"
+                                  className="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors hover:bg-surface/10"
                                 >
                                   <input
                                     type="radio"
@@ -638,7 +638,7 @@ const TeacherCourseDetailPage: React.FC = () => {
 
                           {question.type === 'true-false' && (
                             <div className="space-y-2">
-                              <label className="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors hover:bg-greyed-beige/10">
+                              <label className="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors hover:bg-surface/10">
                                 <input
                                   type="radio"
                                   name={`question-${question.id}`}
@@ -652,7 +652,7 @@ const TeacherCourseDetailPage: React.FC = () => {
                                 />
                                 <span className="text-primary">True</span>
                               </label>
-                              <label className="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors hover:bg-greyed-beige/10">
+                              <label className="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors hover:bg-surface/10">
                                 <input
                                   type="radio"
                                   name={`question-${question.id}`}

@@ -17,7 +17,7 @@ const BillingToggle: React.FC = () => {
   };
 
   return (
-    <section className="py-8 bg-greyed-white snap-start">
+    <section className="py-8 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center">
           <div 
@@ -25,7 +25,7 @@ const BillingToggle: React.FC = () => {
             role="group"
             aria-label="Billing period selection"
           >
-            <span className={`text-sm md:text-base font-medium ${billingPeriod === 'monthly' ? 'text-greyed-navy' : 'text-greyed-navy/60'}`}>
+            <span className={`text-sm md:text-base font-medium ${billingPeriod === 'monthly' ? 'text-primary' : 'text-primary/60'}`}>
               Monthly
             </span>
             
@@ -34,18 +34,18 @@ const BillingToggle: React.FC = () => {
               role="switch"
               aria-checked={billingPeriod === 'yearly'}
               onClick={toggleBilling}
-              className="relative w-16 h-8 bg-greyed-blue/30 rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-greyed-blue focus:ring-opacity-50"
+              className="relative w-16 h-8 bg-accent/30 rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               {enabled ? (
                 <motion.div 
-                  className="w-6 h-6 bg-greyed-blue rounded-full shadow-md"
+                  className="w-6 h-6 bg-accent rounded-full shadow-md"
                   variants={toggleVariants}
                   animate={billingPeriod}
                   transition={{ duration: 0.3 }}
                 />
               ) : (
                 <div 
-                  className={`w-6 h-6 bg-greyed-blue rounded-full shadow-md ${
+                  className={`w-6 h-6 bg-accent rounded-full shadow-md ${
                     billingPeriod === 'yearly' ? 'ml-auto' : ''
                   }`}
                 />
@@ -53,10 +53,10 @@ const BillingToggle: React.FC = () => {
             </button>
             
             <div className="flex items-center">
-              <span className={`text-sm md:text-base font-medium ${billingPeriod === 'yearly' ? 'text-greyed-navy' : 'text-greyed-navy/60'}`}>
+              <span className={`text-sm md:text-base font-medium ${billingPeriod === 'yearly' ? 'text-primary' : 'text-primary/60'}`}>
                 Yearly
               </span>
-              <span className="ml-2 bg-greyed-blue/20 text-greyed-navy text-xs py-1 px-2 rounded-full font-medium">
+              <span className="ml-2 bg-accent/20 text-primary text-xs py-1 px-2 rounded-full font-medium">
                 Save 17%
               </span>
             </div>

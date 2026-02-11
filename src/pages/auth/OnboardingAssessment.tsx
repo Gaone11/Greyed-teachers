@@ -104,22 +104,22 @@ const OnboardingAssessment: React.FC = () => {
   // If user is not loaded yet, show loading
   if (authLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-greyed-white p-4">
-        <Loader className="w-12 h-12 text-greyed-blue animate-spin mb-4" />
-        <p className="text-greyed-navy font-medium">Loading your assessment...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-surface-white p-4">
+        <Loader className="w-12 h-12 text-accent animate-spin mb-4" />
+        <p className="text-primary font-medium">Loading your assessment...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-greyed-white flex flex-col">
+    <div className="min-h-screen bg-surface-white flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-headline font-bold text-greyed-navy">GreyEd Onboarding</h1>
+            <h1 className="text-xl font-headline font-bold text-primary">GreyEd Onboarding</h1>
             {currentStep < MAX_STEPS && (
-              <div className="text-sm text-greyed-navy/70">
+              <div className="text-sm text-primary/70">
                 Step {currentStep} of {MAX_STEPS - 1}
               </div>
             )}
@@ -169,7 +169,7 @@ const OnboardingAssessment: React.FC = () => {
                   type="button"
                   onClick={goToPreviousStep}
                   disabled={isSubmitting}
-                  className="flex items-center px-4 py-2 text-greyed-navy bg-transparent border border-greyed-navy/30 rounded-lg hover:bg-greyed-navy/5 transition-colors disabled:opacity-50"
+                  className="flex items-center px-4 py-2 text-primary bg-transparent border border-primary/30 rounded-lg hover:bg-primary/5 transition-colors disabled:opacity-50"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back
@@ -182,7 +182,7 @@ const OnboardingAssessment: React.FC = () => {
                 type="button"
                 onClick={goToNextStep}
                 disabled={!isStepValid || isSubmitting || isLoading}
-                className={`flex items-center px-6 py-2 text-white bg-greyed-navy rounded-lg hover:bg-greyed-navy/90 transition-colors ${
+                className={`flex items-center px-6 py-2 text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors ${
                   (!isStepValid || isSubmitting || isLoading) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
@@ -207,7 +207,7 @@ const OnboardingAssessment: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/dashboard')}
-                className="flex items-center px-6 py-2 text-white bg-greyed-navy rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                className="flex items-center px-6 py-2 text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors"
               >
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Go to Dashboard
@@ -219,7 +219,7 @@ const OnboardingAssessment: React.FC = () => {
 
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 py-4">
-        <div className="container mx-auto px-4 text-center text-sm text-greyed-navy/60">
+        <div className="container mx-auto px-4 text-center text-sm text-primary/60">
           <p>© 2025 GreyEd. All rights reserved.</p>
           <p className="mt-1">Your data is securely stored and used only to personalize your learning experience.</p>
         </div>

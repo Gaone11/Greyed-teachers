@@ -16,15 +16,15 @@ const HeroContact: React.FC = () => {
   };
 
   return (
-    <section className="min-h-[60vh] flex items-center justify-center relative snap-start">
+    <section className="min-h-[60vh] flex items-center justify-center relative">
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-greyed-navy to-greyed-blue/50 z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-primary to-accent/50 z-0"></div>
 
       <div className="container mx-auto px-4 z-10 text-center py-20">
         {enabled ? (
           <>
             <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-surface-white mb-6"
               initial="hidden"
               animate="visible"
               variants={headlineVariants}
@@ -34,7 +34,7 @@ const HeroContact: React.FC = () => {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-accent max-w-3xl mx-auto"
               initial="hidden"
               animate="visible"
               variants={subheadVariants}
@@ -45,11 +45,11 @@ const HeroContact: React.FC = () => {
           </>
         ) : (
           <>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-surface-white mb-6">
               We'd love to hear from you.
             </h1>
             
-            <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-accent max-w-3xl mx-auto">
               Whether you're a student, parent, teacher or investor—reach out and we'll respond within 24 hours.
             </p>
           </>

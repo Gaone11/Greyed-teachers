@@ -284,7 +284,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-greyed-navy text-white">
+        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-primary text-white">
           <h3 className="text-xl font-headline font-bold flex items-center">
             <FileText className="w-5 h-5 mr-2" />
             {editMode ? 'Edit Assessment' : 'View Assessment'}
@@ -309,19 +309,19 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
               <div className="absolute right-0 mt-1 bg-white shadow-lg rounded-lg overflow-hidden hidden group-hover:block z-10 w-48">
                 <button 
                   onClick={downloadAsDocx}
-                  className="w-full px-4 py-2 text-left text-sm text-black hover:bg-greyed-navy/10 transition-colors"
+                  className="w-full px-4 py-2 text-left text-sm text-black hover:bg-primary/10 transition-colors"
                 >
                   Download as Word (.docx)
                 </button>
                 <button 
                   onClick={downloadAsPDF}
-                  className="w-full px-4 py-2 text-left text-sm text-black hover:bg-greyed-navy/10 transition-colors"
+                  className="w-full px-4 py-2 text-left text-sm text-black hover:bg-primary/10 transition-colors"
                 >
                   Download as PDF
                 </button>
                 <button 
                   onClick={downloadAsText}
-                  className="w-full px-4 py-2 text-left text-sm text-black hover:bg-greyed-navy/10 transition-colors"
+                  className="w-full px-4 py-2 text-left text-sm text-black hover:bg-primary/10 transition-colors"
                 >
                   Download as Text (.txt)
                 </button>
@@ -358,7 +358,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
             {/* Assessment Details Form */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
               <h4 className="text-lg font-medium text-black mb-4 flex items-center">
-                <PenTool size={18} className="mr-2 text-greyed-blue" />
+                <PenTool size={18} className="mr-2 text-accent" />
                 Assessment Details
               </h4>
               
@@ -372,7 +372,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                     onChange={handleAssessmentChange}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                       editMode 
-                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
+                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-accent' 
                         : 'bg-gray-50 cursor-not-allowed'
                     }`}
                     readOnly={!editMode}
@@ -387,7 +387,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                     onChange={handleAssessmentChange}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                       editMode 
-                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
+                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-accent' 
                         : 'bg-gray-50 cursor-not-allowed'
                     }`}
                     disabled={!editMode}
@@ -407,7 +407,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                     onChange={handleAssessmentChange}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                       editMode 
-                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
+                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-accent' 
                         : 'bg-gray-50 cursor-not-allowed'
                     }`}
                     disabled={!editMode}
@@ -428,7 +428,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                     onChange={handleAssessmentChange}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                       editMode 
-                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
+                        ? 'bg-white focus:outline-none focus:ring-2 focus:ring-accent' 
                         : 'bg-gray-50 cursor-not-allowed'
                     }`}
                     readOnly={!editMode}
@@ -438,7 +438,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                 <div className="col-span-full">
                   <div className="flex items-center justify-between mb-2">
                     <label className="block text-sm font-medium text-gray-700">Questions</label>
-                    <span className="text-xs bg-greyed-blue/20 text-greyed-navy px-2 py-1 rounded">
+                    <span className="text-xs bg-accent/20 text-primary px-2 py-1 rounded">
                       {questions.length} question{questions.length !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -446,7 +446,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                     <button
                       type="button"
                       onClick={addQuestion}
-                      className="w-full py-2 border border-dashed border-greyed-navy/30 rounded-md text-greyed-navy/70 hover:bg-greyed-navy/5 hover:border-greyed-navy/50 transition-colors flex items-center justify-center"
+                      className="w-full py-2 border border-dashed border-primary/30 rounded-md text-primary/70 hover:bg-primary/5 hover:border-primary/50 transition-colors flex items-center justify-center"
                     >
                       <Plus size={16} className="mr-1" />
                       Add Question
@@ -471,7 +471,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                       key={index} 
                       className={`border rounded-lg overflow-hidden ${
                         activeQuestionIndex === index 
-                          ? 'border-greyed-blue' 
+                          ? 'border-accent' 
                           : 'border-gray-200'
                       }`}
                     >
@@ -479,13 +479,13 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                       <div 
                         className={`flex justify-between items-center p-3 cursor-pointer ${
                           activeQuestionIndex === index 
-                            ? 'bg-greyed-blue/10' 
+                            ? 'bg-accent/10' 
                             : 'bg-gray-50 hover:bg-gray-100'
                         }`}
                         onClick={() => setActiveQuestionIndex(activeQuestionIndex === index ? null : index)}
                       >
                         <div className="flex items-center">
-                          <div className="w-6 h-6 rounded-full bg-greyed-navy text-white flex items-center justify-center mr-2">
+                          <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center mr-2">
                             <span className="text-xs font-medium">{index + 1}</span>
                           </div>
                           <div className="text-sm font-medium truncate pr-4">
@@ -526,7 +526,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                 onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                                   editMode 
-                                    ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
+                                    ? 'focus:outline-none focus:ring-2 focus:ring-accent bg-white' 
                                     : 'bg-gray-50 cursor-not-allowed'
                                 }`}
                                 rows={2}
@@ -541,7 +541,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                 onChange={(e) => handleQuestionChange(index, 'type', e.target.value)}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                                   editMode 
-                                    ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
+                                    ? 'focus:outline-none focus:ring-2 focus:ring-accent bg-white' 
                                     : 'bg-gray-50 cursor-not-allowed'
                                 }`}
                                 disabled={!editMode}
@@ -562,7 +562,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                     <button
                                       type="button"
                                       onClick={() => addOption(index)}
-                                      className="text-xs text-greyed-blue hover:text-greyed-navy transition-colors"
+                                      className="text-xs text-accent hover:text-primary transition-colors"
                                     >
                                       + Add Option
                                     </button>
@@ -580,7 +580,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                         onChange={(e) => handleOptionChange(index, optIndex, e.target.value)}
                                         className={`flex-1 px-3 py-2 border border-gray-300 rounded-md ${
                                           editMode 
-                                            ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
+                                            ? 'focus:outline-none focus:ring-2 focus:ring-accent bg-white' 
                                             : 'bg-gray-50 cursor-not-allowed'
                                         }`}
                                         readOnly={!editMode}
@@ -609,7 +609,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                   onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
                                   className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                                     editMode 
-                                      ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
+                                      ? 'focus:outline-none focus:ring-2 focus:ring-accent bg-white' 
                                       : 'bg-gray-50 cursor-not-allowed'
                                   }`}
                                   disabled={!editMode}
@@ -627,7 +627,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                   onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
                                   className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                                     editMode 
-                                      ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
+                                      ? 'focus:outline-none focus:ring-2 focus:ring-accent bg-white' 
                                       : 'bg-gray-50 cursor-not-allowed'
                                   }`}
                                   rows={2}
@@ -643,7 +643,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                 onChange={(e) => handleQuestionChange(index, 'explanation', e.target.value)}
                                 className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
                                   editMode 
-                                    ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
+                                    ? 'focus:outline-none focus:ring-2 focus:ring-accent bg-white' 
                                     : 'bg-gray-50 cursor-not-allowed'
                                 }`}
                                 rows={2}
@@ -676,7 +676,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center"
+              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 flex items-center"
             >
               {isSaving ? (
                 <>

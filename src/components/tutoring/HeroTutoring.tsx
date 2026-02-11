@@ -29,7 +29,7 @@ const HeroTutoring: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center bg-greyed-navy snap-start">
+    <section className="relative min-h-[70vh] flex items-center justify-center bg-primary">
       {/* Hero background image */}
       <div 
         className="absolute inset-0 z-0 bg-black/30"
@@ -45,7 +45,7 @@ const HeroTutoring: React.FC = () => {
         {enabled ? (
           <>
             <motion.h1 
-              className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6"
+              className="text-5xl md:text-6xl font-headline font-bold text-surface-white mb-6"
               initial="hidden"
               animate="visible"
               variants={headlineVariants}
@@ -55,7 +55,7 @@ const HeroTutoring: React.FC = () => {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10"
+              className="text-xl md:text-2xl text-accent max-w-3xl mx-auto mb-10"
               initial="hidden"
               animate="visible"
               variants={subheadVariants}
@@ -73,14 +73,14 @@ const HeroTutoring: React.FC = () => {
             >
               <a 
                 href="#demo" 
-                className="bg-greyed-blue hover:bg-greyed-white text-greyed-navy px-8 py-3 rounded-full font-medium transition-colors"
+                className="bg-accent hover:bg-surface-white text-primary px-8 py-3 rounded-full font-medium transition-colors"
                 
               >
                 Book a Demo Call
               </a>
               <Link 
                 to="/pricing#hybrid" 
-                className="border border-greyed-white text-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                className="border border-surface-white text-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
               >
                 Pricing
               </Link>
@@ -88,25 +88,25 @@ const HeroTutoring: React.FC = () => {
           </>
         ) : (
           <>
-            <h1 className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
+            <h1 className="text-5xl md:text-6xl font-headline font-bold text-surface-white mb-6">
               Human tutors. AI super-powers.
             </h1>
             
-            <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10">
+            <p className="text-xl md:text-2xl text-accent max-w-3xl mx-auto mb-10">
               Certified educators plus El AI insights = faster 'I get it!' moments.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a 
                 href="#demo" 
-                className="bg-greyed-blue hover:bg-greyed-white text-greyed-navy px-8 py-3 rounded-full font-medium transition-colors"
+                className="bg-accent hover:bg-surface-white text-primary px-8 py-3 rounded-full font-medium transition-colors"
                 
               >
                 Book a Demo Call
               </a>
               <Link 
                 to="/pricing#hybrid" 
-                className="border border-greyed-white text-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                className="border border-surface-white text-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
               >
                 Pricing
               </Link>

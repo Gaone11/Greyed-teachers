@@ -50,7 +50,7 @@ const SubscriptionBadge: React.FC = () => {
   }
 
   return (
-    <div className="bg-greyed-blue/20 text-greyed-navy text-xs py-1 px-2 rounded-full flex items-center ml-2">
+    <div className="bg-accent/20 text-primary text-xs py-1 px-2 rounded-full flex items-center ml-2">
       <CheckCircle size={10} className="mr-1" />
       <span>Pro</span>
     </div>

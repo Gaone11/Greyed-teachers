@@ -77,8 +77,8 @@ const DyslexiaModeToggle: React.FC = () => {
       onClick={toggleMode}
       className={`flex items-center justify-center p-2 rounded-lg transition-colors ${
         enabled
-          ? 'bg-greyed-blue text-greyed-navy'
-          : 'bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20'
+          ? 'bg-accent text-primary'
+          : 'bg-primary/10 text-primary hover:bg-primary/20'
       }`}
       title={enabled ? 'Accessible Mode (Click to disable)' : 'Standard Mode (Click to enable accessible mode)'}
       aria-label={enabled ? 'Disable Dyslexia Mode' : 'Enable Dyslexia Mode'}

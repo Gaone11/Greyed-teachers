@@ -41,7 +41,7 @@ const MissionValues: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-beige snap-start">
+    <section className="py-20 bg-surface">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto text-center">
           {enabled ? (
@@ -52,25 +52,25 @@ const MissionValues: React.FC = () => {
               viewport={{ once: true }}
               className="mb-16"
             >
-              <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
+              <h2 className="text-3xl font-headline font-bold mb-6 text-primary">
                 Our Mission
               </h2>
-              <p className="text-2xl text-greyed-navy/90 max-w-3xl mx-auto">
+              <p className="text-2xl text-primary/90 max-w-3xl mx-auto">
                 "Democratise quality learning through empathic AI that adapts as fast as students do."
               </p>
             </motion.div>
           ) : (
             <div className="mb-16">
-              <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
+              <h2 className="text-3xl font-headline font-bold mb-6 text-primary">
                 Our Mission
               </h2>
-              <p className="text-2xl text-greyed-navy/90 max-w-3xl mx-auto">
+              <p className="text-2xl text-primary/90 max-w-3xl mx-auto">
                 "Democratise quality learning through empathic AI that adapts as fast as students do."
               </p>
             </div>
           )}
           
-          <h3 className="text-2xl font-headline font-semibold mb-10 text-greyed-navy">
+          <h3 className="text-2xl font-headline font-semibold mb-10 text-primary">
             Core Values
           </h3>
           
@@ -111,17 +111,17 @@ const ValueTile: React.FC<ValueTileProps> = ({ icon, title, index }) => {
         viewport={{ once: true, amount: 0.6 }}
         className="bg-white rounded-xl p-6 shadow-sm flex flex-col items-center"
       >
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center text-greyed-navy mb-4">
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center text-primary mb-4">
           {icon}
         </div>
-        <h4 className="font-headline font-semibold text-greyed-navy">{title}</h4>
+        <h4 className="font-headline font-semibold text-primary">{title}</h4>
       </motion.div>
     ) : (
       <div className="bg-white rounded-xl p-6 shadow-sm flex flex-col items-center">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center text-greyed-navy mb-4">
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center text-primary mb-4">
           {icon}
         </div>
-        <h4 className="font-headline font-semibold text-greyed-navy">{title}</h4>
+        <h4 className="font-headline font-semibold text-primary">{title}</h4>
       </div>
     )
   );

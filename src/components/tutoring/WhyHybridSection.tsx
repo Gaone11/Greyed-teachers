@@ -29,25 +29,25 @@ const WhyHybridSection: React.FC = () => {
 
   const benefits = [
     { 
-      icon: <ChartBar className="w-5 h-5 text-greyed-blue" />, 
+      icon: <ChartBar className="w-5 h-5 text-accent" />, 
       text: "Instant insight from El AI data"
     },
     { 
-      icon: <HeartHandshake className="w-5 h-5 text-greyed-blue" />, 
+      icon: <HeartHandshake className="w-5 h-5 text-accent" />, 
       text: "Real empathy & encouragement"
     },
     { 
-      icon: <FileText className="w-5 h-5 text-greyed-blue" />, 
+      icon: <FileText className="w-5 h-5 text-accent" />, 
       text: "Personalised study plan after each session"
     }
   ];
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
+            <h2 className="text-3xl font-headline font-bold mb-6 text-primary">
               Why a human + AI?
             </h2>
             
@@ -63,14 +63,14 @@ const WhyHybridSection: React.FC = () => {
                     viewport={{ once: true }}
                     className="flex items-start"
                   >
-                    <div className="mr-4 bg-greyed-blue/20 p-2 rounded-full">
+                    <div className="mr-4 bg-accent/20 p-2 rounded-full">
                       {benefit.icon}
                     </div>
                     <span className="text-lg">{benefit.text}</span>
                   </motion.li>
                 ) : (
                   <li key={index} className="flex items-start">
-                    <div className="mr-4 bg-greyed-blue/20 p-2 rounded-full">
+                    <div className="mr-4 bg-accent/20 p-2 rounded-full">
                       {benefit.icon}
                     </div>
                     <span className="text-lg">{benefit.text}</span>
@@ -89,66 +89,66 @@ const WhyHybridSection: React.FC = () => {
               className="bg-white rounded-xl shadow-lg p-4"
             >
               {/* Mock-up of El AI dashboard */}
-              <div className="border border-greyed-navy/10 rounded-lg p-4">
-                <div className="bg-greyed-navy/5 p-3 rounded-lg mb-4">
-                  <h3 className="font-headline font-semibold text-greyed-navy mb-2">Student Summary</h3>
-                  <div className="h-4 w-3/4 bg-greyed-navy/10 rounded mb-2"></div>
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded"></div>
+              <div className="border border-primary/10 rounded-lg p-4">
+                <div className="bg-primary/5 p-3 rounded-lg mb-4">
+                  <h3 className="font-headline font-semibold text-primary mb-2">Student Summary</h3>
+                  <div className="h-4 w-3/4 bg-primary/10 rounded mb-2"></div>
+                  <div className="h-4 w-1/2 bg-primary/10 rounded"></div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-greyed-blue/20 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-blue/30 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-blue/30 rounded"></div>
+                  <div className="bg-accent/20 p-3 rounded-lg">
+                    <div className="h-4 w-3/4 bg-accent/30 rounded mb-2"></div>
+                    <div className="h-10 w-full bg-accent/30 rounded"></div>
                   </div>
-                  <div className="bg-greyed-beige/30 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-beige/50 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-beige/50 rounded"></div>
+                  <div className="bg-surface/30 p-3 rounded-lg">
+                    <div className="h-4 w-3/4 bg-surface/50 rounded mb-2"></div>
+                    <div className="h-10 w-full bg-surface/50 rounded"></div>
                   </div>
                 </div>
                 
-                <div className="bg-greyed-navy/5 p-3 rounded-lg">
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded mb-2"></div>
+                <div className="bg-primary/5 p-3 rounded-lg">
+                  <div className="h-4 w-1/2 bg-primary/10 rounded mb-2"></div>
                   <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-greyed-navy/20 rounded-full"></div>
-                    <div className="h-8 flex-1 bg-greyed-navy/10 rounded-lg"></div>
+                    <div className="h-8 w-8 bg-primary/20 rounded-full"></div>
+                    <div className="h-8 flex-1 bg-primary/10 rounded-lg"></div>
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-3 text-sm text-greyed-navy/60">
+              <div className="text-center mt-3 text-sm text-primary/60">
                 El AI Dashboard: Student Learning Profile
               </div>
             </motion.div>
           ) : (
             <div className="bg-white rounded-xl shadow-lg p-4">
               {/* Mock-up of El AI dashboard */}
-              <div className="border border-greyed-navy/10 rounded-lg p-4">
-                <div className="bg-greyed-navy/5 p-3 rounded-lg mb-4">
-                  <h3 className="font-headline font-semibold text-greyed-navy mb-2">Student Summary</h3>
-                  <div className="h-4 w-3/4 bg-greyed-navy/10 rounded mb-2"></div>
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded"></div>
+              <div className="border border-primary/10 rounded-lg p-4">
+                <div className="bg-primary/5 p-3 rounded-lg mb-4">
+                  <h3 className="font-headline font-semibold text-primary mb-2">Student Summary</h3>
+                  <div className="h-4 w-3/4 bg-primary/10 rounded mb-2"></div>
+                  <div className="h-4 w-1/2 bg-primary/10 rounded"></div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-greyed-blue/20 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-blue/30 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-blue/30 rounded"></div>
+                  <div className="bg-accent/20 p-3 rounded-lg">
+                    <div className="h-4 w-3/4 bg-accent/30 rounded mb-2"></div>
+                    <div className="h-10 w-full bg-accent/30 rounded"></div>
                   </div>
-                  <div className="bg-greyed-beige/30 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-beige/50 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-beige/50 rounded"></div>
+                  <div className="bg-surface/30 p-3 rounded-lg">
+                    <div className="h-4 w-3/4 bg-surface/50 rounded mb-2"></div>
+                    <div className="h-10 w-full bg-surface/50 rounded"></div>
                   </div>
                 </div>
                 
-                <div className="bg-greyed-navy/5 p-3 rounded-lg">
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded mb-2"></div>
+                <div className="bg-primary/5 p-3 rounded-lg">
+                  <div className="h-4 w-1/2 bg-primary/10 rounded mb-2"></div>
                   <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-greyed-navy/20 rounded-full"></div>
-                    <div className="h-8 flex-1 bg-greyed-navy/10 rounded-lg"></div>
+                    <div className="h-8 w-8 bg-primary/20 rounded-full"></div>
+                    <div className="h-8 flex-1 bg-primary/10 rounded-lg"></div>
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-3 text-sm text-greyed-navy/60">
+              <div className="text-center mt-3 text-sm text-primary/60">
                 El AI Dashboard: Student Learning Profile
               </div>
             </div>

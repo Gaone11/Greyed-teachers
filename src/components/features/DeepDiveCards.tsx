@@ -36,10 +36,10 @@ const DeepDiveCards: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-headline font-bold text-greyed-navy mb-12 text-center">
+          <h2 className="text-2xl md:text-3xl font-headline font-bold text-primary mb-12 text-center">
             Built with your needs in mind
           </h2>
           
@@ -56,12 +56,12 @@ const DeepDiveCards: React.FC = () => {
                   className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow"
                 >
                   <div className="flex items-center mb-4">
-                    <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-3">
                       {getIconComponent(card.icon)}
                     </div>
-                    <h3 className="font-headline font-semibold text-greyed-navy">{card.title}</h3>
+                    <h3 className="font-headline font-semibold text-primary">{card.title}</h3>
                   </div>
-                  <p className="text-greyed-black/70">{card.description}</p>
+                  <p className="text-text/70">{card.description}</p>
                 </motion.div>
               ) : (
                 <div
@@ -69,12 +69,12 @@ const DeepDiveCards: React.FC = () => {
                   className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow"
                 >
                   <div className="flex items-center mb-4">
-                    <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-3">
                       {getIconComponent(card.icon)}
                     </div>
-                    <h3 className="font-headline font-semibold text-greyed-navy">{card.title}</h3>
+                    <h3 className="font-headline font-semibold text-primary">{card.title}</h3>
                   </div>
-                  <p className="text-greyed-black/70">{card.description}</p>
+                  <p className="text-text/70">{card.description}</p>
                 </div>
               )
             ))}

@@ -60,10 +60,10 @@ const FAQAccordion: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-greyed-white snap-start">
+    <section className="py-16 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-headline font-bold text-center text-greyed-navy mb-10">
+          <h2 className="text-2xl md:text-3xl font-headline font-bold text-center text-primary mb-10">
             Common Questions
           </h2>
           
@@ -129,12 +129,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 
   return (
     <div 
-      className="border-b border-greyed-navy/10 py-4"
+      className="border-b border-primary/10 py-4"
       id={`faq-item-${id}`}
     >
       <h3>
         <button
-          className="flex justify-between items-center w-full text-left py-2 text-greyed-navy focus:outline-none focus:ring-2 focus:ring-greyed-blue rounded font-semibold text-lg"
+          className="flex justify-between items-center w-full text-left py-2 text-primary focus:outline-none focus:ring-2 focus:ring-accent rounded font-semibold text-lg"
           onClick={onToggle}
           aria-expanded={isOpen}
           aria-controls={`panel-${id}`}
@@ -162,7 +162,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             exit="closed"
             className="overflow-hidden"
           >
-            <div className="py-4 text-greyed-black/80">
+            <div className="py-4 text-text/80">
               {answer}
             </div>
           </motion.div>

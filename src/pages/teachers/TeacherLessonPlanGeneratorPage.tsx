@@ -517,7 +517,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                     <button
                       type="button"
                       onClick={() => handleRemoveFocusArea(index)}
-                      className="text-greyed-navy hover:text-greyed-navy/80"
+                      className="text-primary hover:text-primary/80"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -603,7 +603,7 @@ export default function TeacherLessonPlanGeneratorPage() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <CheckCircle className="h-5 w-5 text-greyed-navy mr-2" />
+                    <CheckCircle className="h-5 w-5 text-primary mr-2" />
                     Lesson Plan Generated
                   </h2>
                   <button
@@ -615,14 +615,14 @@ export default function TeacherLessonPlanGeneratorPage() {
                   </button>
                 </div>
                 <div className="flex flex-col items-center justify-center bg-white p-8 rounded-lg max-h-96 overflow-y-auto">
-                  <FileText className="h-16 w-16 text-greyed-blue mb-4" />
-                  <h3 className="text-xl font-semibold text-greyed-navy mb-2">Lesson Plan Ready!</h3>
-                  <p className="text-greyed-navy/70 text-center mb-6">
+                  <FileText className="h-16 w-16 text-accent mb-4" />
+                  <h3 className="text-xl font-semibold text-primary mb-2">Lesson Plan Ready!</h3>
+                  <p className="text-primary/70 text-center mb-6">
                     Your AI-generated lesson plan is ready for download.
                   </p>
                   <button
                     onClick={handleDownloadPlan}
-                    className="flex items-center bg-greyed-navy text-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 text-lg font-medium"
+                    className="flex items-center bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 text-lg font-medium"
                   >
                     <Download className="h-5 w-5 mr-2" />
                     Download & Edit DOCX

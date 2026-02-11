@@ -30,9 +30,9 @@ const OfficeLocations: React.FC = () => {
   const mapImageUrl = "https://images.pexels.com/photos/12066797/pexels-photo-12066797.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
-    <section className="py-16 bg-greyed-beige/30 snap-start">
+    <section className="py-16 bg-surface/30">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-headline font-bold mb-8 text-greyed-navy text-center">
+        <h2 className="text-2xl md:text-3xl font-headline font-bold mb-8 text-primary text-center">
           Our Locations
         </h2>
         
@@ -50,19 +50,19 @@ const OfficeLocations: React.FC = () => {
                   <div className="space-y-6">
                     {locations.map((location, index) => (
                       <div key={index} className="flex items-start">
-                        <MapPin className="flex-shrink-0 w-5 h-5 text-greyed-blue mt-1 mr-3" />
+                        <MapPin className="flex-shrink-0 w-5 h-5 text-accent mt-1 mr-3" />
                         <div>
-                          <h3 className="font-headline font-semibold text-greyed-navy mb-1">
+                          <h3 className="font-headline font-semibold text-primary mb-1">
                             {location.region}
                           </h3>
-                          <p className="text-greyed-black/80 mb-1">
+                          <p className="text-text/80 mb-1">
                             {location.address}
                           </p>
                           <a 
                             href={location.mapsLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center text-xs text-greyed-blue hover:text-greyed-navy"
+                            className="inline-flex items-center text-xs text-accent hover:text-primary"
                           >
                             Open in Google Maps
                             <ExternalLink className="w-3 h-3 ml-1" />
@@ -95,19 +95,19 @@ const OfficeLocations: React.FC = () => {
                   <div className="space-y-6">
                     {locations.map((location, index) => (
                       <div key={index} className="flex items-start">
-                        <MapPin className="flex-shrink-0 w-5 h-5 text-greyed-blue mt-1 mr-3" />
+                        <MapPin className="flex-shrink-0 w-5 h-5 text-accent mt-1 mr-3" />
                         <div>
-                          <h3 className="font-headline font-semibold text-greyed-navy mb-1">
+                          <h3 className="font-headline font-semibold text-primary mb-1">
                             {location.region}
                           </h3>
-                          <p className="text-greyed-black/80 mb-1">
+                          <p className="text-text/80 mb-1">
                             {location.address}
                           </p>
                           <a 
                             href={location.mapsLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center text-xs text-greyed-blue hover:text-greyed-navy"
+                            className="inline-flex items-center text-xs text-accent hover:text-primary"
                           >
                             Open in Google Maps
                             <ExternalLink className="w-3 h-3 ml-1" />

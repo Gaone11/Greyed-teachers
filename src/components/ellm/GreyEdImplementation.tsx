@@ -56,15 +56,15 @@ const GreyEdImplementation: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-headline font-bold mb-10 text-greyed-navy text-center">
+          <h2 className="text-3xl font-headline font-bold mb-10 text-primary text-center">
             How GreyEd Implements eLLM
           </h2>
           
           {/* Tabs */}
-          <div className="flex border-b border-greyed-navy/10 mb-8" role="tablist">
+          <div className="flex border-b border-primary/10 mb-8" role="tablist">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -72,8 +72,8 @@ const GreyEdImplementation: React.FC = () => {
                 aria-selected={activeTab === tab.id}
                 aria-controls={`panel-${tab.id}`}
                 id={`tab-${tab.id}`}
-                className={`flex items-center py-3 px-6 relative focus:outline-none focus:ring-2 focus:ring-greyed-blue rounded-t ${
-                  activeTab === tab.id ? 'text-greyed-navy font-medium' : 'text-greyed-navy/60 hover:text-greyed-navy/80'
+                className={`flex items-center py-3 px-6 relative focus:outline-none focus:ring-2 focus:ring-accent rounded-t ${
+                  activeTab === tab.id ? 'text-primary font-medium' : 'text-primary/60 hover:text-primary/80'
                 }`}
                 onClick={() => handleTabChange(tab.id)}
               >
@@ -82,7 +82,7 @@ const GreyEdImplementation: React.FC = () => {
                 
                 {activeTab === tab.id && enabled && (
                   <motion.div 
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
                     layoutId="underline"
                     variants={underlineVariants}
                     initial="hidden"
@@ -91,14 +91,14 @@ const GreyEdImplementation: React.FC = () => {
                 )}
                 
                 {activeTab === tab.id && !enabled && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
                 )}
               </button>
             ))}
           </div>
           
           {/* Tab content */}
-          <div className="min-h-[150px] bg-greyed-blue/10 rounded-lg p-6">
+          <div className="min-h-[150px] bg-accent/10 rounded-lg p-6">
             {enabled ? (
               <AnimatePresence mode="wait">
                 <motion.div
@@ -113,14 +113,14 @@ const GreyEdImplementation: React.FC = () => {
                   className="h-full"
                 >
                   <div className="flex items-start mb-4">
-                    <div className="w-10 h-10 rounded-full bg-greyed-blue/30 flex items-center justify-center text-greyed-navy mr-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/30 flex items-center justify-center text-primary mr-3">
                       {tabs.find(tab => tab.id === activeTab)?.icon}
                     </div>
-                    <h3 className="text-xl font-headline font-semibold text-greyed-navy">
+                    <h3 className="text-xl font-headline font-semibold text-primary">
                       {tabs.find(tab => tab.id === activeTab)?.label}
                     </h3>
                   </div>
-                  <p className="text-greyed-black/80 ml-13">
+                  <p className="text-text/80 ml-13">
                     {tabs.find(tab => tab.id === activeTab)?.content}
                   </p>
                 </motion.div>
@@ -133,14 +133,14 @@ const GreyEdImplementation: React.FC = () => {
                 className="h-full"
               >
                 <div className="flex items-start mb-4">
-                  <div className="w-10 h-10 rounded-full bg-greyed-blue/30 flex items-center justify-center text-greyed-navy mr-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/30 flex items-center justify-center text-primary mr-3">
                     {tabs.find(tab => tab.id === activeTab)?.icon}
                   </div>
-                  <h3 className="text-xl font-headline font-semibold text-greyed-navy">
+                  <h3 className="text-xl font-headline font-semibold text-primary">
                     {tabs.find(tab => tab.id === activeTab)?.label}
                   </h3>
                 </div>
-                <p className="text-greyed-black/80 ml-13">
+                <p className="text-text/80 ml-13">
                   {tabs.find(tab => tab.id === activeTab)?.content}
                 </p>
               </div>

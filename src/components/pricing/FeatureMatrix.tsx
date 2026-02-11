@@ -29,8 +29,8 @@ const FeatureMatrix: React.FC = () => {
         >
           <table className="w-full border-collapse">
             <thead>
-              <tr className="border-b border-greyed-navy/10">
-                <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-greyed-white">Feature</th>
+              <tr className="border-b border-primary/10">
+                <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-surface-white">Feature</th>
                 <th className="px-8 py-4 text-center font-semibold">Free</th>
                 <th className="px-8 py-4 text-center font-semibold">Premium</th>
                 <th className="px-8 py-4 text-center font-semibold">Hybrid</th>
@@ -39,9 +39,9 @@ const FeatureMatrix: React.FC = () => {
             </thead>
             <tbody>
               {featureMatrix.map((feature, index) => (
-                <tr key={feature.id} className={index % 2 === 0 ? 'bg-greyed-white' : 'bg-greyed-beige/20'}>
+                <tr key={feature.id} className={index % 2 === 0 ? 'bg-surface-white' : 'bg-surface-alt/20'}>
                   <td className="py-3 pl-4 pr-8 sticky left-0 font-medium"
-                    style={{ backgroundColor: index % 2 === 0 ? 'var(--greyed-white)' : 'rgba(222, 219, 194, 0.2)' }}>
+                    style={{ backgroundColor: index % 2 === 0 ? '#ffffff' : 'rgba(232, 213, 183, 0.2)' }}>
                     {feature.name}
                   </td>
                   <td className="px-8 py-3 text-center">
@@ -73,8 +73,8 @@ const FeatureMatrix: React.FC = () => {
         <div className="min-w-full">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="border-b border-greyed-navy/10">
-                <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-greyed-white">Feature</th>
+              <tr className="border-b border-primary/10">
+                <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-surface-white">Feature</th>
                 <th className="px-8 py-4 text-center font-semibold">Free</th>
                 <th className="px-8 py-4 text-center font-semibold">Premium</th>
                 <th className="px-8 py-4 text-center font-semibold">Hybrid</th>
@@ -83,9 +83,9 @@ const FeatureMatrix: React.FC = () => {
             </thead>
             <tbody>
               {featureMatrix.map((feature, index) => (
-                <tr key={feature.id} className={index % 2 === 0 ? 'bg-greyed-white' : 'bg-greyed-beige/20'}>
+                <tr key={feature.id} className={index % 2 === 0 ? 'bg-surface-white' : 'bg-surface-alt/20'}>
                   <td className="py-3 pl-4 pr-8 sticky left-0 font-medium"
-                    style={{ backgroundColor: index % 2 === 0 ? 'var(--greyed-white)' : 'rgba(222, 219, 194, 0.2)' }}>
+                    style={{ backgroundColor: index % 2 === 0 ? '#ffffff' : 'rgba(232, 213, 183, 0.2)' }}>
                     {feature.name}
                   </td>
                   <td className="px-8 py-3 text-center">
@@ -120,7 +120,7 @@ const FeatureMatrix: React.FC = () => {
   // For mobile: collapsible sections under each plan
   const MobileMatrix = () => (
     <div className="space-y-6">
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
+      <div className="rounded-lg border border-primary/10 p-4">
         <h3 className="font-headline font-semibold mb-3">Free Plan Features</h3>
         <ul className="space-y-2">
           {featureMatrix.map(feature => (
@@ -139,7 +139,7 @@ const FeatureMatrix: React.FC = () => {
         </ul>
       </div>
 
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
+      <div className="rounded-lg border border-primary/10 p-4">
         <h3 className="font-headline font-semibold mb-3">Premium Plan Features</h3>
         <ul className="space-y-2">
           {featureMatrix.map(feature => (
@@ -158,7 +158,7 @@ const FeatureMatrix: React.FC = () => {
         </ul>
       </div>
 
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
+      <div className="rounded-lg border border-primary/10 p-4">
         <h3 className="font-headline font-semibold mb-3">Hybrid Plan Features</h3>
         <ul className="space-y-2">
           {featureMatrix.map(feature => (
@@ -180,7 +180,7 @@ const FeatureMatrix: React.FC = () => {
         </ul>
       </div>
       
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
+      <div className="rounded-lg border border-primary/10 p-4">
         <h3 className="font-headline font-semibold mb-3">Teacher Plan Features</h3>
         <ul className="space-y-2">
           {featureMatrix.map(feature => (
@@ -202,9 +202,9 @@ const FeatureMatrix: React.FC = () => {
   );
 
   return (
-    <section className="py-16 bg-greyed-white snap-start">
+    <section className="py-16 bg-surface-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-headline font-bold text-center text-greyed-navy mb-10">
+        <h2 className="text-2xl md:text-3xl font-headline font-bold text-center text-primary mb-10">
           Compare All Features
         </h2>
         

@@ -16,7 +16,7 @@ const SessionRecapStrip: React.FC = () => {
   };
 
   return (
-    <section className="py-12 bg-greyed-navy text-greyed-white relative overflow-hidden snap-start">
+    <section className="py-12 bg-primary text-surface-white relative overflow-hidden">
       {/* Lock icon watermark */}
       <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
         <Lock className="w-40 h-40" />
@@ -34,7 +34,7 @@ const SessionRecapStrip: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4">
               Instant Recap
             </h2>
-            <p className="text-xl text-greyed-blue">
+            <p className="text-xl text-accent">
               El AI auto-sends bullet summaries, key formulas and next-step tasks right after each call.
             </p>
           </motion.div>
@@ -43,7 +43,7 @@ const SessionRecapStrip: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4">
               Instant Recap
             </h2>
-            <p className="text-xl text-greyed-blue">
+            <p className="text-xl text-accent">
               El AI auto-sends bullet summaries, key formulas and next-step tasks right after each call.
             </p>
           </div>

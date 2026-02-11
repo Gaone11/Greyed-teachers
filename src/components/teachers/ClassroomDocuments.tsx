@@ -269,7 +269,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
     if (!fileType) return <File className="w-6 h-6 text-gray-400" />;
     
     if (fileType.includes('image')) {
-      return <FileImage className="w-6 h-6 text-greyed-blue" />;
+      return <FileImage className="w-6 h-6 text-accent" />;
     } else if (fileType.includes('pdf') || fileType.includes('document')) {
       return <FileText className="w-6 h-6 text-red-500" />;
     }
@@ -301,7 +301,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
         <h2 className="text-lg font-semibold text-black">Classroom Documents</h2>
         <button 
           onClick={() => setShowUploadModal(true)}
-          className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
+          className="px-3 py-1.5 bg-primary text-white rounded hover:bg-primary/90 text-sm transition-colors flex items-center"
         >
           <FilePlus size={16} className="mr-1" />
           Upload Document
@@ -324,7 +324,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
           </div>
           <input
             type="text"
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Search documents by name or tag..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -335,11 +335,11 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
       {/* Documents list */}
       {isLoading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader className="w-8 h-8 text-greyed-blue animate-spin" />
+          <Loader className="w-8 h-8 text-accent animate-spin" />
         </div>
       ) : filteredDocuments.length === 0 ? (
-        <div className="text-center py-12 border-2 border-dashed border-greyed-navy/10 rounded-lg">
-          <FileText className="w-12 h-12 text-greyed-navy/30 mx-auto mb-4" />
+        <div className="text-center py-12 border-2 border-dashed border-primary/10 rounded-lg">
+          <FileText className="w-12 h-12 text-primary/30 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-black mb-2">
             {searchTerm ? 'No matching documents found' : 'No documents uploaded yet'}
           </h3>
@@ -352,7 +352,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
           {!searchTerm && (
             <button 
               onClick={() => setShowUploadModal(true)}
-              className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors inline-flex items-center"
             >
               <FilePlus size={16} className="mr-2" />
               Upload First Document
@@ -363,7 +363,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
-              <tr className="bg-greyed-navy/5">
+              <tr className="bg-primary/5">
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Name</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Type</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Size</th>
@@ -374,7 +374,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredDocuments.map((doc) => (
-                <tr key={doc.id} className="hover:bg-greyed-navy/5">
+                <tr key={doc.id} className="hover:bg-primary/5">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 mr-3">
@@ -385,7 +385,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                           href={doc.path} 
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-medium text-greyed-blue hover:text-greyed-navy cursor-pointer"
+                          className="font-medium text-accent hover:text-primary cursor-pointer"
                         >
                           {doc.file_name || doc.path.split('/').pop()}
                         </a>
@@ -404,7 +404,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-wrap gap-1">
                       {doc.tags?.map((tag, index) => (
-                        <span key={index} className="px-2 py-0.5 bg-greyed-navy/10 text-greyed-navy rounded text-xs">
+                        <span key={index} className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs">
                           {tag}
                         </span>
                       ))}
@@ -416,7 +416,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                         href={doc.path}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1 text-gray-500 hover:text-greyed-navy hover:bg-greyed-navy/10 rounded transition-colors"
+                        className="p-1 text-gray-500 hover:text-primary hover:bg-primary/10 rounded transition-colors"
                         title="Download"
                       >
                         <Download size={16} />
@@ -459,7 +459,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
             <div className="p-5">
               {/* File upload area */}
               <div 
-                className={`border-2 ${dragActive ? 'border-greyed-blue bg-greyed-blue/5' : 'border-dashed border-gray-300'} rounded-lg p-6 text-center mb-4`}
+                className={`border-2 ${dragActive ? 'border-accent bg-accent/5' : 'border-dashed border-gray-300'} rounded-lg p-6 text-center mb-4`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
@@ -477,7 +477,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   <div className="text-center">
                     <div className="flex items-center justify-center mb-2">
                       {selectedFile.type.includes('image') ? (
-                        <FileImage className="w-8 h-8 text-greyed-blue" />
+                        <FileImage className="w-8 h-8 text-accent" />
                       ) : selectedFile.type.includes('pdf') ? (
                         <FileText className="w-8 h-8 text-red-500" />
                       ) : (
@@ -501,7 +501,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                       </button>
                       <label
                         htmlFor="document-file-input"
-                        className="px-3 py-1 text-sm bg-greyed-navy/5 text-black hover:bg-greyed-navy/10 rounded cursor-pointer transition-colors"
+                        className="px-3 py-1 text-sm bg-primary/5 text-black hover:bg-primary/10 rounded cursor-pointer transition-colors"
                       >
                         Change File
                       </label>
@@ -509,12 +509,12 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   </div>
                 ) : (
                   <div>
-                    <FilePlus className="w-8 h-8 text-greyed-navy/50 mx-auto mb-4" />
+                    <FilePlus className="w-8 h-8 text-primary/50 mx-auto mb-4" />
                     <p className="text-black mb-2">Drag and drop your file here</p>
                     <p className="text-black/60 text-sm mb-4">or</p>
                     <label
                       htmlFor="document-file-input"
-                      className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors cursor-pointer inline-block"
+                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors cursor-pointer inline-block"
                     >
                       Browse Files
                     </label>
@@ -531,7 +531,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div 
-                      className="bg-greyed-blue h-2.5 rounded-full" 
+                      className="bg-accent h-2.5 rounded-full" 
                       style={{ width: `${uploadProgress}%` }}
                     ></div>
                   </div>
@@ -553,14 +553,14 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyPress={handleTagKeyPress}
-                      className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                      className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-accent"
                       placeholder="e.g., homework, notes"
                     />
                   </div>
                   <button
                     type="button"
                     onClick={handleAddTag}
-                    className="bg-greyed-navy text-white px-3 py-2 rounded-r-md hover:bg-greyed-navy/90"
+                    className="bg-primary text-white px-3 py-2 rounded-r-md hover:bg-primary/90"
                   >
                     Add
                   </button>
@@ -570,13 +570,13 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   {currentTags.map((tag, index) => (
                     <div 
                       key={index} 
-                      className="bg-greyed-blue/20 text-greyed-navy px-2 py-1 rounded-lg text-sm flex items-center"
+                      className="bg-accent/20 text-primary px-2 py-1 rounded-lg text-sm flex items-center"
                     >
                       {tag}
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(tag)}
-                        className="ml-1 text-greyed-navy/70 hover:text-greyed-navy"
+                        className="ml-1 text-primary/70 hover:text-primary"
                       >
                         <X size={14} />
                       </button>
@@ -601,7 +601,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                 <button
                   type="button"
                   onClick={handleUpload}
-                  className={`px-4 py-2 text-sm bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center ${
+                  className={`px-4 py-2 text-sm bg-primary text-white rounded-md hover:bg-primary/90 flex items-center ${
                     isUploading || !selectedFile ? 'opacity-70 cursor-not-allowed' : ''
                   }`}
                   disabled={isUploading || !selectedFile}

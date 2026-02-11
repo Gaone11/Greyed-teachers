@@ -38,21 +38,21 @@ const DefinitionSection: React.FC = () => {
 
   const features = [
     {
-      icon: <Brain className="w-5 h-5 text-greyed-blue" />,
+      icon: <Brain className="w-5 h-5 text-accent" />,
       text: "Built on Transformers trained on text and audio."
     },
     {
-      icon: <Clock className="w-5 h-5 text-greyed-blue" />,
+      icon: <Clock className="w-5 h-5 text-accent" />,
       text: "Detects user frustration, boredom, or confidence in < 1 s."
     },
     {
-      icon: <BarChart className="w-5 h-5 text-greyed-blue" />,
+      icon: <BarChart className="w-5 h-5 text-accent" />,
       text: "Adds an emotional layer on top of classic language understanding."
     }
   ];
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
           {enabled ? (
@@ -63,10 +63,10 @@ const DefinitionSection: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
+                <h2 className="text-3xl font-headline font-bold mb-6 text-primary">
                   What is an eLLM?
                 </h2>
-                <p className="text-lg mb-8 text-greyed-black/80">
+                <p className="text-lg mb-8 text-text/80">
                   AI that reads tone, rhythm and prosody to infer emotion, then tailors its response.
                 </p>
                 
@@ -81,10 +81,10 @@ const DefinitionSection: React.FC = () => {
                       viewport={{ once: true }}
                       className="flex items-start"
                     >
-                      <div className="mr-4 bg-greyed-blue/20 p-2 rounded-full">
+                      <div className="mr-4 bg-accent/20 p-2 rounded-full">
                         {feature.icon}
                       </div>
-                      <span className="text-greyed-black/80">{feature.text}</span>
+                      <span className="text-text/80">{feature.text}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -97,14 +97,14 @@ const DefinitionSection: React.FC = () => {
                 viewport={{ once: true }}
                 className="flex items-center justify-center"
               >
-                <div className="w-full max-w-md bg-greyed-navy rounded-xl p-6 font-mono text-sm overflow-hidden">
+                <div className="w-full max-w-md bg-primary rounded-xl p-6 font-mono text-sm overflow-hidden">
                   <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                     <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-greyed-white/70 text-xs">ellm-response.json</div>
+                    <div className="ml-4 text-surface-white/70 text-xs">ellm-response.json</div>
                   </div>
-                  <pre className="text-greyed-white/90 overflow-x-auto">
+                  <pre className="text-surface-white/90 overflow-x-auto">
 {`{
   "analysis": {
     "intent": "solve_equation",
@@ -124,10 +124,10 @@ const DefinitionSection: React.FC = () => {
           ) : (
             <>
               <div>
-                <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
+                <h2 className="text-3xl font-headline font-bold mb-6 text-primary">
                   What is an eLLM?
                 </h2>
-                <p className="text-lg mb-8 text-greyed-black/80">
+                <p className="text-lg mb-8 text-text/80">
                   AI that reads tone, rhythm and prosody to infer emotion, then tailors its response.
                 </p>
                 
@@ -137,24 +137,24 @@ const DefinitionSection: React.FC = () => {
                       key={index}
                       className="flex items-start"
                     >
-                      <div className="mr-4 bg-greyed-blue/20 p-2 rounded-full">
+                      <div className="mr-4 bg-accent/20 p-2 rounded-full">
                         {feature.icon}
                       </div>
-                      <span className="text-greyed-black/80">{feature.text}</span>
+                      <span className="text-text/80">{feature.text}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               
               <div className="flex items-center justify-center">
-                <div className="w-full max-w-md bg-greyed-navy rounded-xl p-6 font-mono text-sm overflow-hidden">
+                <div className="w-full max-w-md bg-primary rounded-xl p-6 font-mono text-sm overflow-hidden">
                   <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                     <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-greyed-white/70 text-xs">ellm-response.json</div>
+                    <div className="ml-4 text-surface-white/70 text-xs">ellm-response.json</div>
                   </div>
-                  <pre className="text-greyed-white/90 overflow-x-auto">
+                  <pre className="text-surface-white/90 overflow-x-auto">
 {`{
   "analysis": {
     "intent": "solve_equation",

@@ -18,7 +18,7 @@ const ACCOMMODATION_OPTIONS = [
     id: 'adhd',
     label: 'ADHD',
     description: 'Attention and focus support',
-    color: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/40',
+    color: 'bg-accent/20 text-primary border-accent/40',
     features: [
       'Shorter activity segments',
       'Built-in movement breaks',
@@ -42,7 +42,7 @@ const ACCOMMODATION_OPTIONS = [
     id: 'asd',
     label: 'ASD',
     description: 'Autism spectrum support',
-    color: 'bg-greyed-navy/10 text-greyed-navy border-greyed-navy/30',
+    color: 'bg-primary/10 text-primary border-primary/30',
     features: [
       'Clear, explicit instructions',
       'Predictable routines',
@@ -81,15 +81,15 @@ const AccommodationsSelector: React.FC<AccommodationsSelectorProps> = ({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="font-bold text-greyed-navy">Neurodiversity Accommodations</h3>
-          <p className="text-sm text-greyed-navy/70">
+          <h3 className="font-bold text-primary">Neurodiversity Accommodations</h3>
+          <p className="text-sm text-primary/70">
             Select support types to include in lesson plan generation
           </p>
         </div>
         {selectedCount > 0 && (
-          <div className="flex items-center gap-2 bg-greyed-blue/20 px-3 py-1 rounded-full">
-            <Check size={16} className="text-greyed-navy" />
-            <span className="text-sm font-semibold text-greyed-navy">
+          <div className="flex items-center gap-2 bg-accent/20 px-3 py-1 rounded-full">
+            <Check size={16} className="text-primary" />
+            <span className="text-sm font-semibold text-primary">
               {selectedCount} selected
             </span>
           </div>
@@ -106,8 +106,8 @@ const AccommodationsSelector: React.FC<AccommodationsSelectorProps> = ({
               onClick={() => toggleAccommodation(option.id as keyof AccommodationPreferences)}
               className={`p-4 rounded-lg border-2 transition-all text-left ${
                 isSelected
-                  ? 'border-greyed-navy bg-greyed-navy/5 shadow-md'
-                  : 'border-greyed-navy/20 hover:border-greyed-navy/40'
+                  ? 'border-primary bg-primary/5 shadow-md'
+                  : 'border-primary/20 hover:border-primary/40'
               }`}
             >
               <div className="flex items-start justify-between mb-3">
@@ -118,29 +118,29 @@ const AccommodationsSelector: React.FC<AccommodationsSelectorProps> = ({
                     {option.label}
                   </div>
                   {isSelected && (
-                    <div className="w-6 h-6 bg-greyed-navy rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                       <Check size={16} className="text-white" />
                     </div>
                   )}
                 </div>
               </div>
 
-              <p className="text-sm text-greyed-navy/80 mb-3">
+              <p className="text-sm text-primary/80 mb-3">
                 {option.description}
               </p>
 
               {isSelected && (
-                <div className="bg-greyed-beige/30 rounded-lg p-3 mt-3">
-                  <p className="text-xs font-semibold text-greyed-navy mb-2">
+                <div className="bg-surface/30 rounded-lg p-3 mt-3">
+                  <p className="text-xs font-semibold text-primary mb-2">
                     Includes:
                   </p>
                   <ul className="space-y-1">
                     {option.features.map((feature, idx) => (
                       <li
                         key={idx}
-                        className="text-xs text-greyed-navy/70 flex items-start gap-2"
+                        className="text-xs text-primary/70 flex items-start gap-2"
                       >
-                        <span className="text-greyed-navy mt-0.5">•</span>
+                        <span className="text-primary mt-0.5">•</span>
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -153,8 +153,8 @@ const AccommodationsSelector: React.FC<AccommodationsSelectorProps> = ({
       </div>
 
       {selectedCount > 0 && (
-        <div className="bg-greyed-blue/10 border-l-4 border-greyed-blue rounded-lg p-4">
-          <p className="text-sm text-greyed-navy">
+        <div className="bg-accent/10 border-l-4 border-accent rounded-lg p-4">
+          <p className="text-sm text-primary">
             <span className="font-semibold">Accommodation Preview:</span> Your lesson plan will include{' '}
             {selectedCount === 1 && 'support for '}
             {selectedCount === 2 && 'supports for '}

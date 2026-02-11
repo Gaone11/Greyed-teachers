@@ -77,11 +77,11 @@ const PartnersStrip: React.FC = () => {
   const duplicatedPartners = [...partners, ...partners, ...partners];
 
   return (
-    <section className="py-10 bg-greyed-beige/30 snap-start">
+    <section className="py-10 bg-surface/30">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.h3 
-            className="text-xl font-headline font-semibold mb-8 text-greyed-navy text-center"
+            className="text-xl font-headline font-semibold mb-8 text-primary text-center"
             variants={stripVariants}
             initial="hidden"
             whileInView="visible"
@@ -90,7 +90,7 @@ const PartnersStrip: React.FC = () => {
             Our Partners
           </motion.h3>
         ) : (
-          <h3 className="text-xl font-headline font-semibold mb-8 text-greyed-navy text-center">
+          <h3 className="text-xl font-headline font-semibold mb-8 text-primary text-center">
             Our Partners
           </h3>
         )}

@@ -59,8 +59,8 @@ const FamilyUpdateListItem: React.FC<FamilyUpdateListItemProps> = ({
     <div className="bg-white rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4">
       <div className="flex justify-between items-start mb-3">
         <div>
-          <h3 className="font-medium text-greyed-navy">{update.className}</h3>
-          <div className="flex items-center text-greyed-navy/60 text-sm">
+          <h3 className="font-medium text-primary">{update.className}</h3>
+          <div className="flex items-center text-primary/60 text-sm">
             <Calendar size={14} className="mr-1" />
             {formatWeekRange(update.weekStart, update.weekEnd)}
           </div>
@@ -78,13 +78,13 @@ const FamilyUpdateListItem: React.FC<FamilyUpdateListItemProps> = ({
       </div>
       
       <div className="flex flex-wrap justify-between items-center border-t border-gray-100 pt-3">
-        <div className="flex items-center text-sm text-greyed-navy/70">
+        <div className="flex items-center text-sm text-primary/70">
           <div className="mr-2">Sent: {formatDate(update.sentDate)}</div>
           <div className="flex items-center">
             <span className="mr-1">Opens: {update.openRate}</span>
             <div className="w-16 h-2 bg-gray-200 rounded-full">
               <motion.div 
-                className="h-full bg-greyed-blue rounded-full"
+                className="h-full bg-accent rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${update.openPercentage}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -96,7 +96,7 @@ const FamilyUpdateListItem: React.FC<FamilyUpdateListItemProps> = ({
         <div className="mt-2 sm:mt-0 flex space-x-2">
           <button
             onClick={() => onView(update.id)}
-            className="p-1.5 text-greyed-blue hover:text-greyed-navy hover:bg-greyed-navy/10 rounded transition-colors"
+            className="p-1.5 text-accent hover:text-primary hover:bg-primary/10 rounded transition-colors"
             title="View update"
           >
             <Eye size={16} />
@@ -106,7 +106,7 @@ const FamilyUpdateListItem: React.FC<FamilyUpdateListItemProps> = ({
             <>
               <button
                 onClick={() => onEdit(update.id)}
-                className="p-1.5 text-greyed-blue hover:text-greyed-navy hover:bg-greyed-navy/10 rounded transition-colors"
+                className="p-1.5 text-accent hover:text-primary hover:bg-primary/10 rounded transition-colors"
                 title="Edit update"
               >
                 <Edit2 size={16} />

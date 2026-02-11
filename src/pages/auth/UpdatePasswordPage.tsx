@@ -76,14 +76,14 @@ const UpdatePasswordPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-2xl md:text-3xl font-headline font-bold text-greyed-navy mb-2">
+              <h1 className="text-2xl md:text-3xl font-headline font-bold text-primary mb-2">
                 Create New Password
               </h1>
-              <p className="text-greyed-navy/70 text-sm md:text-base">
+              <p className="text-primary/70 text-sm md:text-base">
                 Please enter your new password below
               </p>
             </div>
@@ -95,15 +95,15 @@ const UpdatePasswordPage: React.FC = () => {
                     <CheckCircle className="w-8 h-8 text-green-600" />
                   </div>
                   
-                  <h2 className="text-xl font-headline font-semibold text-greyed-navy mb-3">
+                  <h2 className="text-xl font-headline font-semibold text-primary mb-3">
                     Password Updated
                   </h2>
                   
-                  <p className="text-greyed-navy/80 mb-6">
+                  <p className="text-primary/80 mb-6">
                     Your password has been successfully updated. You'll be redirected to the login page shortly.
                   </p>
                   
-                  <Link to="/auth/login" className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors">
+                  <Link to="/auth/login" className="inline-flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
                     Log In Now
                   </Link>
                 </div>
@@ -117,18 +117,18 @@ const UpdatePasswordPage: React.FC = () => {
                   )}
                   
                   <div className="mb-5">
-                    <label htmlFor="password" className="block text-sm font-medium text-greyed-navy mb-1">
+                    <label htmlFor="password" className="block text-sm font-medium text-primary mb-1">
                       New Password
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-greyed-navy/30" />
+                        <Lock className="h-5 w-5 text-primary/30" />
                       </div>
                       <input
                         id="password"
                         type="password"
                         {...register("password")}
-                        className={`w-full pl-10 pr-4 py-2 border ${errors.password ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                        className={`w-full pl-10 pr-4 py-2 border ${errors.password ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                         placeholder="••••••••"
                         autoFocus
                       />
@@ -136,24 +136,24 @@ const UpdatePasswordPage: React.FC = () => {
                     {errors.password && (
                       <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
                     )}
-                    <p className="mt-1 text-xs text-greyed-navy/60">
+                    <p className="mt-1 text-xs text-primary/60">
                       6+ characters, 1 special character
                     </p>
                   </div>
                   
                   <div className="mb-6">
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-greyed-navy mb-1">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-primary mb-1">
                       Confirm New Password
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-greyed-navy/30" />
+                        <Lock className="h-5 w-5 text-primary/30" />
                       </div>
                       <input
                         id="confirmPassword"
                         type="password"
                         {...register("confirmPassword")}
-                        className={`w-full pl-10 pr-4 py-2 border ${errors.confirmPassword ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                        className={`w-full pl-10 pr-4 py-2 border ${errors.confirmPassword ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                         placeholder="••••••••"
                       />
                     </div>
@@ -165,8 +165,8 @@ const UpdatePasswordPage: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full bg-greyed-navy text-greyed-white font-medium py-3 rounded-lg transition-colors ${
-                      isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                    className={`w-full bg-primary text-surface-white font-medium py-3 rounded-lg transition-colors ${
+                      isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
                     }`}
                   >
                     {isSubmitting ? (
@@ -180,9 +180,9 @@ const UpdatePasswordPage: React.FC = () => {
                   </button>
                   
                   <div className="text-center mt-6">
-                    <p className="text-greyed-navy/70">
+                    <p className="text-primary/70">
                       Remember your password?{' '}
-                      <Link to="/auth/login" className="text-greyed-blue hover:text-greyed-navy font-medium">
+                      <Link to="/auth/login" className="text-accent hover:text-primary font-medium">
                         Log in
                       </Link>
                     </p>

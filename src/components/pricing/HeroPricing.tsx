@@ -18,13 +18,13 @@ const HeroPricing: React.FC = () => {
   };
 
   return (
-    <section className="min-h-[50vh] flex items-center justify-center relative bg-greyed-navy snap-start">
+    <section className="min-h-[50vh] flex items-center justify-center relative bg-primary">
       {/* Back to home link - visible at the top */}
       <div className="absolute top-24 left-0 w-full z-10">
         <div className="container mx-auto px-4">
           <Link 
             to="/" 
-            className="inline-flex items-center text-greyed-white/80 hover:text-greyed-blue transition-colors"
+            className="inline-flex items-center text-surface-white/80 hover:text-accent transition-colors"
             title="Back to Home"
           >
             <img src="/favicon.svg" alt="GreyEd" className="w-7 h-7" />
@@ -36,7 +36,7 @@ const HeroPricing: React.FC = () => {
         {enabled ? (
           <>
             <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-surface-white mb-6"
               initial="hidden"
               animate="visible"
               variants={headlineVariants}
@@ -46,7 +46,7 @@ const HeroPricing: React.FC = () => {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-accent max-w-3xl mx-auto"
               initial="hidden"
               animate="visible"
               variants={subheadVariants}
@@ -57,11 +57,11 @@ const HeroPricing: React.FC = () => {
           </>
         ) : (
           <>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-surface-white mb-6">
               Pick a plan, level-up your learning.
             </h1>
             
-            <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-accent max-w-3xl mx-auto">
               From a forever-free AI tutor to full hybrid support, there's a GreyEd plan for every goal.
             </p>
           </>

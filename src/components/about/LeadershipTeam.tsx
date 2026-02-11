@@ -51,7 +51,7 @@ const LeadershipTeam: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-navy text-greyed-white snap-start">
+    <section className="py-20 bg-primary text-surface-white">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.h2 
@@ -114,7 +114,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         whileHover={{ rotateY: 5, y: -5 }}
         tabIndex={0}
         aria-label={`${name}, ${role}`}
-        className="bg-white/10 rounded-xl overflow-hidden shadow-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+        className="bg-white/10 rounded-xl overflow-hidden shadow-md focus:outline-none focus:ring-2 focus:ring-accent"
       >
         <div className="aspect-[3/4] relative overflow-hidden">
           <img 
@@ -122,16 +122,16 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             alt={name}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-greyed-navy/80 to-transparent flex items-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
             <div className="p-4 w-full">
               <h3 className="font-headline font-semibold text-lg">{name}</h3>
-              <p className="text-greyed-blue text-sm mb-1">{role}</p>
-              <p className="text-greyed-white/80 text-xs">{highlight}</p>
+              <p className="text-accent text-sm mb-1">{role}</p>
+              <p className="text-surface-white/80 text-xs">{highlight}</p>
               
               <div className="mt-3">
                 <a 
                   href="#" 
-                  className="inline-flex items-center text-xs text-greyed-blue hover:text-greyed-white transition-colors"
+                  className="inline-flex items-center text-xs text-accent hover:text-surface-white transition-colors"
                   aria-label={`${name}'s LinkedIn profile`}
                 >
                   <Linkedin className="w-4 h-4 mr-1" />
@@ -146,7 +146,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
       <div
         tabIndex={0}
         aria-label={`${name}, ${role}`}
-        className="bg-white/10 rounded-xl overflow-hidden shadow-md hover:-translate-y-1 transition-transform focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+        className="bg-white/10 rounded-xl overflow-hidden shadow-md hover:-translate-y-1 transition-transform focus:outline-none focus:ring-2 focus:ring-accent"
       >
         <div className="aspect-[3/4] relative overflow-hidden">
           <img 
@@ -154,16 +154,16 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             alt={name}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-greyed-navy/80 to-transparent flex items-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
             <div className="p-4 w-full">
               <h3 className="font-headline font-semibold text-lg">{name}</h3>
-              <p className="text-greyed-blue text-sm mb-1">{role}</p>
-              <p className="text-greyed-white/80 text-xs">{highlight}</p>
+              <p className="text-accent text-sm mb-1">{role}</p>
+              <p className="text-surface-white/80 text-xs">{highlight}</p>
               
               <div className="mt-3">
                 <a 
                   href="#" 
-                  className="inline-flex items-center text-xs text-greyed-blue hover:text-greyed-white transition-colors"
+                  className="inline-flex items-center text-xs text-accent hover:text-surface-white transition-colors"
                   aria-label={`${name}'s LinkedIn profile`}
                 >
                   <Linkedin className="w-4 h-4 mr-1" />

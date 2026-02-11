@@ -38,11 +38,11 @@ const Newsletter: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-greyed-white snap-start">
+    <section className="py-16 bg-surface-white">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.div 
-            className="max-w-4xl mx-auto bg-greyed-navy rounded-xl overflow-hidden"
+            className="max-w-4xl mx-auto bg-primary rounded-xl overflow-hidden"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -52,14 +52,14 @@ const Newsletter: React.FC = () => {
               className="p-8 md:p-12"
               variants={contentVariants}
             >
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white text-center">
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-surface-white text-center">
                 Ready to revolutionize your teaching?
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <button 
                   onClick={handleStartFree}
-                  className="group bg-greyed-blue hover:bg-greyed-white text-greyed-navy font-medium py-3 px-6 rounded-full transition-colors flex items-center"
+                  className="group bg-accent hover:bg-surface-white text-primary font-medium py-3 px-6 rounded-full transition-colors flex items-center"
                 >
                   {user ? (
                     <>
@@ -82,16 +82,16 @@ const Newsletter: React.FC = () => {
             </motion.div>
           </motion.div>
         ) : (
-          <div className="max-w-4xl mx-auto bg-greyed-navy rounded-xl overflow-hidden">
+          <div className="max-w-4xl mx-auto bg-primary rounded-xl overflow-hidden">
             <div className="p-8 md:p-12">
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white text-center">
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-surface-white text-center">
                 Ready to revolutionize your teaching?
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <button 
                   onClick={handleStartFree}
-                  className="bg-greyed-blue hover:bg-greyed-white text-greyed-navy font-medium py-3 px-6 rounded-full transition-colors flex items-center"
+                  className="bg-accent hover:bg-surface-white text-primary font-medium py-3 px-6 rounded-full transition-colors flex items-center"
                 >
                   {user ? (
                     <>

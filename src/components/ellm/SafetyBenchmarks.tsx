@@ -50,7 +50,7 @@ const SafetyBenchmarks: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-beige/30 snap-start">
+    <section className="py-20 bg-surface/30">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.div
@@ -60,14 +60,14 @@ const SafetyBenchmarks: React.FC = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-3xl font-headline font-bold mb-10 text-greyed-navy text-center">
+            <h2 className="text-3xl font-headline font-bold mb-10 text-primary text-center">
               Safety Benchmarks
             </h2>
             
             <div className="overflow-x-auto">
               <table className="w-full border-collapse bg-white rounded-lg shadow-md overflow-hidden">
                 <thead>
-                  <tr className="bg-greyed-navy text-greyed-white">
+                  <tr className="bg-primary text-surface-white">
                     <th className="py-4 px-6 text-left">Metric</th>
                     <th className="py-4 px-6 text-center">eLLM</th>
                     <th className="py-4 px-6 text-center">GPT-4 baseline</th>
@@ -92,14 +92,14 @@ const SafetyBenchmarks: React.FC = () => {
           </motion.div>
         ) : (
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-headline font-bold mb-10 text-greyed-navy text-center">
+            <h2 className="text-3xl font-headline font-bold mb-10 text-primary text-center">
               Safety Benchmarks
             </h2>
             
             <div className="overflow-x-auto">
               <table className="w-full border-collapse bg-white rounded-lg shadow-md overflow-hidden">
                 <thead>
-                  <tr className="bg-greyed-navy text-greyed-white">
+                  <tr className="bg-primary text-surface-white">
                     <th className="py-4 px-6 text-left">Metric</th>
                     <th className="py-4 px-6 text-center">eLLM</th>
                     <th className="py-4 px-6 text-center">GPT-4 baseline</th>
@@ -231,26 +231,26 @@ const MetricRow: React.FC<MetricRowProps> = ({
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className={index % 2 === 0 ? 'bg-white' : 'bg-greyed-beige/10'}
+        className={index % 2 === 0 ? 'bg-white' : 'bg-surface/10'}
       >
-        <td className="py-4 px-6 border-b border-greyed-navy/10">{metric}</td>
-        <td className={`py-4 px-6 border-b border-greyed-navy/10 text-center font-mono ${isEllmBetter ? 'text-green-600 font-semibold' : ''}`}>
+        <td className="py-4 px-6 border-b border-primary/10">{metric}</td>
+        <td className={`py-4 px-6 border-b border-primary/10 text-center font-mono ${isEllmBetter ? 'text-green-600 font-semibold' : ''}`}>
           {displayedEllmValue}
         </td>
-        <td className="py-4 px-6 border-b border-greyed-navy/10 text-center font-mono">
+        <td className="py-4 px-6 border-b border-primary/10 text-center font-mono">
           {displayedGptValue}
         </td>
       </motion.tr>
     ) : (
       <tr
         id={`metric-row-${index}`}
-        className={index % 2 === 0 ? 'bg-white' : 'bg-greyed-beige/10'}
+        className={index % 2 === 0 ? 'bg-white' : 'bg-surface/10'}
       >
-        <td className="py-4 px-6 border-b border-greyed-navy/10">{metric}</td>
-        <td className={`py-4 px-6 border-b border-greyed-navy/10 text-center font-mono ${isEllmBetter ? 'text-green-600 font-semibold' : ''}`}>
+        <td className="py-4 px-6 border-b border-primary/10">{metric}</td>
+        <td className={`py-4 px-6 border-b border-primary/10 text-center font-mono ${isEllmBetter ? 'text-green-600 font-semibold' : ''}`}>
           {ellmValue}
         </td>
-        <td className="py-4 px-6 border-b border-greyed-navy/10 text-center font-mono">
+        <td className="py-4 px-6 border-b border-primary/10 text-center font-mono">
           {gptValue}
         </td>
       </tr>

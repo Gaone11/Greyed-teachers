@@ -141,7 +141,7 @@ const AccessibilitySettings: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-greyed-navy"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -149,11 +149,11 @@ const AccessibilitySettings: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-greyed-navy">Accessibility Settings</h2>
+        <h2 className="text-2xl font-bold text-primary">Accessibility Settings</h2>
         {preferences.dyslexia_mode_enabled && (
-          <div className="flex items-center gap-2 bg-greyed-blue/20 px-4 py-2 rounded-lg">
-            <Eye size={16} className="text-greyed-navy" />
-            <span className="text-sm font-semibold text-greyed-navy">Dyslexia Mode Active</span>
+          <div className="flex items-center gap-2 bg-accent/20 px-4 py-2 rounded-lg">
+            <Eye size={16} className="text-primary" />
+            <span className="text-sm font-semibold text-primary">Dyslexia Mode Active</span>
           </div>
         )}
       </div>
@@ -161,15 +161,15 @@ const AccessibilitySettings: React.FC = () => {
       <div className="bg-white rounded-lg p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-bold text-greyed-navy mb-1">Enable Dyslexia Mode</h3>
-            <p className="text-sm text-greyed-navy/70">
+            <h3 className="font-bold text-primary mb-1">Enable Dyslexia Mode</h3>
+            <p className="text-sm text-primary/70">
               Applies accessible formatting throughout the application
             </p>
           </div>
           <button
             onClick={() => updatePreference('dyslexia_mode_enabled', !preferences.dyslexia_mode_enabled)}
             className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-              preferences.dyslexia_mode_enabled ? 'bg-greyed-navy' : 'bg-gray-300'
+              preferences.dyslexia_mode_enabled ? 'bg-primary' : 'bg-gray-300'
             }`}
           >
             <span
@@ -182,10 +182,10 @@ const AccessibilitySettings: React.FC = () => {
 
         {preferences.dyslexia_mode_enabled && (
           <>
-            <div className="border-t border-greyed-navy/10 pt-6">
+            <div className="border-t border-primary/10 pt-6">
               <div className="flex items-center gap-2 mb-4">
-                <Type size={20} className="text-greyed-navy" />
-                <h3 className="font-bold text-greyed-navy">Font Selection</h3>
+                <Type size={20} className="text-primary" />
+                <h3 className="font-bold text-primary">Font Selection</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {FONT_OPTIONS.map(font => (
@@ -194,18 +194,18 @@ const AccessibilitySettings: React.FC = () => {
                     onClick={() => updatePreference('preferred_font', font.value as any)}
                     className={`p-4 rounded-lg border-2 transition-all text-left ${
                       preferences.preferred_font === font.value
-                        ? 'border-greyed-navy bg-greyed-navy/5'
-                        : 'border-greyed-navy/20 hover:border-greyed-navy/40'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-primary/20 hover:border-primary/40'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-greyed-navy">{font.label}</span>
+                      <span className="font-semibold text-primary">{font.label}</span>
                       {preferences.preferred_font === font.value && (
-                        <Check size={20} className="text-greyed-navy" />
+                        <Check size={20} className="text-primary" />
                       )}
                     </div>
                     <p
-                      className="text-sm text-greyed-navy/70"
+                      className="text-sm text-primary/70"
                       style={{ fontFamily: font.value }}
                     >
                       {font.preview}
@@ -215,13 +215,13 @@ const AccessibilitySettings: React.FC = () => {
               </div>
             </div>
 
-            <div className="border-t border-greyed-navy/10 pt-6">
+            <div className="border-t border-primary/10 pt-6">
               <div className="flex items-center gap-2 mb-4">
-                <Maximize2 size={20} className="text-greyed-navy" />
-                <h3 className="font-bold text-greyed-navy">Font Size</h3>
+                <Maximize2 size={20} className="text-primary" />
+                <h3 className="font-bold text-primary">Font Size</h3>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-sm text-greyed-navy/70 w-20">14px</span>
+                <span className="text-sm text-primary/70 w-20">14px</span>
                 <input
                   type="range"
                   min="14"
@@ -231,26 +231,26 @@ const AccessibilitySettings: React.FC = () => {
                   onChange={(e) => updatePreference('font_size', parseInt(e.target.value))}
                   className="flex-1"
                 />
-                <span className="text-sm text-greyed-navy/70 w-20 text-right">24px</span>
+                <span className="text-sm text-primary/70 w-20 text-right">24px</span>
               </div>
               <div className="text-center mt-2">
-                <span className="text-lg font-bold text-greyed-navy">{preferences.font_size}px</span>
+                <span className="text-lg font-bold text-primary">{preferences.font_size}px</span>
               </div>
               <p
-                className="mt-4 text-greyed-navy/80 p-4 bg-greyed-beige/20 rounded-lg"
+                className="mt-4 text-primary/80 p-4 bg-surface/20 rounded-lg"
                 style={{ fontSize: `${preferences.font_size}px` }}
               >
                 This is how your text will appear at this size.
               </p>
             </div>
 
-            <div className="border-t border-greyed-navy/10 pt-6">
+            <div className="border-t border-primary/10 pt-6">
               <div className="flex items-center gap-2 mb-4">
-                <Maximize2 size={20} className="text-greyed-navy rotate-90" />
-                <h3 className="font-bold text-greyed-navy">Line Spacing</h3>
+                <Maximize2 size={20} className="text-primary rotate-90" />
+                <h3 className="font-bold text-primary">Line Spacing</h3>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-sm text-greyed-navy/70 w-20">1.5x</span>
+                <span className="text-sm text-primary/70 w-20">1.5x</span>
                 <input
                   type="range"
                   min="1.5"
@@ -260,13 +260,13 @@ const AccessibilitySettings: React.FC = () => {
                   onChange={(e) => updatePreference('line_spacing', parseFloat(e.target.value))}
                   className="flex-1"
                 />
-                <span className="text-sm text-greyed-navy/70 w-20 text-right">2.5x</span>
+                <span className="text-sm text-primary/70 w-20 text-right">2.5x</span>
               </div>
               <div className="text-center mt-2">
-                <span className="text-lg font-bold text-greyed-navy">{preferences.line_spacing}x</span>
+                <span className="text-lg font-bold text-primary">{preferences.line_spacing}x</span>
               </div>
               <div
-                className="mt-4 text-greyed-navy/80 p-4 bg-greyed-beige/20 rounded-lg"
+                className="mt-4 text-primary/80 p-4 bg-surface/20 rounded-lg"
                 style={{ lineHeight: preferences.line_spacing }}
               >
                 <p>This is how your line spacing will appear.</p>
@@ -275,10 +275,10 @@ const AccessibilitySettings: React.FC = () => {
               </div>
             </div>
 
-            <div className="border-t border-greyed-navy/10 pt-6">
+            <div className="border-t border-primary/10 pt-6">
               <div className="flex items-center gap-2 mb-4">
-                <Contrast size={20} className="text-greyed-navy" />
-                <h3 className="font-bold text-greyed-navy">Contrast Theme</h3>
+                <Contrast size={20} className="text-primary" />
+                <h3 className="font-bold text-primary">Contrast Theme</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {CONTRAST_THEMES.map(theme => (
@@ -287,8 +287,8 @@ const AccessibilitySettings: React.FC = () => {
                     onClick={() => updatePreference('contrast_theme', theme.value as any)}
                     className={`p-4 rounded-lg border-2 transition-all ${
                       preferences.contrast_theme === theme.value
-                        ? 'border-greyed-navy'
-                        : 'border-greyed-navy/20 hover:border-greyed-navy/40'
+                        ? 'border-primary'
+                        : 'border-primary/20 hover:border-primary/40'
                     }`}
                     style={{
                       backgroundColor: theme.bg,
@@ -309,11 +309,11 @@ const AccessibilitySettings: React.FC = () => {
           </>
         )}
 
-        <div className="border-t border-greyed-navy/10 pt-6">
+        <div className="border-t border-primary/10 pt-6">
           <button
             onClick={savePreferences}
             disabled={saving}
-            className="w-full px-6 py-3 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
           >
             {saving ? (
               <>

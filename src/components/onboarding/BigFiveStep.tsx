@@ -132,15 +132,15 @@ const BigFiveStep: React.FC<BigFiveStepProps> = ({ onValidityChange }) => {
   return (
     <div>
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Brain className="w-8 h-8 text-greyed-navy" />
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Brain className="w-8 h-8 text-primary" />
         </div>
         
-        <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2">
           Personality Assessment
         </h2>
         
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           Rate how much you agree with each statement below.
         </p>
       </div>
@@ -151,12 +151,12 @@ const BigFiveStep: React.FC<BigFiveStepProps> = ({ onValidityChange }) => {
           const value = response ? Number(response.value) : 0;
           
           return (
-            <div key={question.id} className="bg-greyed-white/50 p-4 rounded-lg">
-              <p className="font-medium text-greyed-navy mb-3">{question.text}</p>
+            <div key={question.id} className="bg-surface-white/50 p-4 rounded-lg">
+              <p className="font-medium text-primary mb-3">{question.text}</p>
               
               <div className="flex justify-between items-center px-2">
-                <span className="text-sm text-greyed-navy/60">Strongly Disagree</span>
-                <span className="text-sm text-greyed-navy/60">Strongly Agree</span>
+                <span className="text-sm text-primary/60">Strongly Disagree</span>
+                <span className="text-sm text-primary/60">Strongly Agree</span>
               </div>
               
               <div className="flex justify-between items-center mt-1">
@@ -167,8 +167,8 @@ const BigFiveStep: React.FC<BigFiveStepProps> = ({ onValidityChange }) => {
                     onClick={() => handleResponseChange(question.id, rating)}
                     className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium focus:outline-none transition-colors ${
                       value === rating
-                        ? 'bg-greyed-blue text-greyed-navy'
-                        : 'bg-white border border-greyed-navy/30 text-greyed-navy hover:bg-greyed-navy/5'
+                        ? 'bg-accent text-primary'
+                        : 'bg-white border border-primary/30 text-primary hover:bg-primary/5'
                     }`}
                     aria-label={`Rate ${rating} out of 5`}
                   >

@@ -55,11 +55,11 @@ const GlobalFootprint: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.h2 
-            className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center"
+            className="text-3xl font-headline font-bold mb-12 text-primary text-center"
             variants={titleVariants}
             initial="hidden"
             whileInView="visible"
@@ -68,7 +68,7 @@ const GlobalFootprint: React.FC = () => {
             Community Impact — Mpumalanga Schools
           </motion.h2>
         ) : (
-          <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center">
+          <h2 className="text-3xl font-headline font-bold mb-12 text-primary text-center">
             Community Impact — Mpumalanga Schools
           </h2>
         )}
@@ -94,8 +94,7 @@ const GlobalFootprint: React.FC = () => {
                 {/* Simplified South Africa map path - this would be a more detailed SVG in production */}
                 <path 
                   d="M170,120 L280,120 L300,180 L250,250 L160,240 L140,170 Z M350,140 L420,100 L490,110 L510,200 L470,230 L400,220 L380,180 Z M550,120 L600,150 L630,120 L700,130 L730,170 L690,230 L630,210 L580,170 Z M180,270 L260,280 L290,350 L220,380 L170,340 Z M400,260 L480,250 L500,290 L490,340 L420,330 Z M570,280 L650,270 L680,320 L640,370 L580,350 Z" 
-                  fill="#dedbc2" 
-                  stroke="#D4A843" 
+                  className="fill-surface-alt stroke-accent" 
                   strokeWidth="2"
                 />
                 
@@ -126,21 +125,20 @@ const GlobalFootprint: React.FC = () => {
                 {/* Simplified South Africa map path - this would be a more detailed SVG in production */}
                 <path 
                   d="M170,120 L280,120 L300,180 L250,250 L160,240 L140,170 Z M350,140 L420,100 L490,110 L510,200 L470,230 L400,220 L380,180 Z M550,120 L600,150 L630,120 L700,130 L730,170 L690,230 L630,210 L580,170 Z M180,270 L260,280 L290,350 L220,380 L170,340 Z M400,260 L480,250 L500,290 L490,340 L420,330 Z M570,280 L650,270 L680,320 L640,370 L580,350 Z" 
-                  fill="#dedbc2" 
-                  stroke="#D4A843" 
+                  className="fill-surface-alt stroke-accent" 
                   strokeWidth="2"
                 />
                 
                 {/* Pins for locations */}
                 {locations.map((location, index) => (
                   <g key={index} transform={`translate(${location.x}, ${location.y})`}>
-                    <circle cx="0" cy="0" r="8" fill="#1B4332" />
-                    <circle cx="0" cy="0" r="4" fill="#D4A843" />
+                    <circle cx="0" cy="0" r="8" className="fill-primary" />
+                    <circle cx="0" cy="0" r="4" className="fill-accent" />
                     
                     <foreignObject x="10" y="-15" width="150" height="50">
                       <div xmlns="http://www.w3.org/1999/xhtml" className="text-xs bg-white p-1 rounded shadow-sm">
-                        <p className="font-semibold text-greyed-navy">{location.label}</p>
-                        <p className="text-greyed-navy/70">{location.program}</p>
+                        <p className="font-semibold text-primary">{location.label}</p>
+                        <p className="text-primary/70">{location.program}</p>
                       </div>
                     </foreignObject>
                   </g>
@@ -185,13 +183,13 @@ const MapPin: React.FC<MapPinProps> = ({ x, y, label, program, delay }) => {
   if (!enabled) {
     return (
       <g transform={`translate(${x}, ${y})`}>
-        <circle cx="0" cy="0" r="8" fill="#1B4332" />
-        <circle cx="0" cy="0" r="4" fill="#D4A843" />
+        <circle cx="0" cy="0" r="8" className="fill-primary" />
+        <circle cx="0" cy="0" r="4" className="fill-accent" />
         
         <foreignObject x="10" y="-15" width="150" height="50">
           <div xmlns="http://www.w3.org/1999/xhtml" className="text-xs bg-white p-1 rounded shadow-sm">
-            <p className="font-semibold text-greyed-navy">{label}</p>
-            <p className="text-greyed-navy/70">{program}</p>
+            <p className="font-semibold text-primary">{label}</p>
+            <p className="text-primary/70">{program}</p>
           </div>
         </foreignObject>
       </g>
@@ -206,8 +204,8 @@ const MapPin: React.FC<MapPinProps> = ({ x, y, label, program, delay }) => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <circle cx="0" cy="0" r="8" fill="#1B4332" />
-        <circle cx="0" cy="0" r="4" fill="#D4A843" />
+        <circle cx="0" cy="0" r="8" className="fill-primary" />
+        <circle cx="0" cy="0" r="4" className="fill-accent" />
       </motion.g>
       
       <foreignObject x="10" y="-15" width="150" height="50">
@@ -219,8 +217,8 @@ const MapPin: React.FC<MapPinProps> = ({ x, y, label, program, delay }) => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <p className="font-semibold text-greyed-navy">{label}</p>
-          <p className="text-greyed-navy/70">{program}</p>
+          <p className="font-semibold text-primary">{label}</p>
+          <p className="text-primary/70">{program}</p>
         </motion.div>
       </foreignObject>
     </g>

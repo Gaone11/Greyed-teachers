@@ -120,7 +120,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
             <input
               type="text"
               name="name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="e.g. Year 11 Physics"
               value={formData.name}
               onChange={handleInputChange}
@@ -133,7 +133,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
             <input
               type="text"
               name="subject"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="e.g. Physics"
               value={formData.subject}
               onChange={handleInputChange}
@@ -145,7 +145,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">Syllabus</label>
             <select
               name="syllabus"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent appearance-none"
               value={formData.syllabus}
               onChange={handleInputChange}
             >
@@ -167,7 +167,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
             <input
               type="text"
               name="grade"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="e.g. GCSE, A-Level"
               value={formData.grade}
               onChange={handleInputChange}
@@ -179,7 +179,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
             <textarea
               name="description"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="Briefly describe this class..."
               value={formData.description}
               onChange={handleInputChange}
@@ -236,7 +236,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
               </button>
               <button
                 type="submit"
-                className={`px-4 py-2 text-sm bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center ${
+                className={`px-4 py-2 text-sm bg-primary text-white rounded-md hover:bg-primary/90 flex items-center ${
                   isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
                 disabled={isSubmitting}

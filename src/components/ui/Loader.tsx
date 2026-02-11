@@ -23,8 +23,8 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
                 />
               </div>
             </div>
-            <p className="mt-6 text-greyed-navy font-bold text-lg">{message}</p>
-            <p className="mt-2 text-greyed-navy/70 text-sm">Just a moment</p>
+            <p className="mt-6 text-primary font-bold text-lg">{message}</p>
+            <p className="mt-2 text-primary/70 text-sm">Just a moment</p>
           </div>
         </div>
       </div>

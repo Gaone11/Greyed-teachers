@@ -24,11 +24,11 @@ const FeaturedOn: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-greyed-white snap-start">
+    <section className="py-16 bg-surface-white">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.h2 
-            className="text-2xl font-headline font-semibold mb-10 text-center text-greyed-navy"
+            className="text-2xl font-headline font-semibold mb-10 text-center text-primary"
             variants={titleVariants}
             initial="hidden"
             whileInView="visible"
@@ -37,7 +37,7 @@ const FeaturedOn: React.FC = () => {
             As Recognised By
           </motion.h2>
         ) : (
-          <h2 className="text-2xl font-headline font-semibold mb-10 text-center text-greyed-navy">
+          <h2 className="text-2xl font-headline font-semibold mb-10 text-center text-primary">
             As Recognised By
           </h2>
         )}

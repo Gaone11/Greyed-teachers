@@ -25,7 +25,7 @@ const SafetyBanner: React.FC = () => {
   };
 
   return (
-    <section className="py-12 bg-greyed-navy/5 snap-start">
+    <section className="py-12 bg-primary/5">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.div 
@@ -35,9 +35,9 @@ const SafetyBanner: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.7 }}
           >
-            <div className="flex-shrink-0 w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center">
+            <div className="flex-shrink-0 w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center">
               <div className="relative w-8 h-8">
-                <Lock className="w-8 h-8 text-greyed-navy absolute inset-0" />
+                <Lock className="w-8 h-8 text-primary absolute inset-0" />
                 <motion.svg
                   width="32"
                   height="32"
@@ -47,7 +47,7 @@ const SafetyBanner: React.FC = () => {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-greyed-blue absolute inset-0"
+                  className="text-accent absolute inset-0"
                 >
                   <motion.rect
                     variants={drawVariants}
@@ -73,25 +73,25 @@ const SafetyBanner: React.FC = () => {
             </div>
             
             <div>
-              <h3 className="text-xl font-headline font-semibold text-greyed-navy mb-2">
+              <h3 className="text-xl font-headline font-semibold text-primary mb-2">
                 Safety & Privacy First
               </h3>
-              <p className="text-greyed-black/70">
+              <p className="text-text/70">
                 El AI is designed with student privacy at its core. We never sell data, use it for ads, or share it with third parties. All interactions are encrypted, and we comply with GDPR, FERPA, and COPPA regulations.
               </p>
             </div>
           </motion.div>
         ) : (
           <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8 flex flex-col md:flex-row items-center gap-6">
-            <div className="flex-shrink-0 w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center">
-              <Lock className="w-8 h-8 text-greyed-navy" />
+            <div className="flex-shrink-0 w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center">
+              <Lock className="w-8 h-8 text-primary" />
             </div>
             
             <div>
-              <h3 className="text-xl font-headline font-semibold text-greyed-navy mb-2">
+              <h3 className="text-xl font-headline font-semibold text-primary mb-2">
                 Safety & Privacy — POPIA Compliant
               </h3>
-              <p className="text-greyed-black/70">
+              <p className="text-text/70">
                 Cophetsheni's platform is built with learner and teacher privacy at its core. We comply with South Africa's Protection of Personal Information Act (POPIA), as well as GDPR standards. All data is encrypted and never shared with third parties.
               </p>
             </div>

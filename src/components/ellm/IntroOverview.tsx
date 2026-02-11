@@ -15,7 +15,7 @@ const IntroOverview: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-greyed-white snap-start">
+    <section className="py-16 bg-surface-white">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.div 
@@ -25,20 +25,20 @@ const IntroOverview: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <p className="text-2xl md:text-3xl text-greyed-navy font-headline">
+            <p className="text-2xl md:text-3xl text-primary font-headline">
               Empathic Large Language Models (eLLMs) bring emotional intelligence to AI.
               <br />
-              <span className="text-greyed-navy/80">
+              <span className="text-primary/80">
                 GreyEd uses eLLM to personalise lessons, spark creativity and watch over student wellbeing.
               </span>
             </p>
           </motion.div>
         ) : (
           <div className="max-w-4xl mx-auto text-center">
-            <p className="text-2xl md:text-3xl text-greyed-navy font-headline">
+            <p className="text-2xl md:text-3xl text-primary font-headline">
               Empathic Large Language Models (eLLMs) bring emotional intelligence to AI.
               <br />
-              <span className="text-greyed-navy/80">
+              <span className="text-primary/80">
                 GreyEd uses eLLM to personalise lessons, spark creativity and watch over student wellbeing.
               </span>
             </p>

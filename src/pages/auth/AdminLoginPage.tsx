@@ -37,23 +37,23 @@
 @@ .. @@
                <form onSubmit={handleSubmit(onSubmit)}>
                  <div className="mb-5">
-                   <label className="block text-sm font-medium text-greyed-navy mb-1">
+                   <label className="block text-sm font-medium text-primary mb-1">
                      Email Address
                    </label>
--                  <div className="w-full px-3 py-2 border border-greyed-navy/20 rounded-lg bg-greyed-navy/5 text-greyed-navy">
+-                  <div className="w-full px-3 py-2 border border-primary/20 rounded-lg bg-primary/5 text-primary">
 -                    <div className="flex items-center">
--                      <Mail className="h-5 w-5 mr-2 text-greyed-navy/50" />
+-                      <Mail className="h-5 w-5 mr-2 text-primary/50" />
 -                      {adminEmail}
 -                    </div>
 +                  <div className="relative">
 +                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-+                      <Mail className="h-5 w-5 text-greyed-navy/30" />
++                      <Mail className="h-5 w-5 text-primary/30" />
 +                    </div>
 +                    <input
 +                      id="email"
 +                      type="email"
 +                      {...register("email")}
-+                      className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
++                      className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
 +                      placeholder="admin@greyed.org"
 +                      autoFocus
 +                    />
@@ -61,18 +61,18 @@
 -                </div>
 -                
 -                <div className="mb-6">
--                  <label htmlFor="password" className="block text-sm font-medium text-greyed-navy mb-1">
+-                  <label htmlFor="password" className="block text-sm font-medium text-primary mb-1">
 -                    Password
 -                  </label>
 -                  <div className="relative">
 -                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
--                      <Lock className="h-5 w-5 text-greyed-navy/30" />
+-                      <Lock className="h-5 w-5 text-primary/30" />
 -                    </div>
 -                    <input
 -                      id="password"
 -                      type="password"
 -                      {...register("password")}
--                      className={`w-full pl-10 pr-4 py-2 border ${errors.password ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+-                      className={`w-full pl-10 pr-4 py-2 border ${errors.password ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
 -                      placeholder="Enter password"
 -                      autoFocus
 -                    />

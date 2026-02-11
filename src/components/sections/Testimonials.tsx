@@ -70,7 +70,7 @@ const Testimonials: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-navy text-greyed-white snap-start">
+    <section className="py-20 bg-primary text-surface-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
@@ -81,10 +81,10 @@ const Testimonials: React.FC = () => {
                 animate={currentIndex === 0 ? "animate" : "initial"}
                 transition={{ duration: 0.3 }}
               >
-                <Quote className="w-12 h-12 text-greyed-blue opacity-60" />
+                <Quote className="w-12 h-12 text-accent opacity-60" />
               </motion.div>
             ) : (
-              <Quote className="w-12 h-12 text-greyed-blue opacity-60" />
+              <Quote className="w-12 h-12 text-accent opacity-60" />
             )}
           </div>
           
@@ -107,19 +107,19 @@ const Testimonials: React.FC = () => {
                   className="absolute inset-0"
                 >
                   <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg">
-                    <p className="text-lg mb-6 text-greyed-white/90">
+                    <p className="text-lg mb-6 text-surface-white/90">
                       "{testimonials[currentIndex].text}"
                     </p>
                     <div className="flex justify-between items-end">
                       <div>
-                        <p className="font-semibold text-greyed-blue">
+                        <p className="font-semibold text-accent">
                           {testimonials[currentIndex].name}
                         </p>
-                        <p className="text-sm text-greyed-white/60">
+                        <p className="text-sm text-surface-white/60">
                           {testimonials[currentIndex].school}
                         </p>
                       </div>
-                      <div className="bg-greyed-blue/20 py-1 px-3 rounded-full text-sm">
+                      <div className="bg-accent/20 py-1 px-3 rounded-full text-sm">
                         {testimonials[currentIndex].subject}
                       </div>
                     </div>
@@ -129,19 +129,19 @@ const Testimonials: React.FC = () => {
             ) : (
               <div className="absolute inset-0">
                 <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg">
-                  <p className="text-lg mb-6 text-greyed-white/90">
+                  <p className="text-lg mb-6 text-surface-white/90">
                     "{testimonials[currentIndex].text}"
                   </p>
                   <div className="flex justify-between items-end">
                     <div>
-                      <p className="font-semibold text-greyed-blue">
+                      <p className="font-semibold text-accent">
                         {testimonials[currentIndex].name}
                       </p>
-                      <p className="text-sm text-greyed-white/60">
+                      <p className="text-sm text-surface-white/60">
                         {testimonials[currentIndex].school}
                       </p>
                     </div>
-                    <div className="bg-greyed-blue/20 py-1 px-3 rounded-full text-sm">
+                    <div className="bg-accent/20 py-1 px-3 rounded-full text-sm">
                       {testimonials[currentIndex].subject}
                     </div>
                   </div>
@@ -153,7 +153,7 @@ const Testimonials: React.FC = () => {
           <div className="flex justify-center mt-8 gap-4">
             <button 
               onClick={handlePrevious}
-              className="p-2 rounded-full bg-greyed-white/10 hover:bg-greyed-white/20 transition-colors"
+              className="p-2 rounded-full bg-surface-white/10 hover:bg-surface-white/20 transition-colors"
               aria-label="Previous testimonial"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -166,14 +166,14 @@ const Testimonials: React.FC = () => {
                   setCurrentIndex(index);
                 }}
                 className={`w-2 h-2 rounded-full ${
-                  index === currentIndex ? "bg-greyed-blue" : "bg-greyed-white/30"
+                  index === currentIndex ? "bg-accent" : "bg-surface-white/30"
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
             <button 
               onClick={handleNext}
-              className="p-2 rounded-full bg-greyed-white/10 hover:bg-greyed-white/20 transition-colors"
+              className="p-2 rounded-full bg-surface-white/10 hover:bg-surface-white/20 transition-colors"
               aria-label="Next testimonial"
             >
               <ArrowRight className="w-5 h-5" />

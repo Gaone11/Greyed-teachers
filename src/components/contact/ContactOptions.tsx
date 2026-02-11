@@ -36,7 +36,7 @@ const ContactOptions: React.FC = () => {
   ];
 
   return (
-    <section className="py-12 bg-greyed-white snap-start">
+    <section className="py-12 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-6">
           {options.map((option, index) => (
@@ -83,22 +83,22 @@ const ContactOptionCard: React.FC<ContactOptionCardProps> = ({
       className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all flex-1 cursor-pointer"
       onClick={onClick}
     >
-      <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4 text-greyed-navy">
+      <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
         {icon}
       </div>
-      <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-      <p className="text-greyed-navy/80">{details}</p>
+      <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+      <p className="text-primary/80">{details}</p>
     </motion.div>
   ) : (
     <div
       className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all flex-1 cursor-pointer hover:-translate-y-2"
       onClick={onClick}
     >
-      <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4 text-greyed-navy">
+      <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
         {icon}
       </div>
-      <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-      <p className="text-greyed-navy/80">{details}</p>
+      <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+      <p className="text-primary/80">{details}</p>
     </div>
   );
 };

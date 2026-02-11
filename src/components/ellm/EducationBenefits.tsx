@@ -32,9 +32,9 @@ const EducationBenefits: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-greyed-navy snap-start">
+    <section className="py-20 bg-primary">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-white text-center">
+        <h2 className="text-3xl font-headline font-bold mb-12 text-surface-white text-center">
           Educational Benefits
         </h2>
         
@@ -74,23 +74,23 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description, ind
         whileInView="visible"
         viewport={{ once: true, amount: 0.6 }}
         whileHover={{ y: -10 }}
-        className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-greyed-white hover:bg-white/15 transition-all"
+        className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-surface-white hover:bg-white/15 transition-all"
       >
-        <div className="w-16 h-16 bg-greyed-blue/30 rounded-full flex items-center justify-center mx-auto mb-4 text-greyed-white">
+        <div className="w-16 h-16 bg-accent/30 rounded-full flex items-center justify-center mx-auto mb-4 text-surface-white">
           {icon}
         </div>
         <h3 className="text-xl font-headline font-semibold mb-3 text-center">{title}</h3>
-        <p className="text-greyed-white/80 text-center">{description}</p>
+        <p className="text-surface-white/80 text-center">{description}</p>
       </motion.div>
     ) : (
       <div
-        className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-greyed-white hover:bg-white/15 transition-all hover:-translate-y-2"
+        className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-surface-white hover:bg-white/15 transition-all hover:-translate-y-2"
       >
-        <div className="w-16 h-16 bg-greyed-blue/30 rounded-full flex items-center justify-center mx-auto mb-4 text-greyed-white">
+        <div className="w-16 h-16 bg-accent/30 rounded-full flex items-center justify-center mx-auto mb-4 text-surface-white">
           {icon}
         </div>
         <h3 className="text-xl font-headline font-semibold mb-3 text-center">{title}</h3>
-        <p className="text-greyed-white/80 text-center">{description}</p>
+        <p className="text-surface-white/80 text-center">{description}</p>
       </div>
     )
   );

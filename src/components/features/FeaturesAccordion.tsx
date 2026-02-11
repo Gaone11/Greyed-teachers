@@ -38,7 +38,7 @@ const FeaturesAccordion: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           {featuresAccordionData.map((item, index) => (
@@ -105,12 +105,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 
   return (
     <div 
-      className="border-b border-greyed-navy/10 py-4"
+      className="border-b border-primary/10 py-4"
       id={`accordion-item-${id}`}
     >
       <h3>
         <button
-          className="flex justify-between items-center w-full text-left py-2 text-greyed-navy focus:outline-none focus:ring-2 focus:ring-greyed-blue rounded font-headline font-semibold text-lg"
+          className="flex justify-between items-center w-full text-left py-2 text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded font-headline font-semibold text-lg"
           onClick={onToggle}
           aria-expanded={isOpen}
           aria-controls={`panel-${id}`}
@@ -138,7 +138,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             exit="closed"
             className="overflow-hidden"
           >
-            <div className="py-4 text-greyed-black/80">
+            <div className="py-4 text-text/80">
               {content}
             </div>
           </motion.div>

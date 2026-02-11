@@ -59,14 +59,14 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
 
   if (authLoading || (authLoading && !user)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen flex items-center justify-center bg-surface-white">
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-greyed-white">
+    <div className="min-h-screen bg-surface-white">
       {/* Left sidebar navigation - Fixed position */}
       <div className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300 ${
         isMobile

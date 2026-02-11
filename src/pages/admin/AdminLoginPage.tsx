@@ -74,12 +74,12 @@ const AdminLoginPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-2xl md:text-3xl font-headline font-bold text-greyed-navy mb-2">Admin Login</h1>
-              <p className="text-greyed-navy/70 text-sm md:text-base">Sign in to access the admin dashboard</p>
+              <h1 className="text-2xl md:text-3xl font-headline font-bold text-primary mb-2">Admin Login</h1>
+              <p className="text-primary/70 text-sm md:text-base">Sign in to access the admin dashboard</p>
             </div>
             
             <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
@@ -92,27 +92,27 @@ const AdminLoginPage: React.FC = () => {
               
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-5">
-                  <label className="block text-sm font-medium text-greyed-navy mb-1">
+                  <label className="block text-sm font-medium text-primary mb-1">
                     Email Address
                   </label>
-                  <div className="w-full px-4 py-2 border border-greyed-navy/20 rounded-lg bg-greyed-navy/5 text-greyed-navy">
+                  <div className="w-full px-4 py-2 border border-primary/20 rounded-lg bg-primary/5 text-primary">
                     {adminEmail}
                   </div>
                 </div>
                 
                 <div className="mb-6">
-                  <label htmlFor="password" className="block text-sm font-medium text-greyed-navy mb-1">
+                  <label htmlFor="password" className="block text-sm font-medium text-primary mb-1">
                     Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-greyed-navy/30" />
+                      <Lock className="h-5 w-5 text-primary/30" />
                     </div>
                     <input
                       id="password"
                       type="password"
                       {...register("password")}
-                      className={`w-full pl-10 pr-4 py-2 border ${errors.password ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                      className={`w-full pl-10 pr-4 py-2 border ${errors.password ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                       placeholder="Enter password"
                       autoFocus
                     />
@@ -125,16 +125,16 @@ const AdminLoginPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-greyed-navy text-greyed-white font-medium py-3 rounded-lg transition-colors ${
-                    isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                  className={`w-full bg-primary text-surface-white font-medium py-3 rounded-lg transition-colors ${
+                    isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
                   }`}
                 >
                   {isSubmitting ? 'Signing in...' : 'Sign In'}
                 </button>
               </form>
               
-              <div className="mt-6 pt-6 border-t border-greyed-navy/10">
-                <p className="text-sm text-greyed-navy/60 text-center">
+              <div className="mt-6 pt-6 border-t border-primary/10">
+                <p className="text-sm text-primary/60 text-center">
                   This area is restricted to authorized personnel only.
                 </p>
               </div>

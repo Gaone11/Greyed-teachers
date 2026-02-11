@@ -91,7 +91,7 @@ const EditableContent: React.FC<EditableContentProps> = ({
               </button>
               <button
                 onClick={handleSave}
-                className="px-2 py-1 text-sm bg-greyed-navy text-white rounded-md flex items-center"
+                className="px-2 py-1 text-sm bg-primary text-white rounded-md flex items-center"
                 aria-label="Save changes"
               >
                 <Save size={16} className="mr-1" />
@@ -115,7 +115,7 @@ const EditableContent: React.FC<EditableContentProps> = ({
         <textarea
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
-          className={`w-full p-4 focus:outline-none focus:ring-2 focus:ring-greyed-blue rounded-lg font-mono text-sm md:text-base ${textareaClassName}`}
+          className={`w-full p-4 focus:outline-none focus:ring-2 focus:ring-accent rounded-lg font-mono text-sm md:text-base ${textareaClassName}`}
           style={{ minHeight, maxHeight, resize: 'vertical' }}
           placeholder={placeholder}
           autoFocus
@@ -140,7 +140,7 @@ const EditableContent: React.FC<EditableContentProps> = ({
           </button>
           <button
             onClick={handleSave}
-            className="px-2 py-1 text-sm bg-greyed-navy text-white rounded-md"
+            className="px-2 py-1 text-sm bg-primary text-white rounded-md"
             aria-label="Save changes"
           >
             {isSaving ? 'Saving...' : 'Save'}

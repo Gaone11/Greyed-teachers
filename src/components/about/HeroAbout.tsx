@@ -42,7 +42,7 @@ const HeroAbout: React.FC = () => {
   return (
     <section 
       ref={containerRef} 
-      className="min-h-[70vh] flex items-center justify-center relative bg-greyed-navy overflow-hidden snap-start"
+      className="min-h-[70vh] flex items-center justify-center relative bg-primary overflow-hidden"
     >
       <style>{backgroundKeyframes}</style>
       
@@ -69,14 +69,14 @@ const HeroAbout: React.FC = () => {
             animation: enabled ? "fadeCollage 12s infinite 8s" : "none"
           }}
         ></div>
-        <div className="absolute inset-0 bg-greyed-navy/60"></div>
+        <div className="absolute inset-0 bg-primary/60"></div>
       </div>
 
       <div className="container mx-auto px-4 z-10 text-center py-20">
         {enabled ? (
           <>
             <motion.h1 
-              className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6"
+              className="text-5xl md:text-6xl font-headline font-bold text-surface-white mb-6"
               initial="hidden"
               animate="visible"
               variants={headlineVariants}
@@ -86,7 +86,7 @@ const HeroAbout: React.FC = () => {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10"
+              className="text-xl md:text-2xl text-accent max-w-3xl mx-auto mb-10"
               initial="hidden"
               animate="visible"
               variants={subheadVariants}
@@ -103,7 +103,7 @@ const HeroAbout: React.FC = () => {
             >
               <Link 
                 to="/features" 
-                className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                className="inline-flex items-center text-surface-white border border-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
               >
                 Explore our products
                 <ChevronRight className="ml-2 w-5 h-5" />
@@ -112,18 +112,18 @@ const HeroAbout: React.FC = () => {
           </>
         ) : (
           <>
-            <h1 className="text-5xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
+            <h1 className="text-5xl md:text-6xl font-headline font-bold text-surface-white mb-6">
               From Mpumalanga, for every classroom.
             </h1>
             
-            <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-10">
+            <p className="text-xl md:text-2xl text-accent max-w-3xl mx-auto mb-10">
               Siyafunda was born at Cophetsheni Primary School with a belief: every teacher in rural South Africa deserves AI-powered tools to deliver quality, CAPS-aligned education.
             </p>
             
             <div>
               <Link 
                 to="/features" 
-                className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                className="inline-flex items-center text-surface-white border border-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
               >
                 Explore our products
                 <ChevronRight className="ml-2 w-5 h-5" />

@@ -83,24 +83,24 @@ const SuccessPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8 text-center">
             {loading ? (
               <div className="py-12 flex flex-col items-center">
-                <Loader className="w-12 h-12 text-greyed-blue animate-spin mb-4" />
-                <p className="text-greyed-navy font-medium">Processing your subscription...</p>
+                <Loader className="w-12 h-12 text-accent animate-spin mb-4" />
+                <p className="text-primary font-medium">Processing your subscription...</p>
               </div>
             ) : error ? (
               <div className="py-12">
                 <div className="text-red-500 mb-4">
                   <AlertCircle className="h-16 w-16 mx-auto" />
                 </div>
-                <h1 className="text-2xl font-headline font-bold text-greyed-navy mb-4">Something went wrong</h1>
-                <p className="text-greyed-navy/70 mb-6">{error}</p>
+                <h1 className="text-2xl font-headline font-bold text-primary mb-4">Something went wrong</h1>
+                <p className="text-primary/70 mb-6">{error}</p>
                 <button 
                   onClick={() => navigate('/contact')}
-                  className="bg-greyed-navy text-greyed-white px-6 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                  className="bg-primary text-surface-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                 >
                   Contact Support
                 </button>
@@ -111,20 +111,20 @@ const SuccessPage: React.FC = () => {
                   <CheckCircle className="h-16 w-16 mx-auto" />
                 </div>
                 
-                <h1 className="text-2xl font-headline font-bold text-greyed-navy mb-4">
+                <h1 className="text-2xl font-headline font-bold text-primary mb-4">
                   {isTrialActive ? 'Your 14-Day Free Trial Has Started!' : 'Payment Successful!'}
                 </h1>
                 
-                <p className="text-greyed-navy/70 mb-6">
+                <p className="text-primary/70 mb-6">
                   {isTrialActive ? 
                     `Your free trial of GreyEd Teachers has begun! You can now access all premium features for the next 14 days.` : 
                     `Thank you for subscribing to ${getProductName()}. Your account has been successfully updated.`
                   }
                 </p>
                 
-                <div className="bg-greyed-beige/30 rounded-lg p-4 mb-8 text-left">
-                  <h2 className="font-semibold text-greyed-navy mb-2">What's next?</h2>
-                  <ul className="space-y-2 text-greyed-navy/80">
+                <div className="bg-surface/30 rounded-lg p-4 mb-8 text-left">
+                  <h2 className="font-semibold text-primary mb-2">What's next?</h2>
+                  <ul className="space-y-2 text-primary/80">
                     <li className="flex items-start">
                       <span className="mr-2">•</span>
                       <span>You now have access to all premium features in your teacher account</span>
@@ -148,7 +148,7 @@ const SuccessPage: React.FC = () => {
                 
                 <button 
                   onClick={goToDashboard}
-                  className="bg-greyed-navy text-greyed-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center justify-center mx-auto"
+                  className="bg-primary text-surface-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center mx-auto"
                 >
                   Go to Dashboard
                   <ArrowRight className="ml-2 w-4 h-4" />

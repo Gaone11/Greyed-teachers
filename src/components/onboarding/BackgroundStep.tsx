@@ -49,21 +49,21 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
   return (
     <div>
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Home className="w-8 h-8 text-greyed-navy" />
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Home className="w-8 h-8 text-primary" />
         </div>
         
-        <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2">
           Family & Background
         </h2>
         
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           Help us understand your learning environment.
         </p>
       </div>
       
-      <div className="bg-greyed-beige/20 p-4 rounded-lg mb-6">
-        <p className="text-greyed-navy/80 text-sm">
+      <div className="bg-surface/20 p-4 rounded-lg mb-6">
+        <p className="text-primary/80 text-sm">
           This information helps us provide suitable resources and support. Your privacy is important to us - this information is only used to personalize your learning experience.
         </p>
       </div>
@@ -72,8 +72,8 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
         {/* Internet Access */}
         <div>
           <div className="flex items-center mb-3">
-            <Wifi className="w-5 h-5 text-greyed-blue mr-2" />
-            <h3 className="text-lg font-medium text-greyed-navy">Internet Access</h3>
+            <Wifi className="w-5 h-5 text-accent mr-2" />
+            <h3 className="text-lg font-medium text-primary">Internet Access</h3>
           </div>
           
           <div className="flex space-x-4 mb-3">
@@ -87,14 +87,14 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
               />
               <div className={`w-5 h-5 rounded-full border flex items-center justify-center mr-2 ${
                 formData.hasWifi === true
-                  ? 'border-greyed-blue bg-greyed-blue' 
-                  : 'border-greyed-navy/40'
+                  ? 'border-accent bg-accent' 
+                  : 'border-primary/40'
               }`}>
                 {formData.hasWifi === true && (
                   <div className="w-3 h-3 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-greyed-navy">Yes, I have reliable internet at home</span>
+              <span className="text-primary">Yes, I have reliable internet at home</span>
             </label>
           </div>
           
@@ -109,14 +109,14 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
               />
               <div className={`w-5 h-5 rounded-full border flex items-center justify-center mr-2 ${
                 formData.hasWifi === false
-                  ? 'border-greyed-blue bg-greyed-blue' 
-                  : 'border-greyed-navy/40'
+                  ? 'border-accent bg-accent' 
+                  : 'border-primary/40'
               }`}>
                 {formData.hasWifi === false && (
                   <div className="w-3 h-3 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-greyed-navy">My internet access is limited or unreliable</span>
+              <span className="text-primary">My internet access is limited or unreliable</span>
             </label>
           </div>
         </div>
@@ -124,8 +124,8 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
         {/* Device Sharing */}
         <div>
           <div className="flex items-center mb-3">
-            <Laptop className="w-5 h-5 text-greyed-blue mr-2" />
-            <h3 className="text-lg font-medium text-greyed-navy">Device Access</h3>
+            <Laptop className="w-5 h-5 text-accent mr-2" />
+            <h3 className="text-lg font-medium text-primary">Device Access</h3>
           </div>
           
           <div className="flex space-x-4 mb-3">
@@ -139,14 +139,14 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
               />
               <div className={`w-5 h-5 rounded-full border flex items-center justify-center mr-2 ${
                 formData.shareDevice === true
-                  ? 'border-greyed-blue bg-greyed-blue' 
-                  : 'border-greyed-navy/40'
+                  ? 'border-accent bg-accent' 
+                  : 'border-primary/40'
               }`}>
                 {formData.shareDevice === true && (
                   <div className="w-3 h-3 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-greyed-navy">I share a device for school/work</span>
+              <span className="text-primary">I share a device for school/work</span>
             </label>
           </div>
           
@@ -161,21 +161,21 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
               />
               <div className={`w-5 h-5 rounded-full border flex items-center justify-center mr-2 ${
                 formData.shareDevice === false
-                  ? 'border-greyed-blue bg-greyed-blue' 
-                  : 'border-greyed-navy/40'
+                  ? 'border-accent bg-accent' 
+                  : 'border-primary/40'
               }`}>
                 {formData.shareDevice === false && (
                   <div className="w-3 h-3 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-greyed-navy">I have my own dedicated device</span>
+              <span className="text-primary">I have my own dedicated device</span>
             </label>
           </div>
         </div>
         
         {/* Parental Support */}
         <div>
-          <h3 className="text-lg font-medium text-greyed-navy mb-3">
+          <h3 className="text-lg font-medium text-primary mb-3">
             How much do your parents/guardians support your learning?
           </h3>
           
@@ -185,8 +185,8 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
                 key={level}
                 className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
                   formData.parentSupport === level
-                    ? 'border-greyed-blue bg-greyed-blue/10' 
-                    : 'border-greyed-navy/20 hover:border-greyed-navy/30'
+                    ? 'border-accent bg-accent/10' 
+                    : 'border-primary/20 hover:border-primary/30'
                 }`}
               >
                 <input
@@ -198,14 +198,14 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
                 />
                 <div className={`w-4 h-4 rounded-full border mr-2 ${
                   formData.parentSupport === level
-                    ? 'border-greyed-blue bg-greyed-blue' 
-                    : 'border-greyed-navy/40'
+                    ? 'border-accent bg-accent' 
+                    : 'border-primary/40'
                 }`}>
                   {formData.parentSupport === level && (
                     <div className="w-2 h-2 rounded-full bg-white m-auto"></div>
                   )}
                 </div>
-                <span className="text-greyed-navy">{level}</span>
+                <span className="text-primary">{level}</span>
               </label>
             ))}
           </div>
@@ -214,14 +214,14 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
         {/* Languages */}
         <div>
           <div className="flex items-center mb-3">
-            <Languages className="w-5 h-5 text-greyed-blue mr-2" />
-            <h3 className="text-lg font-medium text-greyed-navy">Languages</h3>
+            <Languages className="w-5 h-5 text-accent mr-2" />
+            <h3 className="text-lg font-medium text-primary">Languages</h3>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Main language */}
             <div>
-              <label htmlFor="homeLanguage" className="block text-sm font-medium text-greyed-navy mb-1">
+              <label htmlFor="homeLanguage" className="block text-sm font-medium text-primary mb-1">
                 Main language spoken at home
               </label>
               <input
@@ -229,21 +229,21 @@ const BackgroundStep: React.FC<BackgroundStepProps> = ({ onValidityChange }) => 
                 id="homeLanguage"
                 value={formData.homeLanguage}
                 onChange={(e) => handleChange('homeLanguage', e.target.value)}
-                className="w-full px-3 py-2 border border-greyed-navy/20 rounded-md focus:outline-none focus:border-greyed-blue focus:ring-1 focus:ring-greyed-blue"
+                className="w-full px-3 py-2 border border-primary/20 rounded-md focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                 placeholder="e.g., English, Setswana, etc."
               />
             </div>
             
             {/* Number of languages */}
             <div>
-              <label htmlFor="languageCount" className="block text-sm font-medium text-greyed-navy mb-1">
+              <label htmlFor="languageCount" className="block text-sm font-medium text-primary mb-1">
                 How many languages do you speak?
               </label>
               <select
                 id="languageCount"
                 value={formData.languageCount}
                 onChange={(e) => handleChange('languageCount', parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-greyed-navy/20 rounded-md focus:outline-none focus:border-greyed-blue focus:ring-1 focus:ring-greyed-blue"
+                className="w-full px-3 py-2 border border-primary/20 rounded-md focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
               >
                 {[1, 2, 3, 4, 5, 'More than 5'].map((num, index) => (
                   <option key={index} value={index + 1}>

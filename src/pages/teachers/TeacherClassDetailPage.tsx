@@ -522,7 +522,7 @@ const TeacherClassDetailPage: React.FC = () => {
                   </div>
 
                   {/* AI Insights */}
-                  <div className="mt-4 bg-greyed-beige/20 p-4 rounded-lg border-l-4 border-primary">
+                  <div className="mt-4 bg-surface/20 p-4 rounded-lg border-l-4 border-primary">
                     <h3 className="font-medium text-text mb-1">AI Insights</h3>
                     <p className="text-sm text-text-muted mb-3">
                       Based on class performance, El AI suggests focusing on the following areas:

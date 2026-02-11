@@ -19,9 +19,9 @@ const SafetyStrip: React.FC = () => {
   };
 
   return (
-    <section className="py-8 bg-greyed-beige snap-start">
+    <section className="py-8 bg-surface">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-center text-greyed-navy">
+        <div className="max-w-4xl mx-auto flex items-center justify-center text-primary">
           {enabled ? (
             <motion.div
               className="mr-3"
@@ -42,7 +42,7 @@ const SafetyStrip: React.FC = () => {
               GreyEd eLLM: Safe, Audited, Explainable
             </span>
             <span className="hidden md:inline mx-2">—</span>
-            <span className="block md:inline text-greyed-navy/70 text-sm md:text-base">
+            <span className="block md:inline text-primary/70 text-sm md:text-base">
               Our proprietary model passes independent bias & safety tests every quarter.
             </span>
           </div>

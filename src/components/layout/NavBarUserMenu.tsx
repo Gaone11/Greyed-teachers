@@ -90,13 +90,13 @@ const NavBarUserMenu = () => {
         aria-haspopup="true"
       >
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-greyed-blue/20 flex items-center justify-center overflow-hidden">
+          <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
             {isLoading ? (
-              <span className="text-xs text-greyed-navy animate-pulse">...</span>
+              <span className="text-xs text-primary animate-pulse">...</span>
             ) : avatarUrl ? (
               <img src={avatarUrl} alt={userName} className="w-full h-full object-cover" />
             ) : (
-              <span className="text-xs font-semibold text-greyed-navy">{initials}</span>
+              <span className="text-xs font-semibold text-primary">{initials}</span>
             )}
           </div>
           <SubscriptionBadge />
@@ -105,10 +105,10 @@ const NavBarUserMenu = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-greyed-navy/10">
-          <div className="px-4 py-2 border-b border-greyed-navy/10">
-            <p className="text-sm font-medium text-greyed-navy truncate">{userName}</p>
-            <p className="text-xs text-greyed-navy/70 truncate">{user.email}</p>
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-primary/10">
+          <div className="px-4 py-2 border-b border-primary/10">
+            <p className="text-sm font-medium text-primary truncate">{userName}</p>
+            <p className="text-xs text-primary/70 truncate">{user.email}</p>
             {fetchError && (
               <div className="mt-1 flex items-center text-xs text-red-500">
                 <AlertCircle size={12} className="mr-1 flex-shrink-0" />
@@ -122,7 +122,7 @@ const NavBarUserMenu = () => {
               setIsOpen(false);
               navigate(isTeacher ? '/teachers/settings' : isStudent ? '/students/profile' : '/profile');
             }}
-            className="w-full text-left px-4 py-2 text-sm text-greyed-navy hover:bg-greyed-navy/5 flex items-center"
+            className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-primary/5 flex items-center"
           >
             <Settings size={16} className="mr-2" />
             {isTeacher ? 'Teacher Settings' : isStudent ? 'Profile & Settings' : 'Edit Profile'}
@@ -134,7 +134,7 @@ const NavBarUserMenu = () => {
                 setIsOpen(false);
                 navigate('/teachers/dashboard');
               }}
-              className="w-full text-left px-4 py-2 text-sm text-greyed-navy hover:bg-greyed-navy/5 flex items-center"
+              className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-primary/5 flex items-center"
             >
               <User size={16} className="mr-2" />
               Teacher Dashboard
@@ -147,7 +147,7 @@ const NavBarUserMenu = () => {
                 setIsOpen(false);
                 navigate('/students/dashboard');
               }}
-              className="w-full text-left px-4 py-2 text-sm text-greyed-navy hover:bg-greyed-navy/5 flex items-center"
+              className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-primary/5 flex items-center"
             >
               <User size={16} className="mr-2" />
               Student Dashboard

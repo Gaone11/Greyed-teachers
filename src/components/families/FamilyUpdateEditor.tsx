@@ -107,7 +107,7 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-hidden">
       <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[90vh] flex flex-col">
-        <div className="p-4 border-b border-gray-200 bg-greyed-navy text-white flex justify-between items-center">
+        <div className="p-4 border-b border-gray-200 bg-primary text-white flex justify-between items-center">
           <h3 className="text-lg font-headline font-bold">Edit Family Update</h3>
           <div className="flex items-center">
             <button
@@ -127,13 +127,13 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
           </div>
           
           <div className="flex space-x-2">
-            <div className="bg-greyed-navy/5 rounded-lg p-1 flex">
+            <div className="bg-primary/5 rounded-lg p-1 flex">
               <button
                 onClick={() => toggleTab('code')}
                 className={`px-3 py-1 rounded-lg text-sm ${
                   currentTab === 'code' 
-                    ? 'bg-greyed-navy text-white' 
-                    : 'text-greyed-navy hover:bg-greyed-navy/10'
+                    ? 'bg-primary text-white' 
+                    : 'text-primary hover:bg-primary/10'
                 }`}
               >
                 HTML Editor
@@ -142,8 +142,8 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
                 onClick={() => toggleTab('preview')}
                 className={`px-3 py-1 rounded-lg text-sm ${
                   currentTab === 'preview' 
-                    ? 'bg-greyed-navy text-white' 
-                    : 'text-greyed-navy hover:bg-greyed-navy/10'
+                    ? 'bg-primary text-white' 
+                    : 'text-primary hover:bg-primary/10'
                 }`}
               >
                 Preview
@@ -153,8 +153,8 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className={`px-4 py-2 bg-greyed-navy text-white rounded-lg transition-colors flex items-center ${
-                isSaving ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+              className={`px-4 py-2 bg-primary text-white rounded-lg transition-colors flex items-center ${
+                isSaving ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
               }`}
             >
               {isSaving ? (
@@ -182,27 +182,27 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
         {currentTab === 'code' ? (
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Editor toolbar */}
-            <div className="p-2 bg-greyed-navy/5 border-b border-gray-200 flex flex-wrap gap-1">
+            <div className="p-2 bg-primary/5 border-b border-gray-200 flex flex-wrap gap-1">
               <button 
-                className="px-3 py-1.5 text-sm rounded hover:bg-greyed-navy/10 text-greyed-navy"
+                className="px-3 py-1.5 text-sm rounded hover:bg-primary/10 text-primary"
                 onClick={() => addSection('This Week\'s Progress')}
               >
                 Add Progress Section
               </button>
               <button 
-                className="px-3 py-1.5 text-sm rounded hover:bg-greyed-navy/10 text-greyed-navy"
+                className="px-3 py-1.5 text-sm rounded hover:bg-primary/10 text-primary"
                 onClick={() => addSection('Coming Up Next Week')}
               >
                 Add Upcoming Section
               </button>
               <button 
-                className="px-3 py-1.5 text-sm rounded hover:bg-greyed-navy/10 text-greyed-navy"
+                className="px-3 py-1.5 text-sm rounded hover:bg-primary/10 text-primary"
                 onClick={() => addSection('Homework & Assignments')}
               >
                 Add Homework Section
               </button>
               <button 
-                className="px-3 py-1.5 text-sm rounded hover:bg-greyed-navy/10 text-greyed-navy"
+                className="px-3 py-1.5 text-sm rounded hover:bg-primary/10 text-primary"
                 onClick={() => addSection('Helpful Resources')}
               >
                 Add Resources Section
@@ -241,7 +241,7 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
           {currentTab === 'code' ? (
             <button
               onClick={() => toggleTab('preview')}
-              className="px-4 py-2 bg-greyed-navy/10 text-greyed-navy rounded-md hover:bg-greyed-navy/20 flex items-center"
+              className="px-4 py-2 bg-primary/10 text-primary rounded-md hover:bg-primary/20 flex items-center"
             >
               Preview
               <ArrowRight size={16} className="ml-2" />
@@ -249,7 +249,7 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
           ) : (
             <button
               onClick={() => toggleTab('code')}
-              className="px-4 py-2 bg-greyed-navy/10 text-greyed-navy rounded-md hover:bg-greyed-navy/20 flex items-center"
+              className="px-4 py-2 bg-primary/10 text-primary rounded-md hover:bg-primary/20 flex items-center"
             >
               <ArrowLeft size={16} className="mr-2" />
               Back to Editor

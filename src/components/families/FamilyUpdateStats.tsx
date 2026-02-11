@@ -22,33 +22,33 @@ const FamilyUpdateStats: React.FC<FamilyUpdateStatsProps> = ({ stats }) => {
       
       {/* Summary metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-greyed-navy/5 p-4 rounded-lg">
+        <div className="bg-primary/5 p-4 rounded-lg">
           <div className="flex items-center mb-2">
-            <Mail className="w-5 h-5 text-greyed-blue mr-2" />
+            <Mail className="w-5 h-5 text-accent mr-2" />
             <h3 className="font-medium text-black">Total Updates</h3>
           </div>
           <p className="text-2xl font-semibold text-black">{stats.totalUpdates}</p>
         </div>
         
-        <div className="bg-greyed-navy/5 p-4 rounded-lg">
+        <div className="bg-primary/5 p-4 rounded-lg">
           <div className="flex items-center mb-2">
-            <Calendar className="w-5 h-5 text-greyed-blue mr-2" />
+            <Calendar className="w-5 h-5 text-accent mr-2" />
             <h3 className="font-medium text-black">Updates Sent</h3>
           </div>
           <p className="text-2xl font-semibold text-black">{stats.totalSent}</p>
         </div>
         
-        <div className="bg-greyed-navy/5 p-4 rounded-lg">
+        <div className="bg-primary/5 p-4 rounded-lg">
           <div className="flex items-center mb-2">
-            <Users className="w-5 h-5 text-greyed-blue mr-2" />
+            <Users className="w-5 h-5 text-accent mr-2" />
             <h3 className="font-medium text-black">Open Rate</h3>
           </div>
           <p className="text-2xl font-semibold text-black">{stats.averageOpenRate}%</p>
         </div>
         
-        <div className="bg-greyed-navy/5 p-4 rounded-lg">
+        <div className="bg-primary/5 p-4 rounded-lg">
           <div className="flex items-center mb-2">
-            <TrendingUp className="w-5 h-5 text-greyed-blue mr-2" />
+            <TrendingUp className="w-5 h-5 text-accent mr-2" />
             <h3 className="font-medium text-black">Trend</h3>
           </div>
           <p className="text-2xl font-semibold text-black">
@@ -82,7 +82,7 @@ const FamilyUpdateStats: React.FC<FamilyUpdateStatsProps> = ({ stats }) => {
       </div>
       
       {/* Tips */}
-      <div className="bg-greyed-blue/10 p-4 rounded-lg">
+      <div className="bg-accent/10 p-4 rounded-lg">
         <h3 className="font-medium text-black mb-2">Tips to Improve Engagement</h3>
         <ul className="space-y-1 text-sm text-black/80">
           <li>• Send updates consistently on the same day of the week</li>

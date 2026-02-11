@@ -57,22 +57,22 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
   return (
     <div>
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Sparkles className="w-8 h-8 text-greyed-navy" />
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Sparkles className="w-8 h-8 text-primary" />
         </div>
         
-        <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2">
           Creativity Style
         </h2>
         
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           Let's explore how you approach creative problem-solving.
         </p>
       </div>
       
       {/* Part A: Forced Choice */}
       <div className="mb-6">
-        <h3 className="text-lg font-medium text-greyed-navy mb-3">
+        <h3 className="text-lg font-medium text-primary mb-3">
           Which sounds more like you?
         </h3>
         
@@ -80,8 +80,8 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
           <label 
             className={`relative p-4 border-2 rounded-lg cursor-pointer transition-all ${
               preferredStyle === 'divergent' 
-                ? 'border-greyed-blue bg-greyed-blue/10' 
-                : 'border-greyed-navy/20 hover:border-greyed-navy/40'
+                ? 'border-accent bg-accent/10' 
+                : 'border-primary/20 hover:border-primary/40'
             }`}
           >
             <input
@@ -92,19 +92,19 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
               checked={preferredStyle === 'divergent'}
               onChange={() => setPreferredStyle('divergent')}
             />
-            <div className="text-greyed-navy font-medium mb-1">I generate lots of ideas quickly</div>
-            <p className="text-sm text-greyed-navy/70">I prefer brainstorming many possibilities rather than focusing on one solution.</p>
+            <div className="text-primary font-medium mb-1">I generate lots of ideas quickly</div>
+            <p className="text-sm text-primary/70">I prefer brainstorming many possibilities rather than focusing on one solution.</p>
             
             {preferredStyle === 'divergent' && (
-              <div className="absolute top-2 right-2 w-4 h-4 bg-greyed-blue rounded-full"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 bg-accent rounded-full"></div>
             )}
           </label>
           
           <label 
             className={`relative p-4 border-2 rounded-lg cursor-pointer transition-all ${
               preferredStyle === 'convergent' 
-                ? 'border-greyed-blue bg-greyed-blue/10' 
-                : 'border-greyed-navy/20 hover:border-greyed-navy/40'
+                ? 'border-accent bg-accent/10' 
+                : 'border-primary/20 hover:border-primary/40'
             }`}
           >
             <input
@@ -115,11 +115,11 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
               checked={preferredStyle === 'convergent'}
               onChange={() => setPreferredStyle('convergent')}
             />
-            <div className="text-greyed-navy font-medium mb-1">I prefer to evaluate and refine one good idea</div>
-            <p className="text-sm text-greyed-navy/70">I like to focus deeply on a single approach and make it the best it can be.</p>
+            <div className="text-primary font-medium mb-1">I prefer to evaluate and refine one good idea</div>
+            <p className="text-sm text-primary/70">I like to focus deeply on a single approach and make it the best it can be.</p>
             
             {preferredStyle === 'convergent' && (
-              <div className="absolute top-2 right-2 w-4 h-4 bg-greyed-blue rounded-full"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 bg-accent rounded-full"></div>
             )}
           </label>
         </div>
@@ -128,24 +128,24 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
       {/* Part B: Scenario Based */}
       <div className="mb-6">
         <div className="flex items-center mb-3">
-          <PenTool className="w-5 h-5 text-greyed-blue mr-2" />
-          <h3 className="text-lg font-medium text-greyed-navy">Creative Challenge</h3>
+          <PenTool className="w-5 h-5 text-accent mr-2" />
+          <h3 className="text-lg font-medium text-primary">Creative Challenge</h3>
         </div>
         
-        <div className="bg-greyed-white/50 p-4 rounded-lg">
-          <p className="text-greyed-navy mb-3">
+        <div className="bg-surface-white/50 p-4 rounded-lg">
+          <p className="text-primary mb-3">
             Name as many uses as you can think of for a paperclip:
           </p>
           
           <textarea
             value={paperclipUses}
             onChange={(e) => setPaperclipUses(e.target.value)}
-            className="w-full px-3 py-2 border border-greyed-navy/20 rounded-md focus:outline-none focus:border-greyed-blue focus:ring-1 focus:ring-greyed-blue"
+            className="w-full px-3 py-2 border border-primary/20 rounded-md focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             rows={4}
             placeholder="Holding papers together, as a bookmark, to clean under fingernails..."
           />
           
-          <p className="text-sm text-greyed-navy/60 mt-2">
+          <p className="text-sm text-primary/60 mt-2">
             Separate different uses with commas or line breaks.
           </p>
         </div>
@@ -153,13 +153,13 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
       
       {/* Part C: Self Ratings */}
       <div className="space-y-6">
-        <h3 className="text-lg font-medium text-greyed-navy mb-3">
+        <h3 className="text-lg font-medium text-primary mb-3">
           Rate yourself on the following:
         </h3>
         
         {/* Open-ended problems */}
-        <div className="bg-greyed-white/50 p-4 rounded-lg">
-          <p className="font-medium text-greyed-navy mb-2">"I enjoy solving open-ended problems."</p>
+        <div className="bg-surface-white/50 p-4 rounded-lg">
+          <p className="font-medium text-primary mb-2">"I enjoy solving open-ended problems."</p>
           
           <div className="flex justify-between items-center mt-1">
             {[1, 2, 3, 4, 5].map((rating) => (
@@ -169,8 +169,8 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
                 onClick={() => handleRatingChange('openEnded', rating)}
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium focus:outline-none transition-colors ${
                   selfRatings.openEnded === rating
-                    ? 'bg-greyed-blue text-greyed-navy'
-                    : 'bg-white border border-greyed-navy/30 text-greyed-navy hover:bg-greyed-navy/5'
+                    ? 'bg-accent text-primary'
+                    : 'bg-white border border-primary/30 text-primary hover:bg-primary/5'
                 }`}
                 aria-label={`Rate ${rating} out of 5`}
               >
@@ -180,14 +180,14 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
           </div>
           
           <div className="flex justify-between items-center px-2 mt-1">
-            <span className="text-xs text-greyed-navy/60">Strongly Disagree</span>
-            <span className="text-xs text-greyed-navy/60">Strongly Agree</span>
+            <span className="text-xs text-primary/60">Strongly Disagree</span>
+            <span className="text-xs text-primary/60">Strongly Agree</span>
           </div>
         </div>
         
         {/* Structure and clarity */}
-        <div className="bg-greyed-white/50 p-4 rounded-lg">
-          <p className="font-medium text-greyed-navy mb-2">"I work best with structure and clarity."</p>
+        <div className="bg-surface-white/50 p-4 rounded-lg">
+          <p className="font-medium text-primary mb-2">"I work best with structure and clarity."</p>
           
           <div className="flex justify-between items-center mt-1">
             {[1, 2, 3, 4, 5].map((rating) => (
@@ -197,8 +197,8 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
                 onClick={() => handleRatingChange('structured', rating)}
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium focus:outline-none transition-colors ${
                   selfRatings.structured === rating
-                    ? 'bg-greyed-blue text-greyed-navy'
-                    : 'bg-white border border-greyed-navy/30 text-greyed-navy hover:bg-greyed-navy/5'
+                    ? 'bg-accent text-primary'
+                    : 'bg-white border border-primary/30 text-primary hover:bg-primary/5'
                 }`}
                 aria-label={`Rate ${rating} out of 5`}
               >
@@ -208,8 +208,8 @@ const CreativityStep: React.FC<CreativityStepProps> = ({ onValidityChange }) => 
           </div>
           
           <div className="flex justify-between items-center px-2 mt-1">
-            <span className="text-xs text-greyed-navy/60">Strongly Disagree</span>
-            <span className="text-xs text-greyed-navy/60">Strongly Agree</span>
+            <span className="text-xs text-primary/60">Strongly Disagree</span>
+            <span className="text-xs text-primary/60">Strongly Agree</span>
           </div>
         </div>
       </div>

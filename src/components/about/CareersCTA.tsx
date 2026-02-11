@@ -23,7 +23,7 @@ const CareersCTA: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-greyed-navy snap-start">
+    <section className="py-16 bg-primary">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.div 
@@ -37,14 +37,14 @@ const CareersCTA: React.FC = () => {
               className="text-center"
               variants={contentVariants}
             >
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white">
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-surface-white">
                 Join Siyafunda — help empower Mpumalanga's teachers.
               </h2>
               
               <div className="flex justify-center">
                 <a 
                   href="https://cophetsheni.edu.za/careers"
-                  className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                  className="inline-flex items-center text-surface-white border border-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
                   
                   target="_blank"
                   rel="noopener noreferrer"
@@ -63,14 +63,14 @@ const CareersCTA: React.FC = () => {
         ) : (
           <div className="max-w-4xl mx-auto">
             <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white">
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-surface-white">
                 Join Siyafunda — help empower Mpumalanga's teachers.
               </h2>
               
               <div className="flex justify-center">
                 <a 
                   href="https://cophetsheni.edu.za/careers"
-                  className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
+                  className="inline-flex items-center text-surface-white border border-surface-white hover:bg-surface-white/10 px-8 py-3 rounded-full font-medium transition-colors"
                   
                   target="_blank"
                   rel="noopener noreferrer"

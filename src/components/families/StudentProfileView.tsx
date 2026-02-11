@@ -61,7 +61,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
 
   return (
     <div className="bg-white rounded-xl shadow-lg max-w-3xl w-full max-h-[90vh] flex flex-col">
-      <div className="p-5 border-b border-gray-200 flex justify-between items-center bg-greyed-navy text-white">
+      <div className="p-5 border-b border-gray-200 flex justify-between items-center bg-primary text-white">
         <h3 className="text-lg font-headline font-bold flex items-center">
           <UserCircle className="w-5 h-5 mr-2" />
           Student Profile
@@ -83,11 +83,11 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               <img 
                 src={student.profile_picture} 
                 alt={student.name} 
-                className="w-24 h-24 rounded-full object-cover border-2 border-greyed-blue/20"
+                className="w-24 h-24 rounded-full object-cover border-2 border-accent/20"
               />
             ) : (
-              <div className="w-24 h-24 bg-greyed-blue/20 rounded-full flex items-center justify-center">
-                <UserCircle className="w-12 h-12 text-greyed-navy/50" />
+              <div className="w-24 h-24 bg-accent/20 rounded-full flex items-center justify-center">
+                <UserCircle className="w-12 h-12 text-primary/50" />
               </div>
             )}
           </div>
@@ -106,7 +106,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               </div>
             </div>
             
-            <div className="bg-greyed-beige/10 p-3 rounded-lg">
+            <div className="bg-surface/10 p-3 rounded-lg">
               <h5 className="font-medium text-black mb-2 flex items-center">
                 <Users size={16} className="mr-2" />
                 Parent/Guardian Information
@@ -119,15 +119,15 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
                 </div>
                 
                 <div className="flex items-center">
-                  <Mail size={14} className="text-greyed-blue mr-2" />
-                  <a href={`mailto:${student.parent_email}`} className="text-greyed-blue hover:underline">
+                  <Mail size={14} className="text-accent mr-2" />
+                  <a href={`mailto:${student.parent_email}`} className="text-accent hover:underline">
                     {student.parent_email || 'No email available'}
                   </a>
                 </div>
                 
                 <div className="flex items-center">
-                  <Phone size={14} className="text-greyed-blue mr-2" />
-                  <a href={`tel:${student.parent_phone}`} className="text-greyed-blue hover:underline">
+                  <Phone size={14} className="text-accent mr-2" />
+                  <a href={`tel:${student.parent_phone}`} className="text-accent hover:underline">
                     {student.parent_phone || 'No phone available'}
                   </a>
                   {student.parent_phone && (
@@ -162,7 +162,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               ))}
             </div>
           ) : (
-            <div className="text-center py-6 border-2 border-dashed border-greyed-navy/10 rounded-lg">
+            <div className="text-center py-6 border-2 border-dashed border-primary/10 rounded-lg">
               <p className="text-black/60">No previous updates for this student</p>
             </div>
           )}
@@ -177,7 +177,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               value={updateText}
               onChange={(e) => setUpdateText(e.target.value)}
               placeholder={`Write an update about ${student.name}...`}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
               rows={4}
             ></textarea>
             
@@ -185,13 +185,13 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               <div className="flex space-x-2">
                 <button
                   onClick={() => useTemplate('positive')}
-                  className="text-xs bg-greyed-navy/10 text-greyed-navy px-2 py-1 rounded hover:bg-greyed-navy/20 transition-colors"
+                  className="text-xs bg-primary/10 text-primary px-2 py-1 rounded hover:bg-primary/20 transition-colors"
                 >
                   + Positive Template
                 </button>
                 <button
                   onClick={() => useTemplate('needs-improvement')}
-                  className="text-xs bg-greyed-navy/10 text-greyed-navy px-2 py-1 rounded hover:bg-greyed-navy/20 transition-colors"
+                  className="text-xs bg-primary/10 text-primary px-2 py-1 rounded hover:bg-primary/20 transition-colors"
                 >
                   + Improvement Template
                 </button>
@@ -210,7 +210,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
                     setUpdateText('');
                   }}
                   disabled={isSending || !updateText.trim()}
-                  className={`px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 transition-colors flex items-center ${
+                  className={`px-3 py-1.5 bg-primary text-white rounded hover:bg-primary/90 transition-colors flex items-center ${
                     isSending || !updateText.trim() ? 'opacity-70 cursor-not-allowed' : ''
                   }`}
                 >

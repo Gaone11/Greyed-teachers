@@ -108,10 +108,10 @@ const AdminDashboardPage: React.FC = () => {
     return (
       <LandingLayout disableSnapScroll={true}>
         <NavBar />
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
           <div className="text-center">
-            <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
-            <p className="mt-4 text-greyed-navy font-semibold">Loading dashboard...</p>
+            <Loader className="w-12 h-12 text-accent mx-auto animate-spin" />
+            <p className="mt-4 text-primary font-semibold">Loading dashboard...</p>
           </div>
         </div>
         <Footer />
@@ -123,14 +123,14 @@ const AdminDashboardPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 bg-surface-white">
         <div className="container mx-auto px-4">
           <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
-            <div className="p-6 border-b border-greyed-navy/10">
+            <div className="p-6 border-b border-primary/10">
               <div className="flex justify-between items-center">
                 <div>
-                  <h1 className="text-2xl font-headline font-bold text-greyed-navy">Admin Dashboard</h1>
-                  <p className="text-greyed-navy/70">Manage waitlist registrations</p>
+                  <h1 className="text-2xl font-headline font-bold text-primary">Admin Dashboard</h1>
+                  <p className="text-primary/70">Manage waitlist registrations</p>
                 </div>
                 
                 <div>
@@ -146,29 +146,29 @@ const AdminDashboardPage: React.FC = () => {
             </div>
             
             {/* Stats summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-greyed-beige/10 border-b border-greyed-navy/10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-surface/10 border-b border-primary/10">
               <div className="bg-white p-4 rounded-lg shadow-sm">
                 <div className="flex items-center mb-2">
-                  <Users className="w-5 h-5 text-greyed-blue mr-2" />
-                  <h3 className="font-medium text-greyed-navy">Total Signups</h3>
+                  <Users className="w-5 h-5 text-accent mr-2" />
+                  <h3 className="font-medium text-primary">Total Signups</h3>
                 </div>
-                <p className="text-2xl font-bold text-greyed-navy">{totalCount}</p>
+                <p className="text-2xl font-bold text-primary">{totalCount}</p>
               </div>
               
               <div className="bg-white p-4 rounded-lg shadow-sm">
                 <div className="flex items-center mb-2">
-                  <Mail className="w-5 h-5 text-greyed-blue mr-2" />
-                  <h3 className="font-medium text-greyed-navy">Email Confirmations</h3>
+                  <Mail className="w-5 h-5 text-accent mr-2" />
+                  <h3 className="font-medium text-primary">Email Confirmations</h3>
                 </div>
-                <p className="text-2xl font-bold text-greyed-navy">{totalCount}</p>
+                <p className="text-2xl font-bold text-primary">{totalCount}</p>
               </div>
               
               <div className="bg-white p-4 rounded-lg shadow-sm">
                 <div className="flex items-center mb-2">
-                  <Calendar className="w-5 h-5 text-greyed-blue mr-2" />
-                  <h3 className="font-medium text-greyed-navy">This Week</h3>
+                  <Calendar className="w-5 h-5 text-accent mr-2" />
+                  <h3 className="font-medium text-primary">This Week</h3>
                 </div>
-                <p className="text-2xl font-bold text-greyed-navy">
+                <p className="text-2xl font-bold text-primary">
                   {waitlistData.filter(
                     entry => new Date(entry.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
                   ).length}
@@ -177,7 +177,7 @@ const AdminDashboardPage: React.FC = () => {
             </div>
             
             {/* Search and filters */}
-            <div className="p-6 border-b border-greyed-navy/10">
+            <div className="p-6 border-b border-primary/10">
               <div className="flex flex-col sm:flex-row justify-between gap-4">
                 <div className="relative sm:max-w-xs flex-1">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -186,7 +186,7 @@ const AdminDashboardPage: React.FC = () => {
                   <input
                     type="text"
                     placeholder="Search by name or email"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                     value={searchFilter}
                     onChange={handleSearchChange}
                   />
@@ -194,7 +194,7 @@ const AdminDashboardPage: React.FC = () => {
                 
                 <div className="flex gap-3">
                   <button 
-                    className="px-4 py-2 bg-greyed-navy/10 hover:bg-greyed-navy/20 rounded-lg transition-colors flex items-center"
+                    className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors flex items-center"
                   >
                     <Filter size={16} className="mr-2" />
                     <span>Filter</span>
@@ -203,8 +203,8 @@ const AdminDashboardPage: React.FC = () => {
                   <button 
                     onClick={handleExportCSV}
                     disabled={isExporting || waitlistData.length === 0}
-                    className={`px-4 py-2 bg-greyed-navy text-white rounded-lg transition-colors flex items-center ${
-                      isExporting || waitlistData.length === 0 ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                    className={`px-4 py-2 bg-primary text-white rounded-lg transition-colors flex items-center ${
+                      isExporting || waitlistData.length === 0 ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
                     }`}
                   >
                     <Download size={16} className="mr-2" />
@@ -222,26 +222,26 @@ const AdminDashboardPage: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h2 className="text-xl font-medium text-greyed-navy mb-2">Error Loading Data</h2>
-                <p className="text-greyed-navy/70 mb-4">{error}</p>
+                <h2 className="text-xl font-medium text-primary mb-2">Error Loading Data</h2>
+                <p className="text-primary/70 mb-4">{error}</p>
                 <button 
                   onClick={() => window.location.reload()}
-                  className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90"
+                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
                 >
                   Refresh Page
                 </button>
               </div>
             ) : waitlistData.length === 0 ? (
               <div className="p-8 text-center">
-                <div className="text-greyed-navy/50 mb-4">
+                <div className="text-primary/50 mb-4">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                   </svg>
                 </div>
-                <h2 className="text-xl font-medium text-greyed-navy mb-2">
+                <h2 className="text-xl font-medium text-primary mb-2">
                   {searchFilter ? 'No matching entries found' : 'No waitlist entries yet'}
                 </h2>
-                <p className="text-greyed-navy/70">
+                <p className="text-primary/70">
                   {searchFilter 
                     ? 'Try adjusting your search term to find what you\'re looking for.'
                     : 'Waitlist signups will appear here once users register.'}
@@ -251,41 +251,41 @@ const AdminDashboardPage: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead>
-                    <tr className="bg-greyed-navy/5">
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-greyed-navy uppercase tracking-wider">
+                    <tr className="bg-primary/5">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
                         Name
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-greyed-navy uppercase tracking-wider">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
                         Email
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-greyed-navy uppercase tracking-wider">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
                         Role
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-greyed-navy uppercase tracking-wider">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
                         Signup Date
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {waitlistData.map((entry) => (
-                      <tr key={entry.id} className="hover:bg-greyed-navy/5">
+                      <tr key={entry.id} className="hover:bg-primary/5">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-greyed-navy">{entry.name}</div>
+                          <div className="font-medium text-primary">{entry.name}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-greyed-navy">{entry.email}</div>
+                          <div className="text-primary">{entry.email}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            entry.role === 'student' ? 'bg-greyed-blue/20 text-greyed-navy' :
+                            entry.role === 'student' ? 'bg-accent/20 text-primary' :
                             entry.role === 'parent' ? 'bg-green-100 text-green-800' :
-                            entry.role === 'teacher' ? 'bg-greyed-navy/10 text-greyed-navy' :
-                            'bg-greyed-beige text-greyed-navy'
+                            entry.role === 'teacher' ? 'bg-primary/10 text-primary' :
+                            'bg-surface text-primary'
                           }`}>
                             {entry.role.charAt(0).toUpperCase() + entry.role.slice(1)}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-greyed-navy">
+                        <td className="px-6 py-4 whitespace-nowrap text-primary">
                           {formatDate(entry.created_at)}
                         </td>
                       </tr>
@@ -297,7 +297,7 @@ const AdminDashboardPage: React.FC = () => {
             
             {/* Pagination */}
             {pageCount > 1 && (
-              <div className="px-6 py-4 flex items-center justify-between border-t border-greyed-navy/10">
+              <div className="px-6 py-4 flex items-center justify-between border-t border-primary/10">
                 <div className="flex-1 flex justify-between sm:hidden">
                   <button
                     onClick={() => setPage(page > 1 ? page - 1 : 1)}
@@ -305,7 +305,7 @@ const AdminDashboardPage: React.FC = () => {
                     className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
                       page === 1 
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : 'bg-white text-greyed-navy hover:bg-gray-50'
+                        : 'bg-white text-primary hover:bg-gray-50'
                     }`}
                   >
                     Previous
@@ -316,7 +316,7 @@ const AdminDashboardPage: React.FC = () => {
                     className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
                       page === pageCount 
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : 'bg-white text-greyed-navy hover:bg-gray-50'
+                        : 'bg-white text-primary hover:bg-gray-50'
                     }`}
                   >
                     Next
@@ -350,7 +350,7 @@ const AdminDashboardPage: React.FC = () => {
                           onClick={() => setPage(i + 1)}
                           className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                             page === i + 1
-                              ? 'z-10 bg-greyed-blue/20 border-greyed-blue text-greyed-navy'
+                              ? 'z-10 bg-accent/20 border-accent text-primary'
                               : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                           }`}
                         >

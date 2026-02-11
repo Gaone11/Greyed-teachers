@@ -182,7 +182,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
           <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex justify-between items-center">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
+              className="flex items-center text-primary/70 hover:text-primary transition-colors"
             >
               <img src="/favicon.svg" alt="GreyEd" className="w-6 h-6" />
             </button>
@@ -190,7 +190,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
             <div className="flex items-center space-x-2">
               <button
                 onClick={handleDownload}
-                className="px-3 py-1.5 bg-greyed-navy/10 text-greyed-navy rounded-lg hover:bg-greyed-navy/20 transition-colors flex items-center"
+                className="px-3 py-1.5 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors flex items-center"
               >
                 <Download size={16} className="mr-1" />
                 Download PDF
@@ -200,8 +200,8 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
                 <button
                   onClick={handleSendUpdate}
                   disabled={isSending || sendSuccess}
-                  className={`px-3 py-1.5 bg-greyed-navy text-white rounded-lg transition-colors flex items-center ${
-                    isSending || sendSuccess ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                  className={`px-3 py-1.5 bg-primary text-white rounded-lg transition-colors flex items-center ${
+                    isSending || sendSuccess ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
                   }`}
                 >
                   {isSending ? (
@@ -236,7 +236,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
             
             {loading ? (
               <div className="flex items-center justify-center p-16">
-                <Loader className="w-10 h-10 text-greyed-blue animate-spin" />
+                <Loader className="w-10 h-10 text-accent animate-spin" />
               </div>
             ) : (
               <iframe 
@@ -257,7 +257,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-greyed-navy text-white">
+        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-primary text-white">
           <h3 className="text-lg font-headline font-bold flex items-center">
             <FileText className="w-5 h-5 mr-2" />
             Family Update Preview
@@ -315,7 +315,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
             </div>
           )}
           
-          <div className="mb-4 bg-greyed-beige/10 p-3 rounded-lg">
+          <div className="mb-4 bg-surface/10 p-3 rounded-lg">
             <h4 className="font-medium">{updateData?.className || 'Class Update'}</h4>
             <p className="text-sm text-black/60">
               Week of {updateData?.weekStart ? new Date(updateData.weekStart).toLocaleDateString('en-GB', {
@@ -328,7 +328,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
           
           {loading ? (
             <div className="flex items-center justify-center p-16 border border-gray-200 rounded-lg">
-              <Loader className="w-8 h-8 text-greyed-blue animate-spin" />
+              <Loader className="w-8 h-8 text-accent animate-spin" />
             </div>
           ) : (
             <div className="border border-gray-200 rounded-lg overflow-hidden h-[500px]">

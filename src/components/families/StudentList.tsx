@@ -42,7 +42,7 @@ const StudentList: React.FC<StudentListProps> = ({
 
   if (filteredStudents.length === 0) {
     return (
-      <div className="text-center py-8 border-2 border-dashed border-greyed-navy/10 rounded-lg">
+      <div className="text-center py-8 border-2 border-dashed border-primary/10 rounded-lg">
         {searchTerm ? (
           <p className="text-black/60">No students matching your search</p>
         ) : (
@@ -69,8 +69,8 @@ const StudentList: React.FC<StudentListProps> = ({
                   className="w-16 h-16 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center">
-                  <UserCircle className="w-8 h-8 text-greyed-navy/50" />
+                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center">
+                  <UserCircle className="w-8 h-8 text-primary/50" />
                 </div>
               )}
             </div>
@@ -90,11 +90,11 @@ const StudentList: React.FC<StudentListProps> = ({
             </div>
           </div>
           
-          <div className="bg-greyed-navy/5 px-4 py-2 flex justify-between items-center">
-            <div className="text-sm text-greyed-navy">
+          <div className="bg-primary/5 px-4 py-2 flex justify-between items-center">
+            <div className="text-sm text-primary">
               {student.parent_name ? `Parent: ${student.parent_name}` : 'No parent info'}
             </div>
-            <div className="text-xs text-greyed-navy/70">
+            <div className="text-xs text-primary/70">
               {student.updates?.length || 0} updates
             </div>
           </div>

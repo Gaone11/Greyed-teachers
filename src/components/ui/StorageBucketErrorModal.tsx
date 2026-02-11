@@ -17,13 +17,13 @@ const StorageBucketErrorModal: React.FC<StorageBucketErrorModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="px-4 py-3 flex justify-between items-center border-b border-greyed-navy/10">
+        <div className="px-4 py-3 flex justify-between items-center border-b border-primary/10">
           <h2 className="font-headline font-bold text-lg text-red-600">
             Storage Bucket Not Found
           </h2>
           <button 
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-greyed-navy/10 transition-colors"
+            className="p-1 rounded-full hover:bg-primary/10 transition-colors"
             aria-label="Close"
           >
             <X size={20} className="text-black" />
@@ -54,7 +54,7 @@ const StorageBucketErrorModal: React.FC<StorageBucketErrorModalProps> = ({
               <span className="text-black">Click <strong>New Bucket</strong></span>
             </li>
             <li>
-              <span className="text-black">Create a bucket named <code className="bg-greyed-navy/10 px-1 py-0.5 rounded">{bucketName}</code></span>
+              <span className="text-black">Create a bucket named <code className="bg-primary/10 px-1 py-0.5 rounded">{bucketName}</code></span>
             </li>
             <li>
               <span className="text-black">Set the appropriate permissions (public or private) based on your needs</span>
@@ -69,14 +69,14 @@ const StorageBucketErrorModal: React.FC<StorageBucketErrorModalProps> = ({
               href="https://supabase.com/dashboard"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors mr-3 flex items-center"
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors mr-3 flex items-center"
             >
               <ExternalLink size={16} className="mr-2" />
               Open Supabase Dashboard
             </a>
             <button
               onClick={onClose}
-              className="px-4 py-2 border border-greyed-navy/20 text-black rounded-lg hover:bg-greyed-navy/5 transition-colors"
+              className="px-4 py-2 border border-primary/20 text-black rounded-lg hover:bg-primary/5 transition-colors"
             >
               Close
             </button>

@@ -40,16 +40,16 @@ const MeetEl: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
         <AnimatedSection className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
+          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-primary">
             Meet Your AI Teaching Assistant
           </h2>
-          <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
+          <p className="text-xl text-text/70 max-w-2xl mx-auto">
             Your AI assistant understands CAPS, knows your learners, and works around the clock.
           </p>
-          <p className="text-sm text-greyed-black/50 mt-2 italic">
+          <p className="text-sm text-text/50 mt-2 italic">
             "Imfundo yisikhali esiyiso" — Education is the right weapon
           </p>
         </AnimatedSection>
@@ -93,17 +93,17 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     return (
       <div
         className={`p-6 rounded-lg bg-white cursor-pointer transition-all duration-300 ${
-          isActive ? "ring-2 ring-greyed-blue bg-greyed-blue/10" : "shadow-sm hover:shadow"
+          isActive ? "ring-2 ring-accent bg-accent/10" : "shadow-sm hover:shadow"
         }`}
         onClick={onClick}
       >
         <div className="flex items-center mb-4">
-          <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-3">
+          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-3">
             {icon}
           </div>
-          <h3 className="font-headline font-semibold text-greyed-navy">{title}</h3>
+          <h3 className="font-headline font-semibold text-primary">{title}</h3>
         </div>
-        <p className="text-greyed-black/70">{description}</p>
+        <p className="text-text/70">{description}</p>
       </div>
     );
   }
@@ -117,12 +117,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
       onClick={onClick}
     >
       <div className="flex items-center mb-4">
-        <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-3">
+        <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-3">
           {icon}
         </div>
-        <h3 className="font-headline font-semibold text-greyed-navy">{title}</h3>
+        <h3 className="font-headline font-semibold text-primary">{title}</h3>
       </div>
-      <p className="text-greyed-black/70">{description}</p>
+      <p className="text-text/70">{description}</p>
     </motion.div>
   );
 };

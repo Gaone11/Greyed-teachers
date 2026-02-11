@@ -49,7 +49,7 @@ const RoleSelectionModal: React.FC = () => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-greyed-navy/70 backdrop-blur-sm px-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-primary/70 backdrop-blur-sm px-4"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -62,7 +62,7 @@ const RoleSelectionModal: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-4 text-greyed-navy/60 hover:text-greyed-navy transition-colors"
+              className="absolute top-4 right-4 text-primary/60 hover:text-primary transition-colors"
               onClick={closeRoleSelection}
               aria-label="Close modal"
             >
@@ -70,10 +70,10 @@ const RoleSelectionModal: React.FC = () => {
             </button>
 
             <div className="text-center mb-6">
-              <h2 className="text-xl sm:text-2xl font-headline font-bold text-greyed-navy mb-2">
+              <h2 className="text-xl sm:text-2xl font-headline font-bold text-primary mb-2">
                 Join GreyEd Teachers
               </h2>
-              <p className="text-greyed-navy/70 text-sm sm:text-base">
+              <p className="text-primary/70 text-sm sm:text-base">
                 Start your 14-day free trial today
               </p>
             </div>
@@ -81,22 +81,22 @@ const RoleSelectionModal: React.FC = () => {
             <div className="grid grid-cols-1 gap-4">
               <button
                 onClick={handleRoleSelection}
-                className="flex flex-col items-center p-6 rounded-xl border-2 border-greyed-blue bg-greyed-blue/5 hover:bg-greyed-blue/10 transition-all"
+                className="flex flex-col items-center p-6 rounded-xl border-2 border-accent bg-accent/5 hover:bg-accent/10 transition-all"
               >
-                <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mb-4">
-                  <School size={32} className="text-greyed-navy" />
+                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mb-4">
+                  <School size={32} className="text-primary" />
                 </div>
-                <h3 className="text-lg font-headline font-semibold text-greyed-navy">GreyEd Teachers</h3>
-                <p className="text-sm text-greyed-navy/70 mt-2 text-center">
+                <h3 className="text-lg font-headline font-semibold text-primary">GreyEd Teachers</h3>
+                <p className="text-sm text-primary/70 mt-2 text-center">
                   Access AI-powered lesson plans, assessments, and family updates
                 </p>
-                <div className="mt-4 bg-greyed-navy/10 px-3 py-1 rounded-full text-xs text-greyed-navy font-medium">
+                <div className="mt-4 bg-primary/10 px-3 py-1 rounded-full text-xs text-primary font-medium">
                   14-day free trial
                 </div>
               </button>
             </div>
 
-            <div className="mt-6 pt-4 text-center text-xs text-greyed-navy/60 border-t border-greyed-navy/10">
+            <div className="mt-6 pt-4 text-center text-xs text-primary/60 border-t border-primary/10">
               <p>£8/month after free trial (~BWP150, $11, R199)</p>
               <p className="mt-1">Cancel anytime during your trial period</p>
             </div>

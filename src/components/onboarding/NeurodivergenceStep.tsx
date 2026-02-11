@@ -52,35 +52,35 @@ const NeurodivergenceStep: React.FC<NeurodivergenceStepProps> = ({ onValidityCha
   return (
     <div>
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <HeartPulse className="w-8 h-8 text-greyed-navy" />
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <HeartPulse className="w-8 h-8 text-primary" />
         </div>
         
-        <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2">
           Learning Needs & Preferences
         </h2>
         
-        <p className="text-greyed-navy/80">
+        <p className="text-primary/80">
           This optional section helps us adapt content to your unique needs.
         </p>
       </div>
       
-      <div className="bg-greyed-beige/20 p-4 rounded-lg mb-6">
-        <p className="text-greyed-navy/80 text-sm">
+      <div className="bg-surface/20 p-4 rounded-lg mb-6">
+        <p className="text-primary/80 text-sm">
           Your answers help El AI adjust its teaching style to your needs. This information is private and used only to improve your learning experience.
         </p>
       </div>
       
       <div className="space-y-3">
-        <p className="font-medium text-greyed-navy mb-2">Please tick any that apply to you:</p>
+        <p className="font-medium text-primary mb-2">Please tick any that apply to you:</p>
         
         {neurodivergenceOptions.map(option => (
           <label
             key={option.id}
             className={`flex items-start p-3 border rounded-lg cursor-pointer transition-colors ${
               selectedOptions.includes(option.id) 
-                ? 'border-greyed-blue bg-greyed-blue/10' 
-                : 'border-greyed-navy/20 hover:border-greyed-navy/30'
+                ? 'border-accent bg-accent/10' 
+                : 'border-primary/20 hover:border-primary/30'
             }`}
           >
             <input
@@ -89,7 +89,7 @@ const NeurodivergenceStep: React.FC<NeurodivergenceStepProps> = ({ onValidityCha
               checked={selectedOptions.includes(option.id)}
               onChange={() => toggleOption(option.id)}
             />
-            <span className="text-greyed-navy">{option.label}</span>
+            <span className="text-primary">{option.label}</span>
           </label>
         ))}
       </div>

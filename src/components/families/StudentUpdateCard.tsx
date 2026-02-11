@@ -30,7 +30,7 @@ const StudentUpdateCard: React.FC<StudentUpdateCardProps> = ({
   };
 
   return (
-    <div className="bg-white border border-greyed-navy/10 rounded-lg shadow-sm p-4 mb-4">
+    <div className="bg-white border border-primary/10 rounded-lg shadow-sm p-4 mb-4">
       <div className="flex justify-between items-start">
         <p className="text-sm text-black">{update.content}</p>
         
@@ -48,7 +48,7 @@ const StudentUpdateCard: React.FC<StudentUpdateCardProps> = ({
             <div className="flex space-x-2">
               <button
                 onClick={() => onSend(update.id, 'email')}
-                className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20"
+                className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20"
                 disabled={isSending}
               >
                 <Mail size={12} className="mr-1" />

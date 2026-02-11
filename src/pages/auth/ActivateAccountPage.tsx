@@ -45,15 +45,15 @@ const ActivateAccountPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar />
       
-      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-surface-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="bg-greyed-navy p-8 text-white text-center">
+            <div className="bg-primary p-8 text-white text-center">
               <Crown className="w-16 h-16 mx-auto mb-4" />
               <h1 className="text-3xl font-headline font-bold mb-3">
                 Activate Your GreyEd Teachers Account
               </h1>
-              <p className="text-greyed-blue max-w-md mx-auto">
+              <p className="text-accent max-w-md mx-auto">
                 Complete your account setup to access all features and start your 14-day free trial.
               </p>
             </div>
@@ -77,23 +77,23 @@ const ActivateAccountPage: React.FC = () => {
                   Start your 14-day free trial now - no charges during the trial period and you can cancel anytime.
                 </p>
                 
-                <div className="bg-greyed-beige/20 rounded-lg p-6 mb-6">
+                <div className="bg-surface/20 rounded-lg p-6 mb-6">
                   <h3 className="text-lg font-medium text-black mb-3">What's included:</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
-                      <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-2 flex-shrink-0 mt-0.5">✓</div>
                       <span>Unlimited AI lesson plans</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-2 flex-shrink-0 mt-0.5">✓</div>
                       <span>Auto-graded assessments</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-2 flex-shrink-0 mt-0.5">✓</div>
                       <span>Weekly family updates</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-primary mr-2 flex-shrink-0 mt-0.5">✓</div>
                       <span>Advanced analytics dashboard</span>
                     </li>
                   </ul>
@@ -102,15 +102,15 @@ const ActivateAccountPage: React.FC = () => {
               
               <div className="text-center">
                 <div className="mb-6">
-                  <p className="text-2xl font-bold text-greyed-navy">£8<span className="text-sm font-normal">/month</span></p>
-                  <p className="text-sm text-greyed-navy/70">After 14-day free trial</p>
+                  <p className="text-2xl font-bold text-primary">£8<span className="text-sm font-normal">/month</span></p>
+                  <p className="text-sm text-primary/70">After 14-day free trial</p>
                 </div>
                 
                 <button 
                   onClick={handleStartSubscription}
                   disabled={isRedirecting}
-                  className={`px-6 py-3 bg-greyed-navy text-white rounded-lg font-medium transition-colors flex items-center mx-auto ${
-                    isRedirecting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                  className={`px-6 py-3 bg-primary text-white rounded-lg font-medium transition-colors flex items-center mx-auto ${
+                    isRedirecting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
                   }`}
                 >
                   {isRedirecting ? (
@@ -126,7 +126,7 @@ const ActivateAccountPage: React.FC = () => {
                   )}
                 </button>
                 
-                <p className="mt-4 text-xs text-greyed-navy/60">
+                <p className="mt-4 text-xs text-primary/60">
                   Your card won't be charged during the trial period. You can cancel anytime.
                 </p>
               </div>

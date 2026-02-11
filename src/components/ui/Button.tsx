@@ -22,10 +22,10 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = 'rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
 
   const variantClasses: Record<ButtonVariant, string> = {
-    primary: 'bg-greyed-navy text-greyed-white hover:bg-greyed-navy/90 focus:ring-greyed-navy',
-    secondary: 'bg-greyed-blue text-white hover:bg-greyed-blue/90 focus:ring-greyed-blue',
-    outline: 'border-2 border-greyed-navy text-greyed-navy hover:bg-greyed-navy/10 focus:ring-greyed-navy',
-    ghost: 'text-greyed-navy hover:bg-greyed-navy/10 focus:ring-greyed-navy',
+    primary: 'bg-primary text-surface-white hover:bg-primary/90 focus:ring-primary',
+    secondary: 'bg-accent text-white hover:bg-accent/90 focus:ring-accent',
+    outline: 'border-2 border-primary text-primary hover:bg-primary/10 focus:ring-primary',
+    ghost: 'text-primary hover:bg-primary/10 focus:ring-primary',
   };
 
   const sizeClasses: Record<ButtonSize, string> = {

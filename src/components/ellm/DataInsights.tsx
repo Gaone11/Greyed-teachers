@@ -78,9 +78,9 @@ const DataInsights: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-beige/30 snap-start">
+    <section className="py-20 bg-surface/30">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center">
+        <h2 className="text-3xl font-headline font-bold mb-12 text-primary text-center">
           Data Insights
         </h2>
         
@@ -94,7 +94,7 @@ const DataInsights: React.FC = () => {
                 viewport={{ once: true }}
                 className="bg-white rounded-xl shadow-md p-6"
               >
-                <h3 className="text-xl font-headline font-semibold mb-4 text-greyed-navy">
+                <h3 className="text-xl font-headline font-semibold mb-4 text-primary">
                   Frustration Detection Trend
                 </h3>
                 <div className="h-64">
@@ -107,7 +107,7 @@ const DataInsights: React.FC = () => {
                       <Line 
                         type="monotone" 
                         dataKey="detections" 
-                        stroke="#D4A843" 
+                        stroke="currentColor" className="text-accent" 
                         strokeWidth={2} 
                         dot={{ r: 4, strokeWidth: 1 }}
                         animationDuration={1500}
@@ -115,7 +115,7 @@ const DataInsights: React.FC = () => {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="text-center mt-2 text-greyed-navy/60 text-sm">
+                <div className="text-center mt-2 text-primary/60 text-sm">
                   25% reduction in frustration detections over a term
                 </div>
               </motion.div>
@@ -127,13 +127,13 @@ const DataInsights: React.FC = () => {
                 viewport={{ once: true }}
                 className="flex flex-col justify-center"
               >
-                <h3 className="text-2xl font-headline font-semibold mb-4 text-greyed-navy">
+                <h3 className="text-2xl font-headline font-semibold mb-4 text-primary">
                   Continuous improvement
                 </h3>
-                <p className="text-greyed-black/80 mb-6">
+                <p className="text-text/80 mb-6">
                   GreyEd logs academic and emotional signals (anonymised) to refine eLLM weekly.
                 </p>
-                <div className="bg-greyed-blue/20 rounded-lg p-4 text-greyed-navy/70 text-sm">
+                <div className="bg-accent/20 rounded-lg p-4 text-primary/70 text-sm">
                   All data GDPR/UK DPA compliant; opt-out anytime.
                 </div>
               </motion.div>
@@ -141,25 +141,25 @@ const DataInsights: React.FC = () => {
           ) : (
             <>
               <div className="bg-white rounded-xl shadow-md p-6">
-                <h3 className="text-xl font-headline font-semibold mb-4 text-greyed-navy">
+                <h3 className="text-xl font-headline font-semibold mb-4 text-primary">
                   Frustration Detection Trend
                 </h3>
                 <div className="h-64">
                   <canvas ref={canvasRef} width="400" height="200" className="w-full h-full"></canvas>
                 </div>
-                <div className="text-center mt-2 text-greyed-navy/60 text-sm">
+                <div className="text-center mt-2 text-primary/60 text-sm">
                   25% reduction in frustration detections over a term
                 </div>
               </div>
               
               <div className="flex flex-col justify-center">
-                <h3 className="text-2xl font-headline font-semibold mb-4 text-greyed-navy">
+                <h3 className="text-2xl font-headline font-semibold mb-4 text-primary">
                   Continuous improvement
                 </h3>
-                <p className="text-greyed-black/80 mb-6">
+                <p className="text-text/80 mb-6">
                   GreyEd logs academic and emotional signals (anonymised) to refine eLLM weekly.
                 </p>
-                <div className="bg-greyed-blue/20 rounded-lg p-4 text-greyed-navy/70 text-sm">
+                <div className="bg-accent/20 rounded-lg p-4 text-primary/70 text-sm">
                   All data GDPR/UK DPA compliant; opt-out anytime.
                 </div>
               </div>

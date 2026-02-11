@@ -103,7 +103,7 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-greyed-navy/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-primary/70 backdrop-blur-sm"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -118,7 +118,7 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
             <div className="absolute top-4 right-4">
               <button
                 onClick={onClose}
-                className="p-1 rounded-full text-greyed-navy/60 hover:text-greyed-navy hover:bg-greyed-navy/10 transition-colors"
+                className="p-1 rounded-full text-primary/60 hover:text-primary hover:bg-primary/10 transition-colors"
                 aria-label="Close modal"
               >
                 <X size={20} />
@@ -127,8 +127,8 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
 
             <div className="p-6 sm:p-8">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">Admin Login</h2>
-                <p className="text-greyed-navy/70 text-sm">Log in to access the admin dashboard</p>
+                <h2 className="text-2xl font-headline font-bold text-primary mb-2">Admin Login</h2>
+                <p className="text-primary/70 text-sm">Log in to access the admin dashboard</p>
               </div>
 
               {loginError && (
@@ -140,18 +140,18 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
               
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-5">
-                  <label className="block text-sm font-medium text-greyed-navy mb-1">
+                  <label className="block text-sm font-medium text-primary mb-1">
                     Email Address
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-greyed-navy/30" />
+                      <Mail className="h-5 w-5 text-primary/30" />
                     </div>
                     <input
                       id="email"
                       type="email"
                       {...register("email")}
-                      className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-greyed-navy/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue`}
+                      className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-primary/20'} rounded-lg focus:outline-none focus:ring-2 focus:ring-accent`}
                       placeholder="admin@greyed.org"
                       autoFocus
                     />
@@ -164,8 +164,8 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-greyed-navy text-greyed-white font-medium py-3 rounded-lg transition-colors ${
-                    isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                  className={`w-full bg-primary text-surface-white font-medium py-3 rounded-lg transition-colors ${
+                    isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'
                   }`}
                 >
                   {isSubmitting ? (

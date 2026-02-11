@@ -33,9 +33,9 @@ const BookingProcess: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-greyed-beige/30 snap-start">
+    <section className="py-20 bg-surface/30">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-headline font-bold mb-10 text-greyed-navy text-center">
+        <h2 className="text-3xl font-headline font-bold mb-10 text-primary text-center">
           How it works
         </h2>
         
@@ -126,30 +126,30 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ number, icon, title, descript
         whileInView="visible"
         viewport={{ once: true, amount: 0.6 }}
         whileHover={{ translateY: -4 }}
-        className="bg-greyed-beige rounded-2xl p-6 flex-1 shadow-sm hover:shadow-md transition-all"
+        className="bg-surface rounded-2xl p-6 flex-1 shadow-sm hover:shadow-md transition-all"
       >
-        <div className="w-12 h-12 bg-greyed-navy text-greyed-white rounded-full flex items-center justify-center font-bold text-xl mb-4">
+        <div className="w-12 h-12 bg-primary text-surface-white rounded-full flex items-center justify-center font-bold text-xl mb-4">
           {displayNumber}
         </div>
-        <div className="mb-4 text-greyed-navy">
+        <div className="mb-4 text-primary">
           {icon}
         </div>
-        <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-        <p className="text-greyed-navy/80">{description}</p>
+        <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+        <p className="text-primary/80">{description}</p>
       </motion.div>
     ) : (
       <div
         id={`process-card-${index}`}
-        className="bg-greyed-beige rounded-2xl p-6 flex-1 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+        className="bg-surface rounded-2xl p-6 flex-1 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
       >
-        <div className="w-12 h-12 bg-greyed-navy text-greyed-white rounded-full flex items-center justify-center font-bold text-xl mb-4">
+        <div className="w-12 h-12 bg-primary text-surface-white rounded-full flex items-center justify-center font-bold text-xl mb-4">
           {number}
         </div>
-        <div className="mb-4 text-greyed-navy">
+        <div className="mb-4 text-primary">
           {icon}
         </div>
-        <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-        <p className="text-greyed-navy/80">{description}</p>
+        <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+        <p className="text-primary/80">{description}</p>
       </div>
     )
   );

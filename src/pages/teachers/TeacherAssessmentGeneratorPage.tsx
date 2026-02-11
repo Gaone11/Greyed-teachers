@@ -560,7 +560,7 @@ export default function TeacherAssessmentGeneratorPage() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <CheckCircle className="h-5 w-5 text-greyed-navy mr-2" />
+                    <CheckCircle className="h-5 w-5 text-primary mr-2" />
                     Assessment Generated
                   </h2>
                   <button

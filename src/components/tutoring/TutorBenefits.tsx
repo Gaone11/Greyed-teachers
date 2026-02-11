@@ -32,9 +32,9 @@ const TutorBenefits: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-greyed-white snap-start">
+    <section className="py-20 bg-surface-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center">
+        <h2 className="text-3xl font-headline font-bold mb-12 text-primary text-center">
           The benefits of human tutoring
         </h2>
         
@@ -76,21 +76,21 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description, ind
         whileHover={{ y: -8 }}
         className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all"
       >
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4 text-greyed-navy">
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
           {icon}
         </div>
-        <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-        <p className="text-greyed-navy/80">{description}</p>
+        <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+        <p className="text-primary/80">{description}</p>
       </motion.div>
     ) : (
       <div
         className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all hover:-translate-y-2"
       >
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4 text-greyed-navy">
+        <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
           {icon}
         </div>
-        <h3 className="text-xl font-headline font-semibold mb-2 text-greyed-navy">{title}</h3>
-        <p className="text-greyed-navy/80">{description}</p>
+        <h3 className="text-xl font-headline font-semibold mb-2 text-primary">{title}</h3>
+        <p className="text-primary/80">{description}</p>
       </div>
     )
   );

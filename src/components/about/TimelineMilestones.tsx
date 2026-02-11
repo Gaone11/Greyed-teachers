@@ -87,11 +87,11 @@ const TimelineMilestones: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-greyed-white relative snap-start">
+    <section className="py-20 bg-surface-white relative">
       <div className="container mx-auto px-4">
         {enabled ? (
           <motion.h2 
-            className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center"
+            className="text-3xl font-headline font-bold mb-12 text-primary text-center"
             variants={titleVariants}
             initial="hidden"
             whileInView="visible"
@@ -100,7 +100,7 @@ const TimelineMilestones: React.FC = () => {
             Our Journey
           </motion.h2>
         ) : (
-          <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center">
+          <h2 className="text-3xl font-headline font-bold mb-12 text-primary text-center">
             Our Journey
           </h2>
         )}
@@ -108,21 +108,21 @@ const TimelineMilestones: React.FC = () => {
         {isMobile ? (
           <div className="max-w-md mx-auto">
             <div className="relative">
-              <div className="absolute left-9 top-0 bottom-0 w-0.5 bg-greyed-blue/30"></div>
+              <div className="absolute left-9 top-0 bottom-0 w-0.5 bg-accent/30"></div>
               
               {milestones.map((milestone, index) => (
                 <div key={index} className="flex mb-8">
                   <div className="relative">
-                    <div className="w-[74px] text-right pr-4 font-headline font-semibold text-greyed-navy">
+                    <div className="w-[74px] text-right pr-4 font-headline font-semibold text-primary">
                       {milestone.year}
                     </div>
-                    <div className={`absolute top-0 right-0 w-4 h-4 rounded-full border-2 ${index === activeIndex ? 'bg-greyed-blue border-greyed-navy' : 'bg-greyed-white border-greyed-blue'}`}></div>
+                    <div className={`absolute top-0 right-0 w-4 h-4 rounded-full border-2 ${index === activeIndex ? 'bg-accent border-primary' : 'bg-surface-white border-accent'}`}></div>
                   </div>
                   <div 
-                    className={`flex-1 bg-white p-4 rounded-lg shadow-sm ml-4 ${index === activeIndex ? 'border-l-4 border-greyed-blue' : ''}`}
+                    className={`flex-1 bg-white p-4 rounded-lg shadow-sm ml-4 ${index === activeIndex ? 'border-l-4 border-accent' : ''}`}
                     onClick={() => setActiveIndex(index)}
                   >
-                    <p className="text-greyed-black/80">{milestone.milestone}</p>
+                    <p className="text-text/80">{milestone.milestone}</p>
                   </div>
                 </div>
               ))}
@@ -133,7 +133,7 @@ const TimelineMilestones: React.FC = () => {
             ref={timelineRef}
             className="relative max-w-6xl mx-auto overflow-x-auto pb-8 hide-scrollbar"
           >
-            <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-greyed-blue/30 transform -translate-y-1/2"></div>
+            <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-accent/30 transform -translate-y-1/2"></div>
             
             <div className="flex space-x-8 px-8 min-w-max">
               {milestones.map((milestone, index) => (
@@ -180,7 +180,7 @@ const MilestoneCard: React.FC<MilestoneCardProps> = ({
   
   const dotVariants = {
     inactive: { scale: 1 },
-    active: { scale: 1.5, backgroundColor: '#D4A843' }
+    active: { scale: 1.5, backgroundColor: '#D4A843' } // accent token
   };
 
   return (
@@ -193,21 +193,21 @@ const MilestoneCard: React.FC<MilestoneCardProps> = ({
       >
         <div className="order-1 mt-4">
           <motion.div 
-            className={`w-64 p-4 rounded-lg shadow-sm ${active ? 'bg-white border-b-4 border-greyed-blue' : 'bg-greyed-white'}`}
+            className={`w-64 p-4 rounded-lg shadow-sm ${active ? 'bg-white border-b-4 border-accent' : 'bg-surface-white'}`}
             variants={cardVariants}
             transition={{ duration: 0.3 }}
           >
-            <p className="text-greyed-black/80">{milestone}</p>
+            <p className="text-text/80">{milestone}</p>
           </motion.div>
         </div>
         
         <motion.div 
-          className="w-6 h-6 rounded-full border-2 border-greyed-navy bg-greyed-white z-10"
+          className="w-6 h-6 rounded-full border-2 border-primary bg-surface-white z-10"
           variants={dotVariants}
           transition={{ duration: 0.3 }}
         ></motion.div>
         
-        <div className="font-headline font-semibold text-greyed-navy mt-2">
+        <div className="font-headline font-semibold text-primary mt-2">
           {year}
         </div>
       </motion.div>
@@ -219,17 +219,17 @@ const MilestoneCard: React.FC<MilestoneCardProps> = ({
       >
         <div className="order-1 mt-4">
           <div 
-            className={`w-64 p-4 rounded-lg shadow-sm ${active ? 'bg-white border-b-4 border-greyed-blue' : 'bg-greyed-white'}`}
+            className={`w-64 p-4 rounded-lg shadow-sm ${active ? 'bg-white border-b-4 border-accent' : 'bg-surface-white'}`}
           >
-            <p className="text-greyed-black/80">{milestone}</p>
+            <p className="text-text/80">{milestone}</p>
           </div>
         </div>
         
         <div 
-          className={`w-6 h-6 rounded-full border-2 border-greyed-navy ${active ? 'bg-greyed-blue' : 'bg-greyed-white'} z-10`}
+          className={`w-6 h-6 rounded-full border-2 border-primary ${active ? 'bg-accent' : 'bg-surface-white'} z-10`}
         ></div>
         
-        <div className="font-headline font-semibold text-greyed-navy mt-2">
+        <div className="font-headline font-semibold text-primary mt-2">
           {year}
         </div>
       </div>
