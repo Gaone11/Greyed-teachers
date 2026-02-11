@@ -128,13 +128,13 @@ const PlanCard: React.FC<PlanCardProps> = ({
         whileHover={{ y: -8, boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)" }}
         className={`relative rounded-xl p-6 ${
           isPrimary 
-            ? 'bg-greyed-navy text-greyed-white shadow-lg border-2 border-greyed-blue' 
-            : 'bg-white text-greyed-navy border border-greyed-navy/10 shadow-md'
+            ? 'bg-primary text-surface-white shadow-lg border-2 border-accent' 
+            : 'bg-white text-primary border border-primary/10 shadow-md'
         }`}
       >
         <motion.div
           className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${
-            isPrimary ? 'bg-greyed-blue text-greyed-navy' : 'bg-greyed-navy/10 text-greyed-navy'
+            isPrimary ? 'bg-accent text-primary' : 'bg-primary/10 text-primary'
           }`}
           variants={badgeVariants}
           initial="hidden"
@@ -160,7 +160,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <ul className="space-y-3 mb-8">
           {features.map((feature, i) => (
             <li key={i} className="flex items-start">
-              <Check className={`mr-2 mt-1 flex-shrink-0 ${isPrimary ? 'text-greyed-blue' : 'text-greyed-blue/80'}`} size={16} />
+              <Check className={`mr-2 mt-1 flex-shrink-0 ${isPrimary ? 'text-accent' : 'text-accent/80'}`} size={16} />
               <span className="text-sm sm:text-base">{feature}</span>
             </li>
           ))}
@@ -171,8 +171,8 @@ const PlanCard: React.FC<PlanCardProps> = ({
           disabled={isLoading}
           className={`block w-full py-2 px-4 rounded-full text-center transition-colors ${
             isPrimary 
-              ? 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white font-medium'
-              : 'bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20 font-medium'
+              ? 'bg-accent text-primary hover:bg-surface-white font-medium'
+              : 'bg-primary/10 text-primary hover:bg-primary/20 font-medium'
           } ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >
           {isLoading ? (
@@ -197,13 +197,13 @@ const PlanCard: React.FC<PlanCardProps> = ({
       <div
         className={`relative rounded-xl p-6 ${
           isPrimary 
-            ? 'bg-greyed-navy text-greyed-white shadow-lg border-2 border-greyed-blue' 
-            : 'bg-white text-greyed-navy border border-greyed-navy/10 shadow-md'
+            ? 'bg-primary text-surface-white shadow-lg border-2 border-accent' 
+            : 'bg-white text-primary border border-primary/10 shadow-md'
         }`}
       >
         <div
           className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${
-            isPrimary ? 'bg-greyed-blue text-greyed-navy' : 'bg-greyed-navy/10 text-greyed-navy'
+            isPrimary ? 'bg-accent text-primary' : 'bg-primary/10 text-primary'
           }`}
           aria-label={`${badge} plan`}
         >
@@ -225,7 +225,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <ul className="space-y-3 mb-8">
           {features.map((feature, i) => (
             <li key={i} className="flex items-start">
-              <Check className={`mr-2 mt-1 flex-shrink-0 ${isPrimary ? 'text-greyed-blue' : 'text-greyed-blue/80'}`} size={16} />
+              <Check className={`mr-2 mt-1 flex-shrink-0 ${isPrimary ? 'text-accent' : 'text-accent/80'}`} size={16} />
               <span className="text-sm sm:text-base">{feature}</span>
             </li>
           ))}
@@ -236,8 +236,8 @@ const PlanCard: React.FC<PlanCardProps> = ({
           disabled={isLoading}
           className={`block w-full py-2 px-4 rounded-full text-center transition-colors ${
             isPrimary 
-              ? 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white font-medium'
-              : 'bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20 font-medium'
+              ? 'bg-accent text-primary hover:bg-surface-white font-medium'
+              : 'bg-primary/10 text-primary hover:bg-primary/20 font-medium'
           } ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >
           {isLoading ? (
