@@ -36,10 +36,11 @@ const OriginStory: React.FC = () => {
                 className="h-full flex items-center justify-center"
               >
                 <div className="relative w-full max-w-md aspect-[3/4] rounded-xl overflow-hidden">
-                  <img 
+                  <img
                     src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                    alt="Cophetsheni Primary School, Mpumalanga" 
+                    alt="Cophetsheni Primary School, Mpumalanga"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-primary/70 p-4">
                     <p className="text-surface-white font-headline font-semibold">Cophetsheni Primary School</p>
@@ -75,10 +76,11 @@ const OriginStory: React.FC = () => {
             <>
               <div className="h-full flex items-center justify-center">
                 <div className="relative w-full max-w-md aspect-[3/4] rounded-xl overflow-hidden">
-                  <img 
+                  <img
                     src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                    alt="Cophetsheni Primary School, Mpumalanga" 
+                    alt="Cophetsheni Primary School, Mpumalanga"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-primary/70 p-4">
                     <p className="text-surface-white font-headline font-semibold">Cophetsheni Primary School</p>

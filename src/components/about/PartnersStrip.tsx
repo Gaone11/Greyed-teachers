@@ -114,10 +114,11 @@ const PartnersStrip: React.FC = () => {
                   className="flex items-center justify-center h-16 bg-white rounded-lg px-6 shadow-sm"
                   title={partner.name}
                 >
-                  <img 
-                    src={partner.logo} 
-                    alt={partner.name} 
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
                     className="h-10 w-auto object-contain"
+                    loading="lazy"
                   />
                 </div>
               ))}
@@ -132,10 +133,11 @@ const PartnersStrip: React.FC = () => {
                   className="flex items-center justify-center h-16 bg-white rounded-lg px-6 shadow-sm"
                   title={partner.name}
                 >
-                  <img 
-                    src={partner.logo} 
-                    alt={partner.name} 
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
                     className="h-10 w-auto object-contain"
+                    loading="lazy"
                   />
                 </div>
               ))}

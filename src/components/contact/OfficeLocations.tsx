@@ -79,10 +79,11 @@ const OfficeLocations: React.FC = () => {
                     rel="noopener noreferrer"
                     className="block h-full"
                   >
-                    <img 
+                    <img
                       src={mapImageUrl}
                       alt="GreyEd office locations map"
                       className="w-full h-full object-cover min-h-[250px]"
+                      loading="lazy"
                     />
                   </a>
                 </div>
@@ -124,10 +125,11 @@ const OfficeLocations: React.FC = () => {
                     rel="noopener noreferrer"
                     className="block h-full"
                   >
-                    <img 
+                    <img
                       src={mapImageUrl}
                       alt="GreyEd office locations map"
                       className="w-full h-full object-cover min-h-[250px]"
+                      loading="lazy"
                     />
                   </a>
                 </div>

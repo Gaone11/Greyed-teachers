@@ -27,7 +27,7 @@ const HeroPricing: React.FC = () => {
             className="inline-flex items-center text-surface-white/80 hover:text-accent transition-colors"
             title="Back to Home"
           >
-            <img src="/favicon.svg" alt="GreyEd" className="w-7 h-7" />
+            <img src="/favicon.svg" alt="GreyEd" className="w-7 h-7" loading="eager" />
           </Link>
         </div>
       </div>

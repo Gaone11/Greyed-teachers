@@ -117,20 +117,21 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         className="bg-white/10 rounded-xl overflow-hidden shadow-md focus:outline-none focus:ring-2 focus:ring-accent"
       >
         <div className="aspect-[3/4] relative overflow-hidden">
-          <img 
-            src={image} 
+          <img
+            src={image}
             alt={name}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
             <div className="p-4 w-full">
               <h3 className="font-headline font-semibold text-lg">{name}</h3>
               <p className="text-accent text-sm mb-1">{role}</p>
               <p className="text-surface-white/80 text-xs">{highlight}</p>
-              
+
               <div className="mt-3">
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="inline-flex items-center text-xs text-accent hover:text-surface-white transition-colors"
                   aria-label={`${name}'s LinkedIn profile`}
                 >
@@ -149,10 +150,11 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         className="bg-white/10 rounded-xl overflow-hidden shadow-md hover:-translate-y-1 transition-transform focus:outline-none focus:ring-2 focus:ring-accent"
       >
         <div className="aspect-[3/4] relative overflow-hidden">
-          <img 
-            src={image} 
+          <img
+            src={image}
             alt={name}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
             <div className="p-4 w-full">

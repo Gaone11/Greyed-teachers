@@ -80,10 +80,11 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
         <div className="flex items-start mb-6">
           <div className="mr-6">
             {student.profile_picture ? (
-              <img 
-                src={student.profile_picture} 
-                alt={student.name} 
+              <img
+                src={student.profile_picture}
+                alt={student.name}
                 className="w-24 h-24 rounded-full object-cover border-2 border-accent/20"
+                loading="lazy"
               />
             ) : (
               <div className="w-24 h-24 bg-accent/20 rounded-full flex items-center justify-center">

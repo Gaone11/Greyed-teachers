@@ -79,7 +79,6 @@ const NavBarUserMenu = () => {
     .toUpperCase();
 
   const isTeacher = role === 'teacher';
-  const isStudent = role === 'student';
 
   return (
     <div className="relative" ref={menuRef}>
@@ -94,7 +93,7 @@ const NavBarUserMenu = () => {
             {isLoading ? (
               <span className="text-xs text-primary animate-pulse">...</span>
             ) : avatarUrl ? (
-              <img src={avatarUrl} alt={userName} className="w-full h-full object-cover" />
+              <img src={avatarUrl} alt={userName} className="w-full h-full object-cover" loading="lazy" />
             ) : (
               <span className="text-xs font-semibold text-primary">{initials}</span>
             )}
@@ -120,12 +119,12 @@ const NavBarUserMenu = () => {
           <button
             onClick={() => {
               setIsOpen(false);
-              navigate(isTeacher ? '/teachers/settings' : isStudent ? '/students/profile' : '/profile');
+              navigate('/teachers/settings');
             }}
             className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-primary/5 flex items-center"
           >
             <Settings size={16} className="mr-2" />
-            {isTeacher ? 'Teacher Settings' : isStudent ? 'Profile & Settings' : 'Edit Profile'}
+            {isTeacher ? 'Teacher Settings' : 'Settings'}
           </button>
           
           {isTeacher && (
@@ -138,19 +137,6 @@ const NavBarUserMenu = () => {
             >
               <User size={16} className="mr-2" />
               Teacher Dashboard
-            </button>
-          )}
-          
-          {isStudent && (
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                navigate('/students/dashboard');
-              }}
-              className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-primary/5 flex items-center"
-            >
-              <User size={16} className="mr-2" />
-              Student Dashboard
             </button>
           )}
           

@@ -223,7 +223,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
             className="w-full flex items-center gap-2 px-3 py-2.5 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
             title="Back to Dashboard"
           >
-            <img src="/favicon.svg" alt="GreyEd" className="w-6 h-6" />
+            <img src="/favicon.svg" alt="GreyEd" className="w-6 h-6" loading="lazy" />
             <span>Dashboard</span>
           </button>
         </div>

@@ -184,7 +184,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
               onClick={() => navigate(-1)}
               className="flex items-center text-primary/70 hover:text-primary transition-colors"
             >
-              <img src="/favicon.svg" alt="GreyEd" className="w-6 h-6" />
+              <img src="/favicon.svg" alt="GreyEd" className="w-6 h-6" loading="lazy" />
             </button>
             
             <div className="flex items-center space-x-2">

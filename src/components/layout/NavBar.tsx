@@ -126,7 +126,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed }) => 
         <div className="flex items-center gap-2 min-w-0">
           {!isTeacherPage ? (
             <Link to="/" className={`hidden md:block ${logoTextClass}`}>
-              <img src="/favicon.svg" alt="Cophetsheni Primary School" className="h-8 w-auto" />
+              <img src="/favicon.svg" alt="Cophetsheni Primary School" className="h-8 w-auto" loading="eager" />
             </Link>
           ) : teacherPageInfo ? (
             <div className="hidden md:block">

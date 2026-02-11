@@ -51,18 +51,20 @@ const FeaturedOn: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <img 
-                src="/f6s-badge.svg" 
-                alt="F6S #65 Top AI Company April 2025" 
+              <img
+                src="/f6s-badge.svg"
+                alt="F6S #65 Top AI Company April 2025"
                 className="w-full h-auto"
+                loading="lazy"
               />
             </motion.div>
           ) : (
             <div className="w-full max-w-3xl">
-              <img 
-                src="/f6s-badge.svg" 
-                alt="F6S #65 Top AI Company April 2025" 
+              <img
+                src="/f6s-badge.svg"
+                alt="F6S #65 Top AI Company April 2025"
                 className="w-full h-auto"
+                loading="lazy"
               />
             </div>
           )}

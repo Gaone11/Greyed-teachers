@@ -1,5 +1,4 @@
 import React from 'react';
-import NavBar from '../layout/NavBar';
 
 interface LoaderProps {
   fullScreen?: boolean;
@@ -9,35 +8,32 @@ interface LoaderProps {
 const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..." }) => {
   if (fullScreen) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <NavBar />
-        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark">
-          <div className="text-center animate-fade-in">
-            <div className="relative">
-              <div className="mx-auto flex items-center justify-center animate-pulse-glow">
-                <img
-                  src="/favicon.svg"
-                  alt="GreyEd"
-                  className="h-24 w-auto"
-                  loading="eager"
-                />
-              </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-premium-slate via-premium-slateLight to-premium-slateDark" role="status" aria-label={message} aria-busy="true">
+        <div className="text-center animate-fade-in">
+          <div className="relative">
+            <div className="mx-auto flex items-center justify-center animate-pulse-glow">
+              <img
+                src="/favicon.svg"
+                alt=""
+                className="h-24 w-auto"
+                loading="eager"
+              />
             </div>
-            <p className="mt-6 text-primary font-bold text-lg">{message}</p>
-            <p className="mt-2 text-primary/70 text-sm">Just a moment</p>
           </div>
+          <p className="mt-6 text-primary font-bold text-lg">{message}</p>
+          <p className="mt-2 text-primary/70 text-sm">Just a moment</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center p-8">
+    <div className="flex items-center justify-center p-8" role="status" aria-label={message} aria-busy="true">
       <div className="relative">
         <div className="flex items-center justify-center animate-pulse">
           <img
             src="/favicon.svg"
-            alt="GreyEd"
+            alt=""
             className="h-12 w-auto"
             loading="eager"
           />

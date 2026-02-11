@@ -63,10 +63,11 @@ const StudentList: React.FC<StudentListProps> = ({
           <div className="flex p-4">
             <div className="mr-4">
               {student.profile_picture ? (
-                <img 
-                  src={student.profile_picture} 
-                  alt={student.name} 
+                <img
+                  src={student.profile_picture}
+                  alt={student.name}
                   className="w-16 h-16 rounded-full object-cover"
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center">
