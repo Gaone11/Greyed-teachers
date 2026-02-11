@@ -37,9 +37,13 @@ const TeacherClassesPage: React.FC = () => {
   });
 
   useEffect(() => {
-    const savedState = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedState !== null) {
-      setSidebarCollapsed(savedState === 'true');
+    try {
+      const savedState = localStorage.getItem('sidebarCollapsed');
+      if (savedState !== null) {
+        setSidebarCollapsed(savedState === 'true');
+      }
+    } catch {
+      // localStorage unavailable (private browsing)
     }
   }, []);
 
@@ -48,7 +52,7 @@ const TeacherClassesPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
     
@@ -258,7 +262,7 @@ const TeacherClassesPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -274,7 +278,7 @@ const TeacherClassesPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              try { localStorage.setItem('sidebarCollapsed', String(newState)); } catch { /* private browsing */ }
             }}
             isMobile={isMobile}
             isOpen={showMobileMenu}

@@ -96,7 +96,7 @@ const TeacherCourseDetailPage: React.FC = () => {
     document.title = 'Course | GreyEd Teachers';
 
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
 

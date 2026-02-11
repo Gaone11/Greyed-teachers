@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Loader from './Loader';
 
@@ -7,17 +8,21 @@ interface ProtectedTeacherRouteProps {
 }
 
 /**
- * A simple component that renders children directly since there's no authentication
+ * Protects teacher routes — redirects unauthenticated users to home page
  */
 const ProtectedTeacherRoute: React.FC<ProtectedTeacherRouteProps> = ({ children }) => {
-  const { loading } = useAuth();
+  const { user, loading } = useAuth();
 
   // Show loading if still initializing
   if (loading) {
     return <Loader />;
   }
 
-  // Render the protected content directly (no auth checks)
+  // Redirect to home if not authenticated
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
   return <>{children}</>;
 };
 

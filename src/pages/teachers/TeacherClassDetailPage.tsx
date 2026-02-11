@@ -64,7 +64,7 @@ const TeacherClassDetailPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
     

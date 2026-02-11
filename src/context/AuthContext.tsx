@@ -117,8 +117,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return {};
-    } catch {
-      return { error };
+    } catch (err) {
+      return { error: err };
     } finally {
       setLoading(false);
     }
@@ -172,8 +172,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return {};
-    } catch {
-      return { error };
+    } catch (err) {
+      return { error: err };
     } finally {
       setLoading(false);
     }

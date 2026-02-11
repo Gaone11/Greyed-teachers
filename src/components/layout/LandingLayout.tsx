@@ -26,7 +26,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = ({
       viewportMeta.setAttribute('name', 'viewport');
       document.head.appendChild(viewportMeta);
     }
-    viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
     
     return () => {
       // Restore default viewport when component unmounts

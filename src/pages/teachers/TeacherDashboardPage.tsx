@@ -42,7 +42,7 @@ const TeacherDashboardPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
     
@@ -95,9 +95,13 @@ const TeacherDashboardPage: React.FC = () => {
     }
     
     // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
+    try {
+      const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+      if (savedCollapsed === 'true') {
+        setSidebarCollapsed(true);
+      }
+    } catch {
+      // localStorage unavailable (private browsing)
     }
   }, [user, authLoading, navigate]);
 
@@ -115,7 +119,7 @@ const TeacherDashboardPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    try { localStorage.setItem('sidebarCollapsed', String(newState)); } catch { /* private browsing */ }
   };
 
   if (authLoading || (loading && user)) {
@@ -146,7 +150,7 @@ const TeacherDashboardPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}

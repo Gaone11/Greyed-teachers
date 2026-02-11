@@ -215,7 +215,11 @@ const AppContent = () => {
         <Route path="/terms" element={<TermsOfServicePage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/dashboard" element={
+          <ProtectedAdminRoute>
+            <AdminDashboardPage />
+          </ProtectedAdminRoute>
+        } />
         <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/auth/update-password" element={<UpdatePasswordPage />} />
         <Route path="/auth/personality-test" element={<PersonalityTestRedirectPage />} />
@@ -344,7 +348,7 @@ const DashboardRedirect = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
 
@@ -352,12 +356,27 @@ const DashboardRedirect = () => {
     if (role === 'teacher') {
       navigate('/teachers/dashboard');
     } else {
-      // Default to login if role is not teacher
-      navigate('/auth/login');
+      // Default to home if role is not teacher
+      navigate('/');
     }
   }, [user, role, navigate]);
 
   return <Loader />;
+};
+
+// Protects admin routes — redirects unauthenticated users to admin login
+const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return <>{children}</>;
 };
 
 // Component to handle removed routes

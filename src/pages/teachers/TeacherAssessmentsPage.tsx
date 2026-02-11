@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, CreditCard as Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain, Crown } from 'lucide-react';
+import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain, Crown } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -86,7 +86,7 @@ const TeacherAssessmentsPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
     
@@ -140,9 +140,13 @@ const TeacherAssessmentsPage: React.FC = () => {
     }
 
     // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
+    try {
+      const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+      if (savedCollapsed === 'true') {
+        setSidebarCollapsed(true);
+      }
+    } catch {
+      // localStorage unavailable (private browsing)
     }
   }, [user, authLoading, navigate]);
 
@@ -161,7 +165,7 @@ const TeacherAssessmentsPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    try { localStorage.setItem('sidebarCollapsed', String(newState)); } catch { /* private browsing */ }
   };
   
   // Filter assessments by search term and status
@@ -649,7 +653,7 @@ const TeacherAssessmentsPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}

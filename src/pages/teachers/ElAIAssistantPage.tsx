@@ -20,7 +20,7 @@ const ElAIAssistantPage: React.FC = () => {
   // Redirect if not logged in
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
     }
   }, [user, authLoading, navigate]);
   

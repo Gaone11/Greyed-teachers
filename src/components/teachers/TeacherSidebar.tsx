@@ -41,9 +41,13 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
   useEffect(() => {
     if (!isMobile) {
-      const savedState = localStorage.getItem('teacherSidebarCollapsed');
-      if (savedState !== null) {
-        setIsCollapsed(savedState === 'true');
+      try {
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState !== null) {
+          setIsCollapsed(savedState === 'true');
+        }
+      } catch {
+        // localStorage unavailable (private browsing)
       }
     }
   }, [isMobile]);
@@ -58,7 +62,11 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     } else {
       const newState = !isCollapsed;
       setIsCollapsed(newState);
-      localStorage.setItem('teacherSidebarCollapsed', String(newState));
+      try {
+        localStorage.setItem('sidebarCollapsed', String(newState));
+      } catch {
+        // localStorage unavailable (private browsing)
+      }
     }
   };
 

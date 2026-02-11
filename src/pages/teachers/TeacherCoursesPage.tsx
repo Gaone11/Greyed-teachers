@@ -40,7 +40,7 @@ const TeacherCoursesPage: React.FC = () => {
     document.title = 'Professional Development | GreyEd Teachers';
 
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
 

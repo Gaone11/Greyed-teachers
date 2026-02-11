@@ -20,7 +20,7 @@ const TeacherGreyEdTAPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
     }
     
     // Load sidebar collapsed state from localStorage

@@ -63,7 +63,7 @@ const TeacherSettingsPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
     
@@ -102,9 +102,13 @@ const TeacherSettingsPage: React.FC = () => {
     }
 
     // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
+    try {
+      const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+      if (savedCollapsed === 'true') {
+        setSidebarCollapsed(true);
+      }
+    } catch {
+      // localStorage unavailable (private browsing)
     }
   }, [user, authLoading, navigate, location]);
 
@@ -123,7 +127,7 @@ const TeacherSettingsPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    try { localStorage.setItem('sidebarCollapsed', String(newState)); } catch { /* private browsing */ }
   };
   
   // Handle profile form input changes
@@ -361,8 +365,12 @@ const TeacherSettingsPage: React.FC = () => {
   
   // Handle subscription management (redirect to customer portal)
   const handleManageSubscription = () => {
-    // In a real app, this would redirect to the Stripe Customer Portal
-    window.open('https://billing.stripe.com/p/login/test_28o6rn3vF8HG5KE144', '_blank');
+    const portalUrl = import.meta.env.VITE_STRIPE_PORTAL_URL;
+    if (!portalUrl) {
+      setError('Billing portal is not configured. Please contact support.');
+      return;
+    }
+    window.open(portalUrl, '_blank');
   };
   
   // Format date

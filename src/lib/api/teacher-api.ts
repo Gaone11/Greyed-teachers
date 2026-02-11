@@ -761,22 +761,83 @@ export async function getClassAnalytics(classId: string) {
 /**
  * Check if a user has an active subscription
  */
-export async function hasActiveSubscription(userId?: string) {
-  return true;
+export async function hasActiveSubscription(userId?: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabase
+      .from('stripe_user_subscriptions')
+      .select('subscription_status')
+      .maybeSingle();
+
+    if (error || !data) {
+      return false;
+    }
+
+    return data.subscription_status === 'active';
+  } catch {
+    return false;
+  }
 }
 
+// Free tier limits
+const FREE_TIER_LIMITS = {
+  lessonPlans: 3,
+  assessments: 5,
+  familyUpdates: 5
+};
+
 /**
- * Get teacher feature limits
+ * Get teacher feature limits based on subscription status
  */
 export async function getTeacherLimits(teacherId: string): Promise<TeacherLimits> {
-  return {
-    lessonPlans: Infinity,
-    usedLessonPlans: 0,
-    assessments: Infinity,
-    usedAssessments: 0,
-    familyUpdates: Infinity,
-    usedFamilyUpdates: 0
-  };
+  try {
+    const isSubscribed = await hasActiveSubscription(teacherId);
+
+    if (isSubscribed) {
+      return {
+        lessonPlans: Infinity,
+        usedLessonPlans: 0,
+        assessments: Infinity,
+        usedAssessments: 0,
+        familyUpdates: Infinity,
+        usedFamilyUpdates: 0
+      };
+    }
+
+    // Count actual usage for free tier
+    const [lessonPlanCount, assessmentCount, familyUpdateCount] = await Promise.all([
+      supabase
+        .from('lesson_plans')
+        .select('*', { count: 'exact', head: true })
+        .eq('teacher_id', teacherId),
+      supabase
+        .from('assessments')
+        .select('*', { count: 'exact', head: true })
+        .eq('teacher_id', teacherId),
+      supabase
+        .from('family_updates')
+        .select('*', { count: 'exact', head: true })
+        .eq('teacher_id', teacherId)
+    ]);
+
+    return {
+      lessonPlans: FREE_TIER_LIMITS.lessonPlans,
+      usedLessonPlans: lessonPlanCount.count || 0,
+      assessments: FREE_TIER_LIMITS.assessments,
+      usedAssessments: assessmentCount.count || 0,
+      familyUpdates: FREE_TIER_LIMITS.familyUpdates,
+      usedFamilyUpdates: familyUpdateCount.count || 0
+    };
+  } catch {
+    // Return conservative free tier limits on error
+    return {
+      lessonPlans: FREE_TIER_LIMITS.lessonPlans,
+      usedLessonPlans: 0,
+      assessments: FREE_TIER_LIMITS.assessments,
+      usedAssessments: 0,
+      familyUpdates: FREE_TIER_LIMITS.familyUpdates,
+      usedFamilyUpdates: 0
+    };
+  }
 }
 
 /**

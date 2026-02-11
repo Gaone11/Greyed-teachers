@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, Search, PlusCircle, AlertCircle, BookOpen, Calendar, CreditCard as Edit2, Trash2, Download, Brain, Menu, X, CheckCircle, Filter, ChevronDown, Wand2 } from 'lucide-react';
+import { Loader, Search, PlusCircle, AlertCircle, BookOpen, Calendar, Edit2, Trash2, Download, Brain, Menu, X, CheckCircle, Filter, ChevronDown, Wand2 } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
 import NavBar from '../../components/layout/NavBar';
@@ -178,6 +178,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
   const [classes, setClasses] = useState<any[]>([]);
   const [lessonPlans, setLessonPlans] = useState<any[]>([]);
   const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [generatedPlan, setGeneratedPlan] = useState<{ markdown: string; meta: any } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -193,9 +194,13 @@ const TeacherLessonPlannerPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
-    const savedState = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedState !== null) {
-      setSidebarCollapsed(savedState === 'true');
+    try {
+      const savedState = localStorage.getItem('sidebarCollapsed');
+      if (savedState !== null) {
+        setSidebarCollapsed(savedState === 'true');
+      }
+    } catch {
+      // localStorage unavailable (private browsing)
     }
   }, []);
 
@@ -204,7 +209,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
     
     // Redirect if not logged in
     if (!authLoading && !user) {
-      navigate('/auth/login');
+      navigate('/');
       return;
     }
     
@@ -480,7 +485,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex overflow-x-hidden">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -496,7 +501,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              try { localStorage.setItem('sidebarCollapsed', String(newState)); } catch { /* private browsing */ }
             }}
             isMobile={isMobile}
             isOpen={showMobileMenu}
