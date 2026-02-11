@@ -1,19 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  Users,
-  BookOpen,
-  FileText,
   Settings,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Snowflake,
-  MessageSquare,
   Sparkles,
-  GraduationCap
 } from 'lucide-react';
+import { teacherNavItems } from '../../data/navigation';
 
 interface TeacherSidebarProps {
   activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses';
@@ -93,74 +87,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     }
   };
 
-  const navItems = [
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: LayoutDashboard,
-      path: '/teachers/dashboard',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'classes',
-      label: 'Classes',
-      icon: Users,
-      path: '/teachers/classes',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'lesson-planner',
-      label: 'Lesson Planner',
-      icon: BookOpen,
-      path: '/teachers/lesson-planner',
-      color: 'from-greyed-blue to-greyed-blue',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'assessments',
-      label: 'Assessments',
-      icon: FileText,
-      path: '/teachers/assessments',
-      color: 'from-greyed-beige to-greyed-beige',
-      activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
-    },
-    {
-      id: 'families',
-      label: 'Family Updates',
-      icon: MessageSquare,
-      path: '/teachers/families',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'courses',
-      label: 'Courses',
-      icon: GraduationCap,
-      path: '/teachers/courses',
-      color: 'from-greyed-beige to-greyed-beige',
-      activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
-    },
-    {
-      id: 'el-ai',
-      label: 'Siyafunda AI',
-      icon: Snowflake,
-      path: '/teachers/el-ai',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30',
-      special: true
-    },
-    {
-      id: 'grey-ed-ta',
-      label: 'Teaching Assistant',
-      icon: Sparkles,
-      path: '/teachers/grey-ed-ta',
-      color: 'from-greyed-blue to-greyed-blue',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30',
-      special: true
-    },
-  ];
+  const navItems = teacherNavItems;
 
   return (
     <div

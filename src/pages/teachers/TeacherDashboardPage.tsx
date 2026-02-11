@@ -8,7 +8,13 @@ import {
   Menu,
   Snowflake,
   Settings,
-  PlusCircle
+  PlusCircle,
+  Users,
+  BookOpen,
+  ClipboardList,
+  Calendar,
+  MapPin,
+  FileText
 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
@@ -194,9 +200,7 @@ const TeacherDashboardPage: React.FC = () => {
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up">
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1B4332]" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                    </svg>
+                    <Users className="h-5 w-5 text-[#1B4332]" />
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-[#1B4332] mb-1">{stats.totalClasses}</div>
@@ -206,9 +210,7 @@ const TeacherDashboardPage: React.FC = () => {
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '50ms' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1B4332]" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                    </svg>
+                    <Users className="h-5 w-5 text-[#1B4332]" />
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-[#1B4332] mb-1">{stats.totalStudents}</div>
@@ -218,9 +220,7 @@ const TeacherDashboardPage: React.FC = () => {
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1B4332]" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-                    </svg>
+                    <BookOpen className="h-5 w-5 text-[#1B4332]" />
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-[#1B4332] mb-1">{stats.lessonPlans}</div>
@@ -230,10 +230,7 @@ const TeacherDashboardPage: React.FC = () => {
               <div className="rounded-xl bg-white shadow-md border border-[#e8e6e0] p-4 hover:shadow-lg transition-all duration-300 animate-slide-up" style={{ animationDelay: '150ms' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-10 h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1B4332]" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                      <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
-                    </svg>
+                    <ClipboardList className="h-5 w-5 text-[#1B4332]" />
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-[#1B4332] mb-1">{stats.assessments}</div>
@@ -246,9 +243,7 @@ const TeacherDashboardPage: React.FC = () => {
               <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                 <h3 className="font-bold text-[#1B4332] flex items-center text-base">
                   <div className="w-8 h-8 rounded-lg bg-[#D4A843]/20 flex items-center justify-center mr-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1B4332]" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                    </svg>
+                    <Calendar className="h-5 w-5 text-[#1B4332]" />
                   </div>
                   Today's Schedule
                 </h3>
@@ -258,9 +253,7 @@ const TeacherDashboardPage: React.FC = () => {
                 {todaySchedule.length === 0 ? (
                   <div className="py-8 text-center">
                     <div className="w-16 h-16 rounded-2xl bg-[#f8f8f6] flex items-center justify-center mx-auto mb-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#292828] opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
+                      <Calendar className="h-8 w-8 text-[#292828] opacity-70" />
                     </div>
                     <p className="text-[#1B4332] font-medium mb-1">No classes scheduled for today</p>
                     <p className="text-sm text-[#292828] text-opacity-70">Manage your classes to set up your teaching schedule</p>
@@ -293,9 +286,7 @@ const TeacherDashboardPage: React.FC = () => {
                                   Grade {session.grade || '10'}
                                 </span>
                                 <span className="inline-flex items-center rounded-lg bg-[#f8f8f6] text-[#1B4332] px-2 sm:px-3 py-1 text-xs font-semibold">
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                                  </svg>
+                                  <MapPin className="h-3 w-3 mr-1" />
                                   {session.room}
                                 </span>
                               </div>
@@ -323,9 +314,7 @@ const TeacherDashboardPage: React.FC = () => {
                 <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e6e0] bg-white">
                   <h3 className="font-bold text-[#1B4332] flex items-center text-base">
                     <div className="w-8 h-8 rounded-lg bg-[#D4A843]/20 flex items-center justify-center mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1B4332]" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                      </svg>
+                      <Users className="h-5 w-5 text-[#1B4332]" />
                     </div>
                     Your Classes
                   </h3>
@@ -359,9 +348,7 @@ const TeacherDashboardPage: React.FC = () => {
                               {cls.name}
                             </h4>
                             <div className="flex items-center gap-1 text-[#292828] text-opacity-70">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                              </svg>
+                              <Users className="h-4 w-4" />
                               <span className="text-sm font-semibold">{cls.student_count || 0}</span>
                             </div>
                           </div>
@@ -460,9 +447,7 @@ const TeacherDashboardPage: React.FC = () => {
                     className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#1B4332] hover:bg-[#D4A843]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#D4A843] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                      </svg>
+                      <BookOpen className="h-6 w-6 sm:h-7 sm:w-7" />
                     </div>
                     <span className="text-[#1B4332] font-bold text-xs sm:text-sm text-center transition-colors line-clamp-2">Create Lesson Plan</span>
                   </Link>
@@ -472,9 +457,7 @@ const TeacherDashboardPage: React.FC = () => {
                     className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#1B4332] hover:bg-[#D4A843]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#D4A843] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                      <FileText className="h-6 w-6 sm:h-7 sm:w-7" />
                     </div>
                     <span className="text-[#1B4332] font-bold text-xs sm:text-sm text-center transition-colors line-clamp-2">Create Assessment</span>
                   </Link>
@@ -484,9 +467,7 @@ const TeacherDashboardPage: React.FC = () => {
                     className="group flex flex-col items-center p-3 sm:p-4 rounded-2xl bg-white shadow-sm border border-[#e8e6e0] hover:border-[#1B4332] hover:bg-[#D4A843]/5 hover:shadow-lg transition-all duration-200 touch-manipulation min-h-[120px]"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#D4A843] text-white flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656.126-1.283.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
+                      <Users className="h-6 w-6 sm:h-7 sm:w-7" />
                     </div>
                     <span className="text-[#1B4332] font-bold text-xs sm:text-sm text-center transition-colors line-clamp-2">Send Updates</span>
                   </Link>

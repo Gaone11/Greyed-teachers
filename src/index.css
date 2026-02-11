@@ -4,6 +4,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Typography Scale ─── */
+@layer components {
+  .text-display {
+    @apply font-headline text-4xl md:text-5xl font-bold leading-tight tracking-tight;
+  }
+  .text-h1 {
+    @apply font-headline text-3xl md:text-4xl font-bold leading-tight;
+  }
+  .text-h2 {
+    @apply font-headline text-2xl md:text-3xl font-semibold leading-snug;
+  }
+  .text-h3 {
+    @apply font-headline text-xl md:text-2xl font-semibold leading-snug;
+  }
+  .text-h4 {
+    @apply font-headline text-lg font-semibold leading-normal;
+  }
+  .text-body {
+    @apply font-display text-base leading-relaxed;
+  }
+  .text-body-sm {
+    @apply font-display text-sm leading-relaxed;
+  }
+  .text-caption {
+    @apply font-display text-xs leading-normal;
+  }
+  .text-overline {
+    @apply font-display text-xs font-semibold uppercase tracking-widest;
+  }
+}
+
 :root {
   --color-greyed-navy: #1B4332;
   --color-greyed-blue: #D4A843;

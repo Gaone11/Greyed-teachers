@@ -4,6 +4,38 @@ export default {
   theme: {
     extend: {
       colors: {
+        // ─── Semantic Design Tokens (single source of truth) ───
+        primary: {
+          DEFAULT: '#1B4332',   // Deep Forest Green
+          light: '#2D6A4F',     // Lighter forest
+          dark: '#0B2B1A',      // Darkest green
+        },
+        accent: {
+          DEFAULT: '#D4A843',   // African Gold
+          light: '#E8C96A',     // Lighter gold
+          dark: '#B8922F',      // Darker gold
+        },
+        surface: {
+          DEFAULT: '#FDF6EC',   // Warm Cream
+          alt: '#E8D5B7',       // Sandy Bushveld
+          white: '#ffffff',
+          muted: '#FEFCF8',
+        },
+        text: {
+          DEFAULT: '#2D1B0E',   // Rich Earth Brown
+          muted: '#7A6548',     // Muted earth
+          light: '#A89070',     // Light earth
+        },
+        success: {
+          DEFAULT: '#52B788',   // Mint green
+          light: '#74C69D',
+        },
+        error: {
+          DEFAULT: '#C4572A',   // Terracotta
+          light: '#D97750',
+        },
+
+        // ─── Backward-compat aliases (do not use in new code) ───
         // Cophetsheni Primary School — Mpumalanga Earth Palette
         // greyed-* aliases preserved for backward compatibility across 130+ files
         greyed: {
