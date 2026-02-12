@@ -32,6 +32,14 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
   // Use the id from params if provided, otherwise use the prop
   const currentUpdateId = id || updateId;
   
+  // Cleanup timeout when infoMessage changes or component unmounts
+  useEffect(() => {
+    if (infoMessage) {
+      const timeoutId = setTimeout(() => setInfoMessage(null), 3000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [infoMessage]);
+  
   useEffect(() => {
     if (!isOpen && !id) return;
     
@@ -170,7 +178,6 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
     // For this demo, we'll just show an alert
     
     setInfoMessage('PDF download coming soon. This feature will be available in a future update.');
-    setTimeout(() => setInfoMessage(null), 3000);
   };
   
   // If rendered as a standalone page
