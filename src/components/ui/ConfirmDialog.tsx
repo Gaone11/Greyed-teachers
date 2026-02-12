@@ -23,6 +23,8 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   onCancel,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const confirmRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -36,6 +38,27 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onCancel();
+      }
+      
+      // Focus trap: cycle through focusable elements
+      if (e.key === 'Tab') {
+        const focusableElements = [closeRef.current, cancelRef.current, confirmRef.current].filter(Boolean) as HTMLElement[];
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey) {
+          // Shift + Tab: move backwards
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          // Tab: move forwards
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
 
@@ -63,6 +86,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       {/* Dialog */}
       <div className="relative bg-white rounded-xl shadow-premiumLg p-6 w-full max-w-md mx-4 animate-scale-in">
         <button
+          ref={closeRef}
           onClick={onCancel}
           className="absolute top-3 right-3 p-1 rounded-lg text-text-muted hover:text-text hover:bg-surface-alt/50 transition-colors"
           aria-label="Close"
@@ -84,6 +108,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             {cancelLabel}
           </button>
           <button
+            ref={confirmRef}
             onClick={onConfirm}
             className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${confirmStyles}`}
           >

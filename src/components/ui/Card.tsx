@@ -34,6 +34,7 @@ const Card: React.FC<CardProps> = ({
     <Tag
       className={`${variantMap[variant]} ${paddingMap[padding]} ${onClick ? 'text-left w-full cursor-pointer' : ''} ${className}`}
       onClick={onClick}
+      type={onClick ? 'button' : undefined}
     >
       {children}
     </Tag>

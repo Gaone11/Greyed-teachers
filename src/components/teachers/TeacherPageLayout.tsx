@@ -32,7 +32,7 @@ const TeacherPageLayout: React.FC<TeacherPageLayoutProps> = ({
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
+    setShowMobileMenu((prev) => !prev);
   };
 
   if (loading) {

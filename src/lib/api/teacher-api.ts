@@ -762,10 +762,17 @@ export async function getClassAnalytics(classId: string) {
  * Check if a user has an active subscription
  */
 export async function hasActiveSubscription(userId?: string): Promise<boolean> {
+  // If we don't have a user ID, we cannot look up a subscription reliably
+  if (!userId) {
+    return false;
+  }
+
   try {
     const { data, error } = await supabase
       .from('stripe_user_subscriptions')
       .select('subscription_status')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
       .maybeSingle();
 
     if (error || !data) {
@@ -818,6 +825,11 @@ export async function getTeacherLimits(teacherId: string): Promise<TeacherLimits
         .select('*', { count: 'exact', head: true })
         .eq('teacher_id', teacherId)
     ]);
+
+    // If any of the Supabase count queries failed, fall back to the conservative catch path
+    if (lessonPlanCount.error || assessmentCount.error || familyUpdateCount.error) {
+      throw new Error('Failed to fetch usage counts for teacher.');
+    }
 
     return {
       lessonPlans: FREE_TIER_LIMITS.lessonPlans,

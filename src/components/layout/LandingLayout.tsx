@@ -37,7 +37,12 @@ const LandingLayout: React.FC<LandingLayoutProps> = ({
   return (
     <MotionProvider>
       <div className="font-display text-text">
-        <main className="scroll-smooth overflow-y-auto h-screen">
+        <main
+          className={
+            'scroll-smooth overflow-y-auto h-screen' +
+            (disableSnapScroll ? '' : ' snap-y snap-mandatory')
+          }
+        >
           {children}
         </main>
       </div>
