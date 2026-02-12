@@ -25,6 +25,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   const cancelRef = useRef<HTMLButtonElement>(null);
   const confirmRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -41,8 +42,14 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       }
       
       // Focus trap: cycle through focusable elements
-      if (e.key === 'Tab') {
-        const focusableElements = [closeRef.current, cancelRef.current, confirmRef.current].filter(Boolean) as HTMLElement[];
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const focusableElements = Array.from(
+          dialogRef.current.querySelectorAll(focusableSelector)
+        ) as HTMLElement[];
+        
+        if (focusableElements.length === 0) return;
+        
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
         
@@ -84,7 +91,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <div className="fixed inset-0 bg-black/50" onClick={onCancel} />
 
       {/* Dialog */}
-      <div className="relative bg-white rounded-xl shadow-premiumLg p-6 w-full max-w-md mx-4 animate-scale-in">
+      <div ref={dialogRef} className="relative bg-white rounded-xl shadow-premiumLg p-6 w-full max-w-md mx-4 animate-scale-in">
         <button
           ref={closeRef}
           onClick={onCancel}

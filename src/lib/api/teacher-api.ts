@@ -773,7 +773,8 @@ export async function hasActiveSubscription(userId?: string): Promise<boolean> {
       .select('subscription_status')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
-      .maybeSingle();
+      .limit(1)
+      .single();
 
     if (error || !data) {
       return false;
