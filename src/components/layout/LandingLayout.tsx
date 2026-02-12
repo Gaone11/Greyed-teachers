@@ -1,22 +1,15 @@
 import React, { ReactNode, useEffect } from 'react';
 import { MotionProvider } from '../../context/MotionContext';
-import { useAuth } from '../../context/AuthContext';
-import Footer from './Footer';
 
 interface LandingLayoutProps {
   children: ReactNode;
   disableSnapScroll?: boolean;
-  footerProps?: {
-    openAdminLoginModal?: () => void;
-  };
 }
 
 const LandingLayout: React.FC<LandingLayoutProps> = ({
   children,
   disableSnapScroll = false,
-  footerProps,
 }) => {
-  const { user } = useAuth();
 
   useEffect(() => {
     let viewportMeta = document.querySelector('meta[name="viewport"]');

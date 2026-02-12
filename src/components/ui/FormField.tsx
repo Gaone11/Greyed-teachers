@@ -20,9 +20,9 @@ const FormField: React.FC<FormFieldProps> = ({
 
   // Clone the child element and add the id prop if it's a valid React element
   const childWithId = isValidElement(children)
-    ? cloneElement(children as React.ReactElement<any>, {
-        id: (children as any).props?.id || fieldId,
-        'aria-describedby': (children as any).props?.['aria-describedby'] || (error ? errorId : undefined),
+    ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+        id: (children as React.ReactElement<Record<string, unknown>>).props?.id || fieldId,
+        'aria-describedby': (children as React.ReactElement<Record<string, unknown>>).props?.['aria-describedby'] || (error ? errorId : undefined),
       })
     : children;
 
