@@ -215,11 +215,20 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
     e.target.style.height = `${Math.min(e.target.scrollHeight, 150)}px`;
   };
 
+  // Escape HTML to prevent XSS
+  const escapeHtml = (text: string): string => {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  };
+
   // Format message content with basic markdown-like formatting
   const formatMessageContent = (content: string) => {
+    // First escape HTML to prevent XSS, then apply markdown formatting
+    const escaped = escapeHtml(content);
     return (
       <div dangerouslySetInnerHTML={{
-        __html: content
+        __html: escaped
           // Bold text
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
           // Italic text
