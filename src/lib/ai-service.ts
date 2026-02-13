@@ -62,7 +62,7 @@ export async function sendTeacherMessage(
     }
     
     return data.response;
-  } catch {
+  } catch (error) {
     // Return a user-friendly error message
     if (error instanceof Error) {
       return `I'm sorry, I encountered an error while processing your request: ${error.message}. Please try again in a moment.`;
