@@ -25,7 +25,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
     if (savedCollapsed === 'true') {
       setSidebarCollapsed(true);
     }
@@ -54,7 +54,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
   };
 
   if (authLoading || (authLoading && !user)) {

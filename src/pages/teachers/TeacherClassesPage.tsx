@@ -8,8 +8,6 @@ import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassForm from '../../components/teachers/ClassForm';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
-import DyslexiaModeToggle from '../../components/accessibility/DyslexiaModeToggle';
-import NavBarUserMenu from '../../components/layout/NavBarUserMenu';
 import { fetchTeacherClasses, createClass, deleteClass, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -253,7 +251,24 @@ const TeacherClassesPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar sidebarCollapsed={sidebarCollapsed} />
+      <NavBar
+        sidebarCollapsed={sidebarCollapsed}
+        actionButton={
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className={`inline-flex items-center justify-center ${
+              !isSubscribed && classes.length >= 1
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-greyed-navy hover:bg-greyed-navy/90"
+            } text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap`}
+            disabled={!isSubscribed && classes.length >= 1}
+            title={!isSubscribed && classes.length >= 1 ? "Free tier limited to 1 class" : ""}
+          >
+            <PlusCircle size={16} className="mr-2" />
+            Create New Class
+          </button>
+        }
+      />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
@@ -292,39 +307,11 @@ const TeacherClassesPage: React.FC = () => {
           )}
         </div>
 
-        {/* Main content area - Reduced top padding */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+        {/* Main content area */}
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-end mb-2 gap-3 md:gap-4">
-              <button
-                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10 flex-shrink-0"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-
-              <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
-                <DyslexiaModeToggle />
-
-                <button
-                  onClick={() => setShowCreateModal(true)}
-                  className={`flex-1 md:flex-none inline-flex items-center justify-center ${
-                    !isSubscribed && classes.length >= 1
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-greyed-navy hover:bg-greyed-navy/90"
-                  } text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base whitespace-nowrap`}
-                  disabled={!isSubscribed && classes.length >= 1}
-                  title={!isSubscribed && classes.length >= 1 ? "Free tier limited to 1 class" : ""}
-                >
-                  <PlusCircle size={16} className="mr-2" />
-                  Create New Class
-                </button>
-
-                <NavBarUserMenu onLogout={handleLogout} />
-              </div>
-            </div>
 
             {error && (
               <div className="bg-greyed-beige/30 border-2 border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">

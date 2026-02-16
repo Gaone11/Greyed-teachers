@@ -147,7 +147,7 @@ const TeacherCourseDetailPage: React.FC = () => {
 
     fetchCourseData();
 
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
     if (savedCollapsed === 'true') {
       setSidebarCollapsed(true);
     }
@@ -165,7 +165,7 @@ const TeacherCourseDetailPage: React.FC = () => {
   const handleToggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
   };
 
   const markModuleComplete = async (moduleId: number) => {
@@ -271,7 +271,7 @@ const TeacherCourseDetailPage: React.FC = () => {
             />
           </div>
 
-          <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+          <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
             isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
           }`}>
             <main className="px-4 sm:px-6 lg:px-8">
@@ -336,7 +336,7 @@ const TeacherCourseDetailPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">

@@ -67,7 +67,7 @@ const AssessmentGradingPage: React.FC = () => {
     }
     
     // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
     if (savedCollapsed === 'true') {
       setSidebarCollapsed(true);
     }
@@ -88,7 +88,7 @@ const AssessmentGradingPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
   };
   
   // Handle file type selection
@@ -360,7 +360,7 @@ const AssessmentGradingPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">

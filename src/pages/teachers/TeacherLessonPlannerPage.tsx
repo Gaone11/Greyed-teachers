@@ -475,7 +475,18 @@ const TeacherLessonPlannerPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar sidebarCollapsed={sidebarCollapsed} />
+      <NavBar
+        sidebarCollapsed={sidebarCollapsed}
+        actionButton={
+          <button
+            onClick={() => navigate('/teachers/lesson-planner/generate')}
+            className="inline-flex items-center bg-greyed-navy text-white px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors text-sm whitespace-nowrap"
+          >
+            <PlusCircle size={16} className="mr-2" />
+            Generate New Plan
+          </button>
+        }
+      />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex overflow-x-hidden">
         {/* Mobile menu overlay */}
@@ -515,28 +526,10 @@ const TeacherLessonPlannerPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
           isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         } overflow-x-hidden`}>
           <main className="px-4 sm:px-6 lg:px-8">
-            {/* Action bar */}
-            <div className="flex items-center justify-end mb-2">
-              <button
-                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-              <div>
-                <button
-                  onClick={() => navigate('/teachers/lesson-planner/generate')}
-                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
-                >
-                  <PlusCircle size={18} className="mr-2" />
-                  Generate New Plan
-                </button>
-              </div>
-            </div>
 
             {/* Success message */}
             {success && (
