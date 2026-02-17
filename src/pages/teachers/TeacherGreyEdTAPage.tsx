@@ -12,7 +12,7 @@ const TeacherGreyEdTAPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -21,12 +21,6 @@ const TeacherGreyEdTAPage: React.FC = () => {
     // Redirect if not logged in
     if (!authLoading && !user) {
       navigate('/auth/login');
-    }
-    
-    // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
     }
     
     // Inject the HeyGen AI Avatar script
@@ -117,7 +111,7 @@ const TeacherGreyEdTAPage: React.FC = () => {
 
         {/* Main content area */}
         <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
             {/* Mobile menu toggle */}

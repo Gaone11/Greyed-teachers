@@ -88,7 +88,7 @@ const TeacherCourseDetailPage: React.FC = () => {
   const [quizPassed, setQuizPassed] = useState(false);
   const [courseCompleted, setCourseCompleted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -146,11 +146,6 @@ const TeacherCourseDetailPage: React.FC = () => {
     };
 
     fetchCourseData();
-
-    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
-    }
   }, [user, authLoading, navigate, courseId]);
 
   const handleLogout = async () => {
@@ -272,7 +267,7 @@ const TeacherCourseDetailPage: React.FC = () => {
           </div>
 
           <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-            isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
           }`}>
             <main className="px-4 sm:px-6 lg:px-8">
               <div className="max-w-4xl mx-auto">
@@ -337,7 +332,7 @@ const TeacherCourseDetailPage: React.FC = () => {
 
         {/* Main content area */}
         <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">

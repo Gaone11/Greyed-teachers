@@ -16,20 +16,13 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
 
   useEffect(() => {
     if (!authLoading && !user) {
       navigate('/auth/login');
     }
   }, [user, authLoading, navigate]);
-
-  useEffect(() => {
-    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
-    }
-  }, []);
 
   useEffect(() => {
     if (showMobileMenu && isMobile) {
@@ -95,7 +88,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
 
       {/* Main content area with proper left margin */}
       <div className={`min-h-screen transition-all duration-300 ${
-        isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
       }`}>
         <main className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 md:py-6 pb-20 md:pb-6">
           {children}

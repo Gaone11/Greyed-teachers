@@ -28,18 +28,11 @@ const TeacherClassesPage: React.FC = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [limits, setLimits] = useState({
     classes: 1,
     usedClasses: 0
   });
-
-  useEffect(() => {
-    const savedState = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedState !== null) {
-      setSidebarCollapsed(savedState === 'true');
-    }
-  }, []);
 
   useEffect(() => {
     document.title = "Manage Classes | GreyEd Teachers";
@@ -273,7 +266,7 @@ const TeacherClassesPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -309,7 +302,7 @@ const TeacherClassesPage: React.FC = () => {
 
         {/* Main content area */}
         <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
 
@@ -571,7 +564,10 @@ const TeacherClassesPage: React.FC = () => {
       {/* Mobile bottom navigation */}
       <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
       
-      <Footer />
+      {/* Footer with sidebar offset */}
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+        <Footer />
+      </div>
     </LandingLayout>
   );
 };

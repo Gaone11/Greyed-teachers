@@ -12,6 +12,8 @@ import TermsOfServicePage from './pages/TermsOfServicePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminKnowledgeBasePage from './pages/admin/AdminKnowledgeBasePage';
+import ProtectedAdminRoute from './components/ui/ProtectedAdminRoute';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import UpdatePasswordPage from './pages/auth/UpdatePasswordPage';
 import PersonalityTestRedirectPage from './pages/auth/PersonalityTestRedirectPage';
@@ -216,6 +218,7 @@ const AppContent = () => {
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/knowledge-base" element={<ProtectedAdminRoute><AdminKnowledgeBasePage /></ProtectedAdminRoute>} />
         <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/auth/update-password" element={<UpdatePasswordPage />} />
         <Route path="/auth/personality-test" element={<PersonalityTestRedirectPage />} />

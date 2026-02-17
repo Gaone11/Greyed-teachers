@@ -42,14 +42,7 @@ const TeacherClassDetailPage: React.FC = () => {
   const [analytics, setAnalytics] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
-  useEffect(() => {
-    const savedState = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedState !== null) {
-      setSidebarCollapsed(savedState === 'true');
-    }
-  }, []);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
 
   useEffect(() => {
     // Set active tab based on location hash if present
@@ -197,7 +190,7 @@ const TeacherClassDetailPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
           <main className="px-4 sm:px-6 lg:px-8">
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-4 flex items-start">
@@ -584,7 +577,10 @@ const TeacherClassDetailPage: React.FC = () => {
         />
       )}
       
-      <Footer />
+      {/* Footer with sidebar offset */}
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+        <Footer />
+      </div>
     </LandingLayout>
   );
 };

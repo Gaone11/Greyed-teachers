@@ -190,14 +190,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
-  useEffect(() => {
-    const savedState = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedState !== null) {
-      setSidebarCollapsed(savedState === 'true');
-    }
-  }, []);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
 
   useEffect(() => {
     document.title = "Lesson Planner | GreyEd Teachers";
@@ -491,7 +484,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex overflow-x-hidden">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -527,7 +520,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
 
         {/* Main content area */}
         <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         } overflow-x-hidden`}>
           <main className="px-4 sm:px-6 lg:px-8">
 
@@ -786,7 +779,10 @@ const TeacherLessonPlannerPage: React.FC = () => {
       
       {/* Mobile bottom navigation */}
       
-      <Footer />
+      {/* Footer with sidebar offset */}
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+        <Footer />
+      </div>
     </LandingLayout>
   );
 };

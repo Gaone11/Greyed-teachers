@@ -118,7 +118,7 @@ const TeacherFamiliesPage: React.FC = () => {
     usedFamilyUpdates: 0
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
   const [bucketName, setBucketName] = useState('uploads');
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -216,12 +216,6 @@ const TeacherFamiliesPage: React.FC = () => {
     
     if (user) {
       fetchData();
-    }
-
-    // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
     }
   }, [user, authLoading, navigate]);
 
@@ -792,7 +786,7 @@ const TeacherFamiliesPage: React.FC = () => {
 
         {/* Main content area */}
         <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
 

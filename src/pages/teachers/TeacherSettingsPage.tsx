@@ -26,7 +26,7 @@ const TeacherSettingsPage: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [subscription, setSubscription] = useState<any>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const isMobile = useMediaQuery('(max-width: 768px)');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -99,12 +99,6 @@ const TeacherSettingsPage: React.FC = () => {
     
     if (user) {
       fetchTeacherData();
-    }
-
-    // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('teacherSidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
     }
   }, [user, authLoading, navigate, location]);
 
@@ -433,7 +427,7 @@ const TeacherSettingsPage: React.FC = () => {
         
         {/* Main content area */}
         <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
             {/* Mobile menu toggle */}
