@@ -295,8 +295,7 @@ export async function generateAssessment(params: {
   questionCount: number;
   assessmentType: string;
   includeAnswerKey?: boolean;
-  requiredTest?: string;
-  kbContext?: string;
+  requiredTest?: string; // Add required test parameter
 }) {
   try {
     // Check if the user has reached their assessment limit (free tier)
@@ -329,15 +328,10 @@ export async function generateAssessment(params: {
     
     // Generate assessment prompt with the required test information if provided
     let assessmentPrompt = `Create a ${params.assessmentType} for ${classData.grade} ${classData.subject} on the topic of "${params.topic}" with ${params.questionCount} questions at ${params.difficulty} difficulty level.`;
-
+    
     // Add required test information if provided
     if (params.requiredTest) {
       assessmentPrompt += ` This is for a "${params.requiredTest}" as required by the ${classData.syllabus} syllabus.`;
-    }
-
-    // Add knowledgebase context if available
-    if (params.kbContext) {
-      assessmentPrompt += `\n\nUse the following syllabus reference material to inform the questions:\n${params.kbContext}`;
     }
 
     // For demonstration, create a basic assessment
@@ -928,29 +922,18 @@ export async function updateNotificationSettings(userId: string, settings: Notif
 }
 
 /**
- * Generate a CAPS-compliant lesson plan (SA DBE format)
+ * Generate a lesson plan
  */
 export async function generateLessonPlan(params: {
   classId: string;
   subject: string;
   topic: string;
-  syllabus?: string;
-  date?: string;
-  duration?: string;
-  focusAreas?: string[];
-  includeAssessment?: boolean;
-  includeDifferentiation?: boolean;
-  includeResources?: boolean;
-  className?: string;
-  grade?: string;
-  term?: string;
-  week?: string;
-  kbContext?: string;
-  // Legacy params (kept for backward compat)
-  lessonLength?: string;
-  teachingStyle?: string;
-  includeActivities?: boolean;
-  includeAssessments?: boolean;
+  lessonLength: string;
+  teachingStyle: string;
+  focusAreas: string[];
+  includeActivities: boolean;
+  includeAssessments: boolean;
+  syllabus?: string; // New syllabus parameter
 }) {
   try {
     // Get class details for context
@@ -959,155 +942,146 @@ export async function generateLessonPlan(params: {
       .select('*')
       .eq('id', params.classId)
       .single();
-
+    
     if (classError) throw classError;
-
+    
     // Check if the user has reached their lesson plan limit (free tier)
     const isSubscribed = await hasActiveSubscription();
-
+    
     if (!isSubscribed) {
       const teacherLimits = await getTeacherLimits(classData.teacher_id);
-
+      
       if (teacherLimits.usedLessonPlans >= teacherLimits.lessonPlans) {
         throw new Error(`You've reached your limit of ${teacherLimits.lessonPlans} free lesson plans. Please upgrade for unlimited plans.`);
       }
     }
-
+    
     const today = new Date();
-    const lessonDate = params.date || today.toISOString().split('T')[0];
-    const duration = params.duration || params.lessonLength || '45';
-    const durationNum = parseInt(duration);
-    const syllabus = params.syllabus || classData.syllabus || 'CAPS';
-    const grade = params.grade || classData.grade || '';
-    const className = params.className || classData.name || '';
-    const term = params.term || '1';
-    const week = params.week || '1';
-    const focusAreas = params.focusAreas || [];
-
-    // Build KB reference section
-    const kbSection = params.kbContext
-      ? `\n### Syllabus Reference (from Knowledgebase)\n${params.kbContext}\n`
-      : '';
-
-    // SA DBE CAPS-compliant lesson plan (13 sections A–M)
-    const lessonPlan = `# LESSON PLAN
-
-## A. Identification
-| Field | Details |
-|-------|---------|
-| School | ${className} |
-| Teacher | (Teacher name) |
-| Subject | ${params.subject} |
-| Grade | ${grade} |
-| Date | ${lessonDate} |
-| Duration | ${duration} minutes |
-| Term | ${term} |
-| Week | ${week} |
-| Curriculum | ${syllabus} |
-
-## B. CAPS Alignment
-- **Content Area:** ${params.subject}
+    const formattedDate = today.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    // For demonstration, generate a detailed lesson plan without asterisks
+    const lessonPlan = `# Lesson Plan: ${params.subject} - ${params.topic}
+      
+## Class Information
+- **Class:** ${classData.name}
+- **Grade Level:** ${classData.grade}
+- **Subject Area:** ${params.subject}
 - **Topic:** ${params.topic}
-- **CAPS Specific Aims:**
-  - Aim 1: Knowledge — Learners acquire and apply essential ${params.subject.toLowerCase()} knowledge
-  - Aim 2: Skills — Learners develop competence in investigating and problem-solving
-  - Aim 3: Application — Learners appreciate the value and application of ${params.subject.toLowerCase()} in daily life
-${kbSection}
-## C. Learning Objectives
-By the end of this lesson, learners will be able to:
-- **Knowledge:** Identify and explain key concepts related to ${params.topic}
-- **Skills:** Apply knowledge of ${params.topic} to solve problems and complete tasks
-- **Values/Attitudes:** Demonstrate an appreciation for the importance of ${params.topic}
-- **Success Criteria:** Learners can correctly demonstrate understanding through classwork, oral responses, and written tasks
+- **Curriculum:** ${params.syllabus || classData.syllabus || 'General'}
+- **Duration:** ${params.lessonLength} minutes
+- **Teaching Approach:** ${params.teachingStyle === 'theoretical' ? 'Theory-focused' : params.teachingStyle === 'practical' ? 'Activity-based' : 'Balanced approach'}
 
-## D. Prior Knowledge
-- **Prerequisites:** Learners should have a basic understanding of ${params.subject.toLowerCase()} concepts covered in previous lessons
-- **Baseline Check:** Quick oral Q&A or short activity to assess readiness before introducing new content
+## Learning Objectives
+By the end of this lesson, students will be able to:
+1. **Knowledge:** Explain key concepts and terminology related to ${params.topic}
+2. **Comprehension:** Describe the relationship between different elements of ${params.topic}
+3. **Application:** Apply principles of ${params.topic} to solve relevant problems
+4. **Analysis:** Analyze examples to identify patterns and relationships
+5. **Evaluation:** Evaluate the effectiveness of different approaches to ${params.topic}
 
-## E. Resources / LTSM
-- **Teacher Resources:** Teacher guide, CAPS document, lesson notes, digital presentation
-- **Learner Resources:** Textbook, DBE Workbook, worksheets, exercise books
-- **Other Materials:** Whiteboard, markers, manipulatives/visual aids relevant to ${params.topic}
-- **DBE Workbook Reference:** (Insert relevant workbook page references)
+## Prior Knowledge Required
+- Basic understanding of ${params.subject} fundamentals
+- Familiarity with relevant vocabulary and concepts from previous lessons
+- Experience with basic ${params.subject.toLowerCase()} skills
 
-## F. Lesson Phases
+## Resources and Materials Needed
+- Student textbooks or reference materials
+- Digital presentation/slides
+- Whiteboard and markers
+- Student worksheets and activity handouts
+- Manipulatives or visual aids relevant to ${params.topic}
+- Assessment materials (exit tickets, quiz sheets, etc.)
 
-### Phase 1: Introduction / Mental Maths (~${Math.round(durationNum * 0.10)} min)
-- Greet learners and settle the class
-- Mental maths or warm-up activity related to ${params.topic}
-- Activate prior knowledge through brief Q&A
-- Share learning objectives and success criteria with learners
+## Detailed Lesson Structure
 
-### Phase 2: Explanation / Direct Instruction (~${Math.round(durationNum * 0.25)} min)
-- Teacher explains and demonstrates key concepts of ${params.topic}
-- Use visual aids, diagrams, or multimedia to support understanding
-- Provide worked examples step by step
-- Check for understanding through strategic questioning
-- Address common misconceptions
+### 1. Introduction/Warm-up (${Math.round(parseInt(params.lessonLength) * 0.1)} minutes)
+- **Engagement Hook:** Begin with an intriguing question, demonstration, or real-world scenario related to ${params.topic}
+- **Activate Prior Knowledge:** Quick review of prerequisite concepts through brief Q&A
+- **Share Learning Objectives:** Clearly communicate what students will know and be able to do by the end of the lesson
+- **Success Criteria:** Share how students will know they've achieved the learning objectives
 
-### Phase 3: Practice / Learner Activities (~${Math.round(durationNum * 0.35)} min)
-- **Guided Practice:** Learners work through examples with teacher support
-- **Independent Work:** Learners complete classwork activities individually
-- **Group Work:** Collaborative tasks in pairs or small groups where appropriate
-- Teacher circulates to provide targeted feedback and support
-${focusAreas.length > 0 ? `- **Additional Focus:** ${focusAreas.join(', ')}` : ''}
+${params.includeActivities ? `### Group Activities (${Math.round(parseInt(params.lessonLength) * 0.25)} minutes)
+- **Collaborative Investigation:** Students work in small groups to explore aspects of ${params.topic}
+- **Think-Pair-Share:** Partners discuss key questions before sharing with the class
+- **Problem-Solving Challenge:** Groups apply concepts to solve real-world problems
+- **Gallery Walk:** Student groups create visual representations of key concepts and rotate to view others' work
+- **Peer Teaching:** Students take turns explaining concepts to their group members` : ''}
 
-### Phase 4: Conclusion / Plenary (~${Math.round(durationNum * 0.10)} min)
-- Review learning objectives and success criteria
-- Summarise key concepts covered
-- Address any remaining questions or misconceptions
-- Preview next lesson content
-- Assign homework
+### 2. Direct Instruction (${Math.round(parseInt(params.lessonLength) * 0.25)} minutes)
+- **Key Concept Presentation:** Clear explanation of the main principles of ${params.topic}
+- **Visual Support:** Use of diagrams, charts, or multimedia to illustrate concepts
+- **Guided Examples:** Teacher demonstrates problem-solving techniques or applications
+- **Check for Understanding:** Strategic questioning to gauge student comprehension
+- **Clarification:** Address common misconceptions about ${params.topic}
 
-## G. Assessment
-- **Informal Assessment:** Observation, oral questioning during lesson, classwork review
-- **Formal Assessment:** (As per CAPS assessment programme for the term)
-- **Assessment Tools:** Rubric, checklist, or marking memorandum
-- **Self-Assessment:** Learners rate their understanding using thumbs up/down or exit tickets
+### 3. Student Practice (${Math.round(parseInt(params.lessonLength) * 0.25)} minutes)
+- **Guided Practice:** Students work through examples with teacher support
+- **Independent Work:** Individual application of learned concepts 
+- **Differentiated Tasks:** Tiered activities to support diverse learning needs
+- **Teacher Circulation:** Provide targeted feedback and support as students work
 
-## H. Inclusivity & Differentiation
-### Support (Scaffolding)
-- Provide word banks, sentence starters, or partially completed examples
-- Use visual aids, concrete objects, or simplified language
-- Pair struggling learners with stronger peers for support
-- Offer additional guided practice time
+${params.includeAssessments ? `### 4. Assessment (${Math.round(parseInt(params.lessonLength) * 0.15)} minutes)
+- **Formative Assessment:** Strategic questioning to check understanding
+- **Exit Tickets:** Brief written responses to key questions
+- **Quick Quiz:** Short assessment of key concepts covered
+- **Self-Assessment:** Students reflect on their understanding using success criteria
+- **Peer Review:** Students provide structured feedback on each other's work` : ''}
 
-### Core (Standard Activities)
-- All learners complete the standard classwork and homework activities as planned
+### 5. Plenary/Conclusion (${Math.round(parseInt(params.lessonLength) * 0.1)} minutes)
+- **Review Learning Objectives:** Refer back to objectives and success criteria
+- **Summarize Key Points:** Consolidate main concepts through teacher or student summary
+- **Address Misconceptions:** Clarify any confusion identified during the lesson
+- **Preview Next Lesson:** Brief introduction to upcoming content
+- **Reflection Question:** Pose a thought-provoking question related to the topic
 
-### Extension (Enrichment)
-- Provide higher-order thinking tasks for advanced learners
-- Offer application problems that connect ${params.topic} to real-world contexts
-- Allow independent investigation or research tasks
+## Differentiation
+### Support Strategies
+- **Scaffolding:** Provide sentence starters, word banks, or partially completed examples
+- **Visual Aids:** Additional diagrams, charts, or visual representations
+- **Guided Notes:** Fill-in-the-blank notes for students who struggle with note-taking
+- **Small Group Instruction:** Targeted support for students needing additional help
+- **Modified Tasks:** Simplified versions of activities with essential content preserved
 
-## I. Expanded Opportunities
-- **Enrichment:** Advanced problems, creative projects, or research for early finishers
-- **Remedial:** Additional practice worksheets, small group re-teaching, or peer tutoring for learners who need extra support
+### Extension Challenges
+- **Higher-Order Questions:** Analysis, evaluation, and creation tasks
+- **Application Projects:** Opportunities to apply learning in new contexts
+- **Independent Research:** Guided exploration of related topics
+- **Peer Teaching:** Opportunities to explain concepts to classmates
+- **Complex Problem-Solving:** More advanced applications of the concepts learned
 
-## J. Cross-Curricular Links
-- Integration with other CAPS subjects where applicable (e.g., ${params.subject} concepts applied in Life Skills, Social Sciences, or Technology)
-- Indigenous Knowledge Systems (IKS): Incorporate relevant local or cultural knowledge where appropriate
+## Assessment Opportunities
+- **Diagnostic:** Initial questions to assess prior knowledge
+- **Formative:** Observations, questioning, student work during the lesson
+- **Summative:** Exit tickets, mini-quizzes, completed tasks
+- **Self/Peer Assessment:** Opportunities for students to evaluate their own or peers' work
+- **Key Questions:** Prepare specific questions targeting different levels of understanding
 
-## K. Homework / Extended Learning
-- **Task:** (Describe homework activity related to ${params.topic})
-- **Due Date:** (Next lesson date)
-- **DBE Workbook Pages:** (Insert relevant pages)
+## ${params.syllabus || classData.syllabus ? `${params.syllabus || classData.syllabus} Curriculum Alignment` : 'Curriculum Alignment'}
+${params.syllabus === 'IGCSE' || classData.syllabus === 'Cambridge IGCSE' ? '- Aligns with Cambridge IGCSE syllabus sections 3.1, 3.2' :
+  params.syllabus === 'GCSE' || classData.syllabus === 'Cambridge GCSE' ? '- Aligns with AQA/Edexcel GCSE requirements for this topic' :
+  params.syllabus === 'A Level' || classData.syllabus === 'Cambridge A Level' ? '- Covers core A Level concepts in this subject area' :
+  params.syllabus === 'BGCSE' || classData.syllabus === 'Botswana BGCSE' ? '- Follows Botswana GCSE curriculum guidelines' :
+  params.syllabus === 'JCE' || classData.syllabus === 'Botswana JSE' ? '- Meets Junior Certificate Examination standards' :
+  '- Generic curriculum alignment'}
+- Supports development of key skills required for examinations
+- Provides foundation for advanced topics
 
-## L. Teacher Reflection (Complete after teaching)
-- **Strengths of the lesson:** ___
-- **Areas for improvement:** ___
-- **Learner engagement:** ___
-- **Learners needing additional support:** ___
-- **Adjustments for next lesson:** ___
+## Notes
+Teaching style prioritizes ${params.teachingStyle === 'balanced' ? 'a balanced approach between theory and practical application' : params.teachingStyle === 'theoretical' ? 'theoretical understanding with examples' : 'hands-on learning through activities'}.
 
-## M. HOD / Principal Sign-off
-| Role | Signature | Date |
-|------|-----------|------|
-| HOD | _______________ | _______ |
-| Principal | _______________ | _______ |
+${params.focusAreas && params.focusAreas.length > 0 ? `Focus areas included: ${params.focusAreas.join(', ')}` : ''} 
 
 ---
-Generated by GreyEd Teachers | Siyafunda AI`;
+## Reflection Notes
+-(Complete after teaching the lesson)
+- What could be improved?
+- Which students need additional support?
+- How will this inform the next lesson?
+Generated by GreyEd Teachers | El AI-Teacher`;
 
     // Create metadata
     const meta = {
@@ -1117,22 +1091,17 @@ Generated by GreyEd Teachers | Siyafunda AI`;
         "Develop critical thinking skills through analysis"
       ],
       materials: [
-        "Textbook",
-        "DBE Workbook",
+        "Textbook, Chapter 4",
         "Whiteboard and markers",
         "Student worksheets",
         "Digital presentation"
       ],
-      duration: durationNum,
+      duration: parseInt(params.lessonLength),
       difficulty: "medium",
+      style: params.teachingStyle,
       subject: params.subject,
-      topic: params.topic,
-      grade: grade,
-      term: term,
-      week: week,
-      focusAreas: focusAreas,
-      syllabus: syllabus,
-      hasKbContext: !!params.kbContext
+      focusAreas: params.focusAreas || [],
+      syllabus: params.syllabus || classData.syllabus || null
     };
 
     // Now save to the lesson_plans table
@@ -1141,9 +1110,9 @@ Generated by GreyEd Teachers | Siyafunda AI`;
       .insert([
         {
           class_id: params.classId,
-          date: today.toISOString().split('T')[0],
+          date: today.toISOString().split('T')[0], // Format as YYYY-MM-DD
           topic: `${params.subject} - ${params.topic}`,
-          md_path: lessonPlan,
+          md_path: lessonPlan, // Store the markdown directly in this field
           meta: meta,
           status: 'draft'
         }
@@ -1151,11 +1120,11 @@ Generated by GreyEd Teachers | Siyafunda AI`;
       .select();
 
     if (error) throw error;
-
-    return {
-      markdown: lessonPlan,
-      meta,
-      savedPlan: data && data.length > 0 ? data[0] : null
+    
+    return { 
+      markdown: lessonPlan, 
+      meta, 
+      savedPlan: data && data.length > 0 ? data[0] : null 
     };
   } catch (error) {
     throw error;

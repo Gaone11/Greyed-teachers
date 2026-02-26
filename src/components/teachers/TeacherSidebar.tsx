@@ -19,7 +19,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 
 interface TeacherSidebarProps {
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledgebase';
+  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -240,35 +240,6 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
             </Link>
           );
         })}
-
-        {/* Knowledgebase — only visible for specific emails */}
-        {(() => {
-          const KB_EMAILS = ['pax@greyed.org', 'gaone@orionx.xyz'];
-          const { user: kbUser } = useAuth();
-          const hasKbAccess = KB_EMAILS.includes(kbUser?.email || '');
-          if (!hasKbAccess) return null;
-          return (
-            <Link
-              to="/teachers/knowledgebase"
-              onClick={handleLinkClick}
-              className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
-                activePage === 'knowledgebase'
-                  ? 'bg-gradient-to-r from-greyed-blue/10 to-transparent border-l-4 border-greyed-navy shadow-sm'
-                  : 'hover:bg-premium-neutral-50 active:bg-premium-neutral-100 border-l-4 border-transparent'
-              } touch-manipulation`}
-              title={isCollapsed && !isMobile ? 'CAPS Knowledgebase' : undefined}
-            >
-              <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-                <Database className={`w-5 h-5 ${activePage === 'knowledgebase' ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
-              </div>
-              {(!isCollapsed || isMobile) && (
-                <span className={`font-semibold text-sm ${activePage === 'knowledgebase' ? 'text-greyed-navy' : 'text-premium-neutral-700 group-hover:text-greyed-navy'} transition-colors duration-200 truncate block`}>
-                  CAPS Knowledgebase
-                </span>
-              )}
-            </Link>
-          );
-        })()}
 
         {/* Admin Section — only visible for authorized emails */}
         {(() => {
