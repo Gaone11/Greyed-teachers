@@ -23,7 +23,7 @@ const AssessmentGradingPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const isMobile = useMediaQuery('(max-width: 768px)');
   
   // State for file upload and processing
@@ -65,12 +65,6 @@ const AssessmentGradingPage: React.FC = () => {
     if (user) {
       checkSubscription();
     }
-    
-    // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
-    }
   }, [user, authLoading, navigate]);
   
   // Handle logout
@@ -88,7 +82,7 @@ const AssessmentGradingPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
   };
   
   // Handle file type selection
@@ -329,7 +323,7 @@ const AssessmentGradingPage: React.FC = () => {
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -360,8 +354,8 @@ const AssessmentGradingPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
             {error && (
@@ -873,7 +867,10 @@ const AssessmentGradingPage: React.FC = () => {
         bucketName="uploads"
       />
       
-      <Footer />
+      {/* Footer with sidebar offset */}
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+        <Footer />
+      </div>
     </LandingLayout>
   );
 };

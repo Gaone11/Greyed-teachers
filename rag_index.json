@@ -1,0 +1,506 @@
+[
+  {
+    "chunk": "# GreyEd Brand Color System\n\n## Overview\n\nThe GreyEd brand color palette is a sophisticated, professional color system designed for educational technology. The palette emphasizes readability, accessibility, and a modern aesthetic that appeals to educators, students, and families.",
+    "embedding": [
+      52
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "## Core Brand Colors\n\n### Primary Colors\n\n| Color | Hex Value | Tailwind Class | CSS Variable | Usage |\n|-------|-----------|----------------|--------------|--------|\n| **Navy** | `#212754` | `bg-greyed-navy` `text-greyed-navy` | `--color-greyed-navy` | Primary actions, headers, emphasis, teacher interface accents |\n| **Blue** | `#bbd7eb` | `bg-greyed-blue` `text-greyed-blue` | `--color-greyed-blue` | Links, secondary actions, highlights, interactive elements |\n| **Black** | `#292828` | `bg-greyed-black` `text-greyed-black` | `--color-greyed-black` | Body text, headings, high-contrast content |\n| **White** | `#efeae4` | `bg-greyed-white` `text-greyed-white` | `--color-greyed-white` | Backgrounds, cards, light surfaces |\n| **Beige** | `#dedbc2` | `bg-greyed-beige` `text-greyed-beige` | `--color-greyed-beige` | Subtle backgrounds, info sections, warm accents |\n\n### Color Swatches\n\n```\n┌─────────────────┐\n│   Navy          │  #212754 - Deep, professional, trustworthy\n│   #212754       │\n└─────────────────┘\n\n┌─────────────────┐\n│   Blue          │  #bbd7eb - Calm, friendly, accessible\n│   #bbd7eb       │\n└─────────────────┘\n\n┌─────────────────┐\n│   Black         │  #292828 - Strong, readable, grounding\n│   #292828       │\n└─────────────────┘\n\n┌─────────────────┐\n│   White         │  #efeae4 - Soft, clean, inviting\n│   #efeae4       │\n└─────────────────┘\n\n┌─────────────────┐\n│   Beige         │  #dedbc2 - Warm, subtle, comfortable\n│   #dedbc2       │\n└─────────────────┘\n```\n\n## Opacity Variations\n\nThe greyed colors support Tailwind opacity modifiers for creating depth and hierarchy:\n\n### Common Opacity Values\n\n| Modifier | Opacity | Usage Example | Purpose |\n|----------|---------|---------------|---------|\n| `/10` | 10% | `bg-greyed-navy/10` | Subtle backgrounds, hover states |\n| `/20` | 20% | `bg-greyed-blue/20` | Card borders, dividers, disabled states |\n| `/50` | 50% | `border-greyed-blue/50` | Medium emphasis borders, overlays |\n| `/80` | 80% | `text-white/80` | Secondary text on dark backgrounds |\n| `/90` | 90% | `hover:bg-greyed-navy/90` | Hover states for solid colors |\n\n### Examples in Use\n\n```tsx\n// Subtle hover background\n<button className=\"hover:bg-greyed-navy/10\">\n\n// Soft border\n<div className=\"border-2 border-greyed-blue/20\">\n\n// Secondary text on dark background\n<span className=\"text-white/80\">\n\n// Active state\n<div className=\"bg-greyed-navy hover:bg-greyed-navy/90\">\n```\n\n## Color Pairings\n\n### Recommended Combinations\n\n#### Primary Action (Navy + White)\n```tsx\n<button className=\"bg-greyed-navy text-white hover:bg-greyed-navy/90\">\n  Primary Action\n</button>\n```\n**Use for:** Primary buttons, navigation headers, key call-to-action elements\n\n#### Secondary Action (Blue + Navy)\n```tsx\n<button className=\"bg-greyed-blue text-greyed-navy hover:bg-greyed-blue/90\">\n  Secondary Action\n</button>\n```\n**Use for:** Secondary buttons, alternative actions, less prominent CTAs\n\n#### Information Card (White/Beige + Black)\n```tsx\n<div className=\"bg-greyed-white border border-greyed-beige/50\">\n  <h3 className=\"text-greyed-black\">Card Title</h3>\n  <p className=\"text-black/60\">Card content</p>\n</div>\n```\n**Use for:** Content cards, information panels, dashboard widgets\n\n#### Interactive Link (Blue)\n```tsx\n<a className=\"text-greyed-blue hover:text-greyed-navy underline\">\n  Learn More\n</a>\n```\n**Use for:** Text links, navigation items, clickable references\n\n## Component Color Patterns\n\n### Navigation Components\n\n**Navbar:**\n```tsx\n<nav className=\"bg-greyed-navy text-white shadow-lg\">\n  <a className=\"text-white/80 hover:text-white hover:bg-white/10\">\n    Nav Item\n  </a>\n</nav>\n```\n\n**Mobile Bottom Navigation:**\n```tsx\n<div className=\"bg-greyed-navy border-t border-white/10\">\n  <button className=\"text-white/60 hover:text-white active:text-greyed-blue\">\n    Icon + Label\n  </button>\n</div>\n```\n\n### Form Elements\n\n**Input Fields:**\n```tsx\n<input\n  className=\"border border-gray-300 focus:ring-2 focus:ring-greyed-blue focus:border-greyed-blue\"\n  type=\"text\"\n/>\n```\n\n**Text Areas:**\n```tsx\n<textarea\n  className=\"border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue\"\n  rows={4}\n/>\n```\n\n### Modal Components\n\n**Modal Header:**\n```tsx\n<div className=\"bg-greyed-navy text-white p-5 border-b border-gray-200\">\n  <h3 className=\"text-lg font-bold\">Modal Title</h3>\n  <button className=\"text-white/80 hover:text-white hover:bg-white/10 rounded-lg\">\n    <X size={18} />\n  </button>\n</div>\n```\n\n**Modal Body:**\n```tsx\n<div className=\"bg-white p-5 overflow-auto\">\n  {/* Modal content with greyed-black text */}\n</div>\n```\n\n### Card Components\n\n**Standard Card:**\n```tsx\n<div className=\"bg-white rounded-xl shadow-lg border border-greyed-beige/20\">\n  <div className=\"p-6\">\n    <h3 className=\"text-greyed-black font-medium mb-2\">Card Title</h3>\n    <p className=\"text-black/60\">Card description</p>\n  </div>\n</div>\n```\n\n**Highlighted Card:**\n```tsx\n<div className=\"bg-greyed-beige/10 rounded-lg border border-greyed-blue/30 p-4\">\n  <h4 className=\"text-greyed-navy font-medium\">Highlighted Content</h4>\n</div>\n```\n\n### Button Patterns\n\n**Primary Button:**\n```tsx\n<button className=\"px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors\">\n  Primary Action\n</button>\n```\n\n**Secondary Button:**\n```tsx\n<button className=\"px-4 py-2 border border-gray-300 text-black rounded-lg hover:bg-gray-50 transition-colors\">\n  Secondary Action\n</button>\n```\n\n**Template Button (Small):**\n```tsx\n<button className=\"text-xs bg-greyed-navy/10 text-greyed-navy px-2 py-1 rounded hover:bg-greyed-navy/20 transition-colors\">\n  + Template\n</button>\n```\n\n**Disabled State:**\n```tsx\n<button\n  disabled\n  className=\"px-4 py-2 bg-greyed-navy text-white rounded-lg opacity-70 cursor-not-allowed\"\n>\n  Disabled\n</button>\n```\n\n## Interface-Specific Patterns\n\n### Teacher Interface\n\n**Dashboard Header:**\n```tsx\n<header className=\"bg-greyed-navy text-white\">\n  <h1 className=\"text-2xl font-headline font-bold\">Teacher Dashboard</h1>\n</header>\n```\n\n**Sidebar Navigation:**\n```tsx\n<aside className=\"bg-greyed-navy text-white\">\n  <button className=\"text-white/80 hover:text-white hover:bg-white/10 rounded-lg w-full\">\n    <Icon className=\"w-5 h-5\" />\n    <span>Nav Item</span>\n  </button>\n</aside>\n```\n\n**Class Cards:**\n```tsx\n<div className=\"bg-white border-l-4 border-greyed-blue rounded-lg shadow-md\">\n  <h3 className=\"text-greyed-navy font-medium\">Class Name</h3>\n  <p className=\"text-black/60\">Class details</p>\n</div>\n```\n\n### Student Interface\n\n**Dashboard Cards:**\n```tsx\n<div className=\"bg-white rounded-xl shadow-lg p-6 border border-greyed-blue/20\">\n  <div className=\"flex items-center mb-4\">\n    <Icon className=\"w-6 h-6 text-greyed-blue mr-3\" />\n    <h3 className=\"text-greyed-black font-medium\">Section Title</h3>\n  </div>\n</div>\n```\n\n**Progress Indicators:**\n```tsx\n<div className=\"bg-greyed-beige/10 rounded-full h-2\">\n  <div className=\"bg-greyed-blue h-full rounded-full\" style={{ width: '75%' }} />\n</div>\n```\n\n### Family Communication\n\n**Update Cards:**\n```tsx\n<div className=\"bg-white border border-greyed-beige/30 rounded-lg p-4\">\n  <div className=\"flex items-start\">\n    <div className=\"w-10 h-10 bg-greyed-blue/20 rounded-full flex items-center justify-center\">\n      <Icon className=\"w-5 h-5 text-greyed-navy\" />\n    </div>\n    <div className=\"ml-3 flex-1\">\n      <h4 className=\"text-greyed-black font-medium\">Student Name</h4>\n      <p className=\"text-black/60 text-sm\">Update content</p>\n    </div>\n  </div>\n</div>\n```\n\n**Contact Information:**\n```tsx\n<div className=\"bg-greyed-beige/10 p-3 rounded-lg\">\n  <h5 className=\"font-medium text-black mb-2\">Parent/Guardian Information</h5>\n  <a href=\"mailto:...\" className=\"text-greyed-blue hover:underline\">\n    parent@example.com\n  </a>\n</div>\n```\n\n## Typography Integration\n\nThe greyed color system is integrated with typography in the Tailwind configuration:\n\n```javascript\ntypography: (theme) => ({\n  DEFAULT: {\n    css: {\n      color: theme('colors.black'),\n      a: {\n        color: theme('colors.greyed.blue'),\n        '&:hover': {\n          color: theme('colors.greyed.navy'),\n        },\n      },\n      h1: { color: theme('colors.black') },\n      h2: { color: theme('colors.black') },\n      h3: { color: theme('colors.black') },\n      strong: { color: theme('colors.black') },\n      code: {\n        color: theme('colors.greyed.navy'),\n        backgroundColor: theme('colors.greyed.blue/10'),\n      },\n      blockquote: {\n        borderLeftColor: theme('colors.greyed.blue/50'),\n      },\n    },\n  },\n}),\n```\n\n## Animations and Effects\n\n### Pulse Glow Animation\n\nThe brand includes a custom pulse-glow animation for logo and focal elements:\n\n```css\n@keyframes pulse-glow {\n  0% {\n    filter: drop-shadow(0 0 3px rgba(187, 215, 235, 0.5));\n  }\n  50% {\n    filter: drop-shadow(0 0 10px rgba(33, 39, 84, 0.8));\n  }\n  100% {\n    filter: drop-shadow(0 0 3px rgba(187, 215, 235, 0.5));\n  }\n}\n```\n\n**Usage:**\n```tsx\n<img className=\"animate-pulse-glow\" src=\"logo.png\" alt=\"Logo\" />\n```\n\n### Tap Highlights (Mobile)\n\nMobile tap highlights use the greyed-blue color:\n\n```css\n* {\n  -webkit-tap-highlight-color: rgba(187, 215, 235, 0.3);\n}\n```\n\n## Accessibility Guidelines\n\n### Contrast Ratios\n\nAll greyed color combinations meet WCAG AA standards for text readability:\n\n| Combination | Ratio | WCAG Level | Usage |\n|-------------|-------|------------|--------|\n| Navy (#212754) on White (#efeae4) | 8.5:1 | AAA | Large and small text |\n| Black (#292828) on White (#efeae4) | 9.2:1 | AAA | All text sizes |\n| White (#efeae4) on Navy (#212754) | 8.5:1 | AAA | Inverted text |\n| Blue (#bbd7eb) on Navy (#212754) | 4.8:1 | AA | Large text only |\n| Navy (#212754) on Beige (#dedbc2) | 7.1:1 | AAA | All text sizes |\n\n### Best Practices\n\n1.",
+    "embedding": [
+      3765
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "**Body Text:** Always use `text-greyed-black` or `text-black` for primary content\n2. **Links:** Use `text-greyed-blue` with `hover:text-greyed-navy` for clear interactivity\n3. **Backgrounds:** Prefer `bg-greyed-white` for main content areas, reserving pure white (#fff) for overlays\n4. **Secondary Text:** Use `text-black/60` for less prominent information\n5.",
+    "embedding": [
+      113
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "**Borders:** Use opacity modifiers like `border-greyed-blue/20` for subtle separation\n\n## Technical Implementation\n\n### Tailwind Configuration\n\nColors are defined in `tailwind.config.js`:\n\n```javascript\ncolors: {\n  greyed: {\n    navy: '#212754',\n    blue: '#bbd7eb',\n    black: '#292828',\n    white: '#efeae4',\n    beige: '#dedbc2',\n  },\n  // ...",
+    "embedding": [
+      133
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "other colors\n}\n```\n\n### CSS Custom Properties\n\nCSS variables are defined in `src/index.css`:\n\n```css\n:root {\n  --color-greyed-navy: #212754;\n  --color-greyed-blue: #bbd7eb;\n  --color-greyed-black: #292828;\n  --color-greyed-white: #efeae4;\n  --color-greyed-beige: #dedbc2;\n}\n```\n\n### Usage in Components\n\n**Tailwind Classes (Recommended):**\n```tsx\n<div className=\"bg-greyed-navy text-white\">\n  Content\n</div>\n```\n\n**CSS Variables (When Needed):**\n```tsx\n<div style={{ backgroundColor: 'var(--color-greyed-navy)' }}>\n  Content\n</div>\n```\n\n## Design Principles\n\n### 1.",
+    "embedding": [
+      228
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "Consistency First\nUse greyed colors consistently across all interfaces to maintain brand cohesion. ### 2. Hierarchy Through Color\n- Primary actions: `greyed-navy`\n- Secondary actions: `greyed-blue`\n- Tertiary actions: Borders or text only\n\n### 3. Accessibility Always\nNever compromise readability for aesthetics. Test contrast ratios before shipping. ### 4. Subtle Depth\nUse opacity variations to create depth without introducing new colors. ### 5. Mobile-First Interactions\nEnsure all interactive elements have appropriate hover, focus, and active states using the greyed palette. ## Common Patterns Reference\n\n### Loading States\n\n```tsx\n<button disabled className=\"opacity-70 cursor-not-allowed\">\n  <Loader className=\"animate-spin text-white\" />\n  Loading...",
+    "embedding": [
+      178
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "</button>\n```\n\n### Empty States\n\n```tsx\n<div className=\"text-center py-6 border-2 border-dashed border-greyed-navy/10 rounded-lg\">\n  <p className=\"text-black/60\">No items found</p>\n</div>\n```\n\n### Dividers\n\n```tsx\n<hr className=\"border-t border-greyed-beige/30 my-6\" />\n```\n\n### Badges\n\n```tsx\n<span className=\"px-2 py-1 bg-greyed-blue/20 text-greyed-navy text-xs rounded-full\">\n  Badge\n</span>\n```\n\n### Alerts/Notifications\n\n```tsx\n<div className=\"bg-greyed-beige/20 border-l-4 border-greyed-blue rounded-lg p-4\">\n  <p className=\"text-greyed-black\">Information message</p>\n</div>\n```\n\n## Migration Guidelines\n\n### Replacing Legacy Colors\n\nIf you encounter these legacy colors in the codebase, consider migrating to greyed alternatives:\n\n| Legacy Color | Greyed Alternative | Notes |\n|-------------|-------------------|-------|\n| `indigoBrand` | `greyed-navy` | Primary actions and headers |\n| `mint` | `greyed-blue` | Links and secondary actions |\n| Pure `white` (#fff) | `greyed-white` | Softer backgrounds |\n| Pure `black` (#000) | `greyed-black` | More readable text |\n\n### Migration Checklist\n\n- [ ] Audit component for legacy color usage\n- [ ] Replace color classes with greyed equivalents\n- [ ] Test contrast ratios for accessibility\n- [ ] Verify hover/focus states work correctly\n- [ ] Test on mobile devices for tap highlights\n- [ ] Update any inline styles using hex values\n\n## Additional Resources\n\n### Color Testing Tools\n- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)\n- [Coolors Palette Generator](https://coolors.co/)\n\n### Tailwind Documentation\n- [Customizing Colors](https://tailwindcss.com/docs/customizing-colors)\n- [Text Color](https://tailwindcss.com/docs/text-color)\n- [Background Color](https://tailwindcss.com/docs/background-color)\n- [Border Color](https://tailwindcss.com/docs/border-color)\n\n### Design System Examples\n- [Shadcn UI](https://ui.shadcn.com/)\n- [Material Design Color System](https://material.io/design/color)\n- [IBM Carbon Design System](https://carbondesignsystem.com/guidelines/color/overview/)\n\n---\n\n**Version:** 1.0\n**Last Updated:** 2025-10-19\n**Maintained By:** GreyEd Design System Team\n\nFor questions or suggestions about the color system, please contact the design team or open an issue in the project repository.",
+    "embedding": [
+      718
+    ],
+    "file": ".GREYED_BRAND_COLORS.md"
+  },
+  {
+    "chunk": "# GreyEd Brand Colors - Hero & WhyGreyEd Section\n\n## Color Palette (from Hero & WhyGreyEd sections)\n\n### Brand Colors\n\n| Color Name | Hex Code | RGB | Usage |\n|------------|----------|-----|-------|\n| **Greyed Navy** | `#212754` | rgb(33, 39, 84) | Primary brand color, main backgrounds |\n| **Greyed Blue** | `#bbd7eb` | rgb(187, 215, 235) | Accent color, interactive elements |\n| **Greyed White** | `#efeae4` | rgb(239, 234, 228) | Light text, off-white backgrounds |\n| **Greyed Beige** | `#dedbc2` | rgb(222, 219, 194) | Subtle backgrounds, secondary elements |\n| **Greyed Black** | `#292828` | rgb(41, 40, 40) | Dark text, body copy |\n\n---\n\n## Hero Section Color Scheme\n\n### Background\n- **Background Color:** `bg-greyed-navy` (#212754)\n  - Dark navy background creating strong contrast\n  - Full viewport height section\n\n### Text Colors\n\n**Heading Text:**\n- **Color:** `text-greyed-white` (#efeae4)\n- **Element:** H1 \"GreyEd Teachers: AI for Education Excellence\"\n- **Font:** Poppins (headline font)\n- **Sizes:** 3xl (mobile) / 5xl (tablet) / 6xl (desktop)\n\n**Subheading Text:**\n- **Color:** `text-greyed-blue` (#bbd7eb)\n- **Element:** Tagline paragraph\n- **Font:** Default sans-serif\n- **Sizes:** lg (mobile) / 2xl (tablet/desktop)\n\n### Button Styles\n\n**Primary Button (Call to Action):**\n- **Default State:**\n  - Background: `bg-greyed-blue` (#bbd7eb)\n  - Text: `text-greyed-navy` (#212754)\n  - Shape: `rounded-full`\n  - Padding: `px-8 py-3`\n  - Font: Medium weight\n\n- **Hover State:**\n  - Background: `hover:bg-greyed-white` (#efeae4)\n  - Text: `text-greyed-navy` (unchanged)\n  - Transition: Smooth color transition\n\n**Secondary Button (Outlined):**\n- **Default State:**\n  - Background: Transparent\n  - Border: `border border-greyed-white` (#efeae4)\n  - Text: `text-greyed-white` (#efeae4)\n  - Shape: `rounded-full`\n  - Padding: `px-8 py-3`\n\n- **Hover State:**\n  - Background: `hover:bg-greyed-white/10` (10% opacity white)\n  - Border: `border-greyed-white` (unchanged)\n  - Text: `text-greyed-white` (unchanged)\n\n---\n\n## WhyGreyEd Section Color Scheme\n\n### Background\n- **Background Color:** `bg-greyed-white` (#efeae4)\n  - Light off-white background for content readability\n  - Padding: `py-20` (vertical spacing)\n\n**Decorative Gradient Blob:**\n- **Gradient:** `bg-gradient-to-br from-greyed-blue/30 to-greyed-blue/5`\n  - From: 30% opacity greyed-blue\n  - To: 5% opacity greyed-blue\n  - Creates subtle visual interest\n\n### Text Colors\n\n**Section Heading:**\n- **Color:** `text-greyed-navy` (#212754)\n- **Element:** H2 \"Why Students Love GreyEd\"\n- **Font:** Poppins (headline font)\n- **Sizes:** 3xl (mobile) / 4xl (tablet/desktop)\n\n**Section Subheading:**\n- **Color:** `text-greyed-black/70` (70% opacity of #292828)\n- **Element:** Subtitle paragraph\n- **Font:** Default sans-serif\n- **Size:** xl\n\n### Card/Row Elements\n\n**Table Row (Cards on background):**\n- **Default State:**\n  - Background: Transparent\n  - Border Bottom: `border-b border-greyed-navy/10` (10% opacity navy)\n  - Padding: `py-6 px-4`\n  - Shape: `rounded-lg`\n\n- **Hover State:**\n  - Background: `hover:bg-greyed-blue/5` (5% opacity greyed-blue)\n  - Box Shadow: `0 4px 20px rgba(0,0,0,0.1)`\n  - Transform: Slight upward lift\n\n**Row Text Colors:**\n- **Title Text:** `text-greyed-navy` (#212754)\n  - Font: Poppins semibold (headline font)\n\n- **Description Text:** `text-greyed-black` (#292828)\n  - Font: Default sans-serif\n  - Includes green check icon: `text-green-500`\n\n- **Comparison Text:** `text-greyed-black/60` (60% opacity of #292828)\n  - Font: Default sans-serif, italic\n  - Lighter text for secondary information\n\n---\n\n## Typography\n\n### Font Families\n- **Headline Font:** Poppins (for headings, titles, CTAs)\n- **Body Font:** Inter (default sans-serif for body text)\n\n### Font Weights Used\n- **Font Bold:** Headings and important titles\n- **Font Semibold:** Subheadings and labels\n- **Font Medium:** Buttons and interactive elements\n- **Font Regular:** Body text and descriptions\n\n---\n\n## Usage Guidelines\n\n### Hero Section\n```css\n/* Background */\nbackground: #212754 (greyed-navy)\n\n/* H1 Text */\ncolor: #efeae4 (greyed-white)\nfont-family: 'Poppins', sans-serif\nfont-weight: bold\n\n/* Subheading */\ncolor: #bbd7eb (greyed-blue)\n\n/* Primary Button */\nbackground: #bbd7eb (greyed-blue)\ncolor: #212754 (greyed-navy)\nhover-background: #efeae4 (greyed-white)\n\n/* Secondary Button */\nbackground: transparent\nborder: 1px solid #efeae4 (greyed-white)\ncolor: #efeae4 (greyed-white)\nhover-background: rgba(239, 234, 228, 0.1)\n```\n\n### WhyGreyEd Section\n```css\n/* Background */\nbackground: #efeae4 (greyed-white)\n\n/* H2 Text */\ncolor: #212754 (greyed-navy)\nfont-family: 'Poppins', sans-serif\nfont-weight: bold\n\n/* Subtitle */\ncolor: rgba(41, 40, 40, 0.7) (greyed-black 70% opacity)\n\n/* Card/Row Hover */\nbackground: rgba(187, 215, 235, 0.05) (greyed-blue 5% opacity)\n\n/* Row Title */\ncolor: #212754 (greyed-navy)\nfont-family: 'Poppins', sans-serif\nfont-weight: semibold\n\n/* Row Description */\ncolor: #292828 (greyed-black)\n\n/* Row Comparison */\ncolor: rgba(41, 40, 40, 0.6) (greyed-black 60% opacity)\nfont-style: italic\n```\n\n---\n\n## Accessibility Notes\n\n### Contrast Ratios (WCAG 2.1 Compliance)\n\n**Hero Section:**\n- White text (#efeae4) on Navy background (#212754): **8.5:1** ✓ AAA\n- Blue text (#bbd7eb) on Navy background (#212754): **4.8:1** ✓ AA (large text only)\n\n**WhyGreyEd Section:**\n- Navy text (#212754) on White background (#efeae4): **8.5:1** ✓ AAA\n- Black text (#292828) on White background (#efeae4): **11.2:1** ✓ AAA\n- Black 70% opacity on White background: **7.8:1** ✓ AAA\n- Black 60% opacity on White background: **6.5:1** ✓ AAA\n\nAll color combinations meet or exceed WCAG AA standards for accessibility.",
+    "embedding": [
+      2044
+    ],
+    "file": "BRAND_COLORS.md"
+  },
+  {
+    "chunk": "---\n\n## Color Psychology\n\n- **Greyed Navy (#212754):** Trust, professionalism, expertise, stability\n- **Greyed Blue (#bbd7eb):** Calm, clarity, intelligence, approachability\n- **Greyed White (#efeae4):** Clean, sophisticated, premium, neutral\n- **Greyed Black (#292828):** Authority, readability, grounding\n\nThis palette conveys professionalism and educational excellence while maintaining warmth and accessibility. ",
+    "embedding": [
+      100
+    ],
+    "file": "BRAND_COLORS.md"
+  },
+  {
+    "chunk": "# GreyEd Brand Colors - Internal Documentation\n\n**CONFIDENTIAL - Backend Reference Only**\n\nThis document contains the official GreyEd brand color palette. Do not expose these values directly in frontend code.",
+    "embedding": [
+      45
+    ],
+    "file": "BRAND_COLORS_INTERNAL.md"
+  },
+  {
+    "chunk": "---\n\n## Primary Brand Colors\n\n### Navy Blue (Primary)\n- **Pantone**: 212754\n- **CMYK**: 61 54 0 67\n- **RGB**: 33 39 85\n- **HEX**: `#212755`\n- **Usage**: Main brand color, primary UI elements, headers, CTAs, navigation\n\n### Light Blue (Secondary)\n- **Pantone**: c2f0fa\n- **CMYK**: 24 6 2 0\n- **RGB**: 187 215 235\n- **HEX**: `#bbd7eb`\n- **Usage**: Accents, hover states, secondary buttons, highlights, active states\n\n### Beige (Tertiary)\n- **Pantone**: f2f2ed\n- **CMYK**: 5 5 7 0\n- **RGB**: 239 234 228\n- **HEX**: `#efeae4`\n- **Usage**: Backgrounds, cards, neutral sections, subtle dividers\n\n---\n\n## Supporting Colors\n\n### Dark Charcoal\n- **Pantone**: 191d1f\n- **CMYK**: 70 65 63 67\n- **RGB**: 41 40 40\n- **HEX**: `#292828`\n- **Usage**: Text, dark mode elements, footer, strong emphasis\n\n### Light Tan\n- **Pantone**: dedbc2\n- **CMYK**: 13 14 24 0\n- **RGB**: 221 210 191\n- **HEX**: `#ddd2bf`\n- **Usage**: Secondary backgrounds, dividers, borders, subtle contrast\n\n---\n\n## Implementation Reference\n\n### Current Tailwind CSS Mapping\n\nThese colors are mapped to the following Tailwind theme variables:\n\n```javascript\ncolors: {\n  'greyed-navy': '#212755',      // Primary Navy Blue\n  'greyed-blue': '#bbd7eb',      // Light Blue\n  'greyed-beige': '#efeae4',     // Beige\n  'greyed-charcoal': '#292828',  // Dark Charcoal (alias: greyed-navy in some contexts)\n  'greyed-tan': '#ddd2bf',       // Light Tan\n  'greyed-white': '#fafafa',     // Off-white for backgrounds\n  'black': '#000000',            // True black for text\n  'white': '#ffffff',            // Pure white\n}\n```\n\n### Color Usage Guidelines\n\n#### Primary Actions & Emphasis\n- **Use Navy Blue (#212755)** for:\n  - Primary buttons\n  - Navigation bars\n  - Main CTAs\n  - Active menu items\n  - Important headings\n\n#### Interactive & Feedback\n- **Use Light Blue (#bbd7eb)** for:\n  - Hover states\n  - Focus indicators\n  - Secondary buttons\n  - Links\n  - Progress indicators\n  - Success states\n\n#### Backgrounds & Containers\n- **Use Beige (#efeae4)** for:\n  - Page backgrounds\n  - Card backgrounds\n  - Section dividers\n  - Modal overlays\n  - Input field backgrounds\n\n#### Text & Content\n- **Use Dark Charcoal (#292828)** for:\n  - Body text\n  - Paragraph content\n  - Secondary headings\n  - Labels\n  - Descriptive text\n\n#### Borders & Separators\n- **Use Light Tan (#ddd2bf)** for:\n  - Card borders\n  - Section dividers\n  - Table borders\n  - Input outlines\n  - Subtle separators\n\n---\n\n## Accessibility Requirements\n\n### Contrast Ratios (WCAG 2.1 Guidelines)\n\n- **Navy Blue (#212755) on White**: 10.8:1 ✓ (Exceeds WCAG AAA)\n- **Dark Charcoal (#292828) on White**: 13.5:1 ✓ (Exceeds WCAG AAA)\n- **Light Blue (#bbd7eb) on Navy**: 3.2:1 ⚠️ (Use for large text only)\n- **White on Navy Blue**: 10.8:1 ✓ (Exceeds WCAG AAA)\n\n### Best Practices\n1.",
+    "embedding": [
+      1014
+    ],
+    "file": "BRAND_COLORS_INTERNAL.md"
+  },
+  {
+    "chunk": "Always use Dark Charcoal or Navy for text on light backgrounds\n2. Use White text on Navy or Dark Charcoal backgrounds\n3. Light Blue should be used for accents, not primary text\n4. Ensure interactive elements have clear focus indicators\n5.",
+    "embedding": [
+      52
+    ],
+    "file": "BRAND_COLORS_INTERNAL.md"
+  },
+  {
+    "chunk": "Test all color combinations with accessibility tools\n\n---\n\n## Brand Identity Guidelines\n\n### DO's\n✓ Use Navy Blue as the dominant color in layouts\n✓ Use Light Blue sparingly for highlights and accents\n✓ Maintain generous white space with Beige backgrounds\n✓ Keep the professional, educational tone\n✓ Use colors consistently across all platforms\n\n### DON'Ts\n✗ **Never use purple, indigo, or violet hues** (unless specifically requested by user)\n✗ Don't use Light Blue for large text blocks (low contrast)\n✗ Don't mix too many colors in a single interface\n✗ Don't use bright, saturated colors that clash with the palette\n✗ Don't use gradients unless approved by design team\n\n---\n\n## Color Psychology & Brand Values\n\n### Navy Blue (#212755)\n- **Represents**: Trust, professionalism, intelligence, stability\n- **Emotional Response**: Calm, confident, authoritative\n- **Brand Association**: Academic excellence, reliability\n\n### Light Blue (#bbd7eb)\n- **Represents**: Clarity, communication, openness, sky/air\n- **Emotional Response**: Peaceful, clear-minded, accessible\n- **Brand Association**: Learning, understanding, growth\n\n### Beige (#efeae4)\n- **Represents**: Warmth, neutrality, balance, comfort\n- **Emotional Response**: Calm, natural, approachable\n- **Brand Association**: Human-centered, supportive environment\n\n### Overall Palette Message\nThe GreyEd color palette communicates **trustworthy academic excellence** (Navy) combined with **clear, accessible learning** (Light Blue) in a **warm, supportive environment** (Beige).",
+    "embedding": [
+      375
+    ],
+    "file": "BRAND_COLORS_INTERNAL.md"
+  },
+  {
+    "chunk": "---\n\n## Platform-Specific Notes\n\n### Web Application\n- Backgrounds: Primarily Beige (#efeae4) with White (#ffffff) cards\n- Navigation: Navy Blue (#212755) with White text\n- Interactive elements: Light Blue (#bbd7eb) hover states\n- Text: Dark Charcoal (#292828) for readability\n\n### Mobile Application\n- Use higher contrast ratios for smaller screens\n- Ensure touch targets have clear color feedback\n- Light Blue for active/pressed states\n- Maintain consistency with web platform\n\n### Print Materials\n- Use CMYK values for accurate color reproduction\n- Navy Blue: C61 M54 Y0 K67\n- Light Blue: C24 M6 Y2 K0\n- Beige: C5 M5 Y7 K0\n\n### Email Communications\n- Use web-safe hex values\n- Test colors across different email clients\n- Ensure sufficient contrast for accessibility\n\n---\n\n## Version History\n\n- **v1.0** - 2025-10-19: Initial brand color documentation created from official brand guidelines\n- Colors extracted from official GreyEd branding materials\n- Pantone, CMYK, RGB, and HEX values verified\n\n---\n\n## References\n\n- Official GreyEd Branding Guidelines (Image: GreyEd Branding-11.PNG)\n- Tailwind CSS Configuration: `/tailwind.config.js`\n- Design System: `.GREYED_BRAND_COLORS.md` (if exists)\n\n---\n\n**Last Updated**: October 19, 2025\n**Maintained By**: Development Team\n**Classification**: Internal Use Only\n",
+    "embedding": [
+      361
+    ],
+    "file": "BRAND_COLORS_INTERNAL.md"
+  },
+  {
+    "chunk": "# GreyEd Internal Linking Strategy - Implementation Guide\n\n## Overview\n\nThis document outlines the complete internal linking strategy for the GreyEd platform, designed to improve SEO, user experience, and site navigation. The implementation is divided into three phases, prioritized by impact and complexity.",
+    "embedding": [
+      57
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "## Table of Contents\n\n- [Phase 1: Core Navigation Components](#phase-1-core-navigation-components)\n- [Phase 2: Content Enhancement](#phase-2-content-enhancement)\n- [Phase 3: Advanced Features](#phase-3-advanced-features)\n- [Link Attributes Best Practices](#link-attributes-best-practices)\n- [URL Structure Guidelines](#url-structure-guidelines)\n- [SEO Benefits](#seo-benefits)\n- [Monitoring & Metrics](#monitoring--metrics)\n\n---\n\n## Phase 1: Core Navigation Components\n\n**Priority:** High\n**Estimated Time:** 4-6 hours\n**Impact:** Immediate improvement to user navigation and SEO\n\n### 1.1 Breadcrumb Component\n\n**Purpose:** Provide hierarchical navigation and improve SEO with structured data.",
+    "embedding": [
+      204
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/components/ui/Breadcrumb.tsx`\n\n**Features:**\n- Visual breadcrumb trail with home icon\n- Chevron separators\n- Current page indicator\n- Accessible navigation with proper ARIA labels\n- Responsive design\n\n**Usage Example:**\n```typescript\nimport Breadcrumb from '../../components/ui/Breadcrumb';\n\nconst breadcrumbItems = [\n  { label: 'Dashboard', href: '/teachers/dashboard' },\n  { label: 'Classes', href: '/teachers/classes' },\n  { label: 'Math 101', current: true }\n];\n\n<Breadcrumb items={breadcrumbItems} className=\"mb-6\" />\n```\n\n**Props:**\n- `items`: Array of `BreadcrumbItem` objects\n  - `label`: Display text\n  - `href`: Optional URL (omit for current page)\n  - `current`: Boolean to mark current page\n- `className`: Optional CSS classes\n\n---\n\n### 1.2 BreadcrumbSchema Component\n\n**Purpose:** Add structured data for search engines to display rich breadcrumb snippets.",
+    "embedding": [
+      285
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/components/ui/BreadcrumbSchema.tsx`\n\n**Features:**\n- Generates JSON-LD structured data\n- Compliant with Schema.org BreadcrumbList\n- Improves search result appearance\n\n**Usage Example:**\n```typescript\nimport BreadcrumbSchema from '../../components/ui/BreadcrumbSchema';\n\nconst breadcrumbSchemaItems = [\n  { position: 1, name: 'Dashboard', item: '/teachers/dashboard' },\n  { position: 2, name: 'Classes', item: '/teachers/classes' },\n  { position: 3, name: 'Math 101', item: '/teachers/classes/123' }\n];\n\n<BreadcrumbSchema items={breadcrumbSchemaItems} />\n```\n\n**Props:**\n- `items`: Array of schema items with:\n  - `position`: Numeric position in breadcrumb\n  - `name`: Display name\n  - `item`: Full path (will be prefixed with domain)\n\n---\n\n### 1.3 Pages Requiring Breadcrumbs\n\n**Teacher Dashboard Pages:**\n1.",
+    "embedding": [
+      284
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**TeacherClassDetailPage** (`/teachers/classes/:classId`)\n   ```\n   Home > Dashboard > Classes > [Class Name]\n   ```\n\n2. **TeacherCourseDetailPage** (`/teachers/courses/:courseId`)\n   ```\n   Home > Dashboard > Courses > [Course Name]\n   ```\n\n3. **TeacherLessonPlanGeneratorPage** (`/teachers/lesson-planner/generate`)\n   ```\n   Home > Dashboard > Lesson Planner > Generate\n   ```\n\n4.",
+    "embedding": [
+      155
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**TeacherAssessmentGeneratorPage** (`/teachers/assessments/generate`)\n   ```\n   Home > Dashboard > Assessments > Generate\n   ```\n\n5. **AssessmentGradingPage** (`/teachers/assessment-grading`)\n   ```\n   Home > Dashboard > Assessments > Grading\n   ```\n\n---\n\n### 1.4 RelatedPages Component\n\n**Purpose:** Display contextually relevant pages to encourage exploration.",
+    "embedding": [
+      122
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/components/ui/RelatedPages.tsx`\n\n**Features:**\n- Grid layout (1-3 columns responsive)\n- Icon support\n- Hover effects\n- Descriptive text for each link\n- \"Learn more\" CTA\n\n**Usage Example:**\n```typescript\nimport RelatedPages from '../components/ui/RelatedPages';\nimport { BookOpen, DollarSign, Users } from 'lucide-react';\n\nconst relatedPages = [\n  {\n    title: 'Pricing Plans',\n    description: 'Find the perfect plan for your learning journey',\n    href: '/pricing',\n    icon: <DollarSign size={24} />\n  },\n  {\n    title: 'Human Tutoring',\n    description: 'Combine AI with expert human tutors',\n    href: '/tutoring',\n    icon: <Users size={24} />\n  }\n];\n\n<RelatedPages pages={relatedPages} className=\"mb-12\" />\n```\n\n**Props:**\n- `title`: Section heading (default: \"Related Resources\")\n- `pages`: Array of page objects\n  - `title`: Page title\n  - `description`: Brief description\n  - `href`: Target URL\n  - `icon`: Optional React node for icon\n- `className`: Optional CSS classes\n\n**Recommended Placements:**\n- Features Page → Link to Pricing, Tutoring, About\n- Pricing Page → Link to Features, Tutoring, Contact\n- Tutoring Page → Link to Pricing, Features, About\n- About Page → Link to Contact, Features, Pricing\n\n---\n\n### 1.5 QuickActions Component\n\n**Purpose:** Provide fast access to common teacher tools from the dashboard.",
+    "embedding": [
+      424
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/components/teachers/QuickActions.tsx`\n\n**Features:**\n- 5 primary action cards\n- Color-coded icons\n- Descriptive text\n- Hover scale animation\n- Responsive grid layout\n\n**Default Actions:**\n1. Create Lesson Plan → `/teachers/lesson-planner/generate`\n2. Generate Assessment → `/teachers/assessments/generate`\n3. Family Updates → `/teachers/families`\n4. View Classes → `/teachers/classes`\n5.",
+    "embedding": [
+      133
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "El AI Assistant → `/teachers/el-ai`\n\n**Usage Example:**\n```typescript\nimport QuickActions from '../components/teachers/QuickActions';\n\n// In TeacherDashboardPage.tsx:\n<div className=\"mb-8\">\n  <h2 className=\"text-2xl font-headline font-bold mb-4\">Quick Actions</h2>\n  <QuickActions />\n</div>\n```\n\n**Customization:**\nThe actions array can be modified to add/remove tools based on user permissions or feature flags.",
+    "embedding": [
+      138
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "---\n\n### 1.6 Implementation Checklist\n\n- [ ] Create `src/components/ui/Breadcrumb.tsx`\n- [ ] Create `src/components/ui/BreadcrumbSchema.tsx`\n- [ ] Create `src/components/ui/RelatedPages.tsx`\n- [ ] Create `src/components/teachers/QuickActions.tsx`\n- [ ] Add breadcrumbs to `TeacherClassDetailPage.tsx`\n- [ ] Add breadcrumbs to `TeacherCourseDetailPage.tsx`\n- [ ] Add breadcrumbs to `TeacherLessonPlanGeneratorPage.tsx`\n- [ ] Add breadcrumbs to `TeacherAssessmentGeneratorPage.tsx`\n- [ ] Add breadcrumbs to `AssessmentGradingPage.tsx`\n- [ ] Integrate QuickActions into `TeacherDashboardPage.tsx`\n- [ ] Test breadcrumb navigation on all pages\n- [ ] Verify structured data with Google Rich Results Test\n- [ ] Test responsive layouts on mobile/tablet/desktop\n\n---\n\n## Phase 2: Content Enhancement\n\n**Priority:** Medium\n**Estimated Time:** 6-8 hours\n**Impact:** Improved user engagement and reduced bounce rate\n\n### 2.1 Landing Page Contextual Links\n\n**Purpose:** Add inline links within content sections to guide users to relevant pages.",
+    "embedding": [
+      329
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Target File:** `src/components/sections/Hero.tsx`\n\n**Implementation:**\nAdd contextual navigation below the main CTA buttons:\n\n```typescript\n<div className=\"mt-8 text-greyed-blue text-sm flex flex-wrap justify-center gap-4\">\n  <Link to=\"/features\" className=\"hover:underline inline-flex items-center\">\n    Explore Features <ChevronRight size={14} className=\"ml-1\" />\n  </Link>\n  <Link to=\"/pricing\" className=\"hover:underline inline-flex items-center\">\n    View Pricing <ChevronRight size={14} className=\"ml-1\" />\n  </Link>\n  <Link to=\"/about\" className=\"hover:underline inline-flex items-center\">\n    Our Story <ChevronRight size={14} className=\"ml-1\" />\n  </Link>\n</div>\n```\n\n---\n\n### 2.2 WhyGreyEd Section Enhancement\n\n**Target File:** `src/components/sections/WhyGreyEd.tsx`\n\n**Implementation:**\nAdd \"Next Steps\" links at the end of the section:\n\n```typescript\n<div className=\"text-center mt-12 bg-white rounded-xl p-6 max-w-3xl mx-auto\">\n  <p className=\"text-greyed-black/70 mb-4 text-lg\">\n    Ready to experience personalized learning?",
+    "embedding": [
+      363
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "</p>\n  <div className=\"flex flex-wrap justify-center gap-6\">\n    <Link\n      to=\"/features\"\n      className=\"text-greyed-navy hover:text-greyed-blue font-medium inline-flex items-center text-lg\"\n    >\n      Explore All Features <ChevronRight size={18} className=\"ml-1\" />\n    </Link>\n    <Link\n      to=\"/tutoring\"\n      className=\"text-greyed-navy hover:text-greyed-blue font-medium inline-flex items-center text-lg\"\n    >\n      Book Human Tutoring <ChevronRight size={18} className=\"ml-1\" />\n    </Link>\n    <Link\n      to=\"/pricing\"\n      className=\"text-greyed-navy hover:text-greyed-blue font-medium inline-flex items-center text-lg\"\n    >\n      See Pricing Plans <ChevronRight size={18} className=\"ml-1\" />\n    </Link>\n  </div>\n</div>\n```\n\n---\n\n### 2.3 Footer Enhancement\n\n**Target File:** `src/components/layout/Footer.tsx`\n\n**Current State:** Footer has hardcoded link arrays.",
+    "embedding": [
+      361
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Enhancement:** Reorganize footer links into semantic categories with proper Link components.",
+    "embedding": [
+      20
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**New Structure:**\n\n```typescript\nconst footerSections = [\n  {\n    title: 'Products',\n    links: [\n      { name: 'El AI Tutor', path: '/ellm' },\n      { name: 'Features', path: '/features' },\n      { name: 'Pricing', path: '/pricing' },\n      { name: 'Human Tutoring', path: '/tutoring' }\n    ]\n  },\n  {\n    title: 'Resources',\n    links: [\n      { name: 'About Us', path: '/about' },\n      { name: 'Contact Support', path: '/contact' },\n      { name: 'Blog', path: '#' }, // Future\n      { name: 'Help Center', path: '#' } // Future\n    ]\n  },\n  {\n    title: 'For Teachers',\n    links: [\n      { name: 'Teacher Dashboard', path: '/teachers/dashboard' },\n      { name: 'Lesson Planner', path: '/teachers/lesson-planner' },\n      { name: 'Assessment Tools', path: '/teachers/assessments' },\n      { name: 'Family Updates', path: '/teachers/families' }\n    ]\n  },\n  {\n    title: 'Legal',\n    links: [\n      { name: 'Privacy Policy', path: '/privacy' },\n      { name: 'Terms of Service', path: '/terms' },\n      { name: 'Refund Policy', path: '/refund-policy' }\n    ]\n  }\n];\n```\n\n**Benefits:**\n- Better semantic organization\n- Easier to maintain\n- Improved crawlability for search engines\n- Clear user journey paths\n\n---\n\n### 2.4 BackButton Component\n\n**Purpose:** Provide consistent \"back\" navigation across the application.",
+    "embedding": [
+      523
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/components/ui/BackButton.tsx`\n\n**Features:**\n- Two modes: history-based (browser back) or explicit URL\n- Arrow icon\n- Customizable label\n- Accessible\n\n**Usage Examples:**\n\n```typescript\n// Browser history back\n<BackButton label=\"Back to Classes\" useHistory={true} />\n\n// Explicit URL\n<BackButton to=\"/teachers/classes\" label=\"Back to Classes\" />\n\n// Simple back with default label\n<BackButton to=\"/teachers/dashboard\" />\n```\n\n**Recommended Placements:**\n- Detail pages (class detail, course detail)\n- Generator pages (lesson plan, assessment)\n- Settings pages\n- Profile pages\n\n---\n\n### 2.5 Add Related Pages to Key Marketing Pages\n\n**Features Page:**\n```typescript\nconst featuresRelatedPages = [\n  {\n    title: 'Pricing Plans',\n    description: 'Find the perfect plan for your learning journey',\n    href: '/pricing',\n    icon: <DollarSign size={24} />\n  },\n  {\n    title: 'Human Tutoring',\n    description: 'Combine AI with expert human tutors',\n    href: '/tutoring',\n    icon: <Users size={24} />\n  },\n  {\n    title: 'About GreyEd',\n    description: 'Learn about our mission and values',\n    href: '/about',\n    icon: <BookOpen size={24} />\n  }\n];\n```\n\n**Pricing Page:**\n```typescript\nconst pricingRelatedPages = [\n  {\n    title: 'Platform Features',\n    description: 'See everything included in your subscription',\n    href: '/features',\n    icon: <Sparkles size={24} />\n  },\n  {\n    title: 'Human Tutoring Add-on',\n    description: 'Upgrade to hybrid learning with expert tutors',\n    href: '/tutoring',\n    icon: <Users size={24} />\n  },\n  {\n    title: 'Contact Sales',\n    description: 'Questions about plans?",
+    "embedding": [
+      543
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "We\\'re here to help',\n    href: '/contact',\n    icon: <MessageCircle size={24} />\n  }\n];\n```\n\n**Tutoring Page:**\n```typescript\nconst tutoringRelatedPages = [\n  {\n    title: 'AI-Only Plans',\n    description: 'Start with pure AI tutoring at a lower price',\n    href: '/pricing',\n    icon: <DollarSign size={24} />\n  },\n  {\n    title: 'Platform Features',\n    description: 'Discover the AI features available 24/7',\n    href: '/features',\n    icon: <Brain size={24} />\n  },\n  {\n    title: 'Our Story',\n    description: 'Learn why we combine AI with human expertise',\n    href: '/about',\n    icon: <Heart size={24} />\n  }\n];\n```\n\n---\n\n### 2.6 Implementation Checklist\n\n- [ ] Add contextual links to Hero section\n- [ ] Enhance WhyGreyEd section with next steps\n- [ ] Create BackButton component\n- [ ] Reorganize Footer link structure\n- [ ] Add footer category for teacher tools\n- [ ] Add RelatedPages to Features page\n- [ ] Add RelatedPages to Pricing page\n- [ ] Add RelatedPages to Tutoring page\n- [ ] Add BackButton to TeacherClassDetailPage\n- [ ] Add BackButton to TeacherCourseDetailPage\n- [ ] Add BackButton to generator pages\n- [ ] Test all new links on desktop\n- [ ] Test all new links on mobile\n- [ ] Verify link contrast ratios for accessibility\n\n---\n\n## Phase 3: Advanced Features\n\n**Priority:** Low\n**Estimated Time:** 4-5 hours\n**Impact:** Long-term SEO and user experience improvements\n\n### 3.1 Sitemap Page\n\n**Purpose:** Provide a comprehensive, user-friendly view of all site pages.",
+    "embedding": [
+      472
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/pages/SitemapPage.tsx`\n\n**Structure:**\n- Organized by category (Main Pages, Teacher Tools, Legal)\n- Grid layout for easy scanning\n- Full navigation bar and footer\n- SEO-friendly page structure\n\n**Route Addition:**\nAdd to `src/App.tsx`:\n```typescript\n<Route path=\"/sitemap\" element={<SitemapPage />} />\n```\n\n**Link from Footer:**\nAdd to footer legal section:\n```typescript\n{ name: 'Sitemap', path: '/sitemap' }\n```\n\n**SEO Benefits:**\n- Helps search engines discover all pages\n- Provides user-friendly navigation alternative\n- Shows site architecture clearly\n- Reduces orphaned pages\n\n---\n\n### 3.2 Anchor Text Variation Strategy\n\n**Purpose:** Avoid repetitive anchor text for better SEO and user experience.",
+    "embedding": [
+      223
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Implementation:** Create a utility function to rotate anchor text:\n\n**File:** `src/utils/linkText.ts`\n\n```typescript\nexport const linkTextVariations = {\n  lessonPlanner: [\n    'Create lesson plans',\n    'AI lesson planner',\n    'Generate teaching materials',\n    'Plan your lessons',\n    'Lesson planning tool',\n    'Build lesson plans'\n  ],\n  pricing: [\n    'View pricing',\n    'See plans',\n    'Explore pricing options',\n    'Compare plans',\n    'Check subscription tiers',\n    'See what\\'s included'\n  ],\n  features: [\n    'Explore features',\n    'See what\\'s included',\n    'Discover capabilities',\n    'View all features',\n    'Feature overview',\n    'Platform features'\n  ],\n  assessments: [\n    'Generate assessments',\n    'Create tests',\n    'Build assessments',\n    'Assessment generator',\n    'Make quizzes',\n    'Assessment tools'\n  ],\n  tutoring: [\n    'Book tutoring',\n    'Human tutoring',\n    'Find a tutor',\n    'Connect with experts',\n    'Schedule sessions',\n    'Meet with tutors'\n  ],\n  about: [\n    'About us',\n    'Our story',\n    'Learn about GreyEd',\n    'Our mission',\n    'Company info',\n    'Meet the team'\n  ],\n  contact: [\n    'Contact us',\n    'Get in touch',\n    'Contact support',\n    'Reach out',\n    'Send a message',\n    'Connect with us'\n  ]\n};\n\n/**\n * Get a random variation of link text for the specified category\n */\nexport function getLinkText(category: keyof typeof linkTextVariations): string {\n  const variations = linkTextVariations[category];\n  return variations[Math.floor(Math.random() * variations.length)];\n}\n\n/**\n * Get a specific variation by index (for consistent placement)\n */\nexport function getLinkTextByIndex(\n  category: keyof typeof linkTextVariations,\n  index: number\n): string {\n  const variations = linkTextVariations[category];\n  return variations[index % variations.length];\n}\n```\n\n**Usage Example:**\n```typescript\nimport { getLinkText, getLinkTextByIndex } from '../../utils/linkText';\n\n// Random variation\n<Link to=\"/pricing\">\n  {getLinkText('pricing')}\n</Link>\n\n// Consistent variation (e.g., always use first variation in header)\n<Link to=\"/pricing\">\n  {getLinkTextByIndex('pricing', 0)}\n</Link>\n```\n\n---\n\n### 3.3 Next Steps Suggestions on Success Pages\n\n**Target Files:**\n- `src/pages/checkout/SuccessPage.tsx`\n- `src/pages/auth/ActivateAccountPage.tsx`\n\n**Purpose:** Guide users to the next logical action after completing a key task.",
+    "embedding": [
+      812
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Checkout Success Page Enhancement:**\n\n```typescript\nimport RelatedPages from '../../components/ui/RelatedPages';\nimport { Home, BookOpen, Users, HelpCircle } from 'lucide-react';\n\nconst nextSteps = [\n  {\n    title: 'Go to Dashboard',\n    description: 'Start using your new teacher tools',\n    href: '/teachers/dashboard',\n    icon: <Home size={24} />\n  },\n  {\n    title: 'Create First Lesson',\n    description: 'Try the AI lesson planner',\n    href: '/teachers/lesson-planner/generate',\n    icon: <BookOpen size={24} />\n  },\n  {\n    title: 'View Help Center',\n    description: 'Learn how to get the most from GreyEd',\n    href: '#', // Future help center\n    icon: <HelpCircle size={24} />\n  }\n];\n\n// Add after success message:\n<RelatedPages\n  title=\"What's Next?\"\n  pages={nextSteps}\n  className=\"mt-12\"\n/>\n```\n\n**Account Activation Success Enhancement:**\n\n```typescript\nconst nextStepsActivation = [\n  {\n    title: 'Complete Your Profile',\n    description: 'Add your teaching preferences and subjects',\n    href: '/teachers/settings',\n    icon: <User size={24} />\n  },\n  {\n    title: 'Take a Tour',\n    description: 'Learn about all available features',\n    href: '/features',\n    icon: <Compass size={24} />\n  },\n  {\n    title: 'Create Your First Class',\n    description: 'Set up a class to start teaching',\n    href: '/teachers/classes',\n    icon: <Users size={24} />\n  }\n];\n```\n\n---\n\n### 3.4 Structured Data for All Key Pages\n\n**Purpose:** Enhance search engine understanding of page relationships and content.",
+    "embedding": [
+      520
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Implementation:** Create reusable structured data components.",
+    "embedding": [
+      11
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `src/components/seo/PageSchema.tsx`\n\n```typescript\nimport React from 'react';\n\ninterface PageSchemaProps {\n  type: 'WebPage' | 'AboutPage' | 'ContactPage' | 'FAQPage' | 'CollectionPage';\n  name: string;\n  description: string;\n  url: string;\n  breadcrumb?: any; // BreadcrumbList schema\n}\n\nconst PageSchema: React.FC<PageSchemaProps> = ({\n  type,\n  name,\n  description,\n  url,\n  breadcrumb\n}) => {\n  const schema = {\n    \"@context\": \"https://schema.org\",\n    \"@type\": type,\n    \"name\": name,\n    \"description\": description,\n    \"url\": `https://greyed.com${url}`,\n    \"publisher\": {\n      \"@type\": \"Organization\",\n      \"name\": \"GreyEd\",\n      \"logo\": {\n        \"@type\": \"ImageObject\",\n        \"url\": \"https://greyed.com/logo.png\"\n      }\n    },\n    ...(breadcrumb && { \"breadcrumb\": breadcrumb })\n  };\n\n  return (\n    <script\n      type=\"application/ld+json\"\n      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}\n    />\n  );\n};\n\nexport default PageSchema;\n```\n\n**Apply to Key Pages:**\n- About Page → AboutPage schema\n- Contact Page → ContactPage schema\n- Pricing Page → CollectionPage schema\n- Features Page → CollectionPage schema\n\n---\n\n### 3.5 Orphan Page Audit\n\n**Purpose:** Ensure every page is accessible within 3 clicks from the homepage.",
+    "embedding": [
+      478
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Process:**\n1. Create a page inventory spreadsheet\n2. Map all internal links\n3. Identify orphan pages (pages with no incoming links)\n4. Add strategic links to orphan pages\n\n**Common Orphan Pages to Watch:**\n- Legal pages (privacy, terms, refund) - ✅ Already in footer\n- Authentication pages - ✅ Accessible via login flow\n- Detail pages - ✅ Will be fixed with breadcrumbs\n- Generator pages - ✅ Will be fixed with QuickActions\n\n**Audit Tool:**\nUse Google Search Console or Screaming Frog to identify:\n- Pages with no internal links\n- Pages only accessible via search\n- Deep pages requiring 4+ clicks\n\n---\n\n### 3.6 XML Sitemap Generation\n\n**Purpose:** Help search engines discover and index all pages efficiently.",
+    "embedding": [
+      185
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Implementation:** Create XML sitemap generator (optional - can also use tools).",
+    "embedding": [
+      19
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**File:** `public/sitemap.xml` (static) or dynamic generation\n\n**Basic Structure:**\n```xml\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url>\n    <loc>https://greyed.com/</loc>\n    <lastmod>2024-01-15</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n  <url>\n    <loc>https://greyed.com/features</loc>\n    <lastmod>2024-01-15</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n  <!-- Add all public pages -->\n</urlset>\n```\n\n**Priority Guidelines:**\n- Homepage: 1.0\n- Main marketing pages (features, pricing, about): 0.8\n- Secondary pages (tutoring, ellm, contact): 0.6\n- Legal pages: 0.4\n- Authentication pages: 0.3 (exclude if behind auth)\n\n**Submit to:**\n- Google Search Console\n- Bing Webmaster Tools\n- Add reference in robots.txt\n\n---\n\n### 3.7 Implementation Checklist\n\n- [ ] Create SitemapPage component\n- [ ] Add sitemap route to App.tsx\n- [ ] Add sitemap link to footer\n- [ ] Create linkText utility functions\n- [ ] Apply anchor text variations to marketing pages\n- [ ] Add Next Steps to checkout success page\n- [ ] Add Next Steps to account activation page\n- [ ] Create PageSchema component\n- [ ] Add structured data to About page\n- [ ] Add structured data to Contact page\n- [ ] Add structured data to Pricing page\n- [ ] Add structured data to Features page\n- [ ] Conduct orphan page audit\n- [ ] Fix any orphan pages identified\n- [ ] Generate XML sitemap\n- [ ] Submit sitemap to search engines\n- [ ] Test all structured data with Google Rich Results Test\n- [ ] Verify sitemap accessibility in robots.txt\n\n---\n\n## Link Attributes Best Practices\n\n### Internal Links\n\n**Always use React Router's `Link` component:**\n\n```typescript\nimport { Link } from 'react-router-dom';\n\n// ✅ Good\n<Link to=\"/teachers/classes\" className=\"...\">\n  View Classes\n</Link>\n\n// ❌ Bad\n<a href=\"/teachers/classes\">View Classes</a>\n```\n\n**Include descriptive text:**\n```typescript\n// ✅ Good - Descriptive\n<Link to=\"/pricing\">View pricing plans and features</Link>\n\n// ❌ Bad - Generic\n<Link to=\"/pricing\">Click here</Link>\n```\n\n**Add hover states:**\n```typescript\n// ✅ Consistent hover styling\n<Link\n  to=\"/features\"\n  className=\"text-greyed-blue hover:text-greyed-navy transition-colors\"\n>\n  Explore Features\n</Link>\n```\n\n**Use proper ARIA labels when needed:**\n```typescript\n// For icon-only links\n<Link to=\"/teachers/settings\" aria-label=\"Open settings\">\n  <Settings size={20} />\n</Link>\n\n// For ambiguous links\n<Link\n  to=\"/teachers/classes/123\"\n  aria-label=\"View details for Math 101 class\"\n>\n  View Details\n</Link>\n```\n\n---\n\n### External Links\n\n**For external links (if needed):**\n\n```typescript\n// ✅ Proper external link\n<a\n  href=\"https://external-site.com\"\n  target=\"_blank\"\n  rel=\"noopener noreferrer\"\n  className=\"text-greyed-blue hover:text-greyed-navy inline-flex items-center\"\n  aria-label=\"Visit external resource (opens in new tab)\"\n>\n  External Resource\n  <ExternalLink size={14} className=\"ml-1\" />\n</a>\n\n// Key attributes:\n// - target=\"_blank\": Opens in new tab\n// - rel=\"noopener noreferrer\": Security best practice\n// - Visual indicator (icon or text)\n// - Clear aria-label mentioning new tab\n```\n\n---\n\n### Accessibility Requirements\n\n**Color Contrast:**\n- Text links must have 4.5:1 contrast ratio minimum\n- Use tools like WebAIM Contrast Checker\n- Test hover states as well\n\n```typescript\n// ✅ Good contrast\n<Link className=\"text-greyed-navy hover:text-greyed-blue\">\n  // Navy on white = 8.5:1 ratio ✓\n</Link>\n\n// ⚠️ Check this\n<Link className=\"text-greyed-blue hover:text-greyed-white\">\n  // Blue on navy = 4.8:1 ratio (large text only)\n</Link>\n```\n\n**Keyboard Navigation:**\n- All links must be keyboard accessible\n- Visible focus states required\n- Tab order should be logical\n\n```typescript\n// ✅ Visible focus state\n<Link\n  to=\"/contact\"\n  className=\"text-greyed-navy hover:text-greyed-blue focus:outline-none focus:ring-2 focus:ring-greyed-blue focus:ring-offset-2\"\n>\n  Contact Us\n</Link>\n```\n\n**Screen Readers:**\n- Use descriptive link text\n- Avoid \"click here\" or \"read more\" without context\n- Use aria-label for icon links\n\n---\n\n## URL Structure Guidelines\n\n### Current Structure (Good)\n\n```\n✅ /teachers/classes\n✅ /teachers/classes/:classId\n✅ /teachers/lesson-planner/generate\n✅ /auth/forgot-password\n```\n\n### Best Practices\n\n**1.",
+    "embedding": [
+      1460
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "Use Lowercase**\n```\n✅ /teachers/classes\n❌ /Teachers/Classes\n```\n\n**2. Use Hyphens for Word Separation**\n```\n✅ /lesson-planner\n✅ /forgot-password\n❌ /lessonPlanner\n❌ /forgot_password\n```\n\n**3. Keep URLs Short and Descriptive**\n```\n✅ /teachers/classes/:classId\n✅ /pricing\n❌ /teachers/classes/:classId/students/:studentId/assignments/:assignmentId\n❌ /p\n```\n\n**4.",
+    "embedding": [
+      154
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "Avoid Deep Nesting (Max 3 Levels)**\n```\n✅ /teachers/assessments/generate (3 levels)\n⚠️ /teachers/classes/:id/students/:id/grades (4 levels)\n```\n\n**5. Use Consistent Trailing Slashes**\n```\n// Choose one and stick with it:\n✅ /teachers/classes (no trailing slash - recommended)\nor\n✅ /teachers/classes/ (trailing slash)\n\n// Don't mix:\n❌ /teachers/classes and /teachers/classes/\n```\n\n**6.",
+    "embedding": [
+      144
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "Plural vs Singular**\n```\n✅ /teachers/classes (plural for collections)\n✅ /teachers/classes/:classId (singular ID param)\n✅ /about (singular for unique pages)\n```\n\n**7.",
+    "embedding": [
+      61
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "Avoid Special Characters**\n```\n✅ /teachers/el-ai\n❌ /teachers/el_&_ai\n❌ /teachers/el%20ai\n```\n\n---\n\n### URL Slug Best Practices\n\nFor dynamic pages (classes, courses, etc.):\n\n```typescript\n// Generate URL-friendly slugs\nfunction generateSlug(title: string): string {\n  return title\n    .toLowerCase()\n    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens\n    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens\n}\n\n// Example:\n// \"Math 101: Advanced Calculus\" → \"math-101-advanced-calculus\"\n\n// Use in route:\n// /teachers/classes/math-101-advanced-calculus\n// Better than: /teachers/classes/123\n```\n\n---\n\n## SEO Benefits\n\n### Immediate Benefits (Phase 1)\n\n1.",
+    "embedding": [
+      255
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Improved Crawlability**\n   - Breadcrumbs provide clear site hierarchy\n   - Search engines understand page relationships\n   - Structured data helps Google display rich snippets\n\n2. **Better User Experience**\n   - Users can navigate back easily\n   - Related pages reduce bounce rate\n   - Quick actions improve task completion\n\n3. **Increased Page Authority**\n   - Internal links distribute link equity\n   - Deep pages gain authority from homepage\n   - Strategic linking boosts important pages\n\n### Medium-Term Benefits (Phase 2)\n\n4. **Enhanced Engagement**\n   - Contextual links keep users exploring\n   - Related pages increase pages per session\n   - Smart navigation reduces exit rate\n\n5. **Reduced Bounce Rate**\n   - Multiple navigation options\n   - Clear next steps\n   - Relevant content suggestions\n\n6.",
+    "embedding": [
+      196
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Better Conversion Paths**\n   - Strategic links guide users to pricing\n   - CTAs appear in context\n   - Reduced friction in user journey\n\n### Long-Term Benefits (Phase 3)\n\n7. **Comprehensive Indexing**\n   - XML sitemap ensures all pages found\n   - Sitemap page provides crawl entry points\n   - No orphaned pages\n\n8. **Rich Search Results**\n   - Structured data enables snippets\n   - Breadcrumbs appear in search results\n   - Better click-through rates\n\n9.",
+    "embedding": [
+      129
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Semantic SEO**\n   - Varied anchor text improves relevance\n   - Clear topic clustering\n   - Better keyword distribution\n\n---\n\n## Monitoring & Metrics\n\n### Key Performance Indicators (KPIs)\n\nTrack these metrics before and after implementation:\n\n**Engagement Metrics:**\n- Average pages per session (target: +25%)\n- Average session duration (target: +30%)\n- Bounce rate (target: -15%)\n- Exit rate by page (target: -20% on key pages)\n\n**Navigation Metrics:**\n- Internal link click-through rate\n- Breadcrumb usage rate\n- Quick actions click rate\n- Related pages engagement\n\n**SEO Metrics:**\n- Organic search traffic (target: +20% over 3 months)\n- Indexed pages (should increase)\n- Average ranking position for key pages\n- Rich snippet impressions\n\n**Conversion Metrics:**\n- Path to conversion analysis\n- Steps to pricing page (should decrease)\n- Teacher signup rate from marketing pages\n\n---\n\n### Google Analytics Setup\n\n**Custom Events to Track:**\n\n```javascript\n// Track internal link clicks\ngtag('event', 'internal_link_click', {\n  'link_text': 'View Pricing',\n  'link_url': '/pricing',\n  'link_location': 'hero_section'\n});\n\n// Track breadcrumb clicks\ngtag('event', 'breadcrumb_click', {\n  'breadcrumb_item': 'Classes',\n  'breadcrumb_level': 2,\n  'current_page': '/teachers/classes/123'\n});\n\n// Track quick action clicks\ngtag('event', 'quick_action_click', {\n  'action_name': 'Create Lesson Plan',\n  'action_url': '/teachers/lesson-planner/generate'\n});\n\n// Track related pages clicks\ngtag('event', 'related_page_click', {\n  'source_page': '/features',\n  'target_page': '/pricing'\n});\n```\n\n---\n\n### Google Search Console Monitoring\n\n**Pages to Monitor:**\n1.",
+    "embedding": [
+      501
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "Index Coverage Report\n   - Ensure all pages indexed\n   - Fix any crawl errors\n   - Monitor newly added pages\n\n2. Enhancements\n   - Breadcrumb rich results\n   - Check for structured data errors\n   - Monitor rich snippet impressions\n\n3. Performance\n   - Click-through rate by page\n   - Average position changes\n   - Query performance\n\n4. Links Report\n   - Top linked pages\n   - Internal linking analysis\n   - Anchor text distribution\n\n---\n\n### A/B Testing Opportunities\n\n**Test Variations:**\n\n1. **Breadcrumb Style**\n   - Test with/without icons\n   - Test different separators\n   - Test color variations\n\n2.",
+    "embedding": [
+      174
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Related Pages Section**\n   - Test placement (above vs below content)\n   - Test number of items (2, 3, or 4)\n   - Test with/without icons\n\n3. **Anchor Text**\n   - Test different variations\n   - Test button vs link styling\n   - Test with/without icons\n\n4.",
+    "embedding": [
+      81
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Quick Actions Layout**\n   - Test grid vs list layout\n   - Test icon sizes\n   - Test color coding\n\n---\n\n### Monthly Review Checklist\n\n- [ ] Review Google Analytics engagement metrics\n- [ ] Check Google Search Console for indexing issues\n- [ ] Audit new pages for proper internal linking\n- [ ] Review bounce rate by page\n- [ ] Analyze navigation paths\n- [ ] Check for broken internal links\n- [ ] Review structured data errors\n- [ ] Monitor rich snippet performance\n- [ ] Analyze conversion path changes\n- [ ] Update anchor text variations as needed\n- [ ] Review orphan pages report\n- [ ] Check mobile navigation usability\n- [ ] Test keyboard navigation\n- [ ] Verify accessibility compliance\n\n---\n\n## Testing Procedures\n\n### Manual Testing Checklist\n\n**Desktop Testing:**\n- [ ] All breadcrumbs display correctly\n- [ ] All links open correct pages\n- [ ] Hover states work on all links\n- [ ] Focus states visible with keyboard nav\n- [ ] Quick actions display properly\n- [ ] Related pages section renders correctly\n- [ ] Footer links all functional\n- [ ] Back buttons work as expected\n\n**Mobile Testing:**\n- [ ] Breadcrumbs responsive on mobile\n- [ ] Related pages grid stacks correctly\n- [ ] Quick actions cards are tappable\n- [ ] Footer is readable and usable\n- [ ] All links have sufficient tap target size (min 44x44px)\n- [ ] No horizontal scrolling\n\n**Tablet Testing:**\n- [ ] Layout adapts properly to medium screens\n- [ ] All components remain functional\n- [ ] Touch interactions work smoothly\n\n---\n\n### Automated Testing\n\n**Add to test suite:**\n\n```typescript\n// Example test for Breadcrumb component\ndescribe('Breadcrumb Component', () => {\n  it('renders all breadcrumb items', () => {\n    const items = [\n      { label: 'Home', href: '/' },\n      { label: 'Classes', href: '/teachers/classes' },\n      { label: 'Math 101', current: true }\n    ];\n    render(<Breadcrumb items={items} />);\n    expect(screen.getByText('Home')).toBeInTheDocument();\n    expect(screen.getByText('Classes')).toBeInTheDocument();\n    expect(screen.getByText('Math 101')).toBeInTheDocument();\n  });\n\n  it('marks current page with aria-current', () => {\n    const items = [\n      { label: 'Dashboard', href: '/teachers/dashboard' },\n      { label: 'Current', current: true }\n    ];\n    render(<Breadcrumb items={items} />);\n    const currentItem = screen.getByText('Current');\n    expect(currentItem).toHaveAttribute('aria-current', 'page');\n  });\n});\n```\n\n---\n\n### SEO Testing Tools\n\n**Recommended Tools:**\n\n1.",
+    "embedding": [
+      730
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Google Rich Results Test**\n   - URL: https://search.google.com/test/rich-results\n   - Test breadcrumb structured data\n   - Verify all schema markup\n\n2. **Google Mobile-Friendly Test**\n   - URL: https://search.google.com/test/mobile-friendly\n   - Ensure responsive design works\n   - Check mobile usability\n\n3. **WebAIM Contrast Checker**\n   - URL: https://webaim.org/resources/contrastchecker/\n   - Test link color contrast\n   - Ensure WCAG AA compliance\n\n4. **Screaming Frog SEO Spider**\n   - Crawl entire site\n   - Identify orphan pages\n   - Analyze internal link structure\n   - Find broken links\n\n5.",
+    "embedding": [
+      186
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Lighthouse (Chrome DevTools)**\n   - Test performance\n   - Check accessibility\n   - Verify best practices\n   - Test SEO fundamentals\n\n---\n\n## Troubleshooting\n\n### Common Issues and Solutions\n\n**Issue: Breadcrumbs not displaying**\n- Check that component is imported\n- Verify props are passed correctly\n- Check CSS for display: none\n- Inspect React DevTools\n\n**Issue: Links not navigating**\n- Ensure using React Router Link\n- Check route definitions in App.tsx\n- Verify paths match route patterns\n- Check for JavaScript errors\n\n**Issue: Structured data errors**\n- Use Google Rich Results Test\n- Verify JSON-LD syntax\n- Check schema.org documentation\n- Ensure required fields present\n\n**Issue: Poor mobile experience**\n- Test responsiveness breakpoints\n- Check touch target sizes\n- Verify mobile viewport meta tag\n- Test on actual devices\n\n**Issue: Links not visible (low contrast)**\n- Use WebAIM Contrast Checker\n- Adjust color values\n- Test with different backgrounds\n- Verify hover states\n\n---\n\n## Maintenance Schedule\n\n### Weekly\n- Check for broken internal links\n- Review new content for proper linking\n- Monitor 404 errors in analytics\n\n### Monthly\n- Full internal link audit\n- Update anchor text variations\n- Review engagement metrics\n- Check structured data health\n\n### Quarterly\n- Comprehensive SEO audit\n- Update sitemap\n- Review URL structure\n- Analyze navigation paths\n- User testing sessions\n\n### Annually\n- Full site crawl and analysis\n- URL structure review\n- Competitor analysis\n- Strategic linking update\n\n---\n\n## Future Enhancements\n\n**Phase 4 (Future Consideration):**\n\n1.",
+    "embedding": [
+      383
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "**Contextual Link Recommendations**\n   - AI-powered related content suggestions\n   - Based on user behavior\n   - Personalized navigation\n\n2. **Dynamic Breadcrumbs**\n   - Auto-generate from route structure\n   - Configurable labels\n   - Multi-language support\n\n3. **Link Performance Dashboard**\n   - Internal link analytics\n   - Heat maps for link clicks\n   - A/B test results\n\n4. **Smart Navigation**\n   - Predictive navigation\n   - Recently visited pages\n   - Bookmarked pages\n\n5. **Enhanced Footer**\n   - Personalized footer links\n   - Contextual CTAs\n   - Dynamic content\n\n---\n\n## Conclusion\n\nThis internal linking strategy provides a comprehensive, phased approach to improving navigation, user experience, and SEO across the GreyEd platform.",
+    "embedding": [
+      198
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "By implementing these recommendations, you can expect:\n\n- **20-30% increase** in pages per session\n- **15-25% reduction** in bounce rate\n- **Improved SEO rankings** through better site structure\n- **Enhanced user satisfaction** with easier navigation\n- **Better conversion rates** through strategic linking\n\nBegin with Phase 1 for immediate impact, then progress through Phases 2 and 3 for long-term benefits. Regular monitoring and testing will ensure continued success. For questions or support during implementation, refer to this documentation or consult with the development team. ---\n\n**Document Version:** 1.0\n**Last Updated:** 2025-01-15\n**Maintained By:** GreyEd Development Team\n",
+    "embedding": [
+      152
+    ],
+    "file": "INTERNAL_LINKING_STRATEGY.md"
+  },
+  {
+    "chunk": "# GreyEd PWA Implementation Guide\n\n## Overview\n\nYour GreyEd application is now configured as a Progressive Web App (PWA), making it installable on desktop and mobile devices with offline capabilities, push notifications, and native-like experience. ## Files Created/Modified\n\n### 1.",
+    "embedding": [
+      62
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Manifest File\n**Location:** `/public/manifest.json`\n\nThe manifest defines your app's appearance and behavior when installed:\n\n- **Name:** GreyEd - El AI Tutoring Platform\n- **Short Name:** GreyEd\n- **Theme Color:** `#212754` (GreyEd Navy)\n- **Background Color:** `#efeae4` (GreyEd White)\n- **Display Mode:** Standalone (hides browser UI)\n- **Orientation:** Portrait-primary (optimized for mobile)\n\n**Key Features:**\n- App shortcuts for quick access to Dashboard, Chat, Practice, and Teacher Portal\n- Share target API for sharing content to your app\n- Comprehensive icon support (SVG, PNG at 192x192 and 512x512)\n- Screenshot metadata for app stores\n- Category tags: education, productivity, lifestyle\n\n### 2.",
+    "embedding": [
+      201
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Service Worker\n**Location:** `/public/sw.js`\n\nThe service worker provides offline functionality and caching strategies:\n\n**Caching Strategies:**\n- **Fonts:** Cache-first (instant load, rare updates)\n- **Images:** Cache-first (fast display, offline access)\n- **API calls:** Network-first (fresh data when online)\n- **Static assets (JS/CSS):** Cache-first (performance)\n- **Default:** Network-first (balanced approach)\n\n**Features:**\n- Automatic cache versioning (`greyed-v1.0.0`)\n- Smart cache invalidation on updates\n- Offline fallback for documents\n- Push notification support\n- Background sync capabilities\n\n### 3.",
+    "embedding": [
+      170
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "HTML Updates\n**Location:** `/index.html`\n\nEnhanced with comprehensive PWA meta tags:\n\n- Manifest link\n- Apple touch icons\n- Theme color meta tags\n- Mobile-optimized viewport\n- Apple web app capable settings\n- Social media Open Graph tags\n- Twitter Card metadata\n\n### 4. Service Worker Registration\n**Location:** `/src/main.tsx`\n\nAutomatic service worker registration with:\n- Update detection\n- User notification for new versions\n- Automatic reload on update confirmation\n\n## Icon Requirements\n\nYour PWA needs the following icon files in the `/public` directory:\n\n### Required Icons\n\n1. **icon-192.png** - 192x192px\n   - Standard icon for Android and desktop\n   - Should have padding for safe area\n\n2.",
+    "embedding": [
+      184
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "**icon-512.png** - 512x512px\n   - High-resolution icon for Android splash screens\n   - Should have padding for safe area\n\n3. **icon-maskable-192.png** - 192x192px\n   - Adaptive icon for Android\n   - Icon should fill entire canvas (no padding)\n   - Critical content in center 80% circle\n\n4.",
+    "embedding": [
+      90
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "**icon-maskable-512.png** - 512x512px\n   - High-res adaptive icon\n   - Same guidelines as 192px version\n\n### Icon Design Guidelines\n\n**Standard Icons (192.png, 512.png):**\n```\nRecommended padding: 10% on all sides\nSafe zone: Center 80%\nBackground: Transparent or #212754 (GreyEd Navy)\nContent: GreyEd logo with clear visibility\n```\n\n**Maskable Icons (maskable-192.png, maskable-512.png):**\n```\nNo padding - icon bleeds to edges\nCritical content within center 80% circle\nBackground: Solid color (#212754 recommended)\nContent: Centered GreyEd logo\nTest with: https://maskable.app/\n```\n\n### Generating Icons\n\nYou can generate all required icon sizes from your SVG logo:\n\n**Using ImageMagick:**\n```bash\n# From SVG to PNG\nconvert -background transparent favicon.svg -resize 192x192 icon-192.png\nconvert -background transparent favicon.svg -resize 512x512 icon-512.png\n\n# Maskable versions (with background)\nconvert -background \"#212754\" favicon.svg -resize 192x192 icon-maskable-192.png\nconvert -background \"#212754\" favicon.svg -resize 512x512 icon-maskable-512.png\n```\n\n**Using Online Tools:**\n- [PWA Asset Generator](https://github.com/elegantapp/pwa-asset-generator)\n- [Maskable Icon Editor](https://maskable.app/editor)\n- [RealFaviconGenerator](https://realfavicongenerator.net/)\n\n## Screenshot Requirements\n\nFor app store listings (optional but recommended):\n\n**Desktop Screenshot:**\n- **Filename:** `/public/screenshots/desktop-home.png`\n- **Size:** 1280x720px\n- **Content:** Homepage or dashboard view\n- **Format:** PNG\n\n**Mobile Screenshot:**\n- **Filename:** `/public/screenshots/mobile-dashboard.png`\n- **Size:** 750x1334px (iPhone 6/7/8 Plus size)\n- **Content:** Student dashboard mobile view\n- **Format:** PNG\n\n## Testing Your PWA\n\n### 1.",
+    "embedding": [
+      554
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Local Testing\n\n**Run Development Server:**\n```bash\nnpm run dev\n```\n\n**Build and Preview:**\n```bash\nnpm run build\nnpm run preview\n```\n\n### 2. Chrome DevTools Audit\n\n1. Open your app in Chrome\n2. Open DevTools (F12)\n3. Go to \"Lighthouse\" tab\n4. Select \"Progressive Web App\"\n5. Click \"Analyze page load\"\n\n**Target Scores:**\n- PWA: 100%\n- Performance: 90+%\n- Accessibility: 95+%\n- Best Practices: 95+%\n- SEO: 100%\n\n### 3.",
+    "embedding": [
+      153
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Application Tab Check\n\nIn Chrome DevTools → Application tab, verify:\n\n**Manifest:**\n- ✅ Manifest loads correctly\n- ✅ All icons are valid\n- ✅ Theme colors display properly\n- ✅ Name and short_name are correct\n\n**Service Workers:**\n- ✅ Service worker registers successfully\n- ✅ Status shows \"activated and running\"\n- ✅ Can update on reload\n\n**Storage:**\n- ✅ Cache storage shows precached files\n- ✅ Runtime cache populates on navigation\n\n### 4. Install Test\n\n**Desktop (Chrome/Edge):**\n1. Look for install icon in address bar\n2. Click to install\n3. App opens in standalone window\n4. Check start menu/dock for app icon\n\n**Mobile (Android Chrome):**\n1. Tap menu → \"Add to Home screen\"\n2. Confirm installation\n3.",
+    "embedding": [
+      200
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "App icon appears on home screen\n4. Opens in fullscreen without browser UI\n\n**iOS Safari:**\n1. Tap Share button\n2. Select \"Add to Home Screen\"\n3. Confirm with custom name/icon\n4. App icon on home screen\n5. Opens with custom splash screen\n\n### 5. Offline Test\n\n1. Install the app\n2. Open DevTools → Network tab\n3. Switch to \"Offline\" mode\n4. Navigate around the app\n5. Verify cached pages load\n6.",
+    "embedding": [
+      117
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Check fallback for uncached pages\n\n## Verification Checklist\n\nUse this checklist to ensure complete PWA implementation:\n\n### Manifest\n- [ ] `/public/manifest.json` exists and is valid\n- [ ] Linked in `index.html` with `<link rel=\"manifest\">`\n- [ ] All required fields present (name, short_name, start_url, display, icons)\n- [ ] Theme color matches brand (#212754)\n- [ ] Icons array includes 192px and 512px sizes\n- [ ] Maskable icons available for adaptive support\n\n### Icons\n- [ ] `/public/icon-192.png` exists\n- [ ] `/public/icon-512.png` exists\n- [ ] `/public/icon-maskable-192.png` exists\n- [ ] `/public/icon-maskable-512.png` exists\n- [ ] All icons are properly formatted PNG files\n- [ ] Icons display correctly in browsers\n\n### Service Worker\n- [ ] `/public/sw.js` exists\n- [ ] Service worker registers in `main.tsx`\n- [ ] Cache name uses versioning system\n- [ ] Precache includes critical assets\n- [ ] Caching strategies implemented\n- [ ] Update detection working\n- [ ] Offline fallback functional\n\n### HTML Meta Tags\n- [ ] Manifest linked in head\n- [ ] Theme color meta tag present\n- [ ] Apple touch icons linked\n- [ ] Apple mobile web app capable\n- [ ] Viewport includes viewport-fit=cover\n- [ ] Open Graph tags complete\n- [ ] Twitter Card metadata present\n\n### Functionality\n- [ ] App installs on desktop\n- [ ] App installs on Android\n- [ ] App installs on iOS\n- [ ] Standalone display mode works\n- [ ] Offline mode functional\n- [ ] Cache updates properly\n- [ ] Push notifications supported (if using)\n- [ ] Shortcuts work from home screen\n\n### Performance\n- [ ] Lighthouse PWA score 100%\n- [ ] Fast initial load (< 3s)\n- [ ] Service worker caches efficiently\n- [ ] No console errors\n- [ ] Smooth offline → online transition\n\n## Deployment Checklist\n\nBefore deploying your PWA:\n\n### 1.",
+    "embedding": [
+      507
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "HTTPS Required\n- [ ] Site served over HTTPS (required for service workers)\n- [ ] SSL certificate valid\n- [ ] Mixed content resolved\n\n### 2. Domain Configuration\n- [ ] Update `start_url` in manifest.json to your domain\n- [ ] Update Open Graph URLs in index.html\n- [ ] Update any hardcoded URLs in service worker\n\n### 3. Icons and Assets\n- [ ] All icon files uploaded to production\n- [ ] Screenshots uploaded (if using)\n- [ ] Favicon.svg in place\n- [ ] og-image.png exists for social sharing\n\n### 4. Service Worker\n- [ ] Service worker accessible at /sw.js\n- [ ] Cache names updated for production\n- [ ] Console logs removed or conditional\n\n### 5.",
+    "embedding": [
+      176
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Testing\n- [ ] Test installation on real devices\n- [ ] Verify offline functionality\n- [ ] Check update mechanism\n- [ ] Test app shortcuts\n- [ ] Validate manifest in production\n\n## Browser Support\n\nYour PWA is supported on:\n\n**Fully Supported:**\n- Chrome 90+ (Desktop & Android)\n- Edge 90+\n- Samsung Internet 14+\n- Opera 76+\n\n**Partial Support:**\n- Safari 15+ (iOS & macOS)\n  - No push notifications on iOS\n  - Limited service worker features\n  - Add to Home Screen available\n\n**Not Supported:**\n- Internet Explorer (all versions)\n- Firefox (limited PWA features)\n\n## Common Issues & Solutions\n\n### Issue: Service Worker Not Registering\n\n**Symptoms:**\n- Console error: \"Failed to register service worker\"\n- No service worker in DevTools Application tab\n\n**Solutions:**\n1.",
+    "embedding": [
+      210
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Ensure site is served over HTTPS (or localhost)\n2. Check `/public/sw.js` exists and is accessible\n3. Verify no JavaScript errors preventing registration\n4. Clear browser cache and reload\n\n### Issue: Manifest Not Loading\n\n**Symptoms:**\n- Console warning: \"Manifest could not be fetched\"\n- No install prompt appearing\n\n**Solutions:**\n1. Check manifest link in index.html is correct\n2. Verify `/public/manifest.json` exists\n3. Ensure manifest is valid JSON (use validator)\n4. Check MIME type is `application/manifest+json`\n\n### Issue: Icons Not Displaying\n\n**Symptoms:**\n- Default browser icon shows instead of custom icon\n- Install prompt shows placeholder\n\n**Solutions:**\n1. Verify all icon files exist in `/public` directory\n2.",
+    "embedding": [
+      199
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Check icon paths in manifest.json are correct\n3. Ensure icon files are valid PNG format\n4. Test with minimum 192x192 icon first\n5. Clear cache and test again\n\n### Issue: Offline Mode Not Working\n\n**Symptoms:**\n- White screen when offline\n- \"No internet\" browser error\n\n**Solutions:**\n1. Check service worker is activated\n2. Verify caching strategy in sw.js\n3. Ensure critical assets in precache list\n4. Test with Network → Offline in DevTools\n5. Check console for fetch errors\n\n### Issue: Update Not Detecting\n\n**Symptoms:**\n- Changes not appearing after deploy\n- Old version still running\n\n**Solutions:**\n1. Update cache version in sw.js (e.g., `greyed-v1.0.1`)\n2.",
+    "embedding": [
+      188
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Trigger update: DevTools → Application → Service Workers → Update\n3. Clear all caches manually if needed\n4. Unregister old service worker and refresh\n\n## Advanced Features\n\n### Push Notifications\n\nYour service worker includes push notification handlers. To enable:\n\n1. Request notification permission:\n```javascript\nNotification.requestPermission().then(permission => {\n  if (permission === 'granted') {\n    // Subscribe to push service\n  }\n});\n```\n\n2. Subscribe to push notifications using your backend\n3.",
+    "embedding": [
+      124
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Send notifications from server using Web Push protocol\n\n### Background Sync\n\nFor syncing data when connection restored:\n\n```javascript\n// In your app\nnavigator.serviceWorker.ready.then(registration => {\n  registration.sync.register('sync-data');\n});\n\n// In sw.js\nself.addEventListener('sync', event => {\n  if (event.tag === 'sync-data') {\n    event.waitUntil(syncDataToServer());\n  }\n});\n```\n\n### Share Target API\n\nYour manifest includes share target configuration.",
+    "embedding": [
+      133
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Handle shared content:\n\n```javascript\n// In your app at /share route\nconst urlParams = new URLSearchParams(window.location.search);\nconst sharedTitle = urlParams.get('title');\nconst sharedText = urlParams.get('text');\nconst sharedUrl = urlParams.get('url');\n```\n\n## Maintenance\n\n### Updating Your PWA\n\nWhen deploying updates:\n\n1. **Increment cache version** in `sw.js`:\n```javascript\nconst CACHE_NAME = 'greyed-v1.0.1'; // Increment version\n```\n\n2. **Deploy changes** to production\n\n3. **Users will see update prompt** automatically\n\n4.",
+    "embedding": [
+      170
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "**Clear old caches** happen automatically via activate event\n\n### Monitoring\n\nTrack PWA metrics:\n\n- Install rate (how many users install)\n- Engagement (time in standalone mode)\n- Offline usage patterns\n- Update adoption rate\n- Cache hit/miss ratio\n\n## Resources\n\n**Testing & Validation:**\n- [PWA Builder](https://www.pwabuilder.com/) - Test and improve your PWA\n- [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) - Automated testing\n- [Workbox](https://developers.google.com/web/tools/workbox) - Advanced service worker toolkit\n\n**Documentation:**\n- [Web.dev PWA Guide](https://web.dev/progressive-web-apps/)\n- [MDN Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)\n- [W3C Web App Manifest](https://www.w3.org/TR/appmanifest/)\n\n**Tools:**\n- [Manifest Generator](https://app-manifest.firebaseapp.com/)\n- [Icon Generator](https://realfavicongenerator.net/)\n- [Service Worker Cookbook](https://serviceworke.rs/)\n\n## Support\n\nFor issues or questions about the PWA implementation:\n\n1.",
+    "embedding": [
+      324
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "Check the troubleshooting section above\n2. Review browser console for errors\n3. Use Chrome DevTools → Application tab\n4. Test in Lighthouse for specific recommendations\n\n## Version History\n\n- **v1.0.0** - Initial PWA implementation\n  - Manifest configuration\n  - Service worker with caching strategies\n  - Install prompts\n  - Offline support\n  - App shortcuts\n  - Share target API\n\n---\n\n**Last Updated:** 2025\n**Maintained By:** GreyEd Development Team\n",
+    "embedding": [
+      113
+    ],
+    "file": "PWA-IMPLEMENTATION.md"
+  },
+  {
+    "chunk": "greyed-teachers\n",
+    "embedding": [
+      6
+    ],
+    "file": "README.md"
+  }
+]

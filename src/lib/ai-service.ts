@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { searchKnowledgeBase } from './api/kb-api';
 
 // Define the teacher context interface
 interface TeacherContext {
@@ -18,7 +19,8 @@ interface ConversationEntry {
 }
 
 /**
- * Send a message to El AI Teacher Assistant and get a response
+ * Send a message to El AI Teacher Assistant and get a response.
+ * Automatically enriches the request with relevant Knowledge Base context (RAG).
  */
 export async function sendTeacherMessage(
   message: string, 
@@ -35,6 +37,18 @@ export async function sendTeacherMessage(
     if (!session) {
       throw new Error('User must be logged in to send messages');
     }
+
+    // --- RAG: Retrieve relevant Knowledge Base context ---
+    let kbContext = '';
+    try {
+      const kbResult = await searchKnowledgeBase(message);
+      if (kbResult.contextString) {
+        kbContext = kbResult.contextString;
+      }
+    } catch (kbError) {
+      // KB search is non-blocking — if it fails, continue without context
+      console.warn('Knowledge Base search failed, proceeding without KB context:', kbError);
+    }
     
     // Call the Supabase Edge Function
     const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
@@ -46,7 +60,9 @@ export async function sendTeacherMessage(
       body: JSON.stringify({
         message,
         conversationHistory,
-        teacherContext
+        teacherContext,
+        // Inject KB context so the edge function can prepend it to the system prompt
+        knowledgeBaseContext: kbContext || undefined,
       }),
     });
     

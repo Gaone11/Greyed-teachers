@@ -32,7 +32,7 @@ const TeacherCoursesPage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [progress, setProgress] = useState<Record<number, CourseProgress>>({});
   const [error, setError] = useState<string | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -89,11 +89,6 @@ const TeacherCoursesPage: React.FC = () => {
     if (user) {
       fetchCourses();
     }
-
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
-    }
   }, [user, authLoading, navigate]);
 
   const handleLogout = async () => {
@@ -108,7 +103,7 @@ const TeacherCoursesPage: React.FC = () => {
   const handleToggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
   };
 
   if (authLoading || loading) {
@@ -141,8 +136,8 @@ const TeacherCoursesPage: React.FC = () => {
             />
           </div>
 
-          <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
-            isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+          <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
+            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
           }`}>
             <main className="px-4 sm:px-6 lg:px-8">
               <div className="max-w-4xl mx-auto">
@@ -207,8 +202,8 @@ const TeacherCoursesPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">

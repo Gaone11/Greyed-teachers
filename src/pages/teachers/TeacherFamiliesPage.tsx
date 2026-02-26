@@ -118,7 +118,7 @@ const TeacherFamiliesPage: React.FC = () => {
     usedFamilyUpdates: 0
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
   const [bucketName, setBucketName] = useState('uploads');
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -217,12 +217,6 @@ const TeacherFamiliesPage: React.FC = () => {
     if (user) {
       fetchData();
     }
-
-    // Load sidebar collapsed state from localStorage
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') {
-      setSidebarCollapsed(true);
-    }
   }, [user, authLoading, navigate]);
 
   // Handle logout
@@ -240,7 +234,7 @@ const TeacherFamiliesPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('sidebarCollapsed', String(newState));
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
   };
   
   // Filter updates by search term and class
@@ -743,7 +737,19 @@ const TeacherFamiliesPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar sidebarCollapsed={sidebarCollapsed} />
+      <NavBar
+        sidebarCollapsed={sidebarCollapsed}
+        actionButton={
+          <button
+            onClick={() => setShowComposeModal(true)}
+            className="inline-flex items-center bg-greyed-navy text-white px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors text-sm whitespace-nowrap"
+          >
+            <PlusCircle size={16} className="mr-2" />
+            <span className="hidden sm:inline">Create Class Update</span>
+            <span className="sm:hidden">New Update</span>
+          </button>
+        }
+      />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
@@ -779,29 +785,10 @@ const TeacherFamiliesPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
-          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
+        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
-            {/* Action bar */}
-            <div className="flex items-center justify-end mb-2">
-              <button
-                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => setShowComposeModal(true)}
-                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
-                >
-                  <PlusCircle size={18} className="mr-2" />
-                  <span className="hidden sm:inline">Create Class Update</span>
-                  <span className="sm:hidden">New Update</span>
-                </button>
-              </div>
-            </div>
 
             {/* Success message */}
             {success && (
