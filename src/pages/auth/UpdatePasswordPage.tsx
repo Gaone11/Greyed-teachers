@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Lock, AlertCircle, Loader, CheckCircle, ShieldAlert } from 'lucide-react';
+import { Lock, AlertCircle, Loader, CheckCircle } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -13,8 +13,7 @@ import { supabase } from '../../lib/supabase';
 // Validation schema
 const updatePasswordSchema = z.object({
   password: z.string()
-    .min(10, "Password must be at least 10 characters")
-    .regex(/[A-Z]/, "Password must contain at least one capital letter")
+    .min(6, "Password must be at least 6 characters")
     .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, "Password must contain at least one special character"),
   confirmPassword: z.string().min(1, "Please confirm your password"),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -28,12 +27,8 @@ const UpdatePasswordPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [sessionReady, setSessionReady] = useState(false);
-  const [sessionLoading, setSessionLoading] = useState(true);
-  const [tokenError, setTokenError] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   
   // Initialize react-hook-form
   const { register, handleSubmit, formState: { errors } } = useForm<UpdatePasswordFormValues>({
@@ -49,79 +44,6 @@ const UpdatePasswordPage: React.FC = () => {
     document.title = "Update Password | GreyEd";
   }, []);
 
-  // Handle session establishment from the reset link
-  // Supabase sends either:
-  //   - PKCE flow: ?code=xxx (query param)
-  //   - Implicit flow: #access_token=xxx&type=recovery (hash fragment)
-  // detectSessionInUrl handles hash fragments automatically,
-  // but we also explicitly handle the code exchange for PKCE.
-  const establishSession = useCallback(async () => {
-    try {
-      // Check for PKCE code in query params
-      const code = searchParams.get('code');
-
-      if (code) {
-        // Exchange the auth code for a session (PKCE flow)
-        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-        if (exchangeError) {
-          console.error('Code exchange failed:', exchangeError);
-          setTokenError(true);
-          setSessionLoading(false);
-          return;
-        }
-        setSessionReady(true);
-        setSessionLoading(false);
-        return;
-      }
-
-      // For implicit flow (hash fragment), detectSessionInUrl handles it.
-      // Listen for the PASSWORD_RECOVERY event from onAuthStateChange.
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'PASSWORD_RECOVERY' && session) {
-          setSessionReady(true);
-          setSessionLoading(false);
-        } else if (event === 'SIGNED_IN' && session) {
-          // Also handle SIGNED_IN as some Supabase versions fire this instead
-          setSessionReady(true);
-          setSessionLoading(false);
-        }
-      });
-
-      // Also check if a session already exists (user may already be logged in
-      // or the hash was already processed by detectSessionInUrl before this runs)
-      const { data: { session: existingSession } } = await supabase.auth.getSession();
-      if (existingSession) {
-        setSessionReady(true);
-        setSessionLoading(false);
-      } else {
-        // No code param and no session yet — give it a few seconds for
-        // detectSessionInUrl to process hash fragments, then give up
-        setTimeout(() => {
-          setSessionLoading((prev) => {
-            // Only set error if still loading (session wasn't established)
-            if (prev) {
-              setTokenError(true);
-              return false;
-            }
-            return prev;
-          });
-        }, 5000);
-      }
-
-      return () => {
-        subscription.unsubscribe();
-      };
-    } catch (err) {
-      console.error('Session establishment error:', err);
-      setTokenError(true);
-      setSessionLoading(false);
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    establishSession();
-  }, [establishSession]);
-
   const onSubmit = async (data: UpdatePasswordFormValues) => {
     setIsSubmitting(true);
     setError(null);
@@ -135,9 +57,6 @@ const UpdatePasswordPage: React.FC = () => {
       if (error) {
         throw error;
       }
-      
-      // Sign out so the user logs in with the new password
-      await supabase.auth.signOut();
       
       // Success - show success message
       setSuccess(true);

@@ -12,14 +12,11 @@ import {
   Snowflake,
   MessageSquare,
   Sparkles,
-  GraduationCap,
-  Database,
-  Shield
+  GraduationCap
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 
 interface TeacherSidebarProps {
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb';
+  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -240,46 +237,6 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
             </Link>
           );
         })}
-
-        {/* Admin Section — only visible for authorized emails */}
-        {(() => {
-          const ADMIN_EMAILS = ['monti@orionx.xyz', 'gaone@orionx.xyz'];
-          const { user } = useAuth();
-          const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
-          if (!isAdmin) return null;
-          return (
-            <>
-              <div className={`my-2 ${!isCollapsed || isMobile ? 'mx-2' : ''}`}>
-                {(!isCollapsed || isMobile) && (
-                  <div className="flex items-center gap-1.5 px-2 mb-1">
-                    <Shield className="w-3 h-3 text-red-400" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-red-400">Admin</span>
-                  </div>
-                )}
-                <div className="border-t border-red-200/50"></div>
-              </div>
-              <Link
-                to="/admin/knowledge-base"
-                onClick={handleLinkClick}
-                className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
-                  activePage === 'admin-kb'
-                    ? 'bg-gradient-to-r from-red-50 to-transparent border-l-4 border-red-400 shadow-sm'
-                    : 'hover:bg-red-50/50 active:bg-red-50 border-l-4 border-transparent'
-                } touch-manipulation`}
-                title={isCollapsed && !isMobile ? 'AI Knowledge Base' : undefined}
-              >
-                <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-                  <Database className={`w-5 h-5 ${activePage === 'admin-kb' ? 'text-red-600' : 'text-red-400 group-hover:text-red-600'} transition-colors duration-200`} />
-                </div>
-                {(!isCollapsed || isMobile) && (
-                  <span className={`font-semibold text-sm ${activePage === 'admin-kb' ? 'text-red-700' : 'text-red-500 group-hover:text-red-700'} transition-colors duration-200 truncate block`}>
-                    AI Knowledge Base
-                  </span>
-                )}
-              </Link>
-            </>
-          );
-        })()}
 
         {/* Divider */}
         <div className="my-2"></div>

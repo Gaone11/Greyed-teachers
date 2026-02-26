@@ -62,7 +62,7 @@ const TeacherAssessmentsPage: React.FC = () => {
     usedAssessments: 0
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedAssessment, setSelectedAssessment] = useState<any | null>(null);
   const [selectedQuestions, setSelectedQuestions] = useState<any[]>([]);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -138,6 +138,12 @@ const TeacherAssessmentsPage: React.FC = () => {
     if (user) {
       fetchData();
     }
+
+    // Load sidebar collapsed state from localStorage
+    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+    if (savedCollapsed === 'true') {
+      setSidebarCollapsed(true);
+    }
   }, [user, authLoading, navigate]);
 
   // Handle logout
@@ -155,7 +161,7 @@ const TeacherAssessmentsPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    localStorage.setItem('sidebarCollapsed', String(newState));
   };
   
   // Filter assessments by search term and status
@@ -638,34 +644,12 @@ const TeacherAssessmentsPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar
-        sidebarCollapsed={sidebarCollapsed}
-        actionButton={
-          <div className="flex gap-2">
-            <Link
-              to="/teachers/assessment-grading"
-              className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors text-sm whitespace-nowrap"
-            >
-              <Upload size={16} className="mr-2" />
-              <span className="hidden md:inline">AI Auto-Grading</span>
-              <span className="md:hidden">Auto-Grade</span>
-            </Link>
-            <button
-              onClick={() => navigate('/teachers/assessments/generate')}
-              className="inline-flex items-center bg-greyed-navy text-white px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors text-sm whitespace-nowrap"
-            >
-              <PlusCircle size={16} className="mr-2" />
-              <span className="hidden md:inline">Create Assessment</span>
-              <span className="md:hidden">Create</span>
-            </button>
-          </div>
-        }
-      />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -689,10 +673,38 @@ const TeacherAssessmentsPage: React.FC = () => {
         </div>
         
         {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         }`}>
           <main className="px-4 sm:px-6 lg:px-8">
+            {/* Action bar */}
+            <div className="flex items-center justify-end mb-2">
+              <button
+                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
+                onClick={toggleMobileMenu}
+              >
+                <Menu size={20} />
+              </button>
+              <div className="flex gap-2">
+                <Link
+                  to="/teachers/assessment-grading"
+                  className="inline-flex items-center bg-greyed-navy/10 text-greyed-navy px-4 py-2 rounded-lg hover:bg-greyed-navy/20 transition-colors"
+                >
+                  <Upload size={16} className="mr-2" />
+                  <span className="hidden md:inline">AI Auto-Grading</span>
+                  <span className="md:hidden">Auto-Grade</span>
+                </Link>
+
+                <button
+                  onClick={() => navigate('/teachers/assessments/generate')}
+                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                >
+                  <PlusCircle size={16} className="mr-2" />
+                  <span className="hidden md:inline">Create Assessment</span>
+                  <span className="md:hidden">Create</span>
+                </button>
+              </div>
+            </div>
 
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">

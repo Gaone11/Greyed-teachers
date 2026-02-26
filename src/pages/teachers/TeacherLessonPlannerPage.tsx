@@ -190,7 +190,14 @@ const TeacherLessonPlannerPage: React.FC = () => {
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  useEffect(() => {
+    const savedState = localStorage.getItem('teacherSidebarCollapsed');
+    if (savedState !== null) {
+      setSidebarCollapsed(savedState === 'true');
+    }
+  }, []);
 
   useEffect(() => {
     document.title = "Lesson Planner | GreyEd Teachers";
@@ -468,23 +475,12 @@ const TeacherLessonPlannerPage: React.FC = () => {
 
   return (
     <LandingLayout disableSnapScroll={true}>
-      <NavBar
-        sidebarCollapsed={sidebarCollapsed}
-        actionButton={
-          <button
-            onClick={() => navigate('/teachers/lesson-planner/generate')}
-            className="inline-flex items-center bg-greyed-navy text-white px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors text-sm whitespace-nowrap"
-          >
-            <PlusCircle size={16} className="mr-2" />
-            Generate New Plan
-          </button>
-        }
-      />
+      <NavBar sidebarCollapsed={sidebarCollapsed} />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex overflow-x-hidden">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40\" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
@@ -519,10 +515,28 @@ const TeacherLessonPlannerPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+        <div className={`flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300 ${
+          isMobile ? 'ml-0' : (sidebarCollapsed ? 'ml-16' : 'ml-64')
         } overflow-x-hidden`}>
           <main className="px-4 sm:px-6 lg:px-8">
+            {/* Action bar */}
+            <div className="flex items-center justify-end mb-2">
+              <button
+                className="md:hidden mr-auto p-2 rounded-lg hover:bg-greyed-navy/10"
+                onClick={toggleMobileMenu}
+              >
+                <Menu size={20} />
+              </button>
+              <div>
+                <button
+                  onClick={() => navigate('/teachers/lesson-planner/generate')}
+                  className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                >
+                  <PlusCircle size={18} className="mr-2" />
+                  Generate New Plan
+                </button>
+              </div>
+            </div>
 
             {/* Success message */}
             {success && (
@@ -779,10 +793,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
       
       {/* Mobile bottom navigation */}
       
-      {/* Footer with sidebar offset */}
-      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
-        <Footer />
-      </div>
+      <Footer />
     </LandingLayout>
   );
 };

@@ -1,5 +1,4 @@
 import { supabase } from './supabase';
-import { searchKnowledgeBase } from './api/kb-api';
 
 // Constants
 const FREE_MESSAGES_DAILY_LIMIT = 10; // Free accounts are limited to 10 messages per day
@@ -171,18 +170,6 @@ export async function processTeacherQuery(query: string, teacherId: string) {
     if (!session) {
       throw new Error('User must be logged in to send messages');
     }
-
-    // --- RAG: Retrieve relevant Knowledge Base context ---
-    let kbContext = '';
-    try {
-      const kbResult = await searchKnowledgeBase(query);
-      if (kbResult.contextString) {
-        kbContext = kbResult.contextString;
-      }
-    } catch (kbError) {
-      // KB search is non-blocking — if it fails, continue without context
-      console.warn('Knowledge Base search failed, proceeding without KB context:', kbError);
-    }
     
     const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
       method: 'POST',
@@ -193,8 +180,7 @@ export async function processTeacherQuery(query: string, teacherId: string) {
       body: JSON.stringify({
         message: query,
         conversationHistory: [],
-        teacherContext: {},
-        knowledgeBaseContext: kbContext || undefined,
+        teacherContext: {}
       }),
     });
     

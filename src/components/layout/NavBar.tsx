@@ -15,10 +15,9 @@ interface NavBarProps {
   sidebarCollapsed?: boolean;
   onToggleSidebar?: () => void;
   showSidebarToggle?: boolean;
-  actionButton?: React.ReactNode;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onToggleSidebar, showSidebarToggle = false, actionButton }) => {
+const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onToggleSidebar, showSidebarToggle = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOverLight, setIsOverLight] = useState(false);
@@ -203,16 +202,16 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
 
   return (
     <motion.header
-      className={`fixed top-0 right-0 transition-all duration-300 ${
-        isTeacherPage ? `${sidebarOffset} left-0 z-40` : 'left-0 z-50'
+      className={`fixed top-0 right-0 z-50 transition-all duration-300 ${
+        isTeacherPage ? `left-0 ${sidebarOffset}` : 'left-0'
       } ${
-        isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : (isTeacherPage ? 'bg-[#f8f8f6]' : 'bg-transparent')
+        isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : 'bg-transparent'
       }`}
-      initial={{ y: 0 }}
+      initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5 }}
     >
-      <div className="w-full px-4 py-3 flex items-center justify-between min-h-[56px]">
+      <div className="w-full px-4 pl-4 pr-4 py-4 flex items-center justify-between">
         {/* Left section: Logo or page title for teacher pages */}
         <div className="flex items-center gap-2 min-w-0">
           {!isTeacherPage ? (
@@ -235,23 +234,6 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
           ) : null}
         </div>
 
-        {/* Center section: Navigation links (desktop, public pages only) */}
-        {showNavMenu && navLinks.length > 0 && (
-          <nav className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link, index) => (
-              <Link
-                key={index}
-                to={link.to}
-                className={`${textColorClass} ${textHoverClass} transition-colors text-sm font-medium ${
-                  location.pathname === link.to || location.pathname.startsWith(link.to + '/') ? 'opacity-100' : 'opacity-80'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        )}
-
         {/* Center section: GreyEd Logo (mobile only, not on teacher pages) */}
         {!isTeacherPage && (
           <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 ${logoTextClass}`}>
@@ -264,37 +246,6 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
           </Link>
         )}
 
-        {/* Right section: User menu / Login / Mobile hamburger */}
-        <div className="flex items-center gap-3">
-          {actionButton}
-          <DyslexiaModeToggle />
-
-          {user ? (
-            <NavBarUserMenu />
-          ) : (
-            <button
-              onClick={handleLogin}
-              className={`hidden md:inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                isOverLight || isTeacherPage
-                  ? 'bg-greyed-navy text-greyed-white hover:bg-greyed-navy/90'
-                  : 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white'
-              }`}
-            >
-              Log In
-            </button>
-          )}
-
-          {/* Mobile hamburger menu button (public pages only) */}
-          {showNavMenu && (
-            <button
-              onClick={toggleMenu}
-              className={`md:hidden p-2 rounded-lg ${mobileMenuButtonClass}`}
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          )}
-        </div>
       </div>
 
       {/* Mobile Menu - Fullscreen overlay when open - Hidden for teachers */}
