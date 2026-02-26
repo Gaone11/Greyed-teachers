@@ -57,13 +57,6 @@ export default function TeacherLessonPlanGeneratorPage() {
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [limits, setLimits] = useState({ lessonPlans: 0, used: 0 });
-  const [kbChunkCount, setKbChunkCount] = useState(0);
-
-  const defaultGrade = saGrades[0].value;
-  const defaultPhase = getPhaseFromGrade(saGrades[0].num);
-  const defaultSubjects = getSubjectsByPhase(defaultPhase);
-  const defaultSubjectKey = defaultSubjects[0]?.key || '';
-  const defaultTopicKey = defaultSubjects[0]?.topics[0]?.key || '';
 
   const [formData, setFormData] = useState<FormData>({
     classId: '',
@@ -140,8 +133,10 @@ export default function TeacherLessonPlanGeneratorPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === 'selectedSubjectKey') {
-      const subject = capsCurriculum.find(s => s.key === value);
+
+    if (name === 'selectedSubject') {
+      const topics = primaryCurriculum[value as keyof typeof primaryCurriculum] || [];
+      setAvailableTopics(topics);
       setFormData(prev => ({
         ...prev,
         selectedSubjectKey: value,
@@ -181,7 +176,7 @@ export default function TeacherLessonPlanGeneratorPage() {
   const handleGenerateLessonPlan = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.classId || !formData.selectedSubjectKey || !formData.selectedTopicKey) {
+    if (!formData.classId || !formData.selectedSubject || !formData.selectedTopic) {
       alert('Please fill in all required fields');
       return;
     }
@@ -224,6 +219,21 @@ export default function TeacherLessonPlanGeneratorPage() {
       });
 
       setGeneratedPlan(plan.markdown || plan);
+
+      // Reset form
+      setFormData({
+        classId: classes[0]?.id || '',
+        selectedSubject: 'Mathematics',
+        selectedTopic: 'Numbers and Counting - Intro',
+        syllabus: 'PSLA',
+        date: format(new Date(), 'yyyy-MM-dd'),
+        duration: '45',
+        focusAreas: [],
+        includeAssessment: true,
+        includeDifferentiation: true,
+        includeResources: true
+      });
+      setAvailableTopics(primaryCurriculum.Mathematics);
 
     } catch {
       alert('Failed to generate lesson plan. Please try again.');
@@ -644,7 +654,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </h3>
                 <p className="text-gray-600">
                   Fill out the form and click "Generate Lesson Plan" to create a detailed,
-                  CAPS-aligned lesson plan for your class.
+                  curriculum-aligned lesson plan for your class.
                 </p>
               </div>
             )}

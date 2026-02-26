@@ -1050,6 +1050,7 @@ const TeacherSettingsPage: React.FC = () => {
                     <AccessibilitySettings />
                   </div>
                 )}
+
               </div>
             </div>
             
