@@ -1,7 +1,7 @@
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
 interface ConversationEntry {
@@ -22,7 +22,6 @@ interface RequestPayload {
   message: string;
   conversationHistory?: ConversationEntry[];
   teacherContext?: TeacherContext;
-  systemPromptOverride?: string;
 }
 
 const SAFETY_PROMPT = `You are El AI, an education-focused AI teaching assistant developed by GreyEd, powered by Uhuru 2.1. You are specifically designed to help teachers at Cophetsheni Primary School and other South African schools with lesson planning, assessment creation, curriculum alignment, and educational resource development.
@@ -63,7 +62,7 @@ Deno.serve(async (req: Request) => {
 
   try {
     // Parse the request body
-    const { message, conversationHistory, teacherContext, systemPromptOverride }: RequestPayload =
+    const { message, conversationHistory, teacherContext }: RequestPayload =
       await req.json();
 
     if (!message) {
@@ -94,7 +93,8 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    let systemPrompt = systemPromptOverride || SAFETY_PROMPT;
+    // Build context-aware system prompt
+    let systemPrompt = SAFETY_PROMPT;
 
     if (teacherContext) {
       const contextParts: string[] = [];
@@ -149,7 +149,7 @@ Deno.serve(async (req: Request) => {
       model: uhuruModel,
       messages,
       temperature: 0.7,
-      max_tokens: systemPromptOverride ? 4000 : 2000,
+      max_tokens: 2000,
     };
 
     // Make the API request

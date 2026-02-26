@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, Award, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye, Database } from 'lucide-react';
+import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, Award, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import AccessibilitySettings from '../../components/accessibility/AccessibilitySettings';
-import KnowledgeBaseSettings from '../../components/teachers/KnowledgeBaseSettings';
 import { getTeacherProfile, updateTeacherProfile, updateNotificationSettings, hasActiveSubscription } from '../../lib/api/teacher-api';
 import { getUserSubscription, redirectToCheckout } from '../../lib/stripe';
 import { stripeProducts } from '../../stripe-config';
@@ -58,7 +57,7 @@ const TeacherSettingsPage: React.FC = () => {
     
     // Get active tab from URL hash if present
     const hash = location.hash.replace('#', '');
-    if (hash && ['profile', 'notifications', 'subscription', 'security', 'accessibility', 'knowledge-base'].includes(hash)) {
+    if (hash && ['profile', 'notifications', 'subscription', 'security', 'accessibility'].includes(hash)) {
       setActiveTab(hash);
     }
     
@@ -524,19 +523,6 @@ const TeacherSettingsPage: React.FC = () => {
                       Accessibility
                     </div>
                     {activeTab === 'accessibility' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </button>
-
-                  <button
-                    className={`px-5 py-3 text-sm font-medium relative whitespace-nowrap ${activeTab === 'knowledge-base' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('knowledge-base')}
-                  >
-                    <div className="flex items-center">
-                      <Database size={16} className="mr-2" />
-                      Knowledge Base
-                    </div>
-                    {activeTab === 'knowledge-base' && (
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
                     )}
                   </button>
@@ -1065,12 +1051,6 @@ const TeacherSettingsPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Knowledge Base Tab */}
-                {activeTab === 'knowledge-base' && (
-                  <div className="max-w-3xl mx-auto">
-                    <KnowledgeBaseSettings />
-                  </div>
-                )}
               </div>
             </div>
             
