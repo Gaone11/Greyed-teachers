@@ -141,6 +141,20 @@ const emsTopics: CAPSTopic[] = [
   { name: 'Savings and Investments', key: 'savings-investments' },
 ];
 
+// ─── Life Orientation (Senior Phase) ─────────────────────────────────────────
+
+const lifeOrientationTopics: CAPSTopic[] = [
+  { name: 'Development of the Self in Society', key: 'self-in-society' },
+  { name: 'Health, Social and Environmental Responsibility', key: 'health-social-environment' },
+  { name: 'Constitutional Rights and Responsibilities', key: 'constitutional-rights' },
+  { name: 'Physical Education', key: 'lo-physical-education' },
+  { name: 'World of Work', key: 'world-of-work' },
+  { name: 'Study Skills', key: 'study-skills' },
+  { name: 'Career and Career Choices', key: 'career-choices' },
+  { name: 'Democracy and Human Rights', key: 'democracy-human-rights' },
+  { name: 'Responsible Citizenship', key: 'responsible-citizenship' },
+];
+
 // ─── English (First Additional Language) ─────────────────────────────────────
 
 const englishFALTopics: CAPSTopic[] = [
@@ -242,17 +256,17 @@ export const capsCurriculum: CAPSSubject[] = [
     topics: homeLanguageTopics,
   },
 
-  // ── First Additional Language ──
+  // ── First Additional Languages (CAPS requires FAL from Grade 1) ──
   {
     name: 'English First Additional Language',
     key: 'english-fal',
-    phase: ['intermediate', 'senior'],
+    phase: ['foundation', 'intermediate', 'senior'],
     topics: englishFALTopics,
   },
   {
     name: 'Afrikaans First Additional Language',
     key: 'afrikaans-fal',
-    phase: ['intermediate', 'senior'],
+    phase: ['foundation', 'intermediate', 'senior'],
     topics: englishFALTopics,
   },
 
@@ -298,6 +312,12 @@ export const capsCurriculum: CAPSSubject[] = [
     key: 'creative-arts',
     phase: ['senior'],
     topics: creativeArtsTopics,
+  },
+  {
+    name: 'Life Orientation',
+    key: 'life-orientation',
+    phase: ['senior'],
+    topics: lifeOrientationTopics,
   },
 ];
 

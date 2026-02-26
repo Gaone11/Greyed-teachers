@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { fetchTeacherClasses, generateLessonPlan, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
 import Loader from '../../components/ui/Loader';
-import { Wand2, AlertCircle, CheckCircle, PlusCircle, X, Download, BookOpen, FileText } from 'lucide-react';
-import { format, parseISO } from 'date-fns';
+import { Wand2, AlertCircle, CheckCircle, PlusCircle, X, Download, BookOpen, FileText, Database } from 'lucide-react';
+import { format } from 'date-fns';
 import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
+import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade, type CAPSSubject } from '../../data/capsCurriculum';
+import { findMatchingChunks, buildChunkContext, type KnowledgeChunk, type ChunkedDocument } from '../../lib/knowledgebase/pdf-chunker';
+
+const KB_STORAGE_KEY = 'greyed-kb-chunks';
 
 interface Class {
   id: string;
@@ -17,9 +21,12 @@ interface Class {
 
 interface FormData {
   classId: string;
-  selectedSubject: string;
-  selectedTopic: string;
+  selectedGrade: string;
+  selectedSubjectKey: string;
+  selectedTopicKey: string;
   syllabus: string;
+  term: string;
+  week: string;
   date: string;
   duration: string;
   focusAreas: string[];
@@ -28,103 +35,18 @@ interface FormData {
   includeResources: boolean;
 }
 
-// Curriculum data structure
-const primaryCurriculum = {
-  Mathematics: [
-    'Numbers and Counting - Intro',
-    'Numbers and Counting - Main',
-    'Addition and Subtraction - Intro',
-    'Addition and Subtraction - Main',
-    'Multiplication and Division - Intro',
-    'Multiplication and Division - Main',
-    'Fractions - Intro',
-    'Fractions - Main',
-    'Geometry and Shapes - Intro',
-    'Geometry and Shapes - Main',
-    'Measurement - Intro',
-    'Measurement - Main',
-    'Data Handling - Intro',
-    'Data Handling - Main'
-  ],
-  English: [
-    'Reading Comprehension - Intro',
-    'Reading Comprehension - Main',
-    'Phonics and Spelling - Intro',
-    'Phonics and Spelling - Main',
-    'Grammar and Punctuation - Intro',
-    'Grammar and Punctuation - Main',
-    'Creative Writing - Intro',
-    'Creative Writing - Main',
-    'Poetry and Rhyme - Intro',
-    'Poetry and Rhyme - Main',
-    'Speaking and Listening - Intro',
-    'Speaking and Listening - Main'
-  ],
-  Science: [
-    'Living Things - Intro',
-    'Living Things - Main',
-    'Materials and Properties - Intro',
-    'Materials and Properties - Main',
-    'Forces and Motion - Intro',
-    'Forces and Motion - Main',
-    'Earth and Space - Intro',
-    'Earth and Space - Main',
-    'Light and Sound - Intro',
-    'Light and Sound - Main',
-    'Environmental Science - Intro',
-    'Environmental Science - Main'
-  ],
-  History: [
-    'Ancient Civilizations - Intro',
-    'Ancient Civilizations - Main',
-    'Local History - Intro',
-    'Local History - Main',
-    'Timeline Activities - Intro',
-    'Timeline Activities - Main',
-    'Historical Figures - Intro',
-    'Historical Figures - Main'
-  ],
-  Geography: [
-    'Maps and Directions - Intro',
-    'Maps and Directions - Main',
-    'Weather and Climate - Intro',
-    'Weather and Climate - Main',
-    'Countries and Continents - Intro',
-    'Countries and Continents - Main',
-    'Rivers and Mountains - Intro',
-    'Rivers and Mountains - Main'
-  ],
-  Art: [
-    'Drawing and Sketching - Intro',
-    'Drawing and Sketching - Main',
-    'Painting Techniques - Intro',
-    'Painting Techniques - Main',
-    'Sculpture and Modeling - Intro',
-    'Sculpture and Modeling - Main',
-    'Art History - Intro',
-    'Art History - Main'
-  ],
-  Music: [
-    'Rhythm and Beat - Intro',
-    'Rhythm and Beat - Main',
-    'Melody and Pitch - Intro',
-    'Melody and Pitch - Main',
-    'Musical Instruments - Intro',
-    'Musical Instruments - Main',
-    'Singing and Voice - Intro',
-    'Singing and Voice - Main'
-  ],
-  'Physical Education': [
-    'Basic Movement Skills - Intro',
-    'Basic Movement Skills - Main',
-    'Team Sports - Intro',
-    'Team Sports - Main',
-    'Individual Activities - Intro',
-    'Individual Activities - Main',
-    'Health and Fitness - Intro',
-    'Health and Fitness - Main'
-  ]
-};
+function loadAllChunks(): KnowledgeChunk[] {
+  try {
+    const raw = localStorage.getItem(KB_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.version === 1 && Array.isArray(parsed.documents)) {
+        return parsed.documents.flatMap((d: ChunkedDocument) => d.chunks);
+      }
+    }
+  } catch { /* ignore */ }
+  return [];
+}
 
 export default function TeacherLessonPlanGeneratorPage() {
   const { user } = useAuth();
@@ -135,12 +57,22 @@ export default function TeacherLessonPlanGeneratorPage() {
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [limits, setLimits] = useState({ lessonPlans: 0, used: 0 });
-  
+  const [kbChunkCount, setKbChunkCount] = useState(0);
+
+  const defaultGrade = saGrades[0].value;
+  const defaultPhase = getPhaseFromGrade(saGrades[0].num);
+  const defaultSubjects = getSubjectsByPhase(defaultPhase);
+  const defaultSubjectKey = defaultSubjects[0]?.key || '';
+  const defaultTopicKey = defaultSubjects[0]?.topics[0]?.key || '';
+
   const [formData, setFormData] = useState<FormData>({
     classId: '',
-    selectedSubject: 'Mathematics',
-    selectedTopic: primaryCurriculum.Mathematics[0] || '',
-    syllabus: 'PSLA',
+    selectedGrade: defaultGrade,
+    selectedSubjectKey: defaultSubjectKey,
+    selectedTopicKey: defaultTopicKey,
+    syllabus: 'CAPS',
+    term: '1',
+    week: '1',
     date: format(new Date(), 'yyyy-MM-dd'),
     duration: '45',
     focusAreas: [],
@@ -149,28 +81,37 @@ export default function TeacherLessonPlanGeneratorPage() {
     includeResources: true
   });
 
-  const [availableTopics, setAvailableTopics] = useState<string[]>(primaryCurriculum.Mathematics);
+  // Derived CAPS data
+  const gradeNum = saGrades.find(g => g.value === formData.selectedGrade)?.num ?? 0;
+  const phase = getPhaseFromGrade(gradeNum);
+  const availableSubjects = getSubjectsByPhase(phase);
+  const selectedSubject = capsCurriculum.find(s => s.key === formData.selectedSubjectKey);
+  const availableTopics = selectedSubject?.topics ?? [];
 
   useEffect(() => {
     const loadData = async () => {
       if (!user) return;
-      
+
       try {
         setIsLoading(true);
-        
+
         const [classesData, subscription, teacherLimits] = await Promise.all([
           fetchTeacherClasses(user.id),
           hasActiveSubscription(user.id),
           getTeacherLimits(user.id)
         ]);
-        
+
         setClasses(classesData);
         setHasAccess(subscription);
         setLimits(teacherLimits);
-        
+
         if (classesData.length > 0) {
           setFormData(prev => ({ ...prev, classId: classesData[0].id }));
         }
+
+        // Check KB chunk availability
+        const chunks = loadAllChunks();
+        setKbChunkCount(chunks.length);
       } catch {
       } finally {
         setIsLoading(false);
@@ -180,16 +121,31 @@ export default function TeacherLessonPlanGeneratorPage() {
     loadData();
   }, [user]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    
-    if (name === 'selectedSubject') {
-      const topics = primaryCurriculum[value as keyof typeof primaryCurriculum] || [];
-      setAvailableTopics(topics);
+  // Auto-fix subject/topic when grade changes
+  useEffect(() => {
+    if (availableSubjects.length > 0 && !availableSubjects.find(s => s.key === formData.selectedSubjectKey)) {
       setFormData(prev => ({
         ...prev,
-        selectedSubject: value,
-        selectedTopic: topics[0] || ''
+        selectedSubjectKey: availableSubjects[0].key,
+        selectedTopicKey: availableSubjects[0].topics[0]?.key || '',
+      }));
+    }
+  }, [phase]);
+
+  useEffect(() => {
+    if (availableTopics.length > 0 && !availableTopics.find(t => t.key === formData.selectedTopicKey)) {
+      setFormData(prev => ({ ...prev, selectedTopicKey: availableTopics[0]?.key || '' }));
+    }
+  }, [formData.selectedSubjectKey]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name === 'selectedSubjectKey') {
+      const subject = capsCurriculum.find(s => s.key === value);
+      setFormData(prev => ({
+        ...prev,
+        selectedSubjectKey: value,
+        selectedTopicKey: subject?.topics[0]?.key || ''
       }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
@@ -202,9 +158,9 @@ export default function TeacherLessonPlanGeneratorPage() {
   };
 
   const handleAddFocusArea = () => {
-    setFormData(prev => ({ 
-      ...prev, 
-      focusAreas: [...prev.focusAreas, ''] 
+    setFormData(prev => ({
+      ...prev,
+      focusAreas: [...prev.focusAreas, '']
     }));
   };
 
@@ -224,8 +180,8 @@ export default function TeacherLessonPlanGeneratorPage() {
 
   const handleGenerateLessonPlan = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.classId || !formData.selectedSubject || !formData.selectedTopic) {
+
+    if (!formData.classId || !formData.selectedSubjectKey || !formData.selectedTopicKey) {
       alert('Please fill in all required fields');
       return;
     }
@@ -237,14 +193,22 @@ export default function TeacherLessonPlanGeneratorPage() {
 
     try {
       setIsGenerating(true);
-      
+
       const selectedClass = classes.find(c => c.id === formData.classId);
       if (!selectedClass) return;
 
+      // Load KB chunks for context injection
+      const allChunks = loadAllChunks();
+      const matchingChunks = findMatchingChunks(allChunks, formData.selectedSubjectKey, formData.selectedTopicKey, formData.selectedGrade);
+      const kbContext = buildChunkContext(matchingChunks, 1500);
+
+      const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
+      const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
+
       const plan = await generateLessonPlan({
         classId: formData.classId,
-        subject: formData.selectedSubject,
-        topic: formData.selectedTopic,
+        subject: subjectName,
+        topic: topicName,
         syllabus: formData.syllabus,
         date: formData.date,
         duration: formData.duration,
@@ -253,26 +217,14 @@ export default function TeacherLessonPlanGeneratorPage() {
         includeDifferentiation: formData.includeDifferentiation,
         includeResources: formData.includeResources,
         className: selectedClass.name,
-        grade: selectedClass.grade
+        grade: formData.selectedGrade,
+        term: formData.term,
+        week: formData.week,
+        kbContext,
       });
 
       setGeneratedPlan(plan.markdown || plan);
-      
-      // Reset form
-      setFormData({
-        classId: classes[0]?.id || '',
-        selectedSubject: 'Mathematics',
-        selectedTopic: 'Numbers and Counting - Intro',
-        syllabus: 'PSLA',
-        date: format(new Date(), 'yyyy-MM-dd'),
-        duration: '45',
-        focusAreas: [],
-        includeAssessment: true,
-        includeDifferentiation: true,
-        includeResources: true
-      });
-      setAvailableTopics(primaryCurriculum.Mathematics);
-      
+
     } catch {
       alert('Failed to generate lesson plan. Please try again.');
     } finally {
@@ -290,7 +242,6 @@ export default function TeacherLessonPlanGeneratorPage() {
     const lines = generatedPlan.split('\n');
     const children: Paragraph[] = [];
 
-    // Helper to parse markdown to plain text for DOCX
     const parseMarkdownToPlain = (text: string): TextRun[] => {
       return [new TextRun({ text: text.replace(/\*\*/g, ''), bold: false })];
     };
@@ -299,9 +250,7 @@ export default function TeacherLessonPlanGeneratorPage() {
       if (line.trim() === '') {
         children.push(new Paragraph({
           children: [new TextRun({ text: '' })],
-          spacing: {
-            after: 80,
-          },
+          spacing: { after: 80 },
         }));
       } else if (line.startsWith('### ')) {
         children.push(new Paragraph({
@@ -343,7 +292,9 @@ export default function TeacherLessonPlanGeneratorPage() {
     });
 
     Packer.toBlob(doc).then(blob => {
-      const filename = `${formData.selectedSubject} - ${formData.selectedTopic} - ${formData.date}.docx`;
+      const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
+      const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
+      const filename = `${subjectName} - ${topicName} - ${formData.date}.docx`;
       saveAs(blob, filename);
     });
   };
@@ -398,44 +349,64 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </select>
               </div>
 
+              {/* Grade */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
+                  Grade
                 </label>
                 <select
-                  name="selectedSubject"
-                  value={formData.selectedSubject}
+                  name="selectedGrade"
+                  value={formData.selectedGrade}
+                  onChange={handleInputChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                >
+                  {saGrades.map(g => (
+                    <option key={g.value} value={g.value}>{g.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Subject - CAPS aligned */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Subject (CAPS)
+                </label>
+                <select
+                  name="selectedSubjectKey"
+                  value={formData.selectedSubjectKey}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   required
                 >
-                  {Object.keys(primaryCurriculum).map(subject => (
-                    <option key={subject} value={subject}>
-                      {subject}
+                  {availableSubjects.map(subject => (
+                    <option key={subject.key} value={subject.key}>
+                      {subject.name}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* Topic - CAPS aligned */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Topic
                 </label>
                 <select
-                  name="selectedTopic"
-                  value={formData.selectedTopic}
+                  name="selectedTopicKey"
+                  value={formData.selectedTopicKey}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   required
                 >
                   {availableTopics.map(topic => (
-                    <option key={topic} value={topic}>
-                      {topic}
+                    <option key={topic.key} value={topic.key}>
+                      {topic.name}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* Syllabus */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Syllabus
@@ -446,9 +417,44 @@ export default function TeacherLessonPlanGeneratorPage() {
                   onChange={handleInputChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="PSLE">PSLE</option>
+                  <option value="CAPS">CAPS (South Africa)</option>
+                  <option value="IGCSE">Cambridge IGCSE</option>
+                  <option value="GCSE">GCSE</option>
+                  <option value="A Level">A Level</option>
+                  <option value="BGCSE">BGCSE (Botswana)</option>
+                  <option value="JCE">JCE (Botswana)</option>
                   <option value="Other">Other</option>
                 </select>
+              </div>
+
+              {/* Term + Week + Date + Duration */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Term</label>
+                  <select
+                    name="term"
+                    value={formData.term}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  >
+                    <option value="1">Term 1</option>
+                    <option value="2">Term 2</option>
+                    <option value="3">Term 3</option>
+                    <option value="4">Term 4</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Week</label>
+                  <input
+                    type="number"
+                    name="week"
+                    value={formData.week}
+                    onChange={handleInputChange}
+                    min="1"
+                    max="12"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -552,6 +558,16 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </div>
               </div>
 
+              {/* KB indicator */}
+              {kbChunkCount > 0 && (
+                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 flex items-center gap-2">
+                  <Database className="h-4 w-4 text-indigo-500" />
+                  <p className="text-sm text-indigo-700">
+                    {kbChunkCount} knowledgebase chunks available. Matching chunks will be injected into the lesson plan.
+                  </p>
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={isGenerating || (!hasAccess && limits.used >= limits.lessonPlans)}
@@ -609,7 +625,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                   <FileText className="h-16 w-16 text-greyed-blue mb-4" />
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2">Lesson Plan Ready!</h3>
                   <p className="text-greyed-navy/70 text-center mb-6">
-                    Your AI-generated lesson plan is ready for download.
+                    Your CAPS-aligned lesson plan is ready for download.
                   </p>
                   <button
                     onClick={handleDownloadPlan}
@@ -627,8 +643,8 @@ export default function TeacherLessonPlanGeneratorPage() {
                   Ready to Generate
                 </h3>
                 <p className="text-gray-600">
-                  Fill out the form and click "Generate Lesson Plan" to create a detailed, 
-                  curriculum-aligned lesson plan for your class.
+                  Fill out the form and click "Generate Lesson Plan" to create a detailed,
+                  CAPS-aligned lesson plan for your class.
                 </p>
               </div>
             )}
