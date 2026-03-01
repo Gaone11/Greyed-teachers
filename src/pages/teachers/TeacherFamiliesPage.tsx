@@ -14,7 +14,7 @@ import FamilyUpdateStats from '../../components/families/FamilyUpdateStats';
 import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal';
 import StudentList from '../../components/families/StudentList';
 import StudentProfileView from '../../components/families/StudentProfileView';
-import { fetchTeacherClasses, fetchFamilyUpdates, generateFamilyUpdate, sendFamilyUpdate, hasActiveSubscription, getTeacherLimits, createClass } from '../../lib/api/teacher-api';
+import { fetchTeacherClasses, fetchFamilyUpdates, generateFamilyUpdate, sendFamilyUpdate, createClass } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
@@ -112,11 +112,6 @@ const TeacherFamiliesPage: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [limits, setLimits] = useState({
-    familyUpdates: 2,
-    usedFamilyUpdates: 0
-  });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
@@ -155,17 +150,6 @@ const TeacherFamiliesPage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Check subscription status
-        const subscriptionActive = await hasActiveSubscription();
-        setIsSubscribed(subscriptionActive);
-        
-        // Get limits
-        const userLimits = await getTeacherLimits(user.id);
-        setLimits({
-          familyUpdates: userLimits.familyUpdates,
-          usedFamilyUpdates: userLimits.usedFamilyUpdates
-        });
         
         // Fetch classes from API
         const classData = await fetchTeacherClasses(user.id);
@@ -269,24 +253,6 @@ const TeacherFamiliesPage: React.FC = () => {
     additionalNotes: string;
   }) => {
     if (!user) return;
-    
-    // Free users are allowed to send family updates but at a limited amount
-    if (!isSubscribed) {
-      // In a real app, check the number of updates sent this month
-      const updatesThisMonth = updates.filter(update => {
-        const updateDate = new Date(update.weekStart);
-        const now = new Date();
-        return updateDate.getMonth() === now.getMonth() &&
-               updateDate.getFullYear() === now.getFullYear();
-      });
-      
-      // If they've reached the limit (2 per month for free users)
-      if (updatesThisMonth.length >= limits.familyUpdates) {
-        setError(`You've reached your free limit of ${limits.familyUpdates} family updates per month. Please upgrade for unlimited updates.`);
-        setShowComposeModal(false);
-        return;
-      }
-    }
     
     setIsGenerating(true);
     setError(null);
@@ -806,23 +772,6 @@ const TeacherFamiliesPage: React.FC = () => {
               </div>
             )}
 
-            {!isSubscribed && (
-              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">You're using the free version</p>
-                    <p className="mt-1">Free version allows {limits.familyUpdates} family updates per month. Upgrade for unlimited updates.</p>
-                    <Link
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
 
             
             {/* Class selection */}
@@ -1066,13 +1015,6 @@ const TeacherFamiliesPage: React.FC = () => {
               </div>
             </div>
             
-            {/* Free tier limits */}
-            {!isSubscribed && (
-              <div className="mt-6 text-center text-sm text-black/60">
-                <p>Free users can send {limits.familyUpdates} family updates per month.</p>
-                <p>Need unlimited family updates? <Link to="/teachers/settings#subscription" className="text-greyed-blue hover:underline">Upgrade for just £8/month</Link></p>
-              </div>
-            )}
           </main>
         </div>
       </div>

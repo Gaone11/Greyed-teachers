@@ -180,11 +180,9 @@ function splitIntoRawChunks(
       });
     }
 
+    if (end >= fullText.length) break;
     pos = end - CHUNK_OVERLAP;
     if (pos < 0) pos = 0;
-    // Avoid infinite loop
-    if (pos >= fullText.length) break;
-    if (end >= fullText.length) break;
   }
 
   return chunks;

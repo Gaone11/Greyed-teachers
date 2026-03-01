@@ -18,7 +18,7 @@ interface ElAIChatProps {
   onConversationCreated?: (id: string) => void;
 }
 
-const WELCOME_MESSAGE = "Hello! I'm El AI, your teaching assistant. I can help you create lesson plans, assessments, and teaching resources. I'm here to support your teaching journey - just let me know what you need!";
+const WELCOME_MESSAGE = "Hello! I'm El AI, your teaching assistant powered by Uhuru AI (GreyEd version). I can help you create lesson plans, assessments, and teaching resources aligned with the Ministry of Education curriculum. I'm here to support your teaching journey - just let me know what you need!";
 
 const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false, conversationId, userId, onConversationCreated }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -155,7 +155,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
       let aiResponse;
       
       if (identityQuestions.some(pattern => pattern.test(userInput))) {
-        aiResponse = "I'm El AI, an education-focused AI assistant powered by Uhuru 2.1, a state-of-the-art language model developed by GreyEd. I'm specifically designed to help teachers with lesson planning, assessment creation, and educational resource development. My advanced capabilities allow me to understand educational context and provide personalized teaching support.";
+        aiResponse = "I'm El AI, an education-focused AI assistant developed by GreyEd. I'm powered by the Uhuru 3 LLM combined with GreyEd's proprietary eLLM (emotional Large Language Model), which allows me to understand not just educational content but also the emotional and motivational aspects of teaching. I'm specifically designed to help teachers with lesson planning, assessment creation, and educational resource development — all aligned with the Ministry of Education's curriculum standards including CAPS, IGCSE, BGCSE, and JCE syllabi.";
       } else {
         aiResponse = await processTeacherQuery(userInput, 'teacher');
       }
@@ -388,7 +388,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
             </div>
             {isFullPage && (
               <div className="text-xs text-gray-500">
-                Powered by Uhuru AI 2.1
+                Powered by Uhuru 3 LLM &amp; GreyEd eLLM
               </div>
             )}
           </div>

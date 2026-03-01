@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  Loader, 
+import {
   Folder,
   BookMarked,
   FileText,
@@ -20,6 +19,7 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassroomDocuments from '../../components/teachers/ClassroomDocuments';
 import ClassSettingsModal from '../../components/teachers/ClassSettingsModal';
 import ClassNotesManager from '../../components/teachers/ClassNotesManager';
+import LoaderComponent from '../../components/ui/Loader';
 import { 
   fetchClassById, 
   fetchLessonPlans,
@@ -132,42 +132,31 @@ const TeacherClassDetailPage: React.FC = () => {
         ...updatedClassData
       });
       
-    } catch {
+    } catch (err) {
       throw err; // Re-throw to be handled by the modal component
     }
   };
-  
+
   // Handle class deletion
   const handleDeleteClass = async () => {
     if (!user || !classId) return;
-    
+
     try {
       setError(null);
-      
+
       // Delete class via API
       await deleteClass(classId);
-      
+
       // Redirect to classes page after successful deletion
       navigate('/teachers/classes');
-      
-    } catch {
+
+    } catch (err) {
       throw err; // Re-throw to be handled by the modal component
     }
   };
 
   if (authLoading || (loading && user)) {
-    return (
-      <LandingLayout disableSnapScroll={true}>
-        <NavBar sidebarCollapsed={sidebarCollapsed} />
-        <div className="min-h-screen pt-24 pb-16 flex items-center justify-center bg-[#f8f8f6]">
-          <div className="text-center">
-            <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
-            <p className="mt-4 text-black font-semibold">Loading class details...</p>
-          </div>
-        </div>
-        <Footer />
-      </LandingLayout>
-    );
+    return <LoaderComponent fullScreen message="Loading class details..." />;
   }
 
   return (
@@ -199,117 +188,73 @@ const TeacherClassDetailPage: React.FC = () => {
               </div>
             )}
           
-            {/* Class header - reduced padding and margin */}
-            <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
-              <div className="flex flex-col md:flex-row justify-between">
+            {/* Class header — premium styling */}
+            <div className="bg-white rounded-2xl border border-[#e8e6e0] shadow-sm p-5 mb-4 animate-fade-in">
+              <div className="flex flex-col md:flex-row justify-between gap-4">
                 <div>
-                  <h1 className="text-xl md:text-2xl font-headline font-bold text-black">
+                  <h1 className="text-xl md:text-2xl font-headline font-bold text-[#1B4332]">
                     {classData?.name || 'Class Details'}
                   </h1>
-                  <div className="flex items-center flex-wrap gap-2 mt-2">
-                    <span className="bg-greyed-blue/20 text-greyed-navy px-2 py-1 rounded text-sm">
+                  <div className="flex items-center flex-wrap gap-2 mt-3">
+                    <span className="bg-[#D4A843]/20 text-[#1B4332] px-3 py-1 rounded-lg text-sm font-semibold">
                       {classData?.subject || 'Subject'}
                     </span>
-                    <span className="bg-greyed-navy/10 text-greyed-navy px-2 py-1 rounded text-sm">
+                    <span className="bg-[#1B4332]/8 text-[#1B4332] px-3 py-1 rounded-lg text-sm font-semibold">
                       {classData?.grade || 'Grade'}
                     </span>
                     {classData?.syllabus && (
-                      <span className="bg-greyed-beige/30 text-greyed-navy px-2 py-1 rounded text-sm">
+                      <span className="bg-[#E8D5B7]/40 text-[#1B4332] px-3 py-1 rounded-lg text-sm font-semibold">
                         {classData.syllabus}
                       </span>
                     )}
-                    <span className="text-black/70 text-sm flex items-center">
+                    <span className="text-[#292828]/60 text-sm flex items-center font-medium">
                       <Users size={14} className="mr-1" />
-                      {classData?.student_count || 0} students
+                      {classData?.student_count || 0} learners
                     </span>
                   </div>
                 </div>
-                
-                <div className="mt-4 md:mt-0 flex space-x-3">
-                  <button 
+
+                <div className="flex items-start gap-2">
+                  <button
                     onClick={() => setShowSettingsModal(true)}
-                    className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center shadow-sm"
+                    className="px-4 py-2.5 bg-[#1B4332] text-white rounded-xl hover:bg-[#2D6A4F] transition-all duration-200 flex items-center shadow-sm hover:shadow-md text-sm font-semibold"
                   >
                     <Settings size={16} className="mr-2" />
-                    Class Settings
+                    Settings
                   </button>
                 </div>
               </div>
             </div>
             
-            {/* Tabs - reduced margin */}
-            <div className="bg-white rounded-xl shadow-sm mb-4">
-              <div className="border-b border-greyed-navy/10">
-                <nav className="flex overflow-x-auto">
-                  <a 
-                    href="#documents"
-                    className={`px-4 py-3 text-sm font-medium relative ${activeTab === 'documents' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('documents')}
-                  >
-                    <div className="flex items-center">
-                      <Folder size={16} className="mr-2" />
-                      Documents
-                    </div>
-                    {activeTab === 'documents' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </a>
-                  
-                  <a 
-                    href="#lesson-plans"
-                    className={`px-4 py-3 text-sm font-medium relative ${activeTab === 'lesson-plans' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('lesson-plans')}
-                  >
-                    <div className="flex items-center">
-                      <BookMarked size={16} className="mr-2" />
-                      Lesson Plans
-                    </div>
-                    {activeTab === 'lesson-plans' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </a>
-                  
-                  <a 
-                    href="#assessments"
-                    className={`px-4 py-3 text-sm font-medium relative ${activeTab === 'assessments' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('assessments')}
-                  >
-                    <div className="flex items-center">
-                      <FileText size={16} className="mr-2" />
-                      Assessments
-                    </div>
-                    {activeTab === 'assessments' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </a>
-                  
-                  <a 
-                    href="#analytics"
-                    className={`px-4 py-3 text-sm font-medium relative ${activeTab === 'analytics' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('analytics')}
-                  >
-                    <div className="flex items-center">
-                      <BarChart size={16} className="mr-2" />
-                      Analytics
-                    </div>
-                    {activeTab === 'analytics' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </a>
-                  
-                  <a 
-                    href="#notes"
-                    className={`px-4 py-3 text-sm font-medium relative ${activeTab === 'notes' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('notes')}
-                  >
-                    <div className="flex items-center">
-                      <BookMarked size={16} className="mr-2" />
-                      Class Notes
-                    </div>
-                    {activeTab === 'notes' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </a>
+            {/* Tabs — premium styling */}
+            <div className="bg-white rounded-2xl border border-[#e8e6e0] shadow-sm mb-4 animate-slide-up">
+              <div className="border-b border-[#e8e6e0]">
+                <nav className="flex overflow-x-auto px-1 gap-1 scrollbar-hide">
+                  {[
+                    { id: 'documents', icon: Folder, label: 'Documents' },
+                    { id: 'lesson-plans', icon: BookMarked, label: 'Lesson Plans' },
+                    { id: 'assessments', icon: FileText, label: 'Assessments' },
+                    { id: 'analytics', icon: BarChart, label: 'Analytics' },
+                    { id: 'notes', icon: BookMarked, label: 'Class Notes' },
+                  ].map(tab => {
+                    const Icon = tab.icon;
+                    const isActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold relative whitespace-nowrap transition-colors duration-200 ${
+                          isActive ? 'text-[#1B4332]' : 'text-[#292828]/50 hover:text-[#1B4332]/70'
+                        }`}
+                        onClick={() => setActiveTab(tab.id)}
+                      >
+                        <Icon size={16} />
+                        {tab.label}
+                        {isActive && (
+                          <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#D4A843] rounded-full" />
+                        )}
+                      </button>
+                    );
+                  })}
                 </nav>
               </div>
               
@@ -330,7 +275,7 @@ const TeacherClassDetailPage: React.FC = () => {
                       <h2 className="text-lg font-semibold text-black">Lesson Plans</h2>
                       <div className="flex space-x-2">
                         <Link
-                          to="/teachers/lesson-planner"
+                          to={`/teachers/lesson-planner/generate?classId=${classId}`}
                           className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
                         >
                           <PlusCircle size={14} className="mr-1" />
@@ -350,7 +295,7 @@ const TeacherClassDetailPage: React.FC = () => {
                           Generate AI-powered lesson plans based on your curriculum and teaching style.
                         </p>
                         <Link 
-                          to="/teachers/lesson-planner"
+                          to={`/teachers/lesson-planner/generate?classId=${classId}`}
                           className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
                         >
                           <PlusCircle size={16} className="mr-2" />
@@ -422,7 +367,7 @@ const TeacherClassDetailPage: React.FC = () => {
                       <h2 className="text-lg font-semibold text-black">Assessments</h2>
                       <div className="flex space-x-2">
                         <Link
-                          to="/teachers/assessments"
+                          to={`/teachers/assessments/generate?classId=${classId}`}
                           className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
                         >
                           <PlusCircle size={14} className="mr-1" />
@@ -439,7 +384,7 @@ const TeacherClassDetailPage: React.FC = () => {
                           Create auto-graded assessments aligned with your curriculum and teaching objectives.
                         </p>
                         <Link 
-                          to="/teachers/assessments"
+                          to={`/teachers/assessments/generate?classId=${classId}`}
                           className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
                         >
                           <PlusCircle size={16} className="mr-2" />

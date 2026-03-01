@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { fetchTeacherClasses, generateAssessment, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
+import { fetchTeacherClasses, generateAssessment } from '../../lib/api/teacher-api';
 import Loader from '../../components/ui/Loader';
-import { Wand2, AlertCircle, CheckCircle, X, Download, FileText, Database } from 'lucide-react';
+import { Wand2, CheckCircle, X, Download, FileText, Database } from 'lucide-react';
 import { format } from 'date-fns';
 import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
@@ -48,13 +48,12 @@ function loadAllChunks(): KnowledgeChunk[] {
 export default function TeacherAssessmentGeneratorPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [classes, setClasses] = useState<Class[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedAssessment, setGeneratedAssessment] = useState<any>(null);
   const [questions, setQuestions] = useState<any[]>([]);
-  const [hasAccess, setHasAccess] = useState(false);
-  const [limits, setLimits] = useState({ assessments: 0, used: 0 });
   const [error, setError] = useState<string | null>(null);
   const [kbChunkCount, setKbChunkCount] = useState(0);
 
@@ -92,23 +91,24 @@ export default function TeacherAssessmentGeneratorPage() {
       try {
         setIsLoading(true);
 
-        const [classesData, subscription, teacherLimits] = await Promise.all([
-          fetchTeacherClasses(user.id),
-          hasActiveSubscription(user.id),
-          getTeacherLimits(user.id)
-        ]);
+        const classesData = await fetchTeacherClasses(user.id);
 
         setClasses(classesData);
-        setHasAccess(subscription);
-        setLimits(teacherLimits);
+
+        // Auto-select class from URL query parameter or default to first class
+        const preselectedClassId = searchParams.get('classId');
+        const selectedIdx = preselectedClassId
+          ? classesData.findIndex((c: Class) => c.id === preselectedClassId)
+          : 0;
+        const idx = selectedIdx >= 0 ? selectedIdx : 0;
 
         if (classesData.length > 0) {
           setFormData(prev => ({
             ...prev,
-            classId: classesData[0].id,
+            classId: classesData[idx].id,
           }));
 
-          const firstClass = classesData[0];
+          const firstClass = classesData[idx];
           if (firstClass.syllabus) {
             const testsList = ['End of Unit Test', 'Mid-Term Assessment', 'Final Exam'];
             setRequiredTests(testsList);
@@ -182,11 +182,6 @@ export default function TeacherAssessmentGeneratorPage() {
 
     if (!formData.classId || !formData.selectedSubjectKey || !formData.selectedTopicKey) {
       alert('Please fill in all required fields');
-      return;
-    }
-
-    if (!hasAccess && limits.used >= limits.assessments) {
-      alert('You have reached your assessment limit. Please upgrade to continue.');
       return;
     }
 
@@ -521,7 +516,7 @@ export default function TeacherAssessmentGeneratorPage() {
 
               <button
                 type="submit"
-                disabled={isGenerating || (!hasAccess && limits.used >= limits.assessments)}
+                disabled={isGenerating}
                 className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
                 {isGenerating ? (
@@ -537,21 +532,6 @@ export default function TeacherAssessmentGeneratorPage() {
                 )}
               </button>
 
-              {!hasAccess && (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                  <div className="flex">
-                    <AlertCircle className="h-5 w-5 text-amber-400 mr-3 mt-0.5" />
-                    <div>
-                      <h3 className="text-sm font-medium text-amber-800">
-                        Free Plan Limit
-                      </h3>
-                      <p className="text-sm text-amber-700 mt-1">
-                        You've used {limits.used} of {limits.assessments} free assessments.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
             </form>
           </div>
 

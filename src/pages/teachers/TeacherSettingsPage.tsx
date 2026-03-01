@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, Award, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye } from 'lucide-react';
+import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import AccessibilitySettings from '../../components/accessibility/AccessibilitySettings';
-import { getTeacherProfile, updateTeacherProfile, updateNotificationSettings, hasActiveSubscription } from '../../lib/api/teacher-api';
-import { getUserSubscription, redirectToCheckout } from '../../lib/stripe';
-import { stripeProducts } from '../../stripe-config';
+import { getTeacherProfile, updateTeacherProfile, updateNotificationSettings } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
 
@@ -19,12 +17,10 @@ const TeacherSettingsPage: React.FC = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [subscription, setSubscription] = useState<any>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -57,7 +53,7 @@ const TeacherSettingsPage: React.FC = () => {
     
     // Get active tab from URL hash if present
     const hash = location.hash.replace('#', '');
-    if (hash && ['profile', 'notifications', 'subscription', 'security', 'accessibility'].includes(hash)) {
+    if (hash && ['profile', 'notifications', 'security', 'accessibility'].includes(hash)) {
       setActiveTab(hash);
     }
     
@@ -87,9 +83,6 @@ const TeacherSettingsPage: React.FC = () => {
           avatar_url: profileData?.avatar_url || ''
         });
         
-        // Fetch subscription data
-        const subscriptionData = await getUserSubscription();
-        setSubscription(subscriptionData);
       } catch {
         setError('Failed to load profile data. Please try again later.');
       } finally {
@@ -334,46 +327,6 @@ const TeacherSettingsPage: React.FC = () => {
     }
   };
   
-  // Handle subscription checkout
-  const handleSubscribe = async () => {
-    if (!user) return;
-    
-    try {
-      setIsCheckingOut(true);
-      setError(null);
-      
-      // Get the GreyEd Teachers product
-      const teacherProduct = stripeProducts[0];
-      
-      // Redirect to Stripe Checkout with optional trial period and back button destination
-      await redirectToCheckout(teacherProduct.priceId, 14);
-    } catch (err: any) {
-      setError('Failed to start checkout process. Please try again.');
-      setIsCheckingOut(false);
-    }
-  };
-  
-  // Handle subscription management (redirect to customer portal)
-  const handleManageSubscription = () => {
-    // In a real app, this would redirect to the Stripe Customer Portal
-    window.open('https://billing.stripe.com/p/login/test_28o6rn3vF8HG5KE144', '_blank');
-  };
-  
-  // Format date
-  const formatDate = (timestamp: number) => {
-    if (!timestamp) return 'N/A';
-    return new Date(timestamp * 1000).toLocaleDateString('en-GB', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-  
-  // Check if subscription is active
-  const hasActiveSubscriptionStatus = subscription && 
-                                subscription.subscription_status === 'active' && 
-                                subscription.price_id === stripeProducts[0].priceId;
-
   if (authLoading || (loading && user)) {
     return (
       <LandingLayout disableSnapScroll={true}>
@@ -484,19 +437,6 @@ const TeacherSettingsPage: React.FC = () => {
                       Notifications
                     </div>
                     {activeTab === 'notifications' && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
-                    )}
-                  </button>
-                  
-                  <button 
-                    className={`px-5 py-3 text-sm font-medium relative whitespace-nowrap ${activeTab === 'subscription' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'}`}
-                    onClick={() => setActiveTab('subscription')}
-                  >
-                    <div className="flex items-center">
-                      <Award size={16} className="mr-2" />
-                      Subscription
-                    </div>
-                    {activeTab === 'subscription' && (
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
                     )}
                   </button>
@@ -863,112 +803,6 @@ const TeacherSettingsPage: React.FC = () => {
                       </button>
                     </div>
                   </form>
-                )}
-                
-                {/* Subscription Tab */}
-                {activeTab === 'subscription' && (
-                  <div className="max-w-2xl mx-auto">
-                    <h2 className="text-lg font-semibold text-black mb-5">Your Subscription</h2>
-                    
-                    <div className="bg-greyed-blue/10 rounded-lg p-6 mb-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="text-xl font-semibold text-greyed-navy">GreyEd Teachers</h3>
-                          <p className="text-sm text-greyed-navy/70">Monthly Plan</p>
-                        </div>
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-greyed-beige/40 text-greyed-navy">
-                          <CheckCircle size={12} className="mr-1" />
-                          {hasActiveSubscriptionStatus ? 'Active' : 'Free Trial'}
-                        </span>
-                      </div>
-                      
-                      <div className="mb-4">
-                        <div className="text-2xl font-bold text-greyed-navy">£8<span className="text-sm font-normal">/month</span></div>
-                        {subscription && subscription.current_period_end && (
-                          <p className="text-sm text-greyed-navy/70">
-                            Next billing date: {formatDate(subscription.current_period_end)}
-                          </p>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-greyed-navy/70">AI lesson plans</span>
-                          <span className="text-greyed-navy">{hasActiveSubscriptionStatus ? 'Unlimited' : '3/5 used this month'}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-greyed-navy/70">Smart assessments</span>
-                          <span className="text-greyed-navy">{hasActiveSubscriptionStatus ? 'Unlimited' : '2/5 used this month'}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-greyed-navy/70">Family updates</span>
-                          <span className="text-greyed-navy">Unlimited</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-3 mt-6 pt-6 border-t border-greyed-navy/10">
-                        {hasActiveSubscriptionStatus ? (
-                          <>
-                            <button 
-                              className="px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90"
-                              onClick={handleManageSubscription}
-                            >
-                              Manage Subscription
-                            </button>
-                            <button className="px-4 py-2 bg-white border border-greyed-navy/20 text-greyed-navy rounded-md hover:bg-greyed-navy/5">
-                              View Billing History
-                            </button>
-                          </>
-                        ) : (
-                          <button 
-                            className="px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center"
-                            onClick={handleSubscribe}
-                            disabled={isCheckingOut}
-                          >
-                            {isCheckingOut ? (
-                              <>
-                                <Loader size={16} className="animate-spin mr-2" />
-                                Processing...
-                              </>
-                            ) : (
-                              <>Subscribe Now</>
-                            )}
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Benefits information */}
-                    <div className="bg-greyed-beige/20 rounded-lg p-6 border-l-4 border-greyed-blue">
-                      <h3 className="font-medium text-black text-lg mb-3">GreyEd Teachers Subscription Benefits</h3>
-                      <ul className="space-y-2 mb-4">
-                        <li className="flex items-start">
-                          <CheckCircle size={16} className="text-greyed-navy mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Unlimited AI lesson plan generation</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle size={16} className="text-greyed-navy mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Unlimited assessment creation with auto-grading</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle size={16} className="text-greyed-navy mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Unlimited weekly family updates</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle size={16} className="text-greyed-navy mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Advanced analytics dashboard</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle size={16} className="text-greyed-navy mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Priority support</span>
-                        </li>
-                      </ul>
-                      
-                      <div className="text-xs text-greyed-navy/60">
-                        <p>Your subscription helps us continue to develop innovative tools for educators.</p>
-                      </div>
-                    </div>
-                  </div>
                 )}
                 
                 {/* Security Tab */}

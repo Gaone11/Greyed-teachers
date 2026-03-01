@@ -169,7 +169,6 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     { to: "/features", label: "Features" },
     { to: "/tutoring", label: "Tutoring" },
     { to: "/ellm", label: "eLLM" },
-    { to: "/pricing", label: "Pricing" },
     { to: "/about", label: "About" },
     { to: "/contact", label: "Contact" },
   ];
