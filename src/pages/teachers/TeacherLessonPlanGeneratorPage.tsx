@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { fetchTeacherClasses, generateLessonPlan, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
+import { fetchTeacherClasses, generateLessonPlan } from '../../lib/api/teacher-api';
 import Loader from '../../components/ui/Loader';
-import { Wand2, AlertCircle, CheckCircle, PlusCircle, X, Download, BookOpen, FileText, Database } from 'lucide-react';
+import { Wand2, CheckCircle, PlusCircle, X, Download, BookOpen, FileText, Database } from 'lucide-react';
 import { format } from 'date-fns';
 import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
@@ -51,12 +51,18 @@ function loadAllChunks(): KnowledgeChunk[] {
 export default function TeacherLessonPlanGeneratorPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [classes, setClasses] = useState<Class[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
-  const [hasAccess, setHasAccess] = useState(false);
-  const [limits, setLimits] = useState({ lessonPlans: 0, used: 0 });
+  const [kbChunkCount, setKbChunkCount] = useState(0);
+
+  const defaultGrade = saGrades[0].value;
+  const defaultPhase = getPhaseFromGrade(saGrades[0].num);
+  const defaultSubjects = getSubjectsByPhase(defaultPhase);
+  const defaultSubjectKey = defaultSubjects[0]?.key || '';
+  const defaultTopicKey = defaultSubjects[0]?.topics[0]?.key || '';
 
   const [formData, setFormData] = useState<FormData>({
     classId: '',
@@ -88,17 +94,15 @@ export default function TeacherLessonPlanGeneratorPage() {
       try {
         setIsLoading(true);
 
-        const [classesData, subscription, teacherLimits] = await Promise.all([
-          fetchTeacherClasses(user.id),
-          hasActiveSubscription(user.id),
-          getTeacherLimits(user.id)
-        ]);
+        const classesData = await fetchTeacherClasses(user.id);
 
         setClasses(classesData);
-        setHasAccess(subscription);
-        setLimits(teacherLimits);
 
-        if (classesData.length > 0) {
+        // Auto-select class from URL query parameter or default to first class
+        const preselectedClassId = searchParams.get('classId');
+        if (preselectedClassId && classesData.some((c: Class) => c.id === preselectedClassId)) {
+          setFormData(prev => ({ ...prev, classId: preselectedClassId }));
+        } else if (classesData.length > 0) {
           setFormData(prev => ({ ...prev, classId: classesData[0].id }));
         }
 
@@ -178,11 +182,6 @@ export default function TeacherLessonPlanGeneratorPage() {
 
     if (!formData.classId || !formData.selectedSubject || !formData.selectedTopic) {
       alert('Please fill in all required fields');
-      return;
-    }
-
-    if (!hasAccess && limits.used >= limits.lessonPlans) {
-      alert('You have reached your lesson plan limit. Please upgrade to continue.');
       return;
     }
 
@@ -580,7 +579,7 @@ export default function TeacherLessonPlanGeneratorPage() {
 
               <button
                 type="submit"
-                disabled={isGenerating || (!hasAccess && limits.used >= limits.lessonPlans)}
+                disabled={isGenerating}
                 className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
                 {isGenerating ? (
@@ -596,21 +595,6 @@ export default function TeacherLessonPlanGeneratorPage() {
                 )}
               </button>
 
-              {!hasAccess && (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                  <div className="flex">
-                    <AlertCircle className="h-5 w-5 text-amber-400 mr-3 mt-0.5" />
-                    <div>
-                      <h3 className="text-sm font-medium text-amber-800">
-                        Free Plan Limit
-                      </h3>
-                      <p className="text-sm text-amber-700 mt-1">
-                        You've used {limits.used} of {limits.lessonPlans} free lesson plans.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
             </form>
           </div>
 

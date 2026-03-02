@@ -11,9 +11,7 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
 import {
   fetchTeacherClasses,
-  generateLessonPlan,
-  hasActiveSubscription,
-  getTeacherLimits
+  generateLessonPlan
 } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { format, parseISO } from 'date-fns';
@@ -183,11 +181,6 @@ const TeacherLessonPlannerPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterClass, setFilterClass] = useState<string>('');
   const [filterStatus, setFilterStatus] = useState<string>('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [limits, setLimits] = useState({
-    lessonPlans: 3,
-    usedLessonPlans: 0
-  });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
@@ -207,14 +200,6 @@ const TeacherLessonPlannerPage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Check subscription status
-        const subscriptionActive = await hasActiveSubscription();
-        setIsSubscribed(subscriptionActive);
-        
-        // Get teacher limits
-        const teacherLimits = await getTeacherLimits(user.id);
-        setLimits(teacherLimits);
         
         // Fetch classes
         const classData = await fetchTeacherClasses(user.id);
@@ -540,23 +525,6 @@ const TeacherLessonPlannerPage: React.FC = () => {
               </div>
             )}
 
-            {!isSubscribed && (
-              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">You're using the free version</p>
-                    <p className="mt-1">You have created {limits.usedLessonPlans} of {limits.lessonPlans} free lesson plans. Upgrade for unlimited lesson plans.</p>
-                    <button
-                      onClick={() => navigate('/teachers/settings#subscription')}
-                      className="mt-2 bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             
             {/* Filters */}

@@ -58,8 +58,8 @@ const WhyGreyEd: React.FC = () => {
             compared="One-size-fits-all resources that leave learners behind"
           />
           <TableRow
-            title="Family Communication"
-            description="AI-powered weekly updates keep parents engaged in learning"
+            title="Tutor Communication"
+            description="AI-powered weekly updates keep tutors engaged in learning"
             compared="Scattered WhatsApp messages with no structure"
           />
           <TableRow

@@ -87,6 +87,14 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /* Mobile-optimized touch interactions */
 @layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   .touch-manipulation {
     touch-action: manipulation;
     -webkit-touch-callout: none;

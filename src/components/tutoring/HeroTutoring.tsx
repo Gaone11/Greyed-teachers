@@ -79,10 +79,10 @@ const HeroTutoring: React.FC = () => {
                 Book a Demo Call
               </a>
               <Link 
-                to="/pricing#hybrid" 
+                to="/features" 
                 className="border border-greyed-white text-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
               >
-                Pricing
+                Learn More
               </Link>
             </motion.div>
           </>
@@ -105,10 +105,10 @@ const HeroTutoring: React.FC = () => {
                 Book a Demo Call
               </a>
               <Link 
-                to="/pricing#hybrid" 
+                to="/features" 
                 className="border border-greyed-white text-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
               >
-                Pricing
+                Learn More
               </Link>
             </div>
           </>

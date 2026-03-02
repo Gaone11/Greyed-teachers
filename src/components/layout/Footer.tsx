@@ -122,7 +122,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
               <div>
                 <h4 className="font-headline font-semibold mb-4 text-greyed-blue">Products</h4>
                 <ul className="space-y-2">
-                  {["Lesson Planner", "Assessments", "Class Manager", "Family Updates"].map((item, index) => (
+                  {["Lesson Planner", "Assessments", "Class Manager", "Tutor Updates"].map((item, index) => (
                     enabled ? (
                       <motion.li
                         key={index}

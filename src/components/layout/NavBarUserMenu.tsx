@@ -4,7 +4,7 @@ import { User, LogOut, Settings, ChevronDown, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useRole } from '../../context/RoleContext';
 import { supabase } from '../../lib/supabase';
-import SubscriptionBadge from '../navbar/SubscriptionBadge';
+// SubscriptionBadge removed — platform is free
 
 const NavBarUserMenu = () => {
   const { user, signOut } = useAuth();
@@ -99,7 +99,6 @@ const NavBarUserMenu = () => {
               <span className="text-xs font-semibold text-greyed-navy">{initials}</span>
             )}
           </div>
-          <SubscriptionBadge />
           <ChevronDown size={16} className={`ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </div>
       </button>

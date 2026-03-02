@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, CreditCard as Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain, Crown } from 'lucide-react';
+import { Loader, Search, Filter, PlusCircle, AlertCircle, Wand2, CreditCard as Edit2, FileText, X, Menu, CheckCircle, Eye, Download, RefreshCw, Upload, Brain } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassForm from '../../components/teachers/ClassForm';
 import AssessmentViewModal from '../../components/teachers/AssessmentViewModal';
-import { fetchAssessments, fetchTeacherClasses, generateAssessment, hasActiveSubscription, getTeacherLimits, createClass } from '../../lib/api/teacher-api';
+import { fetchAssessments, fetchTeacherClasses, generateAssessment, createClass } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -55,12 +55,6 @@ const TeacherAssessmentsPage: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [limits, setLimits] = useState({
-    lessonPlans: 5,
-    assessments: 5,
-    usedAssessments: 0
-  });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [selectedAssessment, setSelectedAssessment] = useState<any | null>(null);
@@ -96,14 +90,6 @@ const TeacherAssessmentsPage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Check subscription status
-        const subscriptionActive = await hasActiveSubscription();
-        setIsSubscribed(subscriptionActive);
-        
-        // Get limits
-        const userLimits = await getTeacherLimits(user.id);
-        setLimits(userLimits);
         
         // Fetch assessments from API
         const assessmentData = await fetchAssessments(user.id);
@@ -233,13 +219,6 @@ const TeacherAssessmentsPage: React.FC = () => {
     
     if (!formData.classId) {
       alert('Please select a class');
-      return;
-    }
-    
-    // Check if the user is not subscribed and has no remaining assessments
-    if (!isSubscribed && limits.assessments <= limits.usedAssessments) {
-      setError("You've reached your limit of free assessments. Please upgrade to continue.");
-      setShowCreateModal(false);
       return;
     }
     
@@ -701,23 +680,6 @@ const TeacherAssessmentsPage: React.FC = () => {
               </div>
             )}
 
-            {!isSubscribed && (
-              <div className="bg-greyed-blue/10 border border-greyed-blue/30 text-greyed-navy px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">You're using the free version</p>
-                    <p className="mt-1">You have {limits.assessments - limits.usedAssessments} free assessments remaining this month. Upgrade for unlimited assessments.</p>
-                    <Link
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
 
             
             {/* Search and filters */}
@@ -882,11 +844,6 @@ const TeacherAssessmentsPage: React.FC = () => {
             {/* Feature callout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-greyed-blue relative overflow-hidden">
-                {!isSubscribed && (
-                  <div className="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 text-xs font-medium rounded-bl-md">
-                    Premium
-                  </div>
-                )}
                 <div className="flex items-start">
                   <div className="mr-4 bg-greyed-blue/20 p-3 rounded-full">
                     <Brain className="w-6 h-6 text-greyed-blue" />
@@ -915,13 +872,6 @@ const TeacherAssessmentsPage: React.FC = () => {
               </div>
             </div>
             
-            {/* Usage limit info */}
-            {!isSubscribed && (
-              <div className="mt-8 text-center text-sm text-black/60">
-                <p>You have {limits.assessments - limits.usedAssessments} out of 5 free assessments remaining this month.</p>
-                <p>Need unlimited assessments? <Link to="/teachers/settings#subscription" className="text-greyed-blue hover:underline">Upgrade your plan</Link></p>
-              </div>
-            )}
           </main>
         </div>
       </div>

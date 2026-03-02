@@ -55,7 +55,7 @@ interface Assessment {
   created_at: string;
 }
 
-interface FamilyUpdate {
+interface TutorUpdate {
   id: string;
   class_id: string;
   week_start: string;
@@ -84,8 +84,8 @@ interface TeacherLimits {
   usedLessonPlans: number;
   assessments: number;
   usedAssessments: number;
-  familyUpdates: number;
-  usedFamilyUpdates: number;
+  tutorUpdates: number;
+  usedTutorUpdates: number;
 }
 
 interface NotificationSettings {
@@ -299,23 +299,6 @@ export async function generateAssessment(params: {
   kbContext?: string;
 }) {
   try {
-    // Check if the user has reached their assessment limit (free tier)
-    const isSubscribed = await hasActiveSubscription();
-    
-    if (!isSubscribed) {
-      const { data: classData } = await supabase
-        .from('classes')
-        .select('teacher_id')
-        .eq('id', params.classId)
-        .single();
-      
-      const teacherLimits = await getTeacherLimits(classData.teacher_id);
-      
-      if (teacherLimits.usedAssessments >= teacherLimits.assessments) {
-        throw new Error(`You've reached your limit of ${teacherLimits.assessments} free assessments. Please upgrade for unlimited assessments.`);
-      }
-    }
-    
     // Get the class details to include syllabus information
     const { data: classData } = await supabase
       .from('classes')
@@ -413,27 +396,27 @@ export async function saveAssessmentItems(assessmentId: number, items: { questio
 }
 
 /**
- * Fetch family updates for a class
+ * Fetch tutor updates for a class
  */
-export async function fetchFamilyUpdates(userId: string) {
+export async function fetchTutorUpdates(userId: string) {
   try {
     const { data, error } = await supabase
       .from('family_updates')
       .select('*')
       .order('week_start', { ascending: false });
-    
+
     if (error) throw error;
-    
-    return data as FamilyUpdate[];
+
+    return data as TutorUpdate[];
   } catch (error) {
     throw error;
   }
 }
 
 /**
- * Generate a family update
+ * Generate a tutor update
  */
-export async function generateFamilyUpdate(params: {
+export async function generateTutorUpdate(params: {
   classId: string;
   weekStart: string;
   topics: string[];
@@ -441,30 +424,13 @@ export async function generateFamilyUpdate(params: {
   includeAssessments: boolean;
 }) {
   try {
-    // Check if the user is not subscribed and has reached the family update limit (free tier)
-    const isSubscribed = await hasActiveSubscription();
-    
-    if (!isSubscribed) {
-      const { data: classData } = await supabase
-        .from('classes')
-        .select('teacher_id')
-        .eq('id', params.classId)
-        .single();
-      
-      const teacherLimits = await getTeacherLimits(classData.teacher_id);
-      
-      if (teacherLimits.usedFamilyUpdates >= teacherLimits.familyUpdates) {
-        throw new Error(`You've reached your limit of ${teacherLimits.familyUpdates} free family updates. Please upgrade for unlimited updates.`);
-      }
-    }
-    
-    // For demonstration, create a basic family update
-    const htmlContent = generateFamilyUpdateHTML(params);
+    // For demonstration, create a basic tutor update
+    const htmlContent = generateTutorUpdateHTML(params);
     const path = `family_updates/${params.classId}/${Date.now()}.html`;
-    
+
     // Save to storage (placeholder)
     // In a real implementation, we would save the HTML to storage
-    
+
     // Save to database
     const { data, error } = await supabase
       .from('family_updates')
@@ -475,42 +441,42 @@ export async function generateFamilyUpdate(params: {
         sent: false,
       }])
       .select();
-    
+
     if (error) throw error;
-    
-    return data[0] as FamilyUpdate;
+
+    return data[0] as TutorUpdate;
   } catch (error) {
     throw error;
   }
 }
 
-// Helper function to generate family update HTML
-function generateFamilyUpdateHTML(params: any) {
-  // This would typically generate HTML for the family update
+// Helper function to generate tutor update HTML
+function generateTutorUpdateHTML(params: any) {
+  // This would typically generate HTML for the tutor update
   // Simplified for demonstration
-  return `<html><body><h1>Family Update for Week of ${params.weekStart}</h1></body></html>`;
+  return `<html><body><h1>Tutor Update for Week of ${params.weekStart}</h1></body></html>`;
 }
 
 /**
- * Send a family update
+ * Send a tutor update
  */
-export async function sendFamilyUpdate(updateId: string) {
+export async function sendTutorUpdate(updateId: string) {
   try {
     // Mark as sent
     const { data, error } = await supabase
       .from('family_updates')
-      .update({ 
+      .update({
         sent: true,
         sent_date: new Date().toISOString()
       })
       .eq('id', updateId)
       .select();
-    
+
     if (error) throw error;
-    
-    // In a real implementation, we would send emails to parents
-    
-    return data[0] as FamilyUpdate;
+
+    // In a real implementation, we would send notifications
+
+    return data[0] as TutorUpdate;
   } catch (error) {
     throw error;
   }
@@ -618,7 +584,7 @@ export async function getTeacherDashboardData(userId?: string) {
       aiSuggestions.push({
         id: 3,
         title: 'Add Your First Class',
-        description: 'Get started by adding a class. Once set up, you can generate lesson plans, assessments, and family updates.',
+        description: 'Get started by adding a class. Once set up, you can generate lesson plans, assessments, and tutor updates.',
         actionLink: '/teachers/classes',
         actionText: 'Add Class',
         subscriptionRequired: false
@@ -675,29 +641,29 @@ export async function getClassAnalytics(classId: string) {
       taught: lessonPlans?.filter(lp => lp.status === 'taught').length || 0,
     };
     
-    // Get family update statistics
-    const { data: familyUpdates } = await supabase
+    // Get tutor update statistics
+    const { data: tutorUpdates } = await supabase
       .from('family_updates')
       .select('id, sent, open_count')
       .eq('class_id', classId);
-    
-    const familyUpdateStats = {
-      total: familyUpdates?.length || 0,
-      sent: familyUpdates?.filter(fu => fu.sent).length || 0,
-      openRate: familyUpdates && familyUpdates.length > 0
-        ? familyUpdates.reduce((sum, fu) => sum + (fu.open_count || 0), 0) / familyUpdates.length
+
+    const tutorUpdateStats = {
+      total: tutorUpdates?.length || 0,
+      sent: tutorUpdates?.filter(tu => tu.sent).length || 0,
+      openRate: tutorUpdates && tutorUpdates.length > 0
+        ? tutorUpdates.reduce((sum, tu) => sum + (tu.open_count || 0), 0) / tutorUpdates.length
         : 0
     };
-    
+
     // Demo data for now
     return {
       assessments: assessments || [],
       lessonPlanStats,
-      familyUpdateStats,
+      tutorUpdateStats,
       averageGrade: assessments && assessments.length > 0
         ? Math.round(assessments.reduce((sum: number, a: any) => sum + (a.average_score || 0), 0) / assessments.filter((a: any) => a.average_score != null).length) || 0
         : 0,
-      engagementRate: familyUpdateStats.total > 0 ? Math.round(familyUpdateStats.openRate * 10) : 0,
+      engagementRate: tutorUpdateStats.total > 0 ? Math.round(tutorUpdateStats.openRate * 10) : 0,
       homeworkCompletion: assessments && assessments.length > 0
         ? Math.round(assessments.reduce((sum: number, a: any) => sum + (parseInt(a.submission_rate) || 0), 0) / assessments.length) || 0
         : 0,
@@ -710,130 +676,25 @@ export async function getClassAnalytics(classId: string) {
 
 /**
  * Check if a user has an active subscription
+ * Platform is now free for all users — always returns true
  */
 export async function hasActiveSubscription(userId?: string) {
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return false;
-
-    const id = userId || user.id;
-
-    // Check the profiles table for plan status
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('plan')
-      .eq('id', id)
-      .maybeSingle();
-
-    if (profile?.plan === 'premium') return true;
-
-    // Also check stripe_subscriptions via stripe_customers
-    const { data: customer } = await supabase
-      .from('stripe_customers')
-      .select('customer_id')
-      .eq('user_id', id)
-      .maybeSingle();
-
-    if (!customer) return false;
-
-    const { data: subscription } = await supabase
-      .from('stripe_subscriptions')
-      .select('status')
-      .eq('customer_id', customer.customer_id)
-      .in('status', ['active', 'trialing'])
-      .maybeSingle();
-
-    return !!subscription;
-  } catch {
-    return false;
-  }
+  return true;
 }
 
 /**
  * Get teacher feature limits
+ * Platform is now free for all users — unlimited everything
  */
 export async function getTeacherLimits(teacherId: string): Promise<TeacherLimits> {
-  try {
-    const isSubscribed = await hasActiveSubscription(teacherId);
-
-    // Premium users get unlimited
-    if (isSubscribed) {
-      return {
-        lessonPlans: Infinity,
-        usedLessonPlans: 0,
-        assessments: Infinity,
-        usedAssessments: 0,
-        familyUpdates: Infinity,
-        usedFamilyUpdates: 0
-      };
-    }
-
-    // Check teacher_preferences for custom limits
-    const { data: prefs } = await supabase
-      .from('teacher_preferences')
-      .select('features')
-      .eq('teacher_id', teacherId)
-      .maybeSingle();
-
-    const limits = {
-      lessonPlans: prefs?.features?.lesson_plans ?? 3,
-      assessments: prefs?.features?.assessments ?? 5,
-      familyUpdates: prefs?.features?.family_updates ?? 2
-    };
-
-    // Count actual usage from this month
-    const monthStart = new Date();
-    monthStart.setDate(1);
-    monthStart.setHours(0, 0, 0, 0);
-    const monthStartISO = monthStart.toISOString();
-
-    // Get teacher's class IDs
-    const { data: classIds } = await supabase
-      .from('classes')
-      .select('id')
-      .eq('teacher_id', teacherId);
-
-    const classIdArray = classIds ? classIds.map(c => c.id) : [];
-
-    if (classIdArray.length === 0) {
-      return { ...limits, usedLessonPlans: 0, usedAssessments: 0, usedFamilyUpdates: 0 };
-    }
-
-    const { count: usedLessonPlans } = await supabase
-      .from('lesson_plans')
-      .select('*', { count: 'exact', head: true })
-      .in('class_id', classIdArray)
-      .gte('created_at', monthStartISO);
-
-    const { count: usedAssessments } = await supabase
-      .from('assessments')
-      .select('*', { count: 'exact', head: true })
-      .in('class_id', classIdArray)
-      .gte('created_at', monthStartISO);
-
-    const { count: usedFamilyUpdates } = await supabase
-      .from('family_updates')
-      .select('*', { count: 'exact', head: true })
-      .in('class_id', classIdArray)
-      .gte('created_at', monthStartISO);
-
-    return {
-      ...limits,
-      usedLessonPlans: usedLessonPlans || 0,
-      usedAssessments: usedAssessments || 0,
-      usedFamilyUpdates: usedFamilyUpdates || 0
-    };
-  } catch {
-    // Fallback to free tier defaults
-    return {
-      lessonPlans: 3,
-      usedLessonPlans: 0,
-      assessments: 5,
-      usedAssessments: 0,
-      familyUpdates: 2,
-      usedFamilyUpdates: 0
-    };
-  }
+  return {
+    lessonPlans: Infinity,
+    usedLessonPlans: 0,
+    assessments: Infinity,
+    usedAssessments: 0,
+    tutorUpdates: Infinity,
+    usedTutorUpdates: 0
+  };
 }
 
 /**
@@ -961,17 +822,6 @@ export async function generateLessonPlan(params: {
       .single();
 
     if (classError) throw classError;
-
-    // Check if the user has reached their lesson plan limit (free tier)
-    const isSubscribed = await hasActiveSubscription();
-
-    if (!isSubscribed) {
-      const teacherLimits = await getTeacherLimits(classData.teacher_id);
-
-      if (teacherLimits.usedLessonPlans >= teacherLimits.lessonPlans) {
-        throw new Error(`You've reached your limit of ${teacherLimits.lessonPlans} free lesson plans. Please upgrade for unlimited plans.`);
-      }
-    }
 
     const today = new Date();
     const lessonDate = params.date || today.toISOString().split('T')[0];

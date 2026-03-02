@@ -8,7 +8,7 @@ import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassForm from '../../components/teachers/ClassForm';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
-import { fetchTeacherClasses, createClass, deleteClass, hasActiveSubscription, getTeacherLimits } from '../../lib/api/teacher-api';
+import { fetchTeacherClasses, createClass, deleteClass } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -21,7 +21,6 @@ const TeacherClassesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const [classToDelete, setClassToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -29,10 +28,6 @@ const TeacherClassesPage: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
-  const [limits, setLimits] = useState({
-    classes: 1,
-    usedClasses: 0
-  });
 
   useEffect(() => {
     document.title = "Manage Classes | GreyEd Teachers";
@@ -50,20 +45,9 @@ const TeacherClassesPage: React.FC = () => {
         setLoading(true);
         setError(null);
         
-        // Check subscription status first
-        const subscriptionActive = await hasActiveSubscription();
-        setIsSubscribed(subscriptionActive);
-        
         // Fetch classes from API
         const classData = await fetchTeacherClasses(user.id);
         setClasses(classData);
-
-        // Get teacher limits
-        const userLimits = await getTeacherLimits(user.id);
-        setLimits({
-          classes: isSubscribed ? Infinity : 1,
-          usedClasses: classData.length
-        });
       } catch {
         setError('Failed to load classes. Please try again later.');
       } finally {
@@ -86,7 +70,7 @@ const TeacherClassesPage: React.FC = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [user, authLoading, navigate, isSubscribed]);
+  }, [user, authLoading, navigate]);
 
   // Handle logout
   const handleLogout = async () => {
@@ -113,11 +97,6 @@ const TeacherClassesPage: React.FC = () => {
     
     try {
       setError(null);
-      
-      // Check if user is on free tier and already has a class
-      if (!isSubscribed && classes.length >= 1) {
-        throw new Error("Free tier is limited to 1 class. Please upgrade to create more classes.");
-      }
       
       // Create the class via API
       const newClass = await createClass({
@@ -249,13 +228,7 @@ const TeacherClassesPage: React.FC = () => {
         actionButton={
           <button
             onClick={() => setShowCreateModal(true)}
-            className={`inline-flex items-center justify-center ${
-              !isSubscribed && classes.length >= 1
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-greyed-navy hover:bg-greyed-navy/90"
-            } text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap`}
-            disabled={!isSubscribed && classes.length >= 1}
-            title={!isSubscribed && classes.length >= 1 ? "Free tier limited to 1 class" : ""}
+            className="inline-flex items-center justify-center bg-greyed-navy hover:bg-greyed-navy/90 text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
           >
             <PlusCircle size={16} className="mr-2" />
             Create New Class
@@ -313,24 +286,6 @@ const TeacherClassesPage: React.FC = () => {
               </div>
             )}
 
-            {/* Subscription warning for free tier */}
-            {!isSubscribed && classes.length >= 1 && (
-              <div className="bg-greyed-blue/10 border-2 border-greyed-blue/30 text-greyed-navy px-3 py-2.5 md:px-4 md:py-3 rounded-lg mb-4 md:mb-6">
-                <div className="flex items-start">
-                  <AlertCircle className="h-4 w-4 md:h-5 md:w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm md:text-base">You've reached your free tier limit</p>
-                    <p className="mt-1 text-xs md:text-sm">Free tier is limited to 1 class. Upgrade to create unlimited classes.</p>
-                    <Link
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-3 py-1 rounded text-xs md:text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
 
             
             {/* Search and filters - Simplified layout with less padding */}
@@ -478,13 +433,6 @@ const TeacherClassesPage: React.FC = () => {
               </>
             )}
             
-            {/* Free tier limit info */}
-            {!isSubscribed && (
-              <div className="mt-4 md:mt-6 text-center text-xs md:text-sm text-black/60 px-2">
-                <p>Free tier is limited to 1 class. You've created {classes.length} of 1 allowed classes.</p>
-                <p className="mt-1">Need more classes? <Link to="/teachers/settings#subscription" className="text-greyed-blue hover:underline font-medium">Upgrade to unlimited for £8/month</Link></p>
-              </div>
-            )}
             
             {/* Delete confirmation modal */}
             {classToDelete && (

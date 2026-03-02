@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, AlertCircle, Loader } from 'lucide-react';
 
-interface FamilyUpdateFormProps {
+interface TutorUpdateFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (formData: {
@@ -16,7 +16,7 @@ interface FamilyUpdateFormProps {
   classes: any[];
 }
 
-const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
+const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
   isOpen,
   onClose,
   onSubmit,
@@ -76,7 +76,7 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
       await onSubmit(formData);
       onClose();
     } catch (error: any) {
-      setError(error.message || 'Failed to generate family update. Please try again.');
+      setError(error.message || 'Failed to generate tutor update. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -86,7 +86,7 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
         <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-          <h3 className="text-lg font-headline font-bold">Compose Family Update</h3>
+          <h3 className="text-lg font-headline font-bold">Compose Tutor Update</h3>
           <button 
             onClick={onClose}
             className="text-gray-400 hover:text-gray-500"
@@ -234,4 +234,4 @@ const FamilyUpdateForm: React.FC<FamilyUpdateFormProps> = ({
   );
 };
 
-export default FamilyUpdateForm;
+export default TutorUpdateForm;

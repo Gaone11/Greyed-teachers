@@ -66,7 +66,7 @@ export interface AssessmentItem {
   };
 }
 
-export interface FamilyUpdate {
+export interface TutorUpdate {
   id: string;
   class_id: string;
   week_start: string;
@@ -95,7 +95,7 @@ export interface TeacherPreferences {
     emailDaily: boolean;
     emailWeekly: boolean;
     pushNotifications: boolean;
-    familyUpdateReminders: boolean;
+    tutorUpdateReminders: boolean;
     assessmentSubmissions: boolean;
     questionAlerts: boolean;
   };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Upload, FileText, FileImage, File as FilePdf, Loader, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List, Menu, Lock, Crown, Wand2 } from 'lucide-react';
+import { Upload, FileText, FileImage, File as FilePdf, Loader, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List, Menu, Wand2 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -9,7 +9,6 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
-import { hasActiveSubscription } from '../../lib/api/teacher-api';
 import { Link } from 'react-router-dom';
 
 // Mock data for demonstrating student insights
@@ -34,7 +33,6 @@ const AssessmentGradingPage: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingComplete, setProcessingComplete] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
   
   // Student insights
@@ -53,18 +51,6 @@ const AssessmentGradingPage: React.FC = () => {
       return;
     }
     
-    // Check subscription status
-    const checkSubscription = async () => {
-      try {
-        const subscribed = await hasActiveSubscription(user?.id);
-        setIsSubscribed(subscribed);
-      } catch {
-      }
-    };
-    
-    if (user) {
-      checkSubscription();
-    }
   }, [user, authLoading, navigate]);
   
   // Handle logout
@@ -182,12 +168,6 @@ const AssessmentGradingPage: React.FC = () => {
   
   // Process the uploaded assessment
   const handleProcessAssessment = async () => {
-    // Check subscription
-    if (!isSubscribed) {
-      setError('AI Auto-Grading is only available with a premium subscription. Please upgrade to access this feature.');
-      return;
-    }
-    
     if (!selectedFile || !fileType) {
       setError('Please select a file to process.');
       return;
@@ -372,25 +352,6 @@ const AssessmentGradingPage: React.FC = () => {
               </div>
             )}
             
-            {/* Subscription warning for free tier */}
-            {!isSubscribed && (
-              <div className="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-lg mb-6">
-                <div className="flex items-start">
-                  <Lock className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">Premium Feature</p>
-                    <p className="mt-1">AI Auto-Grading is only available with a premium subscription.</p>
-                    <Link 
-                      to="/teachers/settings#subscription"
-                      className="mt-2 inline-block bg-greyed-navy text-white px-4 py-1 rounded text-sm hover:bg-greyed-navy/90 transition-colors"
-                    >
-                      <Crown size={14} className="inline mr-1" />
-                      Upgrade Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
           
             {/* Mobile menu toggle */}
             <div className="md:hidden mb-2">
@@ -442,24 +403,6 @@ const AssessmentGradingPage: React.FC = () => {
                 {/* Upload Assessment Tab */}
                 {activeTab === 'upload' && (
                   <>
-                    {/* Premium badge for feature */}
-                    {!isSubscribed && (
-                      <div className="mb-6 border border-amber-200 bg-amber-50 rounded-lg p-4 text-amber-700 flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Crown className="w-6 h-6 mr-3 text-amber-500" />
-                          <div>
-                            <h3 className="font-medium">Premium Feature</h3>
-                            <p className="text-sm">You can still explore the interface, but processing requires a subscription.</p>
-                          </div>
-                        </div>
-                        <Link 
-                          to="/teachers/settings#subscription" 
-                          className="bg-greyed-navy text-white px-4 py-1.5 rounded text-sm hover:bg-greyed-navy/90 whitespace-nowrap"
-                        >
-                          Upgrade
-                        </Link>
-                      </div>
-                    )}
                 
                     {/* Step 1: Select Assessment Type */}
                     {!fileType && (
@@ -645,7 +588,7 @@ const AssessmentGradingPage: React.FC = () => {
                                 <input 
                                   type="checkbox" 
                                   checked={true} 
-                                  disabled={!isSubscribed}
+                                  disabled={false}
                                   className="mr-2"
                                 />
                                 <div>
@@ -658,7 +601,7 @@ const AssessmentGradingPage: React.FC = () => {
                                 <input 
                                   type="checkbox" 
                                   checked={true}
-                                  disabled={!isSubscribed} 
+                                  disabled={false} 
                                   className="mr-2"
                                 />
                                 <div>
@@ -671,7 +614,7 @@ const AssessmentGradingPage: React.FC = () => {
                                 <input 
                                   type="checkbox" 
                                   checked={true}
-                                  disabled={!isSubscribed} 
+                                  disabled={false} 
                                   className="mr-2"
                                 />
                                 <div>
@@ -692,20 +635,15 @@ const AssessmentGradingPage: React.FC = () => {
                               
                               <button
                                 onClick={handleProcessAssessment}
-                                disabled={isProcessing || !isSubscribed}
+                                disabled={isProcessing}
                                 className={`px-4 py-2 bg-greyed-navy text-white rounded-lg transition-colors flex items-center ${
-                                  isProcessing || !isSubscribed ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
+                                  isProcessing ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
                                 }`}
                               >
                                 {isProcessing ? (
                                   <>
                                     <Loader size={16} className="animate-spin mr-2" />
                                     Processing...
-                                  </>
-                                ) : !isSubscribed ? (
-                                  <>
-                                    <Lock size={16} className="mr-2" />
-                                    Premium Feature
                                   </>
                                 ) : (
                                   <>

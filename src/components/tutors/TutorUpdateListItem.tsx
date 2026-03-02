@@ -2,7 +2,7 @@ import React from 'react';
 import { CreditCard as Edit2, Eye, Mail, CheckCircle, Calendar, Trash2, Loader } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-interface FamilyUpdateListItemProps {
+interface TutorUpdateListItemProps {
   update: {
     id: string;
     className: string;
@@ -21,7 +21,7 @@ interface FamilyUpdateListItemProps {
   isDeleting: boolean;
 }
 
-const FamilyUpdateListItem: React.FC<FamilyUpdateListItemProps> = ({
+const TutorUpdateListItem: React.FC<TutorUpdateListItemProps> = ({
   update,
   onView,
   onEdit,
@@ -141,4 +141,4 @@ const FamilyUpdateListItem: React.FC<FamilyUpdateListItemProps> = ({
   );
 };
 
-export default FamilyUpdateListItem;
+export default TutorUpdateListItem;

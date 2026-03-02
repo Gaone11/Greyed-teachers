@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Download, Mail, Loader, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-interface FamilyUpdatePreviewProps {
+interface TutorUpdatePreviewProps {
   isOpen: boolean;
   onClose: () => void;
   updateId?: string;
@@ -14,7 +14,7 @@ interface FamilyUpdatePreviewProps {
   };
 }
 
-const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
+const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
   isOpen,
   onClose,
   updateId,
@@ -168,7 +168,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
     // In a real app, generate and download a PDF
     // For this demo, we'll just show an alert
     
-    alert('In a production environment, this would download a PDF version of the family update.');
+    alert('In a production environment, this would download a PDF version of the tutor update.');
   };
   
   // If rendered as a standalone page
@@ -240,7 +240,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
               <iframe 
                 srcDoc={content || ''}
                 className="w-full h-[800px] border-0"
-                title="Family Update Preview"
+                title="Tutor Update Preview"
               ></iframe>
             )}
           </div>
@@ -258,7 +258,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
         <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-greyed-navy text-white">
           <h3 className="text-lg font-headline font-bold flex items-center">
             <FileText className="w-5 h-5 mr-2" />
-            Family Update Preview
+            Tutor Update Preview
           </h3>
           <div className="flex items-center space-x-2">
             <button
@@ -309,7 +309,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
           {sendSuccess && (
             <div className="mb-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg flex items-start">
               <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-              <span>Family update sent successfully!</span>
+              <span>Tutor update sent successfully!</span>
             </div>
           )}
           
@@ -333,7 +333,7 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
               <iframe 
                 srcDoc={content || ''}
                 className="w-full h-full border-0"
-                title="Family Update Preview"
+                title="Tutor Update Preview"
               ></iframe>
             </div>
           )}
@@ -343,4 +343,4 @@ const FamilyUpdatePreview: React.FC<FamilyUpdatePreviewProps> = ({
   );
 };
 
-export default FamilyUpdatePreview;
+export default TutorUpdatePreview;

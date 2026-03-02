@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import FeaturesPage from './pages/FeaturesPage';
-import PricingPage from './pages/PricingPage';
+// PricingPage removed — platform is free
 import TutoringPage from './pages/TutoringPage';
 import ELLMPage from './pages/ELLMPage';
 import AboutPage from './pages/AboutPage';
@@ -18,7 +18,7 @@ import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import UpdatePasswordPage from './pages/auth/UpdatePasswordPage';
 import PersonalityTestRedirectPage from './pages/auth/PersonalityTestRedirectPage';
 import PersonalityAssessmentPage from './pages/auth/PersonalityAssessmentPage';
-import ActivateAccountPage from './pages/auth/ActivateAccountPage';
+// ActivateAccountPage removed — no subscription activation needed
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { RoleProvider, useRole } from './context/RoleContext';
 import { RoleSelectionProvider, useRoleSelection } from './context/RoleSelectionContext';
@@ -32,9 +32,7 @@ import Loader from './components/ui/Loader';
 import AdminLoginModal from './components/ui/AdminLoginModal';
 import DyslexiaModeBadge from './components/accessibility/DyslexiaModeBadge';
 
-// Checkout Pages
-import SuccessPage from './pages/checkout/SuccessPage';
-import CanceledPage from './pages/checkout/CanceledPage';
+// Checkout pages removed — platform is free
 
 // Teacher Pages
 import TeacherDashboardPage from './pages/teachers/TeacherDashboardPage';
@@ -45,7 +43,7 @@ import TeacherLessonPlanGeneratorPage from './pages/teachers/TeacherLessonPlanGe
 import TeacherAssessmentGeneratorPage from './pages/teachers/TeacherAssessmentGeneratorPage';
 import TeacherAssessmentsPage from './pages/teachers/TeacherAssessmentsPage';
 import AssessmentGradingPage from './pages/teachers/AssessmentGradingPage';
-import TeacherFamiliesPage from './pages/teachers/TeacherFamiliesPage';
+import TeacherTutorsPage from './pages/teachers/TeacherTutorsPage';
 import TeacherSettingsPage from './pages/teachers/TeacherSettingsPage';
 import ElAIAssistantPage from './pages/teachers/ElAIAssistantPage';
 import TeacherGreyEdTAPage from './pages/teachers/TeacherGreyEdTAPage';
@@ -64,11 +62,6 @@ function App() {
     // Track features page view (once per session)
     if (location.pathname === '/features' && !sessionStorage.getItem('features_viewed')) {
       sessionStorage.setItem('features_viewed', 'true');
-    }
-    
-    // Track pricing page view
-    if (location.pathname === '/pricing' && !sessionStorage.getItem('pricing_viewed')) {
-      sessionStorage.setItem('pricing_viewed', 'true');
     }
     
     // Track tutoring page view
@@ -126,24 +119,11 @@ function App() {
     }
     
 
-    // Track checkout pages
-    if (location.pathname === '/checkout/success' && !sessionStorage.getItem('checkout_success_viewed')) {
-      sessionStorage.setItem('checkout_success_viewed', 'true');
-    }
-    
-    if (location.pathname === '/checkout/canceled' && !sessionStorage.getItem('checkout_canceled_viewed')) {
-      sessionStorage.setItem('checkout_canceled_viewed', 'true');
-    }
-    
     // Track El AI Assistant page
     if (location.pathname === '/teachers/el-ai' && !sessionStorage.getItem('el_ai_viewed')) {
       sessionStorage.setItem('el_ai_viewed', 'true');
     }
     
-    // Track account activation page
-    if (location.pathname === '/auth/activate-account' && !sessionStorage.getItem('activate_account_viewed')) {
-      sessionStorage.setItem('activate_account_viewed', 'true');
-    }
   }, [location]);
 
   return (
@@ -183,16 +163,20 @@ const AppContent = () => {
     };
   }, [user]);
 
-  // Handle page transitions with loading screen
+  // Handle page transitions — fast, fluid, premium feel
+  const prevPath = useRef(location.pathname);
   useEffect(() => {
-    // Show loader on route change
+    // Only show transition loader when navigating between major sections
+    const isTeacherNav = prevPath.current.startsWith('/teachers') && location.pathname.startsWith('/teachers');
+    const isSameSection = prevPath.current === location.pathname;
+    prevPath.current = location.pathname;
+
+    if (isSameSection) return;
+
+    // Shorter duration for in-dashboard navigation, slightly longer for cross-section
+    const duration = isTeacherNav ? 250 : 400;
     setIsLoading(true);
-    
-    // Hide loader after a small delay to ensure page has time to load
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    
+    const timer = setTimeout(() => setIsLoading(false), duration);
     return () => clearTimeout(timer);
   }, [location.pathname, setIsLoading]);
 
@@ -209,7 +193,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<LandingPage openLoginModal={openLoginModal} openAdminLoginModal={openAdminLoginModal} />} />
         <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/pricing" element={<Navigate to="/" replace />} />
         <Route path="/tutoring" element={<TutoringPage />} />
         <Route path="/ellm" element={<ELLMPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -224,11 +208,11 @@ const AppContent = () => {
         <Route path="/auth/update-password" element={<UpdatePasswordPage />} />
         <Route path="/auth/personality-test" element={<PersonalityTestRedirectPage />} />
         <Route path="/auth/personality-assessment/*" element={<PersonalityAssessmentPage />} />
-        <Route path="/auth/activate-account" element={<ActivateAccountPage />} />
+        <Route path="/auth/activate-account" element={<Navigate to="/teachers/dashboard" replace />} />
         
-        {/* Checkout Routes */}
-        <Route path="/checkout/success" element={<SuccessPage />} />
-        <Route path="/checkout/canceled" element={<CanceledPage />} />
+        {/* Checkout routes redirect — platform is free */}
+        <Route path="/checkout/success" element={<Navigate to="/teachers/dashboard" replace />} />
+        <Route path="/checkout/canceled" element={<Navigate to="/teachers/dashboard" replace />} />
         
         {/* Teacher Routes - Protected with subscription check */}
         <Route path="/teachers/dashboard" element={
@@ -279,9 +263,9 @@ const AppContent = () => {
           </ProtectedTeacherRoute>
         } />
         
-        <Route path="/teachers/families" element={
+        <Route path="/teachers/tutors" element={
           <ProtectedTeacherRoute>
-            <TeacherFamiliesPage />
+            <TeacherTutorsPage />
           </ProtectedTeacherRoute>
         } />
         
