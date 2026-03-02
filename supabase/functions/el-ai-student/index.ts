@@ -32,12 +32,13 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Get OpenAI credentials from environment variables
-    const uhuruApiKey = Deno.env.get("UHURU_API_KEY") || Deno.env.get("OPENAI_API_KEY");
-    const uhuruApiUrl = Deno.env.get("UHURU_API_URL") || "https://api.openai.com/v1/chat/completions";
-    const uhuruModel = Deno.env.get("UHURU_MODEL") || "gpt-4o";
+    // Get Uhuru AI credentials from environment variables
+    const uhuruApiKey = Deno.env.get("UHURU_API_KEY");
+    const uhuruApiUrl = Deno.env.get("UHURU_API_URL");
+    const uhuruModel = Deno.env.get("UHURU_MODEL");
 
-    if (!uhuruApiKey) {
+    if (!uhuruApiKey || !uhuruApiUrl || !uhuruModel) {
+      console.error("Missing required env vars: UHURU_API_KEY, UHURU_API_URL, UHURU_MODEL");
       return new Response(
         JSON.stringify({ error: "API configuration error" }),
         {
