@@ -32,13 +32,13 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Get Uhuru AI credentials from environment variables
-    const uhuruApiKey = Deno.env.get("UHURU_API_KEY");
-    const uhuruApiUrl = Deno.env.get("UHURU_API_URL");
-    const uhuruModel = Deno.env.get("UHURU_MODEL");
+    // Get GreyEd AI credentials from environment variables
+    const greyedApiKey = Deno.env.get("GREYED_API_KEY");
+    const greyedApiUrl = Deno.env.get("GREYED_API_URL");
+    const greyedModel = Deno.env.get("GREYED_MODEL");
 
-    if (!uhuruApiKey || !uhuruApiUrl || !uhuruModel) {
-      console.error("Missing required env vars: UHURU_API_KEY, UHURU_API_URL, UHURU_MODEL");
+    if (!greyedApiKey || !greyedApiUrl || !greyedModel) {
+      console.error("Missing required env vars: GREYED_API_KEY, GREYED_API_URL, GREYED_MODEL");
       return new Response(
         JSON.stringify({ error: "API configuration error" }),
         {
@@ -48,9 +48,9 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Prepare the payload for Uhuru AI API
+    // Prepare the payload for GreyEd AI API
     const payload = {
-      model: uhuruModel,
+      model: greyedModel,
       messages: [
         {
           role: "system",
@@ -87,11 +87,11 @@ PERSONALITY:
       max_tokens: 800
     };
 
-    // Make the API request to Uhuru AI
-    const response = await fetch(uhuruApiUrl, {
+    // Make the API request to GreyEd AI
+    const response = await fetch(greyedApiUrl, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${uhuruApiKey}`,
+        'Authorization': `Bearer ${greyedApiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
@@ -99,9 +99,9 @@ PERSONALITY:
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Uhuru AI API error:', errorText);
+      console.error('GreyEd AI API error:', errorText);
       return new Response(
-        JSON.stringify({ error: "Failed to get Uhuru AI response" }),
+        JSON.stringify({ error: "Failed to get AI response" }),
         {
           status: response.status,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -119,7 +119,7 @@ PERSONALITY:
       }
     );
   } catch (error) {
-    console.error('Error in Uhuru AI student function:', error);
+    console.error('Error in El AI student function:', error);
     return new Response(
       JSON.stringify({ error: "Internal server error" }),
       {

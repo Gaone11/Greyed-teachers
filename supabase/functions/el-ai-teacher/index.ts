@@ -76,12 +76,12 @@ Deno.serve(async (req: Request) => {
     }
 
     // Get API credentials from environment variables
-    const uhuruApiKey = Deno.env.get("UHURU_API_KEY");
-    const uhuruApiUrl = Deno.env.get("UHURU_API_URL");
-    const uhuruModel = Deno.env.get("UHURU_MODEL");
+    const greyedApiKey = Deno.env.get("GREYED_API_KEY");
+    const greyedApiUrl = Deno.env.get("GREYED_API_URL");
+    const greyedModel = Deno.env.get("GREYED_MODEL");
 
-    if (!uhuruApiKey || !uhuruApiUrl || !uhuruModel) {
-      console.error("Missing required env vars: UHURU_API_KEY, UHURU_API_URL, UHURU_MODEL");
+    if (!greyedApiKey || !greyedApiUrl || !greyedModel) {
+      console.error("Missing required env vars: GREYED_API_KEY, GREYED_API_URL, GREYED_MODEL");
       return new Response(
         JSON.stringify({ error: "API configuration error" }),
         {
@@ -144,17 +144,17 @@ Deno.serve(async (req: Request) => {
 
     // Prepare the payload for the AI API
     const payload = {
-      model: uhuruModel,
+      model: greyedModel,
       messages,
       temperature: 0.7,
       max_tokens: 2000,
     };
 
     // Make the API request
-    const response = await fetch(uhuruApiUrl, {
+    const response = await fetch(greyedApiUrl, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${uhuruApiKey}`,
+        Authorization: `Bearer ${greyedApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
@@ -162,7 +162,7 @@ Deno.serve(async (req: Request) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Uhuru AI API error:", errorText);
+      console.error("GreyEd AI API error:", errorText);
       return new Response(
         JSON.stringify({ error: "Failed to get AI response" }),
         {
