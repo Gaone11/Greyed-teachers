@@ -19,7 +19,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 
 interface TeacherSidebarProps {
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledgebase';
+  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'tutors' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledgebase';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -122,10 +122,10 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
     },
     {
-      id: 'families',
-      label: 'Family Updates',
+      id: 'tutors',
+      label: 'Tutor Updates',
       icon: MessageSquare,
-      path: '/teachers/families',
+      path: '/teachers/tutors',
       color: 'from-greyed-navy to-greyed-navy',
       activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
     },

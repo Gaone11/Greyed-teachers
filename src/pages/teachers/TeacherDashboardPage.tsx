@@ -120,7 +120,7 @@ const TeacherDashboardPage: React.FC = () => {
     { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#1B4332] to-[#2D6A4F]' },
     { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#D4A843] to-[#E8C96A]' },
     { icon: Snowflake, label: 'Siyafunda AI', path: '/teachers/el-ai', color: 'from-[#2D6A4F] to-[#52B788]' },
-    { icon: MessageSquare, label: 'Family Updates', path: '/teachers/families', color: 'from-[#7A6548] to-[#A89070]' },
+    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#7A6548] to-[#A89070]' },
     { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#3D2E1C] to-[#5C4A33]' },
     { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#C4572A] to-[#D97750]' },
   ];
@@ -244,7 +244,7 @@ const TeacherDashboardPage: React.FC = () => {
                   </div>
                   <h3 className="text-lg font-bold text-[#1B4332] mb-2">Create your first class</h3>
                   <p className="text-sm text-[#292828]/60 max-w-md mx-auto mb-6">
-                    Add a class to unlock lesson planning, assessments, family updates, and AI-powered teaching tools — all tailored to your curriculum.
+                    Add a class to unlock lesson planning, assessments, tutor updates, and AI-powered teaching tools — all tailored to your curriculum.
                   </p>
                   <Link
                     to="/teachers/classes"

@@ -6,15 +6,15 @@ import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
-import FamilyUpdateForm from '../../components/families/FamilyUpdateForm';
-import FamilyUpdateEditor from '../../components/families/FamilyUpdateEditor';
-import FamilyUpdatePreview from '../../components/families/FamilyUpdatePreview';
-import FamilyUpdateListItem from '../../components/families/FamilyUpdateListItem';
-import FamilyUpdateStats from '../../components/families/FamilyUpdateStats';
+import TutorUpdateForm from '../../components/tutors/TutorUpdateForm';
+import TutorUpdateEditor from '../../components/tutors/TutorUpdateEditor';
+import TutorUpdatePreview from '../../components/tutors/TutorUpdatePreview';
+import TutorUpdateListItem from '../../components/tutors/TutorUpdateListItem';
+import TutorUpdateStats from '../../components/tutors/TutorUpdateStats';
 import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal';
-import StudentList from '../../components/families/StudentList';
-import StudentProfileView from '../../components/families/StudentProfileView';
-import { fetchTeacherClasses, fetchFamilyUpdates, generateFamilyUpdate, sendFamilyUpdate, createClass } from '../../lib/api/teacher-api';
+import StudentList from '../../components/tutors/StudentList';
+import StudentProfileView from '../../components/tutors/StudentProfileView';
+import { fetchTeacherClasses, fetchTutorUpdates, generateTutorUpdate, sendTutorUpdate, createClass } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
@@ -97,7 +97,7 @@ const mockStudents = [
   }
 ];
 
-const TeacherFamiliesPage: React.FC = () => {
+const TeacherTutorsPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -136,7 +136,7 @@ const TeacherFamiliesPage: React.FC = () => {
   const [isSavingStudentUpdate, setIsSavingStudentUpdate] = useState(false);
   
   useEffect(() => {
-    document.title = "Family Updates | GreyEd Teachers";
+    document.title = "Tutor Updates | GreyEd Teachers";
     
     // Redirect if not logged in
     if (!authLoading && !user) {
@@ -164,8 +164,8 @@ const TeacherFamiliesPage: React.FC = () => {
           setStudents(mockStudents);
         }
         
-        // Fetch family updates from API
-        const updateData = await fetchFamilyUpdates(user.id);
+        // Fetch tutor updates from API
+        const updateData = await fetchTutorUpdates(user.id);
         
         // Process update data to add className from class ID
         const processedUpdates = updateData.map((update: any) => {
@@ -192,7 +192,7 @@ const TeacherFamiliesPage: React.FC = () => {
         
         setUpdates(processedUpdates);
       } catch {
-        setError('Failed to load family updates. Please try again later.');
+        setError('Failed to load tutor updates. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -242,7 +242,7 @@ const TeacherFamiliesPage: React.FC = () => {
     return `${formatDate(start)} - ${formatDate(end)}`;
   };
   
-  // Generate and create family update
+  // Generate and create tutor update
   const handleGenerateUpdate = async (formData: {
     classId: string;
     weekStart: string;
@@ -265,8 +265,8 @@ const TeacherFamiliesPage: React.FC = () => {
         throw new Error('Selected class not found');
       }
       
-      // Generate the family update via API
-      const result = await generateFamilyUpdate({
+      // Generate the tutor update via API
+      const result = await generateTutorUpdate({
         classId: formData.classId,
         weekStart: formData.weekStart,
         topics: ['Student progress', 'Upcoming lessons', 'Homework'],
@@ -294,7 +294,7 @@ const TeacherFamiliesPage: React.FC = () => {
       };
       
       setUpdates([newUpdate, ...updates]);
-      setSuccess('Family update generated successfully!');
+      setSuccess('Tutor update generated successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
@@ -314,7 +314,7 @@ const TeacherFamiliesPage: React.FC = () => {
         }
         setShowStorageBucketError(true);
       } else {
-        setError(err.message || 'Failed to generate family update. Please try again.');
+        setError(err.message || 'Failed to generate tutor update. Please try again.');
       }
     } finally {
       setIsGenerating(false);
@@ -329,7 +329,7 @@ const TeacherFamiliesPage: React.FC = () => {
     
     try {
       // Send the update via API
-      await sendFamilyUpdate(updateId);
+      await sendTutorUpdate(updateId);
       
       // Update the state
       const updatedUpdates = updates.map(update => {
@@ -345,20 +345,20 @@ const TeacherFamiliesPage: React.FC = () => {
       });
       
       setUpdates(updatedUpdates);
-      setSuccess('Family update sent successfully!');
+      setSuccess('Tutor update sent successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to send family update. Please try again.');
+      setError(err.message || 'Failed to send tutor update. Please try again.');
     } finally {
       setIsSending(null);
     }
   };
   
-  // Delete a family update
+  // Delete a tutor update
   const handleDeleteUpdate = async (updateId: string) => {
-    if (!confirm('Are you sure you want to delete this family update?')) {
+    if (!confirm('Are you sure you want to delete this tutor update?')) {
       return;
     }
     
@@ -377,12 +377,12 @@ const TeacherFamiliesPage: React.FC = () => {
       
       // Update the state
       setUpdates(updates.filter(update => update.id !== updateId));
-      setSuccess('Family update deleted successfully!');
+      setSuccess('Tutor update deleted successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to delete family update. Please try again.');
+      setError(err.message || 'Failed to delete tutor update. Please try again.');
     } finally {
       setIsDeleting(null);
     }
@@ -475,7 +475,7 @@ const TeacherFamiliesPage: React.FC = () => {
       }, 800);
       
     } catch (err: any) {
-      setError(err.message || 'Failed to load family update content. Please try again.');
+      setError(err.message || 'Failed to load tutor update content. Please try again.');
       setShowUpdateModal(false);
     }
   };
@@ -575,12 +575,12 @@ const TeacherFamiliesPage: React.FC = () => {
       
       // Update the state (in real app, you'd fetch the updated data)
       setShowUpdateModal(false);
-      setSuccess('Family update saved successfully!');
+      setSuccess('Tutor update saved successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to save family update. Please try again.');
+      setError(err.message || 'Failed to save tutor update. Please try again.');
     } finally {
       setIsUpdating(false);
     }
@@ -730,7 +730,7 @@ const TeacherFamiliesPage: React.FC = () => {
             : 'fixed top-0 left-0 bottom-0 z-40'
         } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
           <TeacherSidebar
-            activePage="families"
+            activePage="tutors"
             onLogout={handleLogout}
             collapsed={sidebarCollapsed}
             onToggleCollapse={toggleSidebar}
@@ -877,7 +877,7 @@ const TeacherFamiliesPage: React.FC = () => {
                     <p className="text-black/70 max-w-md mx-auto mb-6">
                       {searchTerm || selectedClass 
                         ? "Try adjusting your search or filters to see more results." 
-                        : "You haven't created any family updates yet."}
+                        : "You haven't created any tutor updates yet."}
                     </p>
                     {!searchTerm && !selectedClass && (
                       <button 
@@ -892,7 +892,7 @@ const TeacherFamiliesPage: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {filteredUpdates.map(update => (
-                      <FamilyUpdateListItem
+                      <TutorUpdateListItem
                         key={update.id}
                         update={update}
                         onView={() => handleViewUpdate(update)}
@@ -1007,7 +1007,7 @@ const TeacherFamiliesPage: React.FC = () => {
               <div className="bg-white p-5 rounded-lg shadow-sm border-l-4 border-greyed-beige">
                 <h3 className="font-medium text-black text-lg mb-3">Engagement Analytics</h3>
                 <p className="text-black/70 text-sm mb-4">
-                  Track which families are engaging with your updates and identify students who might need additional support.
+                  Track which tutors are engaging with your updates and identify students who might need additional support.
                 </p>
                 <button className="px-3 py-1.5 bg-greyed-navy text-white rounded text-sm hover:bg-greyed-navy/90 transition-colors">
                   View Sample Report
@@ -1019,8 +1019,8 @@ const TeacherFamiliesPage: React.FC = () => {
         </div>
       </div>
       
-      {/* Family Update Form Modal */}
-      <FamilyUpdateForm
+      {/* Tutor Update Form Modal */}
+      <TutorUpdateForm
         isOpen={showComposeModal}
         onClose={() => setShowComposeModal(false)}
         onSubmit={handleGenerateUpdate}
@@ -1028,7 +1028,7 @@ const TeacherFamiliesPage: React.FC = () => {
       />
       
       {/* Update Preview/Edit Modal */}
-      <FamilyUpdatePreview
+      <TutorUpdatePreview
         isOpen={showUpdateModal}
         onClose={() => setShowUpdateModal(false)}
         updateId={selectedUpdate?.id}
@@ -1056,4 +1056,4 @@ const TeacherFamiliesPage: React.FC = () => {
   );
 };
 
-export default TeacherFamiliesPage;
+export default TeacherTutorsPage;

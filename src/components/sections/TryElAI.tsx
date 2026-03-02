@@ -48,7 +48,7 @@ const TryElAI: React.FC = () => {
   const features = [
     "Unlimited CAPS-aligned AI lesson plans",
     "Auto-graded assessments & worksheets",
-    "Weekly family updates",
+    "Weekly tutor updates",
     "Student management dashboard",
     "Government template compliance",
     "Cancel anytime"

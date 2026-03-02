@@ -90,7 +90,7 @@ const ActivateAccountPage: React.FC = () => {
                     </li>
                     <li className="flex items-start">
                       <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">✓</div>
-                      <span>Weekly family updates</span>
+                      <span>Weekly tutor updates</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">✓</div>

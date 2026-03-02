@@ -288,7 +288,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                 <ul className="text-xs text-greyed-navy/80 space-y-1">
                   <li>• Unlimited AI lesson plans</li>
                   <li>• Auto-graded assessments</li>
-                  <li>• Weekly family updates</li>
+                  <li>• Weekly tutor updates</li>
                   <li>• Analytics dashboard</li>
                 </ul>
               </div>

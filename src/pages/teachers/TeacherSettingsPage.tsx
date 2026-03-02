@@ -43,7 +43,7 @@ const TeacherSettingsPage: React.FC = () => {
     emailDaily: true,
     emailWeekly: true,
     pushNotifications: true,
-    familyUpdateReminders: true,
+    tutorUpdateReminders: true,
     assessmentSubmissions: true,
     questionAlerts: false
   });
@@ -739,14 +739,14 @@ const TeacherSettingsPage: React.FC = () => {
                           <label className="flex items-start">
                             <input
                               type="checkbox"
-                              name="familyUpdateReminders"
-                              checked={notificationSettings.familyUpdateReminders}
+                              name="tutorUpdateReminders"
+                              checked={notificationSettings.tutorUpdateReminders}
                               onChange={handleNotificationChange}
                               className="mt-0.5 mr-2"
                             />
                             <div>
-                              <span className="text-black">Family update reminders</span>
-                              <p className="text-black/60 text-sm">Receive reminders to send weekly family updates</p>
+                              <span className="text-black">Tutor update reminders</span>
+                              <p className="text-black/60 text-sm">Receive reminders to send weekly tutor updates</p>
                             </div>
                           </label>
                           

@@ -43,7 +43,7 @@ import TeacherLessonPlanGeneratorPage from './pages/teachers/TeacherLessonPlanGe
 import TeacherAssessmentGeneratorPage from './pages/teachers/TeacherAssessmentGeneratorPage';
 import TeacherAssessmentsPage from './pages/teachers/TeacherAssessmentsPage';
 import AssessmentGradingPage from './pages/teachers/AssessmentGradingPage';
-import TeacherFamiliesPage from './pages/teachers/TeacherFamiliesPage';
+import TeacherTutorsPage from './pages/teachers/TeacherTutorsPage';
 import TeacherSettingsPage from './pages/teachers/TeacherSettingsPage';
 import ElAIAssistantPage from './pages/teachers/ElAIAssistantPage';
 import TeacherGreyEdTAPage from './pages/teachers/TeacherGreyEdTAPage';
@@ -263,9 +263,9 @@ const AppContent = () => {
           </ProtectedTeacherRoute>
         } />
         
-        <Route path="/teachers/families" element={
+        <Route path="/teachers/tutors" element={
           <ProtectedTeacherRoute>
-            <TeacherFamiliesPage />
+            <TeacherTutorsPage />
           </ProtectedTeacherRoute>
         } />
         

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Save, X, Loader, AlertCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
-interface FamilyUpdateEditorProps {
+interface TutorUpdateEditorProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (content: string) => Promise<void>;
@@ -11,7 +11,7 @@ interface FamilyUpdateEditorProps {
   weekEnd: string;
 }
 
-const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
+const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
   isOpen,
   onClose,
   onSave,
@@ -108,7 +108,7 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-hidden">
       <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[90vh] flex flex-col">
         <div className="p-4 border-b border-gray-200 bg-greyed-navy text-white flex justify-between items-center">
-          <h3 className="text-lg font-headline font-bold">Edit Family Update</h3>
+          <h3 className="text-lg font-headline font-bold">Edit Tutor Update</h3>
           <div className="flex items-center">
             <button
               onClick={onClose}
@@ -224,7 +224,7 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
               <iframe 
                 srcDoc={content}
                 className="w-full h-full border-0"
-                title="Family Update Preview"
+                title="Tutor Update Preview"
               ></iframe>
             </div>
           </div>
@@ -261,4 +261,4 @@ const FamilyUpdateEditor: React.FC<FamilyUpdateEditorProps> = ({
   );
 };
 
-export default FamilyUpdateEditor;
+export default TutorUpdateEditor;

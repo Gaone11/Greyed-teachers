@@ -88,7 +88,7 @@ const RoleSelectionModal: React.FC = () => {
                 </div>
                 <h3 className="text-lg font-headline font-semibold text-greyed-navy">GreyEd Teachers</h3>
                 <p className="text-sm text-greyed-navy/70 mt-2 text-center">
-                  Access AI-powered lesson plans, assessments, and family updates
+                  Access AI-powered lesson plans, assessments, and tutor updates
                 </p>
                 <div className="mt-4 bg-greyed-navy/10 px-3 py-1 rounded-full text-xs text-greyed-navy font-medium">
                   14-day free trial

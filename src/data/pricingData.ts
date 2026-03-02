@@ -92,7 +92,7 @@ export const pricingPlans: Plan[] = [
     features: [
       'Unlimited CAPS-aligned AI lesson plans',
       'Unlimited assessments with auto-grading',
-      'Weekly family updates',
+      'Weekly tutor updates',
       'Student management dashboard',
       'Government document template compliance',
       'Priority support'
@@ -203,8 +203,8 @@ export const featureMatrix: Feature[] = [
     }
   },
   {
-    id: 'family-updates',
-    name: 'Family weekly updates',
+    id: 'tutor-updates',
+    name: 'Tutor weekly updates',
     availableIn: {
       free: false,
       premium: false,

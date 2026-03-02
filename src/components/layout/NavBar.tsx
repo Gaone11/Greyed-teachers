@@ -121,7 +121,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         subtitle: "Here's what's happening with your classes today"
       };
     }
-    if (path === '/teachers/families') return { title: 'Family Communications', subtitle: 'Send updates and communicate with parents' };
+    if (path === '/teachers/tutors') return { title: 'Tutor Updates', subtitle: 'Send updates and communicate with tutors' };
     if (path === '/teachers/assessments') return { title: 'Assessments', subtitle: 'Create, manage and grade assessments' };
     if (path === '/teachers/classes') return { title: 'Manage Classes', subtitle: 'Create and manage your teaching classes' };
     if (/^\/teachers\/classes\/.+/.test(path)) return { title: 'Class Details', subtitle: 'View and manage your class' };
@@ -179,7 +179,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     { to: "/teachers/classes", label: "Classes" },
     { to: "/teachers/lesson-planner", label: "Lesson Planner" },
     { to: "/teachers/assessments", label: "Assessments" },
-    { to: "/teachers/families", label: "Family Updates" },
+    { to: "/teachers/tutors", label: "Tutor Updates" },
   ];
 
   // Choose which links to display based on auth status and role

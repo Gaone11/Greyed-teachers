@@ -2,7 +2,7 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 import { Calendar, Users, Mail, TrendingUp } from 'lucide-react';
 
-interface FamilyUpdateStatsProps {
+interface TutorUpdateStatsProps {
   stats: {
     totalUpdates: number;
     totalSent: number;
@@ -15,10 +15,10 @@ interface FamilyUpdateStatsProps {
   };
 }
 
-const FamilyUpdateStats: React.FC<FamilyUpdateStatsProps> = ({ stats }) => {
+const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-lg font-semibold text-black mb-6">Family Update Analytics</h2>
+      <h2 className="text-lg font-semibold text-black mb-6">Tutor Update Analytics</h2>
       
       {/* Summary metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
@@ -87,7 +87,7 @@ const FamilyUpdateStats: React.FC<FamilyUpdateStatsProps> = ({ stats }) => {
         <ul className="space-y-1 text-sm text-black/80">
           <li>• Send updates consistently on the same day of the week</li>
           <li>• Include visually engaging content and student work samples</li>
-          <li>• Keep content concise and actionable for families</li>
+          <li>• Keep content concise and actionable for tutors</li>
           <li>• Include specific calls to action for parent involvement</li>
         </ul>
       </div>
@@ -95,4 +95,4 @@ const FamilyUpdateStats: React.FC<FamilyUpdateStatsProps> = ({ stats }) => {
   );
 };
 
-export default FamilyUpdateStats;
+export default TutorUpdateStats;
