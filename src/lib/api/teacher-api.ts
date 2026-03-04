@@ -834,130 +834,72 @@ export async function generateLessonPlan(params: {
     const week = params.week || '1';
     const focusAreas = params.focusAreas || [];
 
-    // Build KB reference section
+    // Build the AI prompt for lesson plan generation
+    const extras: string[] = [];
+    if (params.includeAssessment) extras.push('Include detailed assessment activities with rubric or memorandum.');
+    if (params.includeDifferentiation) extras.push('Include differentiation strategies for struggling, core, and advanced learners, as well as LSEN accommodations.');
+    if (params.includeResources) extras.push('Include specific textbook references, DBE workbook pages, and required teaching materials.');
+    if (focusAreas.length > 0) extras.push(`Additional focus areas to incorporate: ${focusAreas.join(', ')}.`);
+
     const kbSection = params.kbContext
-      ? `\n### Syllabus Reference (from Knowledgebase)\n${params.kbContext}\n`
+      ? `\nUse the following syllabus reference material to inform the lesson content:\n${params.kbContext}\n`
       : '';
 
-    // SA DBE CAPS-compliant lesson plan (13 sections A–M)
-    const lessonPlan = `# LESSON PLAN
-
-## A. Identification
-| Field | Details |
-|-------|---------|
-| School | ${className} |
-| Teacher | (Teacher name) |
-| Subject | ${params.subject} |
-| Grade | ${grade} |
-| Date | ${lessonDate} |
-| Duration | ${duration} minutes |
-| Term | ${term} |
-| Week | ${week} |
-| Curriculum | ${syllabus} |
-
-## B. CAPS Alignment
-- **Content Area:** ${params.subject}
-- **Topic:** ${params.topic}
-- **CAPS Specific Aims:**
-  - Aim 1: Knowledge — Learners acquire and apply essential ${params.subject.toLowerCase()} knowledge
-  - Aim 2: Skills — Learners develop competence in investigating and problem-solving
-  - Aim 3: Application — Learners appreciate the value and application of ${params.subject.toLowerCase()} in daily life
+    const aiMessage = `Create a complete, ready-to-teach CAPS-aligned lesson plan with these details:
+- Subject: ${params.subject}
+- Topic: ${params.topic}
+- Grade: ${grade}
+- Class: ${className}
+- Date: ${lessonDate}
+- Duration: ${duration} minutes
+- Term: ${term}
+- Week: ${week}
+- Curriculum: ${syllabus}
+${extras.length > 0 ? '\nAdditional requirements:\n' + extras.map(e => `- ${e}`).join('\n') : ''}
 ${kbSection}
-## C. Learning Objectives
-By the end of this lesson, learners will be able to:
-- **Knowledge:** Identify and explain key concepts related to ${params.topic}
-- **Skills:** Apply knowledge of ${params.topic} to solve problems and complete tasks
-- **Values/Attitudes:** Demonstrate an appreciation for the importance of ${params.topic}
-- **Success Criteria:** Learners can correctly demonstrate understanding through classwork, oral responses, and written tasks
+CRITICAL INSTRUCTIONS:
+- Write ALL content as if you are the teacher preparing this exact lesson for "${className}". Every activity, question, and resource must be specific to ${params.topic}.
+- Do NOT use placeholder text in parentheses like (Teacher name), (Insert page), or (Describe activity). Every section must be immediately usable in the classroom.
+- For lesson phases, write out the actual activities step by step: what the teacher says, what questions to ask (with expected answers), what learners do, and what they produce.
+- Write real learning objectives specific to ${params.topic} — not generic statements like "acquire knowledge".
+- Write a concrete homework task with actual instructions and examples.
+- Time allocations across all phases must add up to ${duration} minutes.
+- Generate the full lesson plan in markdown format with all CAPS-required sections.`;
 
-## D. Prior Knowledge
-- **Prerequisites:** Learners should have a basic understanding of ${params.subject.toLowerCase()} concepts covered in previous lessons
-- **Baseline Check:** Quick oral Q&A or short activity to assess readiness before introducing new content
+    // Call the el-ai-teacher edge function
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const { data: { session } } = await supabase.auth.getSession();
 
-## E. Resources / LTSM
-- **Teacher Resources:** Teacher guide, CAPS document, lesson notes, digital presentation
-- **Learner Resources:** Textbook, DBE Workbook, worksheets, exercise books
-- **Other Materials:** Whiteboard, markers, manipulatives/visual aids relevant to ${params.topic}
-- **DBE Workbook Reference:** (Insert relevant workbook page references)
+    if (!session) {
+      throw new Error('User must be logged in to generate lesson plans');
+    }
 
-## F. Lesson Phases
+    const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({
+        message: aiMessage,
+        conversationHistory: [],
+        teacherContext: {
+          subjectArea: params.subject,
+          gradeLevel: grade,
+          examBoard: syllabus,
+          classSize: classData.class_size || undefined,
+          className: className,
+        },
+      }),
+    });
 
-### Phase 1: Introduction / Mental Maths (~${Math.round(durationNum * 0.10)} min)
-- Greet learners and settle the class
-- Mental maths or warm-up activity related to ${params.topic}
-- Activate prior knowledge through brief Q&A
-- Share learning objectives and success criteria with learners
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to generate lesson plan');
+    }
 
-### Phase 2: Explanation / Direct Instruction (~${Math.round(durationNum * 0.25)} min)
-- Teacher explains and demonstrates key concepts of ${params.topic}
-- Use visual aids, diagrams, or multimedia to support understanding
-- Provide worked examples step by step
-- Check for understanding through strategic questioning
-- Address common misconceptions
-
-### Phase 3: Practice / Learner Activities (~${Math.round(durationNum * 0.35)} min)
-- **Guided Practice:** Learners work through examples with teacher support
-- **Independent Work:** Learners complete classwork activities individually
-- **Group Work:** Collaborative tasks in pairs or small groups where appropriate
-- Teacher circulates to provide targeted feedback and support
-${focusAreas.length > 0 ? `- **Additional Focus:** ${focusAreas.join(', ')}` : ''}
-
-### Phase 4: Conclusion / Plenary (~${Math.round(durationNum * 0.10)} min)
-- Review learning objectives and success criteria
-- Summarise key concepts covered
-- Address any remaining questions or misconceptions
-- Preview next lesson content
-- Assign homework
-
-## G. Assessment
-- **Informal Assessment:** Observation, oral questioning during lesson, classwork review
-- **Formal Assessment:** (As per CAPS assessment programme for the term)
-- **Assessment Tools:** Rubric, checklist, or marking memorandum
-- **Self-Assessment:** Learners rate their understanding using thumbs up/down or exit tickets
-
-## H. Inclusivity & Differentiation
-### Support (Scaffolding)
-- Provide word banks, sentence starters, or partially completed examples
-- Use visual aids, concrete objects, or simplified language
-- Pair struggling learners with stronger peers for support
-- Offer additional guided practice time
-
-### Core (Standard Activities)
-- All learners complete the standard classwork and homework activities as planned
-
-### Extension (Enrichment)
-- Provide higher-order thinking tasks for advanced learners
-- Offer application problems that connect ${params.topic} to real-world contexts
-- Allow independent investigation or research tasks
-
-## I. Expanded Opportunities
-- **Enrichment:** Advanced problems, creative projects, or research for early finishers
-- **Remedial:** Additional practice worksheets, small group re-teaching, or peer tutoring for learners who need extra support
-
-## J. Cross-Curricular Links
-- Integration with other CAPS subjects where applicable (e.g., ${params.subject} concepts applied in Life Skills, Social Sciences, or Technology)
-- Indigenous Knowledge Systems (IKS): Incorporate relevant local or cultural knowledge where appropriate
-
-## K. Homework / Extended Learning
-- **Task:** (Describe homework activity related to ${params.topic})
-- **Due Date:** (Next lesson date)
-- **DBE Workbook Pages:** (Insert relevant pages)
-
-## L. Teacher Reflection (Complete after teaching)
-- **Strengths of the lesson:** ___
-- **Areas for improvement:** ___
-- **Learner engagement:** ___
-- **Learners needing additional support:** ___
-- **Adjustments for next lesson:** ___
-
-## M. HOD / Principal Sign-off
-| Role | Signature | Date |
-|------|-----------|------|
-| HOD | _______________ | _______ |
-| Principal | _______________ | _______ |
-
----
-Generated by GreyEd Teachers | Siyafunda AI`;
+    const aiData = await response.json();
+    const lessonPlan = aiData.response;
 
     // Create metadata
     const meta = {
@@ -985,7 +927,7 @@ Generated by GreyEd Teachers | Siyafunda AI`;
       hasKbContext: !!params.kbContext
     };
 
-    // Now save to the lesson_plans table
+    // Save to the lesson_plans table
     const { data, error } = await supabase
       .from('lesson_plans')
       .insert([

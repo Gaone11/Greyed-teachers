@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { motion } from 'framer-motion';
 import { fetchTeacherClasses, generateAssessment } from '../../lib/api/teacher-api';
-import Loader from '../../components/ui/Loader';
-import { Wand2, CheckCircle, X, Download, FileText, Database } from 'lucide-react';
-import { format } from 'date-fns';
+import { Wand2, CheckCircle, Download, FileText, Database, ArrowLeft } from 'lucide-react';
 import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
 import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade } from '../../data/capsCurriculum';
@@ -45,6 +44,9 @@ function loadAllChunks(): KnowledgeChunk[] {
   return [];
 }
 
+const inputClass = "w-full p-3 border border-gray-200 rounded-xl text-sm text-[#2D1B0E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 transition-all bg-white";
+const labelClass = "block text-sm font-medium text-[#2D1B0E]/70 mb-1.5";
+
 export default function TeacherAssessmentGeneratorPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -77,7 +79,6 @@ export default function TeacherAssessmentGeneratorPage() {
 
   const [requiredTests, setRequiredTests] = useState<string[]>([]);
 
-  // Derived CAPS data
   const gradeNum = saGrades.find(g => g.value === formData.selectedGrade)?.num ?? 0;
   const phase = getPhaseFromGrade(gradeNum);
   const availableSubjects = getSubjectsByPhase(phase);
@@ -87,15 +88,11 @@ export default function TeacherAssessmentGeneratorPage() {
   useEffect(() => {
     const loadData = async () => {
       if (!user) return;
-
       try {
         setIsLoading(true);
-
         const classesData = await fetchTeacherClasses(user.id);
-
         setClasses(classesData);
 
-        // Auto-select class from URL query parameter or default to first class
         const preselectedClassId = searchParams.get('classId');
         const selectedIdx = preselectedClassId
           ? classesData.findIndex((c: Class) => c.id === preselectedClassId)
@@ -103,15 +100,10 @@ export default function TeacherAssessmentGeneratorPage() {
         const idx = selectedIdx >= 0 ? selectedIdx : 0;
 
         if (classesData.length > 0) {
-          setFormData(prev => ({
-            ...prev,
-            classId: classesData[idx].id,
-          }));
-
+          setFormData(prev => ({ ...prev, classId: classesData[idx].id }));
           const firstClass = classesData[idx];
           if (firstClass.syllabus) {
-            const testsList = ['End of Unit Test', 'Mid-Term Assessment', 'Final Exam'];
-            setRequiredTests(testsList);
+            setRequiredTests(['End of Unit Test', 'Mid-Term Assessment', 'Final Exam']);
           }
         }
 
@@ -122,11 +114,9 @@ export default function TeacherAssessmentGeneratorPage() {
         setIsLoading(false);
       }
     };
-
     loadData();
   }, [user]);
 
-  // Auto-fix subject/topic when grade changes
   useEffect(() => {
     if (availableSubjects.length > 0 && !availableSubjects.find(s => s.key === formData.selectedSubjectKey)) {
       setFormData(prev => ({
@@ -145,19 +135,13 @@ export default function TeacherAssessmentGeneratorPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
     if (name === 'selectedSubjectKey') {
       const subject = capsCurriculum.find(s => s.key === value);
-      setFormData(prev => ({
-        ...prev,
-        selectedSubjectKey: value,
-        selectedTopicKey: subject?.topics[0]?.key || ''
-      }));
+      setFormData(prev => ({ ...prev, selectedSubjectKey: value, selectedTopicKey: subject?.topics[0]?.key || '' }));
     } else if (name === 'classId') {
       const selectedClass = classes.find(c => c.id === value);
       if (selectedClass && selectedClass.syllabus) {
-        const testsList = ['End of Unit Test', 'Mid-Term Assessment', 'Final Exam'];
-        setRequiredTests(testsList);
+        setRequiredTests(['End of Unit Test', 'Mid-Term Assessment', 'Final Exam']);
       } else {
         setRequiredTests([]);
       }
@@ -179,7 +163,6 @@ export default function TeacherAssessmentGeneratorPage() {
 
   const handleGenerateAssessment = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!formData.classId || !formData.selectedSubjectKey || !formData.selectedTopicKey) {
       alert('Please fill in all required fields');
       return;
@@ -192,7 +175,6 @@ export default function TeacherAssessmentGeneratorPage() {
       const selectedClass = classes.find(c => c.id === formData.classId);
       if (!selectedClass) return;
 
-      // Load KB chunks for context injection
       const allChunks = loadAllChunks();
       const matchingChunks = findMatchingChunks(allChunks, formData.selectedSubjectKey, formData.selectedTopicKey, formData.selectedGrade);
       const kbContext = buildChunkContext(matchingChunks, 1500);
@@ -213,7 +195,6 @@ export default function TeacherAssessmentGeneratorPage() {
 
       setGeneratedAssessment(assessmentData.assessment);
       setQuestions(assessmentData.questions);
-
     } catch (error: any) {
       setError(error.message || 'Failed to generate assessment. Please try again.');
     } finally {
@@ -228,87 +209,27 @@ export default function TeacherAssessmentGeneratorPage() {
     const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
     const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
 
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: `${subjectName} - ${topicName} Assessment`,
-            size: 32
-          })
-        ],
-        heading: HeadingLevel.HEADING_1,
-        spacing: { after: 200 }
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [new TextRun({ text: `Type: ${formData.assessmentType}` })],
-        spacing: { after: 100 }
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [new TextRun({ text: `Class: ${classes.find(c => c.id === formData.classId)?.name}` })],
-        spacing: { after: 100 }
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [new TextRun({ text: `Difficulty: ${formData.difficulty}` })],
-        spacing: { after: 200 }
-      })
-    );
+    children.push(new Paragraph({ children: [new TextRun({ text: `${subjectName} - ${topicName} Assessment`, size: 32 })], heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: `Type: ${formData.assessmentType}` })], spacing: { after: 100 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: `Class: ${classes.find(c => c.id === formData.classId)?.name}` })], spacing: { after: 100 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: `Difficulty: ${formData.difficulty}` })], spacing: { after: 200 } }));
 
     questions.forEach((question, i) => {
-      children.push(
-        new Paragraph({
-          children: [new TextRun({ text: `Question ${i + 1}: ${question.question}` })],
-          heading: HeadingLevel.HEADING_3,
-          spacing: { before: 200, after: 100 }
-        })
-      );
-
-      if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+      children.push(new Paragraph({ children: [new TextRun({ text: `Question ${i + 1}: ${question.question}` })], heading: HeadingLevel.HEADING_3, spacing: { before: 200, after: 100 } }));
+      if (question.type === 'multiple-choice' && question.options?.length > 0) {
         question.options.forEach((option: string, j: number) => {
-          children.push(
-            new Paragraph({
-              children: [new TextRun({ text: `${String.fromCharCode(65 + j)}. ${option}` })],
-              bullet: { level: 0 },
-              spacing: { after: 60 }
-            })
-          );
+          children.push(new Paragraph({ children: [new TextRun({ text: `${String.fromCharCode(65 + j)}. ${option}` })], bullet: { level: 0 }, spacing: { after: 60 } }));
         });
       }
-
       if (formData.includeAnswerKey) {
-        children.push(
-          new Paragraph({
-            children: [new TextRun({ text: `Answer: ${question.answer}` })],
-            spacing: { before: 100, after: 80 }
-          })
-        );
-
+        children.push(new Paragraph({ children: [new TextRun({ text: `Answer: ${question.answer}` })], spacing: { before: 100, after: 80 } }));
         if (question.explanation) {
-          children.push(
-            new Paragraph({
-              children: [new TextRun({ text: `Explanation: ${question.explanation}` })],
-              spacing: { after: 160 }
-            })
-          );
+          children.push(new Paragraph({ children: [new TextRun({ text: `Explanation: ${question.explanation}` })], spacing: { after: 160 } }));
         }
       }
     });
 
-    const doc = new Document({
-      sections: [{
-        properties: {},
-        children: children
-      }]
-    });
-
+    const doc = new Document({ sections: [{ properties: {}, children }] });
     Packer.toBlob(doc).then(blob => {
       saveAs(blob, `${subjectName}_${topicName}_Assessment.docx`);
     });
@@ -316,116 +237,96 @@ export default function TeacherAssessmentGeneratorPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader />
+      <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-[#1B4332] rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b">
-        <div className=" px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FAFAF8]">
+      {/* Header */}
+      <div className="bg-white border-b border-[#E8E6E0]/60">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <button
+              type="button"
               onClick={() => navigate('/teachers/assessments')}
-              className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-sm font-medium"
+              className="flex items-center gap-2 text-[#2D1B0E]/60 hover:text-[#1B4332] text-sm font-medium transition-colors"
               title="Back to Assessments"
             >
-              ← Back
+              <ArrowLeft size={16} />
+              Back
             </button>
-            <h1 className="text-xl font-semibold text-gray-900">Generate Assessment</h1>
+            <h1 className="font-headline font-semibold text-[#1B4332] text-lg">Generate Assessment</h1>
+            <div className="w-16" />
           </div>
         </div>
       </div>
 
-      <div className=" px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-[#E8D5B7]/20 border border-[#1B4332]/15 text-[#2D1B0E] px-4 py-3 rounded-xl mb-6 flex items-center text-sm"
+          >
+            <span>{error}</span>
+          </motion.div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Form Section */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <form onSubmit={handleGenerateAssessment} className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-6"
+          >
+            <form onSubmit={handleGenerateAssessment} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Class
-                </label>
-                <select
-                  name="classId"
-                  value={formData.classId}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                >
+                <label className={labelClass}>Class</label>
+                <select name="classId" value={formData.classId} onChange={handleInputChange} className={inputClass} required title="Select class">
                   <option value="">Select a class</option>
                   {classes.map(cls => (
-                    <option key={cls.id} value={cls.id}>
-                      {cls.name} - {cls.grade} ({cls.subject})
-                    </option>
+                    <option key={cls.id} value={cls.id}>{cls.name} - {cls.grade} ({cls.subject})</option>
                   ))}
                 </select>
               </div>
 
-              {/* Grade */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Grade</label>
-                <select
-                  name="selectedGrade"
-                  value={formData.selectedGrade}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
+                <label className={labelClass}>Grade</label>
+                <select name="selectedGrade" value={formData.selectedGrade} onChange={handleInputChange} className={inputClass} title="Select grade">
                   {saGrades.map(g => (
                     <option key={g.value} value={g.value}>{g.label}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Subject - CAPS */}
+              <div className="border-b border-gray-100" />
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Subject (CAPS)</label>
-                <select
-                  name="selectedSubjectKey"
-                  value={formData.selectedSubjectKey}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                >
+                <label className={labelClass}>Subject (CAPS)</label>
+                <select name="selectedSubjectKey" value={formData.selectedSubjectKey} onChange={handleInputChange} className={inputClass} required title="Select subject">
                   {availableSubjects.map(subject => (
-                    <option key={subject.key} value={subject.key}>
-                      {subject.name}
-                    </option>
+                    <option key={subject.key} value={subject.key}>{subject.name}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Topic - CAPS */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Topic</label>
-                <select
-                  name="selectedTopicKey"
-                  value={formData.selectedTopicKey}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                >
+                <label className={labelClass}>Topic</label>
+                <select name="selectedTopicKey" value={formData.selectedTopicKey} onChange={handleInputChange} className={inputClass} required title="Select topic">
                   {availableTopics.map(topic => (
-                    <option key={topic.key} value={topic.key}>
-                      {topic.name}
-                    </option>
+                    <option key={topic.key} value={topic.key}>{topic.name}</option>
                   ))}
                 </select>
               </div>
 
               {requiredTests.length > 0 && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Required Test (from syllabus)
-                  </label>
-                  <select
-                    name="requiredTest"
-                    value={formData.requiredTest}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  >
+                  <label className={labelClass}>Required Test (from syllabus)</label>
+                  <select name="requiredTest" value={formData.requiredTest} onChange={handleInputChange} className={inputClass} title="Select required test">
                     <option value="">Select a required test (optional)</option>
                     {requiredTests.map(test => (
                       <option key={test} value={test}>{test}</option>
@@ -434,34 +335,21 @@ export default function TeacherAssessmentGeneratorPage() {
                 </div>
               )}
 
+              <div className="border-b border-gray-100" />
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Assessment Type
-                  </label>
-                  <select
-                    name="assessmentType"
-                    value={formData.assessmentType}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  >
+                  <label className={labelClass}>Assessment Type</label>
+                  <select name="assessmentType" value={formData.assessmentType} onChange={handleInputChange} className={inputClass} title="Select assessment type">
                     <option value="quiz">Quiz</option>
                     <option value="test">Test</option>
                     <option value="exam">Exam</option>
                     <option value="homework">Homework</option>
                   </select>
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Difficulty
-                  </label>
-                  <select
-                    name="difficulty"
-                    value={formData.difficulty}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  >
+                  <label className={labelClass}>Difficulty</label>
+                  <select name="difficulty" value={formData.difficulty} onChange={handleInputChange} className={inputClass} title="Select difficulty">
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
@@ -471,15 +359,8 @@ export default function TeacherAssessmentGeneratorPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Number of Questions
-                </label>
-                <select
-                  name="questionCount"
-                  value={formData.questionCount}
-                  onChange={handleNumberChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
+                <label className={labelClass}>Number of Questions</label>
+                <select name="questionCount" value={formData.questionCount} onChange={handleNumberChange} className={inputClass} title="Select question count">
                   <option value={5}>5 questions</option>
                   <option value={10}>10 questions</option>
                   <option value={15}>15 questions</option>
@@ -488,27 +369,24 @@ export default function TeacherAssessmentGeneratorPage() {
                 </select>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="font-medium text-gray-900">Include in Assessment</h3>
-                <div className="space-y-3">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="includeAnswerKey"
-                      checked={formData.includeAnswerKey}
-                      onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Include answer key and explanations</span>
-                  </label>
-                </div>
+              <div>
+                <h3 className="text-sm font-medium text-[#2D1B0E]/70 mb-3">Include in Assessment</h3>
+                <label className="flex items-center cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    name="includeAnswerKey"
+                    checked={formData.includeAnswerKey}
+                    onChange={handleCheckboxChange}
+                    className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors"
+                  />
+                  <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Include answer key and explanations</span>
+                </label>
               </div>
 
-              {/* KB indicator */}
               {kbChunkCount > 0 && (
-                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 flex items-center gap-2">
-                  <Database className="h-4 w-4 text-indigo-500" />
-                  <p className="text-sm text-indigo-700">
+                <div className="bg-[#D4A843]/8 border border-[#D4A843]/20 rounded-xl p-3.5 flex items-center gap-2.5">
+                  <Database className="h-4 w-4 text-[#D4A843] flex-shrink-0" />
+                  <p className="text-sm text-[#1B4332]/70">
                     {kbChunkCount} knowledgebase chunks available. Matching chunks will inform the assessment.
                   </p>
                 </div>
@@ -517,69 +395,80 @@ export default function TeacherAssessmentGeneratorPage() {
               <button
                 type="submit"
                 disabled={isGenerating}
-                className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                className="w-full bg-[#1B4332] text-white py-3 px-4 rounded-xl hover:bg-[#1B4332]/90 focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm font-medium transition-all shadow-sm"
               >
                 {isGenerating ? (
                   <>
-                    <Loader />
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                     Generating...
                   </>
                 ) : (
                   <>
-                    <Wand2 className="h-5 w-5 mr-2" />
+                    <Wand2 className="h-4 w-4 mr-2 text-[#D4A843]" />
                     Generate Assessment
                   </>
                 )}
               </button>
-
             </form>
-          </div>
+          </motion.div>
 
           {/* Preview/Results Section */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-6"
+          >
             {generatedAssessment ? (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <CheckCircle className="h-5 w-5 text-greyed-navy mr-2" />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.35 }}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="font-headline font-semibold text-[#1B4332] flex items-center text-[15px]">
+                    <CheckCircle className="h-5 w-5 text-emerald-500 mr-2" />
                     Assessment Generated
                   </h2>
                   <button
+                    type="button"
                     onClick={handleDownloadAssessment}
-                    className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+                    className="flex items-center bg-[#1B4332] text-white px-4 py-2 rounded-xl hover:bg-[#1B4332]/90 text-sm font-medium transition-colors shadow-sm"
                   >
                     <Download className="h-4 w-4 mr-2" />
                     Download DOCX
                   </button>
                 </div>
-                <div className="flex flex-col items-center justify-center bg-white p-8 rounded-lg max-h-96 overflow-y-auto">
-                  <FileText className="h-16 w-16 text-indigo-500 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Assessment Ready!</h3>
-                  <p className="text-gray-600 text-center mb-6">
-                    Your CAPS-aligned assessment is ready for download.
+                <div className="flex flex-col items-center justify-center py-10">
+                  <div className="w-16 h-16 bg-[#D4A843]/10 rounded-2xl flex items-center justify-center mb-5">
+                    <FileText className="h-7 w-7 text-[#D4A843]" />
+                  </div>
+                  <h3 className="font-headline font-semibold text-[#1B4332] text-lg mb-2">Assessment Ready!</h3>
+                  <p className="text-[#2D1B0E]/50 text-center mb-8 text-sm max-w-xs leading-relaxed">
+                    Your CAPS-aligned assessment is ready for download and editing.
                   </p>
                   <button
+                    type="button"
                     onClick={handleDownloadAssessment}
-                    className="flex items-center bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 text-lg font-medium"
+                    className="flex items-center bg-[#1B4332] text-white px-6 py-3 rounded-xl hover:bg-[#1B4332]/90 text-base font-medium transition-colors shadow-sm"
                   >
                     <Download className="h-5 w-5 mr-2" />
-                    Download & Edit DOCX
+                    Download &amp; Edit DOCX
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ) : (
-              <div className="text-center py-12">
-                <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Ready to Generate
-                </h3>
-                <p className="text-gray-600">
-                  Fill out the form and click "Generate Assessment" to create a detailed,
-                  CAPS-aligned assessment for your class.
+              <div className="flex flex-col items-center justify-center py-16">
+                <div className="w-14 h-14 bg-[#E8D5B7]/20 rounded-2xl flex items-center justify-center mb-5">
+                  <FileText className="h-6 w-6 text-[#1B4332]/40" />
+                </div>
+                <h3 className="font-headline font-semibold text-[#1B4332] mb-2">Ready to Generate</h3>
+                <p className="text-[#2D1B0E]/45 text-center max-w-xs text-sm leading-relaxed">
+                  Fill out the form and click "Generate Assessment" to create a detailed, CAPS-aligned assessment.
                 </p>
               </div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

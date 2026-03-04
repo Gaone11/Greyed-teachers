@@ -171,7 +171,7 @@ const Hero: React.FC = () => {
                 onClick={handleStartJourney}
                 className="w-full sm:w-auto bg-greyed-blue hover:bg-greyed-white text-greyed-navy px-8 py-3 rounded-full font-medium transition-colors text-lg flex items-center justify-center"
               >
-                {user ? "Go to Dashboard" : "Start Your Free Trial"}
+                {user ? "Go to Dashboard" : "Get Started"}
                 {user && <ChevronRight size={20} className="ml-2" />}
               </button>
               <a 
@@ -201,7 +201,7 @@ const Hero: React.FC = () => {
                 onClick={handleStartJourney}
                 className="w-full sm:w-auto bg-greyed-blue hover:bg-greyed-white text-greyed-navy px-8 py-3 rounded-full font-medium transition-colors text-lg flex items-center justify-center"
               >
-                {user ? "Go to Dashboard" : "Start Your Free Trial"}
+                {user ? "Go to Dashboard" : "Get Started"}
                 {user && <ChevronRight size={20} className="ml-2" />}
               </button>
               <a 

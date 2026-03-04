@@ -129,7 +129,7 @@ const TeacherDashboardPage: React.FC = () => {
     <LandingLayout disableSnapScroll={true}>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-16 bg-[#FAFAF8] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={() => setShowMobileMenu(false)} />
@@ -178,7 +178,7 @@ const TeacherDashboardPage: React.FC = () => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className="group flex-shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#e8e6e0] hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
+                      className="group flex-shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
                       style={{ animationDelay: `${i * 40}ms` }}
                     >
                       <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
@@ -203,7 +203,7 @@ const TeacherDashboardPage: React.FC = () => {
                 return (
                   <div
                     key={stat.label}
-                    className="rounded-xl bg-white border border-[#e8e6e0] p-4 hover:shadow-md transition-all duration-200"
+                    className="rounded-xl bg-white border border-[#E8E6E0]/60 p-4 hover:shadow-md transition-all duration-200"
                     style={{ animationDelay: `${80 + i * 40}ms` }}
                   >
                     <div className="flex items-center gap-3">
@@ -238,7 +238,7 @@ const TeacherDashboardPage: React.FC = () => {
 
               {classes.length === 0 ? (
                 /* Empty state */
-                <div className="rounded-2xl bg-white border border-[#e8e6e0] p-12 text-center shadow-sm">
+                <div className="rounded-2xl bg-white border border-[#E8E6E0]/60 p-12 text-center shadow-sm">
                   <div className="w-20 h-20 rounded-2xl bg-[#D4A843]/15 flex items-center justify-center mx-auto mb-5">
                     <Users className="w-10 h-10 text-[#D4A843]" />
                   </div>
@@ -300,9 +300,9 @@ const TeacherDashboardPage: React.FC = () => {
                   {/* Add class card */}
                   <Link
                     to="/teachers/classes"
-                    className="group rounded-2xl border-2 border-dashed border-[#e8e6e0] hover:border-[#1B4332]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#D4A843]/5 transition-all duration-200 touch-manipulation"
+                    className="group rounded-2xl border-2 border-dashed border-[#E8E6E0]/60 hover:border-[#1B4332]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#D4A843]/5 transition-all duration-200 touch-manipulation"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-[#f8f8f6] group-hover:bg-[#D4A843]/20 flex items-center justify-center mb-3 transition-colors duration-200">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FAFAF8] group-hover:bg-[#D4A843]/20 flex items-center justify-center mb-3 transition-colors duration-200">
                       <PlusCircle className="w-7 h-7 text-[#292828]/40 group-hover:text-[#1B4332] transition-colors" />
                     </div>
                     <span className="text-sm font-semibold text-[#292828]/50 group-hover:text-[#1B4332] transition-colors">Add New Class</span>

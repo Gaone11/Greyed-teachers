@@ -74,7 +74,7 @@ const RoleSelectionModal: React.FC = () => {
                 Join GreyEd Teachers
               </h2>
               <p className="text-greyed-navy/70 text-sm sm:text-base">
-                Start your 14-day free trial today
+                Get started today
               </p>
             </div>
             
@@ -91,14 +91,13 @@ const RoleSelectionModal: React.FC = () => {
                   Access AI-powered lesson plans, assessments, and tutor updates
                 </p>
                 <div className="mt-4 bg-greyed-navy/10 px-3 py-1 rounded-full text-xs text-greyed-navy font-medium">
-                  14-day free trial
+                  Get Started
                 </div>
               </button>
             </div>
 
             <div className="mt-6 pt-4 text-center text-xs text-greyed-navy/60 border-t border-greyed-navy/10">
-              <p>£8/month after free trial (~BWP150, $11, R199)</p>
-              <p className="mt-1">Cancel anytime during your trial period</p>
+              <p>Access AI-powered tools for your classroom</p>
             </div>
           </motion.div>
         </motion.div>

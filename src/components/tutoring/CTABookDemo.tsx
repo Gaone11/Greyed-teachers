@@ -68,7 +68,7 @@ const CTABookDemo: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      Start Your 14-Day Free Trial
+                      Get Started
                       <motion.div
                         whileHover={{ rotate: 90 }}
                         className="ml-2"
@@ -100,7 +100,7 @@ const CTABookDemo: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      Start Your 14-Day Free Trial
+                      Get Started
                       <span className="ml-2">
                         <ArrowRight size={18} />
                       </span>

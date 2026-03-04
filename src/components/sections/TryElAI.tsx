@@ -62,7 +62,7 @@ const TryElAI: React.FC = () => {
             Siyafunda Pro for Teachers
           </h2>
           <p className="text-xl text-greyed-blue">
-            Start with a free 14-day trial. No credit card required to begin.
+            AI-powered tools to support your teaching journey.
           </p>
           <p className="text-sm text-greyed-white/60 mt-2 italic">
             "Umntwana akakhuliswa ngumuntu munye" — A child is not raised by one person alone
@@ -79,11 +79,11 @@ const TryElAI: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              14-DAY FREE TRIAL
+              GET STARTED
             </motion.div>
           ) : (
             <div className="absolute top-6 right-6 bg-greyed-blue text-greyed-navy font-bold py-2 px-4 rounded-full">
-              14-DAY FREE TRIAL
+              GET STARTED
             </div>
           )}
           
@@ -121,7 +121,7 @@ const TryElAI: React.FC = () => {
           
           <div className="text-center mb-6">
             <div className="text-2xl font-bold">R199<span className="text-sm font-normal">/month</span></div>
-            <div className="text-sm text-greyed-white/70 mt-1">After 14-day free trial</div>
+            <div className="text-sm text-greyed-white/70 mt-1">per month</div>
           </div>
           
           <button 
@@ -134,12 +134,12 @@ const TryElAI: React.FC = () => {
                 <ChevronRight size={16} className="ml-2" />
               </>
             ) : (
-              "Start Free Trial"
+              "Get Started"
             )}
           </button>
           
           <div className="mt-4 text-center text-xs text-greyed-white/70">
-            Cancel anytime during trial period at no cost
+            Cancel anytime
           </div>
         </div>
       </div>

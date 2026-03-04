@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { motion } from 'framer-motion';
 import { fetchTeacherClasses, generateLessonPlan } from '../../lib/api/teacher-api';
-import Loader from '../../components/ui/Loader';
-import { Wand2, CheckCircle, PlusCircle, X, Download, BookOpen, FileText, Database } from 'lucide-react';
+import { Wand2, CheckCircle, PlusCircle, X, Download, BookOpen, FileText, Database, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { format } from 'date-fns';
 import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
-import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade, type CAPSSubject } from '../../data/capsCurriculum';
+import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade } from '../../data/capsCurriculum';
 import { findMatchingChunks, buildChunkContext, type KnowledgeChunk, type ChunkedDocument } from '../../lib/knowledgebase/pdf-chunker';
+import { supabase } from '../../lib/supabase';
 
 const KB_STORAGE_KEY = 'greyed-kb-chunks';
 
@@ -48,6 +51,50 @@ function loadAllChunks(): KnowledgeChunk[] {
   return [];
 }
 
+// Get current SA school term based on month
+function getCurrentTerm(): string {
+  const month = new Date().getMonth(); // 0-indexed
+  if (month <= 2) return '1';  // Jan-Mar = Term 1
+  if (month <= 5) return '2';  // Apr-Jun = Term 2
+  if (month <= 8) return '3';  // Jul-Sep = Term 3
+  return '4';                   // Oct-Dec = Term 4
+}
+
+// Match grade from class grade string to saGrades value
+function matchGradeFromClass(classGrade: string): string {
+  const exact = saGrades.find(g => g.value.toLowerCase() === classGrade.toLowerCase());
+  if (exact) return exact.value;
+  const numMatch = classGrade.match(/\d+/);
+  if (numMatch) {
+    const num = parseInt(numMatch[0]);
+    const grade = saGrades.find(g => g.num === num);
+    if (grade) return grade.value;
+  }
+  if (/\bR\b/i.test(classGrade)) return 'Grade R';
+  return saGrades[0].value;
+}
+
+// Guess next week from last lesson plan for the class
+async function guessNextWeek(classId: string): Promise<string> {
+  try {
+    const { data } = await supabase
+      .from('lesson_plans')
+      .select('meta')
+      .eq('class_id', classId)
+      .order('created_at', { ascending: false })
+      .limit(1);
+    if (data && data.length > 0 && data[0].meta?.week) {
+      const lastWeek = parseInt(data[0].meta.week);
+      if (!isNaN(lastWeek) && lastWeek < 12) return String(lastWeek + 1);
+    }
+  } catch { /* ignore */ }
+  return '1';
+}
+
+// Shared input class for consistency
+const inputClass = "w-full p-3 border border-gray-200 rounded-xl text-sm text-[#2D1B0E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 transition-all bg-white";
+const labelClass = "block text-sm font-medium text-[#2D1B0E]/70 mb-1.5";
+
 export default function TeacherLessonPlanGeneratorPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -57,6 +104,7 @@ export default function TeacherLessonPlanGeneratorPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
   const [kbChunkCount, setKbChunkCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const defaultGrade = saGrades[0].value;
   const defaultPhase = getPhaseFromGrade(saGrades[0].num);
@@ -70,7 +118,7 @@ export default function TeacherLessonPlanGeneratorPage() {
     selectedSubjectKey: defaultSubjectKey,
     selectedTopicKey: defaultTopicKey,
     syllabus: 'CAPS',
-    term: '1',
+    term: getCurrentTerm(),
     week: '1',
     date: format(new Date(), 'yyyy-MM-dd'),
     duration: '45',
@@ -90,15 +138,11 @@ export default function TeacherLessonPlanGeneratorPage() {
   useEffect(() => {
     const loadData = async () => {
       if (!user) return;
-
       try {
         setIsLoading(true);
-
         const classesData = await fetchTeacherClasses(user.id);
-
         setClasses(classesData);
 
-        // Auto-select class from URL query parameter or default to first class
         const preselectedClassId = searchParams.get('classId');
         if (preselectedClassId && classesData.some((c: Class) => c.id === preselectedClassId)) {
           setFormData(prev => ({ ...prev, classId: preselectedClassId }));
@@ -106,7 +150,6 @@ export default function TeacherLessonPlanGeneratorPage() {
           setFormData(prev => ({ ...prev, classId: classesData[0].id }));
         }
 
-        // Check KB chunk availability
         const chunks = loadAllChunks();
         setKbChunkCount(chunks.length);
       } catch {
@@ -114,11 +157,9 @@ export default function TeacherLessonPlanGeneratorPage() {
         setIsLoading(false);
       }
     };
-
     loadData();
   }, [user]);
 
-  // Auto-fix subject/topic when grade changes
   useEffect(() => {
     if (availableSubjects.length > 0 && !availableSubjects.find(s => s.key === formData.selectedSubjectKey)) {
       setFormData(prev => ({
@@ -135,20 +176,22 @@ export default function TeacherLessonPlanGeneratorPage() {
     }
   }, [formData.selectedSubjectKey]);
 
+  // Auto-fill grade from class and guess next week when class changes
+  useEffect(() => {
+    if (!formData.classId) return;
+    const selectedClass = classes.find(c => c.id === formData.classId);
+    if (selectedClass) {
+      const autoGrade = matchGradeFromClass(selectedClass.grade);
+      setFormData(prev => ({ ...prev, selectedGrade: autoGrade }));
+      guessNextWeek(formData.classId).then(week => {
+        setFormData(prev => ({ ...prev, week }));
+      });
+    }
+  }, [formData.classId, classes]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-    if (name === 'selectedSubject') {
-      const topics = primaryCurriculum[value as keyof typeof primaryCurriculum] || [];
-      setAvailableTopics(topics);
-      setFormData(prev => ({
-        ...prev,
-        selectedSubjectKey: value,
-        selectedTopicKey: subject?.topics[0]?.key || ''
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,41 +200,29 @@ export default function TeacherLessonPlanGeneratorPage() {
   };
 
   const handleAddFocusArea = () => {
-    setFormData(prev => ({
-      ...prev,
-      focusAreas: [...prev.focusAreas, '']
-    }));
+    setFormData(prev => ({ ...prev, focusAreas: [...prev.focusAreas, ''] }));
   };
 
   const handleRemoveFocusArea = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      focusAreas: prev.focusAreas.filter((_, i) => i !== index)
-    }));
+    setFormData(prev => ({ ...prev, focusAreas: prev.focusAreas.filter((_, i) => i !== index) }));
   };
 
   const handleFocusAreaChange = (index: number, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      focusAreas: prev.focusAreas.map((area, i) => i === index ? value : area)
-    }));
+    setFormData(prev => ({ ...prev, focusAreas: prev.focusAreas.map((area, i) => i === index ? value : area) }));
   };
 
   const handleGenerateLessonPlan = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!formData.classId || !formData.selectedSubject || !formData.selectedTopic) {
+    if (!formData.classId || !formData.selectedSubjectKey || !formData.selectedTopicKey) {
       alert('Please fill in all required fields');
       return;
     }
 
     try {
       setIsGenerating(true);
-
       const selectedClass = classes.find(c => c.id === formData.classId);
       if (!selectedClass) return;
 
-      // Load KB chunks for context injection
       const allChunks = loadAllChunks();
       const matchingChunks = findMatchingChunks(allChunks, formData.selectedSubjectKey, formData.selectedTopicKey, formData.selectedGrade);
       const kbContext = buildChunkContext(matchingChunks, 1500);
@@ -218,22 +249,7 @@ export default function TeacherLessonPlanGeneratorPage() {
       });
 
       setGeneratedPlan(plan.markdown || plan);
-
-      // Reset form
-      setFormData({
-        classId: classes[0]?.id || '',
-        selectedSubject: 'Mathematics',
-        selectedTopic: 'Numbers and Counting - Intro',
-        syllabus: 'PSLA',
-        date: format(new Date(), 'yyyy-MM-dd'),
-        duration: '45',
-        focusAreas: [],
-        includeAssessment: true,
-        includeDifferentiation: true,
-        includeResources: true
-      });
-      setAvailableTopics(primaryCurriculum.Mathematics);
-
+      setCurrentPage(0);
     } catch {
       alert('Failed to generate lesson plan. Please try again.');
     } finally {
@@ -257,49 +273,21 @@ export default function TeacherLessonPlanGeneratorPage() {
 
     lines.forEach(line => {
       if (line.trim() === '') {
-        children.push(new Paragraph({
-          children: [new TextRun({ text: '' })],
-          spacing: { after: 80 },
-        }));
+        children.push(new Paragraph({ children: [new TextRun({ text: '' })], spacing: { after: 80 } }));
       } else if (line.startsWith('### ')) {
-        children.push(new Paragraph({
-          children: parseMarkdownToTextRuns(line.substring(4)),
-          heading: HeadingLevel.HEADING_3,
-          spacing: { before: 240, after: 120 }
-        }));
+        children.push(new Paragraph({ children: parseMarkdownToTextRuns(line.substring(4)), heading: HeadingLevel.HEADING_3, spacing: { before: 240, after: 120 } }));
       } else if (line.startsWith('## ')) {
-        children.push(new Paragraph({
-          children: parseMarkdownToPlain(line.substring(3)),
-          heading: HeadingLevel.HEADING_2,
-          spacing: { before: 320, after: 160 }
-        }));
+        children.push(new Paragraph({ children: parseMarkdownToPlain(line.substring(3)), heading: HeadingLevel.HEADING_2, spacing: { before: 320, after: 160 } }));
       } else if (line.startsWith('# ')) {
-        children.push(new Paragraph({
-          children: parseMarkdownToPlain(line.substring(2)),
-          heading: HeadingLevel.HEADING_1,
-          spacing: { before: 400, after: 200 }
-        }));
+        children.push(new Paragraph({ children: parseMarkdownToPlain(line.substring(2)), heading: HeadingLevel.HEADING_1, spacing: { before: 400, after: 200 } }));
       } else if (line.startsWith('- ')) {
-        children.push(new Paragraph({
-          children: parseMarkdownToTextRuns(line.substring(2)),
-          bullet: { level: 0 },
-          spacing: { after: 40 }
-        }));
+        children.push(new Paragraph({ children: parseMarkdownToTextRuns(line.substring(2)), bullet: { level: 0 }, spacing: { after: 40 } }));
       } else {
-        children.push(new Paragraph({
-          children: parseMarkdownToPlain(line),
-          spacing: { after: 60 }
-        }));
+        children.push(new Paragraph({ children: parseMarkdownToPlain(line), spacing: { after: 60 } }));
       }
     });
 
-    const doc = new Document({
-      sections: [{
-        properties: {},
-        children: children
-      }]
-    });
-
+    const doc = new Document({ sections: [{ properties: {}, children }] });
     Packer.toBlob(doc).then(blob => {
       const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
       const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
@@ -308,341 +296,366 @@ export default function TeacherLessonPlanGeneratorPage() {
     });
   };
 
+  // Split markdown into pages by top-level sections (## headings)
+  const planPages = React.useMemo(() => {
+    if (!generatedPlan) return [];
+    const lines = generatedPlan.split('\n');
+    const pages: string[][] = [];
+    let current: string[] = [];
+
+    for (const line of lines) {
+      if (line.startsWith('## ') && current.length > 0) {
+        pages.push(current);
+        current = [line];
+      } else {
+        current.push(line);
+      }
+    }
+    if (current.length > 0) pages.push(current);
+    return pages;
+  }, [generatedPlan]);
+
+  // Markdown component overrides for styled rendering
+  const mdComponents = {
+    h1: ({ children }: any) => <h1 className="text-xl font-bold text-[#2D1B0E] mb-3 pb-2 border-b border-gray-200">{children}</h1>,
+    h2: ({ children }: any) => <h2 className="text-base font-semibold text-[#1B4332] mt-4 mb-2">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-sm font-semibold text-[#2D1B0E]/80 mt-3 mb-1">{children}</h3>,
+    h4: ({ children }: any) => <h4 className="text-sm font-medium text-[#2D1B0E]/70 mt-2 mb-1">{children}</h4>,
+    p: ({ children }: any) => <p className="text-sm text-[#2D1B0E]/80 leading-relaxed mb-2">{children}</p>,
+    strong: ({ children }: any) => <strong className="font-semibold text-[#2D1B0E]/90">{children}</strong>,
+    em: ({ children }: any) => <em className="italic text-[#2D1B0E]/70">{children}</em>,
+    ul: ({ children }: any) => <ul className="space-y-1 mb-3 pl-1">{children}</ul>,
+    ol: ({ children }: any) => <ol className="space-y-1 mb-3 pl-1 list-decimal list-inside">{children}</ol>,
+    li: ({ children }: any) => (
+      <li className="flex items-start gap-2 text-sm text-[#2D1B0E]/80">
+        <span className="text-[#1B4332]/40 mt-1.5 text-[6px] shrink-0">●</span>
+        <span className="leading-relaxed">{children}</span>
+      </li>
+    ),
+    table: ({ children }: any) => (
+      <div className="my-3 rounded-lg border border-gray-200 overflow-hidden">
+        <table className="w-full text-sm">{children}</table>
+      </div>
+    ),
+    thead: ({ children }: any) => <thead className="bg-[#1B4332]/5">{children}</thead>,
+    tbody: ({ children }: any) => <tbody className="divide-y divide-gray-100">{children}</tbody>,
+    tr: ({ children }: any) => <tr className="divide-x divide-gray-100">{children}</tr>,
+    th: ({ children }: any) => <th className="px-3 py-2 text-left font-semibold text-[#2D1B0E]/80 text-xs uppercase tracking-wide">{children}</th>,
+    td: ({ children }: any) => <td className="px-3 py-2 text-[#2D1B0E]/80">{children}</td>,
+    hr: () => <hr className="my-4 border-gray-200" />,
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-l-3 border-[#1B4332]/20 pl-4 my-3 text-sm text-[#2D1B0E]/60 italic">{children}</blockquote>
+    ),
+    code: ({ children, className }: any) => {
+      const isBlock = className?.includes('language-');
+      if (isBlock) {
+        return <pre className="bg-gray-50 border border-gray-200 rounded-lg p-3 my-3 text-xs overflow-x-auto"><code>{children}</code></pre>;
+      }
+      return <code className="bg-gray-100 text-[#1B4332] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>;
+    },
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader />
+      <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-greyed-navy rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b">
-        <div className=" px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FAFAF8]">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <button
+              type="button"
               onClick={() => navigate('/teachers/lesson-planner')}
-              className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-sm font-medium"
+              className="flex items-center gap-2 text-[#2D1B0E]/60 hover:text-[#2D1B0E] text-sm font-medium transition-colors"
               title="Back to Lesson Plans"
             >
-              ← Back
+              <ArrowLeft size={16} />
+              Back
             </button>
-            <h1 className="text-xl font-semibold text-gray-900">Generate Lesson Plan</h1>
+            <h1 className="font-headline font-semibold text-[#2D1B0E] text-lg">Generate Lesson Plan</h1>
+            <div className="w-16" />
           </div>
         </div>
       </div>
 
-      <div className=" px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Form Section */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <form onSubmit={handleGenerateLessonPlan} className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6"
+          >
+            <form onSubmit={handleGenerateLessonPlan} className="space-y-5">
+              {/* Class */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Class
-                </label>
-                <select
-                  name="classId"
-                  value={formData.classId}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                >
+                <label className={labelClass}>Class</label>
+                <select name="classId" value={formData.classId} onChange={handleInputChange} className={inputClass} required title="Select class">
                   <option value="">Select a class</option>
                   {classes.map(cls => (
-                    <option key={cls.id} value={cls.id}>
-                      {cls.name} - {cls.grade} ({cls.subject})
-                    </option>
+                    <option key={cls.id} value={cls.id}>{cls.name} - {cls.grade} ({cls.subject})</option>
                   ))}
                 </select>
               </div>
 
-              {/* Grade */}
+              {/* Grade (auto-filled from class) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Grade
-                </label>
-                <select
-                  name="selectedGrade"
-                  value={formData.selectedGrade}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
-                  {saGrades.map(g => (
-                    <option key={g.value} value={g.value}>{g.label}</option>
-                  ))}
-                </select>
+                <label className={labelClass}>Grade <span className="text-[#2D1B0E]/40 font-normal">(from class)</span></label>
+                <div className="w-full p-3 rounded-xl text-sm text-[#2D1B0E] bg-[#E8D5B7]/20 font-medium">
+                  {formData.selectedGrade || 'Select a class first'}
+                </div>
               </div>
 
-              {/* Subject - CAPS aligned */}
+              <div className="border-b border-gray-100" />
+
+              {/* Subject */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject (CAPS)
-                </label>
-                <select
-                  name="selectedSubjectKey"
-                  value={formData.selectedSubjectKey}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                >
+                <label className={labelClass}>Subject (CAPS)</label>
+                <select name="selectedSubjectKey" value={formData.selectedSubjectKey} onChange={handleInputChange} className={inputClass} required title="Select subject">
                   {availableSubjects.map(subject => (
-                    <option key={subject.key} value={subject.key}>
-                      {subject.name}
-                    </option>
+                    <option key={subject.key} value={subject.key}>{subject.name}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Topic - CAPS aligned */}
+              {/* Topic */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Topic
-                </label>
-                <select
-                  name="selectedTopicKey"
-                  value={formData.selectedTopicKey}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                >
+                <label className={labelClass}>Topic</label>
+                <select name="selectedTopicKey" value={formData.selectedTopicKey} onChange={handleInputChange} className={inputClass} required title="Select topic">
                   {availableTopics.map(topic => (
-                    <option key={topic.key} value={topic.key}>
-                      {topic.name}
-                    </option>
+                    <option key={topic.key} value={topic.key}>{topic.name}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Syllabus */}
+              {/* Syllabus (locked to CAPS) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Syllabus
-                </label>
-                <select
-                  name="syllabus"
-                  value={formData.syllabus}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
-                  <option value="CAPS">CAPS (South Africa)</option>
-                  <option value="IGCSE">Cambridge IGCSE</option>
-                  <option value="GCSE">GCSE</option>
-                  <option value="A Level">A Level</option>
-                  <option value="BGCSE">BGCSE (Botswana)</option>
-                  <option value="JCE">JCE (Botswana)</option>
-                  <option value="Other">Other</option>
-                </select>
+                <label className={labelClass}>Syllabus</label>
+                <div className="w-full p-3 rounded-xl text-sm text-[#2D1B0E] bg-[#E8D5B7]/20 font-medium">
+                  CAPS (South Africa)
+                </div>
               </div>
 
-              {/* Term + Week + Date + Duration */}
+              <div className="border-b border-gray-100" />
+
+              {/* Term + Week */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Term</label>
-                  <select
-                    name="term"
-                    value={formData.term}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  >
-                    <option value="1">Term 1</option>
-                    <option value="2">Term 2</option>
-                    <option value="3">Term 3</option>
-                    <option value="4">Term 4</option>
-                  </select>
+                  <label className={labelClass}>Term <span className="text-[#2D1B0E]/40 font-normal">(current)</span></label>
+                  <div className="w-full p-3 rounded-xl text-sm text-[#2D1B0E] bg-transparent font-medium">
+                    Term {formData.term}
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Week</label>
-                  <input
-                    type="number"
-                    name="week"
-                    value={formData.week}
-                    onChange={handleInputChange}
-                    min="1"
-                    max="12"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <label className={labelClass}>Week <span className="text-[#2D1B0E]/40 font-normal">(auto-guessed)</span></label>
+                  <input type="number" name="week" value={formData.week} onChange={handleInputChange} min="1" max="12" className={inputClass} title="Week number" />
                 </div>
               </div>
 
+              {/* Date + Duration */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    required
-                  />
+                  <label className={labelClass}>Date</label>
+                  <input type="date" name="date" value={formData.date} onChange={handleInputChange} className={inputClass} required title="Lesson date" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Duration (minutes)
-                  </label>
-                  <input
-                    type="number"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={handleInputChange}
-                    min="15"
-                    max="180"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    required
-                  />
+                  <label className={labelClass}>Duration (min)</label>
+                  <input type="number" name="duration" value={formData.duration} onChange={handleInputChange} min="15" max="180" className={inputClass} required title="Lesson duration in minutes" />
                 </div>
               </div>
 
+              <div className="border-b border-gray-100" />
+
+              {/* Focus Areas */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Additional Focus Areas
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleAddFocusArea}
-                    className="flex items-center text-sm text-indigo-600 hover:text-indigo-700"
-                  >
+                  <label className={labelClass}>Additional Focus Areas</label>
+                  <button type="button" onClick={handleAddFocusArea} className="flex items-center text-sm text-[#1B4332]/70 hover:text-[#1B4332] font-medium transition-colors">
                     <PlusCircle className="h-4 w-4 mr-1" />
-                    Add Focus Area
+                    Add
                   </button>
                 </div>
                 {formData.focusAreas.map((area, index) => (
-                  <div key={index} className="flex items-center space-x-2 mb-2">
+                  <div key={index} className="flex items-center gap-2 mb-2">
                     <input
                       type="text"
                       value={area}
                       onChange={(e) => handleFocusAreaChange(index, e.target.value)}
                       placeholder="e.g., Vocabulary building, Problem solving"
-                      className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className={inputClass}
                     />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveFocusArea(index)}
-                      className="text-greyed-navy hover:text-greyed-navy/80"
-                    >
+                    <button type="button" onClick={() => handleRemoveFocusArea(index)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg transition-colors">
                       <X className="h-4 w-4" />
                     </button>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-4">
-                <h3 className="font-medium text-gray-900">Include Sections</h3>
-                <div className="space-y-3">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="includeAssessment"
-                      checked={formData.includeAssessment}
-                      onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Assessment Activities</span>
+              {/* Include Sections */}
+              <div>
+                <h3 className="text-sm font-medium text-[#2D1B0E]/70 mb-3">Include Sections</h3>
+                <div className="space-y-2.5">
+                  <label className="flex items-center cursor-pointer group">
+                    <input type="checkbox" name="includeAssessment" checked={formData.includeAssessment} onChange={handleCheckboxChange}
+                      className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors" />
+                    <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Assessment Activities</span>
                   </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="includeDifferentiation"
-                      checked={formData.includeDifferentiation}
-                      onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Differentiation Strategies</span>
+                  <label className="flex items-center cursor-pointer group">
+                    <input type="checkbox" name="includeDifferentiation" checked={formData.includeDifferentiation} onChange={handleCheckboxChange}
+                      className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors" />
+                    <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Differentiation Strategies</span>
                   </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="includeResources"
-                      checked={formData.includeResources}
-                      onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Required Resources</span>
+                  <label className="flex items-center cursor-pointer group">
+                    <input type="checkbox" name="includeResources" checked={formData.includeResources} onChange={handleCheckboxChange}
+                      className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors" />
+                    <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Required Resources</span>
                   </label>
                 </div>
               </div>
 
-              {/* KB indicator */}
+              {/* KB Indicator */}
               {kbChunkCount > 0 && (
-                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 flex items-center gap-2">
-                  <Database className="h-4 w-4 text-indigo-500" />
-                  <p className="text-sm text-indigo-700">
+                <div className="bg-[#D4A843]/8 border border-greyed-blue/20 rounded-xl p-3.5 flex items-center gap-2.5">
+                  <Database className="h-4 w-4 text-[#D4A843] flex-shrink-0" />
+                  <p className="text-sm text-[#1B4332]/70">
                     {kbChunkCount} knowledgebase chunks available. Matching chunks will be injected into the lesson plan.
                   </p>
                 </div>
               )}
 
+              {/* Generate Button */}
               <button
                 type="submit"
                 disabled={isGenerating}
-                className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                className="w-full bg-[#1B4332] text-white py-3 px-4 rounded-xl hover:bg-[#1B4332]/90 focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm font-medium transition-all shadow-sm"
               >
                 {isGenerating ? (
                   <>
-                    <Loader />
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                     Generating...
                   </>
                 ) : (
                   <>
-                    <Wand2 className="h-5 w-5 mr-2" />
-                    Generate Lesson Plan
+                    <Wand2 className="h-4 w-4 mr-2 text-[#D4A843]" />
+                    Generate CAPS Lesson Plan
                   </>
                 )}
               </button>
-
             </form>
-          </div>
+          </motion.div>
 
-          {/* Preview/Results Section */}
-          <div className="bg-white rounded-lg shadow p-6">
-            {generatedPlan ? (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <CheckCircle className="h-5 w-5 text-greyed-navy mr-2" />
-                    Lesson Plan Generated
+          {/* Document Viewer */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="flex flex-col"
+          >
+            {generatedPlan && planPages.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.35 }}
+                className="flex flex-col"
+              >
+                {/* Toolbar */}
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="font-headline font-semibold text-[#2D1B0E] flex items-center text-[15px]">
+                    <CheckCircle className="h-4 w-4 text-emerald-500 mr-2" />
+                    Lesson Plan
                   </h2>
                   <button
+                    type="button"
                     onClick={handleDownloadPlan}
-                    className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+                    className="flex items-center bg-[#1B4332] text-white px-3 py-1.5 rounded-lg hover:bg-[#1B4332]/90 text-xs font-medium transition-colors shadow-sm"
                   >
-                    <Download className="h-4 w-4 mr-2" />
+                    <Download className="h-3.5 w-3.5 mr-1.5" />
                     Download DOCX
                   </button>
                 </div>
-                <div className="flex flex-col items-center justify-center bg-white p-8 rounded-lg max-h-96 overflow-y-auto">
-                  <FileText className="h-16 w-16 text-greyed-blue mb-4" />
-                  <h3 className="text-xl font-semibold text-greyed-navy mb-2">Lesson Plan Ready!</h3>
-                  <p className="text-greyed-navy/70 text-center mb-6">
-                    Your CAPS-aligned lesson plan is ready for download.
+
+                {/* Document Page */}
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
+                  {/* Page content — A4-like proportions */}
+                  <div className="p-8 min-h-[560px] max-h-[560px] overflow-y-auto">
+                    <motion.div
+                      key={currentPage}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+                        {planPages[currentPage]?.join('\n') || ''}
+                      </ReactMarkdown>
+                    </motion.div>
+                  </div>
+
+                  {/* Page Navigation */}
+                  <div className="border-t border-gray-100 bg-gray-50/50 px-6 py-3 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
+                      disabled={currentPage === 0}
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#1B4332] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#D4A843] transition-colors"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </button>
+
+                    <div className="flex items-center gap-1.5">
+                      {planPages.map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setCurrentPage(i)}
+                          title={`Go to page ${i + 1}`}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            i === currentPage
+                              ? 'bg-[#1B4332] scale-125'
+                              : 'bg-gray-300 hover:bg-gray-400'
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage(p => Math.min(planPages.length - 1, p + 1))}
+                      disabled={currentPage === planPages.length - 1}
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#1B4332] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#D4A843] transition-colors"
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Page indicator */}
+                <p className="text-center text-xs text-[#2D1B0E]/40 mt-2">
+                  Page {currentPage + 1} of {planPages.length}
+                </p>
+              </motion.div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-14 h-14 bg-[#E8D5B7]/30 rounded-2xl flex items-center justify-center mb-5">
+                    <BookOpen className="h-6 w-6 text-[#1B4332]/40" />
+                  </div>
+                  <h3 className="font-headline font-semibold text-[#2D1B0E] mb-2">Ready to Generate</h3>
+                  <p className="text-[#2D1B0E]/45 text-center max-w-xs text-sm leading-relaxed">
+                    Fill out the form and click "Generate Lesson Plan" to create a detailed, curriculum-aligned lesson plan.
                   </p>
-                  <button
-                    onClick={handleDownloadPlan}
-                    className="flex items-center bg-greyed-navy text-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 text-lg font-medium"
-                  >
-                    <Download className="h-5 w-5 mr-2" />
-                    Download & Edit DOCX
-                  </button>
                 </div>
               </div>
-            ) : (
-              <div className="text-center py-12">
-                <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Ready to Generate
-                </h3>
-                <p className="text-gray-600">
-                  Fill out the form and click "Generate Lesson Plan" to create a detailed,
-                  curriculum-aligned lesson plan for your class.
-                </p>
-              </div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

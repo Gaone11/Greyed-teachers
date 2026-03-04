@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx supabase --version)",
+      "Bash(npx supabase functions deploy el-ai-teacher --project-ref dkpwfxcgvivcjpxfsajw)",
+      "mcp__plugin_supabase_supabase__deploy_edge_function",
+      "WebFetch(domain:www.unisa.ac.za)",
+      "WebFetch(domain:www.studocu.com)",
+      "Bash(xargs grep -l \"useClasses\\\\|getClasses\\\\|fetchClasses\")",
+      "Bash(grep -l \"CREATE TABLE.*classes\\\\|CREATE TABLE.*lesson_plans\\\\|CREATE TABLE.*family_updates\\\\|CREATE TABLE.*timetable\" /c/Users/monti/Downloads/greyed-teachers-1/supabase/migrations/*.sql)",
+      "Bash(xargs grep -l \"lesson.*plan\\\\|generate.*lesson\")",
+      "Bash(xargs grep -l \"lesson-planner\")",
+      "Bash(npm install remark-gfm)",
+      "Bash(npx tsc --noEmit --pretty)"
+    ]
+  }
+}

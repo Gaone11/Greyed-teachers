@@ -1,173 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, Search, PlusCircle, AlertCircle, BookOpen, Calendar, CreditCard as Edit2, Trash2, Download, Brain, Menu, X, CheckCircle, Filter, ChevronDown, Wand2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, PlusCircle, AlertCircle, BookOpen, Trash2, Download, Brain, X, CheckCircle, ChevronDown, Wand2, Calendar, Clock } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
-import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
-import {
-  fetchTeacherClasses,
-  generateLessonPlan
-} from '../../lib/api/teacher-api';
+import { fetchTeacherClasses } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { format, parseISO } from 'date-fns';
 import { supabase } from '../../lib/supabase';
-
-// Define curriculum data - subjects and their topics
-const primarySchoolCurriculum: Record<string, string[]> = {
-  'Mathematics': [
-    'Numbers and Place Value - Intro',
-    'Numbers and Place Value - Main',
-    'Addition and Subtraction - Intro',
-    'Addition and Subtraction - Main',
-    'Multiplication and Division - Intro',
-    'Multiplication and Division - Main',
-    'Fractions - Intro',
-    'Fractions - Main',
-    'Measurement - Intro',
-    'Measurement - Main',
-    'Geometry - Intro',
-    'Geometry - Main',
-    'Statistics - Intro',
-    'Statistics - Main'
-  ],
-  'English': [
-    'Reading Comprehension - Intro',
-    'Reading Comprehension - Main',
-    'Writing Skills - Intro',
-    'Writing Skills - Main',
-    'Grammar - Intro',
-    'Grammar - Main',
-    'Vocabulary - Intro',
-    'Vocabulary - Main',
-    'Punctuation - Intro',
-    'Punctuation - Main',
-    'Spelling - Intro',
-    'Spelling - Main',
-    'Speaking and Listening - Intro',
-    'Speaking and Listening - Main'
-  ],
-  'Science': [
-    'Living Things - Intro',
-    'Living Things - Main',
-    'Materials - Intro',
-    'Materials - Main',
-    'Physical Processes - Intro',
-    'Physical Processes - Main',
-    'Earth and Space - Intro',
-    'Earth and Space - Main',
-    'Forces and Motion - Intro',
-    'Forces and Motion - Main',
-    'Electricity - Intro',
-    'Electricity - Main',
-    'Sound and Light - Intro',
-    'Sound and Light - Main'
-  ],
-  'History': [
-    'Ancient Civilizations - Intro',
-    'Ancient Civilizations - Main',
-    'Local History - Intro',
-    'Local History - Main',
-    'World History - Intro',
-    'World History - Main',
-    'Historical Figures - Intro',
-    'Historical Figures - Main',
-    'Historical Events - Intro',
-    'Historical Events - Main'
-  ],
-  'Geography': [
-    'Map Skills - Intro',
-    'Map Skills - Main',
-    'Physical Geography - Intro',
-    'Physical Geography - Main',
-    'Human Geography - Intro',
-    'Human Geography - Main',
-    'Environmental Geography - Intro',
-    'Environmental Geography - Main',
-    'Local Geography - Intro',
-    'Local Geography - Main'
-  ],
-  'Art': [
-    'Drawing - Intro',
-    'Drawing - Main',
-    'Painting - Intro',
-    'Painting - Main',
-    'Sculpture - Intro',
-    'Sculpture - Main',
-    'Collage - Intro',
-    'Collage - Main',
-    'Art History - Intro',
-    'Art History - Main'
-  ],
-  'Music': [
-    'Singing - Intro',
-    'Singing - Main',
-    'Instruments - Intro',
-    'Instruments - Main',
-    'Composition - Intro',
-    'Composition - Main',
-    'Music Appreciation - Intro',
-    'Music Appreciation - Main',
-    'Musical Notation - Intro',
-    'Musical Notation - Main'
-  ],
-  'Physical Education': [
-    'Ball Games - Intro',
-    'Ball Games - Main',
-    'Gymnastics - Intro',
-    'Gymnastics - Main',
-    'Athletics - Intro',
-    'Athletics - Main',
-    'Dance - Intro',
-    'Dance - Main',
-    'Team Sports - Intro',
-    'Team Sports - Main'
-  ],
-  'Design and Technology': [
-    'Materials and Structures - Intro',
-    'Materials and Structures - Main',
-    'Mechanisms - Intro',
-    'Mechanisms - Main',
-    'Food Technology - Intro',
-    'Food Technology - Main',
-    'Textiles - Intro',
-    'Textiles - Main',
-    'Product Design - Intro',
-    'Product Design - Main'
-  ],
-  'Computing': [
-    'Algorithms - Intro',
-    'Algorithms - Main',
-    'Programming - Intro',
-    'Programming - Main',
-    'Digital Literacy - Intro',
-    'Digital Literacy - Main',
-    'E-Safety - Intro',
-    'E-Safety - Main',
-    'Data Handling - Intro',
-    'Data Handling - Main'
-  ],
-  'Religious Education': [
-    'Christianity - Intro',
-    'Christianity - Main',
-    'Islam - Intro',
-    'Islam - Main',
-    'Judaism - Intro',
-    'Judaism - Main',
-    'Hinduism - Intro',
-    'Hinduism - Main',
-    'Buddhism - Intro',
-    'Buddhism - Main',
-    'Sikhism - Intro',
-    'Sikhism - Main',
-    'World Religions - Intro',
-    'World Religions - Main'
-  ]
-};
 
 const TeacherLessonPlannerPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
@@ -175,7 +20,6 @@ const TeacherLessonPlannerPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState<any[]>([]);
   const [lessonPlans, setLessonPlans] = useState<any[]>([]);
-  const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -187,87 +31,63 @@ const TeacherLessonPlannerPage: React.FC = () => {
 
   useEffect(() => {
     document.title = "Lesson Planner | GreyEd Teachers";
-    
-    // Redirect if not logged in
+
     if (!authLoading && !user) {
       navigate('/auth/login');
       return;
     }
-    
+
     const fetchData = async () => {
       if (!user) return;
-      
+
       try {
         setLoading(true);
         setError(null);
-        
-        // Fetch classes
+
         const classData = await fetchTeacherClasses(user.id);
         setClasses(classData);
-        
-        // If there's at least one class, pre-select it
-        if (classData.length > 0) {
-          // Initialize any state if needed
-        }
-        
-        // Fetch lesson plans for all classes
-        const fetchLessonPlans = async () => {
-          // Use Supabase to fetch all lesson plans
-          const { data, error } = await supabase
-            .from('lesson_plans')
-            .select(`*, classes(name, subject, grade)`)
-            .order('created_at', { ascending: false });
-          
-          if (error) {
-            throw error;
-          }
-          
-          // Transform data to include class name
-          const transformedData = data.map(plan => ({
-            ...plan,
-            className: plan.classes?.name || 'Unknown',
-            subject: plan.classes?.subject || '',
-            grade: plan.classes?.grade || ''
-          }));
-          
-          setLessonPlans(transformedData);
-        };
-        
-        await fetchLessonPlans();
+
+        const { data, error } = await supabase
+          .from('lesson_plans')
+          .select(`*, classes(name, subject, grade)`)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        const transformedData = data.map(plan => ({
+          ...plan,
+          className: plan.classes?.name || 'Unknown',
+          subject: plan.classes?.subject || '',
+          grade: plan.classes?.grade || ''
+        }));
+
+        setLessonPlans(transformedData);
       } catch {
         setError('Failed to load data. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
-    
+
     if (user) {
       fetchData();
     }
   }, [user, authLoading, navigate]);
 
-  // Handle logout
   const handleLogout = async () => {
     await signOut();
     navigate('/');
   };
 
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
-  };
-  
-  // Filter lesson plans
   const filteredLessonPlans = lessonPlans.filter(plan => {
-    const matchesTerm = 
+    const matchesTerm =
       plan.topic.toLowerCase().includes(searchTerm.toLowerCase()) ||
       plan.className?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesClass = !filterClass || plan.class_id === filterClass;
     const matchesStatus = !filterStatus || plan.status === filterStatus;
     return matchesTerm && matchesClass && matchesStatus;
   });
-  
-  // Format date for display
+
   const formatDate = (dateString: string) => {
     try {
       const date = typeof dateString === 'string' ? parseISO(dateString) : new Date(dateString);
@@ -276,178 +96,149 @@ const TeacherLessonPlannerPage: React.FC = () => {
       return dateString;
     }
   };
-  
-  // Update lesson plan status
+
   const handleUpdateStatus = async (planId: string, status: 'draft' | 'ready' | 'taught') => {
     try {
-      setLoading(true);
       setError(null);
-      
+
       const { error } = await supabase
         .from('lesson_plans')
         .update({ status })
         .eq('id', planId);
-      
+
       if (error) throw error;
-      
-      // Update local state
-      setLessonPlans(plans => 
-        plans.map(plan => 
+
+      setLessonPlans(plans =>
+        plans.map(plan =>
           plan.id === planId ? { ...plan, status } : plan
         )
       );
-      
-      // Show success message
+
       setSuccess('Lesson plan status updated!');
-      
-      // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch {
       setError('Failed to update lesson plan status. Please try again.');
-    } finally {
-      setLoading(false);
     }
   };
-  
-  // Delete lesson plan
+
   const handleDeletePlan = async (planId: string) => {
-    if (!confirm('Are you sure you want to delete this lesson plan?')) {
-      return;
-    }
-    
+    if (!confirm('Are you sure you want to delete this lesson plan?')) return;
+
     try {
-      setLoading(true);
       setError(null);
-      
+
       const { error } = await supabase
         .from('lesson_plans')
         .delete()
         .eq('id', planId);
-      
+
       if (error) throw error;
-      
-      // Update local state
+
       setLessonPlans(plans => plans.filter(plan => plan.id !== planId));
-      
-      // Show success message
       setSuccess('Lesson plan deleted successfully!');
-      
-      // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch {
       setError('Failed to delete lesson plan. Please try again.');
-    } finally {
-      setLoading(false);
     }
   };
-  
-  // Helper function to parse markdown bold into TextRuns
+
   const parseMarkdownToTextRuns = (text: string, defaultBold: boolean = false) => {
     const children: TextRun[] = [];
     const boldRegex = /\*\*(.*?)\*\*/g;
     let lastIndex = 0;
     let match;
-  
+
     while ((match = boldRegex.exec(text)) !== null) {
-      // Add preceding plain text
       if (match.index > lastIndex) {
         children.push(new TextRun({ text: text.substring(lastIndex, match.index), bold: defaultBold }));
       }
-      // Add bold text
       children.push(new TextRun({ text: match[1], bold: true }));
       lastIndex = boldRegex.lastIndex;
     }
-    // Add any remaining plain text
     if (lastIndex < text.length) {
       children.push(new TextRun({ text: text.substring(lastIndex), bold: defaultBold }));
     }
     return children;
   };
 
-  // Download lesson plan as markdown
   const handleDownloadPlan = (plan: any) => {
     try {
       const children = [
         new Paragraph({
           children: [
-            new TextRun({
-              text: plan.topic, // Headings are always bold
-              bold: true,
-              size: 32,
-            }),
+            new TextRun({ text: plan.topic, bold: true, size: 32 }),
           ],
           heading: HeadingLevel.HEADING_1,
-          spacing: {
-            after: 200,
-          },
+          spacing: { after: 200 },
         }),
       ];
-      
-      // Process markdown content into paragraphs
+
       const lines = plan.md_path.split('\n');
       for (const line of lines) {
         if (!line.trim()) {
           children.push(new Paragraph({}));
           continue;
         }
-        
+
         if (line.startsWith('# ')) {
-          children.push(
-            new Paragraph({
-              children: [
-                ...parseMarkdownToTextRuns(line.substring(2), true), // Apply bold to heading text
-              ],
-              heading: HeadingLevel.HEADING_1,
-              spacing: { after: 200 },
-            })
-          );
+          children.push(new Paragraph({
+            children: [...parseMarkdownToTextRuns(line.substring(2), true)],
+            heading: HeadingLevel.HEADING_1,
+            spacing: { after: 200 },
+          }));
         } else if (line.startsWith('## ')) {
-          children.push(
-            new Paragraph({
-              children: [
-                ...parseMarkdownToTextRuns(line.substring(3), true), // Apply bold to heading text
-              ],
-              heading: HeadingLevel.HEADING_2,
-              spacing: { after: 120 },
-            })
-          );
+          children.push(new Paragraph({
+            children: [...parseMarkdownToTextRuns(line.substring(3), true)],
+            heading: HeadingLevel.HEADING_2,
+            spacing: { after: 120 },
+          }));
         } else if (line.startsWith('- ')) {
-          children.push(
-            new Paragraph({
-              children: [
-                ...parseMarkdownToTextRuns(line.substring(2)), // Apply bold to bullet text
-              ],
-              bullet: { level: 0 },
-              spacing: { after: 80 },
-            })
-          );
+          children.push(new Paragraph({
+            children: [...parseMarkdownToTextRuns(line.substring(2))],
+            bullet: { level: 0 },
+            spacing: { after: 80 },
+          }));
         } else {
-          children.push(
-            new Paragraph({
-              children: [
-                ...parseMarkdownToTextRuns(line), // Apply bold to regular text
-              ],
-              spacing: { after: 80 },
-            })
-          );
+          children.push(new Paragraph({
+            children: [...parseMarkdownToTextRuns(line)],
+            spacing: { after: 80 },
+          }));
         }
       }
-      
-      // Create document with all paragraphs
+
       const doc = new Document({
-        sections: [{
-          properties: {},
-          children: children
-        }]
+        sections: [{ properties: {}, children }]
       });
-      
-      // Generate and save document
+
       Packer.toBlob(doc).then(blob => {
         const filename = `${plan.topic.replace(/\s+/g, '_')}_lesson_plan.docx`;
         saveAs(blob, filename);
       });
     } catch {
       setError('Failed to download as Word document. Please try again.');
+    }
+  };
+
+  const statusConfig = {
+    draft: { label: 'Draft', bg: 'bg-[#E8D5B7]/40', text: 'text-[#1B4332]/70' },
+    ready: { label: 'Ready', bg: 'bg-emerald-50', text: 'text-emerald-700' },
+    taught: { label: 'Taught', bg: 'bg-[#D4A843]/15', text: 'text-[#1B4332]' },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.06 }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }
     }
   };
 
@@ -458,21 +249,19 @@ const TeacherLessonPlannerPage: React.FC = () => {
         actionButton={
           <button
             onClick={() => navigate('/teachers/lesson-planner/generate')}
-            className="inline-flex items-center bg-greyed-navy text-white px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors text-sm whitespace-nowrap"
+            className="inline-flex items-center bg-[#1B4332] text-white px-4 py-2.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors text-sm font-medium whitespace-nowrap shadow-sm"
           >
             <PlusCircle size={16} className="mr-2" />
             Generate New Plan
           </button>
         }
       />
-      
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex overflow-x-hidden">
-        {/* Mobile menu overlay */}
+
+      <div className="min-h-screen pt-16 bg-[#FAFAF8] flex overflow-x-hidden">
         {showMobileMenu && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)} />
         )}
-        
-        {/* Left sidebar navigation */}
+
         <div className={`${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
@@ -492,63 +281,73 @@ const TeacherLessonPlannerPage: React.FC = () => {
             onClose={() => setShowMobileMenu(false)}
           />
 
-          {/* Close button for mobile menu */}
           {showMobileMenu && isMobile && (
             <button
               onClick={() => setShowMobileMenu(false)}
-              className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
+              className="absolute top-4 right-4 p-2 text-white bg-[#1B4332]/50 rounded-full"
             >
               <X size={20} />
             </button>
           )}
         </div>
 
-        {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
+        <div className={`flex-1 pt-4 pb-16 md:pb-0 transition-[margin] duration-300 ${
           sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         } overflow-x-hidden`}>
-          <main className="px-4 sm:px-6 lg:px-8">
+          <main className="px-4 sm:px-6 lg:px-8 max-w-6xl">
 
-            {/* Success message */}
-            {success && (
-              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
-                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{success}</span>
-              </div>
-            )}
+            {/* Notifications */}
+            <AnimatePresence>
+              {success && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl mb-6 flex items-center"
+                >
+                  <CheckCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
+                  <span className="text-sm">{success}</span>
+                </motion.div>
+              )}
 
-            {/* Error message */}
-            {error && (
-              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="bg-[#E8D5B7]/30 border border-[#1B4332]/15 text-[#1B4332] px-4 py-3 rounded-xl mb-6 flex items-center"
+                >
+                  <AlertCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
+                  <span className="text-sm">{error}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-
-            
-            {/* Filters */}
-            <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
-              <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
+            {/* Filter Bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-4 mb-8"
+            >
+              <div className="flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-gray-400" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <Search className="h-4 w-4 text-gray-400" />
                   </div>
                   <input
                     type="text"
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="pl-10 pr-4 py-2.5 w-full border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 transition-all placeholder:text-gray-400"
                     placeholder="Search lesson plans..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                
-                <div className="relative md:w-48">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Filter className="h-5 w-5 text-gray-400" />
-                  </div>
+
+                <div className="relative md:w-44">
                   <select
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
+                    title="Filter by class"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 appearance-none bg-white text-gray-700 transition-all"
                     value={filterClass}
                     onChange={(e) => setFilterClass(e.target.value)}
                   >
@@ -558,16 +357,14 @@ const TeacherLessonPlannerPage: React.FC = () => {
                     ))}
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
+                    <ChevronDown className="h-4 w-4 text-gray-400" />
                   </div>
                 </div>
-                
-                <div className="relative md:w-48">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Filter className="h-5 w-5 text-gray-400" />
-                  </div>
+
+                <div className="relative md:w-44">
                   <select
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
+                    title="Filter by status"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 appearance-none bg-white text-gray-700 transition-all"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                   >
@@ -577,178 +374,165 @@ const TeacherLessonPlannerPage: React.FC = () => {
                     <option value="taught">Taught</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
+                    <ChevronDown className="h-4 w-4 text-gray-400" />
                   </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Lesson plans list */}
+            </motion.div>
+
+            {/* Content */}
             {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader className="w-8 h-8 text-greyed-blue animate-spin" />
+              <div className="flex items-center justify-center py-20">
+                <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-greyed-navy rounded-full animate-spin" />
               </div>
             ) : filteredLessonPlans.length === 0 ? (
-              <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-                <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="w-8 h-8 text-greyed-navy" />
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-12 text-center"
+              >
+                <div className="w-16 h-16 bg-[#E8D5B7]/30 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <BookOpen className="w-7 h-7 text-[#1B4332]/60" />
                 </div>
-                <h2 className="text-xl font-headline font-semibold text-black mb-2">No lesson plans found</h2>
-                <p className="text-black/70 max-w-md mx-auto mb-6">
-                  {searchTerm || filterClass || filterStatus 
-                    ? "Try adjusting your search or filters to see more results." 
-                    : "You haven't created any lesson plans yet. Generate your first lesson plan to get started."}
+                <h2 className="text-lg font-headline font-semibold text-[#1B4332] mb-2">No lesson plans found</h2>
+                <p className="text-[#1B4332]/50 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+                  {searchTerm || filterClass || filterStatus
+                    ? "Try adjusting your search or filters to see more results."
+                    : "You haven't created any lesson plans yet. Generate your first plan to get started."}
                 </p>
                 {!searchTerm && !filterClass && !filterStatus && (
-                  <button 
-                    onClick={() => setShowGenerateModal(true)}
-                    className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                  <button
+                    onClick={() => navigate('/teachers/lesson-planner/generate')}
+                    className="inline-flex items-center bg-[#1B4332] text-white px-5 py-2.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors text-sm font-medium shadow-sm"
                   >
-                    <PlusCircle size={18} className="mr-2" />
-                    Generate Your First Lesson Plan
+                    <PlusCircle size={16} className="mr-2" />
+                    Generate Your First Plan
                   </button>
                 )}
-              </div>
+              </motion.div>
             ) : (
-              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                <div className="overflow-x-auto -mx-3 sm:mx-0">
-                  <table className="w-full divide-y divide-gray-200">
-                    <thead>
-                      <tr className="bg-greyed-navy/5">
-                        <th scope="col" className="px-2 sm:px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Date</th>
-                        <th scope="col" className="px-2 sm:px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Topic</th>
-                        <th scope="col" className="hidden md:table-cell px-2 sm:px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Class</th>
-                        <th scope="col" className="px-2 sm:px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Status</th>
-                        <th scope="col" className="hidden lg:table-cell px-2 sm:px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Duration</th>
-                        <th scope="col" className="px-2 sm:px-4 py-3 text-right text-xs font-medium text-black uppercase tracking-wider">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {filteredLessonPlans.map((plan) => (
-                        <tr key={plan.id} className="hover:bg-greyed-navy/5">
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-black">
-                            {formatDate(plan.date)}
-                          </td>
-                          <td className="px-2 sm:px-4 py-4">
-                            <div className="font-medium text-sm text-greyed-blue hover:text-greyed-navy cursor-pointer truncate max-w-xs"
-                                 onClick={() => {
-                                   setGeneratedPlan({
-                                     markdown: plan.md_path,
-                                     meta: plan.meta
-                                   });
-                                 }}>
-                              {plan.topic}
-                            </div>
-                          </td>
-                          <td className="hidden md:table-cell px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-black">
-                            {plan.className}
-                          </td>
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <span className={`px-2 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${
-                                plan.status === 'draft' 
-                                  ? 'bg-gray-100 text-gray-800' 
-                                  : plan.status === 'ready' 
-                                  ? 'bg-green-100 text-green-800' 
-                                  : 'bg-greyed-blue/20 text-greyed-navy'
-                              }`}>
-                                {plan.status === 'draft' ? 'Draft' : plan.status === 'ready' ? 'Ready' : 'Taught'}
-                              </span>
-                              
-                              <div className="ml-2 relative group">
-                                <button className="p-1 text-greyed-blue hover:text-greyed-navy hover:bg-greyed-navy/5 rounded">
-                                  <ChevronDown size={16} />
-                                </button>
-                                <div className="absolute right-0 mt-1 bg-white shadow-lg rounded-lg overflow-hidden hidden group-hover:block z-10 w-36">
-                                  <button 
-                                    onClick={() => handleUpdateStatus(plan.id, 'draft')}
-                                    className={`w-full px-3 py-1.5 text-left text-sm ${plan.status === 'draft' ? 'bg-greyed-navy/5 font-medium' : 'hover:bg-greyed-navy/5'}`}
-                                  >
-                                    Draft
-                                  </button>
-                                  <button 
-                                    onClick={() => handleUpdateStatus(plan.id, 'ready')}
-                                    className={`w-full px-3 py-1.5 text-left text-sm ${plan.status === 'ready' ? 'bg-greyed-navy/5 font-medium' : 'hover:bg-greyed-navy/5'}`}
-                                  >
-                                    Ready to teach
-                                  </button>
-                                  <button 
-                                    onClick={() => handleUpdateStatus(plan.id, 'taught')}
-                                    className={`w-full px-3 py-1.5 text-left text-sm ${plan.status === 'taught' ? 'bg-greyed-navy/5 font-medium' : 'hover:bg-greyed-navy/5'}`}
-                                  >
-                                    Taught
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="hidden lg:table-cell px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-black">
-                            {plan.meta?.duration || 60} min
-                          </td>
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-right">
-                            <div className="flex justify-end space-x-1 sm:space-x-2">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+              >
+                {filteredLessonPlans.map((plan) => {
+                  const status = statusConfig[plan.status as keyof typeof statusConfig] || statusConfig.draft;
+
+                  return (
+                    <motion.div
+                      key={plan.id}
+                      variants={cardVariants}
+                      layout
+                      className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
+                    >
+                      {/* Card Header */}
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] leading-snug pr-3 line-clamp-2">
+                          {plan.topic}
+                        </h3>
+                        <div className="relative flex-shrink-0">
+                          <div className="group/status relative">
+                            <button type="button" title="Change status" className={`px-2.5 py-1 text-xs font-medium rounded-lg ${status.bg} ${status.text} transition-colors`}>
+                              {status.label}
+                            </button>
+                            <div className="absolute right-0 top-full mt-1 bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden hidden group-hover/status:block z-10 w-36">
                               <button
-                                onClick={() => {
-                                  setGeneratedPlan({
-                                    markdown: plan.md_path,
-                                    meta: plan.meta
-                                  });
-                                }}
-                                className="p-1 text-greyed-blue hover:text-greyed-navy hover:bg-greyed-navy/5 rounded"
-                                title="View plan"
+                                onClick={() => handleUpdateStatus(plan.id, 'draft')}
+                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'draft' ? 'bg-[#E8D5B7]/20 font-medium text-[#1B4332]' : 'text-gray-600 hover:bg-gray-50'}`}
                               >
-                                <BookOpen size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                Draft
                               </button>
                               <button
-                                onClick={() => handleDownloadPlan(plan)}
-                                className="p-1 text-greyed-blue hover:text-greyed-navy hover:bg-greyed-navy/5 rounded"
-                                title="Download as markdown"
+                                onClick={() => handleUpdateStatus(plan.id, 'ready')}
+                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'ready' ? 'bg-[#E8D5B7]/20 font-medium text-[#1B4332]' : 'text-gray-600 hover:bg-gray-50'}`}
                               >
-                                <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                Ready to teach
                               </button>
                               <button
-                                onClick={() => handleDeletePlan(plan.id)}
-                                className="p-1 text-red-500 hover:text-red-700 hover:bg-greyed-beige/30 rounded"
-                                title="Delete plan"
+                                onClick={() => handleUpdateStatus(plan.id, 'taught')}
+                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'taught' ? 'bg-[#E8D5B7]/20 font-medium text-[#1B4332]' : 'text-gray-600 hover:bg-gray-50'}`}
                               >
-                                <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                Taught
                               </button>
                             </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Card Meta */}
+                      <div className="flex items-center gap-4 text-xs text-[#1B4332]/45 mb-4">
+                        {plan.className !== 'Unknown' && (
+                          <span className="truncate">{plan.className}</span>
+                        )}
+                        <span className="flex items-center gap-1">
+                          <Calendar size={12} />
+                          {formatDate(plan.date)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock size={12} />
+                          {plan.meta?.duration || 60}m
+                        </span>
+                      </div>
+
+                      {/* Card Actions */}
+                      <div className="flex items-center gap-1 pt-3 border-t border-[#E8E6E0]/60">
+                        <button
+                          onClick={() => handleDownloadPlan(plan)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#1B4332]/70 hover:text-[#1B4332] hover:bg-[#E8D5B7]/20 rounded-lg transition-colors"
+                          title="Download as Word"
+                        >
+                          <Download size={14} />
+                          Download
+                        </button>
+                        <div className="flex-1" />
+                        <button
+                          onClick={() => handleDeletePlan(plan.id)}
+                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                          title="Delete plan"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
             )}
-            
-            {/* Help card */}
-            <div className="bg-white rounded-xl shadow-sm p-5 mt-8">
-              <div className="flex items-start">
-                <div className="mr-4 bg-greyed-blue/20 p-3 rounded-full">
-                  <Brain className="w-6 h-6 text-greyed-blue" />
+
+            {/* Help Banner */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-10 mb-6 bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-6 border-l-4 border-l-greyed-blue/60"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-[#D4A843]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Brain className="w-5 h-5 text-[#D4A843]" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-black text-lg mb-2">AI-Powered Lesson Planning</h3>
-                  <p className="text-black/70 mb-4">
-                    Our AI creates comprehensive, curriculum-aligned lesson plans in seconds, freeing up your time for what matters most: teaching. Each plan includes objectives, activities, assessments, and differentiation strategies.
+                  <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] mb-1.5">AI-Powered Lesson Planning</h3>
+                  <p className="text-[#1B4332]/50 text-sm leading-relaxed mb-3">
+                    Create comprehensive, curriculum-aligned lesson plans in seconds. Each plan includes objectives, activities, assessments, and differentiation strategies.
                   </p>
-                  <button className="px-3 py-1.5 bg-greyed-navy text-white rounded text-sm hover:bg-greyed-navy/90 transition-colors inline-flex items-center">
-                    <Wand2 size={14} className="mr-1" />
-                    Learn About Our Approach
+                  <button
+                    onClick={() => navigate('/teachers/lesson-planner/generate')}
+                    className="inline-flex items-center text-sm font-medium text-[#1B4332] hover:text-[#1B4332]/80 transition-colors"
+                  >
+                    <Wand2 size={14} className="mr-1.5 text-[#D4A843]" />
+                    Generate a plan
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </main>
         </div>
       </div>
-      
-      {/* Mobile bottom navigation */}
-      
-      {/* Footer with sidebar offset */}
-      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+
+      <div className={`transition-[margin] duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
     </LandingLayout>

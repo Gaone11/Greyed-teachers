@@ -87,7 +87,7 @@ const RefundPolicyPage: React.FC = () => {
                     <li><strong>Digital Nature:</strong> Our services are entirely digital and intangible. Unlike physical goods, digital services cannot be "returned" once accessed, downloaded, or utilized.</li>
                     <li><strong>Resource Allocation:</strong> Substantial computational resources, AI processing power, server infrastructure, and personalized algorithm training are allocated to each user account immediately upon activation.</li>
                     <li><strong>Intellectual Property:</strong> Our platform contains proprietary educational methodologies, AI models, curriculum design, and learning frameworks that represent significant intellectual property value delivered instantly.</li>
-                    <li><strong>Free Trial Availability:</strong> We offer free trials, demo accounts, or limited access periods that allow prospective users to evaluate our services before committing to a paid subscription.</li>
+                    <li><strong>Evaluation Period:</strong> We offer demo accounts or limited access periods that allow prospective users to evaluate our services before committing to a paid account.</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -108,7 +108,7 @@ const RefundPolicyPage: React.FC = () => {
                     2.4 Acknowledgment of Terms
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    By proceeding with any payment, you expressly acknowledge and agree that: (a) you have read and understood this no refund policy; (b) you accept that all payments are final; (c) you waive any right to chargeback, dispute, or refund request except as required by applicable law; (d) you have had adequate opportunity to evaluate our services through free trials or demonstrations; and (e) you are making an informed decision to purchase our services.
+                    By proceeding with any payment, you expressly acknowledge and agree that: (a) you have read and understood this no refund policy; (b) you accept that all payments are final; (c) you waive any right to chargeback, dispute, or refund request except as required by applicable law; (d) you have had adequate opportunity to evaluate our services through demos or demonstrations; and (e) you are making an informed decision to purchase our services.
                   </p>
                 </div>
               </div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Upload, FileText, FileImage, File as FilePdf, Loader, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List, Menu, Wand2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Upload, FileText, FileImage, File as FilePdf, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -9,9 +10,7 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
-import { Link } from 'react-router-dom';
 
-// Mock data for demonstrating student insights
 const mockStudents = [
   { id: 1, name: "Emma Smith", grade: "A", strengths: ["Mathematical reasoning", "Problem solving"], weaknesses: ["Time management"], insights: "Shows excellent analytical skills but could benefit from more structured practice." },
   { id: 2, name: "James Wilson", grade: "B+", strengths: ["Creative approaches", "Visual learning"], weaknesses: ["Technical vocabulary"], insights: "Demonstrates creative problem-solving but struggles with precise terminology." },
@@ -24,9 +23,7 @@ const AssessmentGradingPage: React.FC = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const isMobile = useMediaQuery('(max-width: 768px)');
-  
-  // State for file upload and processing
-  const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [fileType, setFileType] = useState<'scanned' | 'image' | 'pdf' | 'word' | null>(null);
@@ -34,205 +31,83 @@ const AssessmentGradingPage: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingComplete, setProcessingComplete] = useState(false);
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
-  
-  // Student insights
   const [studentInsights, setStudentInsights] = useState<typeof mockStudents>([]);
   const [activeTab, setActiveTab] = useState<'upload' | 'insights'>('upload');
-  
-  // Refs
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   useEffect(() => {
     document.title = "AI Auto-Grading | GreyEd Teachers";
-    
-    // Redirect if not logged in
-    if (!authLoading && !user) {
-      navigate('/auth/login');
-      return;
-    }
-    
+    if (!authLoading && !user) { navigate('/auth/login'); }
   }, [user, authLoading, navigate]);
-  
-  // Handle logout
-  const handleLogout = async () => {
-    await signOut();
-    navigate('/');
-  };
-  
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
-  };
-  
-  // Toggle sidebar
-  const toggleSidebar = () => {
-    const newState = !sidebarCollapsed;
-    setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
-  };
-  
-  // Handle file type selection
+
+  const handleLogout = async () => { await signOut(); navigate('/'); };
+
   const handleFileTypeSelect = (type: 'scanned' | 'image' | 'pdf' | 'word') => {
     setFileType(type);
     setSelectedFile(null);
     setError(null);
-    
-    // Open file dialog with appropriate accept types
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
-      fileInputRef.current.accept = type === 'image' 
-        ? 'image/*' 
-        : type === 'pdf' 
-        ? '.pdf,application/pdf' 
-        : type === 'word' 
-        ? '.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
-        : 'image/*,.pdf,application/pdf';
+      fileInputRef.current.accept = type === 'image' ? 'image/*' : type === 'pdf' ? '.pdf,application/pdf' : type === 'word' ? '.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'image/*,.pdf,application/pdf';
       fileInputRef.current.click();
     }
   };
-  
-  // Handle file selection
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
-    
     const file = files[0];
     setSelectedFile(file);
     setError(null);
-    
-    // Validate file type
-    if (fileType === 'image' && !file.type.startsWith('image/')) {
-      setError('Please select an image file.');
-      setSelectedFile(null);
-      return;
-    }
-    
-    if (fileType === 'pdf' && file.type !== 'application/pdf') {
-      setError('Please select a PDF file.');
-      setSelectedFile(null);
-      return;
-    }
-    
-    if (fileType === 'word' && 
-        !['application/msword', 
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-         ].includes(file.type)) {
-      setError('Please select a Word document.');
-      setSelectedFile(null);
-      return;
-    }
+    if (fileType === 'image' && !file.type.startsWith('image/')) { setError('Please select an image file.'); setSelectedFile(null); return; }
+    if (fileType === 'pdf' && file.type !== 'application/pdf') { setError('Please select a PDF file.'); setSelectedFile(null); return; }
+    if (fileType === 'word' && !['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)) { setError('Please select a Word document.'); setSelectedFile(null); return; }
   };
-  
-  // Handle drag events
-  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  
-  // Handle drop event
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => { e.preventDefault(); e.stopPropagation(); };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    if (!fileType) {
-      setError('Please select a file type first.');
-      return;
-    }
-    
+    if (!fileType) { setError('Please select a file type first.'); return; }
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
-      
-      // Validate file type
-      if (fileType === 'image' && !file.type.startsWith('image/')) {
-        setError('Please drop an image file.');
-        return;
-      }
-      
-      if (fileType === 'pdf' && file.type !== 'application/pdf') {
-        setError('Please drop a PDF file.');
-        return;
-      }
-      
-      if (fileType === 'word' && 
-          !['application/msword', 
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-           ].includes(file.type)) {
-        setError('Please drop a Word document.');
-        return;
-      }
-      
+      if (fileType === 'image' && !file.type.startsWith('image/')) { setError('Please drop an image file.'); return; }
+      if (fileType === 'pdf' && file.type !== 'application/pdf') { setError('Please drop a PDF file.'); return; }
+      if (fileType === 'word' && !['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)) { setError('Please drop a Word document.'); return; }
       setSelectedFile(file);
       setError(null);
     }
   };
-  
-  // Process the uploaded assessment
+
   const handleProcessAssessment = async () => {
-    if (!selectedFile || !fileType) {
-      setError('Please select a file to process.');
-      return;
-    }
-    
+    if (!selectedFile || !fileType) { setError('Please select a file to process.'); return; }
     try {
       setIsProcessing(true);
       setError(null);
-      
-      // Upload the file to Supabase storage
       const fileName = `assessments/${user?.id}/${Date.now()}-${selectedFile.name}`;
-      
-      // Check if the uploads bucket exists with case-insensitive search
       const { data: buckets } = await supabase.storage.listBuckets();
-      const uploadsBucket = buckets?.find(bucket => 
-        bucket.name.toLowerCase() === 'uploads'
-      );
-      
-      if (!uploadsBucket) {
-        setShowStorageBucketError(true);
-        setIsProcessing(false);
-        return;
-      }
-      
-      const { error: uploadError } = await supabase.storage
-        .from('uploads')
-        .upload(fileName, selectedFile);
-      
+      const uploadsBucket = buckets?.find(bucket => bucket.name.toLowerCase() === 'uploads');
+      if (!uploadsBucket) { setShowStorageBucketError(true); setIsProcessing(false); return; }
+      const { error: uploadError } = await supabase.storage.from('uploads').upload(fileName, selectedFile);
       if (uploadError) {
-        // Check if this is a bucket not found error
-        if (uploadError.message && uploadError.message.includes('Bucket not found')) {
-          setShowStorageBucketError(true);
-          setIsProcessing(false);
-          return;
-        }
-        
+        if (uploadError.message?.includes('Bucket not found')) { setShowStorageBucketError(true); setIsProcessing(false); return; }
         throw new Error(`Error uploading file: ${uploadError.message}`);
       }
-      
-      // Get the file URL
-      const { data } = supabase.storage
-        .from('uploads')
-        .getPublicUrl(fileName);
-        
-      if (!data.publicUrl) {
-        throw new Error('Failed to get file URL');
-      }
-      
-      // Simulate AI processing with a delay
+      const { data } = supabase.storage.from('uploads').getPublicUrl(fileName);
+      if (!data.publicUrl) throw new Error('Failed to get file URL');
       await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      // Simulate successful grading
       setProcessingComplete(true);
       setSuccess('Assessment successfully processed and graded!');
-      setStudentInsights(mockStudents); // Set mock student insights
-      setActiveTab('insights'); // Switch to insights tab
-      
+      setStudentInsights(mockStudents);
+      setActiveTab('insights');
     } catch (error: any) {
-      setError(error.message || 'An error occurred while processing the assessment. Please try again.');
+      setError(error.message || 'An error occurred while processing the assessment.');
     } finally {
       setIsProcessing(false);
     }
   };
-  
-  // Reset the form
+
   const handleReset = () => {
     setFileType(null);
     setSelectedFile(null);
@@ -241,40 +116,27 @@ const AssessmentGradingPage: React.FC = () => {
     setProcessingComplete(false);
     setActiveTab('upload');
   };
-  
-  // Get the appropriate icon for the file type
+
   const getFileTypeIcon = () => {
     switch (fileType) {
-      case 'image':
-        return <FileImage className="w-12 h-12 text-greyed-blue" />;
-      case 'pdf':
-        return <FilePdf className="w-12 h-12 text-red-500" />;
-      case 'word':
-        return <FileText className="w-12 h-12 text-greyed-navy" />;
-      case 'scanned':
-        return <FileImage className="w-12 h-12 text-greyed-navy/70" />;
-      default:
-        return <FileUp className="w-12 h-12 text-greyed-navy/50" />;
+      case 'image': return <FileImage className="w-10 h-10 text-[#D4A843]" />;
+      case 'pdf': return <FilePdf className="w-10 h-10 text-[#C4572A]" />;
+      case 'word': return <FileText className="w-10 h-10 text-[#1B4332]" />;
+      case 'scanned': return <FileImage className="w-10 h-10 text-[#1B4332]/70" />;
+      default: return <FileUp className="w-10 h-10 text-[#1B4332]/40" />;
     }
   };
-  
-  // Get the appropriate file type label
+
   const getFileTypeLabel = () => {
     switch (fileType) {
-      case 'image':
-        return 'Image';
-      case 'pdf':
-        return 'PDF Document';
-      case 'word':
-        return 'Word Document';
-      case 'scanned':
-        return 'Scanned Document';
-      default:
-        return '';
+      case 'image': return 'Image';
+      case 'pdf': return 'PDF Document';
+      case 'word': return 'Word Document';
+      case 'scanned': return 'Scanned Document';
+      default: return '';
     }
   };
-  
-  // Format file size
+
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -285,28 +147,29 @@ const AssessmentGradingPage: React.FC = () => {
     return (
       <LandingLayout disableSnapScroll={true}>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#f8f8f6]">
-          <div className="text-center">
-            <Loader className="w-12 h-12 text-greyed-blue mx-auto animate-spin" />
-            <p className="mt-4 text-black font-semibold">Loading...</p>
-          </div>
+        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#FAFAF8]">
+          <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-[#1B4332] rounded-full animate-spin" />
         </div>
-        <Footer />
       </LandingLayout>
     );
   }
 
+  const fileTypeCards = [
+    { type: 'scanned' as const, icon: FileImage, label: 'Scanned', desc: 'Scanned handwritten or printed assessments', color: 'text-[#1B4332]/70' },
+    { type: 'image' as const, icon: FileImage, label: 'Photo', desc: 'Photos of handwritten or printed pages', color: 'text-[#D4A843]' },
+    { type: 'pdf' as const, icon: FilePdf, label: 'PDF', desc: 'Digital PDF assessments with text', color: 'text-[#C4572A]' },
+    { type: 'word' as const, icon: FileText, label: 'Word', desc: 'Microsoft Word documents', color: 'text-[#1B4332]' },
+  ];
+
   return (
     <LandingLayout disableSnapScroll={true}>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
-      
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
-        {/* Mobile menu overlay */}
-        {showMobileMenu && isMobile && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
+
+      <div className="min-h-screen pt-16 bg-[#FAFAF8] flex overflow-x-hidden">
+        {showMobileMenu && (
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)} />
         )}
-        
-        {/* Left sidebar navigation */}
+
         <div className={`${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
@@ -316,497 +179,327 @@ const AssessmentGradingPage: React.FC = () => {
             activePage="assessments"
             onLogout={handleLogout}
             collapsed={sidebarCollapsed}
-            onToggleCollapse={toggleSidebar}
+            onToggleCollapse={() => {
+              const newState = !sidebarCollapsed;
+              setSidebarCollapsed(newState);
+              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+            }}
             isMobile={isMobile}
             isOpen={showMobileMenu}
             onClose={() => setShowMobileMenu(false)}
           />
-
-          {/* Close button for mobile menu */}
           {showMobileMenu && isMobile && (
-            <button
-              onClick={() => setShowMobileMenu(false)}
-              className="absolute top-4 right-4 p-2 text-white bg-greyed-navy/50 rounded-full"
-            >
+            <button onClick={() => setShowMobileMenu(false)} className="absolute top-4 right-4 p-2 text-white bg-[#1B4332]/50 rounded-full" title="Close menu">
               <X size={20} />
             </button>
           )}
         </div>
 
-        {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-        }`}>
-          <main className="px-4 sm:px-6 lg:px-8">
-            {error && (
-              <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-6 flex items-start">
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
-            
-            {success && (
-              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
-                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{success}</span>
-              </div>
-            )}
-            
-          
-            {/* Mobile menu toggle */}
-            <div className="md:hidden mb-2">
-              <button 
-                className="p-2 rounded-lg hover:bg-greyed-navy/10"
-                onClick={toggleMobileMenu}
-              >
-                <Menu size={20} />
-              </button>
-            </div>
-            
+        <div className={`flex-1 pt-4 pb-16 md:pb-0 transition-[margin] duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'} overflow-x-hidden`}>
+          <main className="px-4 sm:px-6 lg:px-8 max-w-5xl">
+
+            {/* Notifications */}
+            <AnimatePresence>
+              {error && (
+                <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                  className="bg-[#E8D5B7]/20 border border-[#1B4332]/15 text-[#2D1B0E] px-4 py-3 rounded-xl mb-6 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
+                  <span className="text-sm">{error}</span>
+                </motion.div>
+              )}
+              {success && (
+                <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                  className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl mb-6 flex items-center">
+                  <CheckCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
+                  <span className="text-sm">{success}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm mb-6">
-              <div className="flex border-b border-gray-200">
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm overflow-hidden"
+            >
+              <div className="flex border-b border-[#E8E6E0]/60">
                 <button
+                  type="button"
                   onClick={() => setActiveTab('upload')}
-                  className={`px-6 py-3 text-sm font-medium relative ${
-                    activeTab === 'upload' ? 'text-greyed-blue' : 'text-black hover:text-greyed-navy/70'
-                  }`}
+                  className={`px-6 py-3.5 text-sm font-medium relative transition-colors ${activeTab === 'upload' ? 'text-[#1B4332]' : 'text-[#2D1B0E]/50 hover:text-[#2D1B0E]/70'}`}
                 >
-                  <div className="flex items-center">
-                    <Upload size={16} className="mr-2" />
+                  <div className="flex items-center gap-2">
+                    <Upload size={15} />
                     Upload Assessment
                   </div>
                   {activeTab === 'upload' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
+                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1B4332]" />
                   )}
                 </button>
-                
                 <button
+                  type="button"
                   onClick={() => setActiveTab('insights')}
                   disabled={!processingComplete}
-                  className={`px-6 py-3 text-sm font-medium relative ${
-                    activeTab === 'insights' ? 'text-greyed-blue' : processingComplete ? 'text-black hover:text-greyed-navy/70' : 'text-black/40 cursor-not-allowed'
-                  }`}
+                  className={`px-6 py-3.5 text-sm font-medium relative transition-colors ${activeTab === 'insights' ? 'text-[#1B4332]' : processingComplete ? 'text-[#2D1B0E]/50 hover:text-[#2D1B0E]/70' : 'text-[#2D1B0E]/25 cursor-not-allowed'}`}
                 >
-                  <div className="flex items-center">
-                    <Brain size={16} className="mr-2" />
+                  <div className="flex items-center gap-2">
+                    <Brain size={15} />
                     Student Insights
                   </div>
                   {activeTab === 'insights' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
+                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1B4332]" />
                   )}
                 </button>
               </div>
-              
-              {/* Tab content */}
+
               <div className="p-6">
-                {/* Upload Assessment Tab */}
+                {/* Upload Tab */}
                 {activeTab === 'upload' && (
-                  <>
-                
-                    {/* Step 1: Select Assessment Type */}
-                    {!fileType && (
-                      <div>
-                        <h3 className="text-lg font-medium text-black mb-4">Select Assessment Type</h3>
-                        <p className="text-black/70 mb-6">
-                          Choose the type of assessment you want to upload for AI grading.
-                        </p>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                          <button
-                            onClick={() => handleFileTypeSelect('scanned')}
-                            className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
-                          >
-                            <FileImage className="w-10 h-10 text-greyed-navy/70 mb-4" />
-                            <h4 className="font-medium text-greyed-navy">Scanned Document</h4>
-                            <p className="text-xs text-center text-greyed-navy/70 mt-2">
-                              Scanned handwritten or printed assessments
-                            </p>
-                          </button>
-                          
-                          <button
-                            onClick={() => handleFileTypeSelect('image')}
-                            className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
-                          >
-                            <FileImage className="w-10 h-10 text-greyed-blue mb-4" />
-                            <h4 className="font-medium text-greyed-navy">Photo/Image</h4>
-                            <p className="text-xs text-center text-greyed-navy/70 mt-2">
-                              Photos of handwritten or printed pages
-                            </p>
-                          </button>
-                          
-                          <button
-                            onClick={() => handleFileTypeSelect('pdf')}
-                            className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
-                          >
-                            <FilePdf className="w-10 h-10 text-red-500 mb-4" />
-                            <h4 className="font-medium text-greyed-navy">PDF Document</h4>
-                            <p className="text-xs text-center text-greyed-navy/70 mt-2">
-                              Digital PDF assessments with text content
-                            </p>
-                          </button>
-                          
-                          <button
-                            onClick={() => handleFileTypeSelect('word')}
-                            className="flex flex-col items-center p-6 border border-gray-300 rounded-lg hover:bg-greyed-navy/5 hover:border-greyed-navy/40 transition-all"
-                          >
-                            <FileText className="w-10 h-10 text-greyed-navy mb-4" />
-                            <h4 className="font-medium text-greyed-navy">Word Document</h4>
-                            <p className="text-xs text-center text-greyed-navy/70 mt-2">
-                              Microsoft Word documents (.doc, .docx)
-                            </p>
-                          </button>
+                  <AnimatePresence mode="wait">
+                    {!fileType ? (
+                      <motion.div key="type-select" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] mb-1.5">Select Assessment Type</h3>
+                        <p className="text-[#2D1B0E]/50 text-sm mb-6">Choose the format of the assessment you want to grade with AI.</p>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          {fileTypeCards.map(({ type, icon: Icon, label, desc, color }) => (
+                            <button
+                              key={type}
+                              type="button"
+                              onClick={() => handleFileTypeSelect(type)}
+                              className="flex flex-col items-center p-5 rounded-xl border border-[#E8E6E0]/60 hover:border-[#1B4332]/25 hover:bg-[#1B4332]/3 transition-all group"
+                            >
+                              <Icon className={`w-8 h-8 ${color} mb-3 group-hover:scale-110 transition-transform`} />
+                              <h4 className="font-medium text-[#1B4332] text-sm">{label}</h4>
+                              <p className="text-[10px] text-center text-[#2D1B0E]/40 mt-1.5 leading-tight">{desc}</p>
+                            </button>
+                          ))}
                         </div>
-                        
-                        <div className="mt-8 bg-greyed-blue/10 p-6 rounded-lg">
-                          <h3 className="font-medium text-greyed-navy mb-2 flex items-center">
-                            <Brain className="w-5 h-5 mr-2 text-greyed-blue" />
-                            How AI Auto-Grading Works
+
+                        <div className="mt-8 bg-[#D4A843]/6 rounded-xl p-5 border border-[#D4A843]/15">
+                          <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] mb-2 flex items-center gap-2">
+                            <Brain className="w-4 h-4 text-[#D4A843]" />
+                            How AI Grading Works
                           </h3>
-                          <p className="text-sm text-greyed-navy/80 mb-4">
-                            El AI uses advanced OCR and language processing to grade assessments and provide insights:
-                          </p>
-                          <ul className="space-y-2 text-sm text-greyed-navy/80 list-disc pl-5">
-                            <li>For <strong>scanned documents</strong> and <strong>images</strong>, El AI uses OrionX's advanced vision processing to interpret handwriting and images</li>
-                            <li>For <strong>PDFs</strong> and <strong>Word documents</strong>, text is extracted directly for more accurate grading</li>
-                            <li>Multiple-choice, short answer, and essay questions are all supported</li>
-                            <li>El AI builds a profile of each student based on their answers, identifying strengths and weaknesses</li>
-                            <li>You'll receive detailed feedback for each student and the class as a whole</li>
+                          <ul className="space-y-2 text-sm text-[#2D1B0E]/60">
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-2 flex-shrink-0" />Advanced vision processing for handwritten and scanned documents</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-2 flex-shrink-0" />Direct text extraction from PDFs and Word files for accurate grading</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-2 flex-shrink-0" />Builds student profiles identifying strengths and areas for growth</li>
                           </ul>
                         </div>
-                      </div>
-                    )}
-                    
-                    {/* Step 2: File Upload */}
-                    {fileType && (
-                      <div>
-                        <div className="flex justify-between items-center mb-4">
-                          <h3 className="text-lg font-medium text-black">Upload {getFileTypeLabel()}</h3>
-                          <button
-                            onClick={() => setFileType(null)}
-                            className="text-sm text-greyed-blue hover:text-greyed-navy transition-colors"
-                          >
-                            Change Type
-                          </button>
+                      </motion.div>
+                    ) : (
+                      <motion.div key="file-upload" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <div className="flex justify-between items-center mb-5">
+                          <h3 className="font-headline font-semibold text-[#1B4332] text-[15px]">Upload {getFileTypeLabel()}</h3>
+                          <button type="button" onClick={() => setFileType(null)} className="text-sm text-[#1B4332]/60 hover:text-[#1B4332] font-medium transition-colors">Change Type</button>
                         </div>
-                        
-                        {/* File drop area */}
-                        <div 
-                          className={`border-2 ${
-                            selectedFile 
-                              ? 'border-greyed-blue bg-greyed-blue/5' 
-                              : 'border-dashed border-gray-300 hover:border-greyed-blue/50 hover:bg-greyed-navy/5'
-                          } rounded-lg p-6 text-center transition-colors mb-6`}
+
+                        <div
+                          className={`border-2 rounded-xl p-8 text-center transition-all ${selectedFile ? 'border-[#1B4332]/30 bg-[#1B4332]/3' : 'border-dashed border-[#E8E6E0] hover:border-[#1B4332]/20 hover:bg-[#1B4332]/2'}`}
                           onDragOver={handleDrag}
                           onDragEnter={handleDrag}
                           onDragLeave={handleDrag}
                           onDrop={handleDrop}
                         >
-                          <input
-                            type="file"
-                            ref={fileInputRef}
-                            className="hidden"
-                            onChange={handleFileChange}
-                          />
-                          
+                          <input type="file" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+
                           {selectedFile ? (
                             <div className="flex flex-col items-center">
                               {getFileTypeIcon()}
-                              
-                              <h4 className="font-medium text-greyed-navy mt-4">
-                                {selectedFile.name}
-                              </h4>
-                              
-                              <p className="text-sm text-greyed-navy/70 mt-2">
-                                {formatFileSize(selectedFile.size)}
-                              </p>
-                              
-                              <div className="flex mt-4 space-x-2">
-                                <button
-                                  onClick={() => setSelectedFile(null)}
-                                  className="px-3 py-1 bg-greyed-beige/30 text-greyed-black rounded hover:bg-red-100 transition-colors text-sm"
-                                >
-                                  Remove
-                                </button>
-                                
-                                <button
-                                  onClick={() => fileInputRef.current?.click()}
-                                  className="px-3 py-1 bg-greyed-navy/10 text-greyed-navy rounded hover:bg-greyed-navy/20 transition-colors text-sm"
-                                >
-                                  Change File
-                                </button>
+                              <h4 className="font-medium text-[#1B4332] mt-3 text-sm">{selectedFile.name}</h4>
+                              <p className="text-xs text-[#2D1B0E]/40 mt-1">{formatFileSize(selectedFile.size)}</p>
+                              <div className="flex mt-4 gap-2">
+                                <button type="button" onClick={() => setSelectedFile(null)} className="px-3 py-1.5 text-xs font-medium text-[#2D1B0E]/60 hover:text-[#C4572A] hover:bg-[#C4572A]/5 rounded-lg transition-colors">Remove</button>
+                                <button type="button" onClick={() => fileInputRef.current?.click()} className="px-3 py-1.5 text-xs font-medium text-[#1B4332]/70 hover:text-[#1B4332] hover:bg-[#1B4332]/5 rounded-lg transition-colors">Change File</button>
                               </div>
                             </div>
                           ) : (
-                            <div className="py-8">
-                              <div className="flex justify-center mb-4">
-                                <div className="w-16 h-16 bg-greyed-blue/10 rounded-full flex items-center justify-center">
-                                  <Upload className="w-8 h-8 text-greyed-navy/60" />
-                                </div>
+                            <div className="py-4">
+                              <div className="w-14 h-14 bg-[#1B4332]/6 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <Upload className="w-6 h-6 text-[#1B4332]/40" />
                               </div>
-                              
-                              <p className="text-greyed-navy mb-2">
-                                Drag and drop your {getFileTypeLabel().toLowerCase()} here
-                              </p>
-                              
-                              <p className="text-greyed-navy/60 text-sm mb-4">
-                                or
-                              </p>
-                              
-                              <button
-                                onClick={() => fileInputRef.current?.click()}
-                                className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 inline-flex items-center"
-                              >
-                                <FileUp size={16} className="mr-2" />
+                              <p className="text-sm text-[#1B4332]/70 mb-1">Drag and drop your {getFileTypeLabel().toLowerCase()} here</p>
+                              <p className="text-xs text-[#2D1B0E]/30 mb-4">or</p>
+                              <button type="button" onClick={() => fileInputRef.current?.click()} className="px-4 py-2 bg-[#1B4332] text-white rounded-xl hover:bg-[#1B4332]/90 text-sm font-medium inline-flex items-center transition-colors shadow-sm">
+                                <FileUp size={15} className="mr-2" />
                                 Browse Files
                               </button>
-                              
-                              <p className="text-xs text-greyed-navy/60 mt-4">
-                                Supported formats: {fileType === 'image' 
-                                  ? 'JPG, PNG, GIF, BMP' 
-                                  : fileType === 'pdf' 
-                                  ? 'PDF documents' 
-                                  : fileType === 'word' 
-                                  ? 'DOC, DOCX' 
-                                  : 'JPG, PNG, PDF'
-                                }
+                              <p className="text-[10px] text-[#2D1B0E]/30 mt-4">
+                                {fileType === 'image' ? 'JPG, PNG, GIF, BMP' : fileType === 'pdf' ? 'PDF documents' : fileType === 'word' ? 'DOC, DOCX' : 'JPG, PNG, PDF'}
                               </p>
                             </div>
                           )}
                         </div>
-                        
-                        {/* AI Processing Options */}
+
                         {selectedFile && (
-                          <div className="bg-greyed-beige/10 rounded-lg p-5 mb-6 border border-greyed-navy/10">
-                            <h3 className="font-medium text-greyed-navy mb-4 flex items-center">
-                              <Brain className="w-5 h-5 mr-2 text-greyed-blue" />
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-[#1B4332]/3 rounded-xl p-5 mt-5 border border-[#1B4332]/8"
+                          >
+                            <h3 className="font-medium text-[#1B4332] text-sm mb-4 flex items-center gap-2">
+                              <Brain className="w-4 h-4 text-[#D4A843]" />
                               AI Processing Options
                             </h3>
-                            
-                            <div className="space-y-3 mb-6">
-                              <label className="flex items-center">
-                                <input 
-                                  type="checkbox" 
-                                  checked={true} 
-                                  disabled={false}
-                                  className="mr-2"
-                                />
-                                <div>
-                                  <span className="text-greyed-navy">Auto-grade answers</span>
-                                  <p className="text-xs text-greyed-navy/60">El AI will grade answers according to the answer key</p>
-                                </div>
-                              </label>
-                              
-                              <label className="flex items-center">
-                                <input 
-                                  type="checkbox" 
-                                  checked={true}
-                                  disabled={false} 
-                                  className="mr-2"
-                                />
-                                <div>
-                                  <span className="text-greyed-navy">Provide personalized feedback</span>
-                                  <p className="text-xs text-greyed-navy/60">Generate custom feedback for each student</p>
-                                </div>
-                              </label>
-                              
-                              <label className="flex items-center">
-                                <input 
-                                  type="checkbox" 
-                                  checked={true}
-                                  disabled={false} 
-                                  className="mr-2"
-                                />
-                                <div>
-                                  <span className="text-greyed-navy">Build student profiles</span>
-                                  <p className="text-xs text-greyed-navy/60">Track strengths and areas for improvement over time</p>
-                                </div>
-                              </label>
+                            <div className="space-y-3 mb-5">
+                              {[
+                                { label: 'Auto-grade answers', desc: 'Grade answers according to the answer key' },
+                                { label: 'Personalized feedback', desc: 'Generate custom feedback for each student' },
+                                { label: 'Build student profiles', desc: 'Track strengths and improvements over time' },
+                              ].map(opt => (
+                                <label key={opt.label} className="flex items-start gap-2.5 cursor-pointer group">
+                                  <input type="checkbox" checked={true} readOnly title={opt.label} className="mt-0.5 rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30" />
+                                  <div>
+                                    <span className="text-sm text-[#1B4332] font-medium">{opt.label}</span>
+                                    <p className="text-xs text-[#2D1B0E]/40">{opt.desc}</p>
+                                  </div>
+                                </label>
+                              ))}
                             </div>
-                            
-                            {/* Submit button */}
-                            <div className="flex justify-end">
+                            <div className="flex justify-end gap-2">
+                              <button type="button" onClick={handleReset} className="px-4 py-2 border border-gray-200 text-[#2D1B0E]/60 rounded-xl hover:bg-gray-50 text-sm font-medium transition-colors">Cancel</button>
                               <button
-                                onClick={handleReset}
-                                className="px-4 py-2 border border-gray-300 text-greyed-navy rounded-lg hover:bg-gray-50 transition-colors mr-2"
-                              >
-                                Cancel
-                              </button>
-                              
-                              <button
+                                type="button"
                                 onClick={handleProcessAssessment}
                                 disabled={isProcessing}
-                                className={`px-4 py-2 bg-greyed-navy text-white rounded-lg transition-colors flex items-center ${
-                                  isProcessing ? 'opacity-70 cursor-not-allowed' : 'hover:bg-greyed-navy/90'
-                                }`}
+                                className={`px-5 py-2 bg-[#1B4332] text-white rounded-xl text-sm font-medium flex items-center transition-colors shadow-sm ${isProcessing ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#1B4332]/90'}`}
                               >
                                 {isProcessing ? (
-                                  <>
-                                    <Loader size={16} className="animate-spin mr-2" />
-                                    Processing...
-                                  </>
+                                  <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />Processing...</>
                                 ) : (
-                                  <>
-                                    <Brain size={16} className="mr-2" />
-                                    Process with AI
-                                  </>
+                                  <><Brain size={15} className="mr-2" />Process with AI</>
                                 )}
                               </button>
                             </div>
-                          </div>
+                          </motion.div>
                         )}
-                        
-                        {/* Help Section */}
-                        <div className="bg-greyed-blue/10 p-5 rounded-lg border-l-4 border-greyed-blue mt-6">
-                          <h3 className="font-medium text-greyed-navy mb-2">Tips for Best Results</h3>
-                          <ul className="space-y-1 text-sm text-greyed-navy/80">
-                            <li>• For handwritten assessments, ensure the writing is clear and the image is well-lit</li>
-                            <li>• PDFs with embedded text will yield more accurate results than scanned PDFs</li>
-                            <li>• Include an answer key in your assessment for more accurate grading</li>
-                            <li>• El AI builds student profiles over time, so regular use improves insights</li>
+
+                        <div className="bg-[#D4A843]/6 rounded-xl p-5 mt-5 border-l-4 border-l-[#D4A843]/40">
+                          <h3 className="font-medium text-[#1B4332] text-sm mb-2">Tips for Best Results</h3>
+                          <ul className="space-y-1.5 text-xs text-[#2D1B0E]/50">
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-1.5 flex-shrink-0" />For handwritten assessments, ensure clear writing and good lighting</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-1.5 flex-shrink-0" />PDFs with embedded text yield more accurate results</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-1.5 flex-shrink-0" />Include an answer key for more accurate grading</li>
                           </ul>
                         </div>
-                      </div>
+                      </motion.div>
                     )}
-                  </>
+                  </AnimatePresence>
                 )}
-                
-                {/* Student Insights Tab */}
+
+                {/* Insights Tab */}
                 {activeTab === 'insights' && (
-                  <div>
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-lg font-medium text-black flex items-center">
-                        <Users className="w-5 h-5 mr-2 text-greyed-blue" />
+                      <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] flex items-center gap-2">
+                        <Users className="w-4 h-4 text-[#D4A843]" />
                         Student Insights
                       </h3>
-                      <button
-                        onClick={handleReset}
-                        className="text-sm text-greyed-blue hover:text-greyed-navy transition-colors"
-                      >
+                      <button type="button" onClick={handleReset} className="text-sm text-[#1B4332]/60 hover:text-[#1B4332] font-medium transition-colors">
                         Process New Assessment
                       </button>
                     </div>
-                    
+
                     {studentInsights.length === 0 ? (
-                      <div className="text-center py-12 border-2 border-dashed border-greyed-navy/10 rounded-lg">
-                        <Brain className="w-12 h-12 text-greyed-navy/30 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-black mb-2">No insights available</h3>
-                        <p className="text-black/70 max-w-md mx-auto">
-                          Process an assessment to generate AI insights for your students.
-                        </p>
+                      <div className="text-center py-16 border-2 border-dashed border-[#E8E6E0] rounded-xl">
+                        <Brain className="w-10 h-10 text-[#1B4332]/20 mx-auto mb-4" />
+                        <h3 className="font-headline font-semibold text-[#1B4332] mb-2">No insights available</h3>
+                        <p className="text-[#2D1B0E]/45 text-sm">Process an assessment to generate AI insights.</p>
                       </div>
                     ) : (
                       <>
-                        {/* Class Overview */}
-                        <div className="bg-white border border-gray-200 rounded-lg p-5 mb-6">
-                          <h4 className="font-medium text-black mb-4">Class Overview</h4>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div className="bg-greyed-navy/5 p-4 rounded-lg">
-                              <p className="text-sm text-greyed-navy/70">Average Grade</p>
-                              <p className="text-2xl font-semibold text-greyed-navy">B+</p>
+                        {/* Class Stats */}
+                        <div className="grid grid-cols-3 gap-3 mb-6">
+                          {[
+                            { label: 'Average Grade', value: 'B+' },
+                            { label: 'Completion', value: '100%' },
+                            { label: 'Top Challenge', value: 'Applying Concepts' },
+                          ].map(stat => (
+                            <div key={stat.label} className="bg-[#1B4332]/4 rounded-xl p-4">
+                              <p className="text-xs text-[#2D1B0E]/45 mb-1">{stat.label}</p>
+                              <p className="text-lg font-bold text-[#1B4332]">{stat.value}</p>
                             </div>
-                            <div className="bg-greyed-navy/5 p-4 rounded-lg">
-                              <p className="text-sm text-greyed-navy/70">Completion Rate</p>
-                              <p className="text-2xl font-semibold text-greyed-navy">100%</p>
-                            </div>
-                            <div className="bg-greyed-navy/5 p-4 rounded-lg">
-                              <p className="text-sm text-greyed-navy/70">Common Challenges</p>
-                              <p className="text-sm font-medium text-greyed-navy mt-1">Applying Concepts</p>
-                            </div>
-                          </div>
+                          ))}
                         </div>
-                        
-                        {/* Student List */}
-                        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                          <div className="bg-greyed-navy/5 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-                            <h4 className="font-medium text-black flex items-center">
-                              <List className="w-4 h-4 mr-2" />
+
+                        {/* Students */}
+                        <div className="rounded-xl border border-[#E8E6E0]/60 overflow-hidden">
+                          <div className="bg-[#1B4332]/4 px-5 py-3 border-b border-[#E8E6E0]/60">
+                            <h4 className="font-medium text-[#1B4332] text-sm flex items-center gap-2">
+                              <List className="w-4 h-4" />
                               Student Results
                             </h4>
                           </div>
-                          <div className="divide-y divide-gray-200">
+                          <div className="divide-y divide-[#E8E6E0]/60">
                             {studentInsights.map((student) => (
-                              <div key={student.id} className="p-4 hover:bg-gray-50 transition-colors">
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-                                  <h5 className="font-medium text-black">{student.name}</h5>
-                                  <div className="mt-2 sm:mt-0">
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                      student.grade.startsWith('A') ? 'bg-green-100 text-green-800' :
-                                      student.grade.startsWith('B') ? 'bg-greyed-blue/20 text-greyed-navy' :
-                                      student.grade.startsWith('C') ? 'bg-yellow-100 text-yellow-800' :
-                                      'bg-red-100 text-red-800'
-                                    }`}>
-                                      Grade: {student.grade}
-                                    </span>
-                                  </div>
+                              <div key={student.id} className="p-5 hover:bg-[#1B4332]/2 transition-colors">
+                                <div className="flex items-center justify-between mb-3">
+                                  <h5 className="font-medium text-[#1B4332] text-sm">{student.name}</h5>
+                                  <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
+                                    student.grade.startsWith('A') ? 'bg-emerald-50 text-emerald-700' :
+                                    student.grade.startsWith('B') ? 'bg-[#D4A843]/12 text-[#1B4332]' :
+                                    'bg-amber-50 text-amber-700'
+                                  }`}>
+                                    {student.grade}
+                                  </span>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div className="grid grid-cols-2 gap-4 text-xs">
                                   <div>
-                                    <h6 className="font-medium text-greyed-navy mb-1">Strengths:</h6>
-                                    <ul className="list-disc pl-4 text-greyed-navy/80">
-                                      {student.strengths.map((strength, index) => (
-                                        <li key={index}>{strength}</li>
+                                    <h6 className="font-medium text-[#1B4332]/80 mb-1.5">Strengths</h6>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {student.strengths.map((s, i) => (
+                                        <span key={i} className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md">{s}</span>
                                       ))}
-                                    </ul>
+                                    </div>
                                   </div>
                                   <div>
-                                    <h6 className="font-medium text-greyed-navy mb-1">Areas for Improvement:</h6>
-                                    <ul className="list-disc pl-4 text-greyed-navy/80">
-                                      {student.weaknesses.map((weakness, index) => (
-                                        <li key={index}>{weakness}</li>
+                                    <h6 className="font-medium text-[#1B4332]/80 mb-1.5">Areas for Growth</h6>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {student.weaknesses.map((w, i) => (
+                                        <span key={i} className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md">{w}</span>
                                       ))}
-                                    </ul>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="mt-3 pt-3 border-t border-gray-100">
-                                  <h6 className="font-medium text-greyed-navy mb-1">El AI Insights:</h6>
-                                  <p className="text-greyed-navy/80 text-sm">{student.insights}</p>
+                                <div className="mt-3 pt-3 border-t border-[#E8E6E0]/40">
+                                  <p className="text-xs text-[#2D1B0E]/55 italic leading-relaxed">{student.insights}</p>
                                 </div>
                               </div>
                             ))}
                           </div>
                         </div>
-                        
+
                         {/* Recommendations */}
-                        <div className="mt-6 bg-greyed-beige/10 p-5 rounded-lg border-l-4 border-greyed-blue">
-                          <h3 className="font-medium text-greyed-navy mb-2">Teaching Recommendations</h3>
-                          <p className="text-sm text-greyed-navy/80 mb-4">
-                            Based on the assessment results, El AI recommends:
-                          </p>
-                          <ul className="space-y-2 text-sm text-greyed-navy/80">
-                            <li className="flex items-start">
-                              <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">1</div>
-                              <span>Focus on practical applications of concepts to help students bridge the gap between theory and practice</span>
-                            </li>
-                            <li className="flex items-start">
-                              <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">2</div>
-                              <span>Provide more structured guidance on technical vocabulary and terminology</span>
-                            </li>
-                            <li className="flex items-start">
-                              <div className="w-5 h-5 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy mr-2 flex-shrink-0 mt-0.5">3</div>
-                              <span>Consider pairing students with complementary strengths for group activities</span>
-                            </li>
-                          </ul>
+                        <div className="mt-6 bg-[#D4A843]/6 rounded-xl p-5 border-l-4 border-l-[#D4A843]/40">
+                          <h3 className="font-headline font-semibold text-[#1B4332] text-sm mb-3">Teaching Recommendations</h3>
+                          <div className="space-y-2.5">
+                            {[
+                              'Focus on practical applications to bridge theory and practice',
+                              'Provide structured guidance on technical vocabulary',
+                              'Pair students with complementary strengths for group work',
+                            ].map((rec, i) => (
+                              <div key={i} className="flex items-start gap-2.5 text-sm text-[#2D1B0E]/60">
+                                <span className="w-5 h-5 rounded-full bg-[#D4A843]/15 flex items-center justify-center text-[#1B4332] text-xs font-medium flex-shrink-0 mt-0.5">{i + 1}</span>
+                                <span className="leading-relaxed">{rec}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </>
                     )}
-                  </div>
+                  </motion.div>
                 )}
               </div>
-            </div>
+            </motion.div>
           </main>
         </div>
       </div>
-      
-      {/* Storage Bucket Error Modal */}
-      <StorageBucketErrorModal
-        isOpen={showStorageBucketError}
-        onClose={() => setShowStorageBucketError(false)}
-        bucketName="uploads"
-      />
-      
-      {/* Footer with sidebar offset */}
-      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+
+      <StorageBucketErrorModal isOpen={showStorageBucketError} onClose={() => setShowStorageBucketError(false)} bucketName="uploads" />
+
+      <div className={`transition-[margin] duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
     </LandingLayout>

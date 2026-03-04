@@ -37,7 +37,7 @@ const CanceledPage: React.FC = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={() => navigate(isFromTeacherSettings ? '/teachers/settings#subscription' : '/pricing')}
+                onClick={() => navigate(isFromTeacherSettings ? '/teachers/settings#account' : '/pricing')}
                 className="bg-greyed-navy text-greyed-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center justify-center"
               >
                 <img src="/favicon.svg" alt="GreyEd" className="w-5 h-5 mr-2" />

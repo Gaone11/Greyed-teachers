@@ -38,7 +38,7 @@ export const pricingPlans: Plan[] = [
     badge: 'Start now',
     monthlyPriceGBP: 0,
     annualPriceGBP: 0,
-    ctaLabel: 'Start Free',
+    ctaLabel: 'Get Started',
     ctaLink: '#',
     features: [
       '10 AI messages/day',
@@ -52,7 +52,7 @@ export const pricingPlans: Plan[] = [
     badge: 'Popular',
     monthlyPriceGBP: 9.99,
     annualPriceGBP: 99.5, // 9.99 * 12 * 0.83 (17% discount)
-    ctaLabel: 'Upgrade',
+    ctaLabel: 'Get Started',
     ctaLink: '#',
     features: [
       'Unlimited AI chat & calls',
@@ -82,12 +82,12 @@ export const pricingPlans: Plan[] = [
   {
     id: 'teacher',
     name: 'Siyafunda Pro',
-    badge: '14-day free trial',
+    badge: 'For Teachers',
     monthlyPriceGBP: 8,
     annualPriceGBP: 80,
     monthlyPriceZAR: 199,
     annualPriceZAR: 1990,
-    ctaLabel: 'Start Free Trial',
+    ctaLabel: 'Get Started',
     ctaLink: '#',
     features: [
       'Unlimited CAPS-aligned AI lesson plans',
@@ -228,7 +228,7 @@ export const faqItems: FAQ[] = [
   {
     id: 'cancel-anytime',
     question: 'Can I cancel any time?',
-    answer: 'Absolutely; pro-rated refunds for annual plans. There are no long-term commitments, and you can downgrade or cancel your subscription at any time with just a few clicks.'
+    answer: 'Absolutely. There are no long-term commitments, and you can downgrade or cancel your account at any time with just a few clicks.'
   },
   {
     id: 'data-safety',
@@ -236,8 +236,8 @@ export const faqItems: FAQ[] = [
     answer: '256-bit encryption, GDPR & UK DPA compliant. We never sell your data or use it for advertising. Your privacy and security are our top priorities.'
   },
   {
-    id: 'teacher-trial',
-    question: 'How does the Siyafunda Pro free trial work?',
-    answer: 'Teachers at Cophetsheni Primary get a 14-day free trial with full access to all features including CAPS-aligned lesson plans, assessments, and student management. After the trial, the subscription is R199/month unless you cancel before the trial ends.'
+    id: 'teacher-access',
+    question: 'How do I get started with Siyafunda Pro?',
+    answer: 'Teachers at Cophetsheni Primary get full access to all features including CAPS-aligned lesson plans, assessments, and student management. Simply sign up and start using the platform right away.'
   }
 ];
