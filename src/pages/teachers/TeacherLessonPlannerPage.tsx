@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, PlusCircle, AlertCircle, BookOpen, Trash2, Download, Brain, X, CheckCircle, ChevronDown, Wand2, Calendar, Clock } from 'lucide-react';
-import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
-import { saveAs } from 'file-saver';
+import { downloadMarkdownAsDocx } from '../../lib/markdown-to-docx';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -142,78 +141,9 @@ const TeacherLessonPlannerPage: React.FC = () => {
     }
   };
 
-  const parseMarkdownToTextRuns = (text: string, defaultBold: boolean = false) => {
-    const children: TextRun[] = [];
-    const boldRegex = /\*\*(.*?)\*\*/g;
-    let lastIndex = 0;
-    let match;
-
-    while ((match = boldRegex.exec(text)) !== null) {
-      if (match.index > lastIndex) {
-        children.push(new TextRun({ text: text.substring(lastIndex, match.index), bold: defaultBold }));
-      }
-      children.push(new TextRun({ text: match[1], bold: true }));
-      lastIndex = boldRegex.lastIndex;
-    }
-    if (lastIndex < text.length) {
-      children.push(new TextRun({ text: text.substring(lastIndex), bold: defaultBold }));
-    }
-    return children;
-  };
-
   const handleDownloadPlan = (plan: any) => {
     try {
-      const children = [
-        new Paragraph({
-          children: [
-            new TextRun({ text: plan.topic, bold: true, size: 32 }),
-          ],
-          heading: HeadingLevel.HEADING_1,
-          spacing: { after: 200 },
-        }),
-      ];
-
-      const lines = plan.md_path.split('\n');
-      for (const line of lines) {
-        if (!line.trim()) {
-          children.push(new Paragraph({}));
-          continue;
-        }
-
-        if (line.startsWith('# ')) {
-          children.push(new Paragraph({
-            children: [...parseMarkdownToTextRuns(line.substring(2), true)],
-            heading: HeadingLevel.HEADING_1,
-            spacing: { after: 200 },
-          }));
-        } else if (line.startsWith('## ')) {
-          children.push(new Paragraph({
-            children: [...parseMarkdownToTextRuns(line.substring(3), true)],
-            heading: HeadingLevel.HEADING_2,
-            spacing: { after: 120 },
-          }));
-        } else if (line.startsWith('- ')) {
-          children.push(new Paragraph({
-            children: [...parseMarkdownToTextRuns(line.substring(2))],
-            bullet: { level: 0 },
-            spacing: { after: 80 },
-          }));
-        } else {
-          children.push(new Paragraph({
-            children: [...parseMarkdownToTextRuns(line)],
-            spacing: { after: 80 },
-          }));
-        }
-      }
-
-      const doc = new Document({
-        sections: [{ properties: {}, children }]
-      });
-
-      Packer.toBlob(doc).then(blob => {
-        const filename = `${plan.topic.replace(/\s+/g, '_')}_lesson_plan.docx`;
-        saveAs(blob, filename);
-      });
+      downloadMarkdownAsDocx(plan.md_path, `${plan.topic.replace(/\s+/g, '_')}_lesson_plan.docx`, plan.topic);
     } catch {
       setError('Failed to download as Word document. Please try again.');
     }

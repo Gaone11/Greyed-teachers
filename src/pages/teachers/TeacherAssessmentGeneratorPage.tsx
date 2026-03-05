@@ -3,11 +3,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
 import { fetchTeacherClasses, generateAssessment } from '../../lib/api/teacher-api';
-import { Wand2, CheckCircle, Download, FileText, Database, ArrowLeft } from 'lucide-react';
-import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
-import { saveAs } from 'file-saver';
+import { Wand2, CheckCircle, Download, FileText, Database, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { downloadMarkdownAsDocx } from '../../lib/markdown-to-docx';
 import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade } from '../../data/capsCurriculum';
 import { findMatchingChunks, buildChunkContext, type KnowledgeChunk, type ChunkedDocument } from '../../lib/knowledgebase/pdf-chunker';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const KB_STORAGE_KEY = 'greyed-kb-chunks';
 
@@ -54,10 +55,10 @@ export default function TeacherAssessmentGeneratorPage() {
   const [classes, setClasses] = useState<Class[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedAssessment, setGeneratedAssessment] = useState<any>(null);
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [generatedMarkdown, setGeneratedMarkdown] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [kbChunkCount, setKbChunkCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const defaultGrade = saGrades[0].value;
   const defaultPhase = getPhaseFromGrade(saGrades[0].num);
@@ -188,13 +189,17 @@ export default function TeacherAssessmentGeneratorPage() {
         assessmentType: formData.assessmentType,
         difficulty: formData.difficulty,
         questionCount: formData.questionCount,
+        includeAnswerKey: formData.includeAnswerKey,
         topic: topicName,
+        subject: subjectName,
+        grade: formData.selectedGrade,
+        className: selectedClass.name,
         requiredTest: formData.requiredTest || undefined,
         kbContext,
       });
 
-      setGeneratedAssessment(assessmentData.assessment);
-      setQuestions(assessmentData.questions);
+      setGeneratedMarkdown(assessmentData.markdown);
+      setCurrentPage(0);
     } catch (error: any) {
       setError(error.message || 'Failed to generate assessment. Please try again.');
     } finally {
@@ -203,36 +208,69 @@ export default function TeacherAssessmentGeneratorPage() {
   };
 
   const handleDownloadAssessment = () => {
-    if (!generatedAssessment || !questions || questions.length === 0) return;
-
-    const children: Paragraph[] = [];
+    if (!generatedMarkdown) return;
     const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
     const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
+    downloadMarkdownAsDocx(generatedMarkdown, `${subjectName}_${topicName}_Assessment.docx`, `${subjectName} — ${topicName} Assessment`);
+  };
 
-    children.push(new Paragraph({ children: [new TextRun({ text: `${subjectName} - ${topicName} Assessment`, size: 32 })], heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }));
-    children.push(new Paragraph({ children: [new TextRun({ text: `Type: ${formData.assessmentType}` })], spacing: { after: 100 } }));
-    children.push(new Paragraph({ children: [new TextRun({ text: `Class: ${classes.find(c => c.id === formData.classId)?.name}` })], spacing: { after: 100 } }));
-    children.push(new Paragraph({ children: [new TextRun({ text: `Difficulty: ${formData.difficulty}` })], spacing: { after: 200 } }));
+  // Split markdown into pages by top-level sections (## headings)
+  const assessmentPages = React.useMemo(() => {
+    if (!generatedMarkdown) return [];
+    const lines = generatedMarkdown.split('\n');
+    const pages: string[][] = [];
+    let current: string[] = [];
 
-    questions.forEach((question, i) => {
-      children.push(new Paragraph({ children: [new TextRun({ text: `Question ${i + 1}: ${question.question}` })], heading: HeadingLevel.HEADING_3, spacing: { before: 200, after: 100 } }));
-      if (question.type === 'multiple-choice' && question.options?.length > 0) {
-        question.options.forEach((option: string, j: number) => {
-          children.push(new Paragraph({ children: [new TextRun({ text: `${String.fromCharCode(65 + j)}. ${option}` })], bullet: { level: 0 }, spacing: { after: 60 } }));
-        });
+    for (const line of lines) {
+      if (line.startsWith('## ') && current.length > 0) {
+        pages.push(current);
+        current = [line];
+      } else {
+        current.push(line);
       }
-      if (formData.includeAnswerKey) {
-        children.push(new Paragraph({ children: [new TextRun({ text: `Answer: ${question.answer}` })], spacing: { before: 100, after: 80 } }));
-        if (question.explanation) {
-          children.push(new Paragraph({ children: [new TextRun({ text: `Explanation: ${question.explanation}` })], spacing: { after: 160 } }));
-        }
-      }
-    });
+    }
+    if (current.length > 0) pages.push(current);
+    return pages;
+  }, [generatedMarkdown]);
 
-    const doc = new Document({ sections: [{ properties: {}, children }] });
-    Packer.toBlob(doc).then(blob => {
-      saveAs(blob, `${subjectName}_${topicName}_Assessment.docx`);
-    });
+  // Markdown component overrides
+  const mdComponents = {
+    h1: ({ children }: any) => <h1 className="text-xl font-bold text-[#1B4332] mb-3 pb-2 border-b border-gray-200">{children}</h1>,
+    h2: ({ children }: any) => <h2 className="text-base font-semibold text-[#1B4332] mt-4 mb-2">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-sm font-semibold text-[#2D1B0E]/80 mt-3 mb-1">{children}</h3>,
+    h4: ({ children }: any) => <h4 className="text-sm font-medium text-[#2D1B0E]/70 mt-2 mb-1">{children}</h4>,
+    p: ({ children }: any) => <p className="text-sm text-[#2D1B0E]/80 leading-relaxed mb-2">{children}</p>,
+    strong: ({ children }: any) => <strong className="font-semibold text-[#2D1B0E]/90">{children}</strong>,
+    em: ({ children }: any) => <em className="italic text-[#2D1B0E]/70">{children}</em>,
+    ul: ({ children }: any) => <ul className="space-y-1 mb-3 pl-1">{children}</ul>,
+    ol: ({ children }: any) => <ol className="space-y-1 mb-3 pl-1 list-decimal list-inside">{children}</ol>,
+    li: ({ children }: any) => (
+      <li className="flex items-start gap-2 text-sm text-[#2D1B0E]/80">
+        <span className="text-[#1B4332]/40 mt-1.5 text-[6px] shrink-0">●</span>
+        <span className="leading-relaxed">{children}</span>
+      </li>
+    ),
+    table: ({ children }: any) => (
+      <div className="my-3 rounded-lg border border-gray-200 overflow-hidden">
+        <table className="w-full text-sm">{children}</table>
+      </div>
+    ),
+    thead: ({ children }: any) => <thead className="bg-[#1B4332]/5">{children}</thead>,
+    tbody: ({ children }: any) => <tbody className="divide-y divide-gray-100">{children}</tbody>,
+    tr: ({ children }: any) => <tr className="divide-x divide-gray-100">{children}</tr>,
+    th: ({ children }: any) => <th className="px-3 py-2 text-left font-semibold text-[#2D1B0E]/80 text-xs uppercase tracking-wide">{children}</th>,
+    td: ({ children }: any) => <td className="px-3 py-2 text-[#2D1B0E]/80">{children}</td>,
+    hr: () => <hr className="my-4 border-gray-200" />,
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-l-3 border-[#1B4332]/20 pl-4 my-3 text-sm text-[#2D1B0E]/60 italic">{children}</blockquote>
+    ),
+    code: ({ children, className }: any) => {
+      const isBlock = className?.includes('language-');
+      if (isBlock) {
+        return <pre className="bg-gray-50 border border-gray-200 rounded-lg p-3 my-3 text-xs overflow-x-auto"><code>{children}</code></pre>;
+      }
+      return <code className="bg-gray-100 text-[#1B4332] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>;
+    },
   };
 
   if (isLoading) {
@@ -412,60 +450,108 @@ export default function TeacherAssessmentGeneratorPage() {
             </form>
           </motion.div>
 
-          {/* Preview/Results Section */}
+          {/* Document Viewer */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-6"
+            className="flex flex-col"
           >
-            {generatedAssessment ? (
+            {generatedMarkdown && assessmentPages.length > 0 ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.35 }}
+                className="flex flex-col"
               >
-                <div className="flex items-center justify-between mb-6">
+                {/* Toolbar */}
+                <div className="flex items-center justify-between mb-3">
                   <h2 className="font-headline font-semibold text-[#1B4332] flex items-center text-[15px]">
-                    <CheckCircle className="h-5 w-5 text-emerald-500 mr-2" />
-                    Assessment Generated
+                    <CheckCircle className="h-4 w-4 text-emerald-500 mr-2" />
+                    Assessment
                   </h2>
                   <button
                     type="button"
                     onClick={handleDownloadAssessment}
-                    className="flex items-center bg-[#1B4332] text-white px-4 py-2 rounded-xl hover:bg-[#1B4332]/90 text-sm font-medium transition-colors shadow-sm"
+                    className="flex items-center bg-[#1B4332] text-white px-3 py-1.5 rounded-lg hover:bg-[#1B4332]/90 text-xs font-medium transition-colors shadow-sm"
                   >
-                    <Download className="h-4 w-4 mr-2" />
+                    <Download className="h-3.5 w-3.5 mr-1.5" />
                     Download DOCX
                   </button>
                 </div>
-                <div className="flex flex-col items-center justify-center py-10">
-                  <div className="w-16 h-16 bg-[#D4A843]/10 rounded-2xl flex items-center justify-center mb-5">
-                    <FileText className="h-7 w-7 text-[#D4A843]" />
+
+                {/* Document Page */}
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
+                  {/* Page content */}
+                  <div className="p-8 min-h-[560px] max-h-[560px] overflow-y-auto">
+                    <motion.div
+                      key={currentPage}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+                        {assessmentPages[currentPage]?.join('\n') || ''}
+                      </ReactMarkdown>
+                    </motion.div>
                   </div>
-                  <h3 className="font-headline font-semibold text-[#1B4332] text-lg mb-2">Assessment Ready!</h3>
-                  <p className="text-[#2D1B0E]/50 text-center mb-8 text-sm max-w-xs leading-relaxed">
-                    Your CAPS-aligned assessment is ready for download and editing.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handleDownloadAssessment}
-                    className="flex items-center bg-[#1B4332] text-white px-6 py-3 rounded-xl hover:bg-[#1B4332]/90 text-base font-medium transition-colors shadow-sm"
-                  >
-                    <Download className="h-5 w-5 mr-2" />
-                    Download &amp; Edit DOCX
-                  </button>
+
+                  {/* Page Navigation */}
+                  <div className="border-t border-gray-100 bg-gray-50/50 px-6 py-3 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
+                      disabled={currentPage === 0}
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#1B4332] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#D4A843] transition-colors"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </button>
+
+                    <div className="flex items-center gap-1.5">
+                      {assessmentPages.map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setCurrentPage(i)}
+                          title={`Go to page ${i + 1}`}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            i === currentPage
+                              ? 'bg-[#1B4332] scale-125'
+                              : 'bg-gray-300 hover:bg-gray-400'
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage(p => Math.min(assessmentPages.length - 1, p + 1))}
+                      disabled={currentPage === assessmentPages.length - 1}
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#1B4332] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#D4A843] transition-colors"
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
+
+                {/* Page indicator */}
+                <p className="text-center text-xs text-[#2D1B0E]/40 mt-2">
+                  Page {currentPage + 1} of {assessmentPages.length}
+                </p>
               </motion.div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16">
-                <div className="w-14 h-14 bg-[#E8D5B7]/20 rounded-2xl flex items-center justify-center mb-5">
-                  <FileText className="h-6 w-6 text-[#1B4332]/40" />
+              <div className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-6">
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-14 h-14 bg-[#E8D5B7]/20 rounded-2xl flex items-center justify-center mb-5">
+                    <FileText className="h-6 w-6 text-[#1B4332]/40" />
+                  </div>
+                  <h3 className="font-headline font-semibold text-[#1B4332] mb-2">Ready to Generate</h3>
+                  <p className="text-[#2D1B0E]/45 text-center max-w-xs text-sm leading-relaxed">
+                    Fill out the form and click "Generate Assessment" to create a detailed, CAPS-aligned assessment.
+                  </p>
                 </div>
-                <h3 className="font-headline font-semibold text-[#1B4332] mb-2">Ready to Generate</h3>
-                <p className="text-[#2D1B0E]/45 text-center max-w-xs text-sm leading-relaxed">
-                  Fill out the form and click "Generate Assessment" to create a detailed, CAPS-aligned assessment.
-                </p>
               </div>
             )}
           </motion.div>

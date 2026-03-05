@@ -7,8 +7,7 @@ import { Wand2, CheckCircle, PlusCircle, X, Download, BookOpen, FileText, Databa
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { format } from 'date-fns';
-import { Packer, Document, Paragraph, TextRun, HeadingLevel } from 'docx';
-import { saveAs } from 'file-saver';
+import { downloadMarkdownAsDocx } from '../../lib/markdown-to-docx';
 import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade } from '../../data/capsCurriculum';
 import { findMatchingChunks, buildChunkContext, type KnowledgeChunk, type ChunkedDocument } from '../../lib/knowledgebase/pdf-chunker';
 import { supabase } from '../../lib/supabase';
@@ -257,43 +256,11 @@ export default function TeacherLessonPlanGeneratorPage() {
     }
   };
 
-  const parseMarkdownToTextRuns = (text: string): TextRun[] => {
-    return [new TextRun({ text: text.replace(/\*\*/g, ''), bold: false })];
-  };
-
   const handleDownloadPlan = () => {
     if (!generatedPlan) return;
-
-    const lines = generatedPlan.split('\n');
-    const children: Paragraph[] = [];
-
-    const parseMarkdownToPlain = (text: string): TextRun[] => {
-      return [new TextRun({ text: text.replace(/\*\*/g, ''), bold: false })];
-    };
-
-    lines.forEach(line => {
-      if (line.trim() === '') {
-        children.push(new Paragraph({ children: [new TextRun({ text: '' })], spacing: { after: 80 } }));
-      } else if (line.startsWith('### ')) {
-        children.push(new Paragraph({ children: parseMarkdownToTextRuns(line.substring(4)), heading: HeadingLevel.HEADING_3, spacing: { before: 240, after: 120 } }));
-      } else if (line.startsWith('## ')) {
-        children.push(new Paragraph({ children: parseMarkdownToPlain(line.substring(3)), heading: HeadingLevel.HEADING_2, spacing: { before: 320, after: 160 } }));
-      } else if (line.startsWith('# ')) {
-        children.push(new Paragraph({ children: parseMarkdownToPlain(line.substring(2)), heading: HeadingLevel.HEADING_1, spacing: { before: 400, after: 200 } }));
-      } else if (line.startsWith('- ')) {
-        children.push(new Paragraph({ children: parseMarkdownToTextRuns(line.substring(2)), bullet: { level: 0 }, spacing: { after: 40 } }));
-      } else {
-        children.push(new Paragraph({ children: parseMarkdownToPlain(line), spacing: { after: 60 } }));
-      }
-    });
-
-    const doc = new Document({ sections: [{ properties: {}, children }] });
-    Packer.toBlob(doc).then(blob => {
-      const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
-      const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
-      const filename = `${subjectName} - ${topicName} - ${formData.date}.docx`;
-      saveAs(blob, filename);
-    });
+    const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
+    const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
+    downloadMarkdownAsDocx(generatedPlan, `${subjectName} - ${topicName} - ${formData.date}.docx`, `${subjectName} — ${topicName} Lesson Plan`);
   };
 
   // Split markdown into pages by top-level sections (## headings)
