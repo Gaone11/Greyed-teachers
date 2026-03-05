@@ -9,7 +9,6 @@ import {
   BookOpen,
   FileText,
   MessageSquare,
-  Sparkles,
   Users,
   ChevronRight,
   GraduationCap
@@ -121,15 +120,13 @@ const TeacherDashboardPage: React.FC = () => {
     { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#D4A843] to-[#E8C96A]' },
     { icon: Snowflake, label: 'Siyafunda AI', path: '/teachers/el-ai', color: 'from-[#2D6A4F] to-[#52B788]' },
     { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#7A6548] to-[#A89070]' },
-    { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#3D2E1C] to-[#5C4A33]' },
-    { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#C4572A] to-[#D97750]' },
   ];
 
   return (
     <LandingLayout disableSnapScroll={true}>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-16 bg-[#FAFAF8] flex">
+      <div className="min-h-screen pt-16 bg-[#F0F0F0] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={() => setShowMobileMenu(false)} />
@@ -158,10 +155,10 @@ const TeacherDashboardPage: React.FC = () => {
         </div>
 
         {/* Main content */}
-        <div className={`flex-1 pt-3 pb-20 md:pb-6 transition-all duration-300 ${
+        <div className={`flex-1 pt-2 sm:pt-3 pb-20 md:pb-6 transition-all duration-300 ${
           sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <main className="px-3 sm:px-6 lg:px-8 max-w-7xl">
             {error && (
               <div className="bg-white border border-red-200 text-red-800 px-5 py-4 rounded-2xl mb-4 flex items-start shadow-sm animate-slide-down">
                 <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
@@ -169,30 +166,55 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
             )}
 
-            {/* ────── Quick Nav Strip ────── */}
-            <section className="mb-6 animate-slide-up">
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-1 px-1">
-                {quickNav.map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className="group flex-shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
-                      style={{ animationDelay: `${i * 40}ms` }}
-                    >
-                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
-                        <Icon className="w-4 h-4 text-white" />
+            {/* ────── Quick Nav + Calendar Row ────── */}
+            <section className="mb-4 sm:mb-6 animate-slide-up">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                {/* Quick Nav Strip */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide flex-1 -mx-1 px-1">
+                  {quickNav.map((item, i) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className="group flex-shrink-0 flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
+                        style={{ animationDelay: `${i * 40}ms` }}
+                      >
+                        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
+                          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+                        </div>
+                        <span className="text-xs sm:text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* Mini Calendar Widget */}
+                <div className="flex-shrink-0">
+                  <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-[#E8E6E0]/60 shadow-sm">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] flex flex-col items-center justify-center shadow-sm">
+                      <span className="text-[8px] font-bold text-white/80 uppercase leading-none tracking-wider">
+                        {new Date().toLocaleDateString('en-US', { month: 'short' })}
+                      </span>
+                      <span className="text-sm font-bold text-white leading-none mt-0.5">
+                        {new Date().getDate()}
+                      </span>
+                    </div>
+                    <div className="hidden sm:block">
+                      <div className="text-xs font-bold text-[#1B4332] leading-tight">
+                        {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
                       </div>
-                      <span className="text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
-                    </Link>
-                  );
-                })}
+                      <div className="text-[10px] text-[#292828]/50 font-medium">
+                        {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
 
             {/* ────── Stats Row ────── */}
-            <section className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 animate-slide-up" style={{ animationDelay: '60ms' }}>
+            <section className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6 animate-slide-up" style={{ animationDelay: '60ms' }}>
               {[
                 { label: 'Classes', value: stats.totalClasses, icon: Users },
                 { label: 'Students', value: stats.totalStudents, icon: GraduationCap },
@@ -203,16 +225,16 @@ const TeacherDashboardPage: React.FC = () => {
                 return (
                   <div
                     key={stat.label}
-                    className="rounded-xl bg-white border border-[#E8E6E0]/60 p-4 hover:shadow-md transition-all duration-200"
+                    className="rounded-xl bg-white border border-[#E8E6E0]/60 p-3 sm:p-4 hover:shadow-md transition-all duration-200"
                     style={{ animationDelay: `${80 + i * 40}ms` }}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#1B4332]/8 flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-[#1B4332]" />
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#1B4332]/8 flex items-center justify-center">
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#1B4332]" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-[#1B4332] leading-tight">{stat.value}</div>
-                        <div className="text-xs text-[#292828]/60 font-medium">{stat.label}</div>
+                        <div className="text-xl sm:text-2xl font-bold text-[#1B4332] leading-tight">{stat.value}</div>
+                        <div className="text-[10px] sm:text-xs text-[#292828]/60 font-medium">{stat.label}</div>
                       </div>
                     </div>
                   </div>
@@ -222,14 +244,14 @@ const TeacherDashboardPage: React.FC = () => {
 
             {/* ────── Your Classes — Main Hero Section ────── */}
             <section className="animate-slide-up" style={{ animationDelay: '120ms' }}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div>
-                  <h2 className="text-xl font-headline font-bold text-[#1B4332]">Your Classes</h2>
-                  <p className="text-sm text-[#292828]/60 mt-0.5">Select a class to start working</p>
+                  <h2 className="text-lg sm:text-xl font-headline font-bold text-[#1B4332]">Your Classes</h2>
+                  <p className="text-xs sm:text-sm text-[#292828]/60 mt-0.5">Select a class to start working</p>
                 </div>
                 <Link
                   to="/teachers/classes"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
+                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#1B4332] text-white text-xs sm:text-sm font-semibold hover:bg-[#2D6A4F] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
                 >
                   <PlusCircle size={16} />
                   <span className="hidden sm:inline">New Class</span>
@@ -238,7 +260,7 @@ const TeacherDashboardPage: React.FC = () => {
 
               {classes.length === 0 ? (
                 /* Empty state */
-                <div className="rounded-2xl bg-white border border-[#E8E6E0]/60 p-12 text-center shadow-sm">
+                <div className="rounded-2xl bg-white border border-[#E8E6E0]/60 p-6 sm:p-12 text-center shadow-sm">
                   <div className="w-20 h-20 rounded-2xl bg-[#D4A843]/15 flex items-center justify-center mx-auto mb-5">
                     <Users className="w-10 h-10 text-[#D4A843]" />
                   </div>
@@ -256,7 +278,7 @@ const TeacherDashboardPage: React.FC = () => {
                 </div>
               ) : (
                 /* Class grid — large blocks */
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {classes.map((cls, index) => {
                     const colorScheme = CLASS_COLORS[index % CLASS_COLORS.length];
                     return (

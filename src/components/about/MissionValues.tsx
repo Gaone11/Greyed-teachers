@@ -1,40 +1,45 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { MotionContext } from '../../context/MotionContext';
-import { Scale, Heart, UserCheck, Lightbulb } from 'lucide-react';
+import { GraduationCap, Shield, Users, BarChart } from 'lucide-react';
 
-interface ValueTileProps {
+interface ObjectiveTileProps {
   icon: React.ReactNode;
   title: string;
+  description: string;
   index: number;
 }
 
 const MissionValues: React.FC = () => {
   const { enabled } = useContext(MotionContext);
-  
-  const values = [
+
+  const objectives = [
     {
-      icon: <Scale className="w-8 h-8" />,
-      title: "Equity"
+      icon: <GraduationCap className="w-8 h-8" />,
+      title: "Educator Enablement",
+      description: "Equipping teachers with AI-powered tools and training so they can deliver quality, CAPS-aligned education."
     },
     {
-      icon: <Heart className="w-8 h-8" />,
-      title: "Empathy"
+      icon: <Users className="w-8 h-8" />,
+      title: "Learner Support",
+      description: "Providing personalised learning pathways and human tutoring support to help every learner succeed."
     },
     {
-      icon: <UserCheck className="w-8 h-8" />,
-      title: "Personalisation"
+      icon: <Shield className="w-8 h-8" />,
+      title: "Safeguarding",
+      description: "Maintaining strict child protection, data privacy and safety measures throughout the programme."
     },
     {
-      icon: <Lightbulb className="w-8 h-8" />,
-      title: "Continuous Learning"
+      icon: <BarChart className="w-8 h-8" />,
+      title: "Evidence & Learning",
+      description: "Measuring impact through structured monitoring, evaluation and learning to guide future decisions."
     }
   ];
-  
+
   const missionVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.5 }
     }
@@ -53,33 +58,30 @@ const MissionValues: React.FC = () => {
               className="mb-16"
             >
               <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-                Our Mission
+                Programme Objectives
               </h2>
-              <p className="text-2xl text-greyed-navy/90 max-w-3xl mx-auto">
-                "Democratise quality learning through empathic AI that adapts as fast as students do."
+              <p className="text-xl text-greyed-navy/90 max-w-3xl mx-auto">
+                The pilot aims to validate the GreyEd solution in a South African public-school context, building evidence for what works and laying the foundation for broader impact.
               </p>
             </motion.div>
           ) : (
             <div className="mb-16">
               <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-                Our Mission
+                Programme Objectives
               </h2>
-              <p className="text-2xl text-greyed-navy/90 max-w-3xl mx-auto">
-                "Democratise quality learning through empathic AI that adapts as fast as students do."
+              <p className="text-xl text-greyed-navy/90 max-w-3xl mx-auto">
+                The pilot aims to validate the GreyEd solution in a South African public-school context, building evidence for what works and laying the foundation for broader impact.
               </p>
             </div>
           )}
-          
-          <h3 className="text-2xl font-headline font-semibold mb-10 text-greyed-navy">
-            Core Values
-          </h3>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <ValueTile
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {objectives.map((obj, index) => (
+              <ObjectiveTile
                 key={index}
-                icon={value.icon}
-                title={value.title}
+                icon={obj.icon}
+                title={obj.title}
+                description={obj.description}
                 index={index}
               />
             ))}
@@ -90,13 +92,13 @@ const MissionValues: React.FC = () => {
   );
 };
 
-const ValueTile: React.FC<ValueTileProps> = ({ icon, title, index }) => {
+const ObjectiveTile: React.FC<ObjectiveTileProps> = ({ icon, title, description, index }) => {
   const { enabled } = useContext(MotionContext);
-  
+
   const tileVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.4, delay: 0.1 * index }
     }
@@ -109,19 +111,21 @@ const ValueTile: React.FC<ValueTileProps> = ({ icon, title, index }) => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.6 }}
-        className="bg-white rounded-xl p-6 shadow-sm flex flex-col items-center"
+        className="bg-white rounded-xl p-6 shadow-sm text-left"
       >
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center text-greyed-navy mb-4">
+        <div className="w-14 h-14 bg-greyed-blue/20 rounded-full flex items-center justify-center text-greyed-navy mb-4">
           {icon}
         </div>
-        <h4 className="font-headline font-semibold text-greyed-navy">{title}</h4>
+        <h4 className="font-headline font-semibold text-greyed-navy mb-2 text-lg">{title}</h4>
+        <p className="text-greyed-navy/80">{description}</p>
       </motion.div>
     ) : (
-      <div className="bg-white rounded-xl p-6 shadow-sm flex flex-col items-center">
-        <div className="w-16 h-16 bg-greyed-blue/20 rounded-full flex items-center justify-center text-greyed-navy mb-4">
+      <div className="bg-white rounded-xl p-6 shadow-sm text-left">
+        <div className="w-14 h-14 bg-greyed-blue/20 rounded-full flex items-center justify-center text-greyed-navy mb-4">
           {icon}
         </div>
-        <h4 className="font-headline font-semibold text-greyed-navy">{title}</h4>
+        <h4 className="font-headline font-semibold text-greyed-navy mb-2 text-lg">{title}</h4>
+        <p className="text-greyed-navy/80">{description}</p>
       </div>
     )
   );

@@ -17,13 +17,13 @@ interface TutoringPageProps {
 const TutoringPage: React.FC<TutoringPageProps> = ({ openAdminLoginModal }) => {
   // Set document title and meta description for SEO
   useEffect(() => {
-    document.title = "GreyEd Tutoring – Live Human Help, Powered by El AI";
-    
+    document.title = "Tutoring Programme — Cophetsheni Primary School | GreyEd";
+
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 
-        'Book live sessions with certified tutors who use GreyEd\'s AI insights to accelerate understanding and confidence.');
+      metaDescription.setAttribute('content',
+        'Human tutors use the GreyEd platform to support learners at Cophetsheni Primary School in Mpumalanga, South Africa.');
     }
   }, []);
 

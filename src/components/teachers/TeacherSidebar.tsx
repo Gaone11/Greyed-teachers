@@ -130,28 +130,11 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
     },
     {
-      id: 'courses',
-      label: 'Courses',
-      icon: GraduationCap,
-      path: '/teachers/courses',
-      color: 'from-greyed-beige to-greyed-beige',
-      activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
-    },
-    {
       id: 'el-ai',
       label: 'Siyafunda AI',
       icon: Snowflake,
       path: '/teachers/el-ai',
       color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30',
-      special: true
-    },
-    {
-      id: 'grey-ed-ta',
-      label: 'Teaching Assistant',
-      icon: Sparkles,
-      path: '/teachers/grey-ed-ta',
-      color: 'from-greyed-blue to-greyed-blue',
       activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30',
       special: true
     },

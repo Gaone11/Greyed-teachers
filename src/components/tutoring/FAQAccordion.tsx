@@ -12,41 +12,38 @@ interface AccordionItemProps {
 }
 
 const FAQAccordion: React.FC = () => {
-  const { enabled } = useContext(MotionContext);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const isMobile = window.innerWidth < 768;
-  
-  // FAQ data
+
   const faqItems = [
     {
-      id: 'session-length',
-      question: 'How long are sessions?',
-      answer: '25 minutes standard, 55 minute option.'
+      id: 'who-are-tutors',
+      question: 'Who are the tutors?',
+      answer: 'Our tutors are trained individuals who work with the GreyEd platform to support learners at Cophetsheni Primary School. They are screened and supervised as part of the programme\'s safeguarding requirements.'
     },
     {
-      id: 'switch-tutors',
-      question: 'Can I switch tutors?',
-      answer: 'Yes, choose any available tutor.'
+      id: 'what-subjects',
+      question: 'What subjects are covered?',
+      answer: 'Tutoring sessions are aligned to the South African CAPS curriculum and focus on the subjects and topics where learners need the most support, as identified through the GreyEd platform.'
     },
     {
-      id: 'tech-requirements',
-      question: 'What tech do I need?',
-      answer: 'Just a browser and 1 Mbps connection.'
+      id: 'how-structured',
+      question: 'How are sessions structured?',
+      answer: 'Before each session, the tutor reviews learner data on GreyEd to prepare. Sessions take place one-on-one or in small groups. Afterwards, session insights are recorded so classroom teachers can follow each learner\'s progress.'
     },
     {
       id: 'safety',
-      question: 'Is it safe?',
-      answer: 'Sessions recorded and encrypted for quality & safety.'
+      question: 'How is learner safety ensured?',
+      answer: 'Learner safety is a top priority. The programme follows strict safeguarding protocols, including tutor screening, supervision, and data protection measures in compliance with South African law (POPIA).'
     }
   ];
-  
-  // Initialize with first item open on desktop
+
   useEffect(() => {
     if (!isMobile && faqItems.length > 0) {
       setOpenItems(new Set([faqItems[0].id]));
     }
   }, [isMobile]);
-  
+
   const toggleItem = (id: string) => {
     setOpenItems(prev => {
       const newOpenItems = new Set(prev);
@@ -66,7 +63,7 @@ const FAQAccordion: React.FC = () => {
           <h2 className="text-2xl md:text-3xl font-headline font-bold text-center text-greyed-navy mb-10">
             Common Questions
           </h2>
-          
+
           {faqItems.map((item) => (
             <AccordionItem
               key={item.id}
@@ -83,60 +80,56 @@ const FAQAccordion: React.FC = () => {
   );
 };
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ 
-  question, 
-  answer, 
-  id, 
-  isOpen, 
+const AccordionItem: React.FC<AccordionItemProps> = ({
+  question,
+  answer,
+  id,
+  isOpen,
   onToggle
 }) => {
   const { enabled } = useContext(MotionContext);
-  
+
   const contentVariants = {
-    closed: { 
-      height: 0, 
+    closed: {
+      height: 0,
       opacity: 0,
-      transition: { 
+      transition: {
         height: { duration: 0.3 },
         opacity: { duration: 0.2 }
       }
     },
-    open: { 
-      height: "auto", 
+    open: {
+      height: "auto",
       opacity: 1,
-      transition: { 
+      transition: {
         height: { duration: 0.3 },
         opacity: { duration: 0.25, delay: 0.1 }
       }
     }
   };
-  
-  // Reduced motion alternative
+
   const reducedMotionVariants = {
-    closed: { 
+    closed: {
       opacity: 0,
-      transition: { 
-        duration: 0.1
-      }
+      transition: { duration: 0.1 }
     },
-    open: { 
+    open: {
       opacity: 1,
-      transition: { 
-        duration: 0.1
-      }
+      transition: { duration: 0.1 }
     }
   };
 
   return (
-    <div 
+    <div
       className="border-b border-greyed-navy/10 py-4"
       id={`faq-item-${id}`}
     >
       <h3>
         <button
+          type="button"
           className="flex justify-between items-center w-full text-left py-2 text-greyed-navy focus:outline-none focus:ring-2 focus:ring-greyed-blue rounded font-semibold text-lg"
           onClick={onToggle}
-          aria-expanded={isOpen}
+          aria-expanded={isOpen ? "true" : "false"}
           aria-controls={`panel-${id}`}
         >
           {question}
@@ -149,7 +142,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           </motion.div>
         </button>
       </h3>
-      
+
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div

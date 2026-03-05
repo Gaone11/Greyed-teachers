@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import FeaturesPage from './pages/FeaturesPage';
@@ -24,11 +24,10 @@ import { RoleProvider, useRole } from './context/RoleContext';
 import { RoleSelectionProvider, useRoleSelection } from './context/RoleSelectionContext';
 import { ViewModeProvider } from './context/ViewModeContext';
 import RoleSelectionModal from './components/ui/RoleSelectionModal';
-import { LoadingProvider, useLoading } from './context/LoadingContext';
+import { LoadingProvider } from './context/LoadingContext';
 import TeacherSignupModal from './components/ui/TeacherSignupModal';
 import LoginModal from './components/ui/LoginModal';
 import ProtectedTeacherRoute from './components/ui/ProtectedTeacherRoute';
-import Loader from './components/ui/Loader';
 import AdminLoginModal from './components/ui/AdminLoginModal';
 import DyslexiaModeBadge from './components/accessibility/DyslexiaModeBadge';
 
@@ -145,7 +144,6 @@ function App() {
 const AppContent = () => {
   const { showTeacherSignup, closeTeacherSignup } = useRoleSelection();
   const { user } = useAuth();
-  const { isLoading, setIsLoading } = useLoading();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAdminLoginModal, setShowAdminLoginModal] = useState(false);
   const location = useLocation();
@@ -163,23 +161,6 @@ const AppContent = () => {
     };
   }, [user]);
 
-  // Handle page transitions — fast, fluid, premium feel
-  const prevPath = useRef(location.pathname);
-  useEffect(() => {
-    // Only show transition loader when navigating between major sections
-    const isTeacherNav = prevPath.current.startsWith('/teachers') && location.pathname.startsWith('/teachers');
-    const isSameSection = prevPath.current === location.pathname;
-    prevPath.current = location.pathname;
-
-    if (isSameSection) return;
-
-    // Shorter duration for in-dashboard navigation, slightly longer for cross-section
-    const duration = isTeacherNav ? 250 : 400;
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), duration);
-    return () => clearTimeout(timer);
-  }, [location.pathname, setIsLoading]);
-
   const openLoginModal = () => setShowLoginModal(true);
   const closeLoginModal = () => setShowLoginModal(false);
   
@@ -188,7 +169,6 @@ const AppContent = () => {
   
   return (
     <>
-      {isLoading && <Loader fullScreen={true} />}
       <DyslexiaModeBadge />
       <Routes>
         <Route path="/" element={<LandingPage openLoginModal={openLoginModal} openAdminLoginModal={openAdminLoginModal} />} />
