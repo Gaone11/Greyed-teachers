@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye } from 'lucide-react';
+import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye, Lock } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -38,6 +38,13 @@ const TeacherSettingsPage: React.FC = () => {
     avatar_url: ''
   });
   
+  // Password change
+  const [passwordData, setPasswordData] = useState({
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+
   // Notification settings
   const [notificationSettings, setNotificationSettings] = useState({
     emailDaily: true,
@@ -267,6 +274,41 @@ const TeacherSettingsPage: React.FC = () => {
     }
   };
   
+  // Handle password change
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (passwordData.newPassword.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setIsChangingPassword(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: passwordData.newPassword,
+      });
+
+      if (updateError) throw updateError;
+
+      setSuccess('Password changed successfully.');
+      setPasswordData({ newPassword: '', confirmPassword: '' });
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to change password. Please try again.');
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
   // Handle profile form submission
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -809,6 +851,65 @@ const TeacherSettingsPage: React.FC = () => {
                 {activeTab === 'security' && (
                   <div className="max-w-2xl mx-auto">
                     <h2 className="text-lg font-semibold text-black mb-5">Security Settings</h2>
+
+                    {/* Change Password */}
+                    <form onSubmit={handlePasswordChange} className="p-4 border border-greyed-navy/10 rounded-lg mb-4">
+                      <h3 className="font-medium text-black mb-3 flex items-center">
+                        <Lock size={16} className="mr-2" />
+                        Change Password
+                      </h3>
+
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-sm font-medium text-black mb-1">
+                            New Password
+                          </label>
+                          <input
+                            type="password"
+                            value={passwordData.newPassword}
+                            onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                            placeholder="Enter new password"
+                            minLength={6}
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-black mb-1">
+                            Confirm New Password
+                          </label>
+                          <input
+                            type="password"
+                            value={passwordData.confirmPassword}
+                            onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                            placeholder="Confirm new password"
+                            minLength={6}
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="mt-4">
+                        <button
+                          type="submit"
+                          disabled={isChangingPassword}
+                          className={`px-4 py-2 bg-greyed-navy text-white rounded-md hover:bg-greyed-navy/90 flex items-center ${
+                            isChangingPassword ? 'opacity-70 cursor-not-allowed' : ''
+                          }`}
+                        >
+                          {isChangingPassword ? (
+                            <>
+                              <Loader size={16} className="animate-spin mr-2" />
+                              Updating...
+                            </>
+                          ) : (
+                            'Update Password'
+                          )}
+                        </button>
+                      </div>
+                    </form>
 
                     {/* Two-Factor Authentication */}
                     <div className="p-4 border border-greyed-navy/10 rounded-lg mb-4">

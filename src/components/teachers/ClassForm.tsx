@@ -37,7 +37,7 @@ const ClassForm: React.FC<ClassFormProps> = ({
     subject: initialData.subject || '',
     grade: initialData.grade || '',
     description: initialData.description || '',
-    syllabus: initialData.syllabus || 'PSLA',
+    syllabus: initialData.syllabus || 'CAPS',
     classSize: initialData.classSize?.toString() || '',
     duration: initialData.duration?.toString() || '',
   });
@@ -127,12 +127,12 @@ const ClassForm: React.FC<ClassFormProps> = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">Syllabus</label>
             <select
               name="syllabus"
+              title="Syllabus"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
               value={formData.syllabus}
               onChange={handleInputChange}
             >
-              <option value="">Select a syllabus...</option>
-              <option value="PSLE">PSLE</option>
+              <option value="CAPS">CAPS (South Africa)</option>
               <option value="Other">Other</option>
             </select>
           </div>
