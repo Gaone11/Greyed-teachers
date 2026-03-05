@@ -148,12 +148,18 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <h3 className="font-headline font-bold text-2xl mb-2 mt-6">{name}</h3>
         
         <div className="mb-6">
-          <div className="flex items-baseline">
-            <span className="text-3xl font-bold">{formattedPrice}</span>
-            <span className="ml-1 text-sm opacity-80">{billingPeriod === 'monthly' ? '/month' : '/year'}</span>
-          </div>
-          {price === 0 && (
-            <p className="text-sm mt-1 opacity-80">No credit card required</p>
+          {price === 0 ? (
+            <>
+              <div className="flex items-baseline">
+                <span className="text-3xl font-bold">Free</span>
+              </div>
+              <p className="text-sm mt-1 opacity-80">No credit card required</p>
+            </>
+          ) : (
+            <div className="flex items-baseline">
+              <span className="text-3xl font-bold">{formattedPrice}</span>
+              <span className="ml-1 text-sm opacity-80">{billingPeriod === 'monthly' ? '/month' : '/year'}</span>
+            </div>
           )}
         </div>
         
@@ -213,12 +219,18 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <h3 className="font-headline font-bold text-2xl mb-2 mt-6">{name}</h3>
         
         <div className="mb-6">
-          <div className="flex items-baseline">
-            <span className="text-3xl font-bold">{formattedPrice}</span>
-            <span className="ml-1 text-sm opacity-80">{billingPeriod === 'monthly' ? '/month' : '/year'}</span>
-          </div>
-          {price === 0 && (
-            <p className="text-sm mt-1 opacity-80">No credit card required</p>
+          {price === 0 ? (
+            <>
+              <div className="flex items-baseline">
+                <span className="text-3xl font-bold">Free</span>
+              </div>
+              <p className="text-sm mt-1 opacity-80">No credit card required</p>
+            </>
+          ) : (
+            <div className="flex items-baseline">
+              <span className="text-3xl font-bold">{formattedPrice}</span>
+              <span className="ml-1 text-sm opacity-80">{billingPeriod === 'monthly' ? '/month' : '/year'}</span>
+            </div>
           )}
         </div>
         
