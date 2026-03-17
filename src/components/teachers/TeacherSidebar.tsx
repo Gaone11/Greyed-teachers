@@ -14,12 +14,13 @@ import {
   Sparkles,
   GraduationCap,
   Database,
-  Shield
+  Shield,
+  Globe2
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface TeacherSidebarProps {
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb';
+  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -136,6 +137,14 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       path: '/teachers/courses',
       color: 'from-greyed-beige to-greyed-beige',
       activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
+    },
+    {
+      id: 'knowledge',
+      label: 'Knowledge Galaxy',
+      icon: Globe2,
+      path: '/teachers/knowledge',
+      color: 'from-indigo-500 to-purple-600',
+      activeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200'
     },
     {
       id: 'el-ai',

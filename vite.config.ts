@@ -29,6 +29,19 @@ export default defineConfig({
   // Explicitly define the root directory
   root: process.cwd(),
   publicDir: 'public',
+  server: {
+    host: 'localhost',
+    cors: true,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      clientPort: 5176,
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Security-Policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; frame-ancestors *;",
+    },
+  },
   build: {
     rollupOptions: {
       input: {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, AlertCircle } from 'lucide-react';
+import { SUBJECT_OPTIONS, getSubjectTopicPreview } from '../../data/knowledgeGalaxy';
 
 interface ClassFormProps {
   isOpen: boolean;
@@ -112,15 +113,28 @@ const ClassForm: React.FC<ClassFormProps> = ({
           
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-            <input
-              type="text"
+            <select
               name="subject"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
-              placeholder="e.g. Physics"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
               value={formData.subject}
               onChange={handleInputChange}
               required
-            />
+            >
+              <option value="">Select a subject...</option>
+              {SUBJECT_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.icon} {opt.label}
+                </option>
+              ))}
+            </select>
+            {formData.subject && (
+              <p className="mt-1.5 text-xs text-gray-500">
+                Flagship topics:{' '}
+                <span className="text-greyed-navy font-medium">
+                  {getSubjectTopicPreview(formData.subject).join(' · ') || 'Coming soon'}
+                </span>
+              </p>
+            )}
           </div>
           
           <div className="mb-4">

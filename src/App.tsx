@@ -51,6 +51,7 @@ import ElAIAssistantPage from './pages/teachers/ElAIAssistantPage';
 import TeacherGreyEdTAPage from './pages/teachers/TeacherGreyEdTAPage';
 import TeacherCoursesPage from './pages/teachers/TeacherCoursesPage';
 import TeacherCourseDetailPage from './pages/teachers/TeacherCourseDetailPage';
+import KnowledgeGalaxyPage from './pages/teachers/KnowledgeGalaxyPage';
 
 
 function App() {
@@ -314,6 +315,11 @@ const AppContent = () => {
           </ProtectedTeacherRoute>
         } />
 
+        <Route path="/teachers/knowledge" element={
+          <ProtectedTeacherRoute>
+            <KnowledgeGalaxyPage />
+          </ProtectedTeacherRoute>
+        } />
 
         {/* Redirect dashboard to appropriate role dashboard */}
         <Route path="/dashboard" element={<DashboardRedirect />} />
