@@ -166,32 +166,31 @@ export async function updateClass(classId: string, classData: Partial<Class>) {
  * Create a new class
  */
 export async function createClass(classData: Omit<Class, 'id' | 'created_at'>) {
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error('User not authenticated');
+  try {
+    // Get the current authenticated user
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+    
+    // Ensure the teacher_id is set to the current user
+    const classDataWithTeacher = {
+      ...classData,
+      teacher_id: user.id
+    };
+    
+    const { data, error } = await supabase
+      .from('classes')
+      .insert([classDataWithTeacher])
+      .select();
+    
+    if (error) throw error;
+    
+    return data[0] as Class;
+  } catch (error) {
+    throw error;
   }
-
-  // Ensure teacher is on 'paid' tier so no DB-level limit applies
-  await supabase
-    .from('teacher_preferences')
-    .upsert({
-      teacher_id: user.id,
-      subscription_tier: 'paid',
-      features: { classes: 999, lesson_plans: 999, assessments: 999, family_updates: 999 },
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'teacher_id' });
-
-  const classDataWithTeacher = { ...classData, teacher_id: user.id };
-
-  const { data, error } = await supabase
-    .from('classes')
-    .insert([classDataWithTeacher])
-    .select();
-
-  if (error) throw error;
-
-  return data[0] as Class;
 }
 
 /**
