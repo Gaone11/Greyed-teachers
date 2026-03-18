@@ -164,7 +164,7 @@ const TeacherClassDetailPage: React.FC = () => {
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
         {/* Left sidebar navigation */}
-        <div className={`fixed top-0 left-0 bottom-0 z-40 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+        <div className={`bg-white border-r border-gray-100 shadow-sm fixed top-0 left-0 bottom-0 z-40 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
           <TeacherSidebar
             activePage="classes"
             onLogout={handleLogout}
@@ -178,7 +178,8 @@ const TeacherClassDetailPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+        <div className="flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300"
+          style={{ marginLeft: sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-4 sm:px-6 lg:px-8">
             {error && (
               <div className="bg-greyed-beige/30 border border-greyed-navy/20 text-greyed-black px-4 py-3 rounded-lg mb-4 flex items-start">
@@ -522,7 +523,7 @@ const TeacherClassDetailPage: React.FC = () => {
       )}
       
       {/* Footer with sidebar offset */}
-      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+      <div className="transition-all duration-300" style={{ marginLeft: sidebarCollapsed ? '4rem' : '16rem' }}>
         <Footer />
       </div>
     </>

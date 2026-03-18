@@ -723,7 +723,7 @@ const TeacherTutorsPage: React.FC = () => {
         )}
         
         {/* Left sidebar navigation */}
-        <div className={`${
+        <div className={`bg-white border-r border-gray-100 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -750,9 +750,8 @@ const TeacherTutorsPage: React.FC = () => {
         </div>
 
         {/* Main content area */}
-        <div className={`flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300 ${
-          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-        }`}>
+        <div className="flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300"
+          style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-4 sm:px-6 lg:px-8">
 
             {/* Success message */}

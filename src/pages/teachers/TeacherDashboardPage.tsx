@@ -124,7 +124,7 @@ const TeacherDashboardPage: React.FC = () => {
         )}
 
         {/* Left sidebar */}
-        <div className={`${
+        <div className={`bg-white border-r border-gray-100 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform duration-300 transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -146,9 +146,8 @@ const TeacherDashboardPage: React.FC = () => {
         </div>
 
         {/* Main content */}
-        <div className={`flex-1 pt-2 sm:pt-3 pb-20 md:pb-6 transition-all duration-300 ${
-          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-        }`}>
+        <div className="flex-1 pt-2 sm:pt-3 pb-20 md:pb-6 transition-all duration-300"
+          style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-3 sm:px-6 lg:px-8 max-w-7xl">
             {/* Header */}
             <div className="flex items-start justify-between mb-4 sm:mb-6">
@@ -336,7 +335,7 @@ const TeacherDashboardPage: React.FC = () => {
       <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
 
       {/* Footer */}
-      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+      <div className="transition-all duration-300" style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
         <Footer />
       </div>
     </div>
