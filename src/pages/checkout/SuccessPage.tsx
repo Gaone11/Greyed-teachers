@@ -58,7 +58,7 @@ const SuccessPage: React.FC = () => {
           }
         }
       } catch {
-        setError('Failed to load subscription details. Please contact support.');
+        setError('Failed to load account details. Please contact support.');
       } finally {
         setLoading(false);
       }
@@ -68,10 +68,10 @@ const SuccessPage: React.FC = () => {
   }, [sessionId, navigate]);
 
   const getProductName = () => {
-    if (!subscription?.price_id) return 'your subscription';
-    
+    if (!subscription?.price_id) return 'your account';
+
     const product = getProductByPriceId(subscription.price_id);
-    return product?.name || 'your subscription';
+    return product?.name || 'your account';
   };
 
   // Function to handle the dashboard redirect
@@ -89,7 +89,7 @@ const SuccessPage: React.FC = () => {
             {loading ? (
               <div className="py-12 flex flex-col items-center">
                 <Loader className="w-12 h-12 text-greyed-blue animate-spin mb-4" />
-                <p className="text-greyed-navy font-medium">Processing your subscription...</p>
+                <p className="text-greyed-navy font-medium">Setting up your account...</p>
               </div>
             ) : error ? (
               <div className="py-12">
@@ -112,13 +112,13 @@ const SuccessPage: React.FC = () => {
                 </div>
                 
                 <h1 className="text-2xl font-headline font-bold text-greyed-navy mb-4">
-                  {isTrialActive ? 'Your 14-Day Free Trial Has Started!' : 'Payment Successful!'}
+                  {isTrialActive ? 'Your Account Is Now Active!' : 'Payment Successful!'}
                 </h1>
                 
                 <p className="text-greyed-navy/70 mb-6">
-                  {isTrialActive ? 
-                    `Your free trial of GreyEd Teachers has begun! You can now access all premium features for the next 14 days.` : 
-                    `Thank you for subscribing to ${getProductName()}. Your account has been successfully updated.`
+                  {isTrialActive ?
+                    `Welcome to GreyEd Teachers! You now have full access to all features.` :
+                    `Thank you for joining ${getProductName()}. Your account has been successfully activated.`
                   }
                 </p>
                 
@@ -127,7 +127,7 @@ const SuccessPage: React.FC = () => {
                   <ul className="space-y-2 text-greyed-navy/80">
                     <li className="flex items-start">
                       <span className="mr-2">•</span>
-                      <span>You now have access to all premium features in your teacher account</span>
+                      <span>You now have access to all features in your teacher account</span>
                     </li>
                     <li className="flex items-start">
                       <span className="mr-2">•</span>
@@ -136,12 +136,12 @@ const SuccessPage: React.FC = () => {
                     {isTrialActive && (
                       <li className="flex items-start">
                         <span className="mr-2">•</span>
-                        <span>Your card won't be charged until your trial ends in 14 days</span>
+                        <span>Explore all the tools available in your account</span>
                       </li>
                     )}
                     <li className="flex items-start">
                       <span className="mr-2">•</span>
-                      <span>You can manage your subscription from your account settings</span>
+                      <span>You can manage your account from your settings</span>
                     </li>
                   </ul>
                 </div>

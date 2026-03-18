@@ -57,42 +57,27 @@ const TeacherDashboardPage: React.FC = () => {
       return;
     }
 
-    const fetchData = async () => {
-      try {
-        if (!user) return;
-
-        setLoading(true);
-        setError(null);
-
-        try {
-          const data = await getTeacherDashboardData(user.id);
-          setClasses(data.classes);
-          setStats({
-            totalClasses: data.stats.classesCount,
-            totalStudents: data.classes.reduce((sum: number, cls: any) => sum + (cls.student_count || 0), 0),
-            lessonPlans: data.stats.lessonPlansCount,
-            assessments: data.stats.assessmentsCount
-          });
-        } catch {
-          const classData = await fetchTeacherClasses(user.id);
-          setClasses(classData);
-          const totalStudents = classData.reduce((sum: number, cls: any) => sum + (cls.student_count || 0), 0);
-          setStats({
-            totalClasses: classData.length,
-            totalStudents,
-            lessonPlans: 0,
-            assessments: 0
-          });
-        }
-      } catch {
-        setError('Failed to load dashboard data. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (user) {
-      fetchData();
+      const loadData = async () => {
+        try {
+          const [classesData, dashboardData] = await Promise.all([
+            fetchTeacherClasses(user.id),
+            getTeacherDashboardData(user.id)
+          ]);
+          setClasses(classesData || []);
+          setStats({
+            totalClasses: dashboardData?.stats?.classesCount || classesData?.length || 0,
+            totalStudents: 0,
+            lessonPlans: dashboardData?.stats?.lessonPlansCount || 0,
+            assessments: dashboardData?.stats?.assessmentsCount || 0,
+          });
+        } catch (err) {
+          setError('Failed to load dashboard data');
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadData();
     }
   }, [user, authLoading, navigate]);
 
@@ -101,13 +86,15 @@ const TeacherDashboardPage: React.FC = () => {
     navigate('/');
   };
 
-  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
-
   const toggleSidebar = () => {
-    const newState = !sidebarCollapsed;
-    setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    setSidebarCollapsed(prev => {
+      const next = !prev;
+      localStorage.setItem('teacherSidebarCollapsed', String(next));
+      return next;
+    });
   };
+
+  const toggleMobileMenu = () => setShowMobileMenu(prev => !prev);
 
   const firstName = user?.user_metadata?.first_name || user?.user_metadata?.name?.split(' ')[0] || 'Teacher';
 
@@ -120,7 +107,7 @@ const TeacherDashboardPage: React.FC = () => {
     { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#1B4332] to-[#2D6A4F]' },
     { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#D4A843] to-[#E8C96A]' },
     { icon: Snowflake, label: 'Siyafunda AI', path: '/teachers/el-ai', color: 'from-[#2D6A4F] to-[#52B788]' },
-    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/families', color: 'from-[#7A6548] to-[#A89070]' },
+    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#7A6548] to-[#A89070]' },
     { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#3D2E1C] to-[#5C4A33]' },
     { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#C4572A] to-[#D97750]' },
     { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#4C1D95] to-[#6D28D9]' },
@@ -130,7 +117,7 @@ const TeacherDashboardPage: React.FC = () => {
     <div className="min-h-screen bg-[#f8f8f6]">
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-16 bg-[#F0F0F0] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={() => setShowMobileMenu(false)} />
@@ -159,27 +146,15 @@ const TeacherDashboardPage: React.FC = () => {
         </div>
 
         {/* Main content */}
-        <div className={`flex-1 pt-3 pb-20 md:pb-6 transition-all duration-300 ${
+        <div className={`flex-1 pt-2 sm:pt-3 pb-20 md:pb-6 transition-all duration-300 ${
           sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
         }`}>
-          <main className="px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <main className="px-3 sm:px-6 lg:px-8 max-w-7xl">
             {/* Header */}
-            <div className="flex items-start justify-between mb-6">
+            <div className="flex items-start justify-between mb-4 sm:mb-6">
               <div>
-                <h1 className="text-2xl font-headline font-bold text-[#1B4332]">Welcome back, {firstName}</h1>
-                <p className="text-sm text-[#292828]/60 mt-0.5">Here's what's happening with your classes today</p>
-              </div>
-              <div className="hidden sm:flex flex-col items-end text-right">
-                <div className="flex items-center gap-2 bg-white border border-[#e8e6e0] rounded-xl px-4 py-2 shadow-sm">
-                  <div className="bg-[#1B4332] text-white rounded-lg px-2 py-1 text-xs font-bold leading-tight text-center">
-                    <div>{new Date().toLocaleString('default', { month: 'short' }).toUpperCase()}</div>
-                    <div className="text-base font-black leading-none">{new Date().getDate()}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-[#1B4332]">{new Date().toLocaleString('default', { weekday: 'long' })}</div>
-                    <div className="text-xs text-[#292828]/60">{new Date().toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                  </div>
-                </div>
+                <h1 className="text-xl sm:text-2xl font-headline font-bold text-[#1B4332]">Welcome back, {firstName}</h1>
+                <p className="text-xs sm:text-sm text-[#292828]/60 mt-0.5">Here's what's happening with your classes today</p>
               </div>
             </div>
 
@@ -190,30 +165,55 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
             )}
 
-            {/* ────── Quick Nav Strip ────── */}
-            <section className="mb-6 animate-slide-up">
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-1 px-1">
-                {quickNav.map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className="group flex-shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#e8e6e0] hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
-                      style={{ animationDelay: `${i * 40}ms` }}
-                    >
-                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
-                        <Icon className="w-4 h-4 text-white" />
+            {/* ────── Quick Nav + Calendar Row ────── */}
+            <section className="mb-4 sm:mb-6 animate-slide-up">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                {/* Quick Nav Strip */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide flex-1 -mx-1 px-1">
+                  {quickNav.map((item, i) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className="group flex-shrink-0 flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
+                        style={{ animationDelay: `${i * 40}ms` }}
+                      >
+                        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
+                          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+                        </div>
+                        <span className="text-xs sm:text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* Mini Calendar Widget */}
+                <div className="flex-shrink-0">
+                  <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-[#E8E6E0]/60 shadow-sm">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] flex flex-col items-center justify-center shadow-sm">
+                      <span className="text-[8px] font-bold text-white/80 uppercase leading-none tracking-wider">
+                        {new Date().toLocaleDateString('en-US', { month: 'short' })}
+                      </span>
+                      <span className="text-sm font-bold text-white leading-none mt-0.5">
+                        {new Date().getDate()}
+                      </span>
+                    </div>
+                    <div className="hidden sm:block">
+                      <div className="text-xs font-bold text-[#1B4332] leading-tight">
+                        {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
                       </div>
-                      <span className="text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
-                    </Link>
-                  );
-                })}
+                      <div className="text-[10px] text-[#292828]/50 font-medium">
+                        {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
 
             {/* ────── Stats Row ────── */}
-            <section className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 animate-slide-up" style={{ animationDelay: '60ms' }}>
+            <section className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6 animate-slide-up" style={{ animationDelay: '60ms' }}>
               {[
                 { label: 'Classes', value: stats.totalClasses, icon: Users },
                 { label: 'Students', value: stats.totalStudents, icon: GraduationCap },
@@ -224,16 +224,16 @@ const TeacherDashboardPage: React.FC = () => {
                 return (
                   <div
                     key={stat.label}
-                    className="rounded-xl bg-white border border-[#e8e6e0] p-4 hover:shadow-md transition-all duration-200"
+                    className="rounded-xl bg-white border border-[#E8E6E0]/60 p-3 sm:p-4 hover:shadow-md transition-all duration-200"
                     style={{ animationDelay: `${80 + i * 40}ms` }}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-[#1B4332]" />
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#1B4332]" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-[#1B4332] leading-tight">{stat.value}</div>
-                        <div className="text-xs text-[#292828]/60 font-medium">{stat.label}</div>
+                        <div className="text-xl sm:text-2xl font-bold text-[#1B4332] leading-tight">{stat.value}</div>
+                        <div className="text-[10px] sm:text-xs text-[#292828]/60 font-medium">{stat.label}</div>
                       </div>
                     </div>
                   </div>
@@ -243,14 +243,14 @@ const TeacherDashboardPage: React.FC = () => {
 
             {/* ────── Your Classes — Main Hero Section ────── */}
             <section className="animate-slide-up" style={{ animationDelay: '120ms' }}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div>
-                  <h2 className="text-xl font-headline font-bold text-[#1B4332]">Your Classes</h2>
-                  <p className="text-sm text-[#292828]/60 mt-0.5">Select a class to start working</p>
+                  <h2 className="text-lg sm:text-xl font-headline font-bold text-[#1B4332]">Your Classes</h2>
+                  <p className="text-xs sm:text-sm text-[#292828]/60 mt-0.5">Select a class to start working</p>
                 </div>
                 <Link
                   to="/teachers/classes"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
+                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#1B4332] text-white text-xs sm:text-sm font-semibold hover:bg-[#2D6A4F] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
                 >
                   <PlusCircle size={16} />
                   <span className="hidden sm:inline">New Class</span>
@@ -258,13 +258,13 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
 
               {classes.length === 0 ? (
-                <div className="rounded-2xl bg-white border border-[#e8e6e0] p-12 text-center shadow-sm">
+                <div className="rounded-2xl bg-white border border-[#E8E6E0]/60 p-6 sm:p-12 text-center shadow-sm">
                   <div className="w-20 h-20 rounded-2xl bg-[#D4A843]/15 flex items-center justify-center mx-auto mb-5">
                     <Users className="w-10 h-10 text-[#D4A843]" />
                   </div>
                   <h3 className="text-lg font-bold text-[#1B4332] mb-2">Create your first class</h3>
                   <p className="text-sm text-[#292828]/60 max-w-md mx-auto mb-6">
-                    Add a class to unlock lesson planning, assessments, family updates, and AI-powered teaching tools — all tailored to your curriculum.
+                    Add a class to unlock lesson planning, assessments, tutor updates, and AI-powered teaching tools — all tailored to your curriculum.
                   </p>
                   <Link
                     to="/teachers/classes"
@@ -275,7 +275,7 @@ const TeacherDashboardPage: React.FC = () => {
                   </Link>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {classes.map((cls, index) => {
                     const colorScheme = CLASS_COLORS[index % CLASS_COLORS.length];
                     return (
@@ -318,9 +318,9 @@ const TeacherDashboardPage: React.FC = () => {
                   {/* Add class card */}
                   <Link
                     to="/teachers/classes"
-                    className="group rounded-2xl border-2 border-dashed border-[#e8e6e0] hover:border-[#1B4332]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#D4A843]/5 transition-all duration-200 touch-manipulation"
+                    className="group rounded-2xl border-2 border-dashed border-[#E8E6E0]/60 hover:border-[#1B4332]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#D4A843]/5 transition-all duration-200 touch-manipulation"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-[#f8f8f6] group-hover:bg-[#D4A843]/20 flex items-center justify-center mb-3 transition-colors duration-200">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FAFAF8] group-hover:bg-[#D4A843]/20 flex items-center justify-center mb-3 transition-colors duration-200">
                       <PlusCircle className="w-7 h-7 text-[#292828]/40 group-hover:text-[#1B4332] transition-colors" />
                     </div>
                     <span className="text-sm font-semibold text-[#292828]/50 group-hover:text-[#1B4332] transition-colors">Add New Class</span>
@@ -332,8 +332,10 @@ const TeacherDashboardPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile bottom navigation */}
       <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
 
+      {/* Footer */}
       <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>

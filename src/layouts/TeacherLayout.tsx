@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/ui/Loader';
@@ -17,6 +17,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const autoCollapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -35,54 +36,65 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
     };
   }, [showMobileMenu, isMobile]);
 
+  // Auto-collapse sidebar after 5 seconds
+  useEffect(() => {
+    if (!isMobile && !sidebarCollapsed) {
+      autoCollapseTimerRef.current = setTimeout(() => {
+        setSidebarCollapsed(true);
+        localStorage.setItem('teacherSidebarCollapsed', 'true');
+      }, 5000);
+    }
+
+    return () => {
+      if (autoCollapseTimerRef.current) {
+        clearTimeout(autoCollapseTimerRef.current);
+      }
+    };
+  }, [isMobile, sidebarCollapsed]);
+
   const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  const toggleSidebar = () => {
+    const newState = !sidebarCollapsed;
+    setSidebarCollapsed(newState);
+    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(prev => !prev);
+  };
+
+  if (authLoading) {
     return (
-      <div className="min-h-screen bg-greyed-white">
-        {/* Left sidebar navigation - Fixed position */}
-        <div
-          className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300
-          ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72'` : (sidebarCollapsed ? 'w-16' : 'w-64')}
-          bg-white border-r border-greyed-navy/10 shadow-md`}
-          style={{ willChange: 'transform' }}
-        >
-          <TeacherSidebar
-            activePage={activePage}
-            onLogout={handleLogout}
-            collapsed={sidebarCollapsed}
-            onToggleCollapse={toggleSidebar}
-            isMobile={isMobile}
-            isOpen={showMobileMenu}
-            onClose={() => setShowMobileMenu(false)}
-          />
-        </div>
-
-        {/* Mobile menu overlay */}
-        {showMobileMenu && isMobile && (
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300"
-            onClick={() => setShowMobileMenu(false)}
-            style={{ touchAction: 'none' }}
-          />
-        )}
-
-        {/* Main content area with locked left margin */}
-        <div
-          className={`min-h-screen transition-all duration-300 flex flex-col`
-          }
-          style={{
-            marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem',
-            // 4rem = 64px (w-16), 16rem = 256px (w-64)
-          }}
-        >
-          <main className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 md:py-6 pb-20 md:pb-6">
-            {children}
-          </main>
-        </div>
-
-        {/* Mobile bottom navigation */}
-        <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
+      <div className="min-h-screen flex items-center justify-center bg-greyed-white">
+        <Loader />
       </div>
     );
+  }
+
+  return (
+    <div className="min-h-screen bg-greyed-white">
+      {/* Left sidebar navigation - Fixed position */}
+      <div
+        className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300
+        ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72` : (sidebarCollapsed ? 'w-16' : 'w-64')}
+        bg-white border-r border-greyed-navy/10 shadow-md`}
+        style={{ willChange: 'transform' }}
+      >
+        <TeacherSidebar
+          activePage={activePage}
+          onLogout={handleLogout}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={toggleSidebar}
+          isMobile={isMobile}
+          isOpen={showMobileMenu}
+          onClose={() => setShowMobileMenu(false)}
+        />
+      </div>
+
       {/* Mobile menu overlay */}
       {showMobileMenu && isMobile && (
         <div
@@ -92,10 +104,13 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
         />
       )}
 
-      {/* Main content area with proper left margin */}
-      <div className={`min-h-screen transition-all duration-300 ${
-        sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-      }`}>
+      {/* Main content area with locked left margin */}
+      <div
+        className="min-h-screen transition-all duration-300 flex flex-col"
+        style={{
+          marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem',
+        }}
+      >
         <main className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 md:py-6 pb-20 md:pb-6">
           {children}
         </main>

@@ -8,46 +8,8 @@ const FREE_MESSAGES_DAILY_LIMIT = 10; // Free accounts are limited to 10 message
  * Check if a user has reached their daily message limit
  */
 export async function checkMessageLimit(userId: string): Promise<{ limitReached: boolean, count: number }> {
-  try {
-    // Get today's date at midnight
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    // Check user's subscription status
-    const { data: subscriptionData, error: subError } = await supabase
-      .from('stripe_user_subscriptions')
-      .select('subscription_status, price_id')
-      .maybeSingle();
-    
-    if (subError) {
-      throw subError;
-    }
-    
-    // If user has an active subscription, no limit applies
-    if (subscriptionData?.subscription_status === 'active') {
-      // Check if it's a premium or hybrid plan based on price_id
-      return { limitReached: false, count: 0 };
-    }
-    
-    // Count today's messages for the user
-    const { count, error } = await supabase
-      .from('chat_messages')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .eq('role', 'user')
-      .gte('created_at', today.toISOString());
-    
-    if (error) {
-      throw error;
-    }
-    
-    const messageCount = count || 0;
-    const limitReached = messageCount >= FREE_MESSAGES_DAILY_LIMIT;
-    
-    return { limitReached, count: messageCount };
-  } catch (error) {
-    throw error;
-  }
+  // All users have unlimited messages - platform is free
+  return { limitReached: false, count: 0 };
 }
 
 /**
@@ -55,14 +17,6 @@ export async function checkMessageLimit(userId: string): Promise<{ limitReached:
  */
 export async function sendMessageToAI(message: string, userId: string): Promise<string> {
   try {
-    // Check message limit before sending to API
-    const { limitReached } = await checkMessageLimit(userId);
-    
-    // If free user has reached limit, throw an error
-    if (limitReached) {
-      throw new Error(`Daily message limit of ${FREE_MESSAGES_DAILY_LIMIT} reached. Please upgrade your plan for unlimited messages.`);
-    }
-    
     // Get the Supabase URL for the Edge Function
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     
@@ -109,15 +63,6 @@ export async function sendMessageToAI(message: string, userId: string): Promise<
  */
 export async function saveChatMessage(userId: string, role: 'user' | 'assistant', content: string) {
   try {
-    // If this is a user message, check limits before saving
-    if (role === 'user') {
-      const { limitReached, count } = await checkMessageLimit(userId);
-      
-      if (limitReached) {
-        throw new Error(`Daily message limit of ${FREE_MESSAGES_DAILY_LIMIT} reached. Please upgrade your plan for unlimited messages.`);
-      }
-    }
-    
     const { data, error } = await supabase
       .from('chat_messages')
       .insert([{

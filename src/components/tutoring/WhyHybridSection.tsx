@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { MotionContext } from '../../context/MotionContext';
-import { BarChart as ChartBar, HeartHandshake, FileText } from 'lucide-react';
+import { BarChart as ChartBar, HeartHandshake, BookOpen } from 'lucide-react';
 
 const WhyHybridSection: React.FC = () => {
   const { enabled } = useContext(MotionContext);
-  
+
   const listItemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
@@ -17,142 +17,69 @@ const WhyHybridSection: React.FC = () => {
       }
     })
   };
-  
-  const imageVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.5 }
-    }
-  };
 
-  const benefits = [
-    { 
-      icon: <ChartBar className="w-5 h-5 text-greyed-blue" />, 
-      text: "Instant insight from El AI data"
+  const approaches = [
+    {
+      icon: <ChartBar className="w-5 h-5 text-greyed-blue" />,
+      title: "AI-informed preparation",
+      text: "Before each session, tutors review learner data on GreyEd to understand where each child needs the most help, so no time is wasted."
     },
-    { 
-      icon: <HeartHandshake className="w-5 h-5 text-greyed-blue" />, 
-      text: "Real empathy & encouragement"
+    {
+      icon: <HeartHandshake className="w-5 h-5 text-greyed-blue" />,
+      title: "Real human connection",
+      text: "Tutors provide the empathy, encouragement and patience that only a person can give. Every learner is seen and supported."
     },
-    { 
-      icon: <FileText className="w-5 h-5 text-greyed-blue" />, 
-      text: "Personalised study plan after each session"
+    {
+      icon: <BookOpen className="w-5 h-5 text-greyed-blue" />,
+      title: "CAPS-aligned support",
+      text: "All tutoring sessions follow the South African CAPS curriculum, reinforcing what teachers cover in the classroom."
     }
   ];
 
   return (
     <section className="py-20 bg-greyed-white snap-start">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-              Why a human + AI?
-            </h2>
-            
-            <ul className="space-y-6">
-              {benefits.map((benefit, index) => (
-                enabled ? (
-                  <motion.li
-                    key={index}
-                    custom={index}
-                    variants={listItemVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    className="flex items-start"
-                  >
-                    <div className="mr-4 bg-greyed-blue/20 p-2 rounded-full">
-                      {benefit.icon}
-                    </div>
-                    <span className="text-lg">{benefit.text}</span>
-                  </motion.li>
-                ) : (
-                  <li key={index} className="flex items-start">
-                    <div className="mr-4 bg-greyed-blue/20 p-2 rounded-full">
-                      {benefit.icon}
-                    </div>
-                    <span className="text-lg">{benefit.text}</span>
-                  </li>
-                )
-              ))}
-            </ul>
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-headline font-bold mb-4 text-greyed-navy text-center">
+            How Our Tutors Use GreyEd
+          </h2>
+          <p className="text-greyed-navy/70 text-center mb-12 max-w-2xl mx-auto">
+            Our tutoring programme combines the best of human care with technology. Tutors use the GreyEd platform to prepare for each session and track learner progress over time.
+          </p>
+
+          <div className="space-y-8">
+            {approaches.map((item, index) => (
+              enabled ? (
+                <motion.div
+                  key={index}
+                  custom={index}
+                  variants={listItemVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  className="flex items-start bg-greyed-beige/30 rounded-xl p-6"
+                >
+                  <div className="mr-5 bg-greyed-blue/20 p-3 rounded-full flex-shrink-0">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-headline font-semibold text-greyed-navy mb-1">{item.title}</h3>
+                    <p className="text-greyed-navy/80">{item.text}</p>
+                  </div>
+                </motion.div>
+              ) : (
+                <div key={index} className="flex items-start bg-greyed-beige/30 rounded-xl p-6">
+                  <div className="mr-5 bg-greyed-blue/20 p-3 rounded-full flex-shrink-0">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-headline font-semibold text-greyed-navy mb-1">{item.title}</h3>
+                    <p className="text-greyed-navy/80">{item.text}</p>
+                  </div>
+                </div>
+              )
+            ))}
           </div>
-          
-          {enabled ? (
-            <motion.div
-              variants={imageVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="bg-white rounded-xl shadow-lg p-4"
-            >
-              {/* Mock-up of El AI dashboard */}
-              <div className="border border-greyed-navy/10 rounded-lg p-4">
-                <div className="bg-greyed-navy/5 p-3 rounded-lg mb-4">
-                  <h3 className="font-headline font-semibold text-greyed-navy mb-2">Student Summary</h3>
-                  <div className="h-4 w-3/4 bg-greyed-navy/10 rounded mb-2"></div>
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded"></div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-greyed-blue/20 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-blue/30 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-blue/30 rounded"></div>
-                  </div>
-                  <div className="bg-greyed-beige/30 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-beige/50 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-beige/50 rounded"></div>
-                  </div>
-                </div>
-                
-                <div className="bg-greyed-navy/5 p-3 rounded-lg">
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded mb-2"></div>
-                  <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-greyed-navy/20 rounded-full"></div>
-                    <div className="h-8 flex-1 bg-greyed-navy/10 rounded-lg"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center mt-3 text-sm text-greyed-navy/60">
-                El AI Dashboard: Student Learning Profile
-              </div>
-            </motion.div>
-          ) : (
-            <div className="bg-white rounded-xl shadow-lg p-4">
-              {/* Mock-up of El AI dashboard */}
-              <div className="border border-greyed-navy/10 rounded-lg p-4">
-                <div className="bg-greyed-navy/5 p-3 rounded-lg mb-4">
-                  <h3 className="font-headline font-semibold text-greyed-navy mb-2">Student Summary</h3>
-                  <div className="h-4 w-3/4 bg-greyed-navy/10 rounded mb-2"></div>
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded"></div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-greyed-blue/20 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-blue/30 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-blue/30 rounded"></div>
-                  </div>
-                  <div className="bg-greyed-beige/30 p-3 rounded-lg">
-                    <div className="h-4 w-3/4 bg-greyed-beige/50 rounded mb-2"></div>
-                    <div className="h-10 w-full bg-greyed-beige/50 rounded"></div>
-                  </div>
-                </div>
-                
-                <div className="bg-greyed-navy/5 p-3 rounded-lg">
-                  <div className="h-4 w-1/2 bg-greyed-navy/10 rounded mb-2"></div>
-                  <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-greyed-navy/20 rounded-full"></div>
-                    <div className="h-8 flex-1 bg-greyed-navy/10 rounded-lg"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center mt-3 text-sm text-greyed-navy/60">
-                El AI Dashboard: Student Learning Profile
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>

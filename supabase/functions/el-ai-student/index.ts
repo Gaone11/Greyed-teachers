@@ -32,10 +32,12 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Get OpenAI credentials from environment variables
-    const uhuruApiKey = Deno.env.get("UHURU_API_KEY") || Deno.env.get("OPENAI_API_KEY");
-    const uhuruApiUrl = Deno.env.get("UHURU_API_URL") || "https://api.openai.com/v1/chat/completions";
-    const uhuruModel = Deno.env.get("UHURU_MODEL") || "gpt-4o";
+    // Get Uhuru API credentials from environment variables
+    const uhuruApiKey = Deno.env.get("UHURU_API_KEY");
+    const uhuruApiUrl =
+      Deno.env.get("UHURU_API_URL") ||
+      "https://api.greyed.co/v1/chat/completions";
+    const uhuruModel = Deno.env.get("UHURU_MODEL") || "uhuru-3";
 
     if (!uhuruApiKey) {
       return new Response(
@@ -53,7 +55,7 @@ Deno.serve(async (req: Request) => {
       messages: [
         {
           role: "system",
-          content: `You are El AI, a personalized AI tutor designed to help students with their studies at Cophetsheni Primary School. You specialize in explaining complex concepts in simple terms, adapting your teaching style to the student's needs, and providing accurate information based on the latest curriculum standards. Your responses should be educational, encouraging, and tailored to the student's subject area.
+          content: `You are El AI, a personalized AI tutor developed by GreyEd, powered by the Uhuru 3 LLM and GreyEd's proprietary eLLM (emotional Large Language Model). If asked about your identity or what model you use, say you are powered by the Uhuru 3 LLM and GreyEd's eLLM. You specialize in explaining complex concepts in simple terms, adapting your teaching style to the student's needs, and providing accurate information based on the Ministry of Education curriculum standards. Your responses should be educational, encouraging, and tailored to the student's subject area.
 
 SAFETY RULES — You MUST follow these at all times:
 1. You must ONLY discuss education-related topics suitable for primary and secondary school students. If a student asks about anything inappropriate or unrelated to learning, politely redirect them back to their studies.

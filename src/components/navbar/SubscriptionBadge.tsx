@@ -27,7 +27,7 @@ const SubscriptionBadge: React.FC = () => {
           return;
         }
         
-        // Check if user has active teacher subscription
+        // Check if user has active teacher account
         const isActive = 
           subscriptionData && 
           subscriptionData.subscription_status === 'active' &&
@@ -44,7 +44,7 @@ const SubscriptionBadge: React.FC = () => {
     checkSubscription();
   }, [user]);
 
-  // Don't show anything while loading or if user doesn't have a subscription
+  // Don't show anything while loading or if user doesn't have an active account
   if (isLoading || !hasSubscription) {
     return null;
   }

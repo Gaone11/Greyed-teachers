@@ -121,7 +121,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         subtitle: "Here's what's happening with your classes today"
       };
     }
-    if (path === '/teachers/families') return { title: 'Family Communications', subtitle: 'Send updates and communicate with parents' };
+    if (path === '/teachers/tutors') return { title: 'Tutor Updates', subtitle: 'Send updates and communicate with tutors' };
     if (path === '/teachers/assessments') return { title: 'Assessments', subtitle: 'Create, manage and grade assessments' };
     if (path === '/teachers/classes') return { title: 'Manage Classes', subtitle: 'Create and manage your teaching classes' };
     if (/^\/teachers\/classes\/.+/.test(path)) return { title: 'Class Details', subtitle: 'View and manage your class' };
@@ -169,7 +169,6 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     { to: "/features", label: "Features" },
     { to: "/tutoring", label: "Tutoring" },
     { to: "/ellm", label: "eLLM" },
-    { to: "/pricing", label: "Pricing" },
     { to: "/about", label: "About" },
     { to: "/contact", label: "Contact" },
   ];
@@ -180,17 +179,14 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     { to: "/teachers/classes", label: "Classes" },
     { to: "/teachers/lesson-planner", label: "Lesson Planner" },
     { to: "/teachers/assessments", label: "Assessments" },
-    { to: "/teachers/families", label: "Family Updates" },
+    { to: "/teachers/tutors", label: "Tutor Updates" },
   ];
 
-  // Choose which links to display based on auth status and role
-  // Teachers don't show any links in the main nav (they use the sidebar)
-  const navLinks = user
-    ? role === 'teacher' ? [] : publicLinks
-    : publicLinks;
+  // Hide nav links when logged in — logged-in users use the sidebar/dashboard
+  const navLinks = user ? [] : publicLinks;
 
   // Determine if we should show the navigation menu
-  const showNavMenu = role !== 'teacher';
+  const showNavMenu = !user;
   
   // Handle login button click - open login modal
   const handleLogin = () => {
@@ -206,7 +202,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       className={`fixed top-0 right-0 transition-all duration-300 ${
         isTeacherPage ? `${sidebarOffset} left-0 z-40` : 'left-0 z-50'
       } ${
-        isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : (isTeacherPage ? 'bg-[#f8f8f6]' : 'bg-transparent')
+        isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : (isTeacherPage ? 'bg-[#F0F0F0]' : 'bg-transparent')
       }`}
       initial={{ y: 0 }}
       animate={{ y: 0 }}

@@ -1,21 +1,20 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   Loader,
-  Snowflake
+  PanelLeftOpen,
+  PanelLeftClose
 } from 'lucide-react';
 import ElAIChat from '../../components/teachers/ElAIChat';
 import ElAISidebar from '../../components/teachers/ElAISidebar';
 import { supabase } from '../../lib/supabase';
 
 const ElAIAssistantPage: React.FC = () => {
-  const { user, signOut, loading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 768);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
-  // Key to force re-mount ElAIChat when switching conversations
-  const [chatKey, setChatKey] = useState(0);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -29,14 +28,27 @@ const ElAIAssistantPage: React.FC = () => {
     document.title = "El AI Assistant | GreyEd Teachers";
   }, []);
 
+  // Auto-collapse sidebar after 5 seconds
+  const autoCollapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (showSidebar && window.innerWidth >= 768) {
+      autoCollapseTimerRef.current = setTimeout(() => {
+        setShowSidebar(false);
+      }, 5000);
+    }
+    return () => {
+      if (autoCollapseTimerRef.current) {
+        clearTimeout(autoCollapseTimerRef.current);
+      }
+    };
+  }, [showSidebar]);
+
   const handleNewChat = useCallback(() => {
     setActiveConversationId(null);
-    setChatKey(prev => prev + 1);
   }, []);
 
   const handleSelectConversation = useCallback((id: string) => {
     setActiveConversationId(id);
-    setChatKey(prev => prev + 1);
   }, []);
 
   const handleDeleteConversation = useCallback(async (id: string) => {
@@ -55,7 +67,6 @@ const ElAIAssistantPage: React.FC = () => {
       // If we deleted the active conversation, start a new chat
       if (activeConversationId === id) {
         setActiveConversationId(null);
-        setChatKey(prev => prev + 1);
       }
     } catch {
       console.error('Failed to delete conversation');
@@ -93,9 +104,18 @@ const ElAIAssistantPage: React.FC = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Minimal top bar */}
         <div className="bg-white border-b border-greyed-navy/10 p-3 flex items-center">
-          <div className="w-8 h-8 rounded-full bg-greyed-blue/20 flex items-center justify-center mr-2">
-            <Snowflake size={18} className="text-greyed-navy" />
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowSidebar(prev => !prev)}
+            className="w-8 h-8 rounded-lg hover:bg-greyed-navy/10 flex items-center justify-center mr-2 transition-colors"
+            title={showSidebar ? "Collapse sidebar" : "Expand sidebar"}
+          >
+            {showSidebar ? (
+              <PanelLeftClose size={18} className="text-greyed-navy" />
+            ) : (
+              <PanelLeftOpen size={18} className="text-greyed-navy" />
+            )}
+          </button>
           <div className="flex-1">
             <h2 className="font-headline font-semibold text-black text-sm">Siyafunda AI Teacher Assistant</h2>
           </div>
@@ -103,7 +123,6 @@ const ElAIAssistantPage: React.FC = () => {
 
         {/* Chat component */}
         <ElAIChat
-          key={chatKey}
           isFullPage={true}
           conversationId={activeConversationId}
           userId={user?.id}

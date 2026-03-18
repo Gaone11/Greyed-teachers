@@ -11,7 +11,7 @@ export const stripeProducts: StripeProduct[] = [
     id: 'prod_SEX33cyJtBoQVP',
     name: 'Cophetsheni Primary — Siyafunda Pro',
     priceId: 'price_1RUB57KhB7e46jXjQaGUjQU6',
-    description: 'Monthly subscription for Cophetsheni teachers — AI lesson plans, CAPS assessments, and student management',
+    description: 'Monthly access for Cophetsheni teachers — AI lesson plans, CAPS assessments, and student management',
     mode: 'subscription'
   }
 ];

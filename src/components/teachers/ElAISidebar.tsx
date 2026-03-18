@@ -108,10 +108,10 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
     <>
       {/* Sidebar panel — inline push on desktop, overlay on mobile */}
       <div
-        className={`bg-greyed-navy flex flex-col transition-all duration-300 ease-in-out ${
+        className={`bg-greyed-navy flex flex-col ${
           isMobile
-            ? `fixed inset-y-0 left-0 w-72 z-50 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
-            : `flex-shrink-0 ${isOpen ? 'w-72' : 'w-0'} overflow-hidden`
+            ? `fixed inset-y-0 left-0 w-72 z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
+            : `flex-shrink-0 transition-[width] duration-300 ease-in-out ${isOpen ? 'w-72' : 'w-0'} overflow-hidden`
         }`}
       >
         {/* Inner wrapper keeps content at 18rem even when the panel collapses */}
