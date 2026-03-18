@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import { Loader, Search, Filter, PlusCircle, AlertCircle, Users, CreditCard as Edit2, Trash2, BookOpen, Calendar, MoreVertical, X, ChevronRight, Menu } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassForm from '../../components/teachers/ClassForm';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
@@ -222,7 +221,7 @@ const TeacherClassesPage: React.FC = () => {
   );
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
@@ -516,7 +515,7 @@ const TeacherClassesPage: React.FC = () => {
       <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
-    </LandingLayout>
+    </>
   );
 };
 

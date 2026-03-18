@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassroomDocuments from '../../components/teachers/ClassroomDocuments';
 import ClassSettingsModal from '../../components/teachers/ClassSettingsModal';
@@ -160,7 +159,7 @@ const TeacherClassDetailPage: React.FC = () => {
   }
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
@@ -526,7 +525,7 @@ const TeacherClassDetailPage: React.FC = () => {
       <div className={`transition-all duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
-    </LandingLayout>
+    </>
   );
 };
 

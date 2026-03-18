@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import { AlertCircle, Loader, X, Menu, BookOpen, MessageCircle } from 'lucide-react';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -59,7 +58,7 @@ const TeacherGreyEdTAPage: React.FC = () => {
   
   if (authLoading) {
     return (
-      <LandingLayout disableSnapScroll={true}>
+      <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#f8f8f6]">
           <div className="text-center">
@@ -68,12 +67,12 @@ const TeacherGreyEdTAPage: React.FC = () => {
           </div>
         </div>
         <Footer />
-      </LandingLayout>
+      </>
     );
   }
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
@@ -177,7 +176,7 @@ const TeacherGreyEdTAPage: React.FC = () => {
         </div>
       </div>
       
-    </LandingLayout>
+    </>
   );
 };
 

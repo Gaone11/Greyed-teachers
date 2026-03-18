@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, FileText, FileImage, File as FilePdf, AlertCircle, CheckCircle, X, FileUp, Brain, Users, List } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -145,12 +144,12 @@ const AssessmentGradingPage: React.FC = () => {
 
   if (authLoading) {
     return (
-      <LandingLayout disableSnapScroll={true}>
+      <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#FAFAF8]">
           <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-[#1B4332] rounded-full animate-spin" />
         </div>
-      </LandingLayout>
+      </>
     );
   }
 
@@ -162,7 +161,7 @@ const AssessmentGradingPage: React.FC = () => {
   ];
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
       <div className="min-h-screen pt-16 bg-[#FAFAF8] flex overflow-x-hidden">
@@ -502,7 +501,7 @@ const AssessmentGradingPage: React.FC = () => {
       <div className={`transition-[margin] duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
-    </LandingLayout>
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import { Loader, Search, PlusCircle, CreditCard as Edit2, Mail, Eye, RefreshCw, Calendar as CalendarIcon, CheckCircle, AlertTriangle, AlertCircle, X, Menu, Wand2, FileText, ChevronRight, Download, ExternalLink, Trash2, Users, CircleUser as UserCircle, Filter, School } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import TutorUpdateForm from '../../components/tutors/TutorUpdateForm';
 import TutorUpdateEditor from '../../components/tutors/TutorUpdateEditor';
@@ -702,7 +701,7 @@ const TeacherTutorsPage: React.FC = () => {
     : students;
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
@@ -1052,7 +1051,7 @@ const TeacherTutorsPage: React.FC = () => {
           isSending={isSavingStudentUpdate}
         />
       )}
-    </LandingLayout>
+    </>
   );
 };
 

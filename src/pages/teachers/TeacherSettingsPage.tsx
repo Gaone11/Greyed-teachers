@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import { Loader, User, Mail as MailIcon, School, Save, Bell, AlertOctagon, HelpCircle, BookLock, AlertCircle, CheckCircle, ExternalLink, Menu, X, Upload, Camera, Trash2, Eye, Lock } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import AccessibilitySettings from '../../components/accessibility/AccessibilitySettings';
 import { getTeacherProfile, updateTeacherProfile, updateNotificationSettings } from '../../lib/api/teacher-api';
@@ -371,7 +370,7 @@ const TeacherSettingsPage: React.FC = () => {
   
   if (authLoading || (loading && user)) {
     return (
-      <LandingLayout disableSnapScroll={true}>
+      <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
         <div className="min-h-screen pt-20 pb-10 flex items-center justify-center bg-[#f8f8f6]">
           <div className="text-center">
@@ -379,12 +378,12 @@ const TeacherSettingsPage: React.FC = () => {
           </div>
         </div>
         <Footer />
-      </LandingLayout>
+      </>
     );
   }
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
       <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
@@ -1018,7 +1017,7 @@ const TeacherSettingsPage: React.FC = () => {
           </main>
         </div>
       </div>
-    </LandingLayout>
+    </>
   );
 };
 

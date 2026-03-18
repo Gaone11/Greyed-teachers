@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, PlusCircle, AlertCircle, Wand2, FileText, X, CheckCircle, Eye, Download, Upload, Brain, ChevronDown, Calendar, BarChart3 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassForm from '../../components/teachers/ClassForm';
 import AssessmentViewModal from '../../components/teachers/AssessmentViewModal';
@@ -248,17 +247,17 @@ const TeacherAssessmentsPage: React.FC = () => {
 
   if (authLoading) {
     return (
-      <LandingLayout disableSnapScroll={true}>
+      <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#FAFAF8]">
           <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-[#1B4332] rounded-full animate-spin" />
         </div>
-      </LandingLayout>
+      </>
     );
   }
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
@@ -682,7 +681,7 @@ const TeacherAssessmentsPage: React.FC = () => {
       <div className={`transition-[margin] duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
-    </LandingLayout>
+    </>
   );
 };
 

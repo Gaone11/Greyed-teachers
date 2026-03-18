@@ -6,7 +6,6 @@ import { Search, PlusCircle, AlertCircle, BookOpen, Trash2, Download, Brain, X, 
 import { downloadMarkdownAsDocx } from '../../lib/markdown-to-docx';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import LandingLayout from '../../components/layout/LandingLayout';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import { fetchTeacherClasses } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -173,7 +172,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
   };
 
   return (
-    <LandingLayout disableSnapScroll={true}>
+    <>
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
@@ -465,7 +464,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
       <div className={`transition-[margin] duration-300 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Footer />
       </div>
-    </LandingLayout>
+    </>
   );
 };
 
