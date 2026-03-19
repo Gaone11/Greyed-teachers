@@ -137,7 +137,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   };
 
   const teacherPageInfo = isTeacherPage ? getTeacherPageInfo() : null;
-  const sidebarOffset = sidebarCollapsed ? 'md:left-16' : 'md:left-64';
+  const sidebarOffsetPx = sidebarCollapsed ? '4rem' : '16rem';
 
   // Determine text color class based on scroll position and section background
   const textColorClass = isTeacherPage || location.pathname.startsWith('/admin')
@@ -199,11 +199,12 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
 
   return (
     <motion.header
-      className={`fixed top-0 right-0 transition-all duration-300 ${
-        isTeacherPage ? `${sidebarOffset} left-0 z-40` : 'left-0 z-50'
+      className={`fixed top-0 right-0 left-0 transition-all duration-300 ${
+        isTeacherPage ? 'z-40' : 'z-50'
       } ${
         isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : (isTeacherPage ? 'bg-[#F0F0F0]' : 'bg-transparent')
       }`}
+      style={isTeacherPage ? { left: sidebarOffsetPx } : undefined}
       initial={{ y: 0 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
