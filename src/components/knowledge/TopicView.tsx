@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BookOpen, FlaskConical, Brain, Compass, Network,
   Globe, HelpCircle, ChevronLeft, Star, CheckCircle2
@@ -31,13 +31,22 @@ interface TopicViewProps {
 
 // ── Mini Quiz ─────────────────────────────────────────────────────────────────
 
-const MiniQuiz: React.FC<{ topic: FlagshipTopic }> = ({ topic }) => {
+const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string | null }> = ({ topic, selectedMicroTopicId }) => {
+  const questions = selectedMicroTopicId
+    ? topic.quiz.filter(q => q.microTopicId === selectedMicroTopicId)
+    : topic.quiz;
+  const activeQuiz = questions.length >= 3 ? questions : topic.quiz;
+
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
-  const q = topic.quiz[index];
+  React.useEffect(() => {
+    setIndex(0); setSelected(null); setScore(0); setDone(false);
+  }, [selectedMicroTopicId]);
+
+  const q = activeQuiz[index];
 
   const handleAnswer = (i: number) => {
     if (selected !== null) return;
@@ -46,7 +55,7 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic }> = ({ topic }) => {
   };
 
   const handleNext = () => {
-    if (index + 1 >= topic.quiz.length) { setDone(true); return; }
+    if (index + 1 >= activeQuiz.length) { setDone(true); return; }
     setIndex(i => i + 1);
     setSelected(null);
   };
@@ -56,14 +65,14 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic }> = ({ topic }) => {
   };
 
   if (done) {
-    const pct = Math.round((score / topic.quiz.length) * 100);
+    const pct = Math.round((score / activeQuiz.length) * 100);
     return (
       <div className="flex flex-col items-center gap-4 py-8">
         <Star className={`w-12 h-12 ${pct >= 80 ? 'text-yellow-400' : 'text-premium-neutral-300'}`} />
         <h3 className="text-xl font-bold text-premium-navy">
           {pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Good job!' : 'Keep practising!'}
         </h3>
-        <p className="text-3xl font-bold text-greyed-navy">{score}/{topic.quiz.length}</p>
+        <p className="text-3xl font-bold text-greyed-navy">{score}/{activeQuiz.length}</p>
         <p className="text-sm text-premium-neutral-500">{pct}% correct</p>
         <button
           onClick={handleRestart}
@@ -78,7 +87,7 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic }> = ({ topic }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between text-sm text-premium-neutral-500">
-        <span>Question {index + 1} of {topic.quiz.length}</span>
+        <span>Question {index + 1} of {activeQuiz.length}</span>
         <span className="font-semibold text-greyed-navy">Score: {score}</span>
       </div>
 
@@ -132,6 +141,10 @@ const TopicView: React.FC<TopicViewProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('investigator');
+  const [selectedMicroTopicId, setSelectedMicroTopicId] = useState<string | null>(null);
+
+  // Reset subtopic selection when navigating to a new flagship topic
+  useEffect(() => { setSelectedMicroTopicId(null); }, [topic.id]);
 
   return (
     <div className="space-y-4">
@@ -211,40 +224,70 @@ const TopicView: React.FC<TopicViewProps> = ({
               </div>
             </div>
 
-            {/* Micro topics */}
+            {/* Micro topics — dropdown */}
             <div className="bg-white rounded-2xl border border-premium-neutral-200 shadow-sm p-5">
               <h3 className="text-sm font-semibold text-premium-navy mb-3">
                 Subtopics in {topic.title}
               </h3>
-              <div className="grid grid-cols-2 gap-2">
+              <select
+                value={selectedMicroTopicId ?? ''}
+                onChange={e => setSelectedMicroTopicId(e.target.value || null)}
+                className="w-full rounded-xl border border-premium-neutral-200 px-3 py-2.5 text-sm text-premium-neutral-800 bg-premium-neutral-50 focus:outline-none focus:border-greyed-blue appearance-none cursor-pointer"
+              >
+                <option value="">— All subtopics —</option>
                 {topic.microTopics.map(mt => (
-                  <div key={mt.id} className="flex items-center gap-2 text-sm text-premium-neutral-700 bg-premium-neutral-50 rounded-xl px-3 py-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-greyed-blue flex-shrink-0" />
+                  <option key={mt.id} value={mt.id}>{mt.title}</option>
+                ))}
+              </select>
+
+              {/* Chip list — highlights selected */}
+              <div className="grid grid-cols-2 gap-2 mt-3">
+                {topic.microTopics.map(mt => (
+                  <button
+                    key={mt.id}
+                    onClick={() => setSelectedMicroTopicId(prev => prev === mt.id ? null : mt.id)}
+                    className={`flex items-center gap-2 text-sm rounded-xl px-3 py-2 text-left transition-colors ${
+                      mt.id === selectedMicroTopicId
+                        ? 'bg-greyed-navy text-white font-medium'
+                        : 'text-premium-neutral-700 bg-premium-neutral-50 hover:bg-premium-neutral-100'
+                    }`}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${mt.id === selectedMicroTopicId ? 'bg-white' : 'bg-greyed-blue'}`} />
                     {mt.title}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
 
-            {/* Concept map */}
-            {topic.relatedTopicIds.length > 0 && (
-              <ConceptMap
-                topicId={topic.id}
-                relatedTopicIds={topic.relatedTopicIds}
-                onNavigate={onNavigate}
-              />
-            )}
+            {/* Concept map — updates when a subtopic is selected */}
+            <ConceptMap
+              topicId={topic.id}
+              relatedTopicIds={topic.relatedTopicIds}
+              onNavigate={onNavigate}
+              microTopics={topic.microTopics}
+              selectedMicroTopicId={selectedMicroTopicId}
+              onSelectMicroTopic={setSelectedMicroTopicId}
+            />
           </div>
         )}
 
         {/* Flashcards */}
         {activeTab === 'flashcards' && (
-          <FlashcardDeck cards={topic.flashcards} topicTitle={topic.title} />
+          <FlashcardDeck
+            cards={topic.flashcards}
+            topicTitle={topic.title}
+            selectedMicroTopicId={selectedMicroTopicId}
+            microTopics={topic.microTopics}
+          />
         )}
 
         {/* Experiments */}
         {activeTab === 'experiments' && (
-          <ExperimentCard experiments={topic.experiments} />
+          <ExperimentCard
+            experiments={topic.experiments}
+            selectedMicroTopicId={selectedMicroTopicId}
+            microTopics={topic.microTopics}
+          />
         )}
 
         {/* Curiosity */}
@@ -293,7 +336,7 @@ const TopicView: React.FC<TopicViewProps> = ({
                 <p className="text-xs text-premium-neutral-400">{topic.quiz.length} questions on {topic.title}</p>
               </div>
             </div>
-            <MiniQuiz topic={topic} />
+            <MiniQuiz topic={topic} selectedMicroTopicId={selectedMicroTopicId} />
           </div>
         )}
 

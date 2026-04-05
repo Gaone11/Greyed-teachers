@@ -13,6 +13,7 @@ export interface Flashcard {
   id: string;
   question: string;
   answer: string;
+  microTopicId?: string;  // which subtopic this card belongs to
 }
 
 export interface Experiment {
@@ -23,6 +24,7 @@ export interface Experiment {
   steps: string[];
   safety: string;
   expected: string;
+  microTopicId?: string;  // which subtopic this experiment belongs to
 }
 
 export interface QuizQuestion {
@@ -30,6 +32,7 @@ export interface QuizQuestion {
   options: string[];
   answer: number;
   explanation: string;
+  microTopicId?: string;  // which subtopic this question belongs to
 }
 
 export interface CuriosityBranch {
@@ -70,7 +73,20 @@ export interface Subject {
 }
 
 // ─────────────────────────────────────────────
-// FLAGSHIP TOPIC DATA
+// SUBJECTS — imported from dedicated data files
+// ─────────────────────────────────────────────
+import { PHYSICS_SUBJECT } from './physicsData';
+import { MATHEMATICS_SUBJECT } from './subjects/mathematics';
+import { CHEMISTRY_SUBJECT } from './subjects/chemistry';
+import { BIOLOGY_SUBJECT } from './subjects/biology';
+import { GENERAL_SCIENCE_SUBJECT } from './subjects/generalScience';
+import { COMPUTER_STUDIES_SUBJECT } from './subjects/computerStudies';
+import { ENVIRONMENTAL_SCIENCE_SUBJECT } from './subjects/environmentalScience';
+import { AGRICULTURE_SUBJECT } from './subjects/agriculture';
+import { STATISTICS_SUBJECT } from './subjects/statistics';
+
+// ─────────────────────────────────────────────
+// FLAGSHIP TOPIC DATA (other subjects)
 // ─────────────────────────────────────────────
 
 const gravityTopic: FlagshipTopic = {
@@ -1314,241 +1330,15 @@ const statisticsTopic: FlagshipTopic = {
 // ─────────────────────────────────────────────
 
 export const SUBJECTS: Subject[] = [
-  {
-    id: 'mathematics',
-    title: 'Mathematics',
-    icon: '📐',
-    color: 'from-blue-600 to-blue-800',
-    textColor: 'text-blue-600',
-    domains: [
-      {
-        id: 'algebra-domain',
-        title: 'Algebra',
-        description: 'Symbols, equations, and the language of mathematics',
-        icon: '🔢',
-        flagshipTopics: [algebraTopic, calculusTopic],
-      },
-      {
-        id: 'data-analysis',
-        title: 'Data & Statistics',
-        description: 'Understanding data, chance, and prediction',
-        icon: '📊',
-        flagshipTopics: [statisticsTopic],
-      },
-      {
-        id: 'geometry',
-        title: 'Geometry',
-        description: 'Shapes, spaces, and spatial reasoning',
-        icon: '📐',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'physics',
-    title: 'Physics',
-    icon: '⚛️',
-    color: 'from-indigo-600 to-purple-800',
-    textColor: 'text-indigo-600',
-    domains: [
-      {
-        id: 'mechanics',
-        title: 'Mechanics',
-        description: 'Forces, motion, and the laws that govern movement',
-        icon: '🚀',
-        flagshipTopics: [gravityTopic, energyTopic, motionTopic],
-      },
-      {
-        id: 'waves-optics',
-        title: 'Waves & Optics',
-        description: 'Light, sound, and wave phenomena',
-        icon: '🌊',
-        flagshipTopics: [lightTopic],
-      },
-      {
-        id: 'electricity-magnetism',
-        title: 'Electricity & Magnetism',
-        description: 'Electric circuits, fields, and electromagnetic forces',
-        icon: '⚡',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'chemistry',
-    title: 'Chemistry',
-    icon: '🧪',
-    color: 'from-green-600 to-teal-700',
-    textColor: 'text-green-600',
-    domains: [
-      {
-        id: 'atomic-structure-domain',
-        title: 'Atomic Structure',
-        description: 'Matter at the atomic and subatomic level',
-        icon: '⚛️',
-        flagshipTopics: [atomsTopic],
-      },
-      {
-        id: 'chemical-reactions',
-        title: 'Chemical Reactions',
-        description: 'How substances interact, transform, and bond',
-        icon: '🔥',
-        flagshipTopics: [],
-      },
-      {
-        id: 'organic-chemistry',
-        title: 'Organic Chemistry',
-        description: 'Carbon compounds and the chemistry of life',
-        icon: '🌿',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'biology',
-    title: 'Biology',
-    icon: '🌿',
-    color: 'from-emerald-500 to-green-700',
-    textColor: 'text-emerald-600',
-    domains: [
-      {
-        id: 'cell-biology-domain',
-        title: 'Cell Biology',
-        description: 'Life at the cellular level',
-        icon: '🔬',
-        flagshipTopics: [cellsTopic],
-      },
-      {
-        id: 'genetics-domain',
-        title: 'Genetics & Molecular Biology',
-        description: 'DNA, genes, and the code of life',
-        icon: '🧬',
-        flagshipTopics: [dnaTopic],
-      },
-      {
-        id: 'ecology-domain',
-        title: 'Ecology',
-        description: 'Living things and their environments',
-        icon: '🌍',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'general-science',
-    title: 'General Science',
-    icon: '🔭',
-    color: 'from-sky-500 to-cyan-700',
-    textColor: 'text-sky-600',
-    domains: [
-      {
-        id: 'scientific-method',
-        title: 'Scientific Method',
-        description: 'How science works — observation, hypothesis, and experiment',
-        icon: '🧪',
-        flagshipTopics: [],
-      },
-      {
-        id: 'earth-space',
-        title: 'Earth & Space',
-        description: 'Our planet, solar system, and the universe',
-        icon: '🌍',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'computer-studies',
-    title: 'Computer Studies',
-    icon: '💻',
-    color: 'from-slate-600 to-gray-800',
-    textColor: 'text-slate-600',
-    domains: [
-      {
-        id: 'programming',
-        title: 'Programming & Algorithms',
-        description: 'Writing code and solving problems computationally',
-        icon: '🖥️',
-        flagshipTopics: [],
-      },
-      {
-        id: 'data-networks',
-        title: 'Data & Networks',
-        description: 'How computers store and communicate information',
-        icon: '🌐',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'environmental-science',
-    title: 'Environmental Science',
-    icon: '🌱',
-    color: 'from-lime-500 to-green-600',
-    textColor: 'text-lime-600',
-    domains: [
-      {
-        id: 'ecosystems',
-        title: 'Ecosystems',
-        description: 'How living and non-living things interact',
-        icon: '🌿',
-        flagshipTopics: [],
-      },
-      {
-        id: 'climate-change',
-        title: 'Climate & Change',
-        description: 'Earth\'s climate systems and human impact',
-        icon: '🌡️',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'agriculture',
-    title: 'Agriculture',
-    icon: '🌾',
-    color: 'from-yellow-500 to-amber-700',
-    textColor: 'text-yellow-600',
-    domains: [
-      {
-        id: 'crop-science',
-        title: 'Crop Science',
-        description: 'Growing food — soil, seeds, and sustainable practices',
-        icon: '🌾',
-        flagshipTopics: [],
-      },
-      {
-        id: 'animal-science',
-        title: 'Animal Science',
-        description: 'Livestock management and animal health',
-        icon: '🐄',
-        flagshipTopics: [],
-      },
-    ],
-  },
-  {
-    id: 'statistics',
-    title: 'Statistics',
-    icon: '📊',
-    color: 'from-orange-500 to-red-600',
-    textColor: 'text-orange-600',
-    domains: [
-      {
-        id: 'descriptive-stats',
-        title: 'Descriptive Statistics',
-        description: 'Summarising and visualising data',
-        icon: '📈',
-        flagshipTopics: [statisticsTopic],
-      },
-      {
-        id: 'inferential-stats',
-        title: 'Inferential Statistics',
-        description: 'Drawing conclusions from samples',
-        icon: '🔍',
-        flagshipTopics: [],
-      },
-    ],
-  },
+  MATHEMATICS_SUBJECT,
+  PHYSICS_SUBJECT,
+  CHEMISTRY_SUBJECT,
+  BIOLOGY_SUBJECT,
+  GENERAL_SCIENCE_SUBJECT,
+  COMPUTER_STUDIES_SUBJECT,
+  ENVIRONMENTAL_SCIENCE_SUBJECT,
+  AGRICULTURE_SUBJECT,
+  STATISTICS_SUBJECT,
 ];
 
 // ─────────────────────────────────────────────

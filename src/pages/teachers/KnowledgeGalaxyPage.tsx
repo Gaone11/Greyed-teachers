@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -7,6 +7,7 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
 import TopicView from '../../components/knowledge/TopicView';
 import DiscoveryFeed from '../../components/knowledge/DiscoveryFeed';
+import { fetchTeacherClasses } from '../../lib/api/teacher-api';
 import {
   SUBJECTS,
   getSubjectById,
@@ -16,7 +17,7 @@ import {
   type Domain,
   type FlagshipTopic,
 } from '../../data/knowledgeGalaxy';
-import { Telescope, ChevronRight, ArrowLeft, BookOpen, Layers, Star } from 'lucide-react';
+import { Telescope, ChevronRight, ArrowLeft, BookOpen, Layers, Star, GraduationCap } from 'lucide-react';
 
 // ─── Layer types ────────────────────────────────────────────────────────────
 
@@ -28,11 +29,16 @@ type View =
 
 // ─── Subject card ────────────────────────────────────────────────────────────
 
-const SubjectCard: React.FC<{ subject: Subject; onClick: () => void }> = ({ subject, onClick }) => (
+const SubjectCard: React.FC<{ subject: Subject; onClick: () => void; isMyClass?: boolean }> = ({ subject, onClick, isMyClass }) => (
   <button
     onClick={onClick}
-    className={`bg-gradient-to-br ${subject.color} rounded-2xl p-5 text-left shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 group`}
+    className={`relative bg-gradient-to-br ${subject.color} rounded-2xl p-5 text-left shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 group ${isMyClass ? 'ring-2 ring-white/60 shadow-xl' : ''}`}
   >
+    {isMyClass && (
+      <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm">
+        <GraduationCap className="w-3 h-3" /> Your Class
+      </span>
+    )}
     <span className="text-4xl block mb-3">{subject.icon}</span>
     <h3 className="text-white font-bold text-lg leading-tight">{subject.title}</h3>
     <p className="text-white/60 text-xs mt-1">{subject.domains.length} domains</p>
@@ -127,9 +133,19 @@ const KnowledgeGalaxyPage: React.FC = () => {
   );
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [view, setView] = useState<View>({ layer: 'subjects' });
+  const [myClassSubjectIds, setMyClassSubjectIds] = useState<Set<string>>(new Set());
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.title = 'Knowledge Galaxy | Siyafunda';
+  }, []);
+
+  useEffect(() => {
+    fetchTeacherClasses()
+      .then(classes => {
+        const ids = new Set(classes.map(c => c.subject).filter(Boolean));
+        setMyClassSubjectIds(ids);
+      })
+      .catch(() => {/* silently ignore */});
   }, []);
 
   const handleToggleSidebar = () => {
@@ -236,17 +252,59 @@ const KnowledgeGalaxyPage: React.FC = () => {
           </div>
 
           {/* Subject grid */}
-          <div>
-            <h2 className="text-lg font-bold text-premium-navy mb-4">Choose a Subject</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {SUBJECTS.map(subject => (
-                <SubjectCard
-                  key={subject.id}
-                  subject={subject}
-                  onClick={() => setView({ layer: 'domains', subjectId: subject.id })}
-                />
-              ))}
-            </div>
+          <div className="space-y-6">
+            {myClassSubjectIds.size > 0 && (() => {
+              const mySubjects = SUBJECTS.filter(s => myClassSubjectIds.has(s.id));
+              const otherSubjects = SUBJECTS.filter(s => !myClassSubjectIds.has(s.id));
+              return (
+                <>
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <GraduationCap className="w-4 h-4 text-greyed-navy" />
+                      <h2 className="text-base font-bold text-premium-navy">Your Class Subjects</h2>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {mySubjects.map(subject => (
+                        <SubjectCard
+                          key={subject.id}
+                          subject={subject}
+                          isMyClass
+                          onClick={() => setView({ layer: 'domains', subjectId: subject.id })}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  {otherSubjects.length > 0 && (
+                    <div>
+                      <h2 className="text-base font-bold text-premium-navy mb-3">All Subjects</h2>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {otherSubjects.map(subject => (
+                          <SubjectCard
+                            key={subject.id}
+                            subject={subject}
+                            onClick={() => setView({ layer: 'domains', subjectId: subject.id })}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
+            {myClassSubjectIds.size === 0 && (
+              <div>
+                <h2 className="text-lg font-bold text-premium-navy mb-4">Choose a Subject</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {SUBJECTS.map(subject => (
+                    <SubjectCard
+                      key={subject.id}
+                      subject={subject}
+                      onClick={() => setView({ layer: 'domains', subjectId: subject.id })}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Discovery feed */}
@@ -341,7 +399,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
     <div className="min-h-screen bg-[#f8f8f6]">
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
         {/* Mobile overlay */}
         {showMobileMenu && isMobile && (
           <div

@@ -4,6 +4,8 @@ import type { Experiment } from '../../data/knowledgeGalaxy';
 
 interface ExperimentCardProps {
   experiments: Experiment[];
+  selectedMicroTopicId?: string | null;
+  microTopics?: { id: string; title: string }[];
 }
 
 const LEVEL_CONFIG = {
@@ -30,13 +32,26 @@ const LEVEL_CONFIG = {
   },
 };
 
-const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiments }) => {
+const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiments, selectedMicroTopicId, microTopics }) => {
+  const filtered = selectedMicroTopicId
+    ? experiments.filter(e => e.microTopicId === selectedMicroTopicId)
+    : experiments;
+
+  const activeExperiments = filtered.length > 0 ? filtered : experiments;
+
   const [activeLevel, setActiveLevel] = useState<Experiment['level']>(
-    experiments[0]?.level ?? 'easy'
+    activeExperiments[0]?.level ?? 'easy'
   );
   const [expandedSection, setExpandedSection] = useState<string | null>('steps');
 
-  const experiment = experiments.find(e => e.level === activeLevel) ?? experiments[0];
+  React.useEffect(() => {
+    const first = activeExperiments[0];
+    if (first) setActiveLevel(first.level);
+    setExpandedSection('steps');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMicroTopicId]);
+
+  const experiment = activeExperiments.find(e => e.level === activeLevel) ?? activeExperiments[0];
 
   if (!experiment) return null;
 
@@ -54,7 +69,12 @@ const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiments }) => {
         </div>
         <div>
           <h3 className="font-bold text-premium-navy text-sm">Experiments</h3>
-          <p className="text-xs text-premium-neutral-400">3 difficulty levels — hands-on science</p>
+          <p className="text-xs text-premium-neutral-400">
+            {activeExperiments.length} experiment{activeExperiments.length !== 1 ? 's' : ''}
+            {selectedMicroTopicId && microTopics
+              ? ` · ${microTopics.find(m => m.id === selectedMicroTopicId)?.title ?? ''}`
+              : ' · hands-on science'}
+          </p>
         </div>
       </div>
 
@@ -63,7 +83,7 @@ const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiments }) => {
         {(['easy', 'medium', 'hard'] as Experiment['level'][]).map(level => {
           const c = LEVEL_CONFIG[level];
           const isActive = activeLevel === level;
-          const available = experiments.some(e => e.level === level);
+          const available = activeExperiments.some(e => e.level === level);
           if (!available) return null;
           return (
             <button

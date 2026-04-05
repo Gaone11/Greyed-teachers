@@ -7,6 +7,8 @@ type DeckMode = 'memory' | 'quiz' | 'battle';
 interface FlashcardDeckProps {
   cards: Flashcard[];
   topicTitle: string;
+  selectedMicroTopicId?: string | null;
+  microTopics?: { id: string; title: string }[];
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -351,19 +353,34 @@ const ScoreScreen: React.FC<ScoreScreenProps> = ({ score, total, onRetry, onShuf
 
 // ── Main FlashcardDeck ─────────────────────────────────────────────────────────
 
-const FlashcardDeck: React.FC<FlashcardDeckProps> = ({ cards, topicTitle }) => {
+const FlashcardDeck: React.FC<FlashcardDeckProps> = ({ cards, topicTitle, selectedMicroTopicId, microTopics }) => {
+  const filteredCards = selectedMicroTopicId
+    ? cards.filter(c => c.microTopicId === selectedMicroTopicId)
+    : cards;
+
+  const activeCards = filteredCards.length > 0 ? filteredCards : cards;
+
   const [mode, setMode] = useState<DeckMode>('memory');
   const [memoryIndex, setMemoryIndex] = useState(0);
-  const [deck, setDeck] = useState(cards);
+  const [deck, setDeck] = useState(activeCards);
   const [quizKey, setQuizKey] = useState(0);
   const [quizScore, setQuizScore] = useState<number | null>(null);
 
-  const handleShuffle = useCallback(() => {
-    setDeck(shuffleArray(cards));
+  // Reset deck when filter changes
+  React.useEffect(() => {
+    setDeck(activeCards);
     setMemoryIndex(0);
     setQuizKey(k => k + 1);
     setQuizScore(null);
-  }, [cards]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMicroTopicId]);
+
+  const handleShuffle = useCallback(() => {
+    setDeck(shuffleArray(activeCards));
+    setMemoryIndex(0);
+    setQuizKey(k => k + 1);
+    setQuizScore(null);
+  }, [activeCards]);
 
   const handleModeChange = (m: DeckMode) => {
     setMode(m);
@@ -377,7 +394,12 @@ const FlashcardDeck: React.FC<FlashcardDeckProps> = ({ cards, topicTitle }) => {
       <div className="px-5 py-4 border-b border-premium-neutral-100 flex items-center justify-between">
         <div>
           <h3 className="font-bold text-premium-navy text-sm">Flashcards</h3>
-          <p className="text-xs text-premium-neutral-400">{deck.length} cards · {topicTitle}</p>
+          <p className="text-xs text-premium-neutral-400">
+            {deck.length} cards
+            {selectedMicroTopicId && microTopics
+              ? ` · ${microTopics.find(m => m.id === selectedMicroTopicId)?.title ?? topicTitle}`
+              : ` · ${topicTitle}`}
+          </p>
         </div>
         <button
           onClick={handleShuffle}
