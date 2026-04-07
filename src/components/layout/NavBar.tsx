@@ -129,7 +129,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     if (/^\/teachers\/lesson-planner\/.+/.test(path)) return { title: 'Generate Lesson Plan', subtitle: 'Create an AI-powered lesson plan' };
     if (path === '/teachers/settings') return { title: 'Settings', subtitle: 'Manage your account and preferences' };
     if (path === '/teachers/grey-ed-ta') return { title: 'GreyEd Teaching Assistant', subtitle: 'AI-powered virtual teaching support' };
-    if (path === '/teachers/courses') return { title: 'Professional Development', subtitle: 'Enhance your skills with training courses' };
+    if (path === '/teachers/courses') return { title: 'Knowledge Galaxy Progress', subtitle: 'Your exploration and learning activity across all subjects' };
     if (/^\/teachers\/courses\/.+/.test(path)) return { title: 'Course Details', subtitle: 'Continue your professional development' };
     if (path === '/teachers/assessment-grading') return { title: 'AI Auto-Grading', subtitle: 'Upload and grade assessments with AI' };
     if (path === '/teachers/el-ai') return { title: 'Siyafunda AI', subtitle: 'Your intelligent teaching assistant' };
@@ -202,7 +202,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       className={`fixed top-0 right-0 left-0 transition-all duration-300 ${
         isTeacherPage ? 'z-40' : 'z-50'
       } ${
-        isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : (isTeacherPage ? 'bg-[#F0F0F0]' : 'bg-transparent')
+        isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : 'bg-transparent'
       }`}
       style={isTeacherPage ? { left: sidebarOffsetPx } : undefined}
       initial={{ y: 0 }}

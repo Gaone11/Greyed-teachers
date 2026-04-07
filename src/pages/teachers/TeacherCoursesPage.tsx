@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
-  BookOpen, Brain, FlaskConical, HelpCircle, Telescope,
+  BookOpen, Brain, HelpCircle, Telescope,
   TrendingUp, CheckCircle2, Clock, Star, ChevronRight, X,
 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
@@ -110,17 +110,8 @@ const TeacherCoursesPage: React.FC = () => {
           <main className="px-4 sm:px-6 lg:px-8 py-6">
             <div className="max-w-5xl mx-auto space-y-8">
 
-              {/* Page header */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1 className="text-2xl font-bold text-greyed-navy flex items-center gap-2">
-                    <Telescope className="w-6 h-6" />
-                    Knowledge Galaxy Progress
-                  </h1>
-                  <p className="text-sm text-greyed-navy/60 mt-0.5">
-                    Your exploration and learning activity across all subjects
-                  </p>
-                </div>
+              {/* Continue exploring button */}
+              <div className="flex justify-end">
                 <button
                   onClick={() => navigate('/teachers/knowledge')}
                   className="flex items-center gap-2 bg-greyed-navy text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-greyed-navy/90 transition-colors"
