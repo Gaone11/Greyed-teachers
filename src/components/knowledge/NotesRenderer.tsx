@@ -1,10 +1,12 @@
 import React from 'react';
+import Diagram from './DiagramLibrary';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Block =
   | { type: 'h2'; text: string }
   | { type: 'h3'; text: string }
   | { type: 'formula'; text: string }
+  | { type: 'diagram'; name: string }
   | { type: 'bullets'; items: string[] }
   | { type: 'paragraph'; text: string }
   | { type: 'spacer' };
@@ -43,6 +45,10 @@ function parseNotes(raw: string): Block[] {
     } else if (line.startsWith('> ')) {
       flushBullets();
       blocks.push({ type: 'formula', text: line.slice(2) });
+    } else if (/^\[diagram:[^\]]+\]$/.test(line.trim())) {
+      flushBullets();
+      const name = line.trim().slice(9, -1);
+      blocks.push({ type: 'diagram', name });
     } else if (line.startsWith('- ')) {
       bullets.push(line.slice(2));
     } else if (line.trim() === '') {
@@ -83,6 +89,8 @@ const NotesRenderer: React.FC<{ content: string }> = ({ content }) => {
                 {block.text}
               </div>
             );
+          case 'diagram':
+            return <Diagram key={i} name={block.name} />;
           case 'bullets':
             return (
               <ul key={i} className="space-y-1 pl-1 my-1">

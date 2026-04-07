@@ -351,6 +351,7 @@ The most common type of capacitor has **two flat metal plates** facing each othe
 - Connect a battery → electrons pile up on one plate (making it **negative**)
 - The other plate loses electrons (making it **positive**)
 - An electric field forms in the gap between the plates
+[diagram:parallel-plate]
 - Disconnect the battery → the capacitor holds the charge!
 
 ## What Makes It Store More Charge?
@@ -389,6 +390,8 @@ A parallel plate capacitor consists of two conducting plates of area A separated
 - Insert dielectric K → C increases by factor K
 
 ## Electric Field Between the Plates
+
+[diagram:parallel-plate]
 
 The field is **uniform** (away from edges):
 
@@ -501,6 +504,8 @@ When you put a dielectric between the plates:
 - This creates a tiny opposing field inside the dielectric
 - The capacitor can now hold even more charge!
 
+[diagram:dielectric-polarisation]
+
 ## The Dielectric Constant K
 
 Every material has a **dielectric constant K** (also called relative permittivity):
@@ -536,6 +541,8 @@ A **dielectric** is an insulating material with no free charges. When placed bet
 ## Why Capacitance Increases
 
 The dielectric molecules **polarise** in the electric field — positive ends shift toward the negative plate, negative ends toward the positive plate. This creates an opposing internal field **E_p** which reduces the net field between the plates. The capacitor can then store more charge at the same voltage.
+
+[diagram:dielectric-polarisation]
 
 ## Breakdown Voltage (Dielectric Strength)
 
@@ -687,6 +694,8 @@ Integrate from 0 to Q:
 
 > U = ∫₀^Q (q/C) dq = Q²/(2C) = **½CV²** ✓
 
+[diagram:energy-in-capacitor]
+
 ## Worked Example
 
 A 100 μF capacitor is charged to 12 V. How much energy is stored?
@@ -823,6 +832,8 @@ In a series connection, capacitors are connected one after another with no branc
 - **Total capacitance decreases** — less than the smallest individual capacitor
 
 ## Derivation
+
+[diagram:cap-series]
 
 Let each capacitor have voltage Vᵢ = Q/Cᵢ. The total voltage:
 
@@ -961,6 +972,8 @@ Parallel connection means both terminals of each capacitor are connected to the 
 
 ## Derivation
 
+[diagram:cap-parallel]
+
 Each capacitor stores charge Qᵢ = CᵢV (same V for all):
 
 > Q_total = Q₁ + Q₂ + ... = C₁V + C₂V + ... = (C₁ + C₂ + ...)V
@@ -1093,6 +1106,8 @@ An **RC circuit** has a Resistor (R) and Capacitor (C) together.
 - **Bigger R** → charges more slowly (more resistance slowing current)
 - **Bigger C** → takes longer to fill up (more charge needed)
 
+[diagram:rc-circuit]
+
 ## Time Constant τ (tau)
 
 > τ = R × C
@@ -1108,6 +1123,8 @@ This is how long it takes to charge to about **63%** of full charge.
 When you disconnect the battery and connect the capacitor to a resistor, it **discharges** — releasing its stored energy back through the circuit. It empties out following the same time pattern!`,
 
         investigator: `## The RC Charging Circuit
+
+[diagram:rc-circuit]
 
 A capacitor C in series with resistor R, connected to supply voltage V₀.
 
@@ -1134,6 +1151,8 @@ Capacitor (charged to V₀) discharged through R:
 > I(t) = (V₀/R) e^(−t/RC)
 
 ## Time Constant τ = RC
+
+[diagram:rc-curve]
 
 | Time | Charge (charging) | Charge (discharging) |
 |---|---|---|
