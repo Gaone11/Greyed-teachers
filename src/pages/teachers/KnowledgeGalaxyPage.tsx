@@ -17,6 +17,7 @@ import {
   type Domain,
   type FlagshipTopic,
 } from '../../data/knowledgeGalaxy';
+import { saveTopicVisit } from '../../lib/kgProgress';
 import { Telescope, ChevronRight, ArrowLeft, BookOpen, Layers, Star, GraduationCap } from 'lucide-react';
 
 // ─── Layer types ────────────────────────────────────────────────────────────
@@ -159,18 +160,22 @@ const KnowledgeGalaxyPage: React.FC = () => {
     navigate('/auth/login');
   };
 
+  const openTopic = useCallback((subjectId: string, domainId: string, topicId: string) => {
+    saveTopicVisit(topicId, subjectId, domainId);
+    setView({ layer: 'topic', subjectId, domainId, topicId });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const goToTopic = useCallback((topicId: string) => {
-    // Find which subject/domain contains this topic
     for (const subject of SUBJECTS) {
       for (const domain of subject.domains) {
         if (domain.flagshipTopics.some(t => t.id === topicId)) {
-          setView({ layer: 'topic', subjectId: subject.id, domainId: domain.id, topicId });
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          openTopic(subject.id, domain.id, topicId);
           return;
         }
       }
     }
-  }, []);
+  }, [openTopic]);
 
   // ─── Derive current data ──────────────────────────────────────────────────
 
@@ -367,7 +372,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
                     key={topic.id}
                     topic={topic}
                     subject={currentSubject}
-                    onClick={() => setView({ layer: 'topic', subjectId: view.subjectId, domainId: view.domainId, topicId: topic.id })}
+                    onClick={() => openTopic(view.subjectId, view.domainId, topic.id)}
                   />
                 ))
               : <EmptyDomain domainTitle={currentDomain.title} />

@@ -4,6 +4,7 @@ import {
   Globe, HelpCircle, ChevronLeft, Star, CheckCircle2
 } from 'lucide-react';
 import type { FlagshipTopic, DifficultyLevel } from '../../data/knowledgeGalaxy';
+import { saveQuizScore } from '../../lib/kgProgress';
 import DifficultySelector from './DifficultySelector';
 import FlashcardDeck from './FlashcardDeck';
 import ExperimentCard from './ExperimentCard';
@@ -32,6 +33,7 @@ interface TopicViewProps {
 // ── Mini Quiz ─────────────────────────────────────────────────────────────────
 
 const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string | null }> = ({ topic, selectedMicroTopicId }) => {
+
   const questions = selectedMicroTopicId
     ? topic.quiz.filter(q => q.microTopicId === selectedMicroTopicId)
     : topic.quiz;
@@ -55,7 +57,11 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string |
   };
 
   const handleNext = () => {
-    if (index + 1 >= activeQuiz.length) { setDone(true); return; }
+    if (index + 1 >= activeQuiz.length) {
+      setDone(true);
+      saveQuizScore(topic.id, selected === q.answer ? score + 1 : score, activeQuiz.length);
+      return;
+    }
     setIndex(i => i + 1);
     setSelected(null);
   };

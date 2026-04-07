@@ -415,10 +415,13 @@ export default function TeacherLessonPlanGeneratorPage() {
               {/* Term + Week */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>Term <span className="text-[#2D1B0E]/40 font-normal">(current)</span></label>
-                  <div className="w-full p-3 rounded-xl text-sm text-[#2D1B0E] bg-transparent font-medium">
-                    Term {formData.term}
-                  </div>
+                  <label className={labelClass}>Term</label>
+                  <select name="term" value={formData.term} onChange={handleInputChange} className={inputClass} title="Select term">
+                    <option value="1">Term 1</option>
+                    <option value="2">Term 2</option>
+                    <option value="3">Term 3</option>
+                    <option value="4">Term 4</option>
+                  </select>
                 </div>
                 <div>
                   <label className={labelClass}>Week <span className="text-[#2D1B0E]/40 font-normal">(auto-guessed)</span></label>
