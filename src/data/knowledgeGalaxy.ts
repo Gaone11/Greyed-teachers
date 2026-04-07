@@ -7,6 +7,7 @@ export type DifficultyLevel = 'explorer' | 'investigator' | 'scholar' | 'researc
 export interface MicroTopic {
   id: string;
   title: string;
+  notes?: Record<DifficultyLevel, string>;
 }
 
 export interface Flashcard {

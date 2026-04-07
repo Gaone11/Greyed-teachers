@@ -187,14 +187,1208 @@ const capacitorsTopic: FlagshipTopic = {
   icon: '🔋',
   tagline: 'Storing electric energy — the charge-voltage relationship in every circuit',
   microTopics: [
-    { id: 'cap-definition', title: 'Capacitance' },
-    { id: 'cap-parallel-plate', title: 'Parallel Plate Capacitor' },
-    { id: 'cap-dielectric', title: 'Dielectrics' },
-    { id: 'cap-energy', title: 'Energy Stored' },
-    { id: 'cap-series', title: 'Capacitors in Series' },
-    { id: 'cap-parallel', title: 'Capacitors in Parallel' },
-    { id: 'cap-charging', title: 'Charging & Discharging' },
-    { id: 'cap-applications', title: 'Applications' },
+    {
+      id: 'cap-definition',
+      title: 'Capacitance',
+      notes: {
+        explorer: `## What is Capacitance?
+
+Think of a **water bucket** for electric charge. Some buckets are big and hold lots of water — some capacitors are big and hold lots of charge.
+
+**Capacitance** measures how much electric charge a capacitor can store for every volt of electricity applied to it.
+
+## The Simple Formula
+
+> C = Q ÷ V
+
+- **C** = capacitance (how "big" the bucket is)
+- **Q** = charge stored (measured in coulombs)
+- **V** = voltage applied (measured in volts)
+
+## The Unit: Farad (F)
+
+Capacitance is measured in **farads (F)**, named after the brilliant scientist **Michael Faraday**.
+
+- 1 farad is actually a very large amount of capacitance
+- Most capacitors in everyday electronics are measured in **microfarads (μF)** — one millionth of a farad!
+
+## Key Ideas to Remember
+
+- Higher voltage → more charge stored
+- Bigger capacitance → more charge stored at the same voltage
+- Capacitors are found in **phones, cameras, TVs, computers, and even electric cars**`,
+
+        investigator: `## Definition of Capacitance
+
+**Capacitance C** is the ratio of charge Q stored on a capacitor to the potential difference V across it:
+
+> C = Q / V      (unit: farad, F = coulomb/volt)
+
+## Physical Meaning
+
+- C depends only on the **geometry** of the capacitor and the **material** between its plates
+- C does NOT depend on Q or V individually — it is a property of the device
+- Doubling Q doubles V proportionally; the ratio C remains constant
+
+## Key Formula — Parallel Plate Capacitor
+
+> C = ε₀ × A / d
+
+- **ε₀** = 8.85 × 10⁻¹² F/m (permittivity of free space)
+- **A** = plate area (m²)
+- **d** = plate separation (m)
+
+**Larger plate area → more C. Smaller gap between plates → more C.**
+
+## Common Capacitor Size Ranges
+
+- **pF (picofarad)** = 10⁻¹² F — radio/tuning circuits
+- **nF (nanofarad)** = 10⁻⁹ F — signal filtering
+- **μF (microfarad)** = 10⁻⁶ F — power supply smoothing
+- **F (farad)** — supercapacitors and energy storage
+
+## Worked Example
+
+A capacitor stores 40 μC when charged to 10 V. What is its capacitance?
+
+> C = Q/V = 40×10⁻⁶ / 10 = **4 × 10⁻⁶ F = 4 μF**`,
+
+        scholar: `## Formal Definition of Capacitance
+
+> C = Q / V
+
+where Q is the charge on one plate and V is the potential difference between the plates. Since V and Q are always proportional for a linear dielectric, C depends only on geometry and permittivity — not on the applied values.
+
+## Derivation: Parallel Plate Capacitor
+
+**Step 1:** Surface charge density on each plate:
+> σ = Q / A
+
+**Step 2:** Electric field between plates (Gauss's law for a conductor surface):
+> E = σ / ε₀ = Q / (ε₀A)
+
+**Step 3:** Potential difference V = E × d (uniform field):
+> V = Qd / (ε₀A)
+
+**Step 4:** Therefore:
+> C = Q/V = **ε₀A / d** ✓
+
+## Capacitance for Other Geometries
+
+**Cylindrical capacitor** (inner radius a, outer radius b, length L):
+> C = 2πε₀L / ln(b/a)
+
+**Spherical capacitor** (inner radius a, outer radius b):
+> C = 4πε₀ · ab / (b − a)
+
+**Isolated sphere** of radius R:
+> C = 4πε₀R
+
+## Self-Capacitance vs Mutual Capacitance
+
+- **Self-capacitance** Cᵢᵢ: charge on conductor i per unit potential on i (others grounded)
+- **Mutual capacitance** Cᵢⱼ: charge induced on j per unit potential on i
+
+For a two-conductor system: Q₁ = C₁₁V₁ + C₁₂V₂ (linear superposition applies)
+
+## Dimension Check
+
+> [C] = [Q]/[V] = C / (J/C) = C²/J = A²s⁴/(kg·m²) = F ✓`,
+
+        researcher: `## Capacitance Matrix
+
+For an N-conductor system, charges and potentials obey the linear relation:
+
+> **Q** = **C** · **V**      i.e. Qᵢ = Σⱼ Cᵢⱼ Vⱼ
+
+- Diagonal entries Cᵢᵢ > 0: self-capacitances
+- Off-diagonal Cᵢⱼ ≤ 0 for i≠j: mutual capacitances (charge induction)
+- **C** is symmetric and positive semi-definite (required by energy considerations)
+
+## Green's Function Approach
+
+For arbitrary conductor geometry, capacitance follows from:
+
+> C = ε₀ ∮_S ∮_S G_N(r, r') dS dS'
+
+where G_N is the Neumann Green's function of the Laplace equation on the domain. Numerical solutions via the **Boundary Element Method (BEM)** or **Finite Element Method (FEM)**.
+
+## Quantum Capacitance
+
+In 2D electron systems (graphene, MOSFETs at inversion), finite density of states adds a **quantum capacitance** in series:
+
+> 1/C_total = 1/C_geom + 1/C_Q      where C_Q = e² D(E_F)
+
+D(E_F) is the density of states at the Fermi level. In graphene: C_Q ∝ |V_g|^(1/2) near the Dirac point — dominant at high gate voltages.
+
+## Casimir Effect on Nano-Capacitors
+
+At separations d < 100 nm, quantum vacuum fluctuations produce an attractive pressure:
+
+> F_Casimir = −ℏcπ²A / (240d⁴)
+
+This sets a pull-in instability for MEMS/NEMS capacitors and is a limiting factor in sub-nm dielectric scaling.
+
+## Kinetic Correction in Superconductors
+
+In superconducting circuits (qubits, resonators), carrier inertia adds a kinetic inductance Lₖ = ℏ/(2eIc) modifying the effective impedance:
+
+> Z(ω) = 1/(jωC) + jωLₖ
+
+This resonance at ω₀ = 1/√(LₖC) is central to transmon qubit design.`,
+      },
+    },
+    {
+      id: 'cap-parallel-plate',
+      title: 'Parallel Plate Capacitor',
+      notes: {
+        explorer: `## What is a Parallel Plate Capacitor?
+
+The most common type of capacitor has **two flat metal plates** facing each other with a small gap between them.
+
+## How It Works
+
+- Connect a battery → electrons pile up on one plate (making it **negative**)
+- The other plate loses electrons (making it **positive**)
+- An electric field forms in the gap between the plates
+- Disconnect the battery → the capacitor holds the charge!
+
+## What Makes It Store More Charge?
+
+- **Bigger plates** — more surface area means more charge can spread out
+- **Smaller gap** — the plates attract each other's charge more strongly when closer
+
+## The Formula
+
+> C = ε₀ × A ÷ d
+
+- **A** = area of the plates (bigger = more capacitance)
+- **d** = distance between plates (smaller = more capacitance)
+- **ε₀** = a special number about how electric fields work in space
+
+## Real Life Example
+
+The capacitors inside your computer's motherboard are tiny parallel plate capacitors — billions of them store data in DRAM memory!`,
+
+        investigator: `## The Parallel Plate Capacitor
+
+A parallel plate capacitor consists of two conducting plates of area A separated by distance d (d << √A so edge effects are negligible).
+
+## Capacitance Formula
+
+> C = ε₀A / d
+
+- **ε₀** = 8.85 × 10⁻¹² F/m (permittivity of free space)
+- **A** = plate area in m²
+- **d** = plate separation in m
+
+## Effect of Changing Parameters
+
+- Double A → C doubles (more surface area for charge)
+- Halve d → C doubles (stronger attraction between plates)
+- Insert dielectric K → C increases by factor K
+
+## Electric Field Between the Plates
+
+The field is **uniform** (away from edges):
+
+> E = V / d = σ / ε₀
+
+- **V** = potential difference (volts)
+- **σ** = Q/A = surface charge density
+
+## Worked Example
+
+A capacitor has plates of area 0.01 m² separated by 2 mm. Find C.
+
+> C = (8.85×10⁻¹²)(0.01) / (0.002) = **44.25 pF**
+
+Charge stored at 100 V:
+> Q = CV = 44.25×10⁻¹² × 100 = **4.43 nC**`,
+
+        scholar: `## Derivation of C = ε₀A/d
+
+**Assumptions:** Infinite parallel plates (edge effects ignored), vacuum between plates, uniform surface charge density σ = Q/A.
+
+**Step 1 — Electric field from Gauss's law:**
+
+Apply Gauss's law to a pillbox surface straddling one plate:
+> Φ_E = E·A = Q_enc/ε₀ = σA/ε₀
+> **E = σ/ε₀ = Q/(ε₀A)** (directed from + to − plate)
+
+**Step 2 — Potential difference:**
+> V = ∫₀ᵈ E·dx = Ed = **Qd/(ε₀A)**
+
+**Step 3 — Capacitance:**
+> C = Q/V = **ε₀A/d** ✓
+
+## Breakdown Voltage
+
+The electric field must stay below the **dielectric strength** E_max:
+> V_max = E_max × d
+
+For air: E_max ≈ 3 × 10⁶ V/m. A 2 mm gap: V_max ≈ 6000 V.
+
+## With a Dielectric
+
+Inserting dielectric constant K:
+> C = Kε₀A/d      E_field = V/(d) (same), but D = Kε₀E
+
+The dielectric reduces internal field by polarisation, allowing more charge at same voltage.
+
+## Charge Distribution
+
+In a real finite capacitor, fringing fields appear at edges. The Schwarz-Christoffel transformation gives the exact fringe correction. For large plates this is negligible:
+
+> C_real ≈ ε₀A/d × (1 + d/πA · corrections)`,
+
+        researcher: `## Beyond the Ideal Model
+
+The ideal model C = ε₀A/d assumes infinite plates, uniform field, and perfect dielectric. Real capacitors deviate due to:
+
+## Fringing Field Correction (Kirchhoff)
+
+The first-order correction to capacitance for a square plate of side a:
+
+> C = ε₀a²/d + ε₀a/π × [1 + ln(2πa/d)]
+
+For d << a this is small but measurable in precision instruments.
+
+## Non-uniform Dielectric
+
+If the dielectric has a spatially varying ε(r), capacitance is:
+
+> C = ε₀ × (1/∫₀ᵈ dx/ε(x)/ε₀)⁻¹ × A
+
+Layered dielectrics in series: 1/C = d₁/(ε₁A) + d₂/(ε₂A) + ...
+
+## AC Behaviour and ESR/ESL
+
+Real capacitors have series resistance (ESR) and series inductance (ESL):
+> Z(ω) = ESR + j(ωESL − 1/ωC)
+
+Self-resonant frequency: f₀ = 1/(2π√(ESL·C)). Above f₀ the capacitor behaves inductively!
+
+## MEMS Variable Capacitors
+
+In MEMS, d is controlled electrostatically. The **pull-in instability** occurs at:
+
+> d_pull-in = 2d₀/3
+
+beyond which the electrostatic force exceeds the restoring spring force and the plates snap together. Critical for capacitive pressure sensors and RF MEMS switches.`,
+      },
+    },
+    {
+      id: 'cap-dielectric',
+      title: 'Dielectrics',
+      notes: {
+        explorer: `## What is a Dielectric?
+
+A **dielectric** is an insulating material placed between the plates of a capacitor.
+
+Examples: rubber, plastic, glass, ceramic, paper, air
+
+## Why Use a Dielectric?
+
+- It lets you store **more charge** for the same voltage
+- It keeps the plates from touching each other
+- It lets you make capacitors **smaller and safer**
+
+## How it Helps
+
+When you put a dielectric between the plates:
+- The molecules inside line up with the electric field
+- This creates a tiny opposing field inside the dielectric
+- The capacitor can now hold even more charge!
+
+## The Dielectric Constant K
+
+Every material has a **dielectric constant K** (also called relative permittivity):
+
+- **Air** → K ≈ 1 (no improvement)
+- **Paper** → K ≈ 3.7
+- **Glass** → K ≈ 7
+- **Ceramic** → K up to 10,000!
+
+Higher K = capacitor stores much more charge.
+
+## The New Formula
+
+> C = K × ε₀ × A / d
+
+Just multiply by K — the bigger K is, the bigger the capacitance!`,
+
+        investigator: `## Dielectric Materials
+
+A **dielectric** is an insulating material with no free charges. When placed between capacitor plates it increases capacitance by the **relative permittivity K** (dielectric constant):
+
+> C = Kε₀A/d = εA/d      where ε = Kε₀
+
+## Common Dielectric Constants K
+
+- Air: 1.0006
+- Paper: 3.5
+- Glass: 4–8
+- Mica: 5–8
+- Ceramic (BaTiO₃): 1,000–10,000
+- Water: 80
+
+## Why Capacitance Increases
+
+The dielectric molecules **polarise** in the electric field — positive ends shift toward the negative plate, negative ends toward the positive plate. This creates an opposing internal field **E_p** which reduces the net field between the plates. The capacitor can then store more charge at the same voltage.
+
+## Breakdown Voltage (Dielectric Strength)
+
+Every dielectric breaks down above a maximum field:
+
+- Air: 3 × 10⁶ V/m
+- Mica: 100 × 10⁶ V/m
+- Ceramic: 10 × 10⁶ V/m
+
+Higher dielectric strength → capacitor can handle higher voltages safely.
+
+## Energy with a Dielectric
+
+Energy density increases with dielectric:
+> u = ½εE² = ½Kε₀E²`,
+
+        scholar: `## Dielectric Polarisation
+
+When an external field **E₀** is applied, a dielectric develops a **polarisation P** (dipole moment per unit volume):
+
+> P = ε₀ χₑ E
+
+where χₑ = K − 1 is the **electric susceptibility**.
+
+The total bound surface charge density on the dielectric surface:
+> σ_bound = P · n̂
+
+## Electric Displacement Field D
+
+To account for both free and bound charges, define the **displacement field D**:
+
+> D = ε₀E + P = ε₀(1 + χₑ)E = Kε₀E = εE
+
+Gauss's law in matter:
+> ∮ D · dA = Q_free,enc
+
+This separates free charges (on plates) from bound charges (in dielectric).
+
+## Boundary Conditions at a Dielectric Interface
+
+- Normal D: D₁ₙ − D₂ₙ = σ_free (free surface charge)
+- Tangential E: E₁ₜ = E₂ₜ (continuous)
+
+## Effect on Capacitance
+
+With dielectric filling the entire gap:
+> C = εA/d = Kε₀A/d
+
+Energy density with dielectric:
+> u = ½D·E = ½εE² = ½KD²/ε
+
+## Partial Dielectric (Dielectric Slab)
+
+If dielectric fills only fraction f of the gap:
+
+**In series:** 1/C = (fd)/(εA) + ((1−f)d)/(ε₀A)
+
+**In parallel:** C = Kε₀(fA)/d + ε₀((1−f)A)/d`,
+
+        researcher: `## Complex Permittivity and Dielectric Loss
+
+In AC fields, the permittivity is complex:
+
+> ε(ω) = ε'(ω) − jε''(ω)
+
+- **ε'** (real part): energy storage (capacitive behaviour)
+- **ε''** (imaginary part): energy dissipation (dielectric loss)
+- **Loss tangent**: tan δ = ε''/ε'
+
+The **Kramers-Kronig relations** connect ε'(ω) and ε''(ω) via causality (Hilbert transform):
+> ε'(ω) − ε∞ = (2/π) P ∫₀^∞ ω'ε''(ω')/(ω'²−ω²) dω'
+
+## Debye Relaxation Model
+
+For a polar dielectric with relaxation time τ:
+
+> ε(ω) = ε∞ + (εₛ − ε∞)/(1 + jωτ)
+
+Gives a Debye loss peak at ω = 1/τ. Cole-Cole and Havriliak-Negami models extend this for distributed relaxation times.
+
+## Ferroelectric Materials
+
+Materials like BaTiO₃ and PZT show **spontaneous polarisation** and hysteresis in P–E curves. Applications:
+- Ferroelectric RAM (FeRAM): non-volatile memory
+- Piezoelectric sensors
+- Electrocaloric cooling
+
+## Dielectric Breakdown Mechanisms
+
+- **Avalanche breakdown**: impact ionisation cascade
+- **Thermal breakdown**: resistive heating → runaway
+- **Electromechanical breakdown**: Maxwell stress compresses dielectric
+
+Weibull statistics describe the stochastic failure distribution — critical for capacitor reliability engineering.`,
+      },
+    },
+    {
+      id: 'cap-energy',
+      title: 'Energy Stored',
+      notes: {
+        explorer: `## Capacitors Store Energy!
+
+A capacitor doesn't just store charge — it stores **electrical energy** that can be released later.
+
+## A Good Analogy: A Spring
+
+Think of a spring. The more you compress it, the more energy it stores. When you let go, that energy is released all at once.
+
+A capacitor is similar — the more charge you push in, the more energy it stores. Release the charge and the energy comes out quickly!
+
+## Real Life: Camera Flash
+
+- Press the camera button → capacitor **charges up slowly** from the battery
+- Take a photo → capacitor **releases all its energy instantly** as a bright flash of light
+- Much faster than a battery could deliver on its own!
+
+## The Energy Formula
+
+> E = ½ × C × V²
+
+- **C** = capacitance (farads)
+- **V** = voltage (volts)
+- **E** = energy stored (joules)
+
+## Key Point
+
+- Double the voltage → **4 times** more energy stored (squared relationship!)
+- Double the capacitance → 2 times more energy`,
+
+        investigator: `## Energy Stored in a Capacitor
+
+Work is done to push charge onto a capacitor against its own electric field. This work is stored as electric potential energy.
+
+## Three Equivalent Formulas
+
+> U = ½CV²
+> U = ½QV
+> U = Q²/(2C)
+
+All three are equivalent — use whichever quantities you know.
+
+## Derivation
+
+As charge q builds up on the capacitor, the voltage is v = q/C. The work done to add a tiny extra charge dq:
+
+> dW = v · dq = (q/C) dq
+
+Integrate from 0 to Q:
+
+> U = ∫₀^Q (q/C) dq = Q²/(2C) = **½CV²** ✓
+
+## Worked Example
+
+A 100 μF capacitor is charged to 12 V. How much energy is stored?
+
+> U = ½ × 100×10⁻⁶ × 12² = ½ × 100×10⁻⁶ × 144 = **7.2 × 10⁻³ J = 7.2 mJ**
+
+## Comparing Storage
+
+Same capacitor at 24 V stores:
+> U = ½ × 100×10⁻⁶ × 24² = **28.8 mJ** — four times more energy at double the voltage!`,
+
+        scholar: `## Energy Derivation
+
+Work done charging a capacitor from 0 to final charge Q:
+
+> U = ∫₀^Q V dq = ∫₀^Q (q/C) dq = Q²/(2C)
+
+Since Q = CV: **U = ½CV² = ½QV = Q²/2C**
+
+## Energy Density
+
+The energy is stored in the **electric field** between the plates. The energy density (J/m³):
+
+> u = U/Volume = (½CV²)/(Ad) = (½ε₀A/d·V²)/(Ad) = **½ε₀E²**
+
+This is a fundamental result — electric field energy density is ½ε₀E² regardless of geometry.
+
+With dielectric: **u = ½εE² = ½Kε₀E²**
+
+## Energy in Charging Through a Resistor
+
+When charging a capacitor C through resistance R from supply V:
+
+- Total energy from supply: Q·V = CV²
+- Energy stored in capacitor: ½CV²
+- Energy dissipated in R: **½CV²** (exactly half, regardless of R!)
+
+This 50% efficiency limit is fundamental, not due to R being large or small.
+
+## Parallel Connection Energy Loss
+
+Connecting two capacitors of equal C (one at V₀, one uncharged):
+
+> V_final = V₀/2    (charge conserves)
+> U_initial = ½CV₀²
+> U_final = ½(2C)(V₀/2)² = ¼CV₀²
+
+Energy lost = **¼CV₀²** — dissipated as heat/EM radiation in connecting wire, unavoidable!`,
+
+        researcher: `## Energy in the Electromagnetic Field
+
+The macroscopic energy stored in an electric field:
+
+> U = (ε₀/2) ∫ E² dV      (vacuum)
+
+With linear dielectric: U = (1/2) ∫ D·E dV = (1/2) ∫ εE² dV
+
+This is the starting point for deriving Maxwell's stress tensor and radiation pressure.
+
+## Thermodynamic Fluctuations
+
+At temperature T, thermal fluctuations cause charge noise on the capacitor:
+
+> ⟨(ΔQ)²⟩ = kT·C      (Johnson-Nyquist noise on capacitance)
+> ⟨(ΔV)²⟩ = kT/C
+
+This sets the fundamental noise floor in charge amplifiers and MEMS sensors. Reducing capacitance reduces charge noise but increases voltage noise.
+
+## Nonlinear Capacitor Energy
+
+For a nonlinear capacitor where Q = f(V):
+
+> U = ∫₀^V Q(V') dV' = ∫₀^Q V(Q') dQ'
+
+This is relevant for varactors, ferroelectric capacitors, and MOS structures.
+
+## Quantum Energy Levels in LC Oscillator
+
+For a quantum LC circuit (superconducting qubit precursor):
+
+> H = Q̂²/(2C) + Φ̂²/(2L)
+
+This is exactly a quantum harmonic oscillator with:
+> ω₀ = 1/√(LC)
+> ΔE = ℏω₀
+
+The zero-point energy ½ℏω₀ is fundamental to superconducting qubit operation and quantum noise in microwave resonators.`,
+      },
+    },
+    {
+      id: 'cap-series',
+      title: 'Capacitors in Series',
+      notes: {
+        explorer: `## Capacitors in Series
+
+When capacitors are connected **end-to-end** (in a line), they are said to be in **series**.
+
+## A Water Analogy
+
+Imagine water buckets connected by pipes. If you pour water in, every bucket gets the same amount of water. But together, they don't hold more than the smallest bucket — in fact, they hold less!
+
+## The Rule for Series Capacitors
+
+- Every capacitor in series stores the **same charge** Q
+- The voltages across each capacitor **add up** to the total voltage
+- The total capacitance is **less** than any single capacitor
+
+## The Formula
+
+> 1/C_total = 1/C₁ + 1/C₂ + 1/C₃ + ...
+
+For two capacitors:
+> C_total = (C₁ × C₂) / (C₁ + C₂)
+
+## Example
+
+Two capacitors: C₁ = 4 μF, C₂ = 4 μF connected in series:
+
+> 1/C_total = 1/4 + 1/4 = 2/4 = 1/2
+> C_total = **2 μF**   (half of each!)
+
+## When is Series Used?
+
+- When you need to handle **high voltages** — each capacitor only sees part of the total voltage`,
+
+        investigator: `## Capacitors in Series
+
+In a series connection, capacitors are connected one after another with no branches between them.
+
+## Key Properties
+
+- **Same charge Q** on every capacitor (charge is conserved on the isolated inner nodes)
+- **Voltage divides** across each capacitor
+- **Total capacitance decreases** — less than the smallest individual capacitor
+
+## Derivation
+
+Let each capacitor have voltage Vᵢ = Q/Cᵢ. The total voltage:
+
+> V_total = V₁ + V₂ + ... = Q/C₁ + Q/C₂ + ...
+> V_total/Q = 1/C₁ + 1/C₂ + ...
+
+Since C_total = Q/V_total:
+
+> **1/C_total = 1/C₁ + 1/C₂ + ...**
+
+For two capacitors: C_total = C₁C₂/(C₁+C₂)
+
+## Voltage Division
+
+Each capacitor's voltage is inversely proportional to its capacitance:
+
+> V₁ = Q/C₁ = (C_total/C₁) × V_total
+
+Smaller capacitor → larger voltage share.
+
+## Worked Example
+
+C₁ = 6 μF, C₂ = 3 μF in series at 12 V:
+> C_total = (6×3)/(6+3) = **2 μF**
+> Q = C_total × V = 2×10⁻⁶ × 12 = 24 μC
+> V₁ = Q/C₁ = 24/6 = **4 V**,  V₂ = 24/3 = **8 V** ✓ (4+8=12 V)`,
+
+        scholar: `## Series Capacitance — Formal Analysis
+
+For n capacitors in series, the equivalent capacitance satisfies:
+
+> 1/C_eq = Σᵢ (1/Cᵢ)
+
+This follows from charge neutrality of the isolated inner conductors: the charge +Q on the right plate of C₁ equals the charge −Q on the left plate of C₂ (electrostatic induction with no source/sink of charge on isolated nodes).
+
+## Impedance Perspective
+
+In terms of impedance Z = 1/(jωC):
+
+> Z_total = Z₁ + Z₂ + ... = 1/(jωC₁) + 1/(jωC₂) = 1/(jω) × Σ(1/Cᵢ)
+
+So the series combination behaves as a single capacitor with 1/C_series = Σ(1/Cᵢ). ✓
+
+## Voltage Distribution and Capacitor Selection
+
+Since V₁/V₂ = C₂/C₁, capacitors with **different C** share voltage unequally. This is exploited in:
+
+- **High-voltage capacitor stacks**: series capacitors divide voltage so each handles a lower voltage
+- **Capacitive voltage dividers**: precision voltage scaling in AC circuits
+
+## Energy in Series Combination
+
+Total energy stored:
+> U = ½C_eq V² = Σᵢ ½CᵢVᵢ²
+
+Each capacitor stores energy ½CᵢVᵢ² = Q²/(2Cᵢ). Sum equals total: Σ Q²/(2Cᵢ) = (Q²/2)Σ(1/Cᵢ) = Q²/(2C_eq). ✓`,
+
+        researcher: `## Series Capacitors in Circuit Theory
+
+In AC analysis, series capacitors are treated as series impedances:
+
+> Z_total(jω) = Σ 1/(jωCᵢ) → C_series = 1/Σ(1/Cᵢ)
+
+For a series RLC circuit:
+> Z(jω) = R + jωL + 1/(jωC_series)
+
+Resonance at ω₀ = 1/√(LC_series), half-power bandwidth Δω = R/L.
+
+## Non-ideal Series Capacitors
+
+Real capacitors have parasitic elements:
+> Z_real(jω) = ESR + jωESL + 1/(jωC)
+
+Series combination: parasitics add as series impedances. ESR and ESL of series-connected capacitors stack, increasing losses at high frequency.
+
+## Switched Capacitor Networks
+
+In switched-capacitor circuits (CMOS signal processing), capacitors are periodically switched to implement resistive behaviour. Series capacitor arrays implement FIR filters and DACs. The effective resistance of a switched capacitor:
+
+> R_eff = 1/(f_clk × C)
+
+where f_clk is the switching frequency. This enables precision resistors on CMOS chips.
+
+## Charge Sharing and Sampling Noise
+
+When two series capacitors are connected (charge redistribution):
+
+> ΔQ = C₁C₂/(C₁+C₂) × ΔV      (sharing formula)
+
+The associated **kT/C noise**: σ²_V = kT/C_total. Critical in sample-and-hold circuits and ADC front ends — minimum capacitance set by SNR requirements.`,
+      },
+    },
+    {
+      id: 'cap-parallel',
+      title: 'Capacitors in Parallel',
+      notes: {
+        explorer: `## Capacitors in Parallel
+
+When capacitors are connected **side by side** sharing the same two connection points, they are in **parallel**.
+
+## A Water Analogy
+
+Imagine adding more buckets side by side. Each bucket is at the same height (same voltage), and together they hold much more water than any one alone!
+
+## The Rule for Parallel Capacitors
+
+- Every capacitor in parallel has the **same voltage** V
+- The charges on each capacitor **add up**
+- The total capacitance is the **sum** of all capacitors
+
+## The Formula
+
+> C_total = C₁ + C₂ + C₃ + ...
+
+## Example
+
+Three capacitors: C₁ = 2 μF, C₂ = 3 μF, C₃ = 5 μF in parallel:
+
+> C_total = 2 + 3 + 5 = **10 μF**
+
+## Why Use Parallel?
+
+- When you need to store **more charge** at the same voltage
+- To share current between capacitors so none gets overloaded
+- To increase total capacitance in power supply circuits`,
+
+        investigator: `## Capacitors in Parallel
+
+Parallel connection means both terminals of each capacitor are connected to the same two nodes.
+
+## Key Properties
+
+- **Same voltage V** across every capacitor
+- **Charges add up**: Q_total = Q₁ + Q₂ + ...
+- **Total capacitance increases**: C_total = ΣCᵢ
+
+## Derivation
+
+Each capacitor stores charge Qᵢ = CᵢV (same V for all):
+
+> Q_total = Q₁ + Q₂ + ... = C₁V + C₂V + ... = (C₁ + C₂ + ...)V
+
+Since C_total = Q_total/V:
+
+> **C_total = C₁ + C₂ + ...**
+
+## Current in Parallel Capacitors (AC)
+
+For AC: Iᵢ = Cᵢ dV/dt. Total current:
+
+> I_total = (C₁ + C₂) dV/dt = C_total dV/dt ✓
+
+## Worked Example
+
+Two capacitors C₁ = 8 μF, C₂ = 4 μF in parallel charged to 9 V:
+
+> C_total = 12 μF
+> Q₁ = 8×10⁻⁶ × 9 = 72 μC
+> Q₂ = 4×10⁻⁶ × 9 = 36 μC
+> Q_total = 72 + 36 = **108 μC** = C_total × V = 12×10⁻⁶ × 9 ✓
+
+## Uses
+
+- Power supply decoupling: parallel caps of different values cover different frequency ranges
+- Motor start/run capacitors in parallel for correct rating`,
+
+        scholar: `## Parallel Capacitance — Formal Analysis
+
+For n capacitors in parallel, the equivalent capacitance:
+
+> C_eq = Σᵢ Cᵢ
+
+This follows from: all capacitors share the same potential difference V (they are connected between the same two nodes), so charge sums while V is fixed.
+
+## Impedance Perspective
+
+In terms of admittance Y = jωC (inverse of impedance):
+
+> Y_total = Y₁ + Y₂ + ... = jωC₁ + jωC₂ = jω(C₁ + C₂)
+
+So parallel capacitors add as admittances — exactly analogous to conductances in parallel. ✓
+
+## Charge Distribution
+
+In steady state each capacitor holds charge proportional to its capacitance:
+
+> Q₁/Q₂ = C₁/C₂
+
+When the voltage is changed (dV/dt ≠ 0), each draws current:
+> Iᵢ = Cᵢ × dV/dt
+
+Larger capacitor draws more current — important in parallel RC timing circuits.
+
+## Energy in Parallel Combination
+
+> U = ½C_eq V² = Σᵢ ½Cᵢ V² ✓
+
+Each capacitor stores energy proportional to its capacitance; total is just the sum.
+
+## Resonant Circuit (Parallel LC)
+
+Adding an inductor L in parallel:
+> Z(jω) = (jωL)/(jωL × jωC_total + 1) → resonance at ω₀ = 1/√(LC_total)
+
+Parallel resonance has high impedance at ω₀ — useful as a band-stop (notch) filter.`,
+
+        researcher: `## Parallel Capacitors in High-Frequency Design
+
+The standard technique for broadband power delivery is **multi-value parallel capacitor arrays**:
+
+Bulk (100 μF electrolytic) + mid-range (1 μF ceramic) + bypass (100 nF ceramic) + HF (10 nF) mounted in parallel on IC power rails.
+
+Each capacitor handles a different frequency decade. The composite impedance:
+
+> Z(jω) = [Σᵢ (ESRᵢ + jωESLᵢ + 1/(jωCᵢ))⁻¹]⁻¹
+
+Minimising |Z| across the entire frequency range is the design objective for power integrity.
+
+## Parallel Resonance in RF Circuits
+
+A parallel RLC tank circuit has admittance:
+
+> Y = 1/R + jωC − j/(ωL)
+
+Resonance at ω₀ = 1/√(LC): Y_min = 1/R (purely resistive), maximum impedance. Quality factor:
+
+> Q = R/ω₀L = Rω₀C
+
+Tank circuits with parallel capacitor banks allow varactor-tuned frequency synthesis.
+
+## Switched Capacitor Arrays (DAC)
+
+In binary-weighted capacitor DACs (used in successive-approximation ADCs):
+
+> C_array = C₀(2^(N−1) + 2^(N−2) + ... + 1) = C₀(2^N − 1)
+
+Each bit switches a capacitor from GND to reference. The output voltage is proportional to the digital word. Linearity limited by capacitor matching (unit cell C₀ mismatch σ/C₀).
+
+## Quantum Capacitance Arrays
+
+In superconducting quantum computing, Josephson junction arrays use parallel capacitance to control charging energy:
+
+> E_C = e²/(2C_total)
+
+Tuning C_total (via parallel SQUID-based capacitors) sets the qubit spectrum — anharmonicity Δ = E_C determines single-photon addressability.`,
+      },
+    },
+    {
+      id: 'cap-charging',
+      title: 'Charging & Discharging',
+      notes: {
+        explorer: `## Charging a Capacitor
+
+When you connect a capacitor to a battery through a wire, charge flows onto the capacitor.
+
+But it doesn't happen instantly — it takes time!
+
+## Why Does It Take Time?
+
+The resistance in the wire and circuit **slows down** the flow of charge. As the capacitor fills up, it pushes back harder, slowing the charging even more.
+
+Eventually the capacitor is fully charged and no more current flows.
+
+## The RC Circuit
+
+An **RC circuit** has a Resistor (R) and Capacitor (C) together.
+
+- **Bigger R** → charges more slowly (more resistance slowing current)
+- **Bigger C** → takes longer to fill up (more charge needed)
+
+## Time Constant τ (tau)
+
+> τ = R × C
+
+This is how long it takes to charge to about **63%** of full charge.
+
+- After 1τ: 63% charged
+- After 3τ: 95% charged
+- After 5τ: 99% charged (basically full!)
+
+## Discharging
+
+When you disconnect the battery and connect the capacitor to a resistor, it **discharges** — releasing its stored energy back through the circuit. It empties out following the same time pattern!`,
+
+        investigator: `## The RC Charging Circuit
+
+A capacitor C in series with resistor R, connected to supply voltage V₀.
+
+## Charging Equations
+
+Applying Kirchhoff's voltage law:
+
+> V₀ = V_R + V_C = IR + Q/C
+
+This gives the differential equation: R(dQ/dt) + Q/C = V₀
+
+**Solution (charging from 0):**
+
+> Q(t) = CV₀(1 − e^(−t/RC))
+> V_C(t) = V₀(1 − e^(−t/RC))
+> I(t) = (V₀/R) e^(−t/RC)
+
+## Discharging Equations
+
+Capacitor (charged to V₀) discharged through R:
+
+> Q(t) = CV₀ e^(−t/RC)
+> V_C(t) = V₀ e^(−t/RC)
+> I(t) = (V₀/R) e^(−t/RC)
+
+## Time Constant τ = RC
+
+| Time | Charge (charging) | Charge (discharging) |
+|---|---|---|
+| t = τ | 63% Q_max | 37% Q_max |
+| t = 2τ | 86% Q_max | 14% Q_max |
+| t = 5τ | 99% Q_max | ~1% Q_max |
+
+## Worked Example
+
+C = 100 μF, R = 1 kΩ, V₀ = 10 V. Find τ and V_C at t = 0.2 s.
+
+> τ = RC = 1000 × 100×10⁻⁶ = **0.1 s**
+> V_C(0.2) = 10(1 − e^(−0.2/0.1)) = 10(1 − e^(−2)) ≈ **8.65 V**`,
+
+        scholar: `## Derivation of the RC Charging Equation
+
+KVL around the loop: V₀ = IR + Q/C
+
+Since I = dQ/dt:
+> R(dQ/dt) + Q/C = V₀
+
+This is a first-order linear ODE. Rearranging:
+> dQ/dt + Q/(RC) = V₀/R
+
+**Integrating factor:** e^(t/RC)
+
+> d/dt[Q·e^(t/RC)] = (V₀/R)·e^(t/RC)
+> Q·e^(t/RC) = CV₀·e^(t/RC) + constant
+
+With Q(0) = 0:
+> **Q(t) = CV₀(1 − e^(−t/τ))**,  τ = RC ✓
+
+## Current and Voltage
+
+- I(t) = dQ/dt = (V₀/R)e^(−t/τ) — decays exponentially from V₀/R
+- V_C(t) = Q/C = V₀(1 − e^(−t/τ)) — rises toward V₀
+- V_R(t) = IR = V₀e^(−t/τ) — drops exponentially
+
+## Energy Analysis
+
+Total energy delivered by supply: U_supply = Q_∞ × V₀ = CV₀²
+
+Energy stored in capacitor: U_C = ½CV₀²
+
+Energy dissipated in R: U_R = ½CV₀² — **exactly half, regardless of R!**
+
+This is a fundamental result — you can never charge a capacitor from a voltage source with more than 50% efficiency (unless using inductor-based switching).
+
+## RC as an Integrator/Differentiator
+
+- Large RC (slow): V_out ≈ (1/RC)∫V_in dt → **integrator**
+- Small RC (fast): V_out ≈ RC(dV_in/dt) → **differentiator**`,
+
+        researcher: `## Laplace Domain Analysis
+
+The RC charging circuit in the s-domain (Laplace transform):
+
+> Z_total(s) = R + 1/(sC)
+> I(s) = V₀/s / (R + 1/(sC)) = V₀C/(1 + sRC)
+> V_C(s) = I(s)/(sC) = V₀/(s(1 + sRC)) = V₀/R × 1/(s(s + 1/τ))
+
+Inverse Laplace: V_C(t) = V₀(1 − e^(−t/τ))·u(t) ✓
+
+## Complex Impedance and Phase
+
+In sinusoidal steady state: Z_C = 1/(jωC)
+
+> V_C/V_in = 1/(1 + jωRC)      (low-pass filter)
+> |V_C/V_in| = 1/√(1 + (ωRC)²)
+> Phase: φ = −arctan(ωRC)
+
+Current **leads** voltage by phase angle φ — capacitors are reactive loads.
+
+## RC Circuit as Integrating Amplifier
+
+Op-amp with C in feedback, R at input:
+
+> V_out = −(1/RC) ∫ V_in dt
+
+Used in: analog computers, PID controllers (I-term), waveform generators, sigma-delta modulators.
+
+## Stochastic Charging (kT/C Noise)
+
+In a real RC circuit at temperature T, thermal noise in R (Johnson noise: S_V = 4kTR) integrates onto C:
+
+> σ²_{V_C} = kT/C
+
+The total noise is **independent of R** — set only by C and T. Critical design limit for sample-and-hold circuits and CMOS ADCs.
+
+## Quantum Mechanical RC Circuit
+
+For a quantum capacitor (SET device, qubit), the charging energy:
+> E_C = e²/(2C)
+
+When E_C >> kT (achieved with C < ~1 aF at 10 mK), single-electron charging becomes observable — Coulomb blockade. Tunneling rate: Γ ∝ e^(−2πZ/R_K), R_K = h/e² = 25.8 kΩ.`,
+      },
+    },
+    {
+      id: 'cap-applications',
+      title: 'Applications',
+      notes: {
+        explorer: `## Where Are Capacitors Used?
+
+Capacitors are everywhere — you probably have thousands of them within arm's reach right now!
+
+## Camera Flash
+
+- Your camera has a capacitor that **slowly charges** from the battery
+- When you take a photo, it **releases all its energy instantly** as a brilliant flash of light
+- This is faster than a battery alone could manage!
+
+## Touch Screens
+
+- Your phone or tablet screen is covered with a grid of tiny capacitors
+- When your finger touches the screen, it **changes the capacitance** at that spot
+- The phone detects exactly where you touched!
+
+## Power Supplies
+
+- The charger for your phone and laptop uses capacitors to **smooth out electricity**
+- Without them, the power would wobble and your devices would malfunction
+
+## Computers and Memory
+
+- Old-style computer RAM (called DRAM) stores each bit of information in a tiny capacitor
+- If the capacitor is charged = 1
+- If the capacitor is discharged = 0
+
+## Electric Cars
+
+- Large capacitors (supercapacitors) help **store and release energy quickly** during acceleration
+- They work alongside batteries to make electric cars more efficient`,
+
+        investigator: `## Key Applications of Capacitors
+
+## 1. Power Supply Smoothing (Filter Capacitor)
+
+AC mains is converted to pulsating DC by a rectifier. A large capacitor in parallel with the load **smooths the ripple**:
+
+- Charges during voltage peaks
+- Discharges to maintain voltage between peaks
+- Larger C → smoother output
+
+Required capacitance: C ≈ I_load / (f × ΔV)
+
+## 2. Timing and Oscillator Circuits
+
+RC time constant τ = RC controls oscillation frequency:
+
+> f ≈ 1/(2πRC)   (for RC oscillators)
+
+Used in: clocks, function generators, 555 timer circuits.
+
+## 3. Signal Coupling / DC Blocking
+
+A **series capacitor** passes AC signals but blocks DC:
+- Connects stages of an amplifier without sharing DC bias
+- Blocks DC offset from reaching speakers (audio circuits)
+
+## 4. Decoupling / Bypass Capacitor
+
+Placed across IC power pins to **absorb switching noise**:
+- Provides local charge reservoir during fast logic transitions
+- Prevents voltage spikes on power rail
+
+## 5. Touchscreen Sensing
+
+A finger near a capacitor electrode changes the fringe capacitance:
+
+> ΔC ≈ ε₀ × A_finger / d_finger ≈ 1–5 pF
+
+Measured by charging time variation → exact touch position determined.
+
+## 6. Defibrillator (Medical)
+
+A large capacitor (~32 μF) is charged to ~2500 V (U = ½CV² ≈ 200 J) and discharged through the patient's chest in ~10 ms to restore heart rhythm.`,
+
+        scholar: `## Advanced Capacitor Applications
+
+## Active Filters
+
+RC networks with op-amps implement **Butterworth, Chebyshev, Bessel filters**:
+
+- Low-pass: C in feedback path → integrates high frequencies to zero
+- High-pass: C in input path → differentiates low frequencies (passes high)
+- Sallen-Key topology: two RC sections + unity-gain amp → 2nd order filter
+
+Pole placement: ω_p = 1/(RC√(Q_factor adjustments))
+
+## Phase-Locked Loop (PLL) Loop Filter
+
+The RC loop filter in a PLL integrates phase error signal:
+
+> F(s) = (1 + sτ₂)/(1 + sτ₁)   (lead-lag filter)
+
+The loop filter bandwidth determines lock range, phase noise, and reference spur suppression.
+
+## Sample-and-Hold Circuit
+
+In ADCs, a capacitor samples an analog input:
+
+1. Track mode: switch closed, C follows V_in
+2. Hold mode: switch open, C holds V_sample
+
+Aperture error, droop rate (leakage current / C), and kT/C noise determine ADC accuracy.
+
+## Integrating ADC (Dual-Slope)
+
+Reference current charges C for fixed time T₁ → then unknown current discharges C until V_C = 0 (time T₂):
+
+> V_in/V_ref = T₂/T₁
+
+Excellent noise rejection, used in precision instruments (multimeters, pH meters).
+
+## Power Factor Correction
+
+Capacitors compensate for inductive loads (motors) by supplying reactive power locally:
+
+> Q_C = V²/X_C = V²ωC   (VAR)
+
+Reduces reactive current in supply lines, improving efficiency and reducing transformer sizing.`,
+
+        researcher: `## Supercapacitors (Electrochemical Double-Layer Capacitors)
+
+EDLC supercapacitors exploit the double-layer capacitance at the electrode–electrolyte interface:
+
+> C_DL = ε_r ε₀ A / d_Helmholtz   (d ≈ 0.3–0.5 nm, A_BET up to 2000 m²/g)
+
+Typical: 1–3000 F, energy density 5–15 Wh/kg, power density 1–10 kW/kg. Ragone plot positioned between batteries and conventional capacitors.
+
+Pseudocapacitance in RuO₂ and MnO₂ adds faradaic contribution, increasing energy density to 20–60 Wh/kg (hybrid supercapacitors).
+
+## DRAM Cell Scaling
+
+Each DRAM cell stores one bit in a single MOS capacitor + access transistor. The storage node requires C_cell ≥ 20–30 fF for adequate noise margin.
+
+At sub-10 nm nodes, 3D capacitor structures (deep trench, fin-on-capacitor) achieve C/footprint > 30 fF/μm². High-κ dielectrics (HfO₂, ZrO₂, κ > 20) replace SiO₂ to maintain capacitance while reducing physical thickness.
+
+## RF MEMS Tunable Capacitors
+
+Electrostatically actuated membrane capacitors achieve tuning ratio up to 4:1:
+
+> C(V) = C₀ / (1 − V/V_PI)^(2/3)    (valid for V < V_PI)
+
+V_PI = pull-in voltage. Used in: phased array antennas, cognitive radio, wideband VCOs.
+
+## Ferroelectric Tunnel Junction Capacitors
+
+In FeRAM and FeFET devices, the remnant polarisation of a ferroelectric (PZT, HZO) represents stored binary information. Read via the polarisation reversal current:
+
+> I = A × dP/dt = A × 2P_r / t_switch
+
+Non-destructive readout schemes (using sub-coercive field sensing) are active research area for compute-in-memory architectures.`,
+      },
+    },
   ],
   explanations: {
     explorer: 'A capacitor is like a tiny rechargeable bucket for electric charge. It has two metal plates separated by a gap. When connected to a battery, one plate gets positive charge and the other gets negative. When you disconnect the battery, the capacitor holds that charge until needed.',

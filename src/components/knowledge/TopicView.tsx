@@ -10,6 +10,7 @@ import FlashcardDeck from './FlashcardDeck';
 import ExperimentCard from './ExperimentCard';
 import CuriosityTree from './CuriosityTree';
 import ConceptMap from './ConceptMap';
+import NotesRenderer from './NotesRenderer';
 
 type Tab = 'overview' | 'flashcards' | 'experiments' | 'curiosity' | 'quiz' | 'realworld';
 
@@ -224,9 +225,24 @@ const TopicView: React.FC<TopicViewProps> = ({
                 <DifficultySelector value={difficulty} onChange={setDifficulty} />
               </div>
               <div className="border-t border-premium-neutral-100 pt-4">
-                <p className="text-premium-neutral-800 leading-relaxed text-sm">
-                  {topic.explanations[difficulty]}
-                </p>
+                {(() => {
+                  const selectedMT = selectedMicroTopicId
+                    ? topic.microTopics.find(mt => mt.id === selectedMicroTopicId)
+                    : null;
+                  const notesContent = selectedMT?.notes?.[difficulty] ?? topic.explanations[difficulty];
+                  return (
+                    <>
+                      {selectedMT && (
+                        <div className="flex items-center gap-2 mb-3 pb-2 border-b border-premium-neutral-100">
+                          <span className="w-2 h-2 rounded-full bg-greyed-blue" />
+                          <span className="text-xs font-semibold text-greyed-navy">{selectedMT.title}</span>
+                          <span className="text-xs text-premium-neutral-400">— subtopic notes</span>
+                        </div>
+                      )}
+                      <NotesRenderer content={notesContent} />
+                    </>
+                  );
+                })()}
               </div>
             </div>
 
