@@ -143,6 +143,7 @@ const cellStructureTopic: FlagshipTopic = {
     'Vaccines work by introducing antigens that trigger immune cell differentiation.',
     'Plant turgidity (osmosis) is why vegetables become crisp when watered and limp when dehydrated.',
   ],
+  diagrams: ['animal-cell'],
   relatedTopicIds: ['dna-genetics', 'photosynthesis', 'respiration'],
   curiosityBranches: [
     { label: 'How do cancer cells differ?', topicId: 'cancer-biology' },
@@ -306,6 +307,7 @@ const dnaGeneticsTopic: FlagshipTopic = {
     'Gene therapy aims to cure genetic disorders by inserting functional genes.',
     'Paternity testing uses DNA inheritance patterns to confirm biological relationships.',
   ],
+  diagrams: ['dna-helix'],
   relatedTopicIds: ['cell-structure', 'evolution', 'protein-functions'],
   curiosityBranches: [
     { label: 'What is the Human Genome Project?', topicId: 'human-genome' },
@@ -468,6 +470,7 @@ const ecologyTopic: FlagshipTopic = {
     'Deforestation of the Amazon affects global weather patterns through moisture recycling.',
     'Wetlands act as natural water filters, removing pollutants before they reach rivers.',
   ],
+  diagrams: ['food-chain'],
   relatedTopicIds: ['dna-genetics', 'photosynthesis', 'climate-change-env'],
   curiosityBranches: [
     { label: 'How do invasive species disrupt ecosystems?', topicId: 'invasive-species' },

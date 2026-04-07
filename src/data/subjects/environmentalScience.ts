@@ -145,6 +145,7 @@ const ecosystemsBiodiversityTopic: FlagshipTopic = {
     'The Amazon rainforest acts as a carbon sink — its deforestation accelerates global warming.',
     'Biological controls (using predators) reduce crop pests without chemical pesticides.',
   ],
+  diagrams: ['carbon-cycle', 'greenhouse-effect'],
   relatedTopicIds: ['climate-change-env', 'ecology-ecosystems', 'soil-science'],
   curiosityBranches: [
     { label: 'What is the sixth mass extinction?', topicId: 'mass-extinction' },
@@ -309,6 +310,7 @@ const climateChangeTopic: FlagshipTopic = {
     'Carbon pricing (taxes and cap-and-trade markets) use economics to reduce emissions.',
     'Mangrove forests store 5× more carbon per hectare than tropical rainforests — a critical climate asset.',
   ],
+  diagrams: ['carbon-cycle', 'greenhouse-effect'],
   relatedTopicIds: ['ecosystems-biodiversity', 'earth-space-science', 'agriculture-sustainability'],
   curiosityBranches: [
     { label: 'What is COP and why does it matter?', topicId: 'cop-climate-conference' },

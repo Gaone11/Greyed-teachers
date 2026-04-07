@@ -168,6 +168,7 @@ const waveMotionTopic: FlagshipTopic = {
     'Guitar and violin strings produce standing waves whose frequencies determine musical pitch.',
     'Radar systems detect aircraft by analysing reflected microwave pulses.',
   ],
+  diagrams: ['wave-diagram'],
   relatedTopicIds: ['standing-waves', 'sound-doppler', 'superposition-interference', 'electromagnetic-waves'],
   curiosityBranches: [
     { label: 'Why can\'t sound travel in space?', topicId: 'wave-motion' },
@@ -348,6 +349,7 @@ const soundDopplerTopic: FlagshipTopic = {
     'Noise barriers along highways use sound absorption and reflection to reduce urban noise pollution.',
     'The musical scale is built on frequency ratios; consonant chords correspond to simple integer ratios.',
   ],
+  diagrams: ['wave-diagram'],
   relatedTopicIds: ['wave-motion', 'standing-waves', 'superposition-interference'],
   curiosityBranches: [
     { label: 'How do whales communicate over thousands of km?', topicId: 'sound-doppler' },
@@ -524,6 +526,7 @@ const superpositionTopic: FlagshipTopic = {
     'The Michelson interferometer was used to detect gravitational waves (LIGO) at LIGO detector in 2015.',
     'Musicians tune instruments by listening for beats — zero beats means perfect unison.',
   ],
+  diagrams: ['wave-diagram'],
   relatedTopicIds: ['wave-motion', 'standing-waves', 'sound-doppler'],
   curiosityBranches: [
     { label: 'How did LIGO detect gravitational waves?', topicId: 'superposition-interference' },
@@ -703,6 +706,7 @@ const standingWavesTopic: FlagshipTopic = {
     'The Tacoma Narrows Bridge (1940) collapsed because wind drove the bridge at its resonant frequency.',
     'Quartz crystal oscillators in watches resonate at precisely 32,768 Hz to keep accurate time.',
   ],
+  diagrams: ['wave-diagram'],
   relatedTopicIds: ['wave-motion', 'sound-doppler', 'superposition-interference'],
   curiosityBranches: [
     { label: 'Why do wine glasses sing when rubbed?', topicId: 'standing-waves' },

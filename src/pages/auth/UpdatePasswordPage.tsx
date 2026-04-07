@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Lock, AlertCircle, Loader, CheckCircle, ShieldAlert } from 'lucide-react';
+import { Lock, AlertCircle, Loader, CheckCircle, ShieldAlert, RefreshCw } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import LandingLayout from '../../components/layout/LandingLayout';
@@ -49,78 +49,64 @@ const UpdatePasswordPage: React.FC = () => {
     document.title = "Update Password | GreyEd";
   }, []);
 
-  // Handle session establishment from the reset link
+  // Handle session establishment from the reset link.
   // Supabase sends either:
   //   - PKCE flow: ?code=xxx (query param)
   //   - Implicit flow: #access_token=xxx&type=recovery (hash fragment)
-  // detectSessionInUrl handles hash fragments automatically,
-  // but we also explicitly handle the code exchange for PKCE.
-  const establishSession = useCallback(async () => {
-    try {
-      // Check for PKCE code in query params
-      const code = searchParams.get('code');
+  useEffect(() => {
+    const code = searchParams.get('code');
+    let timeoutId: ReturnType<typeof setTimeout>;
 
-      if (code) {
-        // Exchange the auth code for a session (PKCE flow)
-        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-        if (exchangeError) {
-          console.error('Code exchange failed:', exchangeError);
+    // Set up the auth state listener first so we don't miss the event
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && session) {
+        setSessionReady(true);
+        setSessionLoading(false);
+      }
+    });
+
+    if (code) {
+      // PKCE flow: exchange the code for a session
+      supabase.auth.exchangeCodeForSession(code)
+        .then(({ error: exchangeError }) => {
+          if (exchangeError) {
+            console.error('Code exchange failed:', exchangeError);
+            setTokenError(true);
+            setSessionLoading(false);
+          }
+          // On success, onAuthStateChange will fire SIGNED_IN and set sessionReady
+        })
+        .catch((err) => {
+          console.error('Session establishment error:', err);
           setTokenError(true);
           setSessionLoading(false);
-          return;
-        }
-        setSessionReady(true);
-        setSessionLoading(false);
-        return;
-      }
-
-      // For implicit flow (hash fragment), detectSessionInUrl handles it.
-      // Listen for the PASSWORD_RECOVERY event from onAuthStateChange.
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'PASSWORD_RECOVERY' && session) {
+        });
+    } else {
+      // Implicit flow: detectSessionInUrl processes the hash fragment automatically.
+      // Check if session is already available, otherwise wait up to 5s.
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
           setSessionReady(true);
           setSessionLoading(false);
-        } else if (event === 'SIGNED_IN' && session) {
-          // Also handle SIGNED_IN as some Supabase versions fire this instead
-          setSessionReady(true);
-          setSessionLoading(false);
+        } else {
+          timeoutId = setTimeout(() => {
+            setSessionLoading((prev) => {
+              if (prev) {
+                setTokenError(true);
+                return false;
+              }
+              return prev;
+            });
+          }, 5000);
         }
       });
-
-      // Also check if a session already exists (user may already be logged in
-      // or the hash was already processed by detectSessionInUrl before this runs)
-      const { data: { session: existingSession } } = await supabase.auth.getSession();
-      if (existingSession) {
-        setSessionReady(true);
-        setSessionLoading(false);
-      } else {
-        // No code param and no session yet — give it a few seconds for
-        // detectSessionInUrl to process hash fragments, then give up
-        setTimeout(() => {
-          setSessionLoading((prev) => {
-            // Only set error if still loading (session wasn't established)
-            if (prev) {
-              setTokenError(true);
-              return false;
-            }
-            return prev;
-          });
-        }, 5000);
-      }
-
-      return () => {
-        subscription.unsubscribe();
-      };
-    } catch (err) {
-      console.error('Session establishment error:', err);
-      setTokenError(true);
-      setSessionLoading(false);
     }
-  }, [searchParams]);
 
-  useEffect(() => {
-    establishSession();
-  }, [establishSession]);
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeoutId);
+    };
+  }, [searchParams]);
 
   const onSubmit = async (data: UpdatePasswordFormValues) => {
     setIsSubmitting(true);
@@ -175,17 +161,41 @@ const UpdatePasswordPage: React.FC = () => {
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="w-8 h-8 text-green-600" />
                   </div>
-                  
+
                   <h2 className="text-xl font-headline font-semibold text-greyed-navy mb-3">
                     Password Updated
                   </h2>
-                  
+
                   <p className="text-greyed-navy/80 mb-6">
                     Your password has been successfully updated. You'll be redirected to the login page shortly.
                   </p>
-                  
+
                   <Link to="/auth/login" className="inline-flex items-center bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors">
                     Log In Now
+                  </Link>
+                </div>
+              ) : sessionLoading ? (
+                <div className="text-center py-8">
+                  <Loader className="animate-spin w-8 h-8 text-greyed-navy mx-auto mb-4" />
+                  <p className="text-greyed-navy/70 text-sm">Verifying your reset link...</p>
+                </div>
+              ) : tokenError ? (
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <ShieldAlert className="w-8 h-8 text-red-500" />
+                  </div>
+                  <h2 className="text-xl font-headline font-semibold text-greyed-navy mb-3">
+                    Invalid or Expired Link
+                  </h2>
+                  <p className="text-greyed-navy/70 mb-6 text-sm">
+                    This password reset link is no longer valid. Reset links expire after a short time for security.
+                  </p>
+                  <Link
+                    to="/auth/forgot-password"
+                    className="inline-flex items-center gap-2 bg-greyed-navy text-white px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Request a New Link
                   </Link>
                 </div>
               ) : (

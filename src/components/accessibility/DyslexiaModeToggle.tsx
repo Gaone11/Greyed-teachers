@@ -3,6 +3,8 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../lib/supabase';
 
+const STORAGE_KEY = 'dyslexia_mode_enabled';
+
 const DyslexiaModeToggle: React.FC = () => {
   const { user } = useAuth();
   const [enabled, setEnabled] = useState(false);
@@ -13,28 +15,40 @@ const DyslexiaModeToggle: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    applyMode();
+    if (enabled) {
+      document.documentElement.classList.add('dyslexia-mode');
+    } else {
+      document.documentElement.classList.remove('dyslexia-mode');
+    }
   }, [enabled]);
 
   const loadSetting = async () => {
+    // Try localStorage first for instant load
+    const cached = localStorage.getItem(STORAGE_KEY);
+    if (cached !== null) {
+      setEnabled(cached === 'true');
+      setLoading(false);
+    }
+
     if (!user) {
       setLoading(false);
       return;
     }
 
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('profiles')
         .select('dyslexia_mode_enabled')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
-
       if (data) {
-        setEnabled(data.dyslexia_mode_enabled || false);
+        const val = data.dyslexia_mode_enabled || false;
+        setEnabled(val);
+        localStorage.setItem(STORAGE_KEY, String(val));
       }
     } catch {
+      // keep localStorage value
     } finally {
       setLoading(false);
     }
@@ -43,28 +57,17 @@ const DyslexiaModeToggle: React.FC = () => {
   const toggleMode = async () => {
     const newValue = !enabled;
     setEnabled(newValue);
+    localStorage.setItem(STORAGE_KEY, String(newValue));
 
     if (user) {
       try {
-        const { error } = await supabase
+        await supabase
           .from('profiles')
           .update({ dyslexia_mode_enabled: newValue })
           .eq('id', user.id);
-
-        if (error) throw error;
       } catch {
-        setEnabled(!newValue);
+        // visual state stays — localStorage keeps it persistent
       }
-    }
-  };
-
-  const applyMode = () => {
-    const rootElement = document.documentElement;
-
-    if (enabled) {
-      rootElement.classList.add('dyslexia-mode');
-    } else {
-      rootElement.classList.remove('dyslexia-mode');
     }
   };
 

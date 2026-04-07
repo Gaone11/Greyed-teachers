@@ -1,8 +1,8 @@
 /**
  * Dyslexia Mode Styles
  *
- * Provides accessible formatting for users with dyslexia and other
- * reading challenges. Applied globally when dyslexia mode is enabled.
+ * Improves readability for users with dyslexia and reading difficulties.
+ * Only affects text — layout, buttons, inputs and UI components are untouched.
  */
 
 /* ===================================
@@ -26,53 +26,48 @@
 }
 
 /* ===================================
-   DYSLEXIA MODE CONTAINER
+   DYSLEXIA MODE — text only
    =================================== */
 
 .dyslexia-mode {
-  /* Font Settings */
   --dyslexia-font-family: var(--preferred-font, 'OpenDyslexic');
   --dyslexia-font-size: var(--preferred-font-size, 16px);
   --dyslexia-line-height: var(--preferred-line-height, 1.8);
   --dyslexia-letter-spacing: 0.05em;
   --dyslexia-word-spacing: 0.16em;
 
-  /* Text Formatting */
-  font-family: var(--dyslexia-font-family), 'Comic Sans MS', Arial, sans-serif !important;
-  font-size: var(--dyslexia-font-size) !important;
-  line-height: var(--dyslexia-line-height) !important;
-  letter-spacing: var(--dyslexia-letter-spacing) !important;
-  word-spacing: var(--dyslexia-word-spacing) !important;
-  text-align: left !important;
-
-  /* Maximum line length for readability */
-  max-width: 70ch;
+  /* Never constrain page layout */
+  max-width: none !important;
+  width: auto !important;
 }
 
-/* Apply to all text elements within dyslexia mode */
+/* Apply font changes to text content only — not to the root or layout wrappers */
 .dyslexia-mode p,
 .dyslexia-mode li,
 .dyslexia-mode td,
-.dyslexia-mode span,
-.dyslexia-mode div {
-  font-family: inherit !important;
-  line-height: inherit !important;
-  letter-spacing: inherit !important;
-  word-spacing: inherit !important;
-  text-align: left !important;
-}
-
-/* Headings in dyslexia mode */
+.dyslexia-mode th,
+.dyslexia-mode label,
+.dyslexia-mode span:not([class*="icon"]):not([class*="lucide"]),
 .dyslexia-mode h1,
 .dyslexia-mode h2,
 .dyslexia-mode h3,
 .dyslexia-mode h4,
 .dyslexia-mode h5,
 .dyslexia-mode h6 {
-  font-family: inherit !important;
-  line-height: 1.4 !important;
-  margin-top: 1.5em !important;
-  margin-bottom: 0.75em !important;
+  font-family: var(--dyslexia-font-family), 'Comic Sans MS', Arial, sans-serif !important;
+  line-height: var(--dyslexia-line-height) !important;
+  letter-spacing: var(--dyslexia-letter-spacing) !important;
+  word-spacing: var(--dyslexia-word-spacing) !important;
+}
+
+/* Paragraph spacing for readability */
+.dyslexia-mode p {
+  margin-bottom: 1em !important;
+}
+
+/* List spacing */
+.dyslexia-mode li {
+  margin-bottom: 0.5em !important;
 }
 
 /* ===================================
@@ -101,243 +96,9 @@
    =================================== */
 
 .dyslexia-mode.font-opendyslexic { --preferred-font: 'OpenDyslexic'; }
-.dyslexia-mode.font-comic-sans { --preferred-font: 'Comic Sans MS'; }
-.dyslexia-mode.font-arial { --preferred-font: 'Arial'; }
-.dyslexia-mode.font-verdana { --preferred-font: 'Verdana'; }
-
-/* ===================================
-   CONTRAST THEMES
-   =================================== */
-
-/* Standard Theme (default) */
-.dyslexia-mode.theme-standard {
-  background-color: #F5F3EF;
-  color: #1A3A52;
-}
-
-/* High Contrast - Black on White */
-.dyslexia-mode.theme-high-contrast {
-  background-color: #FFFFFF;
-  color: #000000;
-}
-
-.dyslexia-mode.theme-high-contrast a {
-  color: #0000FF;
-  text-decoration: underline;
-}
-
-/* Dark Mode - White on Black */
-.dyslexia-mode.theme-dark-mode {
-  background-color: #1A1A1A;
-  color: #FFFFFF;
-}
-
-.dyslexia-mode.theme-dark-mode a {
-  color: #66B2FF;
-}
-
-/* Blue on Yellow - Reduced Visual Stress */
-.dyslexia-mode.theme-blue-yellow {
-  background-color: #FFFFE0;
-  color: #00008B;
-}
-
-.dyslexia-mode.theme-blue-yellow a {
-  color: #0000CD;
-  font-weight: bold;
-}
-
-/* Cream on Brown - Warm Contrast */
-.dyslexia-mode.theme-cream-brown {
-  background-color: #FFF8DC;
-  color: #3E2723;
-}
-
-.dyslexia-mode.theme-cream-brown a {
-  color: #5D4037;
-  font-weight: bold;
-}
-
-/* ===================================
-   TEXT FORMATTING
-   =================================== */
-
-/* Remove justified text (causes uneven spacing) */
-.dyslexia-mode * {
-  text-align: left !important;
-}
-
-/* Ensure sufficient paragraph spacing */
-.dyslexia-mode p {
-  margin-bottom: 1.2em !important;
-  padding-left: 0.5em !important;
-}
-
-/* Clear paragraph breaks */
-.dyslexia-mode p + p {
-  margin-top: 1.5em !important;
-}
-
-/* List formatting */
-.dyslexia-mode ul,
-.dyslexia-mode ol {
-  padding-left: 2.5em !important;
-  margin-bottom: 1.5em !important;
-}
-
-.dyslexia-mode li {
-  margin-bottom: 0.8em !important;
-  line-height: inherit !important;
-}
-
-/* ===================================
-   INTERACTIVE ELEMENTS
-   =================================== */
-
-/* Buttons */
-.dyslexia-mode button,
-.dyslexia-mode .btn {
-  padding: 12px 24px !important;
-  font-size: calc(var(--dyslexia-font-size) + 2px) !important;
-  font-weight: bold !important;
-  min-height: 44px !important;
-  border: 2px solid currentColor !important;
-}
-
-/* Links */
-.dyslexia-mode a {
-  text-decoration: underline !important;
-  font-weight: 600 !important;
-  text-underline-offset: 0.2em !important;
-}
-
-/* Inputs */
-.dyslexia-mode input,
-.dyslexia-mode textarea,
-.dyslexia-mode select {
-  padding: 12px !important;
-  font-size: var(--dyslexia-font-size) !important;
-  font-family: inherit !important;
-  line-height: 1.5 !important;
-  border: 2px solid currentColor !important;
-  min-height: 44px !important;
-}
-
-/* ===================================
-   ICONS AND LABELS
-   =================================== */
-
-/* Add spacing between icons and text */
-.dyslexia-mode svg + span,
-.dyslexia-mode span + svg {
-  margin-left: 0.5em !important;
-}
-
-/* Ensure icons don't break layout */
-.dyslexia-mode svg {
-  flex-shrink: 0 !important;
-  vertical-align: middle !important;
-}
-
-/* ===================================
-   NUMBERED STEPS
-   =================================== */
-
-.dyslexia-mode .step-number {
-  display: inline-block;
-  background-color: currentColor;
-  color: var(--bg-color, white);
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 2em;
-  font-weight: bold;
-  margin-right: 0.75em;
-}
-
-/* ===================================
-   TABLES
-   =================================== */
-
-.dyslexia-mode table {
-  border-collapse: separate !important;
-  border-spacing: 0.5em !important;
-  width: 100% !important;
-}
-
-.dyslexia-mode th,
-.dyslexia-mode td {
-  padding: 1em !important;
-  text-align: left !important;
-  border: 2px solid currentColor !important;
-}
-
-.dyslexia-mode th {
-  font-weight: bold !important;
-  background-color: rgba(0, 0, 0, 0.05) !important;
-}
-
-/* ===================================
-   CARDS AND CONTAINERS
-   =================================== */
-
-.dyslexia-mode .card,
-.dyslexia-mode .section {
-  padding: 2em !important;
-  margin-bottom: 2em !important;
-  border: 3px solid currentColor !important;
-  border-radius: 8px !important;
-}
-
-/* ===================================
-   FOCUS INDICATORS
-   =================================== */
-
-.dyslexia-mode *:focus {
-  outline: 3px solid currentColor !important;
-  outline-offset: 3px !important;
-}
-
-/* ===================================
-   UTILITIES
-   =================================== */
-
-/* Remove all transitions for reduced motion */
-.dyslexia-mode * {
-  transition: none !important;
-  animation: none !important;
-}
-
-/* Prevent text overflow */
-.dyslexia-mode * {
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
-  hyphens: auto !important;
-}
-
-/* Clear floats */
-.dyslexia-mode::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* ===================================
-   PRINT STYLES
-   =================================== */
-
-@media print {
-  .dyslexia-mode {
-    background-color: white !important;
-    color: black !important;
-  }
-
-  .dyslexia-mode * {
-    background-color: transparent !important;
-    color: black !important;
-  }
-}
+.dyslexia-mode.font-comic-sans   { --preferred-font: 'Comic Sans MS'; }
+.dyslexia-mode.font-arial        { --preferred-font: 'Arial'; }
+.dyslexia-mode.font-verdana      { --preferred-font: 'Verdana'; }
 
 /* ===================================
    BADGE INDICATOR

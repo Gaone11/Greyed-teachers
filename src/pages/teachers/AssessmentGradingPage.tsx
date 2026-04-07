@@ -164,7 +164,7 @@ const AssessmentGradingPage: React.FC = () => {
     <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-16 bg-[#FAFAF8] flex overflow-x-hidden">
+      <div className="min-h-screen pt-[72px] bg-[#FAFAF8] flex overflow-x-hidden">
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)} />
         )}
@@ -194,7 +194,7 @@ const AssessmentGradingPage: React.FC = () => {
           )}
         </div>
 
-        <div className="flex-1 pt-4 pb-16 md:pb-0 transition-[margin] duration-300 overflow-x-hidden"
+        <div className="flex-1 pt-0 pb-16 md:pb-0 transition-[margin] duration-300 overflow-x-hidden"
           style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-4 sm:px-6 lg:px-8 max-w-5xl">
 

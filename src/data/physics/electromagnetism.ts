@@ -161,6 +161,7 @@ const electrostaticsTopic: FlagshipTopic = {
     'Defibrillators use large electric potentials to restore normal heart rhythm during cardiac arrest.',
     'The cell membrane acts as a capacitor — ion pumps maintain electric potential differences across it.',
   ],
+  diagrams: ['parallel-plate', 'force-diagram'],
   relatedTopicIds: ['capacitors', 'electric-current', 'magnetism'],
   curiosityBranches: [
     { label: 'How does lightning form?', topicId: 'electrostatics' },
@@ -1548,6 +1549,7 @@ Non-destructive readout schemes (using sub-coercive field sensing) are active re
     'DRAM memory cells store each bit as charge on a tiny capacitor (refreshed thousands of times per second).',
     'Supercapacitors in regenerative braking systems on buses recover kinetic energy as electric charge.',
   ],
+  diagrams: ['parallel-plate', 'cap-series', 'cap-parallel', 'rc-circuit', 'rc-curve', 'dielectric-polarisation', 'energy-in-capacitor'],
   relatedTopicIds: ['electrostatics', 'electric-current', 'dc-circuits'],
   curiosityBranches: [
     { label: 'How does DRAM store data as charge?', topicId: 'capacitors' },

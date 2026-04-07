@@ -11,6 +11,7 @@ import ExperimentCard from './ExperimentCard';
 import CuriosityTree from './CuriosityTree';
 import ConceptMap from './ConceptMap';
 import NotesRenderer from './NotesRenderer';
+import Diagram from './DiagramLibrary';
 
 type Tab = 'overview' | 'flashcards' | 'experiments' | 'curiosity' | 'quiz' | 'realworld';
 
@@ -314,6 +315,22 @@ const TopicView: React.FC<TopicViewProps> = ({
                 })()}
               </div>
             </div>
+
+            {/* Visual diagrams gallery */}
+            {topic.diagrams && topic.diagrams.length > 0 && (
+              <div className="bg-white rounded-2xl border border-premium-neutral-200 shadow-sm p-5">
+                <h3 className="text-sm font-semibold text-premium-neutral-500 uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <span>📐</span> Visual Diagrams
+                </h3>
+                <div className={`grid gap-4 ${topic.diagrams.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                  {topic.diagrams.map(name => (
+                    <div key={name} className="bg-premium-neutral-50 border border-premium-neutral-100 rounded-xl p-3 flex items-center justify-center">
+                      <Diagram name={name} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Micro topics — dropdown */}
             <div className="bg-white rounded-2xl border border-premium-neutral-200 shadow-sm p-5">

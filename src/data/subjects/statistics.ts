@@ -145,6 +145,7 @@ const descriptiveStatsTopic: FlagshipTopic = {
     'Sports analysts use scatter plots to find correlations between training metrics and performance.',
     'Actuaries use standard deviations to model risk for insurance pricing.',
   ],
+  diagrams: ['histogram', 'box-plot'],
   relatedTopicIds: ['inferential-statistics', 'probability', 'data-science'],
   curiosityBranches: [
     { label: 'How are averages misused in the media?', topicId: 'statistical-literacy' },
@@ -309,6 +310,7 @@ const probabilityTopic: FlagshipTopic = {
     'Online poker and casino algorithms use probability theory to ensure the house edge.',
     'Pharmaceutical companies use probability to power drug trial design and interpret results.',
   ],
+  diagrams: ['normal-curve'],
   relatedTopicIds: ['descriptive-statistics', 'inferential-statistics', 'data-science'],
   curiosityBranches: [
     { label: 'What is the Monty Hall problem?', topicId: 'monty-hall' },
@@ -473,6 +475,7 @@ const inferentialStatsTopic: FlagshipTopic = {
     'Quality control in factories uses control charts (based on 3σ limits) to detect defective production.',
     'Climate scientists use regression to quantify the relationship between CO₂ concentration and temperature.',
   ],
+  diagrams: ['normal-curve'],
   relatedTopicIds: ['descriptive-statistics', 'probability', 'data-science-analysis'],
   curiosityBranches: [
     { label: 'What is the replication crisis in science?', topicId: 'replication-crisis-stats' },

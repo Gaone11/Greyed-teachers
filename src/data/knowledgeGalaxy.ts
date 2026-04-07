@@ -54,6 +54,7 @@ export interface FlagshipTopic {
   relatedTopicIds: string[];
   curiosityBranches: CuriosityBranch[];
   quiz: QuizQuestion[];
+  diagrams?: string[];   // diagram names from DiagramLibrary
 }
 
 export interface Domain {

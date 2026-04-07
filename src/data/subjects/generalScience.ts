@@ -145,6 +145,7 @@ const scientificMethodTopic: FlagshipTopic = {
     'Peer review catches errors and fraud before misleading research affects public policy.',
     'Correlation vs. causation confusion leads to bad health advice — e.g. mistaking lifestyle correlations for direct causes.',
   ],
+  diagrams: ['scientific-method'],
   relatedTopicIds: ['ecology-ecosystems', 'dna-genetics', 'atomic-structure'],
   curiosityBranches: [
     { label: 'What is the replication crisis?', topicId: 'replication-crisis' },
@@ -473,6 +474,7 @@ const matterEnergyTopic: FlagshipTopic = {
     'The periodic table guides chemists in predicting reactions and developing new materials.',
     'Phase changes are critical in refrigerators — refrigerant absorbs heat as it evaporates, cooling the interior.',
   ],
+  diagrams: ['states-of-matter'],
   relatedTopicIds: ['atomic-structure', 'chemical-reactions', 'thermodynamics'],
   curiosityBranches: [
     { label: 'What is plasma — the fourth state?', topicId: 'plasma-state' },

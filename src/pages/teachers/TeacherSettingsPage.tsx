@@ -386,7 +386,7 @@ const TeacherSettingsPage: React.FC = () => {
     <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-16 bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
@@ -420,7 +420,7 @@ const TeacherSettingsPage: React.FC = () => {
         </div>
         
         {/* Main content area */}
-        <div className="flex-1 pt-3 pb-16 md:pb-0 transition-all duration-300"
+        <div className="flex-1 pt-0 pb-16 md:pb-0 transition-all duration-300"
           style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-4 sm:px-6 lg:px-8">
             {/* Mobile menu toggle */}

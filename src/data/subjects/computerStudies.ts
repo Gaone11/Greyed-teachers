@@ -145,6 +145,7 @@ const programmingTopic: FlagshipTopic = {
     'Video game AI uses pathfinding algorithms to move characters through complex environments.',
     'Cryptographic algorithms protect online banking and private communications.',
   ],
+  diagrams: ['flowchart'],
   relatedTopicIds: ['data-networks', 'cybersecurity', 'statistics-probability'],
   curiosityBranches: [
     { label: 'What is machine learning?', topicId: 'machine-learning-intro' },
@@ -308,6 +309,7 @@ const dataNetworksTopic: FlagshipTopic = {
     'Databases power every major website — Facebook stores hundreds of petabytes of user data.',
     'Wi-Fi and 5G use packet switching to deliver fast, reliable wireless internet.',
   ],
+  diagrams: ['network-topology', 'binary-table'],
   relatedTopicIds: ['programming-algorithms', 'cybersecurity', 'statistics'],
   curiosityBranches: [
     { label: 'How does the internet actually work?', topicId: 'internet-infrastructure' },

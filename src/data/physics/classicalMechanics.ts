@@ -172,6 +172,7 @@ const kinematicsTopic: FlagshipTopic = {
     'Air traffic controllers use relative velocity to safely manage aircraft approaching from different directions.',
     'Autonomous vehicles use kinematic models to predict and plan their motion.',
   ],
+  diagrams: ['force-diagram'],
   relatedTopicIds: ['newtons-laws', 'energy-work-power', 'momentum-collisions', 'gravitation-keplers-laws'],
   curiosityBranches: [
     { label: 'What happens to kinematics near the speed of light?', topicId: 'special-relativity' },
@@ -370,6 +371,7 @@ const newtonsLawsTopic: FlagshipTopic = {
     'Skydiving terminal velocity determines parachute design requirements.',
     'In space, there is no air resistance — spacecraft maintain speed indefinitely (Newton\'s First Law in action).',
   ],
+  diagrams: ['force-diagram'],
   relatedTopicIds: ['kinematics', 'energy-work-power', 'momentum-collisions', 'fluid-mechanics'],
   curiosityBranches: [
     { label: 'What replaces Newton\'s Laws at atomic scales?', topicId: 'quantum-mechanics' },
@@ -477,6 +479,7 @@ const energyWorkPowerTopic: FlagshipTopic = {
     'A phone battery capacity in mAh × voltage = total energy stored in joules.',
     'Elevators use counterweights to reduce power consumption — GPE of the counterweight offsets the load.',
   ],
+  diagrams: ['force-diagram'],
   relatedTopicIds: ['newtons-laws', 'momentum-collisions', 'oscillations-shm', 'thermo-laws'],
   curiosityBranches: [
     { label: 'Where does energy go in an "inelastic" collision?', topicId: 'momentum-collisions' },
@@ -569,6 +572,7 @@ const momentumTopic: FlagshipTopic = {
     'In particle accelerators, momentum conservation is used to detect new particles.',
     'Defensive walls in war were designed to maximise collision time and absorb cannonball impact.',
   ],
+  diagrams: ['force-diagram'],
   relatedTopicIds: ['newtons-laws', 'energy-work-power', 'rotational-motion', 'nuclear-physics'],
   curiosityBranches: [
     { label: 'How does a rocket work in space with nothing to push against?', topicId: 'newtons-laws' },

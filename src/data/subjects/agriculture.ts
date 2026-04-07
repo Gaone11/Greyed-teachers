@@ -145,6 +145,7 @@ const cropScienceTopic: FlagshipTopic = {
     'Hydroponics grows crops without soil, using nutrient-rich water — ideal for urban farming and water-scarce regions.',
     'The Green Revolution (1960s–70s) used improved seed varieties and fertilisers to triple grain yields in Asia and Latin America.',
   ],
+  diagrams: ['plant-growth'],
   relatedTopicIds: ['soil-water-science', 'ecosystems-biodiversity', 'climate-change-env'],
   curiosityBranches: [
     { label: 'What is vertical farming?', topicId: 'vertical-farming' },
@@ -474,6 +475,7 @@ const soilWaterTopic: FlagshipTopic = {
     'Biochar (charcoal added to soil) can sequester carbon for centuries while improving soil fertility.',
     'Lake Victoria\'s water quality is threatened by agricultural runoff — affecting the livelihoods of 40 million people.',
   ],
+  diagrams: ['soil-layers'],
   relatedTopicIds: ['crop-science', 'ecosystems-biodiversity', 'climate-change-env'],
   curiosityBranches: [
     { label: 'What is soil carbon farming?', topicId: 'soil-carbon' },

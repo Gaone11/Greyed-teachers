@@ -96,7 +96,6 @@ const TeacherDashboardPage: React.FC = () => {
 
   const toggleMobileMenu = () => setShowMobileMenu(prev => !prev);
 
-  const firstName = user?.user_metadata?.first_name || user?.user_metadata?.name?.split(' ')[0] || 'Teacher';
 
   if (authLoading || (loading && user)) {
     return <Loader fullScreen message="Loading your dashboard..." />;
@@ -115,9 +114,31 @@ const TeacherDashboardPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f8f6]">
-      <NavBar sidebarCollapsed={sidebarCollapsed} />
+      <NavBar
+        sidebarCollapsed={sidebarCollapsed}
+        actionButton={
+          <div className="hidden sm:inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white border border-[#E8E6E0]/60 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] flex flex-col items-center justify-center shadow-sm">
+              <span className="text-[7px] font-bold text-white/80 uppercase leading-none tracking-wider">
+                {new Date().toLocaleDateString('en-US', { month: 'short' })}
+              </span>
+              <span className="text-xs font-bold text-white leading-none mt-0.5">
+                {new Date().getDate()}
+              </span>
+            </div>
+            <div>
+              <div className="text-xs font-bold text-[#1B4332] leading-tight">
+                {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
+              </div>
+              <div className="text-[10px] text-[#292828]/50 font-medium">
+                {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </div>
+            </div>
+          </div>
+        }
+      />
 
-      <div className="min-h-screen pt-16 bg-[#F0F0F0] flex">
+      <div className="min-h-screen pt-[72px] bg-[#F0F0F0] flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={() => setShowMobileMenu(false)} />
@@ -146,17 +167,9 @@ const TeacherDashboardPage: React.FC = () => {
         </div>
 
         {/* Main content */}
-        <div className="flex-1 pt-2 sm:pt-3 pb-20 md:pb-6 transition-all duration-300"
+        <div className="flex-1 pt-0 pb-20 md:pb-6 transition-all duration-300"
           style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
-          <main className="px-3 sm:px-6 lg:px-8 max-w-7xl">
-            {/* Header */}
-            <div className="flex items-start justify-between mb-4 sm:mb-6">
-              <div>
-                <h1 className="text-xl sm:text-2xl font-headline font-bold text-[#1B4332]">Welcome back, {firstName}</h1>
-                <p className="text-xs sm:text-sm text-[#292828]/60 mt-0.5">Here's what's happening with your classes today</p>
-              </div>
-            </div>
-
+          <main className="px-3 sm:px-6 lg:px-8 w-full max-w-7xl">
             {error && (
               <div className="bg-white border border-red-200 text-red-800 px-5 py-4 rounded-2xl mb-4 flex items-start shadow-sm animate-slide-down">
                 <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
@@ -164,50 +177,25 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
             )}
 
-            {/* ────── Quick Nav + Calendar Row ────── */}
-            <section className="mb-4 sm:mb-6 animate-slide-up">
-              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                {/* Quick Nav Strip */}
-                <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide flex-1 -mx-1 px-1">
-                  {quickNav.map((item, i) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.path}
-                        to={item.path}
-                        className="group flex-shrink-0 flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
-                        style={{ animationDelay: `${i * 40}ms` }}
-                      >
-                        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
-                          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
-                        </div>
-                        <span className="text-xs sm:text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                {/* Mini Calendar Widget */}
-                <div className="flex-shrink-0">
-                  <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-[#E8E6E0]/60 shadow-sm">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] flex flex-col items-center justify-center shadow-sm">
-                      <span className="text-[8px] font-bold text-white/80 uppercase leading-none tracking-wider">
-                        {new Date().toLocaleDateString('en-US', { month: 'short' })}
-                      </span>
-                      <span className="text-sm font-bold text-white leading-none mt-0.5">
-                        {new Date().getDate()}
-                      </span>
-                    </div>
-                    <div className="hidden sm:block">
-                      <div className="text-xs font-bold text-[#1B4332] leading-tight">
-                        {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
+            {/* ────── Quick Nav ────── */}
+            <section className="mb-4 sm:mb-6 animate-slide-up pt-3">
+              <div className="flex flex-wrap gap-2">
+                {quickNav.map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className="group flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
+                      style={{ animationDelay: `${i * 40}ms` }}
+                    >
+                      <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
+                        <Icon className="w-3.5 h-3.5 text-white" />
                       </div>
-                      <div className="text-[10px] text-[#292828]/50 font-medium">
-                        {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      <span className="text-xs sm:text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
+                    </Link>
+                  );
+                })}
               </div>
             </section>
 
