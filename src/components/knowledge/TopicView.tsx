@@ -3,7 +3,7 @@ import {
   BookOpen, FlaskConical, Brain, Compass, Network,
   Globe, HelpCircle, ChevronLeft, Star, CheckCircle2
 } from 'lucide-react';
-import type { FlagshipTopic, DifficultyLevel } from '../../data/knowledgeGalaxy';
+import type { FlagshipTopic, DifficultyLevel, MicroTopic } from '../../data/knowledgeGalaxy';
 import { saveQuizScore } from '../../lib/kgProgress';
 import DifficultySelector from './DifficultySelector';
 import FlashcardDeck from './FlashcardDeck';
@@ -141,6 +141,70 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string |
   );
 };
 
+// ── Build rich notes from existing tagged data when explicit notes are absent ─
+function buildSubtopicNotes(topic: FlagshipTopic, mt: MicroTopic, difficulty: DifficultyLevel): string {
+  const lines: string[] = [];
+
+  // ── 1. Topic overview at the chosen level ──────────────────────────────────
+  lines.push(`## ${topic.title}`);
+  lines.push('');
+  lines.push(topic.explanations[difficulty]);
+  lines.push('');
+
+  // ── 2. Subtopic key facts (from tagged flashcards) ─────────────────────────
+  const cards = topic.flashcards.filter(f => f.microTopicId === mt.id);
+  if (cards.length > 0) {
+    lines.push(`## Key Facts: ${mt.title}`);
+    lines.push('');
+    cards.forEach(card => {
+      lines.push(`### ${card.question}`);
+      lines.push(card.answer);
+      lines.push('');
+    });
+  }
+
+  // ── 3. Related experiments (from tagged experiments) ──────────────────────
+  const exps = topic.experiments.filter(e => e.microTopicId === mt.id);
+  if (exps.length > 0) {
+    lines.push(`## Practical: ${mt.title}`);
+    lines.push('');
+    exps.forEach(exp => {
+      lines.push(`### ${exp.title} (${exp.level})`);
+      lines.push(exp.description);
+      lines.push('');
+      if (exp.materials.length > 0) {
+        lines.push('**Materials needed:**');
+        exp.materials.forEach(m => lines.push(`- ${m}`));
+        lines.push('');
+      }
+      lines.push('**What to expect:** ' + exp.expected);
+      lines.push('');
+    });
+  }
+
+  // ── 4. Practice questions (from tagged quiz items) ─────────────────────────
+  const qs = topic.quiz.filter(q => q.microTopicId === mt.id);
+  if (qs.length > 0) {
+    lines.push(`## Check Your Understanding`);
+    lines.push('');
+    qs.forEach((q, i) => {
+      lines.push(`### Q${i + 1}. ${q.question}`);
+      q.options.forEach((opt, j) => {
+        if (j === q.answer) {
+          lines.push(`- **${String.fromCharCode(65 + j)}. ${opt}** ✓`);
+        } else {
+          lines.push(`- ${String.fromCharCode(65 + j)}. ${opt}`);
+        }
+      });
+      lines.push('');
+      lines.push(`> ${q.explanation}`);
+      lines.push('');
+    });
+  }
+
+  return lines.join('\n');
+}
+
 // ── TopicView ────────────────────────────────────────────────────────────────
 
 const TopicView: React.FC<TopicViewProps> = ({
@@ -229,14 +293,19 @@ const TopicView: React.FC<TopicViewProps> = ({
                   const selectedMT = selectedMicroTopicId
                     ? topic.microTopics.find(mt => mt.id === selectedMicroTopicId)
                     : null;
-                  const notesContent = selectedMT?.notes?.[difficulty] ?? topic.explanations[difficulty];
+
+                  // Explicit hand-written notes take priority; otherwise build from data
+                  const notesContent = selectedMT
+                    ? (selectedMT.notes?.[difficulty] ?? buildSubtopicNotes(topic, selectedMT, difficulty))
+                    : topic.explanations[difficulty];
+
                   return (
                     <>
                       {selectedMT && (
                         <div className="flex items-center gap-2 mb-3 pb-2 border-b border-premium-neutral-100">
                           <span className="w-2 h-2 rounded-full bg-greyed-blue" />
                           <span className="text-xs font-semibold text-greyed-navy">{selectedMT.title}</span>
-                          <span className="text-xs text-premium-neutral-400">— subtopic notes</span>
+                          <span className="text-xs text-premium-neutral-400">— study notes</span>
                         </div>
                       )}
                       <NotesRenderer content={notesContent} />

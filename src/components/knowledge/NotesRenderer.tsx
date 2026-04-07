@@ -86,12 +86,15 @@ const NotesRenderer: React.FC<{ content: string }> = ({ content }) => {
           case 'bullets':
             return (
               <ul key={i} className="space-y-1 pl-1 my-1">
-                {block.items.map((item, j) => (
-                  <li key={j} className="flex items-start gap-2 text-premium-neutral-700">
-                    <span className="w-1.5 h-1.5 rounded-full bg-greyed-blue flex-shrink-0 mt-[6px]" />
-                    <span>{parseInline(item)}</span>
-                  </li>
-                ))}
+                {block.items.map((item, j) => {
+                  const isCorrect = item.includes('✓');
+                  return (
+                    <li key={j} className={`flex items-start gap-2 rounded-lg px-2 py-0.5 ${isCorrect ? 'bg-emerald-50 text-emerald-800' : 'text-premium-neutral-700'}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[6px] ${isCorrect ? 'bg-emerald-500' : 'bg-greyed-blue'}`} />
+                      <span>{parseInline(item)}</span>
+                    </li>
+                  );
+                })}
               </ul>
             );
           case 'paragraph':
