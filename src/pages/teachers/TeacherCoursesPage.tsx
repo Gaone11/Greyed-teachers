@@ -76,7 +76,17 @@ const TeacherCoursesPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f8f6]">
-      <NavBar sidebarCollapsed={sidebarCollapsed} />
+      <NavBar
+        sidebarCollapsed={sidebarCollapsed}
+        actionButton={
+          <button
+            onClick={() => navigate('/teachers/knowledge')}
+            className="hidden md:flex items-center gap-2 bg-greyed-navy text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-greyed-navy/90 transition-colors"
+          >
+            Continue Exploring <ChevronRight size={16} />
+          </button>
+        }
+      />
 
       <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
         {showMobileMenu && isMobile && (
@@ -109,16 +119,6 @@ const TeacherCoursesPage: React.FC = () => {
           style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-4 sm:px-6 lg:px-8 py-6">
             <div className="max-w-5xl mx-auto space-y-8">
-
-              {/* Continue exploring button */}
-              <div className="flex justify-end">
-                <button
-                  onClick={() => navigate('/teachers/knowledge')}
-                  className="flex items-center gap-2 bg-greyed-navy text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-greyed-navy/90 transition-colors"
-                >
-                  Continue Exploring <ChevronRight size={16} />
-                </button>
-              </div>
 
               {/* Stat tiles */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
