@@ -4,8 +4,7 @@ import {
   MessageSquarePlus,
   MessageSquare,
   Trash2,
-  Snowflake,
-  PanelLeftOpen
+  Snowflake
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -220,19 +219,6 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
         </div>{/* end inner wrapper */}
       </div>
 
-      {/* Expand button — visible when sidebar is collapsed on desktop */}
-      {!isOpen && !isMobile && (
-        <button
-          onClick={onToggle}
-          className="flex-shrink-0 w-10 bg-greyed-navy flex flex-col items-center justify-start pt-4 gap-3 hover:bg-greyed-navy/90 transition-colors"
-          title="Expand sidebar"
-        >
-          <PanelLeftOpen size={18} className="text-white/70" />
-          <div className="w-6 h-6 rounded-full bg-greyed-blue/30 flex items-center justify-center">
-            <Snowflake size={12} className="text-white" />
-          </div>
-        </button>
-      )}
 
       {/* Overlay — only on mobile */}
       {isOpen && isMobile && (
