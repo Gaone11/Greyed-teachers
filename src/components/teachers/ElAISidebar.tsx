@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   MessageSquarePlus,
   MessageSquare,
-  Trash2,
-  Snowflake
+  Trash2
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -117,10 +116,8 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
         {/* Header */}
         <div className="p-4 border-b border-white/10">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-full bg-greyed-blue/30 flex items-center justify-center">
-              <Snowflake size={16} className="text-white" />
-            </div>
-            <span className="font-headline font-semibold text-white text-sm">GreyEd AI</span>
+            <img src="/logo.png" alt="GreyEd" className="h-7 w-auto brightness-0 invert" />
+            <span className="font-headline font-semibold text-white text-sm">AI</span>
           </div>
 
           {/* New Chat button */}

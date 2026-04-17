@@ -169,12 +169,9 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       {(!isCollapsed || isMobile) && (
         <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-4 px-4 pb-4'} border-b border-premium-neutral-200`}>
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e2d6b] to-[#3B82F6] shadow-premium">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
             <div className="flex-1">
-              <img src="/logo.png" alt="GreyEd" className="h-7 w-auto" />
-              <p className="text-xs text-premium-neutral-500">We are learning</p>
+              <img src="/logo.png" alt="GreyEd" className="h-8 w-auto" />
+              <p className="text-xs text-premium-neutral-500 mt-0.5">We are learning</p>
             </div>
             {!isMobile && (
               <button
