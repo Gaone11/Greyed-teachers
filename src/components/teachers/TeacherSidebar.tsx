@@ -169,7 +169,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       {(!isCollapsed || isMobile) && (
         <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-4 px-4 pb-4'} border-b border-premium-neutral-200`}>
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#3B82F6] shadow-premium">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -191,7 +191,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
       {isCollapsed && !isMobile && (
         <div className="pt-4 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-greyed-navy to-greyed-blue shadow-premium">
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#3B82F6] shadow-premium">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <button

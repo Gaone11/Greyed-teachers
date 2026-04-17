@@ -19,7 +19,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
         <div className="relative text-center animate-fade-in">
           {/* Logo with premium glow */}
           <div className="relative mx-auto w-20 h-20 flex items-center justify-center">
-            <div className="absolute inset-0 rounded-2xl bg-[#67E8F9]/10 blur-xl animate-[loaderGlow_2s_ease-in-out_infinite]" />
+            <div className="absolute inset-0 rounded-2xl bg-[#3B82F6]/10 blur-xl animate-[loaderGlow_2s_ease-in-out_infinite]" />
             <div className="relative animate-pulse-glow">
               <img
                 src="/favicon.svg"
@@ -62,7 +62,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
     <div className="flex items-center justify-center py-12">
       <div className="relative flex flex-col items-center gap-3">
         <div className="relative w-10 h-10 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-xl bg-[#67E8F9]/10 blur-lg animate-pulse" />
+          <div className="absolute inset-0 rounded-xl bg-[#3B82F6]/10 blur-lg animate-pulse" />
           <img
             src="/favicon.svg"
             alt="GreyEd"
