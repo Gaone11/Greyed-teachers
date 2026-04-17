@@ -193,7 +193,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                 placeholder="Search notes..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               />
               {searchTerm && (
                 <button
@@ -206,7 +206,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
             </div>
           </div>
           
-          <div className="flex rounded-lg border border-white/20 overflow-hidden">
+          <div className="flex rounded-lg border border-gray-300 overflow-hidden">
             <button
               onClick={() => setActiveTab('all')}
               className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-greyed-card'}`}
@@ -256,7 +256,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
             {filteredNotes.map((note) => (
               <div 
                 key={note.id}
-                className="bg-white rounded-lg border border-white/10 shadow-sm hover:shadow-md transition-all p-4"
+                className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all p-4"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-start">
@@ -337,22 +337,22 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
             
             <div className="p-5 flex-1 overflow-auto">
               <div className="mb-4">
-                <label className="block text-sm font-medium text-greyed-white mb-1">Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                 <input
                   type="text"
                   value={newNote.title}
                   onChange={(e) => setNewNote({...newNote, title: e.target.value})}
-                  className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                   placeholder="Enter note title"
                 />
               </div>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-greyed-white mb-1">Note Type</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Note Type</label>
                 <select
                   value={newNote.type}
                   onChange={(e) => setNewNote({...newNote, type: e.target.value as 'class' | 'lesson' | 'student'})}
-                  className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                 >
                   <option value="class">Class Note</option>
                   <option value="lesson">Lesson Note</option>
@@ -362,7 +362,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
               
               {newNote.type === 'student' && (
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-greyed-white mb-1">Student</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Student</label>
                   <select
                     value={newNote.associatedWith?.id}
                     onChange={(e) => setNewNote({
@@ -372,7 +372,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         name: e.target.options[e.target.selectedIndex].text
                       }
                     })}
-                    className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                   >
                     <option value="">Select a student</option>
                     <option value="student-1">John Smith</option>
@@ -385,7 +385,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
               
               {newNote.type === 'lesson' && (
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-greyed-white mb-1">Lesson</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Lesson</label>
                   <select
                     value={newNote.associatedWith?.id}
                     onChange={(e) => setNewNote({
@@ -395,7 +395,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         name: e.target.options[e.target.selectedIndex].text
                       }
                     })}
-                    className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                   >
                     <option value="">Select a lesson</option>
                     <option value="lesson-1">Newton's Laws of Motion</option>
@@ -407,22 +407,22 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
               )}
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-greyed-white mb-1">Content</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
                 <textarea
                   value={newNote.content}
                   onChange={(e) => setNewNote({...newNote, content: e.target.value})}
-                  className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                   placeholder="Enter note content"
                   rows={10}
                 />
               </div>
             </div>
             
-            <div className="p-5 border-t border-white/10 flex justify-end space-x-2">
+            <div className="p-5 border-t border-gray-200 flex justify-end space-x-2">
               <button
                 type="button"
                 onClick={() => setShowNoteEditor(false)}
-                className="px-4 py-2 border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-900 bg-white text-greyed-white hover:bg-greyed-navy"
               >
                 Cancel
               </button>
