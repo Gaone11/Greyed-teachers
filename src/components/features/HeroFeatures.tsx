@@ -97,7 +97,7 @@ const HeroFeatures: React.FC = () => {
             className="inline-flex items-center text-greyed-white/80 hover:text-greyed-blue transition-colors"
             title="Back to Home"
           >
-            <span className="font-headline font-bold text-base text-greyed-white/80">GreyEd</span>
+            <img src="/logo.png" alt="GreyEd" className="h-6 w-auto brightness-0 invert opacity-80" />
           </Link>
         </div>
       </div>

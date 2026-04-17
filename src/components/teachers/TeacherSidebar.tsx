@@ -173,7 +173,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-premium-navy">GreyEd</h2>
+              <img src="/logo.png" alt="GreyEd" className="h-7 w-auto" />
               <p className="text-xs text-premium-neutral-500">We are learning</p>
             </div>
             {!isMobile && (

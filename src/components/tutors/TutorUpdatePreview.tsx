@@ -182,7 +182,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
               onClick={() => navigate(-1)}
               className="flex items-center text-greyed-navy/70 hover:text-greyed-navy transition-colors"
             >
-              <span className="font-headline font-bold text-sm text-greyed-navy/70">GreyEd</span>
+              <img src="/logo.png" alt="GreyEd" className="h-5 w-auto opacity-70" />
             </button>
             
             <div className="flex items-center space-x-2">

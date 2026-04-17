@@ -212,7 +212,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
             className="w-full flex items-center gap-2 px-3 py-2.5 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
             title="Back to Dashboard"
           >
-            <span className="font-headline font-bold text-sm text-white/60">GreyEd</span>
+            <img src="/logo.png" alt="GreyEd" className="h-5 w-auto brightness-0 invert opacity-60" />
             <span>Dashboard</span>
           </button>
         </div>
