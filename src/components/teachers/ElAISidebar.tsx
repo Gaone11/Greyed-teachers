@@ -117,7 +117,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
         <div className="p-4 border-b border-white/10">
           <div className="flex items-center gap-2 mb-4">
             <img src="/logo.png" alt="GreyEd" className="h-7 w-auto brightness-0 invert" />
-            <span className="font-headline font-semibold text-white text-sm">AI</span>
+            <span className="font-headline font-semibold text-white text-sm">GreyEd AI</span>
           </div>
 
           {/* New Chat button */}
