@@ -248,7 +248,6 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         {/* Center section: GreyEd Logo (mobile only, not on teacher pages) */}
         {!isTeacherPage && (
           <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 ${logoTextClass}`}>
-            <img
             <span className="font-headline font-bold text-xl tracking-tight">GreyEd</span>
           </Link>
         )}
