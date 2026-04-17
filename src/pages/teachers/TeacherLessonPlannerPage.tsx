@@ -265,7 +265,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                   </div>
                   <input
                     type="text"
-                    className="pl-10 pr-4 py-2.5 w-full border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all placeholder:text-greyed-beige"
+                    className="pl-10 pr-4 py-2.5 w-full border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40 transition-all placeholder:text-gray-400"
                     placeholder="Search lesson plans..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -275,7 +275,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                 <div className="relative md:w-44">
                   <select
                     title="Filter by class"
-                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 appearance-none bg-white text-greyed-white transition-all"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40 appearance-none bg-white transition-all"
                     value={filterClass}
                     onChange={(e) => setFilterClass(e.target.value)}
                   >
@@ -292,7 +292,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                 <div className="relative md:w-44">
                   <select
                     title="Filter by status"
-                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 appearance-none bg-white text-greyed-white transition-all"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40 appearance-none bg-white transition-all"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                   >

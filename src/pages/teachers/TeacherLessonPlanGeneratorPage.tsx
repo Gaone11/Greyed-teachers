@@ -91,7 +91,7 @@ async function guessNextWeek(classId: string): Promise<string> {
 }
 
 // Shared input class for consistency
-const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#212754] focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all bg-white";
+const inputClass = "w-full p-3 border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all bg-white";
 const labelClass = "block text-sm font-medium text-[#212754]/70 mb-1.5";
 
 export default function TeacherLessonPlanGeneratorPage() {

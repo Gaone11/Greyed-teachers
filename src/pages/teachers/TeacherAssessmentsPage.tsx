@@ -242,7 +242,7 @@ const TeacherAssessmentsPage: React.FC = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] } }
   };
 
-  const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#212754] focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all bg-white";
+  const inputClass = "w-full p-3 border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all bg-white";
   const labelClass = "block text-sm font-medium text-[#212754]/70 mb-1.5";
 
   if (authLoading) {
@@ -348,7 +348,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                   </div>
                   <input
                     type="text"
-                    className="pl-10 pr-4 py-2.5 w-full border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all placeholder:text-greyed-beige"
+                    className="pl-10 pr-4 py-2.5 w-full border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40 transition-all placeholder:text-gray-400"
                     placeholder="Search assessments..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -357,7 +357,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 <div className="relative md:w-44">
                   <select
                     title="Filter by status"
-                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 appearance-none bg-white text-greyed-white transition-all"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-300 rounded-xl text-sm text-greyed-black focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40 appearance-none bg-white transition-all"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                   >
