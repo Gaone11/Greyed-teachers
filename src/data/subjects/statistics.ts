@@ -527,7 +527,7 @@ export const STATISTICS_SUBJECT: Subject = {
   id: 'statistics',
   title: 'Statistics',
   icon: '📊',
-  color: 'from-orange-500 to-red-600',
+  color: 'from-[#0F172A] to-[#2D1B4E]',
   textColor: 'text-orange-600',
   domains: [
     STATS_DESCRIPTIVE_DOMAIN,

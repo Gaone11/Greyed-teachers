@@ -123,7 +123,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
               <div className="w-8 h-8 rounded-full bg-greyed-blue/30 flex items-center justify-center">
                 <Snowflake size={16} className="text-white" />
               </div>
-              <span className="font-headline font-semibold text-white text-sm">Siyafunda AI</span>
+              <span className="font-headline font-semibold text-white text-sm">GreyEd AI</span>
             </div>
             <button
               onClick={onToggle}

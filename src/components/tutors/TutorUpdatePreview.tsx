@@ -51,10 +51,10 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
             <title>Weekly Class Update</title>
             <style>
               body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-              h1 { color: #1B4332; }
-              h2 { color: #1B4332; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+              h1 { color: #0F172A; }
+              h2 { color: #0F172A; border-bottom: 1px solid #eee; padding-bottom: 10px; }
               .section { margin-bottom: 30px; }
-              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #D4A843; }
+              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #67E8F9; }
               .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
             </style>
           </head>
@@ -174,7 +174,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
   // If rendered as a standalone page
   if (id) {
     return (
-      <div className="min-h-screen bg-gray-100 py-8">
+      <div className="min-h-screen bg-greyed-card py-8">
         <div className="max-w-4xl mx-auto px-4">
           {/* Header */}
           <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex justify-between items-center">
@@ -255,7 +255,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-greyed-navy text-white">
+        <div className="p-4 border-b border-white/10 flex justify-between items-center bg-greyed-navy text-white">
           <h3 className="text-lg font-headline font-bold flex items-center">
             <FileText className="w-5 h-5 mr-2" />
             Tutor Update Preview
@@ -307,7 +307,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
           )}
           
           {sendSuccess && (
-            <div className="mb-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg flex items-start">
+            <div className="mb-4 bg-slate-800 border border-slate-600 text-cyan-400 px-4 py-3 rounded-lg flex items-start">
               <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
               <span>Tutor update sent successfully!</span>
             </div>
@@ -325,11 +325,11 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
           </div>
           
           {loading ? (
-            <div className="flex items-center justify-center p-16 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-center p-16 border border-white/10 rounded-lg">
               <Loader className="w-8 h-8 text-greyed-blue animate-spin" />
             </div>
           ) : (
-            <div className="border border-gray-200 rounded-lg overflow-hidden h-[500px]">
+            <div className="border border-white/10 rounded-lg overflow-hidden h-[500px]">
               <iframe 
                 srcDoc={content || ''}
                 className="w-full h-full border-0"

@@ -277,7 +277,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-greyed-navy text-white">
+        <div className="p-4 border-b border-white/10 flex justify-between items-center bg-greyed-navy text-white">
           <h3 className="text-xl font-headline font-bold flex items-center">
             <FileText className="w-5 h-5 mr-2" />
             {editMode ? 'Edit Assessment' : 'View Assessment'}
@@ -339,7 +339,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
         )}
         
         {success && (
-          <div className="mx-4 mt-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg flex items-start">
+          <div className="mx-4 mt-4 bg-slate-800 border border-slate-600 text-cyan-400 px-4 py-3 rounded-lg flex items-start">
             <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
             <span>{success}</span>
           </div>
@@ -349,7 +349,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
         <div className="flex-1 overflow-auto p-4">
           <div className="max-w-4xl mx-auto">
             {/* Assessment Details Form */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+            <div className="bg-white rounded-lg shadow-sm border border-white/10 p-4 mb-6">
               <h4 className="text-lg font-medium text-black mb-4 flex items-center">
                 <PenTool size={18} className="mr-2 text-greyed-blue" />
                 Assessment Details
@@ -357,31 +357,31 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                  <label className="block text-sm font-medium text-greyed-white mb-1">Title</label>
                   <input
                     type="text"
                     name="title"
                     value={assessmentData.title}
                     onChange={handleAssessmentChange}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                    className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                       editMode 
                         ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
-                        : 'bg-gray-50 cursor-not-allowed'
+                        : 'bg-greyed-navy cursor-not-allowed'
                     }`}
                     readOnly={!editMode}
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                  <label className="block text-sm font-medium text-greyed-white mb-1">Type</label>
                   <select
                     name="assessment_type"
                     value={assessmentData.assessment_type || ''}
                     onChange={handleAssessmentChange}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                    className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                       editMode 
                         ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
-                        : 'bg-gray-50 cursor-not-allowed'
+                        : 'bg-greyed-navy cursor-not-allowed'
                     }`}
                     disabled={!editMode}
                   >
@@ -393,15 +393,15 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty</label>
+                  <label className="block text-sm font-medium text-greyed-white mb-1">Difficulty</label>
                   <select
                     name="difficulty"
                     value={assessmentData.difficulty || ''}
                     onChange={handleAssessmentChange}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                    className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                       editMode 
                         ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
-                        : 'bg-gray-50 cursor-not-allowed'
+                        : 'bg-greyed-navy cursor-not-allowed'
                     }`}
                     disabled={!editMode}
                   >
@@ -413,16 +413,16 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                  <label className="block text-sm font-medium text-greyed-white mb-1">Topic</label>
                   <input
                     type="text"
                     name="topic"
                     value={assessmentData.topic || ''}
                     onChange={handleAssessmentChange}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                    className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                       editMode 
                         ? 'bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue' 
-                        : 'bg-gray-50 cursor-not-allowed'
+                        : 'bg-greyed-navy cursor-not-allowed'
                     }`}
                     readOnly={!editMode}
                   />
@@ -430,7 +430,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                 
                 <div className="col-span-full">
                   <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-medium text-gray-700">Questions</label>
+                    <label className="block text-sm font-medium text-greyed-white">Questions</label>
                     <span className="text-xs bg-greyed-blue/20 text-greyed-navy px-2 py-1 rounded">
                       {questions.length} question{questions.length !== 1 ? 's' : ''}
                     </span>
@@ -450,11 +450,11 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
             </div>
             
             {/* Question List */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-lg shadow-sm border border-white/10 p-4">
               <h4 className="text-lg font-medium text-black mb-4">Questions</h4>
               
               {questions.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-greyed-beige">
                   No questions available
                 </div>
               ) : (
@@ -465,7 +465,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                       className={`border rounded-lg overflow-hidden ${
                         activeQuestionIndex === index 
                           ? 'border-greyed-blue' 
-                          : 'border-gray-200'
+                          : 'border-white/10'
                       }`}
                     >
                       {/* Question Header */}
@@ -473,7 +473,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                         className={`flex justify-between items-center p-3 cursor-pointer ${
                           activeQuestionIndex === index 
                             ? 'bg-greyed-blue/10' 
-                            : 'bg-gray-50 hover:bg-gray-100'
+                            : 'bg-greyed-navy hover:bg-greyed-card'
                         }`}
                         onClick={() => setActiveQuestionIndex(activeQuestionIndex === index ? null : index)}
                       >
@@ -489,7 +489,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                           </div>
                         </div>
                         <div className="flex items-center">
-                          <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded mr-2">
+                          <span className="text-xs bg-gray-200 text-greyed-white px-2 py-0.5 rounded mr-2">
                             {question.type}
                           </span>
                           {editMode && (
@@ -510,17 +510,17 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                       
                       {/* Question Details (expanded view) */}
                       {activeQuestionIndex === index && (
-                        <div className="p-4 bg-white border-t border-gray-200">
+                        <div className="p-4 bg-white border-t border-white/10">
                           <div className="space-y-4">
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Question</label>
+                              <label className="block text-sm font-medium text-greyed-white mb-1">Question</label>
                               <textarea
                                 value={question.question}
                                 onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
-                                className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                                className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                                   editMode 
                                     ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
-                                    : 'bg-gray-50 cursor-not-allowed'
+                                    : 'bg-greyed-navy cursor-not-allowed'
                                 }`}
                                 rows={2}
                                 readOnly={!editMode}
@@ -528,14 +528,14 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                             </div>
                             
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Question Type</label>
+                              <label className="block text-sm font-medium text-greyed-white mb-1">Question Type</label>
                               <select
                                 value={question.type}
                                 onChange={(e) => handleQuestionChange(index, 'type', e.target.value)}
-                                className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                                className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                                   editMode 
                                     ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
-                                    : 'bg-gray-50 cursor-not-allowed'
+                                    : 'bg-greyed-navy cursor-not-allowed'
                                 }`}
                                 disabled={!editMode}
                               >
@@ -550,7 +550,7 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                             {question.type === 'multiple-choice' && (
                               <div>
                                 <div className="flex items-center justify-between mb-1">
-                                  <label className="block text-sm font-medium text-gray-700">Options</label>
+                                  <label className="block text-sm font-medium text-greyed-white">Options</label>
                                   {editMode && (
                                     <button
                                       type="button"
@@ -564,17 +564,17 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                 <div className="space-y-2">
                                   {(question.options || []).map((option, optIndex) => (
                                     <div key={optIndex} className="flex items-center">
-                                      <span className="w-6 h-6 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center mr-2">
+                                      <span className="w-6 h-6 rounded-full bg-gray-200 text-greyed-white flex items-center justify-center mr-2">
                                         {String.fromCharCode(65 + optIndex)}
                                       </span>
                                       <input
                                         type="text"
                                         value={option}
                                         onChange={(e) => handleOptionChange(index, optIndex, e.target.value)}
-                                        className={`flex-1 px-3 py-2 border border-gray-300 rounded-md ${
+                                        className={`flex-1 px-3 py-2 border border-white/20 rounded-md ${
                                           editMode 
                                             ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
-                                            : 'bg-gray-50 cursor-not-allowed'
+                                            : 'bg-greyed-navy cursor-not-allowed'
                                         }`}
                                         readOnly={!editMode}
                                       />
@@ -595,15 +595,15 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                             )}
                             
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Correct Answer</label>
+                              <label className="block text-sm font-medium text-greyed-white mb-1">Correct Answer</label>
                               {question.type === 'multiple-choice' && question.options?.length ? (
                                 <select
                                   value={question.answer}
                                   onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
-                                  className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                                  className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                                     editMode 
                                       ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
-                                      : 'bg-gray-50 cursor-not-allowed'
+                                      : 'bg-greyed-navy cursor-not-allowed'
                                   }`}
                                   disabled={!editMode}
                                 >
@@ -618,10 +618,10 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                                 <textarea
                                   value={question.answer}
                                   onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
-                                  className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                                  className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                                     editMode 
                                       ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
-                                      : 'bg-gray-50 cursor-not-allowed'
+                                      : 'bg-greyed-navy cursor-not-allowed'
                                   }`}
                                   rows={2}
                                   readOnly={!editMode}
@@ -630,14 +630,14 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
                             </div>
                             
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Explanation (Optional)</label>
+                              <label className="block text-sm font-medium text-greyed-white mb-1">Explanation (Optional)</label>
                               <textarea
                                 value={question.explanation || ''}
                                 onChange={(e) => handleQuestionChange(index, 'explanation', e.target.value)}
-                                className={`w-full px-3 py-2 border border-gray-300 rounded-md ${
+                                className={`w-full px-3 py-2 border border-white/20 rounded-md ${
                                   editMode 
                                     ? 'focus:outline-none focus:ring-2 focus:ring-greyed-blue bg-white' 
-                                    : 'bg-gray-50 cursor-not-allowed'
+                                    : 'bg-greyed-navy cursor-not-allowed'
                                 }`}
                                 rows={2}
                                 readOnly={!editMode}
@@ -655,11 +655,11 @@ const AssessmentViewModal: React.FC<AssessmentViewModalProps> = ({
         </div>
         
         {/* Footer with action buttons */}
-        <div className="p-4 border-t border-gray-200 flex justify-end">
+        <div className="p-4 border-t border-white/10 flex justify-end">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 mr-2"
+            className="px-4 py-2 border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy mr-2"
           >
             {editMode ? 'Cancel' : 'Close'}
           </button>

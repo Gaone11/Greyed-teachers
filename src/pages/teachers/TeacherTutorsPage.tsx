@@ -410,10 +410,10 @@ const TeacherTutorsPage: React.FC = () => {
             <title>Weekly Update - ${update.className}</title>
             <style>
               body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-              h1 { color: #1B4332; }
-              h2 { color: #1B4332; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+              h1 { color: #0F172A; }
+              h2 { color: #0F172A; border-bottom: 1px solid #eee; padding-bottom: 10px; }
               .section { margin-bottom: 30px; }
-              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #D4A843; }
+              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #67E8F9; }
               .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
             </style>
           </head>
@@ -493,10 +493,10 @@ const TeacherTutorsPage: React.FC = () => {
           <title>Weekly Update - ${update.className}</title>
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-            h1 { color: #1B4332; }
-            h2 { color: #1B4332; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+            h1 { color: #0F172A; }
+            h2 { color: #0F172A; border-bottom: 1px solid #eee; padding-bottom: 10px; }
             .section { margin-bottom: 30px; }
-            .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #D4A843; }
+            .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #67E8F9; }
             .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
           </style>
         </head>
@@ -716,14 +716,14 @@ const TeacherTutorsPage: React.FC = () => {
         }
       />
       
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -756,7 +756,7 @@ const TeacherTutorsPage: React.FC = () => {
 
             {/* Success message */}
             {success && (
-              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+              <div className="bg-slate-800 border border-slate-600 text-cyan-400 px-4 py-3 rounded-lg mb-6 flex items-start">
                 <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
                 <span>{success}</span>
               </div>
@@ -774,15 +774,15 @@ const TeacherTutorsPage: React.FC = () => {
             
             {/* Class selection */}
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-greyed-white mb-2">
                 Select Class
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <School className="h-5 w-5 text-gray-400" />
+                  <School className="h-5 w-5 text-greyed-beige" />
                 </div>
                 <select
-                  className="pl-10 pr-8 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
+                  className="pl-10 pr-8 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
                   value={selectedClass}
                   onChange={(e) => handleClassChange(e.target.value)}
                 >
@@ -792,17 +792,17 @@ const TeacherTutorsPage: React.FC = () => {
                   ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <ChevronRight size={16} className="text-gray-400" />
+                  <ChevronRight size={16} className="text-greyed-beige" />
                 </div>
               </div>
             </div>
             
             {/* View mode tabs */}
             <div className="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
-              <div className="border-b border-gray-200">
+              <div className="border-b border-white/10">
                 <div className="flex">
                   <button
-                    className={`px-4 py-3 font-medium relative ${activeView === 'updates' ? 'text-greyed-blue' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-4 py-3 font-medium relative ${activeView === 'updates' ? 'text-greyed-blue' : 'text-greyed-beige hover:text-greyed-white'}`}
                     onClick={() => setActiveView('updates')}
                   >
                     Class Updates
@@ -811,7 +811,7 @@ const TeacherTutorsPage: React.FC = () => {
                     )}
                   </button>
                   <button
-                    className={`px-4 py-3 font-medium relative ${activeView === 'students' ? 'text-greyed-blue' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-4 py-3 font-medium relative ${activeView === 'students' ? 'text-greyed-blue' : 'text-greyed-beige hover:text-greyed-white'}`}
                     onClick={() => setActiveView('students')}
                   >
                     Student Profiles
@@ -832,11 +832,11 @@ const TeacherTutorsPage: React.FC = () => {
                   <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
                     <div className="relative flex-1">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Search className="h-4 w-4 text-gray-400" />
+                        <Search className="h-4 w-4 text-greyed-beige" />
                       </div>
                       <input
                         type="text"
-                        className="pl-9 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                        className="pl-9 pr-4 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                         placeholder="Search by class..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -845,7 +845,7 @@ const TeacherTutorsPage: React.FC = () => {
                     
                     <div className="relative w-full md:w-48">
                       <select
-                        className="pl-3 pr-8 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
+                        className="pl-3 pr-8 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white"
                         value={selectedClass}
                         onChange={(e) => setSelectedClass(e.target.value)}
                       >
@@ -855,7 +855,7 @@ const TeacherTutorsPage: React.FC = () => {
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <ChevronRight size={16} className="text-gray-400" />
+                        <ChevronRight size={16} className="text-greyed-beige" />
                       </div>
                     </div>
                   </div>
@@ -912,11 +912,11 @@ const TeacherTutorsPage: React.FC = () => {
                 <div className="bg-white rounded-lg shadow-sm p-3 mb-5">
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Search className="h-4 w-4 text-gray-400" />
+                      <Search className="h-4 w-4 text-greyed-beige" />
                     </div>
                     <input
                       type="text"
-                      className="pl-9 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                      className="pl-9 pr-4 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                       placeholder="Search students by name or parent name..."
                       value={studentSearchTerm}
                       onChange={(e) => setStudentSearchTerm(e.target.value)}
@@ -950,13 +950,13 @@ const TeacherTutorsPage: React.FC = () => {
             )}
             
             {/* Weekly Update Reminder */}
-            <div className="mt-6 bg-greyed-blue/10 border-l-4 border-yellow-400 p-4 rounded-lg">
+            <div className="mt-6 bg-greyed-blue/10 border-l-4 border-slate-400 p-4 rounded-lg">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <AlertTriangle className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                  <AlertTriangle className="h-5 w-5 text-slate-300" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-yellow-800">Weekly Update Reminder</h3>
+                  <h3 className="text-sm font-medium text-slate-200">Weekly Update Reminder</h3>
                   <div className="mt-2 text-sm text-greyed-navy">
                     <p>
                       {classes.length > 0 

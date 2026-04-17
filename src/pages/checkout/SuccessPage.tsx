@@ -107,7 +107,7 @@ const SuccessPage: React.FC = () => {
               </div>
             ) : (
               <>
-                <div className="text-green-500 mb-6">
+                <div className="text-cyan-400 mb-6">
                   <CheckCircle className="h-16 w-16 mx-auto" />
                 </div>
                 

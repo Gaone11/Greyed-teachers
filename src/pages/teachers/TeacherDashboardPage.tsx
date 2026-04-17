@@ -25,12 +25,12 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 // Color palette for class cards — cycles through these
 const CLASS_COLORS = [
-  { bg: 'bg-gradient-to-br from-[#1B4332] to-[#2D6A4F]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#D4A843] to-[#E8C96A]', text: 'text-[#1B4332]', badge: 'bg-[#1B4332]/10 text-[#1B4332]' },
-  { bg: 'bg-gradient-to-br from-[#2D6A4F] to-[#52B788]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#7A6548] to-[#A89070]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#C4572A] to-[#D97750]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#3D2E1C] to-[#5C4A33]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#0F172A] to-[#1E2937]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#67E8F9] to-[#A5F3FC]', text: 'text-[#0F172A]', badge: 'bg-[#0F172A]/10 text-[#0F172A]' },
+  { bg: 'bg-gradient-to-br from-[#1E2937] to-[#67E8F9]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#1E2937] to-[#334155]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#0F172A] to-[#1E3A5F]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#1E2937] to-[#0F172A]', text: 'text-white', badge: 'bg-white/20 text-white' },
 ];
 
 const TeacherDashboardPage: React.FC = () => {
@@ -50,7 +50,7 @@ const TeacherDashboardPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
 
   useEffect(() => {
-    document.title = "Dashboard | Cophetsheni PS";
+    document.title = "Dashboard | GreyEd";
 
     if (!authLoading && !user) {
       navigate('/auth/login');
@@ -103,22 +103,22 @@ const TeacherDashboardPage: React.FC = () => {
 
   // Quick nav items — tools accessible from dashboard
   const quickNav = [
-    { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#1B4332] to-[#2D6A4F]' },
-    { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#D4A843] to-[#E8C96A]' },
-    { icon: Snowflake, label: 'Siyafunda AI', path: '/teachers/el-ai', color: 'from-[#2D6A4F] to-[#52B788]' },
-    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#7A6548] to-[#A89070]' },
-    { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#3D2E1C] to-[#5C4A33]' },
-    { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#C4572A] to-[#D97750]' },
-    { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#4C1D95] to-[#6D28D9]' },
+    { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#0F172A] to-[#1E2937]' },
+    { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#67E8F9] to-[#A5F3FC]' },
+    { icon: Snowflake, label: 'GreyEd AI', path: '/teachers/el-ai', color: 'from-[#1E2937] to-[#67E8F9]' },
+    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#1E2937] to-[#334155]' },
+    { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#1E2937] to-[#0F172A]' },
+    { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#0F172A] to-[#1E3A5F]' },
+    { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#0F172A] to-[#1B1B4B]' },
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8f8f6]">
+    <div className="min-h-screen bg-greyed-navy">
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
-          <div className="hidden sm:inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white border border-[#E8E6E0]/60 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] flex flex-col items-center justify-center shadow-sm">
+          <div className="hidden sm:inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-greyed-card border border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0F172A] to-[#1E2937] flex flex-col items-center justify-center shadow-sm">
               <span className="text-[7px] font-bold text-white/80 uppercase leading-none tracking-wider">
                 {new Date().toLocaleDateString('en-US', { month: 'short' })}
               </span>
@@ -127,10 +127,10 @@ const TeacherDashboardPage: React.FC = () => {
               </span>
             </div>
             <div>
-              <div className="text-xs font-bold text-[#1B4332] leading-tight">
+              <div className="text-xs font-bold text-greyed-navy leading-tight">
                 {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
               </div>
-              <div className="text-[10px] text-[#292828]/50 font-medium">
+              <div className="text-[10px] text-greyed-beige/50 font-medium">
                 {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
               </div>
             </div>
@@ -138,14 +138,14 @@ const TeacherDashboardPage: React.FC = () => {
         }
       />
 
-      <div className="min-h-screen pt-[72px] bg-[#F0F0F0] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={() => setShowMobileMenu(false)} />
         )}
 
         {/* Left sidebar */}
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-greyed-card border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform duration-300 transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -171,7 +171,7 @@ const TeacherDashboardPage: React.FC = () => {
           style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           <main className="px-3 sm:px-6 lg:px-8 w-full max-w-7xl">
             {error && (
-              <div className="bg-white border border-red-200 text-red-800 px-5 py-4 rounded-2xl mb-4 flex items-start shadow-sm animate-slide-down">
+              <div className="bg-red-950 border border-red-800 text-red-300 px-5 py-4 rounded-2xl mb-4 flex items-start shadow-sm animate-slide-down">
                 <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-sm">{error}</span>
               </div>
@@ -186,13 +186,13 @@ const TeacherDashboardPage: React.FC = () => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className="group flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-[#E8E6E0]/60 hover:border-[#1B4332]/30 hover:shadow-md transition-all duration-200 touch-manipulation"
+                      className="group flex items-center gap-2 px-3 py-2 rounded-xl bg-greyed-card border border-white/10 hover:border-greyed-blue/30 hover:shadow-md transition-all duration-200 touch-manipulation"
                       style={{ animationDelay: `${i * 40}ms` }}
                     >
                       <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200`}>
                         <Icon className="w-3.5 h-3.5 text-white" />
                       </div>
-                      <span className="text-xs sm:text-sm font-semibold text-[#1B4332] whitespace-nowrap">{item.label}</span>
+                      <span className="text-xs sm:text-sm font-semibold text-greyed-white whitespace-nowrap">{item.label}</span>
                     </Link>
                   );
                 })}
@@ -211,16 +211,16 @@ const TeacherDashboardPage: React.FC = () => {
                 return (
                   <div
                     key={stat.label}
-                    className="rounded-xl bg-white border border-[#E8E6E0]/60 p-3 sm:p-4 hover:shadow-md transition-all duration-200"
+                    className="rounded-xl bg-greyed-card border border-white/10 p-3 sm:p-4 hover:shadow-md transition-all duration-200"
                     style={{ animationDelay: `${80 + i * 40}ms` }}
                   >
                     <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#1B4332]/10 flex items-center justify-center">
-                        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#1B4332]" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-greyed-blue/10 flex items-center justify-center">
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-greyed-white" />
                       </div>
                       <div>
-                        <div className="text-xl sm:text-2xl font-bold text-[#1B4332] leading-tight">{stat.value}</div>
-                        <div className="text-[10px] sm:text-xs text-[#292828]/60 font-medium">{stat.label}</div>
+                        <div className="text-xl sm:text-2xl font-bold text-greyed-white leading-tight">{stat.value}</div>
+                        <div className="text-[10px] sm:text-xs text-greyed-beige/60 font-medium">{stat.label}</div>
                       </div>
                     </div>
                   </div>
@@ -232,12 +232,12 @@ const TeacherDashboardPage: React.FC = () => {
             <section className="animate-slide-up" style={{ animationDelay: '120ms' }}>
               <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div>
-                  <h2 className="text-lg sm:text-xl font-headline font-bold text-[#1B4332]">Your Classes</h2>
-                  <p className="text-xs sm:text-sm text-[#292828]/60 mt-0.5">Select a class to start working</p>
+                  <h2 className="text-lg sm:text-xl font-headline font-bold text-greyed-navy">Your Classes</h2>
+                  <p className="text-xs sm:text-sm text-greyed-beige/60 mt-0.5">Select a class to start working</p>
                 </div>
                 <Link
                   to="/teachers/classes"
-                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#1B4332] text-white text-xs sm:text-sm font-semibold hover:bg-[#2D6A4F] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
+                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#0F172A] text-white text-xs sm:text-sm font-semibold hover:bg-[#1E2937] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
                 >
                   <PlusCircle size={16} />
                   <span className="hidden sm:inline">New Class</span>
@@ -245,17 +245,17 @@ const TeacherDashboardPage: React.FC = () => {
               </div>
 
               {classes.length === 0 ? (
-                <div className="rounded-2xl bg-white border border-[#E8E6E0]/60 p-6 sm:p-12 text-center shadow-sm">
-                  <div className="w-20 h-20 rounded-2xl bg-[#D4A843]/15 flex items-center justify-center mx-auto mb-5">
-                    <Users className="w-10 h-10 text-[#D4A843]" />
+                <div className="rounded-2xl bg-greyed-card border border-white/10 p-6 sm:p-12 text-center shadow-sm">
+                  <div className="w-20 h-20 rounded-2xl bg-[#67E8F9]/15 flex items-center justify-center mx-auto mb-5">
+                    <Users className="w-10 h-10 text-[#67E8F9]" />
                   </div>
-                  <h3 className="text-lg font-bold text-[#1B4332] mb-2">Create your first class</h3>
-                  <p className="text-sm text-[#292828]/60 max-w-md mx-auto mb-6">
+                  <h3 className="text-lg font-bold text-greyed-white mb-2">Create your first class</h3>
+                  <p className="text-sm text-greyed-beige/60 max-w-md mx-auto mb-6">
                     Add a class to unlock lesson planning, assessments, tutor updates, and AI-powered teaching tools — all tailored to your curriculum.
                   </p>
                   <Link
                     to="/teachers/classes"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#1B4332] text-white font-semibold hover:bg-[#2D6A4F] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F172A] text-white font-semibold hover:bg-[#1E2937] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                   >
                     <PlusCircle size={18} />
                     Create Your First Class
@@ -305,12 +305,12 @@ const TeacherDashboardPage: React.FC = () => {
                   {/* Add class card */}
                   <Link
                     to="/teachers/classes"
-                    className="group rounded-2xl border-2 border-dashed border-[#E8E6E0]/60 hover:border-[#1B4332]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#D4A843]/5 transition-all duration-200 touch-manipulation"
+                    className="group rounded-2xl border-2 border-dashed border-white/10 hover:border-[#0F172A]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#67E8F9]/5 transition-all duration-200 touch-manipulation"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-[#FAFAF8] group-hover:bg-[#D4A843]/20 flex items-center justify-center mb-3 transition-colors duration-200">
-                      <PlusCircle className="w-7 h-7 text-[#292828]/40 group-hover:text-[#1B4332] transition-colors" />
+                    <div className="w-14 h-14 rounded-2xl bg-[#FAFAF8] group-hover:bg-[#67E8F9]/20 flex items-center justify-center mb-3 transition-colors duration-200">
+                      <PlusCircle className="w-7 h-7 text-greyed-beige/40 group-hover:text-greyed-white transition-colors" />
                     </div>
-                    <span className="text-sm font-semibold text-[#292828]/50 group-hover:text-[#1B4332] transition-colors">Add New Class</span>
+                    <span className="text-sm font-semibold text-greyed-beige/50 group-hover:text-greyed-white transition-colors">Add New Class</span>
                   </Link>
                 </div>
               )}

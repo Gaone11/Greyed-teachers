@@ -7,65 +7,67 @@ export default {
         // Cophetsheni Primary School — Mpumalanga Earth Palette
         // greyed-* aliases preserved for backward compatibility across 130+ files
         greyed: {
-          navy: '#1B4332',      // Deep Forest Green (was navy #212754)
-          blue: '#D4A843',      // African Gold / Sunrise (was blue #bbd7eb)
-          black: '#2D1B0E',     // Rich Earth Brown (was black #292828)
-          white: '#FDF6EC',     // Warm Cream / Ivory (was white #efeae4)
-          beige: '#E8D5B7',     // Sandy Bushveld (was beige #dedbc2)
+          navy: '#0F172A',      // Background — Deep navy-blue
+          card: '#1E2937',      // Card Background — Main content panel
+          blue: '#67E8F9',      // Accent — Cyan highlight
+          black: '#0F172A',     // Dark background alias
+          white: '#F1F5F9',     // Main Text — Headings and body
+          beige: '#94A3B8',     // Muted Text — Secondary/bullets
+          btn: '#CBD5E1',       // Button — Light slate
         },
-        // Semantic aliases for the new brand
+        // Semantic aliases
         cps: {
-          green: '#1B4332',       // Primary — Deep Mpumalanga Forest
-          greenLight: '#2D6A4F',  // Lighter forest
-          gold: '#D4A843',        // Accent — African Sunrise Gold
-          goldLight: '#E8C96A',   // Lighter gold
-          brown: '#2D1B0E',       // Text — Rich Earth
-          cream: '#FDF6EC',       // Background — Warm Ivory
-          sand: '#E8D5B7',        // Secondary bg — Bushveld Sand
-          terracotta: '#C4572A',  // Alert / Warm Accent
-          sky: '#2D6A4F',         // Info / Links (was blue #5B9BD5)
+          green: '#0F172A',
+          greenLight: '#1E2937',
+          gold: '#67E8F9',
+          goldLight: '#A5F3FC',
+          brown: '#0F172A',
+          cream: '#F1F5F9',
+          sand: '#94A3B8',
+          terracotta: '#F87171',
+          sky: '#67E8F9',
         },
         sand: {
-          50: '#FEFCF8',
-          100: '#FDF6EC'
+          50: '#F8FAFC',
+          100: '#F1F5F9'
         },
         navy: {
-          900: '#0B2B1A',
-          700: '#1B4332'
+          900: '#020617',
+          700: '#0F172A'
         },
-        indigoBrand: '#2D6A4F',
-        mint: '#52B788',
+        indigoBrand: '#67E8F9',
+        mint: '#67E8F9',
         premium: {
-          navy: '#1B4332',
-          navyLight: '#2D6A4F',
-          navyDark: '#0B2B1A',
-          slate: '#FDF6EC',
+          navy: '#0F172A',
+          navyLight: '#1E2937',
+          navyDark: '#020617',
+          slate: '#F1F5F9',
           slateLight: '#ffffff',
-          slateDark: '#E8D5B7',
-          accent: '#D4A843',
-          accentLight: '#E8C96A',
-          accentHover: '#B8922F',
-          gold: '#D4A843',
-          goldLight: '#E8C96A',
-          emerald: '#52B788',
-          emeraldLight: '#74C69D',
-          rose: '#C4572A',
-          roseLight: '#D97750',
-          amber: '#D4A843',
-          amberLight: '#E8C96A',
-          sky: '#2D6A4F',
-          skyLight: '#52B788',
+          slateDark: '#CBD5E1',
+          accent: '#67E8F9',
+          accentLight: '#A5F3FC',
+          accentHover: '#22D3EE',
+          gold: '#67E8F9',
+          goldLight: '#A5F3FC',
+          emerald: '#34D399',
+          emeraldLight: '#6EE7B7',
+          rose: '#F87171',
+          roseLight: '#FCA5A5',
+          amber: '#FBBF24',
+          amberLight: '#FCD34D',
+          sky: '#67E8F9',
+          skyLight: '#A5F3FC',
           neutral: {
-            50: '#FEFCF8',
-            100: '#FDF6EC',
-            200: '#E8D5B7',
-            300: '#D4C4A8',
-            400: '#A89070',
-            500: '#7A6548',
-            600: '#5C4A33',
-            700: '#3D2E1C',
-            800: '#2D1B0E',
-            900: '#1A0F06',
+            50: '#F8FAFC',
+            100: '#F1F5F9',
+            200: '#E2E8F0',
+            300: '#CBD5E1',
+            400: '#94A3B8',
+            500: '#64748B',
+            600: '#475569',
+            700: '#334155',
+            800: '#1E293B',
+            900: '#0F172A',
           }
         }
       },
@@ -79,8 +81,8 @@ export default {
         premium: '0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 8px -2px rgba(0, 0, 0, 0.05)',
         premiumHover: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08)',
         premiumLg: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.08)',
-        glow: '0 0 20px rgba(212, 168, 67, 0.15)',
-        glowHover: '0 0 30px rgba(212, 168, 67, 0.25)',
+        glow: '0 0 20px rgba(103, 232, 249, 0.15)',
+        glowHover: '0 0 30px rgba(103, 232, 249, 0.25)',
       },
       borderRadius: {
         16: '16px',

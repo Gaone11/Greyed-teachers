@@ -52,13 +52,13 @@ const EditableContent: React.FC<EditableContentProps> = ({
   // Function to format markdown for display
   const formatMarkdown = (text: string) => {
     // Heading 1
-    text = text.replace(/^# (.*?)$/gm, '<h1 class="text-2xl font-bold my-3 border-b pb-2 border-gray-200">$1</h1>');
+    text = text.replace(/^# (.*?)$/gm, '<h1 class="text-2xl font-bold my-3 border-b pb-2 border-white/10">$1</h1>');
     
     // Heading 2
-    text = text.replace(/^## (.*?)$/gm, '<h2 class="text-xl font-bold my-3 text-gray-800">$1</h2>');
+    text = text.replace(/^## (.*?)$/gm, '<h2 class="text-xl font-bold my-3 text-greyed-white">$1</h2>');
     
     // Heading 3
-    text = text.replace(/^### (.*?)$/gm, '<h3 class="text-lg font-semibold my-2 text-gray-700">$1</h3>');
+    text = text.replace(/^### (.*?)$/gm, '<h3 class="text-lg font-semibold my-2 text-greyed-white">$1</h3>');
     
     // Bold
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -76,14 +76,14 @@ const EditableContent: React.FC<EditableContentProps> = ({
   };
 
   return (
-    <div className={`relative border border-gray-200 rounded-lg ${className}`}>
+    <div className={`relative border border-white/10 rounded-lg ${className}`}>
       {showToolbar && (
-        <div className="flex justify-end p-2 border-b border-gray-200">
+        <div className="flex justify-end p-2 border-b border-white/10">
           {isEditing ? (
             <>
               <button
                 onClick={handleCancel}
-                className="px-2 py-1 text-sm bg-gray-100 text-gray-700 rounded-md mr-2 flex items-center"
+                className="px-2 py-1 text-sm bg-greyed-card text-greyed-white rounded-md mr-2 flex items-center"
                 aria-label="Cancel editing"
               >
                 <X size={16} className="mr-1" />
@@ -101,7 +101,7 @@ const EditableContent: React.FC<EditableContentProps> = ({
           ) : (
             <button
               onClick={handleEdit}
-              className="px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md flex items-center"
+              className="px-2 py-1 text-sm bg-greyed-card hover:bg-gray-200 text-greyed-white rounded-md flex items-center"
               aria-label="Edit content"
             >
               <Edit size={16} className="mr-1" />
@@ -130,10 +130,10 @@ const EditableContent: React.FC<EditableContentProps> = ({
       )}
       
       {!showToolbar && isEditing && (
-        <div className="flex justify-end p-2 bg-white border-t border-gray-200 sticky bottom-0">
+        <div className="flex justify-end p-2 bg-white border-t border-white/10 sticky bottom-0">
           <button
             onClick={handleCancel}
-            className="px-2 py-1 text-sm bg-gray-100 text-gray-700 rounded-md mr-2"
+            className="px-2 py-1 text-sm bg-greyed-card text-greyed-white rounded-md mr-2"
             aria-label="Cancel editing"
           >
             Cancel

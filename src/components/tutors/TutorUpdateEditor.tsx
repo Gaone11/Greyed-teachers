@@ -107,7 +107,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-hidden">
       <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[90vh] flex flex-col">
-        <div className="p-4 border-b border-gray-200 bg-greyed-navy text-white flex justify-between items-center">
+        <div className="p-4 border-b border-white/10 bg-greyed-navy text-white flex justify-between items-center">
           <h3 className="text-lg font-headline font-bold">Edit Tutor Update</h3>
           <div className="flex items-center">
             <button
@@ -120,7 +120,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
           </div>
         </div>
         
-        <div className="flex justify-between items-center p-4 border-b border-gray-200">
+        <div className="flex justify-between items-center p-4 border-b border-white/10">
           <div>
             <h4 className="font-medium">{className}</h4>
             <p className="text-sm text-black/60">Week of {formatDate(weekStart)} to {formatDate(weekEnd)}</p>
@@ -182,7 +182,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
         {currentTab === 'code' ? (
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Editor toolbar */}
-            <div className="p-2 bg-greyed-navy/5 border-b border-gray-200 flex flex-wrap gap-1">
+            <div className="p-2 bg-greyed-navy/5 border-b border-white/10 flex flex-wrap gap-1">
               <button 
                 className="px-3 py-1.5 text-sm rounded hover:bg-greyed-navy/10 text-greyed-navy"
                 onClick={() => addSection('This Week\'s Progress')}
@@ -219,7 +219,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
             ></textarea>
           </div>
         ) : (
-          <div className="flex-1 overflow-auto bg-gray-50 p-4">
+          <div className="flex-1 overflow-auto bg-greyed-navy p-4">
             <div className="bg-white rounded-lg shadow-sm overflow-hidden h-full">
               <iframe 
                 srcDoc={content}
@@ -230,10 +230,10 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
           </div>
         )}
         
-        <div className="p-4 border-t border-gray-200 flex justify-between">
+        <div className="p-4 border-t border-white/10 flex justify-between">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+            className="px-4 py-2 border border-white/20 text-greyed-white rounded-md hover:bg-greyed-navy"
           >
             Cancel
           </button>

@@ -42,7 +42,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     1. Introduction and Scope
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Cophetsheni Primary School ("Cophetsheni," "we," "us," or "our"), located in Mpumalanga Province, Republic of South Africa, is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy ("Policy") explains how we collect, use, disclose, store, and protect information about you when you access or use our Siyafunda educational technology platform, website, mobile applications, and related services (collectively, the "Services").
+                    GreyEd ("Cophetsheni," "we," "us," or "our"), located in Mpumalanga Province, Republic of South Africa, is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy ("Policy") explains how we collect, use, disclose, store, and protect information about you when you access or use our Siyafunda educational technology platform, website, mobile applications, and related services (collectively, the "Services").
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     This Policy applies to all users of our Services, including teachers, educational professionals, administrators, and visitors. By accessing or using our Services, you acknowledge that you have read, understood, and agree to the collection, use, and disclosure of your information as described in this Policy.
@@ -205,7 +205,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     <li>Monitor and prevent prohibited or illegal activities</li>
                     <li>Enforce our Terms of Service and other policies</li>
                     <li>Comply with legal obligations and respond to legal requests</li>
-                    <li>Protect the rights, property, and safety of Cophetsheni Primary School, our users, and the public</li>
+                    <li>Protect the rights, property, and safety of GreyEd, our users, and the public</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -273,7 +273,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Comply with legal obligations, court orders, subpoenas, or government requests</li>
                     <li>Enforce our Terms of Service and other agreements</li>
-                    <li>Protect the rights, property, and safety of Cophetsheni Primary School, our users, or the public</li>
+                    <li>Protect the rights, property, and safety of GreyEd, our users, or the public</li>
                     <li>Detect, prevent, or address fraud, security, or technical issues</li>
                     <li>Respond to claims that content violates the rights of others</li>
                   </ul>
@@ -282,7 +282,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     5.5 Business Transfers
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    If Cophetsheni Primary School is involved in a merger, acquisition, reorganization, transfer of assets, or similar institutional transaction, your information may be transferred as part of that transaction. We will notify you via email and/or prominent notice on our Services of any change in ownership or use of your personal information.
+                    If GreyEd is involved in a merger, acquisition, reorganization, transfer of assets, or similar institutional transaction, your information may be transferred as part of that transaction. We will notify you via email and/or prominent notice on our Services of any change in ownership or use of your personal information.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -562,7 +562,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
                   <div className="bg-greyed-beige/20 p-6 rounded-lg space-y-3">
                     <p className="text-greyed-navy">
-                      <strong>Cophetsheni Primary School</strong><br />
+                      <strong>GreyEd</strong><br />
                       Privacy Department<br />
                       Mpumalanga Province<br />
                       Republic of South Africa

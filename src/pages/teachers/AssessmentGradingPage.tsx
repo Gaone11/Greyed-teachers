@@ -118,11 +118,11 @@ const AssessmentGradingPage: React.FC = () => {
 
   const getFileTypeIcon = () => {
     switch (fileType) {
-      case 'image': return <FileImage className="w-10 h-10 text-[#D4A843]" />;
-      case 'pdf': return <FilePdf className="w-10 h-10 text-[#C4572A]" />;
-      case 'word': return <FileText className="w-10 h-10 text-[#1B4332]" />;
-      case 'scanned': return <FileImage className="w-10 h-10 text-[#1B4332]/70" />;
-      default: return <FileUp className="w-10 h-10 text-[#1B4332]/40" />;
+      case 'image': return <FileImage className="w-10 h-10 text-[#67E8F9]" />;
+      case 'pdf': return <FilePdf className="w-10 h-10 text-[#F87171]" />;
+      case 'word': return <FileText className="w-10 h-10 text-[#0F172A]" />;
+      case 'scanned': return <FileImage className="w-10 h-10 text-[#0F172A]/70" />;
+      default: return <FileUp className="w-10 h-10 text-[#0F172A]/40" />;
     }
   };
 
@@ -147,17 +147,17 @@ const AssessmentGradingPage: React.FC = () => {
       <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#FAFAF8]">
-          <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-[#1B4332] rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-[#0F172A]/20 border-t-[#0F172A] rounded-full animate-spin" />
         </div>
       </>
     );
   }
 
   const fileTypeCards = [
-    { type: 'scanned' as const, icon: FileImage, label: 'Scanned', desc: 'Scanned handwritten or printed assessments', color: 'text-[#1B4332]/70' },
-    { type: 'image' as const, icon: FileImage, label: 'Photo', desc: 'Photos of handwritten or printed pages', color: 'text-[#D4A843]' },
-    { type: 'pdf' as const, icon: FilePdf, label: 'PDF', desc: 'Digital PDF assessments with text', color: 'text-[#C4572A]' },
-    { type: 'word' as const, icon: FileText, label: 'Word', desc: 'Microsoft Word documents', color: 'text-[#1B4332]' },
+    { type: 'scanned' as const, icon: FileImage, label: 'Scanned', desc: 'Scanned handwritten or printed assessments', color: 'text-[#0F172A]/70' },
+    { type: 'image' as const, icon: FileImage, label: 'Photo', desc: 'Photos of handwritten or printed pages', color: 'text-[#67E8F9]' },
+    { type: 'pdf' as const, icon: FilePdf, label: 'PDF', desc: 'Digital PDF assessments with text', color: 'text-[#F87171]' },
+    { type: 'word' as const, icon: FileText, label: 'Word', desc: 'Microsoft Word documents', color: 'text-[#0F172A]' },
   ];
 
   return (
@@ -169,7 +169,7 @@ const AssessmentGradingPage: React.FC = () => {
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)} />
         )}
 
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -188,7 +188,7 @@ const AssessmentGradingPage: React.FC = () => {
             onClose={() => setShowMobileMenu(false)}
           />
           {showMobileMenu && isMobile && (
-            <button onClick={() => setShowMobileMenu(false)} className="absolute top-4 right-4 p-2 text-white bg-[#1B4332]/50 rounded-full" title="Close menu">
+            <button onClick={() => setShowMobileMenu(false)} className="absolute top-4 right-4 p-2 text-white bg-[#0F172A]/50 rounded-full" title="Close menu">
               <X size={20} />
             </button>
           )}
@@ -202,14 +202,14 @@ const AssessmentGradingPage: React.FC = () => {
             <AnimatePresence>
               {error && (
                 <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                  className="bg-[#E8D5B7]/20 border border-[#1B4332]/15 text-[#2D1B0E] px-4 py-3 rounded-xl mb-6 flex items-center">
+                  className="bg-[#94A3B8]/20 border border-[#0F172A]/15 text-[#0F172A] px-4 py-3 rounded-xl mb-6 flex items-center">
                   <AlertCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
                   <span className="text-sm">{error}</span>
                 </motion.div>
               )}
               {success && (
                 <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                  className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl mb-6 flex items-center">
+                  className="bg-slate-800 border border-emerald-200 text-cyan-300 px-4 py-3 rounded-xl mb-6 flex items-center">
                   <CheckCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
                   <span className="text-sm">{success}</span>
                 </motion.div>
@@ -221,34 +221,34 @@ const AssessmentGradingPage: React.FC = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm overflow-hidden"
+              className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm overflow-hidden"
             >
-              <div className="flex border-b border-[#E8E6E0]/60">
+              <div className="flex border-b border-greyed-beige/60">
                 <button
                   type="button"
                   onClick={() => setActiveTab('upload')}
-                  className={`px-6 py-3.5 text-sm font-medium relative transition-colors ${activeTab === 'upload' ? 'text-[#1B4332]' : 'text-[#2D1B0E]/50 hover:text-[#2D1B0E]/70'}`}
+                  className={`px-6 py-3.5 text-sm font-medium relative transition-colors ${activeTab === 'upload' ? 'text-[#0F172A]' : 'text-[#0F172A]/50 hover:text-[#0F172A]/70'}`}
                 >
                   <div className="flex items-center gap-2">
                     <Upload size={15} />
                     Upload Assessment
                   </div>
                   {activeTab === 'upload' && (
-                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1B4332]" />
+                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0F172A]" />
                   )}
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab('insights')}
                   disabled={!processingComplete}
-                  className={`px-6 py-3.5 text-sm font-medium relative transition-colors ${activeTab === 'insights' ? 'text-[#1B4332]' : processingComplete ? 'text-[#2D1B0E]/50 hover:text-[#2D1B0E]/70' : 'text-[#2D1B0E]/25 cursor-not-allowed'}`}
+                  className={`px-6 py-3.5 text-sm font-medium relative transition-colors ${activeTab === 'insights' ? 'text-[#0F172A]' : processingComplete ? 'text-[#0F172A]/50 hover:text-[#0F172A]/70' : 'text-[#0F172A]/25 cursor-not-allowed'}`}
                 >
                   <div className="flex items-center gap-2">
                     <Brain size={15} />
                     Student Insights
                   </div>
                   {activeTab === 'insights' && (
-                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1B4332]" />
+                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0F172A]" />
                   )}
                 </button>
               </div>
@@ -259,8 +259,8 @@ const AssessmentGradingPage: React.FC = () => {
                   <AnimatePresence mode="wait">
                     {!fileType ? (
                       <motion.div key="type-select" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                        <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] mb-1.5">Select Assessment Type</h3>
-                        <p className="text-[#2D1B0E]/50 text-sm mb-6">Choose the format of the assessment you want to grade with AI.</p>
+                        <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] mb-1.5">Select Assessment Type</h3>
+                        <p className="text-[#0F172A]/50 text-sm mb-6">Choose the format of the assessment you want to grade with AI.</p>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                           {fileTypeCards.map(({ type, icon: Icon, label, desc, color }) => (
@@ -268,36 +268,36 @@ const AssessmentGradingPage: React.FC = () => {
                               key={type}
                               type="button"
                               onClick={() => handleFileTypeSelect(type)}
-                              className="flex flex-col items-center p-5 rounded-xl border border-[#E8E6E0]/60 hover:border-[#1B4332]/25 hover:bg-[#1B4332]/3 transition-all group"
+                              className="flex flex-col items-center p-5 rounded-xl border border-greyed-beige/60 hover:border-[#0F172A]/25 hover:bg-[#0F172A]/3 transition-all group"
                             >
                               <Icon className={`w-8 h-8 ${color} mb-3 group-hover:scale-110 transition-transform`} />
-                              <h4 className="font-medium text-[#1B4332] text-sm">{label}</h4>
-                              <p className="text-[10px] text-center text-[#2D1B0E]/40 mt-1.5 leading-tight">{desc}</p>
+                              <h4 className="font-medium text-[#0F172A] text-sm">{label}</h4>
+                              <p className="text-[10px] text-center text-[#0F172A]/40 mt-1.5 leading-tight">{desc}</p>
                             </button>
                           ))}
                         </div>
 
-                        <div className="mt-8 bg-[#D4A843]/6 rounded-xl p-5 border border-[#D4A843]/15">
-                          <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] mb-2 flex items-center gap-2">
-                            <Brain className="w-4 h-4 text-[#D4A843]" />
+                        <div className="mt-8 bg-[#67E8F9]/6 rounded-xl p-5 border border-[#67E8F9]/15">
+                          <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] mb-2 flex items-center gap-2">
+                            <Brain className="w-4 h-4 text-[#67E8F9]" />
                             How AI Grading Works
                           </h3>
-                          <ul className="space-y-2 text-sm text-[#2D1B0E]/60">
-                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-2 flex-shrink-0" />Advanced vision processing for handwritten and scanned documents</li>
-                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-2 flex-shrink-0" />Direct text extraction from PDFs and Word files for accurate grading</li>
-                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-2 flex-shrink-0" />Builds student profiles identifying strengths and areas for growth</li>
+                          <ul className="space-y-2 text-sm text-[#0F172A]/60">
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#67E8F9] mt-2 flex-shrink-0" />Advanced vision processing for handwritten and scanned documents</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#67E8F9] mt-2 flex-shrink-0" />Direct text extraction from PDFs and Word files for accurate grading</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#67E8F9] mt-2 flex-shrink-0" />Builds student profiles identifying strengths and areas for growth</li>
                           </ul>
                         </div>
                       </motion.div>
                     ) : (
                       <motion.div key="file-upload" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                         <div className="flex justify-between items-center mb-5">
-                          <h3 className="font-headline font-semibold text-[#1B4332] text-[15px]">Upload {getFileTypeLabel()}</h3>
-                          <button type="button" onClick={() => setFileType(null)} className="text-sm text-[#1B4332]/60 hover:text-[#1B4332] font-medium transition-colors">Change Type</button>
+                          <h3 className="font-headline font-semibold text-[#0F172A] text-[15px]">Upload {getFileTypeLabel()}</h3>
+                          <button type="button" onClick={() => setFileType(null)} className="text-sm text-[#0F172A]/60 hover:text-[#0F172A] font-medium transition-colors">Change Type</button>
                         </div>
 
                         <div
-                          className={`border-2 rounded-xl p-8 text-center transition-all ${selectedFile ? 'border-[#1B4332]/30 bg-[#1B4332]/3' : 'border-dashed border-[#E8E6E0] hover:border-[#1B4332]/20 hover:bg-[#1B4332]/2'}`}
+                          className={`border-2 rounded-xl p-8 text-center transition-all ${selectedFile ? 'border-[#0F172A]/30 bg-[#0F172A]/3' : 'border-dashed border-greyed-beige hover:border-[#0F172A]/20 hover:bg-[#0F172A]/2'}`}
                           onDragOver={handleDrag}
                           onDragEnter={handleDrag}
                           onDragLeave={handleDrag}
@@ -308,25 +308,25 @@ const AssessmentGradingPage: React.FC = () => {
                           {selectedFile ? (
                             <div className="flex flex-col items-center">
                               {getFileTypeIcon()}
-                              <h4 className="font-medium text-[#1B4332] mt-3 text-sm">{selectedFile.name}</h4>
-                              <p className="text-xs text-[#2D1B0E]/40 mt-1">{formatFileSize(selectedFile.size)}</p>
+                              <h4 className="font-medium text-[#0F172A] mt-3 text-sm">{selectedFile.name}</h4>
+                              <p className="text-xs text-[#0F172A]/40 mt-1">{formatFileSize(selectedFile.size)}</p>
                               <div className="flex mt-4 gap-2">
-                                <button type="button" onClick={() => setSelectedFile(null)} className="px-3 py-1.5 text-xs font-medium text-[#2D1B0E]/60 hover:text-[#C4572A] hover:bg-[#C4572A]/5 rounded-lg transition-colors">Remove</button>
-                                <button type="button" onClick={() => fileInputRef.current?.click()} className="px-3 py-1.5 text-xs font-medium text-[#1B4332]/70 hover:text-[#1B4332] hover:bg-[#1B4332]/5 rounded-lg transition-colors">Change File</button>
+                                <button type="button" onClick={() => setSelectedFile(null)} className="px-3 py-1.5 text-xs font-medium text-[#0F172A]/60 hover:text-[#F87171] hover:bg-[#F87171]/5 rounded-lg transition-colors">Remove</button>
+                                <button type="button" onClick={() => fileInputRef.current?.click()} className="px-3 py-1.5 text-xs font-medium text-[#0F172A]/70 hover:text-[#0F172A] hover:bg-[#0F172A]/5 rounded-lg transition-colors">Change File</button>
                               </div>
                             </div>
                           ) : (
                             <div className="py-4">
-                              <div className="w-14 h-14 bg-[#1B4332]/6 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <Upload className="w-6 h-6 text-[#1B4332]/40" />
+                              <div className="w-14 h-14 bg-[#0F172A]/6 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <Upload className="w-6 h-6 text-[#0F172A]/40" />
                               </div>
-                              <p className="text-sm text-[#1B4332]/70 mb-1">Drag and drop your {getFileTypeLabel().toLowerCase()} here</p>
-                              <p className="text-xs text-[#2D1B0E]/30 mb-4">or</p>
-                              <button type="button" onClick={() => fileInputRef.current?.click()} className="px-4 py-2 bg-[#1B4332] text-white rounded-xl hover:bg-[#1B4332]/90 text-sm font-medium inline-flex items-center transition-colors shadow-sm">
+                              <p className="text-sm text-[#0F172A]/70 mb-1">Drag and drop your {getFileTypeLabel().toLowerCase()} here</p>
+                              <p className="text-xs text-[#0F172A]/30 mb-4">or</p>
+                              <button type="button" onClick={() => fileInputRef.current?.click()} className="px-4 py-2 bg-[#0F172A] text-white rounded-xl hover:bg-[#0F172A]/90 text-sm font-medium inline-flex items-center transition-colors shadow-sm">
                                 <FileUp size={15} className="mr-2" />
                                 Browse Files
                               </button>
-                              <p className="text-[10px] text-[#2D1B0E]/30 mt-4">
+                              <p className="text-[10px] text-[#0F172A]/30 mt-4">
                                 {fileType === 'image' ? 'JPG, PNG, GIF, BMP' : fileType === 'pdf' ? 'PDF documents' : fileType === 'word' ? 'DOC, DOCX' : 'JPG, PNG, PDF'}
                               </p>
                             </div>
@@ -337,10 +337,10 @@ const AssessmentGradingPage: React.FC = () => {
                           <motion.div
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="bg-[#1B4332]/3 rounded-xl p-5 mt-5 border border-[#1B4332]/8"
+                            className="bg-[#0F172A]/3 rounded-xl p-5 mt-5 border border-[#0F172A]/8"
                           >
-                            <h3 className="font-medium text-[#1B4332] text-sm mb-4 flex items-center gap-2">
-                              <Brain className="w-4 h-4 text-[#D4A843]" />
+                            <h3 className="font-medium text-[#0F172A] text-sm mb-4 flex items-center gap-2">
+                              <Brain className="w-4 h-4 text-[#67E8F9]" />
                               AI Processing Options
                             </h3>
                             <div className="space-y-3 mb-5">
@@ -350,21 +350,21 @@ const AssessmentGradingPage: React.FC = () => {
                                 { label: 'Build student profiles', desc: 'Track strengths and improvements over time' },
                               ].map(opt => (
                                 <label key={opt.label} className="flex items-start gap-2.5 cursor-pointer group">
-                                  <input type="checkbox" checked={true} readOnly title={opt.label} className="mt-0.5 rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30" />
+                                  <input type="checkbox" checked={true} readOnly title={opt.label} className="mt-0.5 rounded border-white/20 text-[#0F172A] focus:ring-[#0F172A]/30" />
                                   <div>
-                                    <span className="text-sm text-[#1B4332] font-medium">{opt.label}</span>
-                                    <p className="text-xs text-[#2D1B0E]/40">{opt.desc}</p>
+                                    <span className="text-sm text-[#0F172A] font-medium">{opt.label}</span>
+                                    <p className="text-xs text-[#0F172A]/40">{opt.desc}</p>
                                   </div>
                                 </label>
                               ))}
                             </div>
                             <div className="flex justify-end gap-2">
-                              <button type="button" onClick={handleReset} className="px-4 py-2 border border-gray-200 text-[#2D1B0E]/60 rounded-xl hover:bg-gray-50 text-sm font-medium transition-colors">Cancel</button>
+                              <button type="button" onClick={handleReset} className="px-4 py-2 border border-white/10 text-[#0F172A]/60 rounded-xl hover:bg-greyed-navy text-sm font-medium transition-colors">Cancel</button>
                               <button
                                 type="button"
                                 onClick={handleProcessAssessment}
                                 disabled={isProcessing}
-                                className={`px-5 py-2 bg-[#1B4332] text-white rounded-xl text-sm font-medium flex items-center transition-colors shadow-sm ${isProcessing ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#1B4332]/90'}`}
+                                className={`px-5 py-2 bg-[#0F172A] text-white rounded-xl text-sm font-medium flex items-center transition-colors shadow-sm ${isProcessing ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#0F172A]/90'}`}
                               >
                                 {isProcessing ? (
                                   <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />Processing...</>
@@ -376,12 +376,12 @@ const AssessmentGradingPage: React.FC = () => {
                           </motion.div>
                         )}
 
-                        <div className="bg-[#D4A843]/6 rounded-xl p-5 mt-5 border-l-4 border-l-[#D4A843]/40">
-                          <h3 className="font-medium text-[#1B4332] text-sm mb-2">Tips for Best Results</h3>
-                          <ul className="space-y-1.5 text-xs text-[#2D1B0E]/50">
-                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-1.5 flex-shrink-0" />For handwritten assessments, ensure clear writing and good lighting</li>
-                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-1.5 flex-shrink-0" />PDFs with embedded text yield more accurate results</li>
-                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#D4A843] mt-1.5 flex-shrink-0" />Include an answer key for more accurate grading</li>
+                        <div className="bg-[#67E8F9]/6 rounded-xl p-5 mt-5 border-l-4 border-l-[#67E8F9]/40">
+                          <h3 className="font-medium text-[#0F172A] text-sm mb-2">Tips for Best Results</h3>
+                          <ul className="space-y-1.5 text-xs text-[#0F172A]/50">
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#67E8F9] mt-1.5 flex-shrink-0" />For handwritten assessments, ensure clear writing and good lighting</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#67E8F9] mt-1.5 flex-shrink-0" />PDFs with embedded text yield more accurate results</li>
+                            <li className="flex items-start gap-2"><span className="w-1 h-1 rounded-full bg-[#67E8F9] mt-1.5 flex-shrink-0" />Include an answer key for more accurate grading</li>
                           </ul>
                         </div>
                       </motion.div>
@@ -393,20 +393,20 @@ const AssessmentGradingPage: React.FC = () => {
                 {activeTab === 'insights' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <div className="flex justify-between items-center mb-6">
-                      <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] flex items-center gap-2">
-                        <Users className="w-4 h-4 text-[#D4A843]" />
+                      <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] flex items-center gap-2">
+                        <Users className="w-4 h-4 text-[#67E8F9]" />
                         Student Insights
                       </h3>
-                      <button type="button" onClick={handleReset} className="text-sm text-[#1B4332]/60 hover:text-[#1B4332] font-medium transition-colors">
+                      <button type="button" onClick={handleReset} className="text-sm text-[#0F172A]/60 hover:text-[#0F172A] font-medium transition-colors">
                         Process New Assessment
                       </button>
                     </div>
 
                     {studentInsights.length === 0 ? (
-                      <div className="text-center py-16 border-2 border-dashed border-[#E8E6E0] rounded-xl">
-                        <Brain className="w-10 h-10 text-[#1B4332]/20 mx-auto mb-4" />
-                        <h3 className="font-headline font-semibold text-[#1B4332] mb-2">No insights available</h3>
-                        <p className="text-[#2D1B0E]/45 text-sm">Process an assessment to generate AI insights.</p>
+                      <div className="text-center py-16 border-2 border-dashed border-greyed-beige rounded-xl">
+                        <Brain className="w-10 h-10 text-[#0F172A]/20 mx-auto mb-4" />
+                        <h3 className="font-headline font-semibold text-[#0F172A] mb-2">No insights available</h3>
+                        <p className="text-[#0F172A]/45 text-sm">Process an assessment to generate AI insights.</p>
                       </div>
                     ) : (
                       <>
@@ -417,54 +417,54 @@ const AssessmentGradingPage: React.FC = () => {
                             { label: 'Completion', value: '100%' },
                             { label: 'Top Challenge', value: 'Applying Concepts' },
                           ].map(stat => (
-                            <div key={stat.label} className="bg-[#1B4332]/4 rounded-xl p-4">
-                              <p className="text-xs text-[#2D1B0E]/45 mb-1">{stat.label}</p>
-                              <p className="text-lg font-bold text-[#1B4332]">{stat.value}</p>
+                            <div key={stat.label} className="bg-[#0F172A]/4 rounded-xl p-4">
+                              <p className="text-xs text-[#0F172A]/45 mb-1">{stat.label}</p>
+                              <p className="text-lg font-bold text-[#0F172A]">{stat.value}</p>
                             </div>
                           ))}
                         </div>
 
                         {/* Students */}
-                        <div className="rounded-xl border border-[#E8E6E0]/60 overflow-hidden">
-                          <div className="bg-[#1B4332]/4 px-5 py-3 border-b border-[#E8E6E0]/60">
-                            <h4 className="font-medium text-[#1B4332] text-sm flex items-center gap-2">
+                        <div className="rounded-xl border border-greyed-beige/60 overflow-hidden">
+                          <div className="bg-[#0F172A]/4 px-5 py-3 border-b border-greyed-beige/60">
+                            <h4 className="font-medium text-[#0F172A] text-sm flex items-center gap-2">
                               <List className="w-4 h-4" />
                               Student Results
                             </h4>
                           </div>
-                          <div className="divide-y divide-[#E8E6E0]/60">
+                          <div className="divide-y divide-greyed-beige/60">
                             {studentInsights.map((student) => (
-                              <div key={student.id} className="p-5 hover:bg-[#1B4332]/2 transition-colors">
+                              <div key={student.id} className="p-5 hover:bg-[#0F172A]/2 transition-colors">
                                 <div className="flex items-center justify-between mb-3">
-                                  <h5 className="font-medium text-[#1B4332] text-sm">{student.name}</h5>
+                                  <h5 className="font-medium text-[#0F172A] text-sm">{student.name}</h5>
                                   <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                                    student.grade.startsWith('A') ? 'bg-emerald-50 text-emerald-700' :
-                                    student.grade.startsWith('B') ? 'bg-[#D4A843]/12 text-[#1B4332]' :
-                                    'bg-amber-50 text-amber-700'
+                                    student.grade.startsWith('A') ? 'bg-slate-800 text-cyan-300' :
+                                    student.grade.startsWith('B') ? 'bg-[#67E8F9]/12 text-[#0F172A]' :
+                                    'bg-slate-800 text-slate-200'
                                   }`}>
                                     {student.grade}
                                   </span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 text-xs">
                                   <div>
-                                    <h6 className="font-medium text-[#1B4332]/80 mb-1.5">Strengths</h6>
+                                    <h6 className="font-medium text-[#0F172A]/80 mb-1.5">Strengths</h6>
                                     <div className="flex flex-wrap gap-1.5">
                                       {student.strengths.map((s, i) => (
-                                        <span key={i} className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md">{s}</span>
+                                        <span key={i} className="px-2 py-0.5 bg-slate-800 text-cyan-300 rounded-md">{s}</span>
                                       ))}
                                     </div>
                                   </div>
                                   <div>
-                                    <h6 className="font-medium text-[#1B4332]/80 mb-1.5">Areas for Growth</h6>
+                                    <h6 className="font-medium text-[#0F172A]/80 mb-1.5">Areas for Growth</h6>
                                     <div className="flex flex-wrap gap-1.5">
                                       {student.weaknesses.map((w, i) => (
-                                        <span key={i} className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md">{w}</span>
+                                        <span key={i} className="px-2 py-0.5 bg-slate-800 text-slate-200 rounded-md">{w}</span>
                                       ))}
                                     </div>
                                   </div>
                                 </div>
-                                <div className="mt-3 pt-3 border-t border-[#E8E6E0]/40">
-                                  <p className="text-xs text-[#2D1B0E]/55 italic leading-relaxed">{student.insights}</p>
+                                <div className="mt-3 pt-3 border-t border-greyed-beige/40">
+                                  <p className="text-xs text-[#0F172A]/55 italic leading-relaxed">{student.insights}</p>
                                 </div>
                               </div>
                             ))}
@@ -472,16 +472,16 @@ const AssessmentGradingPage: React.FC = () => {
                         </div>
 
                         {/* Recommendations */}
-                        <div className="mt-6 bg-[#D4A843]/6 rounded-xl p-5 border-l-4 border-l-[#D4A843]/40">
-                          <h3 className="font-headline font-semibold text-[#1B4332] text-sm mb-3">Teaching Recommendations</h3>
+                        <div className="mt-6 bg-[#67E8F9]/6 rounded-xl p-5 border-l-4 border-l-[#67E8F9]/40">
+                          <h3 className="font-headline font-semibold text-[#0F172A] text-sm mb-3">Teaching Recommendations</h3>
                           <div className="space-y-2.5">
                             {[
                               'Focus on practical applications to bridge theory and practice',
                               'Provide structured guidance on technical vocabulary',
                               'Pair students with complementary strengths for group work',
                             ].map((rec, i) => (
-                              <div key={i} className="flex items-start gap-2.5 text-sm text-[#2D1B0E]/60">
-                                <span className="w-5 h-5 rounded-full bg-[#D4A843]/15 flex items-center justify-center text-[#1B4332] text-xs font-medium flex-shrink-0 mt-0.5">{i + 1}</span>
+                              <div key={i} className="flex items-start gap-2.5 text-sm text-[#0F172A]/60">
+                                <span className="w-5 h-5 rounded-full bg-[#67E8F9]/15 flex items-center justify-center text-[#0F172A] text-xs font-medium flex-shrink-0 mt-0.5">{i + 1}</span>
                                 <span className="leading-relaxed">{rec}</span>
                               </div>
                             ))}

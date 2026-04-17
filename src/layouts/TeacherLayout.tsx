@@ -69,19 +69,19 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-greyed-white">
+    <div className="min-h-screen bg-slate-50">
       {/* Left sidebar navigation - Fixed position */}
       <div
         className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300
         ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72` : (sidebarCollapsed ? 'w-16' : 'w-64')}
-        bg-white border-r border-greyed-navy/10 shadow-md`}
+        bg-greyed-card border-r border-white/5 shadow-md`}
         style={{ willChange: 'transform' }}
       >
         <TeacherSidebar

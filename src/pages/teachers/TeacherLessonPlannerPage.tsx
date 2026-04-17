@@ -149,9 +149,9 @@ const TeacherLessonPlannerPage: React.FC = () => {
   };
 
   const statusConfig = {
-    draft: { label: 'Draft', bg: 'bg-[#E8D5B7]/40', text: 'text-[#1B4332]/70' },
-    ready: { label: 'Ready', bg: 'bg-emerald-50', text: 'text-emerald-700' },
-    taught: { label: 'Taught', bg: 'bg-[#D4A843]/15', text: 'text-[#1B4332]' },
+    draft: { label: 'Draft', bg: 'bg-[#94A3B8]/40', text: 'text-[#0F172A]/70' },
+    ready: { label: 'Ready', bg: 'bg-slate-800', text: 'text-cyan-300' },
+    taught: { label: 'Taught', bg: 'bg-[#67E8F9]/15', text: 'text-[#0F172A]' },
   };
 
   const containerVariants = {
@@ -178,7 +178,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
         actionButton={
           <button
             onClick={() => navigate('/teachers/lesson-planner/generate')}
-            className="inline-flex items-center bg-[#1B4332] text-white px-4 py-2.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors text-sm font-medium whitespace-nowrap shadow-sm"
+            className="inline-flex items-center bg-[#0F172A] text-white px-4 py-2.5 rounded-xl hover:bg-[#0F172A]/90 transition-colors text-sm font-medium whitespace-nowrap shadow-sm"
           >
             <PlusCircle size={16} className="mr-2" />
             Generate New Plan
@@ -191,7 +191,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)} />
         )}
 
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -213,7 +213,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
           {showMobileMenu && isMobile && (
             <button
               onClick={() => setShowMobileMenu(false)}
-              className="absolute top-4 right-4 p-2 text-white bg-[#1B4332]/50 rounded-full"
+              className="absolute top-4 right-4 p-2 text-white bg-[#0F172A]/50 rounded-full"
             >
               <X size={20} />
             </button>
@@ -231,7 +231,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl mb-6 flex items-center"
+                  className="bg-slate-800 border border-emerald-200 text-cyan-300 px-4 py-3 rounded-xl mb-6 flex items-center"
                 >
                   <CheckCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
                   <span className="text-sm">{success}</span>
@@ -243,7 +243,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  className="bg-[#E8D5B7]/30 border border-[#1B4332]/15 text-[#1B4332] px-4 py-3 rounded-xl mb-6 flex items-center"
+                  className="bg-[#94A3B8]/30 border border-[#0F172A]/15 text-[#0F172A] px-4 py-3 rounded-xl mb-6 flex items-center"
                 >
                   <AlertCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
                   <span className="text-sm">{error}</span>
@@ -256,16 +256,16 @@ const TeacherLessonPlannerPage: React.FC = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-              className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-4 mb-8"
+              className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-4 mb-8"
             >
               <div className="flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-gray-400" />
+                    <Search className="h-4 w-4 text-greyed-beige" />
                   </div>
                   <input
                     type="text"
-                    className="pl-10 pr-4 py-2.5 w-full border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 transition-all placeholder:text-gray-400"
+                    className="pl-10 pr-4 py-2.5 w-full border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 transition-all placeholder:text-greyed-beige"
                     placeholder="Search lesson plans..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -275,7 +275,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                 <div className="relative md:w-44">
                   <select
                     title="Filter by class"
-                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 appearance-none bg-white text-gray-700 transition-all"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 appearance-none bg-white text-greyed-white transition-all"
                     value={filterClass}
                     onChange={(e) => setFilterClass(e.target.value)}
                   >
@@ -285,14 +285,14 @@ const TeacherLessonPlannerPage: React.FC = () => {
                     ))}
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                    <ChevronDown className="h-4 w-4 text-greyed-beige" />
                   </div>
                 </div>
 
                 <div className="relative md:w-44">
                   <select
                     title="Filter by status"
-                    className="w-full py-2.5 pl-3.5 pr-9 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 appearance-none bg-white text-gray-700 transition-all"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 appearance-none bg-white text-greyed-white transition-all"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                   >
@@ -302,7 +302,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                     <option value="taught">Taught</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                    <ChevronDown className="h-4 w-4 text-greyed-beige" />
                   </div>
                 </div>
               </div>
@@ -311,20 +311,20 @@ const TeacherLessonPlannerPage: React.FC = () => {
             {/* Content */}
             {loading ? (
               <div className="flex items-center justify-center py-20">
-                <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-greyed-navy rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-[#0F172A]/20 border-t-greyed-navy rounded-full animate-spin" />
               </div>
             ) : filteredLessonPlans.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-12 text-center"
+                className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-12 text-center"
               >
-                <div className="w-16 h-16 bg-[#E8D5B7]/30 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <BookOpen className="w-7 h-7 text-[#1B4332]/60" />
+                <div className="w-16 h-16 bg-[#94A3B8]/30 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <BookOpen className="w-7 h-7 text-[#0F172A]/60" />
                 </div>
-                <h2 className="text-lg font-headline font-semibold text-[#1B4332] mb-2">No lesson plans found</h2>
-                <p className="text-[#1B4332]/50 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+                <h2 className="text-lg font-headline font-semibold text-[#0F172A] mb-2">No lesson plans found</h2>
+                <p className="text-[#0F172A]/50 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
                   {searchTerm || filterClass || filterStatus
                     ? "Try adjusting your search or filters to see more results."
                     : "You haven't created any lesson plans yet. Generate your first plan to get started."}
@@ -332,7 +332,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                 {!searchTerm && !filterClass && !filterStatus && (
                   <button
                     onClick={() => navigate('/teachers/lesson-planner/generate')}
-                    className="inline-flex items-center bg-[#1B4332] text-white px-5 py-2.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors text-sm font-medium shadow-sm"
+                    className="inline-flex items-center bg-[#0F172A] text-white px-5 py-2.5 rounded-xl hover:bg-[#0F172A]/90 transition-colors text-sm font-medium shadow-sm"
                   >
                     <PlusCircle size={16} className="mr-2" />
                     Generate Your First Plan
@@ -354,11 +354,11 @@ const TeacherLessonPlannerPage: React.FC = () => {
                       key={plan.id}
                       variants={cardVariants}
                       layout
-                      className="bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
+                      className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
                     >
                       {/* Card Header */}
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] leading-snug pr-3 line-clamp-2">
+                        <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] leading-snug pr-3 line-clamp-2">
                           {plan.topic}
                         </h3>
                         <div className="relative flex-shrink-0">
@@ -366,22 +366,22 @@ const TeacherLessonPlannerPage: React.FC = () => {
                             <button type="button" title="Change status" className={`px-2.5 py-1 text-xs font-medium rounded-lg ${status.bg} ${status.text} transition-colors`}>
                               {status.label}
                             </button>
-                            <div className="absolute right-0 top-full mt-1 bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden hidden group-hover/status:block z-10 w-36">
+                            <div className="absolute right-0 top-full mt-1 bg-white shadow-lg rounded-xl border border-white/5 overflow-hidden hidden group-hover/status:block z-10 w-36">
                               <button
                                 onClick={() => handleUpdateStatus(plan.id, 'draft')}
-                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'draft' ? 'bg-[#E8D5B7]/20 font-medium text-[#1B4332]' : 'text-gray-600 hover:bg-gray-50'}`}
+                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'draft' ? 'bg-[#94A3B8]/20 font-medium text-[#0F172A]' : 'text-greyed-beige hover:bg-greyed-navy'}`}
                               >
                                 Draft
                               </button>
                               <button
                                 onClick={() => handleUpdateStatus(plan.id, 'ready')}
-                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'ready' ? 'bg-[#E8D5B7]/20 font-medium text-[#1B4332]' : 'text-gray-600 hover:bg-gray-50'}`}
+                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'ready' ? 'bg-[#94A3B8]/20 font-medium text-[#0F172A]' : 'text-greyed-beige hover:bg-greyed-navy'}`}
                               >
                                 Ready to teach
                               </button>
                               <button
                                 onClick={() => handleUpdateStatus(plan.id, 'taught')}
-                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'taught' ? 'bg-[#E8D5B7]/20 font-medium text-[#1B4332]' : 'text-gray-600 hover:bg-gray-50'}`}
+                                className={`w-full px-3 py-2 text-left text-sm transition-colors ${plan.status === 'taught' ? 'bg-[#94A3B8]/20 font-medium text-[#0F172A]' : 'text-greyed-beige hover:bg-greyed-navy'}`}
                               >
                                 Taught
                               </button>
@@ -391,7 +391,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                       </div>
 
                       {/* Card Meta */}
-                      <div className="flex items-center gap-4 text-xs text-[#1B4332]/45 mb-4">
+                      <div className="flex items-center gap-4 text-xs text-[#0F172A]/45 mb-4">
                         {plan.className !== 'Unknown' && (
                           <span className="truncate">{plan.className}</span>
                         )}
@@ -406,10 +406,10 @@ const TeacherLessonPlannerPage: React.FC = () => {
                       </div>
 
                       {/* Card Actions */}
-                      <div className="flex items-center gap-1 pt-3 border-t border-[#E8E6E0]/60">
+                      <div className="flex items-center gap-1 pt-3 border-t border-greyed-beige/60">
                         <button
                           onClick={() => handleDownloadPlan(plan)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#1B4332]/70 hover:text-[#1B4332] hover:bg-[#E8D5B7]/20 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#0F172A]/70 hover:text-[#0F172A] hover:bg-[#94A3B8]/20 rounded-lg transition-colors"
                           title="Download as Word"
                         >
                           <Download size={14} />
@@ -418,7 +418,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
                         <div className="flex-1" />
                         <button
                           onClick={() => handleDeletePlan(plan.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                          className="p-1.5 text-greyed-beige hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                           title="Delete plan"
                         >
                           <Trash2 size={14} />
@@ -435,22 +435,22 @@ const TeacherLessonPlannerPage: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-10 mb-6 bg-white rounded-2xl border border-[#E8E6E0]/60 shadow-sm p-6 border-l-4 border-l-greyed-blue/60"
+              className="mt-10 mb-6 bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-6 border-l-4 border-l-greyed-blue/60"
             >
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-[#D4A843]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Brain className="w-5 h-5 text-[#D4A843]" />
+                <div className="w-10 h-10 bg-[#67E8F9]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Brain className="w-5 h-5 text-[#67E8F9]" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-semibold text-[#1B4332] text-[15px] mb-1.5">AI-Powered Lesson Planning</h3>
-                  <p className="text-[#1B4332]/50 text-sm leading-relaxed mb-3">
+                  <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] mb-1.5">AI-Powered Lesson Planning</h3>
+                  <p className="text-[#0F172A]/50 text-sm leading-relaxed mb-3">
                     Create comprehensive, curriculum-aligned lesson plans in seconds. Each plan includes objectives, activities, assessments, and differentiation strategies.
                   </p>
                   <button
                     onClick={() => navigate('/teachers/lesson-planner/generate')}
-                    className="inline-flex items-center text-sm font-medium text-[#1B4332] hover:text-[#1B4332]/80 transition-colors"
+                    className="inline-flex items-center text-sm font-medium text-[#0F172A] hover:text-[#0F172A]/80 transition-colors"
                   >
-                    <Wand2 size={14} className="mr-1.5 text-[#D4A843]" />
+                    <Wand2 size={14} className="mr-1.5 text-[#67E8F9]" />
                     Generate a plan
                   </button>
                 </div>

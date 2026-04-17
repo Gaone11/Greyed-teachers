@@ -694,8 +694,8 @@ export const BIOLOGY_SUBJECT: Subject = {
   id: 'biology',
   title: 'Biology',
   icon: '🌿',
-  color: 'from-emerald-500 to-green-700',
-  textColor: 'text-emerald-600',
+  color: 'from-[#0F172A] to-[#1E2937]',
+  textColor: 'text-cyan-400',
   domains: [
     BIOLOGY_CELL_DOMAIN,
     BIOLOGY_GENETICS_DOMAIN,

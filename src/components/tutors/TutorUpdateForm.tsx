@@ -85,11 +85,11 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
-        <div className="p-5 border-b border-gray-200 flex justify-between items-center">
+        <div className="p-5 border-b border-white/10 flex justify-between items-center">
           <h3 className="text-lg font-headline font-bold">Compose Tutor Update</h3>
           <button 
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-500"
+            className="text-greyed-beige hover:text-greyed-beige"
           >
             <X size={20} />
           </button>
@@ -104,10 +104,10 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
           )}
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Class</label>
+            <label className="block text-sm font-medium text-greyed-white mb-1">Class</label>
             <select
               name="classId"
-              className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+              className="w-full px-3 py-3 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
               value={formData.classId}
               onChange={handleInputChange}
               required
@@ -122,27 +122,27 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Week Starting</label>
+            <label className="block text-sm font-medium text-greyed-white mb-1">Week Starting</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Calendar className="h-5 w-5 text-gray-400" />
+                <Calendar className="h-5 w-5 text-greyed-beige" />
               </div>
               <input
                 type="date"
                 name="weekStart"
-                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                className="pl-10 w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                 value={formData.weekStart}
                 onChange={handleInputChange}
                 required
               />
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-greyed-beige mt-1">
               Usually a Monday. The update will cover the whole week.
             </p>
           </div>
           
           <div className="mb-4">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Include in Update:</h4>
+            <h4 className="text-sm font-medium text-greyed-white mb-2">Include in Update:</h4>
             <div className="space-y-2">
               <label className="flex items-center">
                 <input
@@ -152,7 +152,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-gray-700">Progress Report</span>
+                <span className="text-sm text-greyed-white">Progress Report</span>
               </label>
               
               <label className="flex items-center">
@@ -163,7 +163,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-gray-700">Upcoming Learning Content</span>
+                <span className="text-sm text-greyed-white">Upcoming Learning Content</span>
               </label>
               
               <label className="flex items-center">
@@ -174,7 +174,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-gray-700">Homework Assignments</span>
+                <span className="text-sm text-greyed-white">Homework Assignments</span>
               </label>
               
               <label className="flex items-center">
@@ -185,16 +185,16 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-gray-700">Resource Links</span>
+                <span className="text-sm text-greyed-white">Resource Links</span>
               </label>
             </div>
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes (Optional)</label>
+            <label className="block text-sm font-medium text-greyed-white mb-1">Additional Notes (Optional)</label>
             <textarea
               name="additionalNotes"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               rows={3}
               placeholder="Add any specific information you'd like to include in this update..."
               value={formData.additionalNotes}
@@ -202,11 +202,11 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
             ></textarea>
           </div>
           
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+          <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              className="px-4 py-2 border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
               disabled={isSubmitting}
             >
               Cancel

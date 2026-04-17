@@ -37,10 +37,10 @@ type DocumentType = typeof DOCUMENT_TYPES[number];
 const TYPE_COLORS: Record<DocumentType, string> = {
   'Syllabus': 'bg-red-100 text-red-800 border-red-200',
   'Policy': 'bg-blue-100 text-blue-800 border-blue-200',
-  'Guide': 'bg-green-100 text-green-800 border-green-200',
-  'FAQ': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+  'Guide': 'bg-slate-700 text-slate-200 border-slate-600',
+  'FAQ': 'bg-slate-700 text-slate-200 border-slate-600',
   'General Reference': 'bg-purple-100 text-purple-800 border-purple-200',
-  'Other': 'bg-gray-100 text-gray-800 border-gray-200',
+  'Other': 'bg-greyed-card text-greyed-white border-white/10',
 };
 
 const AdminKnowledgeBasePage: React.FC = () => {
@@ -240,7 +240,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8f8f6]">
+      <div className="min-h-screen flex items-center justify-center bg-greyed-navy">
         <div className="text-center">
           <Loader className="w-10 h-10 text-greyed-navy animate-spin mx-auto mb-4" />
           <p className="text-greyed-navy font-medium">Loading Knowledge Base...</p>
@@ -254,15 +254,15 @@ const AdminKnowledgeBasePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f8f6]">
+    <div className="min-h-screen bg-greyed-navy">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+      <div className="bg-white border-b border-white/10 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate('/teachers/dashboard')}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-greyed-card rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-5 h-5 text-greyed-navy" />
               </button>
@@ -272,7 +272,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-greyed-navy">AI Knowledge Base</h1>
-                  <p className="text-xs text-gray-500 flex items-center gap-1">
+                  <p className="text-xs text-greyed-beige flex items-center gap-1">
                     <Shield className="w-3 h-3" />
                     Admin Only — {user.email}
                   </p>
@@ -301,7 +301,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
           </div>
         )}
         {success && (
-          <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-4 flex items-start animate-slide-down">
+          <div className="bg-slate-800 border border-slate-600 text-slate-200 px-4 py-3 rounded-lg mb-4 flex items-start animate-slide-down">
             <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
             <span className="text-sm">{success}</span>
             <button onClick={() => setSuccess(null)} className="ml-auto pl-3">
@@ -313,7 +313,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
 
       {/* Tabs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-        <div className="flex gap-1 bg-gray-100 rounded-xl p-1 max-w-md">
+        <div className="flex gap-1 bg-greyed-card rounded-xl p-1 max-w-md">
           {([
             { id: 'documents', label: 'Documents', icon: FileText },
             { id: 'upload', label: 'Upload', icon: Upload },
@@ -325,7 +325,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
               className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 activeTab === tab.id
                   ? 'bg-white text-greyed-navy shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-greyed-beige hover:text-greyed-white'
               }`}
             >
               <tab.icon className="w-4 h-4" />
@@ -343,35 +343,35 @@ const AdminKnowledgeBasePage: React.FC = () => {
             {/* Search & Filter */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-greyed-beige" />
                 <input
                   type="text"
                   placeholder="Search documents..."
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
                 />
               </div>
               <div className="relative">
                 <select
                   value={filterType}
                   onChange={e => setFilterType(e.target.value)}
-                  className="appearance-none pl-4 pr-10 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 bg-white"
+                  className="appearance-none pl-4 pr-10 py-2.5 rounded-lg border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 bg-white"
                 >
                   <option value="">All Types</option>
                   {DOCUMENT_TYPES.map(t => (
                     <option key={t} value={t}>{t}</option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-greyed-beige pointer-events-none" />
               </div>
             </div>
 
             {filteredDocs.length === 0 ? (
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
+              <div className="bg-white rounded-2xl shadow-sm border border-white/10 p-12 text-center">
                 <Database className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">No documents yet</h3>
-                <p className="text-sm text-gray-500 mb-6">
+                <h3 className="text-lg font-semibold text-greyed-white mb-2">No documents yet</h3>
+                <p className="text-sm text-greyed-beige mb-6">
                   Upload training documents to enhance the AI's knowledge base.
                 </p>
                 <button
@@ -388,7 +388,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                   <div
                     key={doc.id}
                     className={`bg-white rounded-xl shadow-sm border transition-all hover:shadow-md ${
-                      doc.is_active ? 'border-gray-200' : 'border-gray-200 opacity-60'
+                      doc.is_active ? 'border-white/10' : 'border-white/10 opacity-60'
                     }`}
                   >
                     <div className="p-4 sm:p-5">
@@ -398,12 +398,12 @@ const AdminKnowledgeBasePage: React.FC = () => {
                             <FileType className="w-5 h-5 text-greyed-navy flex-shrink-0" />
                             <h3 className="font-semibold text-greyed-navy truncate">{doc.name}</h3>
                             {!doc.is_active && (
-                              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+                              <span className="text-xs bg-greyed-card text-greyed-beige px-2 py-0.5 rounded-full">
                                 Disabled
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-500 mb-3">
+                          <p className="text-xs text-greyed-beige mb-3">
                             {doc.original_filename} · {formatFileSize(doc.file_size_bytes)} · Uploaded by {doc.uploaded_by}
                           </p>
 
@@ -411,10 +411,10 @@ const AdminKnowledgeBasePage: React.FC = () => {
                             <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${TYPE_COLORS[doc.document_type as DocumentType] || TYPE_COLORS.Other}`}>
                               {doc.document_type}
                             </span>
-                            <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
+                            <span className="text-xs bg-greyed-card text-greyed-beige px-2.5 py-1 rounded-full">
                               {doc.chunk_count} chunks
                             </span>
-                            <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
+                            <span className="text-xs bg-greyed-card text-greyed-beige px-2.5 py-1 rounded-full">
                               Priority: {doc.priority_level}/5
                             </span>
                             {doc.tags?.map((tag: string) => (
@@ -430,8 +430,8 @@ const AdminKnowledgeBasePage: React.FC = () => {
                             onClick={() => handleToggle(doc.id, doc.is_active)}
                             className={`p-2 rounded-lg transition-colors ${
                               doc.is_active
-                                ? 'text-green-600 hover:bg-green-50'
-                                : 'text-gray-400 hover:bg-gray-50'
+                                ? 'text-cyan-400 hover:bg-slate-800'
+                                : 'text-greyed-beige hover:bg-greyed-navy'
                             }`}
                             title={doc.is_active ? 'Disable document' : 'Enable document'}
                           >
@@ -448,7 +448,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                               </button>
                               <button
                                 onClick={() => setDeleteConfirm(null)}
-                                className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-3 py-1.5 bg-greyed-card text-greyed-beige text-xs rounded-lg hover:bg-gray-200 transition-colors"
                               >
                                 Cancel
                               </button>
@@ -465,11 +465,11 @@ const AdminKnowledgeBasePage: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <span className="text-xs text-gray-400">
+                      <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                        <span className="text-xs text-greyed-beige">
                           Uploaded {formatDate(doc.upload_date || doc.created_at)}
                         </span>
-                        <span className="text-xs text-gray-400 uppercase">
+                        <span className="text-xs text-greyed-beige uppercase">
                           .{doc.file_type}
                         </span>
                       </div>
@@ -484,9 +484,9 @@ const AdminKnowledgeBasePage: React.FC = () => {
         {/* ===== UPLOAD TAB ===== */}
         {activeTab === 'upload' && (
           <div className="max-w-2xl">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-white/10 p-6">
               <h2 className="text-lg font-bold text-greyed-navy mb-1">Upload Training Document</h2>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-greyed-beige mb-6">
                 Upload a PDF, DOCX, or TXT file. The document will be parsed, chunked, and embedded for AI retrieval.
               </p>
 
@@ -495,8 +495,8 @@ const AdminKnowledgeBasePage: React.FC = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
                   uploadFile
-                    ? 'border-green-300 bg-green-50'
-                    : 'border-gray-300 hover:border-greyed-navy/40 hover:bg-gray-50'
+                    ? 'border-slate-500 bg-slate-800'
+                    : 'border-white/20 hover:border-greyed-navy/40 hover:bg-greyed-navy'
                 }`}
               >
                 <input
@@ -513,23 +513,23 @@ const AdminKnowledgeBasePage: React.FC = () => {
                   </div>
                 ) : uploadFile ? (
                   <div>
-                    <CheckCircle className="w-10 h-10 text-green-500 mx-auto mb-3" />
-                    <p className="text-sm font-medium text-green-700">{uploadFile.name}</p>
-                    <p className="text-xs text-green-600 mt-1">
+                    <CheckCircle className="w-10 h-10 text-cyan-400 mx-auto mb-3" />
+                    <p className="text-sm font-medium text-cyan-300">{uploadFile.name}</p>
+                    <p className="text-xs text-cyan-400 mt-1">
                       {formatFileSize(uploadFile.size)} · {extractedText.length.toLocaleString()} characters extracted
                     </p>
                     <button
                       onClick={(e) => { e.stopPropagation(); resetUploadForm(); }}
-                      className="mt-3 text-xs text-gray-500 hover:text-red-500 underline"
+                      className="mt-3 text-xs text-greyed-beige hover:text-red-500 underline"
                     >
                       Remove and choose another
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <Upload className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-                    <p className="text-sm text-gray-600 font-medium">Click to select a file</p>
-                    <p className="text-xs text-gray-400 mt-1">PDF, DOCX, or TXT (max 50MB)</p>
+                    <Upload className="w-10 h-10 text-greyed-beige mx-auto mb-3" />
+                    <p className="text-sm text-greyed-beige font-medium">Click to select a file</p>
+                    <p className="text-xs text-greyed-beige mt-1">PDF, DOCX, or TXT (max 50MB)</p>
                   </div>
                 )}
               </div>
@@ -539,7 +539,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                 <div className="mt-6 space-y-4 animate-slide-down">
                   {/* Document Name */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-greyed-white mb-1.5">
                       Document Name *
                     </label>
                     <input
@@ -547,13 +547,13 @@ const AdminKnowledgeBasePage: React.FC = () => {
                       value={uploadName}
                       onChange={e => setUploadName(e.target.value)}
                       placeholder="e.g., CAPS Mathematics Grade 4 Syllabus"
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
+                      className="w-full px-4 py-2.5 rounded-lg border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
                     />
                   </div>
 
                   {/* Document Type */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-greyed-white mb-1.5">
                       Document Type *
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -564,7 +564,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                           className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all ${
                             uploadType === type
                               ? TYPE_COLORS[type] + ' ring-2 ring-offset-1 ring-greyed-navy/20'
-                              : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                              : 'bg-white border-white/10 text-greyed-beige hover:bg-greyed-navy'
                           }`}
                         >
                           {type}
@@ -582,7 +582,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                   {/* Priority Level */}
                   {uploadType !== 'Syllabus' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      <label className="block text-sm font-medium text-greyed-white mb-1.5">
                         Priority Level: {uploadPriority}/5
                       </label>
                       <input
@@ -593,7 +593,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                         onChange={e => setUploadPriority(Number(e.target.value))}
                         className="w-full accent-greyed-navy"
                       />
-                      <div className="flex justify-between text-xs text-gray-400 mt-1">
+                      <div className="flex justify-between text-xs text-greyed-beige mt-1">
                         <span>Low</span>
                         <span>High</span>
                       </div>
@@ -602,7 +602,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
 
                   {/* Tags */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-greyed-white mb-1.5">
                       Tags (comma-separated)
                     </label>
                     <input
@@ -610,22 +610,22 @@ const AdminKnowledgeBasePage: React.FC = () => {
                       value={uploadTags}
                       onChange={e => setUploadTags(e.target.value)}
                       placeholder="e.g., mathematics, grade-4, CAPS, term-1"
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
+                      className="w-full px-4 py-2.5 rounded-lg border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
                     />
                   </div>
 
                   {/* Text Preview */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-greyed-white mb-1.5">
                       Extracted Text Preview
                     </label>
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 max-h-40 overflow-y-auto">
-                      <pre className="text-xs text-gray-600 whitespace-pre-wrap font-mono">
+                    <div className="bg-greyed-navy border border-white/10 rounded-lg p-3 max-h-40 overflow-y-auto">
+                      <pre className="text-xs text-greyed-beige whitespace-pre-wrap font-mono">
                         {extractedText.substring(0, 2000)}
                         {extractedText.length > 2000 && '\n\n... (truncated)'}
                       </pre>
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs text-greyed-beige mt-1">
                       ~{Math.ceil(extractedText.length / 4).toLocaleString()} estimated tokens
                     </p>
                   </div>
@@ -659,18 +659,18 @@ const AdminKnowledgeBasePage: React.FC = () => {
           <div>
             <h2 className="text-lg font-bold text-greyed-navy mb-4">Activity Log</h2>
             {logs.length === 0 ? (
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
+              <div className="bg-white rounded-2xl shadow-sm border border-white/10 p-12 text-center">
                 <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-sm text-gray-500">No activity yet</p>
+                <p className="text-sm text-greyed-beige">No activity yet</p>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-sm border border-white/10 overflow-hidden">
                 <div className="divide-y divide-gray-100">
                   {logs.map(log => (
-                    <div key={log.id} className="px-5 py-4 flex items-start gap-3 hover:bg-gray-50 transition-colors">
+                    <div key={log.id} className="px-5 py-4 flex items-start gap-3 hover:bg-greyed-navy transition-colors">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
                         log.action === 'upload'
-                          ? 'bg-green-100 text-green-600'
+                          ? 'bg-slate-700 text-cyan-400'
                           : log.action === 'delete'
                           ? 'bg-red-100 text-red-600'
                           : 'bg-blue-100 text-blue-600'
@@ -681,17 +681,17 @@ const AdminKnowledgeBasePage: React.FC = () => {
                         {log.action === 'reprocess' && <BookOpen className="w-4 h-4" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-800">
+                        <p className="text-sm font-medium text-greyed-white">
                           <span className="capitalize">{log.action}</span>
                           {log.document_name && (
                             <> — <span className="text-greyed-navy">{log.document_name}</span></>
                           )}
                         </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
+                        <p className="text-xs text-greyed-beige mt-0.5">
                           {log.admin_email} · {formatDate(log.created_at)}
                         </p>
                         {log.details && Object.keys(log.details).length > 0 && (
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="text-xs text-greyed-beige mt-1">
                             {JSON.stringify(log.details)}
                           </p>
                         )}

@@ -162,7 +162,7 @@ const TeacherClassesPage: React.FC = () => {
   
   // Create class card component for mobile view
   const ClassCard = ({ cls }: { cls: Class }) => (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow overflow-hidden">
+    <div className="bg-white rounded-lg shadow-sm border border-white/5 hover:shadow-md transition-shadow overflow-hidden">
       <div className="p-4">
         <Link to={`/teachers/classes/${cls.id}`} className="block">
           <h3 className="font-medium text-lg text-greyed-blue hover:text-greyed-navy">{cls.name}</h3>
@@ -182,7 +182,7 @@ const TeacherClassesPage: React.FC = () => {
           </div>
         </Link>
         
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
           <div className="flex items-center text-greyed-navy/60 text-sm">
             <Users size={14} className="mr-1" />
             <span>{cls.student_count || 0} students</span>
@@ -197,10 +197,10 @@ const TeacherClassesPage: React.FC = () => {
             </button>
             
             {dropdownOpen === cls.id && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-100">
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-white/5">
                 <Link
                   to={`/teachers/classes/${cls.id}`}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                  className="block px-4 py-2 text-sm text-greyed-white hover:bg-greyed-card flex items-center"
                 >
                   <ChevronRight size={14} className="mr-2" />
                   View Class
@@ -235,14 +235,14 @@ const TeacherClassesPage: React.FC = () => {
         }
       />
       
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -291,11 +291,11 @@ const TeacherClassesPage: React.FC = () => {
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 lg:space-x-3">
                 <div className="relative flex-1 min-w-0">
                   <div className="absolute inset-y-0 left-0 pl-2.5 md:pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-gray-400" />
+                    <Search className="h-4 w-4 text-greyed-beige" />
                   </div>
                   <input
                     type="text"
-                    className="pl-8 md:pl-9 pr-8 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue text-sm"
+                    className="pl-8 md:pl-9 pr-8 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue text-sm"
                     placeholder="Search classes..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -305,17 +305,17 @@ const TeacherClassesPage: React.FC = () => {
                       className="absolute inset-y-0 right-0 pr-2.5 md:pr-3 flex items-center"
                       onClick={() => setSearchTerm('')}
                     >
-                      <X size={16} className="text-gray-400 hover:text-gray-600" />
+                      <X size={16} className="text-greyed-beige hover:text-greyed-beige" />
                     </button>
                   )}
                 </div>
 
                 <div className="relative w-full md:w-44 lg:w-48 flex-shrink-0">
                   <div className="absolute inset-y-0 left-0 pl-2.5 md:pl-3 flex items-center pointer-events-none">
-                    <Filter className="h-4 w-4 text-gray-400" />
+                    <Filter className="h-4 w-4 text-greyed-beige" />
                   </div>
                   <select
-                    className="pl-8 md:pl-9 pr-8 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white text-sm"
+                    className="pl-8 md:pl-9 pr-8 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none bg-white text-sm"
                     value={filterSubject}
                     onChange={(e) => setFilterSubject(e.target.value)}
                   >
@@ -325,7 +325,7 @@ const TeacherClassesPage: React.FC = () => {
                     ))}
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2.5 md:pr-3 pointer-events-none">
-                    <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="h-4 w-4 text-greyed-beige" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                   </div>
@@ -443,7 +443,7 @@ const TeacherClassesPage: React.FC = () => {
                   <div className="flex justify-end space-x-3">
                     <button
                       onClick={() => setClassToDelete(null)}
-                      className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                      className="px-4 py-2 border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
                     >
                       Cancel
                     </button>

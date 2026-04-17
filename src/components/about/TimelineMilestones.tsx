@@ -180,7 +180,7 @@ const MilestoneCard: React.FC<MilestoneCardProps> = ({
   
   const dotVariants = {
     inactive: { scale: 1 },
-    active: { scale: 1.5, backgroundColor: '#D4A843' }
+    active: { scale: 1.5, backgroundColor: '#67E8F9' }
   };
 
   return (

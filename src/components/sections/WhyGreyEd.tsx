@@ -34,17 +34,17 @@ const WhyGreyEd: React.FC = () => {
         <AnimatedSection className="text-center mb-12">
           <p className="text-greyed-blue italic mb-3">"Isandla sihlamba esinye" — One hand washes the other</p>
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            Why Cophetsheni Teachers Choose Siyafunda
+            Why Teachers Choose GreyEd
           </h2>
           <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            From CAPS-aligned lesson plans to AI-powered assessments — everything you need to teach with confidence.
+            From curriculum-aligned lesson plans to AI-powered assessments — everything you need to teach with confidence.
           </p>
         </AnimatedSection>
         
         <div className="max-w-4xl mx-auto">
           <TableRow
-            title="CAPS-Aligned Lesson Plans"
-            description="AI generates plans aligned to the South African CAPS curriculum"
+            title="Curriculum-Aligned Lesson Plans"
+            description="AI generates plans aligned to the South African national curriculum"
             compared="Hours spent manually writing plans from scratch"
           />
           <TableRow
@@ -91,7 +91,7 @@ const TableRow: React.FC<TableRowProps> = ({ title, description, compared }) => 
         {title}
       </div>
       <div className="flex items-start text-greyed-black">
-        <Check className="text-green-500 mt-1 mr-2 flex-shrink-0" size={16} />
+        <Check className="text-cyan-400 mt-1 mr-2 flex-shrink-0" size={16} />
         <span>{description}</span>
       </div>
       <div className="text-greyed-black/60 mt-2 md:mt-0 md:text-right italic">

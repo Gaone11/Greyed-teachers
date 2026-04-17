@@ -100,8 +100,8 @@ const DefinitionSection: React.FC = () => {
                 <div className="w-full max-w-md bg-greyed-navy rounded-xl p-6 font-mono text-sm overflow-hidden">
                   <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-slate-400 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-slate-8000"></div>
                     <div className="ml-4 text-greyed-white/70 text-xs">ellm-response.json</div>
                   </div>
                   <pre className="text-greyed-white/90 overflow-x-auto">
@@ -150,8 +150,8 @@ const DefinitionSection: React.FC = () => {
                 <div className="w-full max-w-md bg-greyed-navy rounded-xl p-6 font-mono text-sm overflow-hidden">
                   <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-slate-400 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-slate-8000"></div>
                     <div className="ml-4 text-greyed-white/70 text-xs">ellm-response.json</div>
                   </div>
                   <pre className="text-greyed-white/90 overflow-x-auto">

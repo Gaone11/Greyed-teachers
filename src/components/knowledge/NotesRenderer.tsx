@@ -85,7 +85,7 @@ const NotesRenderer: React.FC<{ content: string }> = ({ content }) => {
             );
           case 'formula':
             return (
-              <div key={i} className="bg-amber-50 border-l-2 border-amber-400 rounded-r-lg px-4 py-2 font-mono text-amber-900 text-[13px] my-2 select-all">
+              <div key={i} className="bg-slate-800 border-l-2 border-amber-400 rounded-r-lg px-4 py-2 font-mono text-slate-100 text-[13px] my-2 select-all">
                 {block.text}
               </div>
             );
@@ -97,8 +97,8 @@ const NotesRenderer: React.FC<{ content: string }> = ({ content }) => {
                 {block.items.map((item, j) => {
                   const isCorrect = item.includes('✓');
                   return (
-                    <li key={j} className={`flex items-start gap-2 rounded-lg px-2 py-0.5 ${isCorrect ? 'bg-emerald-50 text-emerald-800' : 'text-premium-neutral-700'}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[6px] ${isCorrect ? 'bg-emerald-500' : 'bg-greyed-blue'}`} />
+                    <li key={j} className={`flex items-start gap-2 rounded-lg px-2 py-0.5 ${isCorrect ? 'bg-slate-800 text-slate-200' : 'text-premium-neutral-700'}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[6px] ${isCorrect ? 'bg-slate-8000' : 'bg-greyed-blue'}`} />
                       <span>{parseInline(item)}</span>
                     </li>
                   );

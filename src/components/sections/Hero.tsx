@@ -137,7 +137,7 @@ const Hero: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              Siyafunda — We Are Learning
+              We are learning
             </motion.h1>
             
             <motion.p 
@@ -147,7 +147,7 @@ const Hero: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              AI-Powered Teaching Tools for Cophetsheni Primary School, Mpumalanga
+              AI-Powered Teaching Tools for Every Classroom
             </motion.p>
 
             <motion.p
@@ -185,11 +185,11 @@ const Hero: React.FC = () => {
         ) : (
           <>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6 px-1">
-              Siyafunda — We Are Learning
+              We are learning
             </h1>
             
             <p className="text-lg md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-4 px-2">
-              AI-Powered Teaching Tools for Cophetsheni Primary School, Mpumalanga
+              AI-Powered Teaching Tools for Every Classroom
             </p>
 
             <p className="text-base md:text-lg text-greyed-white/70 max-w-2xl mx-auto mb-10 px-2 italic">

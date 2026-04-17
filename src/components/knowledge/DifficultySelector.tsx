@@ -16,7 +16,7 @@ const LEVELS: { id: DifficultyLevel; emoji: string; label: string; sublabel: str
     label: 'Explorer',
     sublabel: 'Ages 7–10',
     color: 'border-emerald-200 hover:border-emerald-400',
-    activeClass: 'bg-emerald-50 border-emerald-500 text-emerald-800 shadow-md',
+    activeClass: 'bg-slate-800 border-emerald-500 text-slate-200 shadow-md',
   },
   {
     id: 'investigator',

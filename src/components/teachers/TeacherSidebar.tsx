@@ -143,12 +143,12 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       label: 'Knowledge Galaxy',
       icon: Globe2,
       path: '/teachers/knowledge',
-      color: 'from-indigo-500 to-purple-600',
+      color: 'from-[#0F172A] to-[#1B1B4B]',
       activeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200'
     },
     {
       id: 'el-ai',
-      label: 'Siyafunda AI',
+      label: 'GreyEd AI',
       icon: Snowflake,
       path: '/teachers/el-ai',
       color: 'from-greyed-navy to-greyed-navy',
@@ -173,8 +173,8 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-premium-navy">Cophetsheni PS</h2>
-              <p className="text-xs text-premium-neutral-500">Siyafunda — We are learning</p>
+              <h2 className="text-lg font-bold text-premium-navy">GreyEd</h2>
+              <p className="text-xs text-premium-neutral-500">We are learning</p>
             </div>
             {!isMobile && (
               <button
@@ -292,7 +292,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
                 onClick={handleLinkClick}
                 className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
                   activePage === 'admin-kb'
-                    ? 'bg-gradient-to-r from-red-50 to-transparent border-l-4 border-red-400 shadow-sm'
+                    ? 'bg-gradient-to-r from-[#1E2937] to-transparent border-l-4 border-red-400 shadow-sm'
                     : 'hover:bg-red-50/50 active:bg-red-50 border-l-4 border-transparent'
                 } touch-manipulation`}
                 title={isCollapsed && !isMobile ? 'AI Knowledge Base' : undefined}

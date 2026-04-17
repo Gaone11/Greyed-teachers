@@ -268,7 +268,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
         __html: escaped
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
           .replace(/\*(.*?)\*/g, '<em>$1</em>')
-          .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm text-gray-800">$1</code>')
+          .replace(/`(.*?)`/g, '<code class="bg-greyed-card px-1 py-0.5 rounded text-sm text-greyed-white">$1</code>')
           .replace(/\n/g, '<br>')
       }} />
     );
@@ -333,13 +333,13 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                       max-w-[82%] md:max-w-[75%] rounded-2xl px-4 py-3
                       ${message.role === 'user'
                         ? 'bg-greyed-navy text-white'
-                        : 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-gray-100'}
+                        : 'bg-white text-greyed-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-white/5'}
                     `}
                   >
-                    <div className={`text-[15px] leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>
+                    <div className={`text-[15px] leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-greyed-white'}`}>
                       {formatMessageContent(message.content)}
                     </div>
-                    <div className={`text-right mt-1.5 ${message.role === 'user' ? 'text-white/50' : 'text-gray-400'}`}>
+                    <div className={`text-right mt-1.5 ${message.role === 'user' ? 'text-white/50' : 'text-greyed-beige'}`}>
                       <span className="text-[11px]">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
@@ -361,7 +361,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                   <div className="w-7 h-7 rounded-full bg-greyed-navy/8 flex items-center justify-center mr-2.5 flex-shrink-0 self-start mt-1">
                     <Snowflake size={14} className="text-greyed-navy/70" />
                   </div>
-                  <div className="bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-gray-100 rounded-2xl px-5 py-3.5">
+                  <div className="bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-white/5 rounded-2xl px-5 py-3.5">
                     <div className="flex items-center gap-1.5">
                       {[0, 1, 2].map((i) => (
                         <motion.div
@@ -390,16 +390,16 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
       </div>
 
       {/* Input Area */}
-      <div className="bg-white/80 backdrop-blur-sm border-t border-gray-100 px-4 md:px-6 py-3 md:py-4">
+      <div className="bg-white/80 backdrop-blur-sm border-t border-white/5 px-4 md:px-6 py-3 md:py-4">
         <form onSubmit={handleSubmitMessage} className="max-w-3xl mx-auto">
-          <div className="relative bg-white rounded-xl border border-gray-200 shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus-within:border-greyed-navy/30 focus-within:shadow-[0_0_0_3px_rgba(0,0,0,0.03)] transition-all duration-200">
+          <div className="relative bg-white rounded-xl border border-white/10 shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus-within:border-greyed-navy/30 focus-within:shadow-[0_0_0_3px_rgba(0,0,0,0.03)] transition-all duration-200">
             <textarea
               ref={inputRef}
               value={inputText}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder="Message El AI..."
-              className="w-full resize-none py-3.5 pl-4 pr-14 focus:outline-none rounded-xl text-[15px] text-gray-900 placeholder:text-gray-400 max-h-[120px] md:max-h-[150px]"
+              className="w-full resize-none py-3.5 pl-4 pr-14 focus:outline-none rounded-xl text-[15px] text-greyed-white placeholder:text-greyed-beige max-h-[120px] md:max-h-[150px]"
               rows={1}
               disabled={isTyping}
             />
@@ -410,7 +410,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                 disabled={!inputText.trim() || isTyping}
                 className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 ${
                   !inputText.trim() || isTyping
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    ? 'bg-greyed-card text-greyed-beige cursor-not-allowed'
                     : 'bg-greyed-navy text-white hover:bg-greyed-navy/90'
                 }`}
                 whileTap={inputText.trim() && !isTyping ? { scale: 0.92 } : undefined}
@@ -425,11 +425,11 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
             </div>
           </div>
           <div className="flex justify-between items-center mt-2 px-1">
-            <span className="text-[11px] text-gray-400">
+            <span className="text-[11px] text-greyed-beige">
               Enter to send
             </span>
             {isFullPage && (
-              <span className="text-[11px] text-gray-400">
+              <span className="text-[11px] text-greyed-beige">
                 Powered by Uhuru 3 LLM &amp; GreyEd eLLM
               </span>
             )}

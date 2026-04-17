@@ -13,7 +13,7 @@ interface HoverTermProps {
 }
 
 const LEVEL_LABELS = [
-  { key: 'kid', label: '🌱 Kid', color: 'text-emerald-600' },
+  { key: 'kid', label: '🌱 Kid', color: 'text-cyan-400' },
   { key: 'standard', label: '🔬 Standard', color: 'text-blue-600' },
   { key: 'advanced', label: '🧠 Advanced', color: 'text-purple-600' },
 ];

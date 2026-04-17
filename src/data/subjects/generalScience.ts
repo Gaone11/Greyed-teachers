@@ -526,7 +526,7 @@ export const GENERAL_SCIENCE_SUBJECT: Subject = {
   id: 'general-science',
   title: 'General Science',
   icon: '🔭',
-  color: 'from-sky-500 to-cyan-700',
+  color: 'from-[#0F172A] to-[#0C3347]',
   textColor: 'text-sky-600',
   domains: [
     GENERAL_SCIENCE_METHOD_DOMAIN,

@@ -12,9 +12,9 @@ const LEVEL_CONFIG = {
   easy: {
     label: '🏠 Easy',
     sublabel: 'At home',
-    activeClass: 'bg-emerald-50 border-emerald-500 text-emerald-800',
-    inactiveClass: 'border-emerald-200 text-emerald-600 hover:border-emerald-400',
-    badge: 'bg-emerald-100 text-emerald-700',
+    activeClass: 'bg-slate-800 border-emerald-500 text-slate-200',
+    inactiveClass: 'border-emerald-200 text-cyan-400 hover:border-emerald-400',
+    badge: 'bg-slate-700 text-cyan-300',
   },
   medium: {
     label: '🔧 Medium',
@@ -165,21 +165,21 @@ const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiments, selectedMi
 
         {/* Safety note */}
         {experiment.safety && experiment.safety !== 'No safety concerns.' && (
-          <div className="flex gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="flex gap-3 bg-slate-800 border border-amber-200 rounded-xl px-4 py-3">
+            <AlertTriangle className="w-4 h-4 text-slate-300 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-xs font-semibold text-amber-700 uppercase tracking-wide">Safety</p>
-              <p className="text-sm text-amber-800 mt-0.5">{experiment.safety}</p>
+              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wide">Safety</p>
+              <p className="text-sm text-slate-200 mt-0.5">{experiment.safety}</p>
             </div>
           </div>
         )}
 
         {/* Expected results */}
-        <div className="flex gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
-          <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+        <div className="flex gap-3 bg-slate-800 border border-emerald-200 rounded-xl px-4 py-3">
+          <CheckCircle className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Expected Results</p>
-            <p className="text-sm text-emerald-800 mt-0.5">{experiment.expected}</p>
+            <p className="text-xs font-semibold text-cyan-300 uppercase tracking-wide">Expected Results</p>
+            <p className="text-sm text-slate-200 mt-0.5">{experiment.expected}</p>
           </div>
         </div>
       </div>

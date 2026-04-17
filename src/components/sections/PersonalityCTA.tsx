@@ -22,13 +22,13 @@ const PersonalityCTA: React.FC = () => {
           variants={containerVariants}
         >
           <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
-            Empowering Cophetsheni teachers with AI: CAPS-aligned plans, smart assessments, inclusive education.
+            Empowering teachers with AI: curriculum-aligned plans, smart assessments, inclusive education.
           </h2>
         </motion.div>
       ) : (
         <div className="container mx-auto px-4">
           <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
-            Empowering Cophetsheni teachers with AI: CAPS-aligned plans, smart assessments, inclusive education.
+            Empowering teachers with AI: curriculum-aligned plans, smart assessments, inclusive education.
           </h2>
         </div>
       )}
@@ -39,7 +39,7 @@ const PersonalityCTA: React.FC = () => {
       >
         <Card
           number="01"
-          title="CAPS-Aligned Planning"
+          title="Curriculum-Aligned Planning"
           description="AI generates lesson plans aligned to the South African Curriculum and Assessment Policy Statement."
           delay={0}
         />

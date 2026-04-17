@@ -46,23 +46,23 @@ const FeatureMatrix: React.FC = () => {
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.free ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.premium ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.hybrid ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.teacher ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                 </tr>
               ))}
@@ -90,23 +90,23 @@ const FeatureMatrix: React.FC = () => {
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.free ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.premium ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.hybrid ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                   <td className="px-8 py-3 text-center">
                     {feature.availableIn.teacher ? 
-                      <Check size={16} className="mx-auto text-green-600" /> : 
-                      <X size={16} className="mx-auto text-gray-400" />}
+                      <Check size={16} className="mx-auto text-cyan-400" /> : 
+                      <X size={16} className="mx-auto text-greyed-beige" />}
                   </td>
                 </tr>
               ))}
@@ -126,12 +126,12 @@ const FeatureMatrix: React.FC = () => {
           {featureMatrix.map(feature => (
             <li key={feature.id} className="flex items-center">
               {feature.availableIn.free ? 
-                <Check size={16} className="mr-2 text-green-600" /> : 
-                <X size={16} className="mr-2 text-gray-400" />}
-              <span className={`text-sm ${feature.availableIn.free ? '' : 'text-gray-400'}`}>
+                <Check size={16} className="mr-2 text-cyan-400" /> : 
+                <X size={16} className="mr-2 text-greyed-beige" />}
+              <span className={`text-sm ${feature.availableIn.free ? '' : 'text-greyed-beige'}`}>
                 {feature.name}
                 {feature.id === 'video-calls' && feature.availableIn.free && (
-                  <span className="ml-2 text-xs text-gray-500">5 min/day</span>
+                  <span className="ml-2 text-xs text-greyed-beige">5 min/day</span>
                 )}
               </span>
             </li>
@@ -145,12 +145,12 @@ const FeatureMatrix: React.FC = () => {
           {featureMatrix.map(feature => (
             <li key={feature.id} className="flex items-center">
               {feature.availableIn.premium ? 
-                <Check size={16} className="mr-2 text-green-600" /> : 
-                <X size={16} className="mr-2 text-gray-400" />}
-              <span className={`text-sm ${feature.availableIn.premium ? '' : 'text-gray-400'}`}>
+                <Check size={16} className="mr-2 text-cyan-400" /> : 
+                <X size={16} className="mr-2 text-greyed-beige" />}
+              <span className={`text-sm ${feature.availableIn.premium ? '' : 'text-greyed-beige'}`}>
                 {feature.name}
                 {feature.id === 'video-calls' && feature.availableIn.premium && (
-                  <span className="ml-2 text-xs text-gray-500">unlimited</span>
+                  <span className="ml-2 text-xs text-greyed-beige">unlimited</span>
                 )}
               </span>
             </li>
@@ -164,15 +164,15 @@ const FeatureMatrix: React.FC = () => {
           {featureMatrix.map(feature => (
             <li key={feature.id} className="flex items-center">
               {feature.availableIn.hybrid ? 
-                <Check size={16} className="mr-2 text-green-600" /> : 
-                <X size={16} className="mr-2 text-gray-400" />}
-              <span className={`text-sm ${feature.availableIn.hybrid ? '' : 'text-gray-400'}`}>
+                <Check size={16} className="mr-2 text-cyan-400" /> : 
+                <X size={16} className="mr-2 text-greyed-beige" />}
+              <span className={`text-sm ${feature.availableIn.hybrid ? '' : 'text-greyed-beige'}`}>
                 {feature.name}
                 {feature.id === 'video-calls' && feature.availableIn.hybrid && (
-                  <span className="ml-2 text-xs text-gray-500">unlimited</span>
+                  <span className="ml-2 text-xs text-greyed-beige">unlimited</span>
                 )}
                 {feature.id === 'human-tutors' && feature.availableIn.hybrid && (
-                  <span className="ml-2 text-xs text-gray-500">4/mo</span>
+                  <span className="ml-2 text-xs text-greyed-beige">4/mo</span>
                 )}
               </span>
             </li>
@@ -186,12 +186,12 @@ const FeatureMatrix: React.FC = () => {
           {featureMatrix.map(feature => (
             <li key={feature.id} className="flex items-center">
               {feature.availableIn.teacher ? 
-                <Check size={16} className="mr-2 text-green-600" /> : 
-                <X size={16} className="mr-2 text-gray-400" />}
-              <span className={`text-sm ${feature.availableIn.teacher ? '' : 'text-gray-400'}`}>
+                <Check size={16} className="mr-2 text-cyan-400" /> : 
+                <X size={16} className="mr-2 text-greyed-beige" />}
+              <span className={`text-sm ${feature.availableIn.teacher ? '' : 'text-greyed-beige'}`}>
                 {feature.name}
                 {feature.id === 'lesson-plans' && feature.availableIn.teacher && (
-                  <span className="ml-2 text-xs text-gray-500">unlimited</span>
+                  <span className="ml-2 text-xs text-greyed-beige">unlimited</span>
                 )}
               </span>
             </li>

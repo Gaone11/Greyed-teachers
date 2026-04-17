@@ -109,7 +109,7 @@ const OriginStory: React.FC = () => {
             </p>
 
             <p className="text-greyed-black/80 mb-4">
-              Together, the partners are implementing a structured, safeguarded and measurable 12-month pilot at <strong>Cophetsheni Primary School</strong> in Mpumalanga, South Africa. The programme is designed to strengthen learner outcomes, support digital readiness and deliver future-fit education.
+              Together, the partners are implementing a structured, safeguarded and measurable 12-month pilot at <strong>GreyEd</strong> in Mpumalanga, South Africa. The programme is designed to strengthen learner outcomes, support digital readiness and deliver future-fit education.
             </p>
 
             <p className="text-greyed-black/80 mb-4">

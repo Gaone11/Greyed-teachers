@@ -527,8 +527,8 @@ export const AGRICULTURE_SUBJECT: Subject = {
   id: 'agriculture',
   title: 'Agriculture',
   icon: '🌾',
-  color: 'from-yellow-500 to-amber-700',
-  textColor: 'text-yellow-600',
+  color: 'from-[#1E2937] to-[#0F172A]',
+  textColor: 'text-slate-300',
   domains: [
     AGRI_CROP_DOMAIN,
     AGRI_ANIMAL_DOMAIN,

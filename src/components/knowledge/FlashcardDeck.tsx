@@ -165,7 +165,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ cards, onComplete }) => {
         {options.map((opt, i) => {
           let cls = 'bg-white border-premium-neutral-200 text-premium-neutral-700 hover:border-greyed-blue hover:bg-blue-50';
           if (selected !== null) {
-            if (i === correctIndex) cls = 'bg-emerald-50 border-emerald-500 text-emerald-800';
+            if (i === correctIndex) cls = 'bg-slate-800 border-emerald-500 text-slate-200';
             else if (i === selected) cls = 'bg-red-50 border-red-400 text-red-700';
             else cls = 'bg-white border-premium-neutral-100 text-premium-neutral-400 opacity-60';
           }
@@ -229,11 +229,11 @@ const BattleMode: React.FC<BattleModeProps> = ({ cards }) => {
     const pct = Math.round((score.correct / total) * 100);
     return (
       <div className="flex flex-col items-center gap-4 py-4">
-        <Trophy className={`w-12 h-12 ${pct >= 80 ? 'text-yellow-500' : 'text-premium-neutral-400'}`} />
+        <Trophy className={`w-12 h-12 ${pct >= 80 ? 'text-slate-300' : 'text-premium-neutral-400'}`} />
         <h3 className="text-xl font-bold text-premium-navy">{pct >= 80 ? 'Excellent!' : pct >= 50 ? 'Good effort!' : 'Keep practising!'}</h3>
         <div className="flex gap-6 text-center">
           <div>
-            <p className="text-2xl font-bold text-emerald-600">{score.correct}</p>
+            <p className="text-2xl font-bold text-cyan-400">{score.correct}</p>
             <p className="text-xs text-premium-neutral-500">Correct</p>
           </div>
           <div>
@@ -260,7 +260,7 @@ const BattleMode: React.FC<BattleModeProps> = ({ cards }) => {
       <div className="flex justify-between text-sm">
         <span className="text-premium-neutral-500">{index + 1} / {total}</span>
         <div className="flex gap-3">
-          <span className="text-emerald-600 font-semibold">✓ {score.correct}</span>
+          <span className="text-cyan-400 font-semibold">✓ {score.correct}</span>
           <span className="text-red-500 font-semibold">✗ {score.wrong}</span>
         </div>
       </div>
@@ -286,7 +286,7 @@ const BattleMode: React.FC<BattleModeProps> = ({ cards }) => {
             <p className="text-white/40 text-xs mt-3">Tap to reveal</p>
           </div>
           <div
-            className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl flex flex-col items-center justify-center p-5 text-center shadow-lg"
+            className="absolute inset-0 bg-gradient-to-br from-[#0F172A] to-[#1B1B4B] rounded-2xl flex flex-col items-center justify-center p-5 text-center shadow-lg"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
             <p className="text-white font-semibold text-base leading-snug">{card.answer}</p>
@@ -304,7 +304,7 @@ const BattleMode: React.FC<BattleModeProps> = ({ cards }) => {
           </button>
           <button
             onClick={() => handleAnswer(true)}
-            className="flex-1 py-2.5 rounded-xl bg-emerald-50 border-2 border-emerald-400 text-emerald-700 font-semibold text-sm hover:bg-emerald-100 transition-colors"
+            className="flex-1 py-2.5 rounded-xl bg-slate-800 border-2 border-emerald-400 text-cyan-300 font-semibold text-sm hover:bg-slate-700 transition-colors"
           >
             ✓ Got it right
           </button>
@@ -327,7 +327,7 @@ const ScoreScreen: React.FC<ScoreScreenProps> = ({ score, total, onRetry, onShuf
   const pct = Math.round((score / total) * 100);
   return (
     <div className="flex flex-col items-center gap-4 py-4">
-      <Trophy className={`w-12 h-12 ${pct >= 80 ? 'text-yellow-500' : 'text-premium-neutral-400'}`} />
+      <Trophy className={`w-12 h-12 ${pct >= 80 ? 'text-slate-300' : 'text-premium-neutral-400'}`} />
       <h3 className="text-xl font-bold text-premium-navy">
         {pct >= 80 ? '🌟 Excellent!' : pct >= 50 ? '👍 Good effort!' : '📚 Keep studying!'}
       </h3>

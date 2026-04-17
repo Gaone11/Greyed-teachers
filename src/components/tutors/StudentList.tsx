@@ -83,7 +83,7 @@ const StudentList: React.FC<StudentListProps> = ({
                   Last update: {formatDate(student.lastUpdate)}
                 </div>
               ) : (
-                <div className="text-xs text-amber-600">
+                <div className="text-xs text-slate-300">
                   No updates sent yet
                 </div>
               )}

@@ -92,7 +92,7 @@ const SafetyBanner: React.FC = () => {
                 Safety & Privacy — POPIA Compliant
               </h3>
               <p className="text-greyed-black/70">
-                Cophetsheni's platform is built with learner and teacher privacy at its core. We comply with South Africa's Protection of Personal Information Act (POPIA), as well as GDPR standards. All data is encrypted and never shared with third parties.
+                GreyEd's platform is built with learner and teacher privacy at its core. We comply with South Africa's Protection of Personal Information Act (POPIA), as well as GDPR standards. All data is encrypted and never shared with third parties.
               </p>
             </div>
           </div>

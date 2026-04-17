@@ -167,11 +167,11 @@ export default function TeacherKnowledgeBasePage() {
   // Redirect if no access
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-greyed-navy flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Access Restricted</h2>
-          <p className="text-gray-600">This feature is not available for your account.</p>
+          <h2 className="text-lg font-semibold text-greyed-white mb-2">Access Restricted</h2>
+          <p className="text-greyed-beige">This feature is not available for your account.</p>
         </div>
       </div>
     );
@@ -184,18 +184,18 @@ export default function TeacherKnowledgeBasePage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-greyed-navy">
       {/* Header */}
       <div className="bg-white border-b">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <button
               onClick={() => navigate('/teachers/settings')}
-              className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-sm font-medium"
+              className="flex items-center gap-1 text-greyed-beige hover:text-greyed-white text-sm font-medium"
             >
               ← Back to Settings
             </button>
-            <h1 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+            <h1 className="text-xl font-semibold text-greyed-white flex items-center gap-2">
               <Database className="h-5 w-5" />
               CAPS Knowledgebase
             </h1>
@@ -208,28 +208,28 @@ export default function TeacherKnowledgeBasePage() {
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow p-4 text-center">
             <p className="text-2xl font-bold text-greyed-navy">{documents.length}</p>
-            <p className="text-sm text-gray-500">Documents</p>
+            <p className="text-sm text-greyed-beige">Documents</p>
           </div>
           <div className="bg-white rounded-lg shadow p-4 text-center">
             <p className="text-2xl font-bold text-greyed-navy">{totalChunks}</p>
-            <p className="text-sm text-gray-500">Chunks</p>
+            <p className="text-sm text-greyed-beige">Chunks</p>
           </div>
           <div className="bg-white rounded-lg shadow p-4 text-center">
             <p className="text-2xl font-bold text-greyed-navy">{(estimatedTokens / 1000).toFixed(1)}k</p>
-            <p className="text-sm text-gray-500">Est. Tokens</p>
+            <p className="text-sm text-greyed-beige">Est. Tokens</p>
           </div>
         </div>
 
         {/* Upload Section */}
         <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-greyed-white mb-4 flex items-center gap-2">
             <Upload className="h-5 w-5" />
             Upload Syllabus Document
           </h2>
 
           {/* File Input */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-greyed-white mb-2">
               Select PDF, DOCX, or TXT file
             </label>
             <input
@@ -237,10 +237,10 @@ export default function TeacherKnowledgeBasePage() {
               type="file"
               accept=".pdf,.docx,.txt"
               onChange={handleFileSelect}
-              className="w-full p-2 border border-gray-300 rounded-lg text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-50 file:text-indigo-700 file:font-medium hover:file:bg-indigo-100"
+              className="w-full p-2 border border-white/20 rounded-lg text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-50 file:text-indigo-700 file:font-medium hover:file:bg-indigo-100"
             />
             {filePreview && (
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-greyed-beige">
                 {filePreview.pages} pages, {filePreview.chars.toLocaleString()} characters
               </p>
             )}
@@ -249,11 +249,11 @@ export default function TeacherKnowledgeBasePage() {
           {/* CAPS Metadata */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+              <label className="block text-sm font-medium text-greyed-white mb-1">Grade</label>
               <select
                 value={selectedGrade}
                 onChange={e => setSelectedGrade(e.target.value)}
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="w-full p-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               >
                 {saGrades.map(g => (
                   <option key={g.value} value={g.value}>{g.label}</option>
@@ -262,11 +262,11 @@ export default function TeacherKnowledgeBasePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+              <label className="block text-sm font-medium text-greyed-white mb-1">Subject</label>
               <select
                 value={selectedSubjectKey}
                 onChange={e => setSelectedSubjectKey(e.target.value)}
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="w-full p-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               >
                 {availableSubjects.map(s => (
                   <option key={s.key} value={s.key}>{s.name}</option>
@@ -275,11 +275,11 @@ export default function TeacherKnowledgeBasePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+              <label className="block text-sm font-medium text-greyed-white mb-1">Topic</label>
               <select
                 value={selectedTopicKey}
                 onChange={e => setSelectedTopicKey(e.target.value)}
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="w-full p-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               >
                 {availableTopics.map(t => (
                   <option key={t.key} value={t.key}>{t.name}</option>
@@ -315,9 +315,9 @@ export default function TeacherKnowledgeBasePage() {
             </div>
           )}
           {success && (
-            <div className="mt-3 bg-green-50 border border-green-200 rounded-lg p-3 flex items-start gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-              <p className="text-sm text-green-700">{success}</p>
+            <div className="mt-3 bg-slate-800 border border-slate-600 rounded-lg p-3 flex items-start gap-2">
+              <CheckCircle className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+              <p className="text-sm text-cyan-300">{success}</p>
             </div>
           )}
         </div>
@@ -325,14 +325,14 @@ export default function TeacherKnowledgeBasePage() {
         {/* Document List */}
         <div className="bg-white rounded-lg shadow">
           <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-900">Uploaded Documents</h2>
+            <h2 className="text-lg font-semibold text-greyed-white">Uploaded Documents</h2>
           </div>
 
           {documents.length === 0 ? (
             <div className="p-8 text-center">
               <FileText className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500">No documents uploaded yet.</p>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-greyed-beige">No documents uploaded yet.</p>
+              <p className="text-sm text-greyed-beige mt-1">
                 Upload CAPS syllabus PDFs above to enable knowledgebase-enhanced lesson plans and assessments.
               </p>
             </div>
@@ -342,28 +342,28 @@ export default function TeacherKnowledgeBasePage() {
                 const firstChunk = doc.chunks[0];
                 const meta = firstChunk?.metadata;
                 return (
-                  <div key={doc.documentId} className="p-4 flex items-center justify-between hover:bg-gray-50">
+                  <div key={doc.documentId} className="p-4 flex items-center justify-between hover:bg-greyed-navy">
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 truncate">{doc.fileName}</p>
+                      <p className="font-medium text-greyed-white truncate">{doc.fileName}</p>
                       <div className="flex flex-wrap gap-2 mt-1">
                         {meta && (
                           <>
                             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-700">
                               {meta.grade}
                             </span>
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-700 text-cyan-300">
                               {meta.subjectName}
                             </span>
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-700 text-slate-200">
                               {meta.topicName}
                             </span>
                           </>
                         )}
-                        <span className="text-xs text-gray-400">
+                        <span className="text-xs text-greyed-beige">
                           {doc.chunks.length} chunks &middot; {doc.totalPages} pages
                         </span>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-xs text-greyed-beige mt-1">
                         Processed {new Date(doc.processedAt).toLocaleDateString()}
                       </p>
                     </div>

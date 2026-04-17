@@ -132,7 +132,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     if (path === '/teachers/courses') return { title: 'Knowledge Galaxy Progress', subtitle: 'Your exploration and learning activity across all subjects' };
     if (/^\/teachers\/courses\/.+/.test(path)) return { title: 'Course Details', subtitle: 'Continue your professional development' };
     if (path === '/teachers/assessment-grading') return { title: 'AI Auto-Grading', subtitle: 'Upload and grade assessments with AI' };
-    if (path === '/teachers/el-ai') return { title: 'Siyafunda AI', subtitle: 'Your intelligent teaching assistant' };
+    if (path === '/teachers/el-ai') return { title: 'GreyEd AI', subtitle: 'Your intelligent teaching assistant' };
     return null;
   };
 
@@ -213,16 +213,17 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         {/* Left section: Logo or page title for teacher pages */}
         <div className="flex items-center gap-2 min-w-0">
           {!isTeacherPage ? (
-            <Link to="/" className={`hidden md:block ${logoTextClass}`}>
+            <Link to="/" className={`hidden md:flex items-center gap-2 ${logoTextClass}`}>
               <img
                 src="/favicon.svg"
-                alt="Cophetsheni Primary School"
+                alt="GreyEd"
                 className="h-8 w-auto"
               />
+              <span className="font-headline font-bold text-lg tracking-tight">GreyEd</span>
             </Link>
           ) : teacherPageInfo ? (
             <div className="hidden md:block">
-              <h1 className="text-lg font-headline font-bold text-[#1B4332] tracking-tight leading-tight whitespace-nowrap">
+              <h1 className="text-lg font-headline font-bold text-[#0F172A] tracking-tight leading-tight whitespace-nowrap">
                 {teacherPageInfo.title}
               </h1>
               <p className="text-[#292828] text-opacity-70 text-xs font-medium whitespace-nowrap">
@@ -251,13 +252,14 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
 
         {/* Center section: GreyEd Logo (mobile only, not on teacher pages) */}
         {!isTeacherPage && (
-          <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 ${logoTextClass}`}>
+          <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 ${logoTextClass}`}>
             <img
               src="/favicon.svg"
-              alt="Cophetsheni Primary School"
+              alt="GreyEd"
               className="h-8 w-auto"
               loading="eager"
             />
+            <span className="font-headline font-bold text-lg tracking-tight">GreyEd</span>
           </Link>
         )}
 

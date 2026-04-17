@@ -144,7 +144,7 @@ const ConceptMap: React.FC<ConceptMapProps> = ({
     <div className="bg-white rounded-2xl border border-premium-neutral-200 shadow-sm overflow-hidden">
       {/* Header */}
       <div className="px-5 py-4 border-b border-premium-neutral-100 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0F172A] to-[#1B1B4B] flex items-center justify-center flex-shrink-0">
           <Network className="w-4 h-4 text-white" />
         </div>
         <div>
@@ -333,7 +333,7 @@ const ConceptMap: React.FC<ConceptMapProps> = ({
           <button
             key={node.id}
             onClick={node.onClick}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 hover:border-emerald-400 rounded-lg text-xs text-emerald-800 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-emerald-200 hover:border-emerald-400 rounded-lg text-xs text-slate-200 transition-colors"
           >
             <span>{node.icon}</span>
             {node.label}
@@ -343,7 +343,7 @@ const ConceptMap: React.FC<ConceptMapProps> = ({
           <button
             key={node.id}
             onClick={node.onClick}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 hover:border-amber-400 rounded-lg text-xs text-amber-800 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-amber-200 hover:border-amber-400 rounded-lg text-xs text-slate-200 transition-colors"
           >
             <span>{node.icon}</span>
             {node.label}

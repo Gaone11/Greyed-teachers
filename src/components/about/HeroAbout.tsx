@@ -47,7 +47,7 @@ const HeroAbout: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              OrionX and SkyVerse888 Foundation are working together to bring the GreyEd AI education platform to Cophetsheni Primary School in Mpumalanga, South Africa.
+              OrionX and SkyVerse888 Foundation are working together to bring the GreyEd AI education platform to GreyEd in Mpumalanga, South Africa.
             </motion.p>
           </>
         ) : (
@@ -57,7 +57,7 @@ const HeroAbout: React.FC = () => {
             </h1>
 
             <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">
-              OrionX and SkyVerse888 Foundation are working together to bring the GreyEd AI education platform to Cophetsheni Primary School in Mpumalanga, South Africa.
+              OrionX and SkyVerse888 Foundation are working together to bring the GreyEd AI education platform to GreyEd in Mpumalanga, South Africa.
             </p>
           </>
         )}

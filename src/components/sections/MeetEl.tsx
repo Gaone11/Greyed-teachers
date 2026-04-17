@@ -19,7 +19,7 @@ const MeetEl: React.FC = () => {
   const features = [
     {
       icon: <Bot size={24} />,
-      title: "CAPS-Smart Planning",
+      title: "Curriculum-Smart Planning",
       description: "Generates lesson plans, activities, and resources aligned to South Africa's Curriculum and Assessment Policy Statement."
     },
     {
@@ -47,7 +47,7 @@ const MeetEl: React.FC = () => {
             Meet Your AI Teaching Assistant
           </h2>
           <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            Your AI assistant understands CAPS, knows your learners, and works around the clock.
+            Your AI assistant understands curriculum, knows your learners, and works around the clock.
           </p>
           <p className="text-sm text-greyed-black/50 mt-2 italic">
             "Imfundo yisikhali esiyiso" — Education is the right weapon

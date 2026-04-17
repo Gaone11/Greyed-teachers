@@ -31,11 +31,12 @@ export default defineConfig({
   publicDir: 'public',
   server: {
     host: 'localhost',
+    port: 5200,
+    strictPort: true,
     cors: true,
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-      clientPort: 5176,
     },
     headers: {
       'Access-Control-Allow-Origin': '*',

@@ -12,12 +12,12 @@ interface AboutPageProps {
 
 const AboutPage: React.FC<AboutPageProps> = ({ openAdminLoginModal }) => {
   useEffect(() => {
-    document.title = "About — OrionX × SkyVerse888 | GreyEd at Cophetsheni Primary School";
+    document.title = "About — OrionX × SkyVerse888 | GreyEd at GreyEd";
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content',
-        'Learn about the partnership between OrionX and SkyVerse888 Foundation bringing the GreyEd AI education platform to Cophetsheni Primary School in Mpumalanga, South Africa.');
+        'Learn about the partnership between OrionX and SkyVerse888 Foundation bringing the GreyEd AI education platform to GreyEd in Mpumalanga, South Africa.');
     }
   }, []);
 

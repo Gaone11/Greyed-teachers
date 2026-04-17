@@ -30,7 +30,7 @@ const ACCOMMODATION_OPTIONS = [
     id: 'dyslexia',
     label: 'Dyslexia',
     description: 'Reading and text support',
-    color: 'bg-green-100 text-green-800 border-green-300',
+    color: 'bg-slate-700 text-slate-200 border-slate-500',
     features: [
       'Dyslexia-friendly fonts',
       'Increased line spacing',

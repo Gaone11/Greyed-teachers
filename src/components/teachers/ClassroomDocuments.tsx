@@ -260,7 +260,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
 
   // Get icon based on file type
   const getFileIcon = (fileType: string | undefined) => {
-    if (!fileType) return <File className="w-6 h-6 text-gray-400" />;
+    if (!fileType) return <File className="w-6 h-6 text-greyed-beige" />;
     
     if (fileType.includes('image')) {
       return <FileImage className="w-6 h-6 text-greyed-blue" />;
@@ -268,7 +268,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
       return <FileText className="w-6 h-6 text-red-500" />;
     }
     
-    return <File className="w-6 h-6 text-gray-400" />;
+    return <File className="w-6 h-6 text-greyed-beige" />;
   };
 
   // Format date
@@ -314,11 +314,11 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
       <div className="mb-4">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
+            <Search className="h-5 w-5 text-greyed-beige" />
           </div>
           <input
             type="text"
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+            className="pl-10 pr-4 py-2 w-full border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
             placeholder="Search documents by name or tag..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -410,14 +410,14 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                         href={doc.path}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1 text-gray-500 hover:text-greyed-navy hover:bg-greyed-navy/10 rounded transition-colors"
+                        className="p-1 text-greyed-beige hover:text-greyed-navy hover:bg-greyed-navy/10 rounded transition-colors"
                         title="Download"
                       >
                         <Download size={16} />
                       </a>
                       <button 
                         onClick={() => handleDelete(doc.id, doc.path)}
-                        className="p-1 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                        className="p-1 text-greyed-beige hover:text-red-500 hover:bg-red-50 rounded transition-colors"
                         title="Delete"
                       >
                         <Trash2 size={16} />
@@ -435,7 +435,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
       {showUploadModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
-            <div className="p-5 border-b border-gray-200 flex justify-between items-center">
+            <div className="p-5 border-b border-white/10 flex justify-between items-center">
               <h3 className="text-lg font-headline font-bold">Upload Document</h3>
               <button 
                 onClick={() => {
@@ -444,7 +444,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                   setCurrentTags([]);
                   setError(null);
                 }}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-greyed-beige hover:text-greyed-beige"
               >
                 <X size={20} />
               </button>
@@ -453,7 +453,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
             <div className="p-5">
               {/* File upload area */}
               <div 
-                className={`border-2 ${dragActive ? 'border-greyed-blue bg-greyed-blue/5' : 'border-dashed border-gray-300'} rounded-lg p-6 text-center mb-4`}
+                className={`border-2 ${dragActive ? 'border-greyed-blue bg-greyed-blue/5' : 'border-dashed border-white/20'} rounded-lg p-6 text-center mb-4`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
@@ -475,7 +475,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                       ) : selectedFile.type.includes('pdf') ? (
                         <FileText className="w-8 h-8 text-red-500" />
                       ) : (
-                        <File className="w-8 h-8 text-gray-500" />
+                        <File className="w-8 h-8 text-greyed-beige" />
                       )}
                     </div>
                     <p className="text-black font-medium mb-1">{selectedFile.name}</p>
@@ -534,20 +534,20 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
               
               {/* Tags */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-greyed-white mb-2">
                   Add Tags (Optional)
                 </label>
                 <div className="flex mb-2">
                   <div className="relative flex-grow">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Tag size={16} className="text-gray-400" />
+                      <Tag size={16} className="text-greyed-beige" />
                     </div>
                     <input
                       type="text"
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyPress={handleTagKeyPress}
-                      className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                      className="pl-10 w-full px-3 py-2 border border-white/20 rounded-l-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                       placeholder="e.g., homework, notes"
                     />
                   </div>
@@ -579,7 +579,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                 </div>
               </div>
               
-              <div className="flex justify-end pt-4 border-t border-gray-200">
+              <div className="flex justify-end pt-4 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => {
@@ -587,7 +587,7 @@ const ClassroomDocuments: React.FC<ClassroomDocumentsProps> = ({ classId, classN
                     setSelectedFile(null);
                     setCurrentTags([]);
                   }}
-                  className="mx-2 px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="mx-2 px-4 py-2 text-sm border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
                   disabled={isUploading}
                 >
                   Cancel

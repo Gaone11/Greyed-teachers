@@ -54,10 +54,10 @@ const CurriculumGrid: React.FC = () => {
       <div className="container mx-auto px-4">
         <AnimatedSection className="text-center mb-12">
           <h2 className="text-2xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            CAPS Curriculum Coverage
+            Curriculum Coverage
           </h2>
           <p className="text-base md:text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            Full alignment with the South African Curriculum and Assessment Policy Statement (CAPS) for Foundation, Intermediate, and Senior phases.
+            Full alignment with the National Curriculum for Foundation, Intermediate, and Senior phases.
           </p>
         </AnimatedSection>
         

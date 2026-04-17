@@ -91,8 +91,8 @@ async function guessNextWeek(classId: string): Promise<string> {
 }
 
 // Shared input class for consistency
-const inputClass = "w-full p-3 border border-gray-200 rounded-xl text-sm text-[#2D1B0E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/15 focus:border-[#1B4332]/30 transition-all bg-white";
-const labelClass = "block text-sm font-medium text-[#2D1B0E]/70 mb-1.5";
+const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 transition-all bg-white";
+const labelClass = "block text-sm font-medium text-[#0F172A]/70 mb-1.5";
 
 export default function TeacherLessonPlanGeneratorPage() {
   const { user } = useAuth();
@@ -284,48 +284,48 @@ export default function TeacherLessonPlanGeneratorPage() {
 
   // Markdown component overrides for styled rendering
   const mdComponents = {
-    h1: ({ children }: any) => <h1 className="text-xl font-bold text-[#2D1B0E] mb-3 pb-2 border-b border-gray-200">{children}</h1>,
-    h2: ({ children }: any) => <h2 className="text-base font-semibold text-[#1B4332] mt-4 mb-2">{children}</h2>,
-    h3: ({ children }: any) => <h3 className="text-sm font-semibold text-[#2D1B0E]/80 mt-3 mb-1">{children}</h3>,
-    h4: ({ children }: any) => <h4 className="text-sm font-medium text-[#2D1B0E]/70 mt-2 mb-1">{children}</h4>,
-    p: ({ children }: any) => <p className="text-sm text-[#2D1B0E]/80 leading-relaxed mb-2">{children}</p>,
-    strong: ({ children }: any) => <strong className="font-semibold text-[#2D1B0E]/90">{children}</strong>,
-    em: ({ children }: any) => <em className="italic text-[#2D1B0E]/70">{children}</em>,
+    h1: ({ children }: any) => <h1 className="text-xl font-bold text-[#0F172A] mb-3 pb-2 border-b border-white/10">{children}</h1>,
+    h2: ({ children }: any) => <h2 className="text-base font-semibold text-[#0F172A] mt-4 mb-2">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-sm font-semibold text-[#0F172A]/80 mt-3 mb-1">{children}</h3>,
+    h4: ({ children }: any) => <h4 className="text-sm font-medium text-[#0F172A]/70 mt-2 mb-1">{children}</h4>,
+    p: ({ children }: any) => <p className="text-sm text-[#0F172A]/80 leading-relaxed mb-2">{children}</p>,
+    strong: ({ children }: any) => <strong className="font-semibold text-[#0F172A]/90">{children}</strong>,
+    em: ({ children }: any) => <em className="italic text-[#0F172A]/70">{children}</em>,
     ul: ({ children }: any) => <ul className="space-y-1 mb-3 pl-1">{children}</ul>,
     ol: ({ children }: any) => <ol className="space-y-1 mb-3 pl-1 list-decimal list-inside">{children}</ol>,
     li: ({ children }: any) => (
-      <li className="flex items-start gap-2 text-sm text-[#2D1B0E]/80">
-        <span className="text-[#1B4332]/40 mt-1.5 text-[6px] shrink-0">●</span>
+      <li className="flex items-start gap-2 text-sm text-[#0F172A]/80">
+        <span className="text-[#0F172A]/40 mt-1.5 text-[6px] shrink-0">●</span>
         <span className="leading-relaxed">{children}</span>
       </li>
     ),
     table: ({ children }: any) => (
-      <div className="my-3 rounded-lg border border-gray-200 overflow-hidden">
+      <div className="my-3 rounded-lg border border-white/10 overflow-hidden">
         <table className="w-full text-sm">{children}</table>
       </div>
     ),
-    thead: ({ children }: any) => <thead className="bg-[#1B4332]/5">{children}</thead>,
+    thead: ({ children }: any) => <thead className="bg-[#0F172A]/5">{children}</thead>,
     tbody: ({ children }: any) => <tbody className="divide-y divide-gray-100">{children}</tbody>,
     tr: ({ children }: any) => <tr className="divide-x divide-gray-100">{children}</tr>,
-    th: ({ children }: any) => <th className="px-3 py-2 text-left font-semibold text-[#2D1B0E]/80 text-xs uppercase tracking-wide">{children}</th>,
-    td: ({ children }: any) => <td className="px-3 py-2 text-[#2D1B0E]/80">{children}</td>,
-    hr: () => <hr className="my-4 border-gray-200" />,
+    th: ({ children }: any) => <th className="px-3 py-2 text-left font-semibold text-[#0F172A]/80 text-xs uppercase tracking-wide">{children}</th>,
+    td: ({ children }: any) => <td className="px-3 py-2 text-[#0F172A]/80">{children}</td>,
+    hr: () => <hr className="my-4 border-white/10" />,
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-3 border-[#1B4332]/20 pl-4 my-3 text-sm text-[#2D1B0E]/60 italic">{children}</blockquote>
+      <blockquote className="border-l-3 border-[#0F172A]/20 pl-4 my-3 text-sm text-[#0F172A]/60 italic">{children}</blockquote>
     ),
     code: ({ children, className }: any) => {
       const isBlock = className?.includes('language-');
       if (isBlock) {
-        return <pre className="bg-gray-50 border border-gray-200 rounded-lg p-3 my-3 text-xs overflow-x-auto"><code>{children}</code></pre>;
+        return <pre className="bg-greyed-navy border border-white/10 rounded-lg p-3 my-3 text-xs overflow-x-auto"><code>{children}</code></pre>;
       }
-      return <code className="bg-gray-100 text-[#1B4332] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>;
+      return <code className="bg-greyed-card text-[#0F172A] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>;
     },
   };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-[#1B4332]/20 border-t-greyed-navy rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-[#0F172A]/20 border-t-greyed-navy rounded-full animate-spin" />
       </div>
     );
   }
@@ -333,19 +333,19 @@ export default function TeacherLessonPlanGeneratorPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8]">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-white border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <button
               type="button"
               onClick={() => navigate('/teachers/lesson-planner')}
-              className="flex items-center gap-2 text-[#2D1B0E]/60 hover:text-[#2D1B0E] text-sm font-medium transition-colors"
+              className="flex items-center gap-2 text-[#0F172A]/60 hover:text-[#0F172A] text-sm font-medium transition-colors"
               title="Back to Lesson Plans"
             >
               <ArrowLeft size={16} />
               Back
             </button>
-            <h1 className="font-headline font-semibold text-[#2D1B0E] text-lg">Generate Lesson Plan</h1>
+            <h1 className="font-headline font-semibold text-[#0F172A] text-lg">Generate Lesson Plan</h1>
             <div className="w-16" />
           </div>
         </div>
@@ -358,7 +358,7 @@ export default function TeacherLessonPlanGeneratorPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6"
+            className="bg-white rounded-2xl border border-white/5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6"
           >
             <form onSubmit={handleGenerateLessonPlan} className="space-y-5">
               {/* Class */}
@@ -374,13 +374,13 @@ export default function TeacherLessonPlanGeneratorPage() {
 
               {/* Grade (auto-filled from class) */}
               <div>
-                <label className={labelClass}>Grade <span className="text-[#2D1B0E]/40 font-normal">(from class)</span></label>
-                <div className="w-full p-3 rounded-xl text-sm text-[#2D1B0E] bg-[#E8D5B7]/20 font-medium">
+                <label className={labelClass}>Grade <span className="text-[#0F172A]/40 font-normal">(from class)</span></label>
+                <div className="w-full p-3 rounded-xl text-sm text-[#0F172A] bg-[#94A3B8]/20 font-medium">
                   {formData.selectedGrade || 'Select a class first'}
                 </div>
               </div>
 
-              <div className="border-b border-gray-100" />
+              <div className="border-b border-white/5" />
 
               {/* Subject */}
               <div>
@@ -405,12 +405,12 @@ export default function TeacherLessonPlanGeneratorPage() {
               {/* Syllabus (locked to CAPS) */}
               <div>
                 <label className={labelClass}>Syllabus</label>
-                <div className="w-full p-3 rounded-xl text-sm text-[#2D1B0E] bg-[#E8D5B7]/20 font-medium">
+                <div className="w-full p-3 rounded-xl text-sm text-[#0F172A] bg-[#94A3B8]/20 font-medium">
                   CAPS (South Africa)
                 </div>
               </div>
 
-              <div className="border-b border-gray-100" />
+              <div className="border-b border-white/5" />
 
               {/* Term + Week */}
               <div className="grid grid-cols-2 gap-4">
@@ -424,7 +424,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                   </select>
                 </div>
                 <div>
-                  <label className={labelClass}>Week <span className="text-[#2D1B0E]/40 font-normal">(auto-guessed)</span></label>
+                  <label className={labelClass}>Week <span className="text-[#0F172A]/40 font-normal">(auto-guessed)</span></label>
                   <input type="number" name="week" value={formData.week} onChange={handleInputChange} min="1" max="12" className={inputClass} title="Week number" />
                 </div>
               </div>
@@ -441,13 +441,13 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </div>
               </div>
 
-              <div className="border-b border-gray-100" />
+              <div className="border-b border-white/5" />
 
               {/* Focus Areas */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className={labelClass}>Additional Focus Areas</label>
-                  <button type="button" onClick={handleAddFocusArea} className="flex items-center text-sm text-[#1B4332]/70 hover:text-[#1B4332] font-medium transition-colors">
+                  <button type="button" onClick={handleAddFocusArea} className="flex items-center text-sm text-[#0F172A]/70 hover:text-[#0F172A] font-medium transition-colors">
                     <PlusCircle className="h-4 w-4 mr-1" />
                     Add
                   </button>
@@ -461,7 +461,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                       placeholder="e.g., Vocabulary building, Problem solving"
                       className={inputClass}
                     />
-                    <button type="button" onClick={() => handleRemoveFocusArea(index)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg transition-colors">
+                    <button type="button" onClick={() => handleRemoveFocusArea(index)} className="p-2 text-greyed-beige hover:text-red-500 rounded-lg transition-colors">
                       <X className="h-4 w-4" />
                     </button>
                   </div>
@@ -470,31 +470,31 @@ export default function TeacherLessonPlanGeneratorPage() {
 
               {/* Include Sections */}
               <div>
-                <h3 className="text-sm font-medium text-[#2D1B0E]/70 mb-3">Include Sections</h3>
+                <h3 className="text-sm font-medium text-[#0F172A]/70 mb-3">Include Sections</h3>
                 <div className="space-y-2.5">
                   <label className="flex items-center cursor-pointer group">
                     <input type="checkbox" name="includeAssessment" checked={formData.includeAssessment} onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors" />
-                    <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Assessment Activities</span>
+                      className="rounded border-white/20 text-[#0F172A] focus:ring-[#0F172A]/30 transition-colors" />
+                    <span className="ml-2.5 text-sm text-[#0F172A]/60 group-hover:text-[#0F172A]/80 transition-colors">Assessment Activities</span>
                   </label>
                   <label className="flex items-center cursor-pointer group">
                     <input type="checkbox" name="includeDifferentiation" checked={formData.includeDifferentiation} onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors" />
-                    <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Differentiation Strategies</span>
+                      className="rounded border-white/20 text-[#0F172A] focus:ring-[#0F172A]/30 transition-colors" />
+                    <span className="ml-2.5 text-sm text-[#0F172A]/60 group-hover:text-[#0F172A]/80 transition-colors">Differentiation Strategies</span>
                   </label>
                   <label className="flex items-center cursor-pointer group">
                     <input type="checkbox" name="includeResources" checked={formData.includeResources} onChange={handleCheckboxChange}
-                      className="rounded border-gray-300 text-[#1B4332] focus:ring-[#1B4332]/30 transition-colors" />
-                    <span className="ml-2.5 text-sm text-[#2D1B0E]/60 group-hover:text-[#2D1B0E]/80 transition-colors">Required Resources</span>
+                      className="rounded border-white/20 text-[#0F172A] focus:ring-[#0F172A]/30 transition-colors" />
+                    <span className="ml-2.5 text-sm text-[#0F172A]/60 group-hover:text-[#0F172A]/80 transition-colors">Required Resources</span>
                   </label>
                 </div>
               </div>
 
               {/* KB Indicator */}
               {kbChunkCount > 0 && (
-                <div className="bg-[#D4A843]/8 border border-greyed-blue/20 rounded-xl p-3.5 flex items-center gap-2.5">
-                  <Database className="h-4 w-4 text-[#D4A843] flex-shrink-0" />
-                  <p className="text-sm text-[#1B4332]/70">
+                <div className="bg-[#67E8F9]/8 border border-greyed-blue/20 rounded-xl p-3.5 flex items-center gap-2.5">
+                  <Database className="h-4 w-4 text-[#67E8F9] flex-shrink-0" />
+                  <p className="text-sm text-[#0F172A]/70">
                     {kbChunkCount} knowledgebase chunks available. Matching chunks will be injected into the lesson plan.
                   </p>
                 </div>
@@ -504,7 +504,7 @@ export default function TeacherLessonPlanGeneratorPage() {
               <button
                 type="submit"
                 disabled={isGenerating}
-                className="w-full bg-[#1B4332] text-white py-3 px-4 rounded-xl hover:bg-[#1B4332]/90 focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm font-medium transition-all shadow-sm"
+                className="w-full bg-[#0F172A] text-white py-3 px-4 rounded-xl hover:bg-[#0F172A]/90 focus:outline-none focus:ring-2 focus:ring-[#0F172A]/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm font-medium transition-all shadow-sm"
               >
                 {isGenerating ? (
                   <>
@@ -513,7 +513,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                   </>
                 ) : (
                   <>
-                    <Wand2 className="h-4 w-4 mr-2 text-[#D4A843]" />
+                    <Wand2 className="h-4 w-4 mr-2 text-[#67E8F9]" />
                     Generate CAPS Lesson Plan
                   </>
                 )}
@@ -537,14 +537,14 @@ export default function TeacherLessonPlanGeneratorPage() {
               >
                 {/* Toolbar */}
                 <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-headline font-semibold text-[#2D1B0E] flex items-center text-[15px]">
-                    <CheckCircle className="h-4 w-4 text-emerald-500 mr-2" />
+                  <h2 className="font-headline font-semibold text-[#0F172A] flex items-center text-[15px]">
+                    <CheckCircle className="h-4 w-4 text-cyan-400 mr-2" />
                     Lesson Plan
                   </h2>
                   <button
                     type="button"
                     onClick={handleDownloadPlan}
-                    className="flex items-center bg-[#1B4332] text-white px-3 py-1.5 rounded-lg hover:bg-[#1B4332]/90 text-xs font-medium transition-colors shadow-sm"
+                    className="flex items-center bg-[#0F172A] text-white px-3 py-1.5 rounded-lg hover:bg-[#0F172A]/90 text-xs font-medium transition-colors shadow-sm"
                   >
                     <Download className="h-3.5 w-3.5 mr-1.5" />
                     Download DOCX
@@ -552,7 +552,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </div>
 
                 {/* Document Page */}
-                <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
+                <div className="bg-white rounded-2xl border border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
                   {/* Page content — A4-like proportions */}
                   <div className="p-8 min-h-[560px] max-h-[560px] overflow-y-auto">
                     <motion.div
@@ -568,12 +568,12 @@ export default function TeacherLessonPlanGeneratorPage() {
                   </div>
 
                   {/* Page Navigation */}
-                  <div className="border-t border-gray-100 bg-gray-50/50 px-6 py-3 flex items-center justify-between">
+                  <div className="border-t border-white/5 bg-greyed-navy/50 px-6 py-3 flex items-center justify-between">
                     <button
                       type="button"
                       onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
                       disabled={currentPage === 0}
-                      className="flex items-center gap-1.5 text-sm font-medium text-[#1B4332] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#D4A843] transition-colors"
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#0F172A] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#67E8F9] transition-colors"
                     >
                       <ChevronLeft className="h-4 w-4" />
                       Previous
@@ -588,7 +588,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                           title={`Go to page ${i + 1}`}
                           className={`w-2 h-2 rounded-full transition-all ${
                             i === currentPage
-                              ? 'bg-[#1B4332] scale-125'
+                              ? 'bg-[#0F172A] scale-125'
                               : 'bg-gray-300 hover:bg-gray-400'
                           }`}
                         />
@@ -599,7 +599,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                       type="button"
                       onClick={() => setCurrentPage(p => Math.min(planPages.length - 1, p + 1))}
                       disabled={currentPage === planPages.length - 1}
-                      className="flex items-center gap-1.5 text-sm font-medium text-[#1B4332] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#D4A843] transition-colors"
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#0F172A] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#67E8F9] transition-colors"
                     >
                       Next
                       <ChevronRight className="h-4 w-4" />
@@ -608,18 +608,18 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </div>
 
                 {/* Page indicator */}
-                <p className="text-center text-xs text-[#2D1B0E]/40 mt-2">
+                <p className="text-center text-xs text-[#0F172A]/40 mt-2">
                   Page {currentPage + 1} of {planPages.length}
                 </p>
               </motion.div>
             ) : (
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
+              <div className="bg-white rounded-2xl border border-white/5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
                 <div className="flex flex-col items-center justify-center py-16">
-                  <div className="w-14 h-14 bg-[#E8D5B7]/30 rounded-2xl flex items-center justify-center mb-5">
-                    <BookOpen className="h-6 w-6 text-[#1B4332]/40" />
+                  <div className="w-14 h-14 bg-[#94A3B8]/30 rounded-2xl flex items-center justify-center mb-5">
+                    <BookOpen className="h-6 w-6 text-[#0F172A]/40" />
                   </div>
-                  <h3 className="font-headline font-semibold text-[#2D1B0E] mb-2">Ready to Generate</h3>
-                  <p className="text-[#2D1B0E]/45 text-center max-w-xs text-sm leading-relaxed">
+                  <h3 className="font-headline font-semibold text-[#0F172A] mb-2">Ready to Generate</h3>
+                  <p className="text-[#0F172A]/45 text-center max-w-xs text-sm leading-relaxed">
                     Fill out the form and click "Generate Lesson Plan" to create a detailed, curriculum-aligned lesson plan.
                   </p>
                 </div>

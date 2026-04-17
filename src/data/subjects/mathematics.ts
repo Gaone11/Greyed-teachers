@@ -282,7 +282,7 @@ const MATHS_ALGEBRA_DOMAIN: Domain = {
   title: 'Algebra & Calculus',
   description: 'Equations, functions, and the mathematics of change',
   icon: '🔢',
-  color: 'from-blue-500 to-indigo-600',
+  color: 'from-[#0F172A] to-[#1E3A5F]',
   flagshipTopics: [algebraTopic, calculusTopic],
 };
 
@@ -291,7 +291,7 @@ const MATHS_GEOMETRY_DOMAIN: Domain = {
   title: 'Geometry & Trigonometry',
   description: 'Shapes, angles, and spatial mathematics',
   icon: '📐',
-  color: 'from-sky-500 to-blue-600',
+  color: 'from-[#0F172A] to-[#1E3A5F]',
   flagshipTopics: [geometryTrigTopic],
 };
 
@@ -300,7 +300,7 @@ const MATHS_STATS_DOMAIN: Domain = {
   title: 'Statistics & Probability',
   description: 'Data analysis, chance, and statistical inference',
   icon: '📊',
-  color: 'from-teal-500 to-cyan-600',
+  color: 'from-[#0F172A] to-[#164E63]',
   flagshipTopics: [statsProbabilityTopic],
 };
 
@@ -308,7 +308,7 @@ export const MATHEMATICS_SUBJECT: Subject = {
   id: 'mathematics',
   title: 'Mathematics',
   icon: '📐',
-  color: 'from-blue-600 to-blue-800',
+  color: 'from-[#1E2937] to-[#0F172A]',
   textColor: 'text-blue-600',
   domains: [MATHS_ALGEBRA_DOMAIN, MATHS_GEOMETRY_DOMAIN, MATHS_STATS_DOMAIN],
 };

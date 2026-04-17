@@ -117,7 +117,7 @@ const ElAIAssistantPage: React.FC = () => {
             )}
           </button>
           <div className="flex-1">
-            <h2 className="font-headline font-semibold text-black text-sm">Siyafunda AI Teacher Assistant</h2>
+            <h2 className="font-headline font-semibold text-black text-sm">GreyEd AI Teacher Assistant</h2>
           </div>
         </div>
 

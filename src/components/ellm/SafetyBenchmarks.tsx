@@ -234,7 +234,7 @@ const MetricRow: React.FC<MetricRowProps> = ({
         className={index % 2 === 0 ? 'bg-white' : 'bg-greyed-beige/10'}
       >
         <td className="py-4 px-6 border-b border-greyed-navy/10">{metric}</td>
-        <td className={`py-4 px-6 border-b border-greyed-navy/10 text-center font-mono ${isEllmBetter ? 'text-green-600 font-semibold' : ''}`}>
+        <td className={`py-4 px-6 border-b border-greyed-navy/10 text-center font-mono ${isEllmBetter ? 'text-cyan-400 font-semibold' : ''}`}>
           {displayedEllmValue}
         </td>
         <td className="py-4 px-6 border-b border-greyed-navy/10 text-center font-mono">
@@ -247,7 +247,7 @@ const MetricRow: React.FC<MetricRowProps> = ({
         className={index % 2 === 0 ? 'bg-white' : 'bg-greyed-beige/10'}
       >
         <td className="py-4 px-6 border-b border-greyed-navy/10">{metric}</td>
-        <td className={`py-4 px-6 border-b border-greyed-navy/10 text-center font-mono ${isEllmBetter ? 'text-green-600 font-semibold' : ''}`}>
+        <td className={`py-4 px-6 border-b border-greyed-navy/10 text-center font-mono ${isEllmBetter ? 'text-cyan-400 font-semibold' : ''}`}>
           {ellmValue}
         </td>
         <td className="py-4 px-6 border-b border-greyed-navy/10 text-center font-mono">

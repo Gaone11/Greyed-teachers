@@ -162,9 +162,9 @@ const TeacherClassDetailPage: React.FC = () => {
     <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Left sidebar navigation */}
-        <div className={`bg-white border-r border-gray-100 shadow-sm fixed top-0 left-0 bottom-0 z-40 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+        <div className={`bg-white border-r border-white/5 shadow-sm fixed top-0 left-0 bottom-0 z-40 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
           <TeacherSidebar
             activePage="classes"
             onLogout={handleLogout}
@@ -192,18 +192,18 @@ const TeacherClassDetailPage: React.FC = () => {
             <div className="bg-white rounded-2xl border border-[#e8e6e0] shadow-sm p-5 mb-4 animate-fade-in">
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 <div>
-                  <h1 className="text-xl md:text-2xl font-headline font-bold text-[#1B4332]">
+                  <h1 className="text-xl md:text-2xl font-headline font-bold text-[#0F172A]">
                     {classData?.name || 'Class Details'}
                   </h1>
                   <div className="flex items-center flex-wrap gap-2 mt-3">
-                    <span className="bg-[#D4A843]/20 text-[#1B4332] px-3 py-1 rounded-lg text-sm font-semibold">
+                    <span className="bg-[#67E8F9]/20 text-[#0F172A] px-3 py-1 rounded-lg text-sm font-semibold">
                       {classData?.subject || 'Subject'}
                     </span>
-                    <span className="bg-[#1B4332]/8 text-[#1B4332] px-3 py-1 rounded-lg text-sm font-semibold">
+                    <span className="bg-[#0F172A]/8 text-[#0F172A] px-3 py-1 rounded-lg text-sm font-semibold">
                       {classData?.grade || 'Grade'}
                     </span>
                     {classData?.syllabus && (
-                      <span className="bg-[#E8D5B7]/40 text-[#1B4332] px-3 py-1 rounded-lg text-sm font-semibold">
+                      <span className="bg-[#94A3B8]/40 text-[#0F172A] px-3 py-1 rounded-lg text-sm font-semibold">
                         {classData.syllabus}
                       </span>
                     )}
@@ -217,7 +217,7 @@ const TeacherClassDetailPage: React.FC = () => {
                 <div className="flex items-start gap-2">
                   <button
                     onClick={() => setShowSettingsModal(true)}
-                    className="px-4 py-2.5 bg-[#1B4332] text-white rounded-xl hover:bg-[#2D6A4F] transition-all duration-200 flex items-center shadow-sm hover:shadow-md text-sm font-semibold"
+                    className="px-4 py-2.5 bg-[#0F172A] text-white rounded-xl hover:bg-[#1E2937] transition-all duration-200 flex items-center shadow-sm hover:shadow-md text-sm font-semibold"
                   >
                     <Settings size={16} className="mr-2" />
                     Settings
@@ -243,14 +243,14 @@ const TeacherClassDetailPage: React.FC = () => {
                       <button
                         key={tab.id}
                         className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold relative whitespace-nowrap transition-colors duration-200 ${
-                          isActive ? 'text-[#1B4332]' : 'text-[#292828]/50 hover:text-[#1B4332]/70'
+                          isActive ? 'text-[#0F172A]' : 'text-[#292828]/50 hover:text-[#0F172A]/70'
                         }`}
                         onClick={() => setActiveTab(tab.id)}
                       >
                         <Icon size={16} />
                         {tab.label}
                         {isActive && (
-                          <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#D4A843] rounded-full" />
+                          <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#67E8F9] rounded-full" />
                         )}
                       </button>
                     );
@@ -331,8 +331,8 @@ const TeacherClassDetailPage: React.FC = () => {
                                 </td>
                                 <td className="px-4 py-3 whitespace-nowrap">
                                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                    plan.status === 'ready' ? 'bg-green-100 text-green-800' :
-                                    plan.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
+                                    plan.status === 'ready' ? 'bg-slate-700 text-slate-200' :
+                                    plan.status === 'draft' ? 'bg-slate-700 text-slate-200' :
                                     'bg-greyed-blue/20 text-greyed-navy'
                                   }`}>
                                     {plan.status === 'ready' ? 'Ready to teach' :
@@ -416,8 +416,8 @@ const TeacherClassDetailPage: React.FC = () => {
                                 </td>
                                 <td className="px-4 py-3 whitespace-nowrap">
                                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                    assessment.status === 'published' ? 'bg-green-100 text-green-800' :
-                                    assessment.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
+                                    assessment.status === 'published' ? 'bg-slate-700 text-slate-200' :
+                                    assessment.status === 'draft' ? 'bg-slate-700 text-slate-200' :
                                     'bg-greyed-blue/20 text-greyed-navy'
                                   }`}>
                                     {assessment.status}
@@ -456,19 +456,19 @@ const TeacherClassDetailPage: React.FC = () => {
                       <div className="bg-white shadow-sm border border-greyed-navy/10 rounded-lg p-4">
                         <h3 className="font-medium text-sm text-black/70 mb-1">Average Grade</h3>
                         <p className="text-2xl font-bold text-black">{analytics?.averageGrade || 0}%</p>
-                        <div className="mt-2 text-xs text-green-600">+3% from previous unit</div>
+                        <div className="mt-2 text-xs text-cyan-400">+3% from previous unit</div>
                       </div>
                       
                       <div className="bg-white shadow-sm border border-greyed-navy/10 rounded-lg p-4">
                         <h3 className="font-medium text-sm text-black/70 mb-1">Engagement Rate</h3>
                         <p className="text-2xl font-bold text-black">{analytics?.engagementRate || 0}%</p>
-                        <div className="mt-2 text-xs text-green-600">High participation</div>
+                        <div className="mt-2 text-xs text-cyan-400">High participation</div>
                       </div>
                       
                       <div className="bg-white shadow-sm border border-greyed-navy/10 rounded-lg p-4">
                         <h3 className="font-medium text-sm text-black/70 mb-1">Homework Completion</h3>
                         <p className="text-2xl font-bold text-black">{analytics?.homeworkCompletion || 0}%</p>
-                        <div className="mt-2 text-xs text-yellow-600">-2% from last week</div>
+                        <div className="mt-2 text-xs text-slate-300">-2% from last week</div>
                       </div>
                     </div>
                     

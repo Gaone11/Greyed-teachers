@@ -163,7 +163,7 @@ const OnboardingAssessment: React.FC = () => {
           
           {/* Navigation buttons */}
           {currentStep < MAX_STEPS && (
-            <div className="flex justify-between mt-8 pt-4 border-t border-gray-200">
+            <div className="flex justify-between mt-8 pt-4 border-t border-white/10">
               {currentStep > 1 ? (
                 <button
                   type="button"
@@ -203,7 +203,7 @@ const OnboardingAssessment: React.FC = () => {
           
           {/* If on completion step, show dashboard button */}
           {currentStep === MAX_STEPS && completed && (
-            <div className="flex justify-center mt-8 pt-4 border-t border-gray-200">
+            <div className="flex justify-center mt-8 pt-4 border-t border-white/10">
               <button
                 type="button"
                 onClick={() => navigate('/dashboard')}
@@ -218,7 +218,7 @@ const OnboardingAssessment: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-4">
+      <footer className="bg-white border-t border-white/10 py-4">
         <div className="container mx-auto px-4 text-center text-sm text-greyed-navy/60">
           <p>© 2025 GreyEd. All rights reserved.</p>
           <p className="mt-1">Your data is securely stored and used only to personalize your learning experience.</p>

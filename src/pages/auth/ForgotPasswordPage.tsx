@@ -96,8 +96,8 @@ const ForgotPasswordPage: React.FC = () => {
             <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
               {success ? (
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-8 h-8 text-cyan-400" />
                   </div>
                   
                   <h2 className="text-xl font-headline font-semibold text-greyed-navy mb-3">

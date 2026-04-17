@@ -354,7 +354,7 @@ export const ENVIRONMENTAL_SCIENCE_SUBJECT: Subject = {
   id: 'environmental-science',
   title: 'Environmental Science',
   icon: '🌱',
-  color: 'from-lime-500 to-green-600',
+  color: 'from-[#0F172A] to-[#1E2937]',
   textColor: 'text-lime-600',
   domains: [
     ENV_ECOSYSTEMS_DOMAIN,

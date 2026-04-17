@@ -372,7 +372,7 @@ const TeacherSettingsPage: React.FC = () => {
     return (
       <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
-        <div className="min-h-screen pt-20 pb-10 flex items-center justify-center bg-[#f8f8f6]">
+        <div className="min-h-screen pt-20 pb-10 flex items-center justify-center bg-greyed-navy">
           <div className="text-center">
             <Loader className="w-8 h-8 text-greyed-blue mx-auto animate-spin" />
           </div>
@@ -386,14 +386,14 @@ const TeacherSettingsPage: React.FC = () => {
     <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
         )}
         
         {/* Left sidebar navigation */}
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -580,7 +580,7 @@ const TeacherSettingsPage: React.FC = () => {
                             )}
                           </div>
                           
-                          <p className="text-xs text-gray-500 mt-2 text-center">
+                          <p className="text-xs text-greyed-beige mt-2 text-center">
                             JPG, PNG or GIF<br />Max 5MB
                           </p>
                         </div>
@@ -595,14 +595,14 @@ const TeacherSettingsPage: React.FC = () => {
                             </label>
                             <div className="relative">
                               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <User className="h-5 w-5 text-gray-400" />
+                                <User className="h-5 w-5 text-greyed-beige" />
                               </div>
                               <input
                                 type="text"
                                 name="firstName"
                                 value={profileData.firstName}
                                 onChange={handleProfileChange}
-                                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                                className="pl-10 w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                               />
                             </div>
                           </div>
@@ -616,7 +616,7 @@ const TeacherSettingsPage: React.FC = () => {
                               name="lastName"
                               value={profileData.lastName}
                               onChange={handleProfileChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                             />
                           </div>
                           
@@ -626,14 +626,14 @@ const TeacherSettingsPage: React.FC = () => {
                             </label>
                             <div className="relative">
                               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <MailIcon className="h-5 w-5 text-gray-400" />
+                                <MailIcon className="h-5 w-5 text-greyed-beige" />
                               </div>
                               <input
                                 type="email"
                                 name="email"
                                 value={profileData.email || user?.email || ''}
                                 onChange={handleProfileChange}
-                                className="pl-10 w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-md"
+                                className="pl-10 w-full px-3 py-2 border border-white/20 bg-greyed-navy rounded-md"
                                 disabled
                               />
                             </div>
@@ -645,14 +645,14 @@ const TeacherSettingsPage: React.FC = () => {
                             </label>
                             <div className="relative">
                               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <School className="h-5 w-5 text-gray-400" />
+                                <School className="h-5 w-5 text-greyed-beige" />
                               </div>
                               <input
                                 type="text"
                                 name="school"
                                 value={profileData.school}
                                 onChange={handleProfileChange}
-                                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                                className="pl-10 w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                               />
                             </div>
                           </div>
@@ -666,7 +666,7 @@ const TeacherSettingsPage: React.FC = () => {
                               name="title"
                               value={profileData.title}
                               onChange={handleProfileChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                               placeholder="e.g. Physics Teacher, Head of Science"
                             />
                           </div>
@@ -680,7 +680,7 @@ const TeacherSettingsPage: React.FC = () => {
                               value={profileData.bio}
                               onChange={handleProfileChange}
                               rows={4}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                               placeholder="A brief description about yourself and your teaching experience"
                             ></textarea>
                           </div>
@@ -866,7 +866,7 @@ const TeacherSettingsPage: React.FC = () => {
                             type="password"
                             value={passwordData.newPassword}
                             onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                            className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                             placeholder="Enter new password"
                             minLength={6}
                             required
@@ -881,7 +881,7 @@ const TeacherSettingsPage: React.FC = () => {
                             type="password"
                             value={passwordData.confirmPassword}
                             onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                            className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                             placeholder="Confirm new password"
                             minLength={6}
                             required
@@ -925,7 +925,7 @@ const TeacherSettingsPage: React.FC = () => {
                       <button
                         type="button"
                         disabled
-                        className="px-4 py-2 bg-gray-300 text-gray-500 rounded-md cursor-not-allowed"
+                        className="px-4 py-2 bg-gray-300 text-greyed-beige rounded-md cursor-not-allowed"
                       >
                         Coming Soon
                       </button>

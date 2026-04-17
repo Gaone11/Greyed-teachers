@@ -7,21 +7,21 @@ const testimonials = [
   {
     id: 1,
     name: "Thandi M.",
-    school: "Grade 4 Teacher, Mpumalanga",
-    text: "Siyafunda saves me hours every week. I used to spend my Sundays writing lesson plans — now the AI generates CAPS-aligned plans in minutes and I can focus on my learners.",
+    school: "Grade 4 Teacher",
+    text: "GreyEd saves me hours every week. I used to spend my Sundays writing lesson plans — now the AI generates curriculum-aligned plans in minutes and I can focus on my learners.",
     subject: "Foundation Phase"
   },
   {
     id: 2,
     name: "Sipho N.",
-    school: "Grade 7 Teacher, Mpumalanga",
+    school: "Grade 7 Teacher",
     text: "The assessment generator is a game-changer. I create differentiated worksheets for my class of 45 learners, and the auto-grading frees up time I didn't know I had.",
     subject: "Mathematics"
   },
   {
     id: 3,
     name: "Nomsa K.",
-    school: "Grade 5 Teacher, Mpumalanga",
+    school: "Grade 5 Teacher",
     text: "I have three learners with dyslexia in my class. The neurodiversity tools help me create accommodated lesson plans without extra effort. Every child feels included.",
     subject: "Natural Sciences"
   }

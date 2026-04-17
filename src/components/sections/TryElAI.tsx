@@ -46,7 +46,7 @@ const TryElAI: React.FC = () => {
   };
 
   const features = [
-    "Unlimited CAPS-aligned AI lesson plans",
+    "Unlimited curriculum-aligned AI lesson plans",
     "Auto-graded assessments & worksheets",
     "Weekly tutor updates",
     "Student management dashboard",
@@ -59,7 +59,7 @@ const TryElAI: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">
-            Siyafunda Pro for Teachers
+            GreyEd Pro for Teachers
           </h2>
           <p className="text-xl text-greyed-blue">
             AI-powered tools to support your teaching journey.

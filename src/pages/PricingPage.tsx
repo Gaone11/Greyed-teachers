@@ -18,7 +18,7 @@ interface PricingPageProps {
 const PricingPage: React.FC<PricingPageProps> = ({ openAdminLoginModal }) => {
   // Set document title and meta description for SEO
   useEffect(() => {
-    document.title = "Pricing | Cophetsheni Primary — Siyafunda Plans for Teachers";
+    document.title = "Pricing | GreyEd — Siyafunda Plans for Teachers";
     
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');

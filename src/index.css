@@ -5,11 +5,13 @@
 @tailwind utilities;
 
 :root {
-  --color-greyed-navy: #1B4332;
-  --color-greyed-blue: #D4A843;
-  --color-greyed-black: #2D1B0E;
-  --color-greyed-white: #FDF6EC;
-  --color-greyed-beige: #E8D5B7;
+  --color-greyed-navy: #0F172A;
+  --color-greyed-blue: #67E8F9;
+  --color-greyed-black: #0F172A;
+  --color-greyed-white: #F1F5F9;
+  --color-greyed-beige: #94A3B8;
+  --color-greyed-card: #1E2937;
+  --color-greyed-btn: #CBD5E1;
 }
 
 html {
@@ -18,7 +20,7 @@ html {
 
 /* Improve tap highlight on mobile */
 * {
-  -webkit-tap-highlight-color: rgba(187, 215, 235, 0.3);
+  -webkit-tap-highlight-color: rgba(103, 232, 249, 0.2);
 }
 
 /* Better form styles */

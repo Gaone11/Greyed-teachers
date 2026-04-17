@@ -76,7 +76,7 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string |
     const pct = Math.round((score / activeQuiz.length) * 100);
     return (
       <div className="flex flex-col items-center gap-4 py-8">
-        <Star className={`w-12 h-12 ${pct >= 80 ? 'text-yellow-400' : 'text-premium-neutral-300'}`} />
+        <Star className={`w-12 h-12 ${pct >= 80 ? 'text-slate-300' : 'text-premium-neutral-300'}`} />
         <h3 className="text-xl font-bold text-premium-navy">
           {pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Good job!' : 'Keep practising!'}
         </h3>
@@ -107,7 +107,7 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string |
         {q.options.map((opt, i) => {
           let cls = 'bg-white border-premium-neutral-200 text-premium-neutral-700 hover:border-greyed-blue hover:bg-blue-50';
           if (selected !== null) {
-            if (i === q.answer) cls = 'bg-emerald-50 border-emerald-500 text-emerald-800';
+            if (i === q.answer) cls = 'bg-slate-800 border-emerald-500 text-slate-200';
             else if (i === selected && i !== q.answer) cls = 'bg-red-50 border-red-400 text-red-700';
             else cls = 'opacity-50 bg-white border-premium-neutral-100 text-premium-neutral-400';
           }
@@ -126,7 +126,7 @@ const MiniQuiz: React.FC<{ topic: FlagshipTopic; selectedMicroTopicId?: string |
 
       {selected !== null && (
         <div className="space-y-3">
-          <div className={`flex gap-2 px-4 py-3 rounded-xl text-sm ${selected === q.answer ? 'bg-emerald-50 border border-emerald-200 text-emerald-800' : 'bg-amber-50 border border-amber-200 text-amber-800'}`}>
+          <div className={`flex gap-2 px-4 py-3 rounded-xl text-sm ${selected === q.answer ? 'bg-slate-800 border border-emerald-200 text-slate-200' : 'bg-slate-800 border border-amber-200 text-slate-200'}`}>
             <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span>{q.explanation}</span>
           </div>
@@ -462,9 +462,9 @@ const TopicView: React.FC<TopicViewProps> = ({
             </div>
             <div className="space-y-3">
               {topic.realWorld.map((item, i) => (
-                <div key={i} className="flex gap-3 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-                  <span className="text-emerald-600 font-bold text-sm flex-shrink-0 w-5">{i + 1}.</span>
-                  <p className="text-sm text-emerald-800 leading-snug">{item}</p>
+                <div key={i} className="flex gap-3 p-4 bg-slate-800 rounded-xl border border-emerald-100">
+                  <span className="text-cyan-400 font-bold text-sm flex-shrink-0 w-5">{i + 1}.</span>
+                  <p className="text-sm text-slate-200 leading-snug">{item}</p>
                 </div>
               ))}
             </div>

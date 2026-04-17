@@ -353,7 +353,7 @@ export const COMPUTER_STUDIES_SUBJECT: Subject = {
   id: 'computer-studies',
   title: 'Computer Studies',
   icon: '💻',
-  color: 'from-slate-600 to-gray-800',
+  color: 'from-[#1E2937] to-[#0F172A]',
   textColor: 'text-slate-600',
   domains: [
     CS_PROGRAMMING_DOMAIN,

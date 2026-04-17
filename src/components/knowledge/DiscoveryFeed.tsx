@@ -56,11 +56,11 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 const CARD_COLORS = [
-  'from-indigo-600 to-purple-700',
+  'from-[#0F172A] to-[#1B1B4B]',
   'from-greyed-navy to-greyed-blue',
   'from-emerald-600 to-teal-700',
-  'from-amber-500 to-orange-600',
-  'from-sky-600 to-cyan-700',
+  'from-amber-500 to-[#1E2937]',
+  'from-[#0F172A] to-cyan-700',
   'from-rose-600 to-pink-700',
 ];
 
@@ -78,7 +78,7 @@ const DiscoveryFeed: React.FC<DiscoveryFeedProps> = ({ onNavigate }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-amber-500" />
+          <Zap className="w-5 h-5 text-slate-300" />
           <h2 className="font-bold text-premium-navy text-lg">Discovery Feed</h2>
         </div>
         <button

@@ -40,7 +40,7 @@ const StudentUpdateCard: React.FC<StudentUpdateCardProps> = ({
           </div>
           
           {update.sent ? (
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-700 text-slate-200">
               <CheckCircle size={12} className="mr-1" />
               Sent via {update.sent_via}
             </span>
@@ -56,7 +56,7 @@ const StudentUpdateCard: React.FC<StudentUpdateCardProps> = ({
               </button>
               <button
                 onClick={() => onSend(update.id, 'whatsapp')}
-                className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200"
+                className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-slate-700 text-slate-200 hover:bg-slate-700"
                 disabled={isSending}
               >
                 <MessageSquare size={12} className="mr-1" />

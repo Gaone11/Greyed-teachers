@@ -45,7 +45,7 @@ const AdminDashboardPage: React.FC = () => {
   
   // Set document title
   useEffect(() => {
-    document.title = "Admin Dashboard | Cophetsheni Primary School";
+    document.title = "Admin Dashboard | GreyEd";
   }, []);
   
   // Handle search input
@@ -181,12 +181,12 @@ const AdminDashboardPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row justify-between gap-4">
                 <div className="relative sm:max-w-xs flex-1">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-gray-400" />
+                    <Search className="h-5 w-5 text-greyed-beige" />
                   </div>
                   <input
                     type="text"
                     placeholder="Search by name or email"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+                    className="w-full pl-10 pr-4 py-2 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
                     value={searchFilter}
                     onChange={handleSearchChange}
                   />
@@ -278,7 +278,7 @@ const AdminDashboardPage: React.FC = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             entry.role === 'student' ? 'bg-greyed-blue/20 text-greyed-navy' :
-                            entry.role === 'parent' ? 'bg-green-100 text-green-800' :
+                            entry.role === 'parent' ? 'bg-slate-700 text-slate-200' :
                             entry.role === 'teacher' ? 'bg-greyed-navy/10 text-greyed-navy' :
                             'bg-greyed-beige text-greyed-navy'
                           }`}>
@@ -302,10 +302,10 @@ const AdminDashboardPage: React.FC = () => {
                   <button
                     onClick={() => setPage(page > 1 ? page - 1 : 1)}
                     disabled={page === 1}
-                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+                    className={`relative inline-flex items-center px-4 py-2 border border-white/20 text-sm font-medium rounded-md ${
                       page === 1 
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : 'bg-white text-greyed-navy hover:bg-gray-50'
+                        ? 'bg-greyed-card text-greyed-beige cursor-not-allowed' 
+                        : 'bg-white text-greyed-navy hover:bg-greyed-navy'
                     }`}
                   >
                     Previous
@@ -313,10 +313,10 @@ const AdminDashboardPage: React.FC = () => {
                   <button
                     onClick={() => setPage(page < pageCount ? page + 1 : pageCount)}
                     disabled={page === pageCount}
-                    className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+                    className={`ml-3 relative inline-flex items-center px-4 py-2 border border-white/20 text-sm font-medium rounded-md ${
                       page === pageCount 
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : 'bg-white text-greyed-navy hover:bg-gray-50'
+                        ? 'bg-greyed-card text-greyed-beige cursor-not-allowed' 
+                        : 'bg-white text-greyed-navy hover:bg-greyed-navy'
                     }`}
                   >
                     Next
@@ -324,7 +324,7 @@ const AdminDashboardPage: React.FC = () => {
                 </div>
                 <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm text-greyed-white">
                       Showing <span className="font-medium">{waitlistData.length > 0 ? (page - 1) * 10 + 1 : 0}</span> to <span className="font-medium">{Math.min(page * 10, totalCount)}</span> of{' '}
                       <span className="font-medium">{totalCount}</span> results
                     </p>
@@ -334,10 +334,10 @@ const AdminDashboardPage: React.FC = () => {
                       <button
                         onClick={() => setPage(page > 1 ? page - 1 : 1)}
                         disabled={page === 1}
-                        className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 ${
+                        className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-white/20 ${
                           page === 1 
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                            : 'bg-white text-gray-500 hover:bg-gray-50'
+                            ? 'bg-greyed-card text-greyed-beige cursor-not-allowed' 
+                            : 'bg-white text-greyed-beige hover:bg-greyed-navy'
                         }`}
                       >
                         <span className="sr-only">Previous</span>
@@ -351,7 +351,7 @@ const AdminDashboardPage: React.FC = () => {
                           className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                             page === i + 1
                               ? 'z-10 bg-greyed-blue/20 border-greyed-blue text-greyed-navy'
-                              : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                              : 'bg-white border-white/20 text-greyed-beige hover:bg-greyed-navy'
                           }`}
                         >
                           {i + 1}
@@ -361,10 +361,10 @@ const AdminDashboardPage: React.FC = () => {
                       <button
                         onClick={() => setPage(page < pageCount ? page + 1 : pageCount)}
                         disabled={page === pageCount}
-                        className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 ${
+                        className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-white/20 ${
                           page === pageCount 
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                            : 'bg-white text-gray-500 hover:bg-gray-50'
+                            ? 'bg-greyed-card text-greyed-beige cursor-not-allowed' 
+                            : 'bg-white text-greyed-beige hover:bg-greyed-navy'
                         }`}
                       >
                         <span className="sr-only">Next</span>

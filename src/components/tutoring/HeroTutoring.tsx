@@ -37,7 +37,7 @@ const HeroTutoring: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              Tutoring at Cophetsheni Primary School
+              Tutoring at GreyEd
             </motion.h1>
 
             <motion.p
@@ -53,7 +53,7 @@ const HeroTutoring: React.FC = () => {
         ) : (
           <>
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
-              Tutoring at Cophetsheni Primary School
+              Tutoring at GreyEd
             </h1>
 
             <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">

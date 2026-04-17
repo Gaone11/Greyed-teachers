@@ -19,7 +19,7 @@ const FAQAccordion: React.FC = () => {
     {
       id: 'who-are-tutors',
       question: 'Who are the tutors?',
-      answer: 'Our tutors are trained individuals who work with the GreyEd platform to support learners at Cophetsheni Primary School. They are screened and supervised as part of the programme\'s safeguarding requirements.'
+      answer: 'Our tutors are trained individuals who work with the GreyEd platform to support learners at GreyEd. They are screened and supervised as part of the programme\'s safeguarding requirements.'
     },
     {
       id: 'what-subjects',

@@ -171,7 +171,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
               )}
               
               {signupSuccess && (
-                <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg flex items-start">
+                <div className="bg-slate-800 border border-slate-600 text-cyan-400 px-4 py-3 rounded-lg flex items-start">
                   <CheckCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium">Access granted!</p>

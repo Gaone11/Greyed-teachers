@@ -72,7 +72,7 @@ const ContactForm: React.FC = () => {
               className="bg-white rounded-xl p-6 md:p-8 shadow-md"
             >
               {formSuccess && (
-                <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert" aria-live="polite">
+                <div className="mb-6 bg-slate-700 border border-slate-400 text-cyan-300 px-4 py-3 rounded relative" role="alert" aria-live="polite">
                   <strong className="font-bold">Message sent! </strong>
                   <span className="block sm:inline">We'll reply soon.</span>
                 </div>
@@ -176,7 +176,7 @@ const ContactForm: React.FC = () => {
           ) : (
             <div className="bg-white rounded-xl p-6 md:p-8 shadow-md">
               {formSuccess && (
-                <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert" aria-live="polite">
+                <div className="mb-6 bg-slate-700 border border-slate-400 text-cyan-300 px-4 py-3 rounded relative" role="alert" aria-live="polite">
                   <strong className="font-bold">Message sent! </strong>
                   <span className="block sm:inline">We'll reply soon.</span>
                 </div>

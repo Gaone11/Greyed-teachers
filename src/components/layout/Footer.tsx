@@ -73,12 +73,12 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
             <div className="mb-6">
               <img
                 src="/favicon.svg"
-                alt="Cophetsheni Primary School"
+                alt="GreyEd"
                 className="h-10 w-auto mb-2"
                 loading="lazy"
               />
-              <p className="text-greyed-blue font-headline font-semibold">Cophetsheni Primary School</p>
-              <p className="text-greyed-white/70 text-sm">Siyafunda — We are learning</p>
+              <p className="text-greyed-blue font-headline font-semibold">GreyEd</p>
+              <p className="text-greyed-white/70 text-sm">We are learning</p>
             </div>
             
             <div className="flex space-x-4 mb-6">
@@ -111,8 +111,8 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
             </div>
             
             <p className="text-greyed-white/60 text-sm">
-              Cophetsheni Primary School<br />
-              Mpumalanga Province<br />
+              GreyEd<br />
+              South Africa<br />
               South Africa
             </p>
           </div>
@@ -232,7 +232,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
         
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-greyed-white/60 mb-4 md:mb-0">
-                        © {new Date().getFullYear()} Cophetsheni Primary School. Siyafunda — We are learning.
+                        © {new Date().getFullYear()} GreyEd. We are learning.
           </p>
           
           <div className="flex flex-wrap gap-4 justify-center">

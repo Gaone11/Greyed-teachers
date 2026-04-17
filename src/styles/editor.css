@@ -13,7 +13,7 @@
 
 .editable-content-area:focus {
   outline: none;
-  border-color: #D4A843;
+  border-color: #67E8F9;
   box-shadow: 0 0 0 3px rgba(187, 215, 235, 0.3);
 }
 
@@ -73,8 +73,8 @@
 }
 
 .format-button.active {
-  background-color: #D4A843;
-  color: #1B4332;
+  background-color: #67E8F9;
+  color: #0F172A;
 }
 
 /* Auto-grow textarea */

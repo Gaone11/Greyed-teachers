@@ -242,15 +242,15 @@ const TeacherCourseDetailPage: React.FC = () => {
 
   if (error || !course) {
     return (
-      <div className="min-h-screen bg-[#f8f8f6]">
+      <div className="min-h-screen bg-greyed-navy">
         <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-        <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+        <div className="min-h-screen pt-[72px] bg-slate-50 flex">
           {showMobileMenu && isMobile && (
             <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
           )}
 
-          <div className={`bg-white border-r border-gray-100 shadow-sm ${
+          <div className={`bg-white border-r border-white/5 shadow-sm ${
             isMobile
               ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
               : 'fixed top-0 left-0 bottom-0 z-40'
@@ -293,10 +293,10 @@ const TeacherCourseDetailPage: React.FC = () => {
   const allModulesCompleted = completedModules.length === course.content.modules.length;
 
   return (
-    <div className="min-h-screen bg-[#f8f8f6]">
+    <div className="min-h-screen bg-greyed-navy">
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)}></div>
@@ -342,7 +342,7 @@ const TeacherCourseDetailPage: React.FC = () => {
                   <p className="text-greyed-navy/70">{course.description}</p>
                 </div>
                 {courseCompleted && (
-                  <Award className="w-12 h-12 text-yellow-500" />
+                  <Award className="w-12 h-12 text-slate-300" />
                 )}
               </div>
 
@@ -414,7 +414,7 @@ const TeacherCourseDetailPage: React.FC = () => {
                             Module {index + 1}
                           </span>
                           {completedModules.includes(module.id) ? (
-                            <CheckCircle size={20} className="text-green-600" />
+                            <CheckCircle size={20} className="text-cyan-400" />
                           ) : (
                             <Circle size={20} className="text-greyed-navy/30" />
                           )}
@@ -734,9 +734,9 @@ const TeacherCourseDetailPage: React.FC = () => {
                       </div>
                     ) : (
                       <div className="space-y-6">
-                        <div className={`text-center p-6 rounded-lg ${quizPassed ? 'bg-green-100' : 'bg-yellow-100'}`}>
+                        <div className={`text-center p-6 rounded-lg ${quizPassed ? 'bg-slate-700' : 'bg-slate-700'}`}>
                           <p className="text-3xl font-bold mb-2">{quizScore}%</p>
-                          <p className={`text-lg ${quizPassed ? 'text-green-800' : 'text-yellow-800'}`}>
+                          <p className={`text-lg ${quizPassed ? 'text-slate-200' : 'text-slate-200'}`}>
                             {quizPassed ? 'Congratulations! You passed!' : 'Keep studying and try again'}
                           </p>
                         </div>
@@ -746,10 +746,10 @@ const TeacherCourseDetailPage: React.FC = () => {
                           const isCorrect = userAnswer === question.correctAnswer;
 
                           return (
-                            <div key={question.id} className={`bg-white rounded-lg p-6 border-2 ${isCorrect ? 'border-green-500' : 'border-red-500'}`}>
+                            <div key={question.id} className={`bg-white rounded-lg p-6 border-2 ${isCorrect ? 'border-cyan-500' : 'border-red-500'}`}>
                               <div className="flex items-start gap-3 mb-3">
                                 {isCorrect ? (
-                                  <CheckCircle size={24} className="text-green-600 flex-shrink-0" />
+                                  <CheckCircle size={24} className="text-cyan-400 flex-shrink-0" />
                                 ) : (
                                   <Circle size={24} className="text-red-600 flex-shrink-0" />
                                 )}
@@ -758,11 +758,11 @@ const TeacherCourseDetailPage: React.FC = () => {
                                     {qIndex + 1}. {question.question}
                                   </p>
                                   <p className="text-sm text-greyed-navy/70 mb-1">
-                                    Your answer: <span className={isCorrect ? 'text-green-600' : 'text-red-600'}>{userAnswer}</span>
+                                    Your answer: <span className={isCorrect ? 'text-cyan-400' : 'text-red-600'}>{userAnswer}</span>
                                   </p>
                                   {!isCorrect && (
                                     <p className="text-sm text-greyed-navy/70 mb-2">
-                                      Correct answer: <span className="text-green-600">{question.correctAnswer}</span>
+                                      Correct answer: <span className="text-cyan-400">{question.correctAnswer}</span>
                                     </p>
                                   )}
                                   <p className="text-sm text-greyed-navy/80 italic mt-2">
@@ -794,7 +794,7 @@ const TeacherCourseDetailPage: React.FC = () => {
               {currentView === 'certificate' && (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-greyed-beige/30 to-greyed-blue/20 rounded-lg p-12 text-center border-4 border-greyed-navy/20">
-                    <Award className="w-24 h-24 text-yellow-500 mx-auto mb-6" />
+                    <Award className="w-24 h-24 text-slate-300 mx-auto mb-6" />
                     <h2 className="text-3xl font-bold text-greyed-navy mb-4">
                       Certificate of Completion
                     </h2>

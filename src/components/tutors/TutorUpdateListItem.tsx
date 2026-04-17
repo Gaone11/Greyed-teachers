@@ -56,7 +56,7 @@ const TutorUpdateListItem: React.FC<TutorUpdateListItemProps> = ({
   };
   
   return (
-    <div className="bg-white rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4">
+    <div className="bg-white rounded-lg border border-white/5 shadow-sm hover:shadow-md transition-shadow p-4">
       <div className="flex justify-between items-start mb-3">
         <div>
           <h3 className="font-medium text-greyed-navy">{update.className}</h3>
@@ -68,8 +68,8 @@ const TutorUpdateListItem: React.FC<TutorUpdateListItemProps> = ({
         
         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
           update.status === 'draft' 
-            ? 'bg-yellow-100 text-yellow-800' 
-            : 'bg-green-100 text-green-800'
+            ? 'bg-slate-700 text-slate-200' 
+            : 'bg-slate-700 text-slate-200'
         }`}>
           {update.status === 'draft' && <Edit2 size={12} className="mr-1" />}
           {update.status === 'sent' && <CheckCircle size={12} className="mr-1" />}
@@ -77,7 +77,7 @@ const TutorUpdateListItem: React.FC<TutorUpdateListItemProps> = ({
         </span>
       </div>
       
-      <div className="flex flex-wrap justify-between items-center border-t border-gray-100 pt-3">
+      <div className="flex flex-wrap justify-between items-center border-t border-white/5 pt-3">
         <div className="flex items-center text-sm text-greyed-navy/70">
           <div className="mr-2">Sent: {formatDate(update.sentDate)}</div>
           <div className="flex items-center">
@@ -115,7 +115,7 @@ const TutorUpdateListItem: React.FC<TutorUpdateListItemProps> = ({
               <button
                 onClick={() => onSend(update.id)}
                 disabled={isSending}
-                className={`p-1.5 text-green-600 hover:text-green-800 hover:bg-green-50 rounded transition-colors ${
+                className={`p-1.5 text-cyan-400 hover:text-slate-200 hover:bg-slate-800 rounded transition-colors ${
                   isSending ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 title="Send update"

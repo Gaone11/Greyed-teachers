@@ -18,7 +18,19 @@ import {
   type FlagshipTopic,
 } from '../../data/knowledgeGalaxy';
 import { saveTopicVisit } from '../../lib/kgProgress';
-import { Telescope, ChevronRight, ArrowLeft, BookOpen, Layers, Star, GraduationCap } from 'lucide-react';
+import { Telescope, ChevronRight, ArrowLeft, BookOpen, Layers, Star, GraduationCap, Calculator, Zap, FlaskConical, Microscope, Globe, Monitor, Leaf, Sprout, BarChart2 } from 'lucide-react';
+
+const SUBJECT_ICONS: Record<string, React.FC<{ className?: string }>> = {
+  'mathematics':           Calculator,
+  'physics':               Zap,
+  'chemistry':             FlaskConical,
+  'biology':               Microscope,
+  'general-science':       Globe,
+  'computer-studies':      Monitor,
+  'environmental-science': Leaf,
+  'agriculture':           Sprout,
+  'statistics':            BarChart2,
+};
 
 // ─── Layer types ────────────────────────────────────────────────────────────
 
@@ -40,7 +52,7 @@ const SubjectCard: React.FC<{ subject: Subject; onClick: () => void; isMyClass?:
         <GraduationCap className="w-3 h-3" /> Your Class
       </span>
     )}
-    <span className="text-4xl block mb-3">{subject.icon}</span>
+    {(() => { const Icon = SUBJECT_ICONS[subject.id] || BookOpen; return <div className="w-10 h-10 rounded-xl bg-greyed-blue/20 flex items-center justify-center mb-3"><Icon className="w-5 h-5 text-greyed-blue" /></div>; })()}
     <h3 className="text-white font-bold text-lg leading-tight">{subject.title}</h3>
     <p className="text-white/60 text-xs mt-1">{subject.domains.length} domains</p>
     <div className="mt-3 flex items-center gap-1 text-white/70 text-xs group-hover:text-white transition-colors">
@@ -56,23 +68,23 @@ const DomainCard: React.FC<{ domain: Domain; subject: Subject; onClick: () => vo
 }) => (
   <button
     onClick={onClick}
-    className="bg-white rounded-2xl p-5 border-2 border-premium-neutral-200 text-left hover:border-greyed-blue hover:shadow-md transition-all duration-200 group"
+    className="bg-greyed-card rounded-2xl p-5 border border-white/10 text-left hover:border-greyed-blue/50 hover:shadow-md transition-all duration-200 group"
   >
     <div className="flex items-center gap-3 mb-3">
-      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${subject.color} flex items-center justify-center text-xl flex-shrink-0`}>
-        {domain.icon}
+      <div className="w-10 h-10 rounded-xl bg-greyed-blue/20 flex items-center justify-center flex-shrink-0">
+        {(() => { const Icon = SUBJECT_ICONS[subject.id] || BookOpen; return <Icon className="w-5 h-5 text-greyed-blue" />; })()}
       </div>
       <div>
-        <h3 className="font-bold text-premium-navy text-sm">{domain.title}</h3>
-        <p className={`text-xs font-medium ${subject.textColor}`}>{subject.title}</p>
+        <h3 className="font-bold text-greyed-white text-sm">{domain.title}</h3>
+        <p className="text-xs font-medium text-greyed-blue">{subject.title}</p>
       </div>
     </div>
-    <p className="text-xs text-premium-neutral-500 leading-relaxed">{domain.description}</p>
+    <p className="text-xs text-greyed-beige leading-relaxed">{domain.description}</p>
     <div className="mt-3 flex items-center justify-between">
-      <span className="text-xs text-premium-neutral-400">
+      <span className="text-xs text-greyed-beige">
         {domain.flagshipTopics.length} flagship topics
       </span>
-      <ChevronRight className="w-4 h-4 text-premium-neutral-300 group-hover:text-greyed-blue transition-colors" />
+      <ChevronRight className="w-4 h-4 text-greyed-beige group-hover:text-greyed-blue transition-colors" />
     </div>
   </button>
 );
@@ -84,29 +96,31 @@ const FlagshipCard: React.FC<{ topic: FlagshipTopic; subject: Subject; onClick: 
 }) => (
   <button
     onClick={onClick}
-    className="bg-white rounded-2xl p-5 border-2 border-premium-neutral-200 text-left hover:border-greyed-blue hover:shadow-md transition-all duration-200 group"
+    className="bg-greyed-card rounded-2xl p-5 border border-white/10 text-left hover:border-greyed-blue/50 hover:shadow-md transition-all duration-200 group"
   >
     <div className="flex items-start gap-3">
-      <span className="text-3xl leading-none flex-shrink-0">{topic.icon}</span>
+      <div className="w-8 h-8 rounded-lg bg-greyed-blue/20 flex items-center justify-center flex-shrink-0">
+        <BookOpen className="w-4 h-4 text-greyed-blue" />
+      </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-bold text-premium-navy text-sm">{topic.title}</h3>
-        <p className="text-xs text-premium-neutral-500 mt-0.5 leading-snug">{topic.tagline}</p>
+        <h3 className="font-bold text-greyed-white text-sm">{topic.title}</h3>
+        <p className="text-xs text-greyed-beige mt-0.5 leading-snug">{topic.tagline}</p>
       </div>
     </div>
     <div className="flex flex-wrap gap-1.5 mt-3">
       {topic.microTopics.slice(0, 3).map(mt => (
-        <span key={mt.id} className="text-[10px] bg-premium-neutral-100 text-premium-neutral-600 px-2 py-0.5 rounded-full">
+        <span key={mt.id} className="text-[10px] bg-greyed-navy text-greyed-beige px-2 py-0.5 rounded-full border border-white/10">
           {mt.title}
         </span>
       ))}
     </div>
     <div className="mt-3 flex items-center justify-between">
-      <div className="flex gap-2 text-[10px] text-premium-neutral-400">
-        <span>📚 {topic.flashcards.length} cards</span>
-        <span>🧪 {topic.experiments.length} experiments</span>
-        <span>❓ {topic.quiz.length} quiz</span>
+      <div className="flex gap-2 text-[10px] text-greyed-beige">
+        <span>{topic.flashcards.length} cards</span>
+        <span>{topic.experiments.length} experiments</span>
+        <span>{topic.quiz.length} quiz</span>
       </div>
-      <ChevronRight className="w-4 h-4 text-premium-neutral-300 group-hover:text-greyed-blue transition-colors" />
+      <ChevronRight className="w-4 h-4 text-greyed-beige group-hover:text-greyed-blue transition-colors" />
     </div>
   </button>
 );
@@ -238,7 +252,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
       return (
         <div className="space-y-8">
           {/* Hero */}
-          <div className="bg-gradient-to-br from-greyed-navy via-greyed-blue to-indigo-800 rounded-2xl p-8 text-white shadow-xl">
+          <div className="bg-gradient-to-br from-[#0F172A] via-[#1E2937] to-[#0F172A] rounded-2xl p-8 text-white shadow-xl">
             <div className="flex items-start gap-4">
               <Telescope className="w-10 h-10 text-white/80 flex-shrink-0 mt-1" />
               <div>
@@ -401,10 +415,10 @@ const KnowledgeGalaxyPage: React.FC = () => {
   // ─── Layout shell (matches TeacherCoursesPage pattern) ───────────────────
 
   return (
-    <div className="min-h-screen bg-[#f8f8f6]">
+    <div className="min-h-screen bg-slate-50">
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {/* Mobile overlay */}
         {showMobileMenu && isMobile && (
           <div
@@ -414,7 +428,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
         )}
 
         {/* Sidebar */}
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'

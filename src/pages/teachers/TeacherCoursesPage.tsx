@@ -75,7 +75,7 @@ const TeacherCoursesPage: React.FC = () => {
   if (authLoading) return null;
 
   return (
-    <div className="min-h-screen bg-[#f8f8f6]">
+    <div className="min-h-screen bg-greyed-navy">
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
@@ -88,12 +88,12 @@ const TeacherCoursesPage: React.FC = () => {
         }
       />
 
-      <div className="min-h-screen pt-[72px] bg-[#f8f8f6] flex">
+      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileMenu(false)} />
         )}
 
-        <div className={`bg-white border-r border-gray-100 shadow-sm ${
+        <div className={`bg-white border-r border-white/5 shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
@@ -124,8 +124,8 @@ const TeacherCoursesPage: React.FC = () => {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {[
                   { icon: BookOpen, label: 'Topics Explored', value: visitedIds.length, sub: `of ${totalTopics}`, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                  { icon: Brain, label: 'Quizzes Taken', value: quizIds.length, sub: 'completed', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-                  { icon: TrendingUp, label: 'Avg Quiz Score', value: avgScore !== null ? `${avgScore}%` : '—', sub: avgScore !== null ? (avgScore >= 80 ? 'Excellent' : avgScore >= 60 ? 'Good' : 'Keep going') : 'No quizzes yet', color: 'text-amber-600', bg: 'bg-amber-50' },
+                  { icon: Brain, label: 'Quizzes Taken', value: quizIds.length, sub: 'completed', color: 'text-cyan-400', bg: 'bg-slate-800' },
+                  { icon: TrendingUp, label: 'Avg Quiz Score', value: avgScore !== null ? `${avgScore}%` : '—', sub: avgScore !== null ? (avgScore >= 80 ? 'Excellent' : avgScore >= 60 ? 'Good' : 'Keep going') : 'No quizzes yet', color: 'text-slate-300', bg: 'bg-slate-800' },
                   { icon: Star, label: 'Subjects Visited', value: subjectStats.filter(s => s.visited > 0).length, sub: `of ${SUBJECTS.length}`, color: 'text-purple-600', bg: 'bg-purple-50' },
                 ].map(({ icon: Icon, label, value, sub, color, bg }) => (
                   <div key={label} className="bg-white rounded-2xl border border-premium-neutral-200 p-5 shadow-sm">
@@ -179,14 +179,14 @@ const TeacherCoursesPage: React.FC = () => {
                                 <HelpCircle className="w-3 h-3" /> {quizzed} quizzes
                               </span>
                             )}
-                            <span className={`font-bold ${pct >= 80 ? 'text-emerald-600' : pct >= 40 ? 'text-amber-600' : 'text-premium-neutral-500'}`}>
+                            <span className={`font-bold ${pct >= 80 ? 'text-cyan-400' : pct >= 40 ? 'text-slate-300' : 'text-premium-neutral-500'}`}>
                               {pct}%
                             </span>
                           </div>
                         </div>
                         <div className="w-full bg-premium-neutral-100 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full transition-all duration-500 ${pct >= 80 ? 'bg-emerald-500' : pct >= 40 ? 'bg-amber-400' : 'bg-greyed-blue'}`}
+                            className={`h-2 rounded-full transition-all duration-500 ${pct >= 80 ? 'bg-slate-8000' : pct >= 40 ? 'bg-slate-400' : 'bg-greyed-blue'}`}
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -227,9 +227,9 @@ const TeacherCoursesPage: React.FC = () => {
                             {quizScore && (
                               <span className={`text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
                                 (quizScore.score / quizScore.total) >= 0.8
-                                  ? 'bg-emerald-100 text-emerald-700'
+                                  ? 'bg-slate-700 text-cyan-300'
                                   : (quizScore.score / quizScore.total) >= 0.6
-                                  ? 'bg-amber-100 text-amber-700'
+                                  ? 'bg-slate-700 text-slate-200'
                                   : 'bg-red-50 text-red-600'
                               }`}>
                                 {Math.round((quizScore.score / quizScore.total) * 100)}%
@@ -269,7 +269,7 @@ const TeacherCoursesPage: React.FC = () => {
                                 <div className="flex items-center gap-2 mt-1">
                                   <div className="flex-1 bg-premium-neutral-200 rounded-full h-1.5">
                                     <div
-                                      className={`h-1.5 rounded-full ${pct >= 80 ? 'bg-emerald-500' : pct >= 60 ? 'bg-amber-400' : 'bg-red-400'}`}
+                                      className={`h-1.5 rounded-full ${pct >= 80 ? 'bg-slate-8000' : pct >= 60 ? 'bg-slate-400' : 'bg-red-400'}`}
                                       style={{ width: `${pct}%` }}
                                     />
                                   </div>
@@ -279,8 +279,8 @@ const TeacherCoursesPage: React.FC = () => {
                                 </div>
                               </div>
                               <div className="flex items-center gap-1 flex-shrink-0">
-                                {pct >= 80 && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                                <span className={`text-sm font-bold ${pct >= 80 ? 'text-emerald-600' : pct >= 60 ? 'text-amber-600' : 'text-red-500'}`}>
+                                {pct >= 80 && <CheckCircle2 className="w-4 h-4 text-cyan-400" />}
+                                <span className={`text-sm font-bold ${pct >= 80 ? 'text-cyan-400' : pct >= 60 ? 'text-slate-300' : 'text-red-500'}`}>
                                   {score}/{total}
                                 </span>
                               </div>

@@ -10,8 +10,8 @@ interface CompletionStepProps {
 const CompletionStep: React.FC<CompletionStepProps> = ({ onboardingData }) => {
   return (
     <div className="text-center">
-      <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <CheckCircle className="w-10 h-10 text-green-600" />
+      <div className="w-20 h-20 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+        <CheckCircle className="w-10 h-10 text-cyan-400" />
       </div>
       
       <h2 className="text-2xl md:text-3xl font-headline font-bold text-greyed-navy mb-4">
