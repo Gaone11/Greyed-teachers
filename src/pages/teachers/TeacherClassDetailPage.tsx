@@ -162,7 +162,7 @@ const TeacherClassDetailPage: React.FC = () => {
     <>
       <NavBar sidebarCollapsed={sidebarCollapsed} />
       
-      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
+      <div className="min-h-screen pt-[72px] bg-greyed-white flex">
         {/* Left sidebar navigation */}
         <div className={`bg-white border-r border-white/5 shadow-sm fixed top-0 left-0 bottom-0 z-40 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
           <TeacherSidebar

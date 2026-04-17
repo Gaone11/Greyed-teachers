@@ -415,10 +415,10 @@ const KnowledgeGalaxyPage: React.FC = () => {
   // ─── Layout shell (matches TeacherCoursesPage pattern) ───────────────────
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-greyed-white">
       <NavBar sidebarCollapsed={sidebarCollapsed} />
 
-      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
+      <div className="min-h-screen pt-[72px] bg-greyed-white flex">
         {/* Mobile overlay */}
         {showMobileMenu && isMobile && (
           <div

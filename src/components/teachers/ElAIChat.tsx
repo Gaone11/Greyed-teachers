@@ -298,7 +298,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
       <div
         ref={messagesContainerRef}
         className="flex-1 overflow-y-auto px-4 md:px-6 py-6 md:py-8"
-        style={{ backgroundColor: '#fafaf8' }}
+        style={{ backgroundColor: '#efeae4' }}
       >
         <div className="max-w-3xl mx-auto space-y-5">
           {loadingMessages && messages.length === 0 ? (
@@ -390,7 +390,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
       </div>
 
       {/* Input Area */}
-      <div className="bg-white/80 backdrop-blur-sm border-t border-white/5 px-4 md:px-6 py-3 md:py-4">
+      <div className="bg-greyed-white/90 backdrop-blur-sm border-t border-greyed-navy/10 px-4 md:px-6 py-3 md:py-4">
         <form onSubmit={handleSubmitMessage} className="max-w-3xl mx-auto">
           <div className="relative bg-white rounded-xl border border-white/10 shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus-within:border-greyed-navy/30 focus-within:shadow-[0_0_0_3px_rgba(0,0,0,0.03)] transition-all duration-200">
             <textarea

@@ -88,7 +88,7 @@ const ElAIAssistantPage: React.FC = () => {
       {/* Chat container - takes remaining space */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Minimal top bar */}
-        <div className="bg-white border-b border-greyed-navy/10 p-3 flex items-center">
+        <div className="bg-greyed-white border-b border-greyed-navy/10 p-3 flex items-center">
           <button
             type="button"
             onClick={() => setShowSidebar(prev => !prev)}

@@ -138,7 +138,7 @@ const TeacherDashboardPage: React.FC = () => {
         }
       />
 
-      <div className="min-h-screen pt-[72px] bg-slate-50 flex">
+      <div className="min-h-screen pt-[72px] bg-greyed-white flex">
         {/* Mobile menu overlay */}
         {showMobileMenu && isMobile && (
           <div className="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={() => setShowMobileMenu(false)} />
