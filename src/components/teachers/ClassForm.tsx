@@ -80,11 +80,11 @@ const ClassForm: React.FC<ClassFormProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
-        <div className="p-5 border-b border-white/10 flex justify-between items-center">
-          <h3 className="text-lg font-headline font-bold">{isEditing ? 'Edit Class' : 'Create New Class'}</h3>
-          <button 
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center">
+          <h3 className="text-lg font-headline font-bold text-gray-900">{isEditing ? 'Edit Class' : 'Create New Class'}</h3>
+          <button
             onClick={onClose}
-            className="text-greyed-beige hover:text-greyed-beige touch-target"
+            className="text-gray-400 hover:text-gray-600 touch-target"
           >
             <X size={20} />
           </button>
@@ -99,11 +99,11 @@ const ClassForm: React.FC<ClassFormProps> = ({
           )}
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Class Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Class Name</label>
             <input
               type="text"
               name="name"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               placeholder="e.g. Year 11 Physics"
               value={formData.name}
               onChange={handleInputChange}
@@ -112,10 +112,10 @@ const ClassForm: React.FC<ClassFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Subject</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
             <select
               name="subject"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
               value={formData.subject}
               onChange={handleInputChange}
               required
@@ -138,11 +138,11 @@ const ClassForm: React.FC<ClassFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Syllabus</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Syllabus</label>
             <select
               name="syllabus"
               title="Syllabus"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
               value={formData.syllabus}
               onChange={handleInputChange}
             >
@@ -152,10 +152,10 @@ const ClassForm: React.FC<ClassFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Grade/Level</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Grade/Level</label>
            <select
              name="grade"
-             className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+             className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
              value={formData.grade}
              onChange={handleInputChange}
              required
@@ -173,11 +173,11 @@ const ClassForm: React.FC<ClassFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Class Size (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Class Size (Optional)</label>
             <input
               type="number"
               name="classSize"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               placeholder="e.g. 25"
               value={formData.classSize}
               onChange={handleInputChange}
@@ -187,11 +187,11 @@ const ClassForm: React.FC<ClassFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Typical Lesson Duration (Optional, in minutes)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Typical Lesson Duration (Optional, in minutes)</label>
             <input
               type="number"
               name="duration"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               placeholder="e.g. 45"
               value={formData.duration}
               onChange={handleInputChange}
@@ -202,10 +202,10 @@ const ClassForm: React.FC<ClassFormProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Description (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
             <textarea
               name="description"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               placeholder="Briefly describe this class..."
               value={formData.description}
               onChange={handleInputChange}
@@ -213,11 +213,11 @@ const ClassForm: React.FC<ClassFormProps> = ({
             ></textarea>
           </div>
           
-          <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-900 bg-white text-greyed-white hover:bg-greyed-navy"
               disabled={isSubmitting}
             >
               Cancel
