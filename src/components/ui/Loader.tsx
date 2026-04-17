@@ -21,12 +21,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
           <div className="relative mx-auto w-20 h-20 flex items-center justify-center">
             <div className="absolute inset-0 rounded-2xl bg-[#3B82F6]/10 blur-xl animate-[loaderGlow_2s_ease-in-out_infinite]" />
             <div className="relative animate-pulse-glow">
-              <img
-                src="/favicon.svg"
-                alt="GreyEd"
-                className="h-16 w-auto drop-shadow-lg"
-                loading="eager"
-              />
+              <span className="font-headline font-bold text-3xl text-[#67E8F9] drop-shadow-lg">GreyEd</span>
             </div>
           </div>
 
@@ -63,12 +58,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
       <div className="relative flex flex-col items-center gap-3">
         <div className="relative w-10 h-10 flex items-center justify-center">
           <div className="absolute inset-0 rounded-xl bg-[#3B82F6]/10 blur-lg animate-pulse" />
-          <img
-            src="/favicon.svg"
-            alt="GreyEd"
-            className="h-8 w-auto animate-pulse-glow relative"
-            loading="eager"
-          />
+          <span className="font-headline font-bold text-lg text-[#67E8F9] animate-pulse-glow relative">G</span>
         </div>
         <div className="w-24 h-[2px] bg-[#94A3B8]/40 rounded-full overflow-hidden">
           <div className="h-full bg-gradient-to-r from-[#67E8F9] to-[#A5F3FC] rounded-full animate-[loaderBar_1.4s_ease-in-out_infinite]" />

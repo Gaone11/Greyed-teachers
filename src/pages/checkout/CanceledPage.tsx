@@ -40,7 +40,7 @@ const CanceledPage: React.FC = () => {
                 onClick={() => navigate(isFromTeacherSettings ? '/teachers/settings#account' : '/pricing')}
                 className="bg-greyed-navy text-greyed-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center justify-center"
               >
-                <img src="/favicon.svg" alt="GreyEd" className="w-5 h-5 mr-2" />
+                <span className="font-headline font-bold text-sm mr-2">GreyEd</span>
                 {isFromTeacherSettings ? 'Return to Settings' : 'Return to Pricing'}
               </button>
               

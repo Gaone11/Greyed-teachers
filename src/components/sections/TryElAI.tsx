@@ -70,22 +70,6 @@ const TryElAI: React.FC = () => {
         </div>
         
         <div className="max-w-md mx-auto bg-white/10 backdrop-blur-sm rounded-xl p-8 relative overflow-hidden">
-          {/* Price Badge */}
-          {enabled ? (
-            <motion.div 
-              className="absolute top-6 right-6 bg-greyed-blue text-greyed-navy font-bold py-2 px-4 rounded-full"
-              variants={badgeVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              GET STARTED
-            </motion.div>
-          ) : (
-            <div className="absolute top-6 right-6 bg-greyed-blue text-greyed-navy font-bold py-2 px-4 rounded-full">
-              GET STARTED
-            </div>
-          )}
           
           <h3 className="text-2xl font-headline font-semibold mb-6 text-center">
             Teacher Plan

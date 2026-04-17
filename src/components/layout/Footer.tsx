@@ -71,13 +71,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
             <div className="mb-6">
-              <img
-                src="/favicon.svg"
-                alt="GreyEd"
-                className="h-10 w-auto mb-2"
-                loading="lazy"
-              />
-              <p className="text-greyed-blue font-headline font-semibold">GreyEd</p>
+              <p className="text-greyed-blue font-headline font-bold text-2xl">GreyEd</p>
               <p className="text-greyed-white/70 text-sm">We are learning</p>
             </div>
             
@@ -110,11 +104,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
               ))}
             </div>
             
-            <p className="text-greyed-white/60 text-sm">
-              GreyEd<br />
-              South Africa<br />
-              South Africa
-            </p>
+            <p className="text-greyed-white/60 text-sm">GreyEd</p>
           </div>
           
           <div className="md:col-span-8">
