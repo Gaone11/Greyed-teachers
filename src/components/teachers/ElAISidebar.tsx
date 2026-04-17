@@ -5,7 +5,6 @@ import {
   MessageSquare,
   Trash2,
   Snowflake,
-  PanelLeftClose,
   PanelLeftOpen
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
@@ -118,20 +117,11 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
         <div className="w-72 flex flex-col h-full">
         {/* Header */}
         <div className="p-4 border-b border-white/10">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-greyed-blue/30 flex items-center justify-center">
-                <Snowflake size={16} className="text-white" />
-              </div>
-              <span className="font-headline font-semibold text-white text-sm">GreyEd AI</span>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 rounded-full bg-greyed-blue/30 flex items-center justify-center">
+              <Snowflake size={16} className="text-white" />
             </div>
-            <button
-              onClick={onToggle}
-              className="p-1.5 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
-              title="Collapse sidebar"
-            >
-              <PanelLeftClose size={18} />
-            </button>
+            <span className="font-headline font-semibold text-white text-sm">GreyEd AI</span>
           </div>
 
           {/* New Chat button */}

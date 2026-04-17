@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -27,21 +27,6 @@ const ElAIAssistantPage: React.FC = () => {
   useEffect(() => {
     document.title = "El AI Assistant | GreyEd Teachers";
   }, []);
-
-  // Auto-collapse sidebar after 5 seconds
-  const autoCollapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => {
-    if (showSidebar && window.innerWidth >= 768) {
-      autoCollapseTimerRef.current = setTimeout(() => {
-        setShowSidebar(false);
-      }, 5000);
-    }
-    return () => {
-      if (autoCollapseTimerRef.current) {
-        clearTimeout(autoCollapseTimerRef.current);
-      }
-    };
-  }, [showSidebar]);
 
   const handleNewChat = useCallback(() => {
     setActiveConversationId(null);
