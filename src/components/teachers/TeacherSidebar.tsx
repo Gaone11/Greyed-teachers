@@ -143,7 +143,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       label: 'Knowledge Galaxy',
       icon: Globe2,
       path: '/teachers/knowledge',
-      color: 'from-[#0F172A] to-[#1B1B4B]',
+      color: 'from-[#212754] to-[#1c2063]',
       activeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200'
     },
     {
@@ -169,7 +169,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       {(!isCollapsed || isMobile) && (
         <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-4 px-4 pb-4'} border-b border-premium-neutral-200`}>
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#3B82F6] shadow-premium">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e2d6b] to-[#3B82F6] shadow-premium">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -191,7 +191,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
       {isCollapsed && !isMobile && (
         <div className="pt-4 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#3B82F6] shadow-premium">
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e2d6b] to-[#3B82F6] shadow-premium">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <button
@@ -292,7 +292,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
                 onClick={handleLinkClick}
                 className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
                   activePage === 'admin-kb'
-                    ? 'bg-gradient-to-r from-[#1E2937] to-transparent border-l-4 border-red-400 shadow-sm'
+                    ? 'bg-gradient-to-r from-[#2a2f6e] to-transparent border-l-4 border-red-400 shadow-sm'
                     : 'hover:bg-red-50/50 active:bg-red-50 border-l-4 border-transparent'
                 } touch-manipulation`}
                 title={isCollapsed && !isMobile ? 'AI Knowledge Base' : undefined}

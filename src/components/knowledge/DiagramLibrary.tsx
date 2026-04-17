@@ -1,9 +1,9 @@
 import React from 'react';
 
 // ── Colour palette (matches app theme) ───────────────────────────────────────
-const NAVY  = '#0F172A';
+const NAVY  = '#212754';
 const BLUE  = '#2563EB';
-const GOLD  = '#67E8F9';
+const GOLD  = '#bbd7eb';
 const GRAY  = '#6B7280';
 const RED   = '#DC2626';
 const GREEN = '#16A34A';

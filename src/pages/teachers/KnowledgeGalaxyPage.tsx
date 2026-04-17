@@ -252,7 +252,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
       return (
         <div className="space-y-8">
           {/* Hero */}
-          <div className="bg-gradient-to-br from-[#0F172A] via-[#1E2937] to-[#0F172A] rounded-2xl p-8 text-white shadow-xl">
+          <div className="bg-gradient-to-br from-[#212754] via-[#2a2f6e] to-[#212754] rounded-2xl p-8 text-white shadow-xl">
             <div className="flex items-start gap-4">
               <Telescope className="w-10 h-10 text-white/80 flex-shrink-0 mt-1" />
               <div>

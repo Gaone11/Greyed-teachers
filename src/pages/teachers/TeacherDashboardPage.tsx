@@ -25,12 +25,12 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 // Color palette for class cards — cycles through these
 const CLASS_COLORS = [
-  { bg: 'bg-gradient-to-br from-[#0F172A] to-[#1E2937]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#67E8F9] to-[#A5F3FC]', text: 'text-[#0F172A]', badge: 'bg-[#0F172A]/10 text-[#0F172A]' },
-  { bg: 'bg-gradient-to-br from-[#1E2937] to-[#67E8F9]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#1E2937] to-[#334155]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#0F172A] to-[#1E3A5F]', text: 'text-white', badge: 'bg-white/20 text-white' },
-  { bg: 'bg-gradient-to-br from-[#1E2937] to-[#0F172A]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#212754] to-[#2a2f6e]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#bbd7eb] to-[#d4e9f5]', text: 'text-[#212754]', badge: 'bg-[#212754]/10 text-[#212754]' },
+  { bg: 'bg-gradient-to-br from-[#2a2f6e] to-[#bbd7eb]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#2a2f6e] to-[#334155]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#212754] to-[#1e2d6b]', text: 'text-white', badge: 'bg-white/20 text-white' },
+  { bg: 'bg-gradient-to-br from-[#2a2f6e] to-[#212754]', text: 'text-white', badge: 'bg-white/20 text-white' },
 ];
 
 const TeacherDashboardPage: React.FC = () => {
@@ -103,13 +103,13 @@ const TeacherDashboardPage: React.FC = () => {
 
   // Quick nav items — tools accessible from dashboard
   const quickNav = [
-    { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#0F172A] to-[#1E2937]' },
-    { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#67E8F9] to-[#A5F3FC]' },
-    { icon: Snowflake, label: 'GreyEd AI', path: '/teachers/el-ai', color: 'from-[#1E2937] to-[#67E8F9]' },
-    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#1E2937] to-[#334155]' },
-    { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#1E2937] to-[#0F172A]' },
-    { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#0F172A] to-[#1E3A5F]' },
-    { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#0F172A] to-[#1B1B4B]' },
+    { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#212754] to-[#2a2f6e]' },
+    { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#bbd7eb] to-[#d4e9f5]' },
+    { icon: Snowflake, label: 'GreyEd AI', path: '/teachers/el-ai', color: 'from-[#2a2f6e] to-[#bbd7eb]' },
+    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#2a2f6e] to-[#334155]' },
+    { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#2a2f6e] to-[#212754]' },
+    { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#212754] to-[#1e2d6b]' },
+    { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#212754] to-[#1c2063]' },
   ];
 
   return (
@@ -118,7 +118,7 @@ const TeacherDashboardPage: React.FC = () => {
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
           <div className="hidden sm:inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-greyed-card border border-white/10 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0F172A] to-[#1E2937] flex flex-col items-center justify-center shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#212754] to-[#2a2f6e] flex flex-col items-center justify-center shadow-sm">
               <span className="text-[7px] font-bold text-white/80 uppercase leading-none tracking-wider">
                 {new Date().toLocaleDateString('en-US', { month: 'short' })}
               </span>
@@ -237,7 +237,7 @@ const TeacherDashboardPage: React.FC = () => {
                 </div>
                 <Link
                   to="/teachers/classes"
-                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#0F172A] text-white text-xs sm:text-sm font-semibold hover:bg-[#1E2937] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
+                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#212754] text-white text-xs sm:text-sm font-semibold hover:bg-[#2a2f6e] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 touch-manipulation"
                 >
                   <PlusCircle size={16} />
                   <span className="hidden sm:inline">New Class</span>
@@ -246,8 +246,8 @@ const TeacherDashboardPage: React.FC = () => {
 
               {classes.length === 0 ? (
                 <div className="rounded-2xl bg-greyed-card border border-white/10 p-6 sm:p-12 text-center shadow-sm">
-                  <div className="w-20 h-20 rounded-2xl bg-[#67E8F9]/15 flex items-center justify-center mx-auto mb-5">
-                    <Users className="w-10 h-10 text-[#67E8F9]" />
+                  <div className="w-20 h-20 rounded-2xl bg-[#bbd7eb]/15 flex items-center justify-center mx-auto mb-5">
+                    <Users className="w-10 h-10 text-[#bbd7eb]" />
                   </div>
                   <h3 className="text-lg font-bold text-greyed-white mb-2">Create your first class</h3>
                   <p className="text-sm text-greyed-beige/60 max-w-md mx-auto mb-6">
@@ -255,7 +255,7 @@ const TeacherDashboardPage: React.FC = () => {
                   </p>
                   <Link
                     to="/teachers/classes"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F172A] text-white font-semibold hover:bg-[#1E2937] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#212754] text-white font-semibold hover:bg-[#2a2f6e] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                   >
                     <PlusCircle size={18} />
                     Create Your First Class
@@ -305,9 +305,9 @@ const TeacherDashboardPage: React.FC = () => {
                   {/* Add class card */}
                   <Link
                     to="/teachers/classes"
-                    className="group rounded-2xl border-2 border-dashed border-white/10 hover:border-[#0F172A]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#67E8F9]/5 transition-all duration-200 touch-manipulation"
+                    className="group rounded-2xl border-2 border-dashed border-white/10 hover:border-[#212754]/30 p-5 sm:p-6 flex flex-col items-center justify-center min-h-[180px] hover:bg-[#bbd7eb]/5 transition-all duration-200 touch-manipulation"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-[#FAFAF8] group-hover:bg-[#67E8F9]/20 flex items-center justify-center mb-3 transition-colors duration-200">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FAFAF8] group-hover:bg-[#bbd7eb]/20 flex items-center justify-center mb-3 transition-colors duration-200">
                       <PlusCircle className="w-7 h-7 text-greyed-beige/40 group-hover:text-greyed-white transition-colors" />
                     </div>
                     <span className="text-sm font-semibold text-greyed-beige/50 group-hover:text-greyed-white transition-colors">Add New Class</span>

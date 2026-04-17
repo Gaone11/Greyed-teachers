@@ -51,10 +51,10 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
             <title>Weekly Class Update</title>
             <style>
               body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-              h1 { color: #0F172A; }
-              h2 { color: #0F172A; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+              h1 { color: #212754; }
+              h2 { color: #212754; border-bottom: 1px solid #eee; padding-bottom: 10px; }
               .section { margin-bottom: 30px; }
-              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #67E8F9; }
+              .highlight { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #bbd7eb; }
               .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; }
             </style>
           </head>

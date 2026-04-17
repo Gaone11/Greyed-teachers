@@ -286,7 +286,7 @@ const BattleMode: React.FC<BattleModeProps> = ({ cards }) => {
             <p className="text-white/40 text-xs mt-3">Tap to reveal</p>
           </div>
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0F172A] to-[#1B1B4B] rounded-2xl flex flex-col items-center justify-center p-5 text-center shadow-lg"
+            className="absolute inset-0 bg-gradient-to-br from-[#212754] to-[#1c2063] rounded-2xl flex flex-col items-center justify-center p-5 text-center shadow-lg"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
             <p className="text-white font-semibold text-base leading-snug">{card.answer}</p>

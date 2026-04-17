@@ -22,7 +22,7 @@ const CuriosityTree: React.FC<CuriosityTreeProps> = ({ branches, onNavigate, top
         className="w-full px-5 py-4 border-b border-premium-neutral-100 flex items-center justify-between hover:bg-premium-neutral-50 transition-colors"
       >
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-[#1E2937] flex items-center justify-center flex-shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-[#2a2f6e] flex items-center justify-center flex-shrink-0">
             <Compass className="w-4 h-4 text-white" />
           </div>
           <div className="text-left">

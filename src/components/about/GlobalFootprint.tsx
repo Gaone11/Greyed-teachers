@@ -95,7 +95,7 @@ const GlobalFootprint: React.FC = () => {
                 <path 
                   d="M170,120 L280,120 L300,180 L250,250 L160,240 L140,170 Z M350,140 L420,100 L490,110 L510,200 L470,230 L400,220 L380,180 Z M550,120 L600,150 L630,120 L700,130 L730,170 L690,230 L630,210 L580,170 Z M180,270 L260,280 L290,350 L220,380 L170,340 Z M400,260 L480,250 L500,290 L490,340 L420,330 Z M570,280 L650,270 L680,320 L640,370 L580,350 Z" 
                   fill="#dedbc2" 
-                  stroke="#67E8F9" 
+                  stroke="#bbd7eb" 
                   strokeWidth="2"
                 />
                 
@@ -127,15 +127,15 @@ const GlobalFootprint: React.FC = () => {
                 <path 
                   d="M170,120 L280,120 L300,180 L250,250 L160,240 L140,170 Z M350,140 L420,100 L490,110 L510,200 L470,230 L400,220 L380,180 Z M550,120 L600,150 L630,120 L700,130 L730,170 L690,230 L630,210 L580,170 Z M180,270 L260,280 L290,350 L220,380 L170,340 Z M400,260 L480,250 L500,290 L490,340 L420,330 Z M570,280 L650,270 L680,320 L640,370 L580,350 Z" 
                   fill="#dedbc2" 
-                  stroke="#67E8F9" 
+                  stroke="#bbd7eb" 
                   strokeWidth="2"
                 />
                 
                 {/* Pins for locations */}
                 {locations.map((location, index) => (
                   <g key={index} transform={`translate(${location.x}, ${location.y})`}>
-                    <circle cx="0" cy="0" r="8" fill="#0F172A" />
-                    <circle cx="0" cy="0" r="4" fill="#67E8F9" />
+                    <circle cx="0" cy="0" r="8" fill="#212754" />
+                    <circle cx="0" cy="0" r="4" fill="#bbd7eb" />
                     
                     <foreignObject x="10" y="-15" width="150" height="50">
                       <div xmlns="http://www.w3.org/1999/xhtml" className="text-xs bg-white p-1 rounded shadow-sm">
@@ -185,8 +185,8 @@ const MapPin: React.FC<MapPinProps> = ({ x, y, label, program, delay }) => {
   if (!enabled) {
     return (
       <g transform={`translate(${x}, ${y})`}>
-        <circle cx="0" cy="0" r="8" fill="#0F172A" />
-        <circle cx="0" cy="0" r="4" fill="#67E8F9" />
+        <circle cx="0" cy="0" r="8" fill="#212754" />
+        <circle cx="0" cy="0" r="4" fill="#bbd7eb" />
         
         <foreignObject x="10" y="-15" width="150" height="50">
           <div xmlns="http://www.w3.org/1999/xhtml" className="text-xs bg-white p-1 rounded shadow-sm">
@@ -206,8 +206,8 @@ const MapPin: React.FC<MapPinProps> = ({ x, y, label, program, delay }) => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <circle cx="0" cy="0" r="8" fill="#0F172A" />
-        <circle cx="0" cy="0" r="4" fill="#67E8F9" />
+        <circle cx="0" cy="0" r="8" fill="#212754" />
+        <circle cx="0" cy="0" r="4" fill="#bbd7eb" />
       </motion.g>
       
       <foreignObject x="10" y="-15" width="150" height="50">

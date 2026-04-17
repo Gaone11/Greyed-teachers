@@ -227,9 +227,9 @@ const TeacherAssessmentsPage: React.FC = () => {
   };
 
   const statusConfig: Record<string, { label: string; bg: string; text: string }> = {
-    draft: { label: 'Draft', bg: 'bg-[#94A3B8]/30', text: 'text-[#0F172A]/70' },
+    draft: { label: 'Draft', bg: 'bg-[#dedbc2]/30', text: 'text-[#212754]/70' },
     published: { label: 'Published', bg: 'bg-slate-800', text: 'text-cyan-300' },
-    completed: { label: 'Completed', bg: 'bg-[#67E8F9]/12', text: 'text-[#0F172A]' },
+    completed: { label: 'Completed', bg: 'bg-[#bbd7eb]/12', text: 'text-[#212754]' },
   };
 
   const containerVariants = {
@@ -242,15 +242,15 @@ const TeacherAssessmentsPage: React.FC = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] } }
   };
 
-  const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 transition-all bg-white";
-  const labelClass = "block text-sm font-medium text-[#0F172A]/70 mb-1.5";
+  const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#212754] focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all bg-white";
+  const labelClass = "block text-sm font-medium text-[#212754]/70 mb-1.5";
 
   if (authLoading) {
     return (
       <>
         <NavBar sidebarCollapsed={sidebarCollapsed} />
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-[#FAFAF8]">
-          <div className="w-6 h-6 border-2 border-[#0F172A]/20 border-t-[#0F172A] rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-[#212754]/20 border-t-[#212754] rounded-full animate-spin" />
         </div>
       </>
     );
@@ -264,7 +264,7 @@ const TeacherAssessmentsPage: React.FC = () => {
           <div className="flex gap-2">
             <Link
               to="/teachers/assessment-grading"
-              className="inline-flex items-center bg-[#0F172A]/8 text-[#0F172A] px-4 py-2.5 rounded-xl hover:bg-[#0F172A]/15 transition-colors text-sm font-medium whitespace-nowrap"
+              className="inline-flex items-center bg-[#212754]/8 text-[#212754] px-4 py-2.5 rounded-xl hover:bg-[#212754]/15 transition-colors text-sm font-medium whitespace-nowrap"
             >
               <Upload size={15} className="mr-2" />
               <span className="hidden md:inline">AI Grading</span>
@@ -272,7 +272,7 @@ const TeacherAssessmentsPage: React.FC = () => {
             </Link>
             <button
               onClick={() => navigate('/teachers/assessments/generate')}
-              className="inline-flex items-center bg-[#0F172A] text-white px-4 py-2.5 rounded-xl hover:bg-[#0F172A]/90 transition-colors text-sm font-medium whitespace-nowrap shadow-sm"
+              className="inline-flex items-center bg-[#212754] text-white px-4 py-2.5 rounded-xl hover:bg-[#212754]/90 transition-colors text-sm font-medium whitespace-nowrap shadow-sm"
             >
               <PlusCircle size={15} className="mr-2" />
               <span className="hidden md:inline">New Assessment</span>
@@ -306,7 +306,7 @@ const TeacherAssessmentsPage: React.FC = () => {
             onClose={() => setShowMobileMenu(false)}
           />
           {showMobileMenu && isMobile && (
-            <button onClick={() => setShowMobileMenu(false)} className="absolute top-4 right-4 p-2 text-white bg-[#0F172A]/50 rounded-full">
+            <button onClick={() => setShowMobileMenu(false)} className="absolute top-4 right-4 p-2 text-white bg-[#212754]/50 rounded-full">
               <X size={20} />
             </button>
           )}
@@ -327,7 +327,7 @@ const TeacherAssessmentsPage: React.FC = () => {
               )}
               {error && (
                 <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                  className="bg-[#94A3B8]/20 border border-[#0F172A]/15 text-[#0F172A] px-4 py-3 rounded-xl mb-6 flex items-center">
+                  className="bg-[#dedbc2]/20 border border-[#212754]/15 text-[#212754] px-4 py-3 rounded-xl mb-6 flex items-center">
                   <AlertCircle className="w-4 h-4 mr-2.5 flex-shrink-0" />
                   <span className="text-sm">{error}</span>
                 </motion.div>
@@ -348,7 +348,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                   </div>
                   <input
                     type="text"
-                    className="pl-10 pr-4 py-2.5 w-full border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 transition-all placeholder:text-greyed-beige"
+                    className="pl-10 pr-4 py-2.5 w-full border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all placeholder:text-greyed-beige"
                     placeholder="Search assessments..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -357,7 +357,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 <div className="relative md:w-44">
                   <select
                     title="Filter by status"
-                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 appearance-none bg-white text-greyed-white transition-all"
+                    className="w-full py-2.5 pl-3.5 pr-9 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 appearance-none bg-white text-greyed-white transition-all"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                   >
@@ -376,7 +376,7 @@ const TeacherAssessmentsPage: React.FC = () => {
             {/* Content */}
             {loading ? (
               <div className="flex items-center justify-center py-20">
-                <div className="w-6 h-6 border-2 border-[#0F172A]/20 border-t-[#0F172A] rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-[#212754]/20 border-t-[#212754] rounded-full animate-spin" />
               </div>
             ) : filteredAssessments.length === 0 ? (
               <motion.div
@@ -385,11 +385,11 @@ const TeacherAssessmentsPage: React.FC = () => {
                 transition={{ duration: 0.4 }}
                 className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-12 text-center"
               >
-                <div className="w-16 h-16 bg-[#67E8F9]/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <FileText className="w-7 h-7 text-[#67E8F9]" />
+                <div className="w-16 h-16 bg-[#bbd7eb]/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <FileText className="w-7 h-7 text-[#bbd7eb]" />
                 </div>
-                <h2 className="text-lg font-headline font-semibold text-[#0F172A] mb-2">No assessments yet</h2>
-                <p className="text-[#0F172A]/50 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+                <h2 className="text-lg font-headline font-semibold text-[#212754] mb-2">No assessments yet</h2>
+                <p className="text-[#212754]/50 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
                   {searchTerm || filterStatus
                     ? "Try adjusting your search or filters to see more results."
                     : "Create your first assessment to start evaluating your students with AI-powered tools."}
@@ -397,7 +397,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 {!searchTerm && !filterStatus && (
                   <button
                     onClick={() => navigate('/teachers/assessments/generate')}
-                    className="inline-flex items-center bg-[#0F172A] text-white px-5 py-2.5 rounded-xl hover:bg-[#0F172A]/90 transition-colors text-sm font-medium shadow-sm"
+                    className="inline-flex items-center bg-[#212754] text-white px-5 py-2.5 rounded-xl hover:bg-[#212754]/90 transition-colors text-sm font-medium shadow-sm"
                   >
                     <PlusCircle size={16} className="mr-2" />
                     Create Your First Assessment
@@ -423,7 +423,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                     >
                       {/* Card Header */}
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] leading-snug pr-3 line-clamp-2">
+                        <h3 className="font-headline font-semibold text-[#212754] text-[15px] leading-snug pr-3 line-clamp-2">
                           {assessment.title}
                         </h3>
                         <span className={`px-2.5 py-1 text-xs font-medium rounded-lg flex-shrink-0 ${status.bg} ${status.text}`}>
@@ -432,9 +432,9 @@ const TeacherAssessmentsPage: React.FC = () => {
                       </div>
 
                       {/* Card Meta */}
-                      <div className="flex items-center gap-3 text-xs text-[#0F172A]/45 mb-4">
+                      <div className="flex items-center gap-3 text-xs text-[#212754]/45 mb-4">
                         <span className="truncate">{assessment.className}</span>
-                        <span className="w-1 h-1 rounded-full bg-[#0F172A]/20" />
+                        <span className="w-1 h-1 rounded-full bg-[#212754]/20" />
                         <span className="flex items-center gap-1">
                           <Calendar size={12} />
                           {formatDate(assessment.created)}
@@ -442,11 +442,11 @@ const TeacherAssessmentsPage: React.FC = () => {
                       </div>
 
                       {/* Card Stats */}
-                      <div className="flex items-center gap-4 text-xs text-[#0F172A]/55 mb-4">
+                      <div className="flex items-center gap-4 text-xs text-[#212754]/55 mb-4">
                         <span>{assessment.questionCount} questions</span>
                         {assessment.averageScore !== null && (
                           <>
-                            <span className="w-1 h-1 rounded-full bg-[#0F172A]/20" />
+                            <span className="w-1 h-1 rounded-full bg-[#212754]/20" />
                             <span className="flex items-center gap-1">
                               <BarChart3 size={12} />
                               {assessment.averageScore}% avg
@@ -459,7 +459,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                       <div className="flex items-center gap-1 pt-3 border-t border-greyed-beige/60">
                         <button
                           onClick={(e) => { e.stopPropagation(); handleViewAssessment(assessment); }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#0F172A]/70 hover:text-[#0F172A] hover:bg-[#0F172A]/5 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#212754]/70 hover:text-[#212754] hover:bg-[#212754]/5 rounded-lg transition-colors"
                           title="View"
                         >
                           <Eye size={14} />
@@ -467,14 +467,14 @@ const TeacherAssessmentsPage: React.FC = () => {
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleViewAssessment(assessment); }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#0F172A]/70 hover:text-[#0F172A] hover:bg-[#0F172A]/5 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#212754]/70 hover:text-[#212754] hover:bg-[#212754]/5 rounded-lg transition-colors"
                           title="Download"
                         >
                           <Download size={14} />
                           Download
                         </button>
                         <div className="flex-1" />
-                        <span className="text-xs text-[#0F172A]/35">{assessment.submissionRate}</span>
+                        <span className="text-xs text-[#212754]/35">{assessment.submissionRate}</span>
                       </div>
                     </motion.div>
                   );
@@ -488,22 +488,22 @@ const TeacherAssessmentsPage: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-6 border-l-4 border-l-[#67E8F9]/60"
+                className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-6 border-l-4 border-l-[#bbd7eb]/60"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#67E8F9]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Brain className="w-5 h-5 text-[#67E8F9]" />
+                  <div className="w-10 h-10 bg-[#bbd7eb]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Brain className="w-5 h-5 text-[#bbd7eb]" />
                   </div>
                   <div>
-                    <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] mb-1.5">AI Auto-Grading</h3>
-                    <p className="text-[#0F172A]/50 text-sm leading-relaxed mb-3">
+                    <h3 className="font-headline font-semibold text-[#212754] text-[15px] mb-1.5">AI Auto-Grading</h3>
+                    <p className="text-[#212754]/50 text-sm leading-relaxed mb-3">
                       Save hours with intelligent grading. Works with multiple choice, short answer, and essay questions.
                     </p>
                     <Link
                       to="/teachers/assessment-grading"
-                      className="inline-flex items-center text-sm font-medium text-[#0F172A] hover:text-[#0F172A]/80 transition-colors"
+                      className="inline-flex items-center text-sm font-medium text-[#212754] hover:text-[#212754]/80 transition-colors"
                     >
-                      <Upload size={14} className="mr-1.5 text-[#67E8F9]" />
+                      <Upload size={14} className="mr-1.5 text-[#bbd7eb]" />
                       Grade assessments
                     </Link>
                   </div>
@@ -514,22 +514,22 @@ const TeacherAssessmentsPage: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-6 border-l-4 border-l-[#0F172A]/30"
+                className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-6 border-l-4 border-l-[#212754]/30"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#0F172A]/8 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <BarChart3 className="w-5 h-5 text-[#0F172A]" />
+                  <div className="w-10 h-10 bg-[#212754]/8 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <BarChart3 className="w-5 h-5 text-[#212754]" />
                   </div>
                   <div>
-                    <h3 className="font-headline font-semibold text-[#0F172A] text-[15px] mb-1.5">Performance Insights</h3>
-                    <p className="text-[#0F172A]/50 text-sm leading-relaxed mb-3">
+                    <h3 className="font-headline font-semibold text-[#212754] text-[15px] mb-1.5">Performance Insights</h3>
+                    <p className="text-[#212754]/50 text-sm leading-relaxed mb-3">
                       Detailed analytics on student performance, knowledge gaps, and targeted intervention materials.
                     </p>
                     <Link
                       to="/teachers/assessment-grading"
-                      className="inline-flex items-center text-sm font-medium text-[#0F172A] hover:text-[#0F172A]/80 transition-colors"
+                      className="inline-flex items-center text-sm font-medium text-[#212754] hover:text-[#212754]/80 transition-colors"
                     >
-                      <BarChart3 size={14} className="mr-1.5 text-[#67E8F9]" />
+                      <BarChart3 size={14} className="mr-1.5 text-[#bbd7eb]" />
                       View insights
                     </Link>
                   </div>
@@ -559,7 +559,7 @@ const TeacherAssessmentsPage: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6 border-b border-greyed-beige/60 flex justify-between items-center">
-                <h3 className="text-lg font-headline font-semibold text-[#0F172A]">Create Assessment</h3>
+                <h3 className="text-lg font-headline font-semibold text-[#212754]">Create Assessment</h3>
                 <button onClick={() => setShowCreateModal(false)} className="p-1.5 text-greyed-beige hover:text-greyed-beige rounded-lg hover:bg-greyed-card transition-colors">
                   <X size={18} />
                 </button>
@@ -634,17 +634,17 @@ const TeacherAssessmentsPage: React.FC = () => {
 
                 <label className="flex items-center cursor-pointer group">
                   <input type="checkbox" name="includeAnswerKey" checked={formData.includeAnswerKey} onChange={handleCheckboxChange}
-                    className="rounded border-white/20 text-[#0F172A] focus:ring-[#0F172A]/30 transition-colors" />
-                  <span className="ml-2.5 text-sm text-[#0F172A]/60 group-hover:text-[#0F172A]/80 transition-colors">Include answer key and grading rubric</span>
+                    className="rounded border-white/20 text-[#212754] focus:ring-[#212754]/30 transition-colors" />
+                  <span className="ml-2.5 text-sm text-[#212754]/60 group-hover:text-[#212754]/80 transition-colors">Include answer key and grading rubric</span>
                 </label>
 
                 <div className="flex justify-end gap-3 pt-4 border-t border-greyed-beige/60">
                   <button type="button" onClick={() => setShowCreateModal(false)} disabled={isGenerating}
-                    className="px-4 py-2.5 border border-white/10 rounded-xl text-[#0F172A]/70 hover:bg-greyed-navy text-sm font-medium transition-colors">
+                    className="px-4 py-2.5 border border-white/10 rounded-xl text-[#212754]/70 hover:bg-greyed-navy text-sm font-medium transition-colors">
                     Cancel
                   </button>
                   <button type="submit" disabled={isGenerating}
-                    className={`px-5 py-2.5 bg-[#0F172A] text-white rounded-xl hover:bg-[#0F172A]/90 text-sm font-medium flex items-center transition-colors shadow-sm ${isGenerating ? 'opacity-70 cursor-not-allowed' : ''}`}>
+                    className={`px-5 py-2.5 bg-[#212754] text-white rounded-xl hover:bg-[#212754]/90 text-sm font-medium flex items-center transition-colors shadow-sm ${isGenerating ? 'opacity-70 cursor-not-allowed' : ''}`}>
                     {isGenerating ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />

@@ -7,67 +7,67 @@ export default {
         // Cophetsheni Primary School — Mpumalanga Earth Palette
         // greyed-* aliases preserved for backward compatibility across 130+ files
         greyed: {
-          navy: '#0F172A',      // Background — Deep navy-blue
-          card: '#1E2937',      // Card Background — Main content panel
-          blue: '#67E8F9',      // Accent — Cyan highlight
-          black: '#0F172A',     // Dark background alias
-          white: '#F1F5F9',     // Main Text — Headings and body
-          beige: '#94A3B8',     // Muted Text — Secondary/bullets
-          btn: '#CBD5E1',       // Button — Light slate
+          navy: '#212754',      // Primary — Deep brand navy
+          card: '#2a2f6e',      // Card Background — Slightly lighter navy
+          blue: '#bbd7eb',      // Accent — Brand blue
+          black: '#292828',     // Body text — Near black
+          white: '#efeae4',     // Background — Warm off-white
+          beige: '#dedbc2',     // Secondary — Warm beige
+          btn: '#bbd7eb',       // Button — Brand blue
         },
         // Semantic aliases
         cps: {
-          green: '#0F172A',
-          greenLight: '#1E2937',
-          gold: '#67E8F9',
-          goldLight: '#A5F3FC',
-          brown: '#0F172A',
-          cream: '#F1F5F9',
-          sand: '#94A3B8',
+          green: '#212754',
+          greenLight: '#2a2f6e',
+          gold: '#bbd7eb',
+          goldLight: '#d4e9f5',
+          brown: '#292828',
+          cream: '#efeae4',
+          sand: '#dedbc2',
           terracotta: '#F87171',
-          sky: '#67E8F9',
+          sky: '#bbd7eb',
         },
         sand: {
-          50: '#F8FAFC',
-          100: '#F1F5F9'
+          50: '#f8f6f0',
+          100: '#efeae4'
         },
         navy: {
-          900: '#020617',
-          700: '#0F172A'
+          900: '#191d4a',
+          700: '#212754'
         },
-        indigoBrand: '#67E8F9',
-        mint: '#67E8F9',
+        indigoBrand: '#212754',
+        mint: '#bbd7eb',
         premium: {
-          navy: '#0F172A',
-          navyLight: '#1E2937',
-          navyDark: '#020617',
-          slate: '#F1F5F9',
+          navy: '#212754',
+          navyLight: '#2a2f6e',
+          navyDark: '#191d4a',
+          slate: '#efeae4',
           slateLight: '#ffffff',
-          slateDark: '#CBD5E1',
-          accent: '#67E8F9',
-          accentLight: '#A5F3FC',
-          accentHover: '#22D3EE',
-          gold: '#67E8F9',
-          goldLight: '#A5F3FC',
+          slateDark: '#dedbc2',
+          accent: '#bbd7eb',
+          accentLight: '#d4e9f5',
+          accentHover: '#a8ccdf',
+          gold: '#bbd7eb',
+          goldLight: '#d4e9f5',
           emerald: '#34D399',
           emeraldLight: '#6EE7B7',
           rose: '#F87171',
           roseLight: '#FCA5A5',
           amber: '#FBBF24',
           amberLight: '#FCD34D',
-          sky: '#67E8F9',
-          skyLight: '#A5F3FC',
+          sky: '#bbd7eb',
+          skyLight: '#d4e9f5',
           neutral: {
-            50: '#F8FAFC',
-            100: '#F1F5F9',
-            200: '#E2E8F0',
-            300: '#CBD5E1',
-            400: '#94A3B8',
-            500: '#64748B',
-            600: '#475569',
-            700: '#334155',
-            800: '#1E293B',
-            900: '#0F172A',
+            50: '#f8f6f0',
+            100: '#efeae4',
+            200: '#dedbc2',
+            300: '#ccc9b0',
+            400: '#a8a58c',
+            500: '#8a876e',
+            600: '#6b6852',
+            700: '#504e3c',
+            800: '#363427',
+            900: '#212754',
           }
         }
       },
@@ -81,8 +81,8 @@ export default {
         premium: '0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 8px -2px rgba(0, 0, 0, 0.05)',
         premiumHover: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08)',
         premiumLg: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.08)',
-        glow: '0 0 20px rgba(103, 232, 249, 0.15)',
-        glowHover: '0 0 30px rgba(103, 232, 249, 0.25)',
+        glow: '0 0 20px rgba(187, 215, 235, 0.25)',
+        glowHover: '0 0 30px rgba(187, 215, 235, 0.40)',
       },
       borderRadius: {
         16: '16px',

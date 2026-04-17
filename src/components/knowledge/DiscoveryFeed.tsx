@@ -66,12 +66,12 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 const CARD_COLORS = [
-  'from-[#0F172A] to-[#1E3A5F]',
-  'from-[#0F172A] to-[#1B1B4B]',
-  'from-[#1E2937] to-[#0F172A]',
-  'from-[#0F172A] to-[#164E63]',
-  'from-[#0F172A] to-[#0C3347]',
-  'from-[#1B1B4B] to-[#0F172A]',
+  'from-[#212754] to-[#1e2d6b]',
+  'from-[#212754] to-[#1c2063]',
+  'from-[#2a2f6e] to-[#212754]',
+  'from-[#212754] to-[#1a2858]',
+  'from-[#212754] to-[#191d4a]',
+  'from-[#1c2063] to-[#212754]',
 ];
 
 interface DiscoveryFeedProps {

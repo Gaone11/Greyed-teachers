@@ -45,8 +45,8 @@ function loadAllChunks(): KnowledgeChunk[] {
   return [];
 }
 
-const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F172A]/15 focus:border-[#0F172A]/30 transition-all bg-white";
-const labelClass = "block text-sm font-medium text-[#0F172A]/70 mb-1.5";
+const inputClass = "w-full p-3 border border-white/10 rounded-xl text-sm text-[#212754] focus:outline-none focus:ring-2 focus:ring-[#212754]/15 focus:border-[#212754]/30 transition-all bg-white";
+const labelClass = "block text-sm font-medium text-[#212754]/70 mb-1.5";
 
 export default function TeacherAssessmentGeneratorPage() {
   const { user } = useAuth();
@@ -235,18 +235,18 @@ export default function TeacherAssessmentGeneratorPage() {
 
   // Markdown component overrides
   const mdComponents = {
-    h1: ({ children }: any) => <h1 className="text-xl font-bold text-[#0F172A] mb-3 pb-2 border-b border-white/10">{children}</h1>,
-    h2: ({ children }: any) => <h2 className="text-base font-semibold text-[#0F172A] mt-4 mb-2">{children}</h2>,
-    h3: ({ children }: any) => <h3 className="text-sm font-semibold text-[#0F172A]/80 mt-3 mb-1">{children}</h3>,
-    h4: ({ children }: any) => <h4 className="text-sm font-medium text-[#0F172A]/70 mt-2 mb-1">{children}</h4>,
-    p: ({ children }: any) => <p className="text-sm text-[#0F172A]/80 leading-relaxed mb-2">{children}</p>,
-    strong: ({ children }: any) => <strong className="font-semibold text-[#0F172A]/90">{children}</strong>,
-    em: ({ children }: any) => <em className="italic text-[#0F172A]/70">{children}</em>,
+    h1: ({ children }: any) => <h1 className="text-xl font-bold text-[#212754] mb-3 pb-2 border-b border-white/10">{children}</h1>,
+    h2: ({ children }: any) => <h2 className="text-base font-semibold text-[#212754] mt-4 mb-2">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-sm font-semibold text-[#212754]/80 mt-3 mb-1">{children}</h3>,
+    h4: ({ children }: any) => <h4 className="text-sm font-medium text-[#212754]/70 mt-2 mb-1">{children}</h4>,
+    p: ({ children }: any) => <p className="text-sm text-[#212754]/80 leading-relaxed mb-2">{children}</p>,
+    strong: ({ children }: any) => <strong className="font-semibold text-[#212754]/90">{children}</strong>,
+    em: ({ children }: any) => <em className="italic text-[#212754]/70">{children}</em>,
     ul: ({ children }: any) => <ul className="space-y-1 mb-3 pl-1">{children}</ul>,
     ol: ({ children }: any) => <ol className="space-y-1 mb-3 pl-1 list-decimal list-inside">{children}</ol>,
     li: ({ children }: any) => (
-      <li className="flex items-start gap-2 text-sm text-[#0F172A]/80">
-        <span className="text-[#0F172A]/40 mt-1.5 text-[6px] shrink-0">●</span>
+      <li className="flex items-start gap-2 text-sm text-[#212754]/80">
+        <span className="text-[#212754]/40 mt-1.5 text-[6px] shrink-0">●</span>
         <span className="leading-relaxed">{children}</span>
       </li>
     ),
@@ -255,28 +255,28 @@ export default function TeacherAssessmentGeneratorPage() {
         <table className="w-full text-sm">{children}</table>
       </div>
     ),
-    thead: ({ children }: any) => <thead className="bg-[#0F172A]/5">{children}</thead>,
+    thead: ({ children }: any) => <thead className="bg-[#212754]/5">{children}</thead>,
     tbody: ({ children }: any) => <tbody className="divide-y divide-gray-100">{children}</tbody>,
     tr: ({ children }: any) => <tr className="divide-x divide-gray-100">{children}</tr>,
-    th: ({ children }: any) => <th className="px-3 py-2 text-left font-semibold text-[#0F172A]/80 text-xs uppercase tracking-wide">{children}</th>,
-    td: ({ children }: any) => <td className="px-3 py-2 text-[#0F172A]/80">{children}</td>,
+    th: ({ children }: any) => <th className="px-3 py-2 text-left font-semibold text-[#212754]/80 text-xs uppercase tracking-wide">{children}</th>,
+    td: ({ children }: any) => <td className="px-3 py-2 text-[#212754]/80">{children}</td>,
     hr: () => <hr className="my-4 border-white/10" />,
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-3 border-[#0F172A]/20 pl-4 my-3 text-sm text-[#0F172A]/60 italic">{children}</blockquote>
+      <blockquote className="border-l-3 border-[#212754]/20 pl-4 my-3 text-sm text-[#212754]/60 italic">{children}</blockquote>
     ),
     code: ({ children, className }: any) => {
       const isBlock = className?.includes('language-');
       if (isBlock) {
         return <pre className="bg-greyed-navy border border-white/10 rounded-lg p-3 my-3 text-xs overflow-x-auto"><code>{children}</code></pre>;
       }
-      return <code className="bg-greyed-card text-[#0F172A] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>;
+      return <code className="bg-greyed-card text-[#212754] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>;
     },
   };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-[#0F172A]/20 border-t-[#0F172A] rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-[#212754]/20 border-t-[#212754] rounded-full animate-spin" />
       </div>
     );
   }
@@ -290,13 +290,13 @@ export default function TeacherAssessmentGeneratorPage() {
             <button
               type="button"
               onClick={() => navigate('/teachers/assessments')}
-              className="flex items-center gap-2 text-[#0F172A]/60 hover:text-[#0F172A] text-sm font-medium transition-colors"
+              className="flex items-center gap-2 text-[#212754]/60 hover:text-[#212754] text-sm font-medium transition-colors"
               title="Back to Assessments"
             >
               <ArrowLeft size={16} />
               Back
             </button>
-            <h1 className="font-headline font-semibold text-[#0F172A] text-lg">Generate Assessment</h1>
+            <h1 className="font-headline font-semibold text-[#212754] text-lg">Generate Assessment</h1>
             <div className="w-16" />
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function TeacherAssessmentGeneratorPage() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-[#94A3B8]/20 border border-[#0F172A]/15 text-[#0F172A] px-4 py-3 rounded-xl mb-6 flex items-center text-sm"
+            className="bg-[#dedbc2]/20 border border-[#212754]/15 text-[#212754] px-4 py-3 rounded-xl mb-6 flex items-center text-sm"
           >
             <span>{error}</span>
           </motion.div>
@@ -408,23 +408,23 @@ export default function TeacherAssessmentGeneratorPage() {
               </div>
 
               <div>
-                <h3 className="text-sm font-medium text-[#0F172A]/70 mb-3">Include in Assessment</h3>
+                <h3 className="text-sm font-medium text-[#212754]/70 mb-3">Include in Assessment</h3>
                 <label className="flex items-center cursor-pointer group">
                   <input
                     type="checkbox"
                     name="includeAnswerKey"
                     checked={formData.includeAnswerKey}
                     onChange={handleCheckboxChange}
-                    className="rounded border-white/20 text-[#0F172A] focus:ring-[#0F172A]/30 transition-colors"
+                    className="rounded border-white/20 text-[#212754] focus:ring-[#212754]/30 transition-colors"
                   />
-                  <span className="ml-2.5 text-sm text-[#0F172A]/60 group-hover:text-[#0F172A]/80 transition-colors">Include answer key and explanations</span>
+                  <span className="ml-2.5 text-sm text-[#212754]/60 group-hover:text-[#212754]/80 transition-colors">Include answer key and explanations</span>
                 </label>
               </div>
 
               {kbChunkCount > 0 && (
-                <div className="bg-[#67E8F9]/8 border border-[#67E8F9]/20 rounded-xl p-3.5 flex items-center gap-2.5">
-                  <Database className="h-4 w-4 text-[#67E8F9] flex-shrink-0" />
-                  <p className="text-sm text-[#0F172A]/70">
+                <div className="bg-[#bbd7eb]/8 border border-[#bbd7eb]/20 rounded-xl p-3.5 flex items-center gap-2.5">
+                  <Database className="h-4 w-4 text-[#bbd7eb] flex-shrink-0" />
+                  <p className="text-sm text-[#212754]/70">
                     {kbChunkCount} knowledgebase chunks available. Matching chunks will inform the assessment.
                   </p>
                 </div>
@@ -433,7 +433,7 @@ export default function TeacherAssessmentGeneratorPage() {
               <button
                 type="submit"
                 disabled={isGenerating}
-                className="w-full bg-[#0F172A] text-white py-3 px-4 rounded-xl hover:bg-[#0F172A]/90 focus:outline-none focus:ring-2 focus:ring-[#0F172A]/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm font-medium transition-all shadow-sm"
+                className="w-full bg-[#212754] text-white py-3 px-4 rounded-xl hover:bg-[#212754]/90 focus:outline-none focus:ring-2 focus:ring-[#212754]/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm font-medium transition-all shadow-sm"
               >
                 {isGenerating ? (
                   <>
@@ -442,7 +442,7 @@ export default function TeacherAssessmentGeneratorPage() {
                   </>
                 ) : (
                   <>
-                    <Wand2 className="h-4 w-4 mr-2 text-[#67E8F9]" />
+                    <Wand2 className="h-4 w-4 mr-2 text-[#bbd7eb]" />
                     Generate Assessment
                   </>
                 )}
@@ -466,14 +466,14 @@ export default function TeacherAssessmentGeneratorPage() {
               >
                 {/* Toolbar */}
                 <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-headline font-semibold text-[#0F172A] flex items-center text-[15px]">
+                  <h2 className="font-headline font-semibold text-[#212754] flex items-center text-[15px]">
                     <CheckCircle className="h-4 w-4 text-cyan-400 mr-2" />
                     Assessment
                   </h2>
                   <button
                     type="button"
                     onClick={handleDownloadAssessment}
-                    className="flex items-center bg-[#0F172A] text-white px-3 py-1.5 rounded-lg hover:bg-[#0F172A]/90 text-xs font-medium transition-colors shadow-sm"
+                    className="flex items-center bg-[#212754] text-white px-3 py-1.5 rounded-lg hover:bg-[#212754]/90 text-xs font-medium transition-colors shadow-sm"
                   >
                     <Download className="h-3.5 w-3.5 mr-1.5" />
                     Download DOCX
@@ -502,7 +502,7 @@ export default function TeacherAssessmentGeneratorPage() {
                       type="button"
                       onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
                       disabled={currentPage === 0}
-                      className="flex items-center gap-1.5 text-sm font-medium text-[#0F172A] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#67E8F9] transition-colors"
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#212754] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#bbd7eb] transition-colors"
                     >
                       <ChevronLeft className="h-4 w-4" />
                       Previous
@@ -517,7 +517,7 @@ export default function TeacherAssessmentGeneratorPage() {
                           title={`Go to page ${i + 1}`}
                           className={`w-2 h-2 rounded-full transition-all ${
                             i === currentPage
-                              ? 'bg-[#0F172A] scale-125'
+                              ? 'bg-[#212754] scale-125'
                               : 'bg-gray-300 hover:bg-gray-400'
                           }`}
                         />
@@ -528,7 +528,7 @@ export default function TeacherAssessmentGeneratorPage() {
                       type="button"
                       onClick={() => setCurrentPage(p => Math.min(assessmentPages.length - 1, p + 1))}
                       disabled={currentPage === assessmentPages.length - 1}
-                      className="flex items-center gap-1.5 text-sm font-medium text-[#0F172A] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#67E8F9] transition-colors"
+                      className="flex items-center gap-1.5 text-sm font-medium text-[#212754] disabled:text-gray-300 disabled:cursor-not-allowed hover:text-[#bbd7eb] transition-colors"
                     >
                       Next
                       <ChevronRight className="h-4 w-4" />
@@ -537,18 +537,18 @@ export default function TeacherAssessmentGeneratorPage() {
                 </div>
 
                 {/* Page indicator */}
-                <p className="text-center text-xs text-[#0F172A]/40 mt-2">
+                <p className="text-center text-xs text-[#212754]/40 mt-2">
                   Page {currentPage + 1} of {assessmentPages.length}
                 </p>
               </motion.div>
             ) : (
               <div className="bg-white rounded-2xl border border-greyed-beige/60 shadow-sm p-6">
                 <div className="flex flex-col items-center justify-center py-16">
-                  <div className="w-14 h-14 bg-[#94A3B8]/20 rounded-2xl flex items-center justify-center mb-5">
-                    <FileText className="h-6 w-6 text-[#0F172A]/40" />
+                  <div className="w-14 h-14 bg-[#dedbc2]/20 rounded-2xl flex items-center justify-center mb-5">
+                    <FileText className="h-6 w-6 text-[#212754]/40" />
                   </div>
-                  <h3 className="font-headline font-semibold text-[#0F172A] mb-2">Ready to Generate</h3>
-                  <p className="text-[#0F172A]/45 text-center max-w-xs text-sm leading-relaxed">
+                  <h3 className="font-headline font-semibold text-[#212754] mb-2">Ready to Generate</h3>
+                  <p className="text-[#212754]/45 text-center max-w-xs text-sm leading-relaxed">
                     Fill out the form and click "Generate Assessment" to create a detailed, CAPS-aligned assessment.
                   </p>
                 </div>

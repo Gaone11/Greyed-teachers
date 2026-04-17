@@ -192,18 +192,18 @@ const TeacherClassDetailPage: React.FC = () => {
             <div className="bg-white rounded-2xl border border-[#e8e6e0] shadow-sm p-5 mb-4 animate-fade-in">
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 <div>
-                  <h1 className="text-xl md:text-2xl font-headline font-bold text-[#0F172A]">
+                  <h1 className="text-xl md:text-2xl font-headline font-bold text-[#212754]">
                     {classData?.name || 'Class Details'}
                   </h1>
                   <div className="flex items-center flex-wrap gap-2 mt-3">
-                    <span className="bg-[#67E8F9]/20 text-[#0F172A] px-3 py-1 rounded-lg text-sm font-semibold">
+                    <span className="bg-[#bbd7eb]/20 text-[#212754] px-3 py-1 rounded-lg text-sm font-semibold">
                       {classData?.subject || 'Subject'}
                     </span>
-                    <span className="bg-[#0F172A]/8 text-[#0F172A] px-3 py-1 rounded-lg text-sm font-semibold">
+                    <span className="bg-[#212754]/8 text-[#212754] px-3 py-1 rounded-lg text-sm font-semibold">
                       {classData?.grade || 'Grade'}
                     </span>
                     {classData?.syllabus && (
-                      <span className="bg-[#94A3B8]/40 text-[#0F172A] px-3 py-1 rounded-lg text-sm font-semibold">
+                      <span className="bg-[#dedbc2]/40 text-[#212754] px-3 py-1 rounded-lg text-sm font-semibold">
                         {classData.syllabus}
                       </span>
                     )}
@@ -217,7 +217,7 @@ const TeacherClassDetailPage: React.FC = () => {
                 <div className="flex items-start gap-2">
                   <button
                     onClick={() => setShowSettingsModal(true)}
-                    className="px-4 py-2.5 bg-[#0F172A] text-white rounded-xl hover:bg-[#1E2937] transition-all duration-200 flex items-center shadow-sm hover:shadow-md text-sm font-semibold"
+                    className="px-4 py-2.5 bg-[#212754] text-white rounded-xl hover:bg-[#2a2f6e] transition-all duration-200 flex items-center shadow-sm hover:shadow-md text-sm font-semibold"
                   >
                     <Settings size={16} className="mr-2" />
                     Settings
@@ -243,14 +243,14 @@ const TeacherClassDetailPage: React.FC = () => {
                       <button
                         key={tab.id}
                         className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold relative whitespace-nowrap transition-colors duration-200 ${
-                          isActive ? 'text-[#0F172A]' : 'text-[#292828]/50 hover:text-[#0F172A]/70'
+                          isActive ? 'text-[#212754]' : 'text-[#292828]/50 hover:text-[#212754]/70'
                         }`}
                         onClick={() => setActiveTab(tab.id)}
                       >
                         <Icon size={16} />
                         {tab.label}
                         {isActive && (
-                          <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#67E8F9] rounded-full" />
+                          <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#bbd7eb] rounded-full" />
                         )}
                       </button>
                     );

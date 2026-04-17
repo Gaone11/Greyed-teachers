@@ -144,7 +144,7 @@ const ConceptMap: React.FC<ConceptMapProps> = ({
     <div className="bg-white rounded-2xl border border-premium-neutral-200 shadow-sm overflow-hidden">
       {/* Header */}
       <div className="px-5 py-4 border-b border-premium-neutral-100 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0F172A] to-[#1B1B4B] flex items-center justify-center flex-shrink-0">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#212754] to-[#1c2063] flex items-center justify-center flex-shrink-0">
           <Network className="w-4 h-4 text-white" />
         </div>
         <div>

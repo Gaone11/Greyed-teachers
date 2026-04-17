@@ -11,7 +11,7 @@ export const PHYSICS_SUBJECT: Subject = {
   id: 'physics',
   title: 'Physics',
   icon: '⚛️',
-  color: 'from-[#0F172A] to-[#1B1B4B]',
+  color: 'from-[#212754] to-[#1c2063]',
   textColor: 'text-indigo-600',
   domains: [
     CLASSICAL_MECHANICS_DOMAIN,

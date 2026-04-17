@@ -257,7 +257,7 @@ const CHEMISTRY_ATOMIC_DOMAIN: Domain = {
   title: 'Atomic Structure & Bonding',
   description: 'Atoms, electrons, the periodic table, and chemical bonds',
   icon: '⚛️',
-  color: 'from-[#0F172A] to-[#0F2D40]',
+  color: 'from-[#212754] to-[#191d4a]',
   flagshipTopics: [atomicStructureTopic, chemicalBondingTopic],
 };
 
@@ -266,7 +266,7 @@ const CHEMISTRY_REACTIONS_DOMAIN: Domain = {
   title: 'Chemical Reactions & Organic Chemistry',
   description: 'Stoichiometry, energetics, rates, equilibrium, and organic compounds',
   icon: '🔥',
-  color: 'from-[#0F172A] to-[#164E63]',
+  color: 'from-[#212754] to-[#1a2858]',
   flagshipTopics: [chemicalReactionsTopic, organicChemTopic],
 };
 
@@ -274,7 +274,7 @@ export const CHEMISTRY_SUBJECT: Subject = {
   id: 'chemistry',
   title: 'Chemistry',
   icon: '🧪',
-  color: 'from-[#0F172A] to-[#1E2937]',
+  color: 'from-[#212754] to-[#2a2f6e]',
   textColor: 'text-cyan-400',
   domains: [CHEMISTRY_ATOMIC_DOMAIN, CHEMISTRY_REACTIONS_DOMAIN],
 };

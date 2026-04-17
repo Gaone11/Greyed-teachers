@@ -74,8 +74,8 @@ const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="sent" name="Updates Sent" fill="#0F172A" />
-              <Bar dataKey="opened" name="Updates Opened" fill="#67E8F9" />
+              <Bar dataKey="sent" name="Updates Sent" fill="#212754" />
+              <Bar dataKey="opened" name="Updates Opened" fill="#bbd7eb" />
             </BarChart>
           </ResponsiveContainer>
         </div>
