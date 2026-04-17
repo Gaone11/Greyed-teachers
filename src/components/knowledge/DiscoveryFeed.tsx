@@ -1,13 +1,25 @@
 import React, { useMemo, useState } from 'react';
-import { Zap, ArrowRight, RefreshCw } from 'lucide-react';
+import { Zap, ArrowRight, RefreshCw, Calculator, FlaskConical, Microscope, Globe, Monitor, Leaf, Sprout, BarChart2, BookOpen } from 'lucide-react';
 import { SUBJECTS } from '../../data/knowledgeGalaxy';
+
+const SUBJECT_ICONS: Record<string, React.FC<{ className?: string }>> = {
+  'mathematics':           Calculator,
+  'physics':               Zap,
+  'chemistry':             FlaskConical,
+  'biology':               Microscope,
+  'general-science':       Globe,
+  'computer-studies':      Monitor,
+  'environmental-science': Leaf,
+  'agriculture':           Sprout,
+  'statistics':            BarChart2,
+};
 
 interface FeedCard {
   question: string;
   answer: string;
   topicTitle: string;
   topicId: string;
-  subjectIcon: string;
+  subjectId: string;
   subjectTitle: string;
 }
 
@@ -16,25 +28,23 @@ function buildFeed(): FeedCard[] {
   for (const subject of SUBJECTS) {
     for (const domain of subject.domains) {
       for (const topic of domain.flagshipTopics) {
-        // Use real-world items as "did you know" cards
-        topic.realWorld.forEach((fact, i) => {
+        topic.realWorld.forEach((fact) => {
           cards.push({
             question: `Did you know? — ${topic.title}`,
             answer: fact,
             topicTitle: topic.title,
             topicId: topic.id,
-            subjectIcon: subject.icon,
+            subjectId: subject.id,
             subjectTitle: subject.title,
           });
         });
-        // Also use curiosity branches as teaser cards
         topic.curiosityBranches.slice(0, 2).forEach(branch => {
           cards.push({
             question: branch.label,
             answer: topic.explanations.explorer,
             topicTitle: topic.title,
             topicId: topic.id,
-            subjectIcon: subject.icon,
+            subjectId: subject.id,
             subjectTitle: subject.title,
           });
         });
@@ -56,12 +66,12 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 const CARD_COLORS = [
+  'from-[#0F172A] to-[#1E3A5F]',
   'from-[#0F172A] to-[#1B1B4B]',
-  'from-greyed-navy to-greyed-blue',
-  'from-emerald-600 to-teal-700',
-  'from-amber-500 to-[#1E2937]',
-  'from-[#0F172A] to-cyan-700',
-  'from-rose-600 to-pink-700',
+  'from-[#1E2937] to-[#0F172A]',
+  'from-[#0F172A] to-[#164E63]',
+  'from-[#0F172A] to-[#0C3347]',
+  'from-[#1B1B4B] to-[#0F172A]',
 ];
 
 interface DiscoveryFeedProps {
@@ -100,7 +110,7 @@ const DiscoveryFeed: React.FC<DiscoveryFeedProps> = ({ onNavigate }) => {
             >
               {/* Subject badge */}
               <div className="px-4 pt-4 flex items-center gap-2">
-                <span className="text-lg">{card.subjectIcon}</span>
+                {(() => { const Icon = SUBJECT_ICONS[card.subjectId] || BookOpen; return <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center flex-shrink-0"><Icon className="w-3.5 h-3.5 text-greyed-blue" /></div>; })()}
                 <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
                   {card.subjectTitle} · {card.topicTitle}
                 </span>

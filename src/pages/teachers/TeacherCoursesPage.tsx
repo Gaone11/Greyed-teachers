@@ -4,7 +4,20 @@ import { useAuth } from '../../context/AuthContext';
 import {
   BookOpen, Brain, HelpCircle, Telescope,
   TrendingUp, CheckCircle2, Clock, Star, ChevronRight, X,
+  Calculator, Zap, FlaskConical, Microscope, Globe, Monitor, Leaf, Sprout, BarChart2,
 } from 'lucide-react';
+
+const SUBJECT_ICONS: Record<string, React.FC<{ className?: string }>> = {
+  'mathematics':           Calculator,
+  'physics':               Zap,
+  'chemistry':             FlaskConical,
+  'biology':               Microscope,
+  'general-science':       Globe,
+  'computer-studies':      Monitor,
+  'environmental-science': Leaf,
+  'agriculture':           Sprout,
+  'statistics':            BarChart2,
+};
 import NavBar from '../../components/layout/NavBar';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
@@ -123,10 +136,10 @@ const TeacherCoursesPage: React.FC = () => {
               {/* Stat tiles */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {[
-                  { icon: BookOpen, label: 'Topics Explored', value: visitedIds.length, sub: `of ${totalTopics}`, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                  { icon: Brain, label: 'Quizzes Taken', value: quizIds.length, sub: 'completed', color: 'text-cyan-400', bg: 'bg-slate-800' },
-                  { icon: TrendingUp, label: 'Avg Quiz Score', value: avgScore !== null ? `${avgScore}%` : '—', sub: avgScore !== null ? (avgScore >= 80 ? 'Excellent' : avgScore >= 60 ? 'Good' : 'Keep going') : 'No quizzes yet', color: 'text-slate-300', bg: 'bg-slate-800' },
-                  { icon: Star, label: 'Subjects Visited', value: subjectStats.filter(s => s.visited > 0).length, sub: `of ${SUBJECTS.length}`, color: 'text-purple-600', bg: 'bg-purple-50' },
+                  { icon: BookOpen, label: 'Topics Explored', value: visitedIds.length, sub: `of ${totalTopics}`, color: 'text-greyed-blue', bg: 'bg-greyed-blue/10' },
+                  { icon: Brain, label: 'Quizzes Taken', value: quizIds.length, sub: 'completed', color: 'text-greyed-blue', bg: 'bg-greyed-navy' },
+                  { icon: TrendingUp, label: 'Avg Quiz Score', value: avgScore !== null ? `${avgScore}%` : '—', sub: avgScore !== null ? (avgScore >= 80 ? 'Excellent' : avgScore >= 60 ? 'Good' : 'Keep going') : 'No quizzes yet', color: 'text-greyed-blue', bg: 'bg-greyed-navy' },
+                  { icon: Star, label: 'Subjects Visited', value: subjectStats.filter(s => s.visited > 0).length, sub: `of ${SUBJECTS.length}`, color: 'text-greyed-blue', bg: 'bg-greyed-blue/10' },
                 ].map(({ icon: Icon, label, value, sub, color, bg }) => (
                   <div key={label} className="bg-white rounded-2xl border border-premium-neutral-200 p-5 shadow-sm">
                     <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center mb-3`}>
@@ -167,7 +180,7 @@ const TeacherCoursesPage: React.FC = () => {
                       <div key={subject.id}>
                         <div className="flex items-center justify-between mb-1.5">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">{subject.icon}</span>
+                            {(() => { const Icon = SUBJECT_ICONS[subject.id] || BookOpen; return <div className="w-7 h-7 rounded-lg bg-greyed-blue/10 flex items-center justify-center flex-shrink-0"><Icon className="w-4 h-4 text-greyed-blue" /></div>; })()}
                             <span className="text-sm font-semibold text-greyed-navy">{subject.title}</span>
                           </div>
                           <div className="flex items-center gap-3 text-xs text-premium-neutral-500">
@@ -179,14 +192,14 @@ const TeacherCoursesPage: React.FC = () => {
                                 <HelpCircle className="w-3 h-3" /> {quizzed} quizzes
                               </span>
                             )}
-                            <span className={`font-bold ${pct >= 80 ? 'text-cyan-400' : pct >= 40 ? 'text-slate-300' : 'text-premium-neutral-500'}`}>
+                            <span className={`font-bold ${pct > 0 ? 'text-greyed-navy' : 'text-premium-neutral-500'}`}>
                               {pct}%
                             </span>
                           </div>
                         </div>
                         <div className="w-full bg-premium-neutral-100 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full transition-all duration-500 ${pct >= 80 ? 'bg-slate-8000' : pct >= 40 ? 'bg-slate-400' : 'bg-greyed-blue'}`}
+                            className={`h-2 rounded-full transition-all duration-500 ${'bg-greyed-blue'}`}
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -217,7 +230,7 @@ const TeacherCoursesPage: React.FC = () => {
                             onClick={() => navigate(`/teachers/knowledge?subject=${subjectId}&topic=${id}`)}
                             className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-premium-neutral-50 transition-colors text-left group"
                           >
-                            <span className="text-2xl flex-shrink-0">{topic.icon}</span>
+                            {(() => { const Icon = SUBJECT_ICONS[subject?.id || ''] || BookOpen; return <div className="w-8 h-8 rounded-lg bg-greyed-blue/10 flex items-center justify-center flex-shrink-0"><Icon className="w-4 h-4 text-greyed-blue" /></div>; })()}
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-greyed-navy truncate">{topic.title}</p>
                               <p className="text-xs text-premium-neutral-400">
@@ -269,7 +282,7 @@ const TeacherCoursesPage: React.FC = () => {
                                 <div className="flex items-center gap-2 mt-1">
                                   <div className="flex-1 bg-premium-neutral-200 rounded-full h-1.5">
                                     <div
-                                      className={`h-1.5 rounded-full ${pct >= 80 ? 'bg-slate-8000' : pct >= 60 ? 'bg-slate-400' : 'bg-red-400'}`}
+                                      className={`h-1.5 rounded-full ${'bg-greyed-blue'}`}
                                       style={{ width: `${pct}%` }}
                                     />
                                   </div>
@@ -280,7 +293,7 @@ const TeacherCoursesPage: React.FC = () => {
                               </div>
                               <div className="flex items-center gap-1 flex-shrink-0">
                                 {pct >= 80 && <CheckCircle2 className="w-4 h-4 text-cyan-400" />}
-                                <span className={`text-sm font-bold ${pct >= 80 ? 'text-cyan-400' : pct >= 60 ? 'text-slate-300' : 'text-red-500'}`}>
+                                <span className={`text-sm font-bold ${'text-greyed-navy'}`}>
                                   {score}/{total}
                                 </span>
                               </div>
