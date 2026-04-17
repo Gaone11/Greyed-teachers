@@ -209,25 +209,25 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
           <div className="flex rounded-lg border border-gray-300 overflow-hidden">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-greyed-card'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100 text-gray-700'}`}
             >
               All
             </button>
             <button
               onClick={() => setActiveTab('class')}
-              className={`px-3 py-2 text-sm ${activeTab === 'class' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-greyed-card'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'class' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100 text-gray-700'}`}
             >
               Class
             </button>
             <button
               onClick={() => setActiveTab('lesson')}
-              className={`px-3 py-2 text-sm ${activeTab === 'lesson' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-greyed-card'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'lesson' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100 text-gray-700'}`}
             >
               Lessons
             </button>
             <button
               onClick={() => setActiveTab('student')}
-              className={`px-3 py-2 text-sm ${activeTab === 'student' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-greyed-card'}`}
+              className={`px-3 py-2 text-sm ${activeTab === 'student' ? 'bg-greyed-blue/20 font-medium' : 'hover:bg-gray-100 text-gray-700'}`}
             >
               Students
             </button>
@@ -265,7 +265,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                     </div>
                     <div>
                       <h3 className="font-medium text-black">{note.title}</h3>
-                      <div className="flex items-center text-sm text-greyed-beige">
+                      <div className="flex items-center text-sm text-gray-500">
                         <Calendar size={12} className="mr-1" />
                         <span>Updated {formatDate(note.updatedAt)}</span>
                         
@@ -276,7 +276,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                         )}
                         
                         {note.type === 'lesson' && (
-                          <span className="ml-2 bg-slate-700 text-slate-200 px-2 py-0.5 rounded-full text-xs">
+                          <span className="ml-2 bg-greyed-navy/10 text-greyed-navy px-2 py-0.5 rounded-full text-xs">
                             Lesson Note
                           </span>
                         )}
@@ -304,7 +304,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
                     </button>
                   </div>
                 </div>
-                <div className="mt-2 text-greyed-beige text-sm whitespace-pre-line line-clamp-3">
+                <div className="mt-2 text-gray-700 text-sm whitespace-pre-line line-clamp-3">
                   {note.content}
                 </div>
                 <button
@@ -422,7 +422,7 @@ const ClassNotesManager: React.FC<ClassNotesManagerProps> = ({ classId }) => {
               <button
                 type="button"
                 onClick={() => setShowNoteEditor(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-900 bg-white text-greyed-white hover:bg-greyed-navy"
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 Cancel
               </button>
