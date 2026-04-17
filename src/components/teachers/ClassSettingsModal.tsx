@@ -97,11 +97,11 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
-        <div className="p-5 border-b border-white/10 flex justify-between items-center">
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center">
           <h3 className="text-lg font-headline font-bold">Class Settings</h3>
           <button 
             onClick={onClose}
-            className="text-greyed-beige hover:text-greyed-beige touch-target"
+            className="text-gray-400 hover:text-gray-600 touch-target"
           >
             <X size={20} />
           </button>
@@ -116,11 +116,11 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
           )}
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Class Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Class Name</label>
             <input
               type="text"
               name="name"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40"
               placeholder="e.g. Year 11 Physics"
               value={formData.name}
               onChange={handleInputChange}
@@ -129,11 +129,11 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Subject</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
             <input
               type="text"
               name="subject"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40"
               placeholder="e.g. Physics"
               value={formData.subject}
               onChange={handleInputChange}
@@ -142,10 +142,10 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Syllabus</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Syllabus</label>
             <select
               name="syllabus"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue appearance-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40 appearance-none"
               value={formData.syllabus}
               onChange={handleInputChange}
             >
@@ -163,11 +163,11 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Grade/Level</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Grade/Level</label>
             <input
               type="text"
               name="grade"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40"
               placeholder="e.g. GCSE, A-Level"
               value={formData.grade}
               onChange={handleInputChange}
@@ -176,10 +176,10 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Description (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
             <textarea
               name="description"
-              className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40"
               placeholder="Briefly describe this class..."
               value={formData.description}
               onChange={handleInputChange}
@@ -187,7 +187,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
             />
           </div>
           
-          <div className="flex justify-between items-center pt-4 border-t border-white/10">
+          <div className="flex justify-between items-center pt-4 border-t border-gray-200">
             {!showDeleteConfirm ? (
               <button
                 type="button"
@@ -199,11 +199,11 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
               </button>
             ) : (
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-greyed-white">Confirm delete?</span>
+                <span className="text-sm text-gray-700">Confirm delete?</span>
                 <button
                   type="button"
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="px-3 py-1 text-sm border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
+                  className="px-3 py-1 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
@@ -229,7 +229,7 @@ const ClassSettingsModal: React.FC<ClassSettingsModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-sm border border-white/20 rounded-md text-greyed-white hover:bg-greyed-navy"
+                className="px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 disabled={isSubmitting}
               >
                 Cancel
