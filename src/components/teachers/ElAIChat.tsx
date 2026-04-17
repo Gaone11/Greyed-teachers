@@ -333,13 +333,13 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
                       max-w-[82%] md:max-w-[75%] rounded-2xl px-4 py-3
                       ${message.role === 'user'
                         ? 'bg-greyed-navy text-white'
-                        : 'bg-white text-greyed-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-white/5'}
+                        : 'bg-white text-gray-800 shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-gray-100'}
                     `}
                   >
-                    <div className={`text-[15px] leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-greyed-white'}`}>
+                    <div className={`text-[15px] leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>
                       {formatMessageContent(message.content)}
                     </div>
-                    <div className={`text-right mt-1.5 ${message.role === 'user' ? 'text-white/50' : 'text-greyed-beige'}`}>
+                    <div className={`text-right mt-1.5 ${message.role === 'user' ? 'text-white/50' : 'text-gray-400'}`}>
                       <span className="text-[11px]">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
