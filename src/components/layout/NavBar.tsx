@@ -27,7 +27,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const { openTeacherSignup } = useRoleSelection();
+  const { openTeacherSignup, openLoginModal: openLoginModalCtx } = useRoleSelection();
 
   // Check if user is a teacher
   useEffect(() => {
@@ -188,12 +188,11 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   // Determine if we should show the navigation menu
   const showNavMenu = !user;
   
-  // Handle login button click - open login modal
   const handleLogin = () => {
     if (openLoginModal) {
       openLoginModal();
     } else {
-      navigate('/auth/login');
+      openLoginModalCtx();
     }
   };
 

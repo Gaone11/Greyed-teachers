@@ -142,28 +142,23 @@ function App() {
 
 // Separate component to use context inside
 const AppContent = () => {
-  const { showTeacherSignup, closeTeacherSignup } = useRoleSelection();
+  const { showTeacherSignup, closeTeacherSignup, showLoginModal, closeLoginModal, openLoginModal } = useRoleSelection();
   const { user } = useAuth();
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAdminLoginModal, setShowAdminLoginModal] = useState(false);
   const location = useLocation();
-  
-  // Add a class to the body when user is logged in to help with styling
+
   useEffect(() => {
     if (user) {
       document.body.classList.add('auth-user-logged-in');
     } else {
       document.body.classList.remove('auth-user-logged-in');
     }
-    
+
     return () => {
       document.body.classList.remove('auth-user-logged-in');
     };
   }, [user]);
 
-  const openLoginModal = () => setShowLoginModal(true);
-  const closeLoginModal = () => setShowLoginModal(false);
-  
   const openAdminLoginModal = () => setShowAdminLoginModal(true);
   const closeAdminLoginModal = () => setShowAdminLoginModal(false);
   
@@ -184,6 +179,7 @@ const AppContent = () => {
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/knowledge-base" element={<ProtectedAdminRoute><AdminKnowledgeBasePage /></ProtectedAdminRoute>} />
+        <Route path="/auth/login" element={<Navigate to="/" replace />} />
         <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/auth/update-password" element={<UpdatePasswordPage />} />
         <Route path="/auth/personality-test" element={<PersonalityTestRedirectPage />} />

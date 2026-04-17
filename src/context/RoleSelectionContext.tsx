@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { useWaitlist } from './WaitlistContext';
 
 type Role = 'student' | 'teacher' | null;
 
@@ -7,24 +6,30 @@ interface RoleSelectionContextType {
   isOpen: boolean;
   selectedRole: Role;
   showTeacherSignup: boolean;
+  showLoginModal: boolean;
   openRoleSelection: (callback?: () => void) => void;
   closeRoleSelection: () => void;
   selectRole: (role: Role) => void;
   currentCallback: (() => void) | null;
   openTeacherSignup: () => void;
   closeTeacherSignup: () => void;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
 }
 
 export const RoleSelectionContext = createContext<RoleSelectionContextType>({
   isOpen: false,
   selectedRole: null,
   showTeacherSignup: false,
+  showLoginModal: false,
   openRoleSelection: () => {},
   closeRoleSelection: () => {},
   selectRole: () => {},
   currentCallback: null,
   openTeacherSignup: () => {},
   closeTeacherSignup: () => {},
+  openLoginModal: () => {},
+  closeLoginModal: () => {},
 });
 
 export const useRoleSelection = () => useContext(RoleSelectionContext);
@@ -37,7 +42,11 @@ export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ ch
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role>(null);
   const [showTeacherSignup, setShowTeacherSignup] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [currentCallback, setCurrentCallback] = useState<(() => void) | null>(null);
+
+  const openLoginModal = () => setShowLoginModal(true);
+  const closeLoginModal = () => setShowLoginModal(false);
 
   const openRoleSelection = (callback?: () => void) => {
     // Instead of showing the role selection, directly open teacher signup
@@ -75,16 +84,19 @@ export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ ch
 
   return (
     <RoleSelectionContext.Provider 
-      value={{ 
-        isOpen, 
+      value={{
+        isOpen,
         selectedRole,
         showTeacherSignup,
-        openRoleSelection, 
-        closeRoleSelection, 
+        showLoginModal,
+        openRoleSelection,
+        closeRoleSelection,
         selectRole,
         currentCallback,
         openTeacherSignup,
-        closeTeacherSignup
+        closeTeacherSignup,
+        openLoginModal,
+        closeLoginModal,
       }}
     >
       {children}
