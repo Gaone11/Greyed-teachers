@@ -329,7 +329,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
               <Loader className="w-8 h-8 text-greyed-blue animate-spin" />
             </div>
           ) : (
-            <div className="border border-white/10 rounded-lg overflow-hidden h-[500px]">
+            <div className="border border-gray-200 rounded-lg overflow-hidden h-[500px]">
               <iframe 
                 srcDoc={content || ''}
                 className="w-full h-full border-0"

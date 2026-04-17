@@ -214,7 +214,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
               ref={editorRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="flex-1 p-4 font-mono text-sm resize-none focus:outline-none border-0"
+              className="flex-1 p-4 font-mono text-sm text-gray-900 bg-white resize-none focus:outline-none border-0"
               spellCheck={false}
             ></textarea>
           </div>
@@ -230,10 +230,10 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
           </div>
         )}
         
-        <div className="p-4 border-t border-white/10 flex justify-between">
+        <div className="p-4 border-t border-gray-200 flex justify-between">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-white/20 text-greyed-white rounded-md hover:bg-greyed-navy"
+            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
           >
             Cancel
           </button>

@@ -60,6 +60,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
   };
 
   return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
     <div className="bg-white rounded-xl shadow-lg max-w-3xl w-full max-h-[90vh] flex flex-col">
       <div className="p-5 border-b border-white/10 flex justify-between items-center bg-greyed-navy text-white">
         <h3 className="text-lg font-headline font-bold flex items-center">
@@ -177,7 +178,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               value={updateText}
               onChange={(e) => setUpdateText(e.target.value)}
               placeholder={`Write an update about ${student.name}...`}
-              className="w-full p-3 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue"
+              className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               rows={4}
             ></textarea>
             
@@ -200,7 +201,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
               <div className="flex space-x-2">
                 <button
                   onClick={onClose}
-                  className="px-3 py-1.5 border border-white/20 text-black rounded hover:bg-greyed-navy transition-colors"
+                  className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
@@ -228,6 +229,7 @@ const StudentProfileView: React.FC<StudentProfileViewProps> = ({
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -399,7 +399,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder="Message El AI..."
-              className="w-full resize-none py-3.5 pl-4 pr-14 focus:outline-none rounded-xl text-[15px] text-greyed-white placeholder:text-greyed-beige max-h-[120px] md:max-h-[150px]"
+              className="w-full resize-none py-3.5 pl-4 pr-14 focus:outline-none rounded-xl text-[15px] text-gray-900 placeholder:text-gray-400 max-h-[120px] md:max-h-[150px]"
               rows={1}
               disabled={isTyping}
             />
