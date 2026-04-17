@@ -10,7 +10,8 @@ import {
   AlertCircle,
   Users,
   Settings,
-  MapPin
+  MapPin,
+  GraduationCap
 } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
@@ -18,6 +19,7 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import ClassroomDocuments from '../../components/teachers/ClassroomDocuments';
 import ClassSettingsModal from '../../components/teachers/ClassSettingsModal';
 import ClassNotesManager from '../../components/teachers/ClassNotesManager';
+import ClassStudentsManager from '../../components/teachers/ClassStudentsManager';
 import LoaderComponent from '../../components/ui/Loader';
 import { 
   fetchClassById, 
@@ -46,7 +48,7 @@ const TeacherClassDetailPage: React.FC = () => {
   useEffect(() => {
     // Set active tab based on location hash if present
     const hash = location.hash.replace('#', '');
-    if (hash && ['documents', 'lesson-plans', 'assessments', 'analytics', 'notes'].includes(hash)) {
+    if (hash && ['documents', 'lesson-plans', 'assessments', 'analytics', 'notes', 'students'].includes(hash)) {
       setActiveTab(hash);
     }
   }, [location]);
@@ -236,6 +238,7 @@ const TeacherClassDetailPage: React.FC = () => {
                     { id: 'assessments', icon: FileText, label: 'Assessments' },
                     { id: 'analytics', icon: BarChart, label: 'Analytics' },
                     { id: 'notes', icon: BookMarked, label: 'Class Notes' },
+                    { id: 'students', icon: GraduationCap, label: 'Students' },
                   ].map(tab => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -504,6 +507,15 @@ const TeacherClassDetailPage: React.FC = () => {
                 {/* Notes Tab */}
                 {activeTab === 'notes' && (
                   <ClassNotesManager classId={classId || ''} />
+                )}
+
+                {activeTab === 'students' && (
+                  <ClassStudentsManager
+                    classId={classId || ''}
+                    onStudentCountChange={(count) =>
+                      setClassData((prev: any) => prev ? { ...prev, student_count: count } : prev)
+                    }
+                  />
                 )}
               </div>
             </div>

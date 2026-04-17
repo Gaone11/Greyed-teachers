@@ -21,6 +21,7 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
 import Loader from '../../components/ui/Loader';
 import { fetchTeacherClasses, getTeacherDashboardData } from '../../lib/api/teacher-api';
+import { supabase } from '../../lib/supabase';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 // Color palette for class cards — cycles through these
@@ -64,10 +65,23 @@ const TeacherDashboardPage: React.FC = () => {
             fetchTeacherClasses(user.id),
             getTeacherDashboardData(user.id)
           ]);
-          setClasses(classesData || []);
+          const classList = classesData || [];
+          setClasses(classList);
+
+          // Count real students across all classes
+          let totalStudents = 0;
+          if (classList.length > 0) {
+            const classIds = classList.map((c: any) => c.id);
+            const { count } = await supabase
+              .from('class_students')
+              .select('id', { count: 'exact', head: true })
+              .in('class_id', classIds);
+            totalStudents = count || 0;
+          }
+
           setStats({
-            totalClasses: dashboardData?.stats?.classesCount || classesData?.length || 0,
-            totalStudents: 0,
+            totalClasses: dashboardData?.stats?.classesCount || classList.length || 0,
+            totalStudents,
             lessonPlans: dashboardData?.stats?.lessonPlansCount || 0,
             assessments: dashboardData?.stats?.assessmentsCount || 0,
           });
