@@ -1,148 +1,73 @@
 {
-  "name": "Cophetsheni Primary School — Siyafunda AI Platform",
-  "short_name": "Cophetsheni PS",
-  "description": "Siyafunda — We are learning. AI-powered teaching platform for Cophetsheni Primary School, Mpumalanga. CAPS-aligned lesson plans, assessments, and student management.",
-  "start_url": "/",
-  "scope": "/",
+  "name": "GreyEd — AI Teaching Platform",
+  "short_name": "GreyEd",
+  "description": "Democratizing quality learning. AI-powered teaching platform aligned with Ministry of Education curriculum.",
+  "start_url": "/Greyed-teachers/#/",
+  "scope": "/Greyed-teachers/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#1B4332",
-  "background_color": "#FDF6EC",
+  "theme_color": "#212754",
+  "background_color": "#efeae4",
   "categories": ["education", "productivity"],
   "lang": "en-ZA",
   "dir": "ltr",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/Greyed-teachers/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-192.png",
+      "src": "/Greyed-teachers/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/Greyed-teachers/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-maskable-192.png",
+      "src": "/Greyed-teachers/icon-maskable-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icon-maskable-512.png",
+      "src": "/Greyed-teachers/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop-home.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Cophetsheni Primary School Dashboard"
-    },
-    {
-      "src": "/screenshots/mobile-dashboard.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Student Dashboard"
     }
   ],
   "shortcuts": [
     {
       "name": "Teacher Dashboard",
       "short_name": "Dashboard",
-      "description": "Access your Cophetsheni teaching dashboard",
-      "url": "/teachers/dashboard",
-      "icons": [
-        {
-          "src": "/favicon.svg",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
+      "url": "/Greyed-teachers/#/teachers/dashboard",
+      "icons": [{ "src": "/Greyed-teachers/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "Lesson Planner",
       "short_name": "Lessons",
-      "description": "Create CAPS-aligned lesson plans with AI",
-      "url": "/teachers/lesson-planner",
-      "icons": [
-        {
-          "src": "/favicon.svg",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
+      "url": "/Greyed-teachers/#/teachers/lesson-planner",
+      "icons": [{ "src": "/Greyed-teachers/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "Assessments",
       "short_name": "Assess",
-      "description": "Generate and manage CAPS assessments",
-      "url": "/teachers/assessments",
-      "icons": [
-        {
-          "src": "/favicon.svg",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
+      "url": "/Greyed-teachers/#/teachers/assessments",
+      "icons": [{ "src": "/Greyed-teachers/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "My Classes",
       "short_name": "Classes",
-      "description": "Manage your classes and learners",
-      "url": "/teachers/classes",
-      "icons": [
-        {
-          "src": "/favicon.svg",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
+      "url": "/Greyed-teachers/#/teachers/classes",
+      "icons": [{ "src": "/Greyed-teachers/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     }
   ],
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "media",
-          "accept": ["image/*", "application/pdf", "text/*"]
-        }
-      ]
-    }
-  },
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
-  "features": [
-    "Cross-platform support",
-    "Offline functionality",
-    "Push notifications",
-    "AI-powered tutoring",
-    "Personalized learning paths",
-    "Multi-language support"
-  ],
-  "permissions": [
-    "notifications",
-    "camera",
-    "microphone"
-  ]
+  "prefer_related_applications": false
 }
