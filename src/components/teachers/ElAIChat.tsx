@@ -425,11 +425,11 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
             </div>
           </div>
           <div className="flex justify-between items-center mt-2 px-1">
-            <span className="text-[11px] text-greyed-beige">
+            <span className="text-[11px] text-gray-500">
               Enter to send
             </span>
             {isFullPage && (
-              <span className="text-[11px] text-greyed-beige">
+              <span className="text-[11px] text-gray-500">
                 Powered by Uhuru 3 LLM &amp; GreyEd eLLM
               </span>
             )}

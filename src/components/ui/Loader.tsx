@@ -21,7 +21,7 @@ const Loader: React.FC<LoaderProps> = ({ fullScreen = true, message = "Loading..
           <div className="relative mx-auto w-20 h-20 flex items-center justify-center">
             <div className="absolute inset-0 rounded-2xl bg-[#3B82F6]/10 blur-xl animate-[loaderGlow_2s_ease-in-out_infinite]" />
             <div className="relative animate-pulse-glow">
-              <img src="/logo.png" alt="GreyEd" className="h-16 w-auto brightness-0 invert drop-shadow-lg" />
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-16 w-auto brightness-0 invert drop-shadow-lg" />
             </div>
           </div>
 

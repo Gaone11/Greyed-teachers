@@ -213,7 +213,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         <div className="flex items-center gap-2 min-w-0">
           {!isTeacherPage ? (
             <Link to="/" className={`hidden md:flex items-center gap-2 ${logoTextClass}`}>
-              <img src="/logo.png" alt="GreyEd" className="h-8 w-auto" />
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-8 w-auto" />
             </Link>
           ) : teacherPageInfo ? (
             <div className="hidden md:block">
@@ -247,7 +247,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
         {/* Center section: GreyEd Logo (mobile only, not on teacher pages) */}
         {!isTeacherPage && (
           <Link to="/" className={`md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 ${logoTextClass}`}>
-            <img src="/logo.png" alt="GreyEd" className="h-8 w-auto" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-8 w-auto" />
           </Link>
         )}
 

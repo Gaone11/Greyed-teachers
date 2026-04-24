@@ -116,7 +116,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
         {/* Header */}
         <div className="p-4 border-b border-white/10">
           <div className="flex items-center gap-2 mb-4">
-            <img src="/logo.png" alt="GreyEd" className="h-7 w-auto brightness-0 invert" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-7 w-auto brightness-0 invert" />
             <span className="font-headline font-semibold text-white text-sm">GreyEd AI</span>
           </div>
 
@@ -209,7 +209,7 @@ const ElAISidebar: React.FC<ElAISidebarProps> = ({
             className="w-full flex items-center gap-2 px-3 py-2.5 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
             title="Back to Dashboard"
           >
-            <img src="/logo.png" alt="GreyEd" className="h-5 w-auto brightness-0 invert opacity-60" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-5 w-auto brightness-0 invert opacity-60" />
             <span>Dashboard</span>
           </button>
         </div>

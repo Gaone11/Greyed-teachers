@@ -71,7 +71,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
             <div className="mb-6">
-              <img src="/logo.png" alt="GreyEd" className="h-10 w-auto brightness-0 invert" />
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-10 w-auto brightness-0 invert" />
               <p className="text-greyed-white/70 text-sm">We are learning</p>
             </div>
             
@@ -104,7 +104,7 @@ const Footer: React.FC<FooterProps> = ({ openAdminLoginModal }) => {
               ))}
             </div>
             
-            <img src="/logo.png" alt="GreyEd" className="h-6 w-auto brightness-0 invert opacity-60" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-6 w-auto brightness-0 invert opacity-60" />
           </div>
           
           <div className="md:col-span-8">

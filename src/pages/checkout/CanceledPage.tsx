@@ -40,7 +40,7 @@ const CanceledPage: React.FC = () => {
                 onClick={() => navigate(isFromTeacherSettings ? '/teachers/settings#account' : '/pricing')}
                 className="bg-greyed-navy text-greyed-white px-6 py-3 rounded-lg hover:bg-greyed-navy/90 transition-colors flex items-center justify-center"
               >
-                <img src="/logo.png" alt="GreyEd" className="h-6 w-auto mr-2" />
+                <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-6 w-auto mr-2" />
                 {isFromTeacherSettings ? 'Return to Settings' : 'Return to Pricing'}
               </button>
               

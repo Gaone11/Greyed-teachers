@@ -27,7 +27,7 @@ const HeroPricing: React.FC = () => {
             className="inline-flex items-center text-greyed-white/80 hover:text-greyed-blue transition-colors"
             title="Back to Home"
           >
-            <img src="/logo.png" alt="GreyEd" className="h-6 w-auto brightness-0 invert opacity-80" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-6 w-auto brightness-0 invert opacity-80" />
           </Link>
         </div>
       </div>
