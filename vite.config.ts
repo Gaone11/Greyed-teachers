@@ -23,32 +23,13 @@ const skipProblematicFiles = (): Plugin => ({
   }
 });
 
-// https://vitejs.dev/config/
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
 export default defineConfig({
-  plugins: [react(), skipProblematicFiles()],
-  // Explicitly define the root directory
-  root: process.cwd(),
-  publicDir: 'public',
-  server: {
-    host: 'localhost',
-    port: 5200,
-    strictPort: true,
-    cors: true,
-    hmr: {
-      protocol: 'ws',
-      host: 'localhost',
-    },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Security-Policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; frame-ancestors *;",
-    },
-  },
+  plugins: [react()],
+  base: '/',
   build: {
-    rollupOptions: {
-      input: {
-        main: 'index.html',
-      },
-    },
-    copyPublicDir: true,
-  },
-});
+    outDir: 'dist',
+  }
+})
