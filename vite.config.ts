@@ -25,6 +25,7 @@ const skipProblematicFiles = (): Plugin => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.GITHUB_ACTIONS ? '/greyed-teachers-duplicate/' : '/',
   plugins: [react(), skipProblematicFiles()],
   // Explicitly define the root directory
   root: process.cwd(),
