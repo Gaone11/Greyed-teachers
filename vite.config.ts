@@ -1,6 +1,5 @@
 import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
 import fs from 'fs';
 import path from 'path';
 
@@ -25,7 +24,7 @@ const skipProblematicFiles = (): Plugin => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS ? '/greyed-teachers-duplicate/' : '/',
+  base: process.env.GITHUB_ACTIONS ? '/Greyed-teachers/' : '/',
   plugins: [react(), skipProblematicFiles()],
   // Explicitly define the root directory
   root: process.cwd(),
