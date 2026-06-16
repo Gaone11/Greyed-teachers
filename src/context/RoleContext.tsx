@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext';
 import { supabase } from '../lib/supabase';
 
 // Define role types
-export type UserRole = 'teacher' | 'admin' | null;
+export type UserRole = 'student' | 'teacher' | 'parent' | 'admin' | null;
 
 // Role context interface
 interface RoleContextProps {
@@ -46,6 +46,23 @@ export const RoleProvider: React.FC<RoleProviderProps> = ({ children }) => {
       try {
         setIsLoading(true);
         setError(null);
+
+        // Hardcoded email routing for demonstration purposes
+        if (user.email === 'gaonem@uhuruai.co') {
+          setRole('teacher');
+          setIsLoading(false);
+          return;
+        }
+        if (user.email === 'gaone@uhuruai.co') {
+          setRole('student');
+          setIsLoading(false);
+          return;
+        }
+        if (user.email === 'hildagmolefi@gmail.com') {
+          setRole('parent');
+          setIsLoading(false);
+          return;
+        }
 
         // First, check user metadata for role
         if (user.user_metadata?.role) {

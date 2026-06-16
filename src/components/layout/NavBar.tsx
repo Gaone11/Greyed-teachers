@@ -27,7 +27,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const { openTeacherSignup, openLoginModal: openLoginModalCtx } = useRoleSelection();
+  const { openRoleSelection, openLoginModal: openLoginModalCtx } = useRoleSelection();
 
   // Check if user is a teacher
   useEffect(() => {
@@ -259,16 +259,28 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
           {user ? (
             <NavBarUserMenu />
           ) : (
-            <button
-              onClick={handleLogin}
-              className={`hidden md:inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                isOverLight || isTeacherPage
-                  ? 'bg-greyed-navy text-greyed-white hover:bg-greyed-navy/90'
-                  : 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white'
-              }`}
-            >
-              Log In
-            </button>
+            <>
+              <button
+                onClick={() => openRoleSelection('login')}
+                className={`hidden md:inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isOverLight || isTeacherPage
+                    ? 'bg-transparent text-greyed-navy hover:bg-greyed-navy/5'
+                    : 'bg-transparent text-greyed-white hover:bg-white/10'
+                }`}
+              >
+                Log In
+              </button>
+              <button
+                onClick={() => openRoleSelection('signup')}
+                className={`hidden md:inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isOverLight || isTeacherPage
+                    ? 'bg-greyed-navy text-greyed-white hover:bg-greyed-navy/90'
+                    : 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white'
+                }`}
+              >
+                Sign Up
+              </button>
+            </>
           )}
 
           {/* Mobile hamburger menu button (public pages only) */}
@@ -334,15 +346,26 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={() => {
-                    handleLogin();
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full bg-greyed-blue text-greyed-navy px-5 py-3 rounded-full font-medium hover:bg-greyed-white transition-colors text-center text-xl"
-                >
-                  Log In
-                </button>
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => {
+                      openRoleSelection('login');
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full border-2 border-greyed-white text-greyed-white px-5 py-3 rounded-full font-medium hover:bg-greyed-white/10 transition-colors text-center text-xl"
+                  >
+                    Log In
+                  </button>
+                  <button
+                    onClick={() => {
+                      openRoleSelection('signup');
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full bg-greyed-blue text-greyed-navy px-5 py-3 rounded-full font-medium hover:bg-greyed-white transition-colors text-center text-xl"
+                  >
+                    Sign Up
+                  </button>
+                </div>
               )}
             </div>
           </div>

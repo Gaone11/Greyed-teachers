@@ -2,29 +2,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   LayoutDashboard,
-  Users,
-  BookOpen,
+  Calendar,
   FileText,
   Settings,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Snowflake,
-  MessageSquare,
   Sparkles,
+  TrendingUp,
+  MessageSquare,
+  Target,
+  Bot,
   GraduationCap,
-  Database,
-  Shield,
-  Globe2,
-  UserCheck,
-  ClipboardList,
-  BarChart2,
-  Calendar
+  Award,
+  Telescope
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 
-interface TeacherSidebarProps {
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'tutors' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable';
+interface StudentSidebarProps {
+  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -33,7 +28,7 @@ interface TeacherSidebarProps {
   onClose?: () => void;
 }
 
-const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
+const StudentSidebar: React.FC<StudentSidebarProps> = ({
   activePage,
   onLogout,
   collapsed = false,
@@ -49,7 +44,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
   useEffect(() => {
     if (!isMobile) {
-      const savedState = localStorage.getItem('teacherSidebarCollapsed');
+      const savedState = localStorage.getItem('studentSidebarCollapsed');
       if (savedState !== null) {
         setIsCollapsed(savedState === 'true');
       }
@@ -66,7 +61,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     } else {
       const newState = !isCollapsed;
       setIsCollapsed(newState);
-      localStorage.setItem('teacherSidebarCollapsed', String(newState));
+      localStorage.setItem('studentSidebarCollapsed', String(newState));
     }
   };
 
@@ -98,106 +93,61 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       id: 'dashboard',
       label: 'Dashboard',
       icon: LayoutDashboard,
-      path: '/teachers/dashboard',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'classes',
-      label: 'Classes',
-      icon: Users,
-      path: '/teachers/classes',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'lesson-planner',
-      label: 'Lesson Planner',
-      icon: BookOpen,
-      path: '/teachers/lesson-planner',
-      color: 'from-greyed-blue to-greyed-blue',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'assessments',
-      label: 'Assessments',
-      icon: FileText,
-      path: '/teachers/assessments',
-      color: 'from-greyed-beige to-greyed-beige',
-      activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
-    },
-    {
-      id: 'tutors',
-      label: 'Tutor Updates',
-      icon: MessageSquare,
-      path: '/teachers/tutors',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'courses',
-      label: 'Courses',
-      icon: GraduationCap,
-      path: '/teachers/courses',
-      color: 'from-greyed-beige to-greyed-beige',
-      activeColor: 'bg-greyed-beige/40 text-greyed-black border-greyed-beige/50'
+      path: '/students/dashboard',
     },
     {
       id: 'timetable',
-      label: 'Timetable',
+      label: 'Smart Timetable',
       icon: Calendar,
-      path: '/teachers/timetable',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
-    },
-    {
-      id: 'students',
-      label: 'Students & Attendance',
-      icon: UserCheck,
-      path: '/teachers/students',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
+      path: '/students/timetable',
     },
     {
       id: 'assignments',
       label: 'Assignments & Homework',
-      icon: ClipboardList,
-      path: '/teachers/assignments',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
+      icon: FileText,
+      path: '/students/assignments',
+    },
+    {
+      id: 'grades',
+      label: 'Grades & Progress',
+      icon: TrendingUp,
+      path: '/students/grades',
     },
     {
       id: 'messages',
       label: 'Communication Center',
       icon: MessageSquare,
-      path: '/teachers/messages',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
+      path: '/students/messages',
     },
     {
-      id: 'analytics',
-      label: 'Analytics & Reports',
-      icon: BarChart2,
-      path: '/teachers/analytics',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
+      id: 'goals',
+      label: 'Learning Goals',
+      icon: Target,
+      path: '/students/goals',
     },
     {
       id: 'knowledge',
       label: 'Knowledge Galaxy',
-      icon: Globe2,
-      path: '/teachers/knowledge',
-      color: 'from-[#212754] to-[#1c2063]',
-      activeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200'
+      icon: Telescope,
+      path: '/students/knowledge',
     },
     {
-      id: 'el-ai',
-      label: 'GreyEd AI',
-      icon: Snowflake,
-      path: '/teachers/el-ai',
-      color: 'from-greyed-navy to-greyed-navy',
-      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30',
-      special: true
+      id: 'ai-assistant',
+      label: 'AI Study Assistant',
+      icon: Bot,
+      path: '/students/ai-assistant',
+    },
+    {
+      id: 'exams',
+      label: 'Exams & Assessments',
+      icon: GraduationCap,
+      path: '/students/exams',
+    },
+    {
+      id: 'achievements',
+      label: 'Achievement System',
+      icon: Award,
+      path: '/students/achievements',
     },
   ];
 
@@ -215,8 +165,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
           <div className="flex items-center gap-3">
             <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-8 w-auto flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="font-headline font-bold text-greyed-navy text-sm leading-tight">GreyEd</p>
-              <p className="text-xs text-premium-neutral-500 leading-tight">democratizing quality learning</p>
+              <p className="font-headline font-bold text-greyed-navy text-sm leading-tight">Student Hub</p>
             </div>
             {!isMobile && (
               <button
@@ -267,9 +216,6 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
             >
               <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
                 <Icon className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} ${isActive ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
-                {item.special && (
-                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-greyed-beige rounded-full border-2 border-white animate-pulse shadow-sm"></div>
-                )}
               </div>
 
               {(!isCollapsed || isMobile) && (
@@ -283,81 +229,12 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
           );
         })}
 
-        {/* Knowledgebase — only visible for specific emails */}
-        {(() => {
-          const KB_EMAILS = ['pax@greyed.org', 'gaone@orionx.xyz'];
-          const { user: kbUser } = useAuth();
-          const hasKbAccess = KB_EMAILS.includes(kbUser?.email || '');
-          if (!hasKbAccess) return null;
-          return (
-            <Link
-              to="/teachers/knowledgebase"
-              onClick={handleLinkClick}
-              className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
-                activePage === 'knowledgebase'
-                  ? 'bg-gradient-to-r from-greyed-blue/10 to-transparent border-l-4 border-greyed-navy shadow-sm'
-                  : 'hover:bg-premium-neutral-50 active:bg-premium-neutral-100 border-l-4 border-transparent'
-              } touch-manipulation`}
-              title={isCollapsed && !isMobile ? 'CAPS Knowledgebase' : undefined}
-            >
-              <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-                <Database className={`w-5 h-5 ${activePage === 'knowledgebase' ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
-              </div>
-              {(!isCollapsed || isMobile) && (
-                <span className={`font-semibold text-sm ${activePage === 'knowledgebase' ? 'text-greyed-navy' : 'text-premium-neutral-700 group-hover:text-greyed-navy'} transition-colors duration-200 truncate block`}>
-                  CAPS Knowledgebase
-                </span>
-              )}
-            </Link>
-          );
-        })()}
-
-        {/* Admin Section — only visible for authorized emails */}
-        {(() => {
-          const ADMIN_EMAILS = ['monti@orionx.xyz', 'gaone@orionx.xyz'];
-          const { user } = useAuth();
-          const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
-          if (!isAdmin) return null;
-          return (
-            <>
-              <div className={`my-2 ${!isCollapsed || isMobile ? 'mx-2' : ''}`}>
-                {(!isCollapsed || isMobile) && (
-                  <div className="flex items-center gap-1.5 px-2 mb-1">
-                    <Shield className="w-3 h-3 text-red-400" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-red-400">Admin</span>
-                  </div>
-                )}
-                <div className="border-t border-red-200/50"></div>
-              </div>
-              <Link
-                to="/admin/knowledge-base"
-                onClick={handleLinkClick}
-                className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
-                  activePage === 'admin-kb'
-                    ? 'bg-gradient-to-r from-[#2a2f6e] to-transparent border-l-4 border-red-400 shadow-sm'
-                    : 'hover:bg-red-50/50 active:bg-red-50 border-l-4 border-transparent'
-                } touch-manipulation`}
-                title={isCollapsed && !isMobile ? 'AI Knowledge Base' : undefined}
-              >
-                <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
-                  <Database className={`w-5 h-5 ${activePage === 'admin-kb' ? 'text-red-600' : 'text-red-400 group-hover:text-red-600'} transition-colors duration-200`} />
-                </div>
-                {(!isCollapsed || isMobile) && (
-                  <span className={`font-semibold text-sm ${activePage === 'admin-kb' ? 'text-red-700' : 'text-red-500 group-hover:text-red-700'} transition-colors duration-200 truncate block`}>
-                    AI Knowledge Base
-                  </span>
-                )}
-              </Link>
-            </>
-          );
-        })()}
-
         {/* Divider */}
         <div className="my-2"></div>
 
         {/* Settings */}
         <Link
-          to="/teachers/settings"
+          to="/students/settings"
           onClick={handleLinkClick}
           className={`group relative flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg transition-all duration-300 ${
             activePage === 'settings'
@@ -398,4 +275,4 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
   );
 };
 
-export default TeacherSidebar;
+export default StudentSidebar;

@@ -2,22 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/ui/Loader';
-import TeacherSidebar from '../components/teachers/TeacherSidebar';
+import ParentSidebar from '../components/parents/ParentSidebar';
 import MobileBottomNavigation from '../components/dashboard/MobileBottomNavigation';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
-interface TeacherLayoutProps {
+interface ParentLayoutProps {
   children: React.ReactNode;
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable';
+  activePage: 'dashboard' | 'communication' | 'timetable' | 'notifications' | 'settings';
 }
 
-const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) => {
+const ParentLayout: React.FC<ParentLayoutProps> = ({ children, activePage }) => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
-  const autoCollapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('parentSidebarCollapsed') === 'true');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -36,22 +35,6 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
     };
   }, [showMobileMenu, isMobile]);
 
-  // Auto-collapse sidebar after 5 seconds
-  useEffect(() => {
-    if (!isMobile && !sidebarCollapsed) {
-      autoCollapseTimerRef.current = setTimeout(() => {
-        setSidebarCollapsed(true);
-        localStorage.setItem('teacherSidebarCollapsed', 'true');
-      }, 5000);
-    }
-
-    return () => {
-      if (autoCollapseTimerRef.current) {
-        clearTimeout(autoCollapseTimerRef.current);
-      }
-    };
-  }, [isMobile, sidebarCollapsed]);
-
   const handleLogout = async () => {
     await signOut();
     navigate('/');
@@ -60,7 +43,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    localStorage.setItem('parentSidebarCollapsed', String(newState));
   };
 
   const toggleMobileMenu = () => {
@@ -69,23 +52,23 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-greyed-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-greyed-white">
-      {/* Left sidebar navigation - Fixed position */}
-      <div
+    <div className="min-h-screen bg-[#f8f9fa] font-sans text-greyed-black">
+      {/* Sidebar Navigation */}
+      <div 
         className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300
-        ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72` : (sidebarCollapsed ? 'w-16' : 'w-64')}
-        bg-greyed-card border-r border-white/5 shadow-md`}
+        ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72` : (sidebarCollapsed ? 'w-20' : 'w-64')}
+        shadow-lg border-r border-greyed-navy/5`}
         style={{ willChange: 'transform' }}
       >
-        <TeacherSidebar
-          activePage={activePage}
+        <ParentSidebar 
+          activePage={activePage} 
           onLogout={handleLogout}
           collapsed={sidebarCollapsed}
           onToggleCollapse={toggleSidebar}
@@ -95,31 +78,33 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
         />
       </div>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile Menu Overlay */}
       {showMobileMenu && isMobile && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300"
+        <div 
+          className="fixed inset-0 bg-greyed-navy/60 backdrop-blur-sm z-40 transition-opacity duration-300"
           onClick={() => setShowMobileMenu(false)}
           style={{ touchAction: 'none' }}
         />
       )}
 
-      {/* Main content area with locked left margin */}
-      <div
+      {/* Main Content Area */}
+      <div 
         className="min-h-screen transition-all duration-300 flex flex-col"
-        style={{
-          marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem',
+        style={{ 
+          marginLeft: isMobile ? 0 : sidebarCollapsed ? '5rem' : '16rem',
         }}
       >
-        <main className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 md:py-6 pb-20 md:pb-6">
-          {children}
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 md:py-8 pb-24 md:pb-8">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </main>
       </div>
 
-      {/* Mobile bottom navigation */}
+      {/* Mobile Bottom Navigation */}
       <MobileBottomNavigation onMenuClick={toggleMobileMenu} />
     </div>
   );
 };
 
-export default TeacherLayout;
+export default ParentLayout;

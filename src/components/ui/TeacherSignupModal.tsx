@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useRoleSelection } from '../../context/RoleSelectionContext';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -34,6 +35,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { signUp } = useAuth();
+  const { selectedRole } = useRoleSelection();
 
   // Initialize react-hook-form
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
@@ -79,12 +81,13 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
       const nameParts = data.name.trim().split(' ');
       const firstName = nameParts[0] || '';
       const lastName = nameParts.slice(1).join(' ') || '';
+      const roleToUse = selectedRole || 'teacher';
 
       const { error } = await signUp(data.email, data.password, {
         first_name: firstName,
         last_name: lastName,
         name: data.name,
-        role: 'teacher'
+        role: roleToUse
       });
       
       if (error) {
@@ -97,7 +100,9 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
       // Navigate to dashboard after a brief delay
       setTimeout(() => {
         onClose();
-        navigate('/teachers/dashboard');
+        if (roleToUse === 'student') navigate('/students/dashboard');
+        else if (roleToUse === 'parent') navigate('/parents/dashboard');
+        else navigate('/teachers/dashboard');
       }, 1500);
       
     } catch {
@@ -129,6 +134,10 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
     }
   };
 
+  const title = selectedRole === 'student' ? 'Join as a Student' 
+               : selectedRole === 'parent' ? 'Join as a Parent' 
+               : 'Join GreyEd Teachers';
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -155,7 +164,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
 
             <div className="text-center mb-6">
               <h2 className="text-xl sm:text-2xl font-headline font-bold text-greyed-navy mb-2">
-                Join GreyEd Teachers
+                {title}
               </h2>
               <p className="text-greyed-navy/70 text-sm sm:text-base">
                 Enter your information to access the platform
@@ -175,7 +184,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                   <CheckCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium">Access granted!</p>
-                    <p className="mt-1">Taking you to your teacher dashboard...</p>
+                    <p className="mt-1">Taking you to your dashboard...</p>
                   </div>
                 </div>
               )}
@@ -284,13 +293,29 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
               </div>
 
               <div className="bg-greyed-beige/20 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-greyed-navy mb-2">GreyEd Teachers Features</h3>
-                <ul className="text-xs text-greyed-navy/80 space-y-1">
-                  <li>• Unlimited AI lesson plans</li>
-                  <li>• Auto-graded assessments</li>
-                  <li>• Weekly tutor updates</li>
-                  <li>• Analytics dashboard</li>
-                </ul>
+                <h3 className="text-sm font-medium text-greyed-navy mb-2">Features Included</h3>
+                {selectedRole === 'student' ? (
+                  <ul className="text-xs text-greyed-navy/80 space-y-1">
+                    <li>• Access your timetable</li>
+                    <li>• View and manage notes</li>
+                    <li>• Explore Knowledge Galaxy</li>
+                    <li>• Track your progress</li>
+                  </ul>
+                ) : selectedRole === 'parent' ? (
+                  <ul className="text-xs text-greyed-navy/80 space-y-1">
+                    <li>• Track children's performance</li>
+                    <li>• View latest scores</li>
+                    <li>• Message teachers and students</li>
+                    <li>• Receive important updates</li>
+                  </ul>
+                ) : (
+                  <ul className="text-xs text-greyed-navy/80 space-y-1">
+                    <li>• Unlimited AI lesson plans</li>
+                    <li>• Auto-graded assessments</li>
+                    <li>• Weekly tutor updates</li>
+                    <li>• Analytics dashboard</li>
+                  </ul>
+                )}
               </div>
               
               <button
@@ -316,7 +341,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
               </button>
               
               <div className="text-center text-sm text-greyed-navy/60 mt-4">
-                <p>Secure your account and start teaching with AI today.</p>
+                <p>Secure your account and start using GreyEd today.</p>
               </div>
             </form>
           </motion.div>

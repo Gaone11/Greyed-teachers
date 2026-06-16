@@ -13,7 +13,7 @@ const UserDashboardRedirect: React.FC<UserDashboardRedirectProps> = ({ children 
   useEffect(() => {
     // If user is logged in and the loading is complete, redirect to dashboard
     if (user && !loading) {
-      navigate('/teachers/dashboard');
+      navigate('/dashboard');
     }
   }, [user, loading, navigate]);
 

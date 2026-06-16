@@ -23,6 +23,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { RoleProvider, useRole } from './context/RoleContext';
 import { RoleSelectionProvider, useRoleSelection } from './context/RoleSelectionContext';
 import { ViewModeProvider } from './context/ViewModeContext';
+import { WorkflowDemoProvider } from './context/WorkflowDemoContext';
 import RoleSelectionModal from './components/ui/RoleSelectionModal';
 import { LoadingProvider } from './context/LoadingContext';
 import TeacherSignupModal from './components/ui/TeacherSignupModal';
@@ -30,6 +31,24 @@ import LoginModal from './components/ui/LoginModal';
 import ProtectedTeacherRoute from './components/ui/ProtectedTeacherRoute';
 import AdminLoginModal from './components/ui/AdminLoginModal';
 import DyslexiaModeBadge from './components/accessibility/DyslexiaModeBadge';
+import ProtectedStudentRoute from './components/ui/ProtectedStudentRoute';
+import ProtectedParentRoute from './components/ui/ProtectedParentRoute';
+import StudentDashboardPage from './pages/students/StudentDashboardPage';
+import StudentKnowledgeGalaxyPage from './pages/students/StudentKnowledgeGalaxyPage';
+import SmartTimetablePage from './pages/students/SmartTimetablePage';
+import AssignmentsPage from './pages/students/AssignmentsPage';
+import GradesProgressPage from './pages/students/GradesProgressPage';
+import CommunicationCenterPage from './pages/students/CommunicationCenterPage';
+import LearningGoalsPage from './pages/students/LearningGoalsPage';
+import AIStudyAssistantPage from './pages/students/AIStudyAssistantPage';
+import ExamsAssessmentsPage from './pages/students/ExamsAssessmentsPage';
+import AchievementsPage from './pages/students/AchievementsPage';
+// Parent Pages
+import ParentDashboardPage from './pages/parents/ParentDashboardPage';
+import ParentCommunicationPage from './pages/parents/ParentCommunicationPage';
+import ParentTimetablePage from './pages/parents/ParentTimetablePage';
+import ParentNotificationsPage from './pages/parents/ParentNotificationsPage';
+import Loader from './components/ui/Loader';
 
 // Checkout pages removed — platform is free
 
@@ -37,6 +56,12 @@ import DyslexiaModeBadge from './components/accessibility/DyslexiaModeBadge';
 import TeacherDashboardPage from './pages/teachers/TeacherDashboardPage';
 import TeacherClassesPage from './pages/teachers/TeacherClassesPage';
 import TeacherClassDetailPage from './pages/teachers/TeacherClassDetailPage';
+import TeacherKnowledgebasePage from './pages/teachers/TeacherKnowledgebasePage';
+import TeacherStudentsPage from './pages/teachers/TeacherStudentsPage';
+import TeacherAssignmentsPage from './pages/teachers/TeacherAssignmentsPage';
+import TeacherCommunicationPage from './pages/teachers/TeacherCommunicationPage';
+import TeacherAnalyticsPage from './pages/teachers/TeacherAnalyticsPage';
+import TeacherTimetablePage from './pages/teachers/TeacherTimetablePage';
 import TeacherLessonPlannerPage from './pages/teachers/TeacherLessonPlannerPage';
 import TeacherLessonPlanGeneratorPage from './pages/teachers/TeacherLessonPlanGeneratorPage';
 import TeacherAssessmentGeneratorPage from './pages/teachers/TeacherAssessmentGeneratorPage';
@@ -131,7 +156,9 @@ function App() {
         <RoleSelectionProvider>
           <LoadingProvider>
             <ViewModeProvider>
-              <AppContent />
+              <WorkflowDemoProvider>
+                <AppContent />
+              </WorkflowDemoProvider>
             </ViewModeProvider>
           </LoadingProvider>
         </RoleSelectionProvider>
@@ -142,7 +169,7 @@ function App() {
 
 // Separate component to use context inside
 const AppContent = () => {
-  const { showTeacherSignup, closeTeacherSignup, showLoginModal, closeLoginModal, openLoginModal } = useRoleSelection();
+  const { showSignupModal, closeSignupModal, showLoginModal, closeLoginModal, openLoginModal } = useRoleSelection();
   const { user } = useAuth();
   const [showAdminLoginModal, setShowAdminLoginModal] = useState(false);
   const location = useLocation();
@@ -251,6 +278,36 @@ const AppContent = () => {
           </ProtectedTeacherRoute>
         } />
         
+        <Route path="/teachers/students" element={
+          <ProtectedTeacherRoute>
+            <TeacherStudentsPage />
+          </ProtectedTeacherRoute>
+        } />
+        
+        <Route path="/teachers/assignments" element={
+          <ProtectedTeacherRoute>
+            <TeacherAssignmentsPage />
+          </ProtectedTeacherRoute>
+        } />
+        
+        <Route path="/teachers/messages" element={
+          <ProtectedTeacherRoute>
+            <TeacherCommunicationPage />
+          </ProtectedTeacherRoute>
+        } />
+        
+        <Route path="/teachers/analytics" element={
+          <ProtectedTeacherRoute>
+            <TeacherAnalyticsPage />
+          </ProtectedTeacherRoute>
+        } />
+        
+        <Route path="/teachers/timetable" element={
+          <ProtectedTeacherRoute>
+            <TeacherTimetablePage />
+          </ProtectedTeacherRoute>
+        } />
+        
         <Route path="/teachers/el-ai" element={
           <ProtectedTeacherRoute>
             <ElAIAssistantPage />
@@ -284,14 +341,87 @@ const AppContent = () => {
         {/* Redirect dashboard to appropriate role dashboard */}
         <Route path="/dashboard" element={<DashboardRedirect />} />
 
+        {/* Student Routes */}
+        <Route path="/students/dashboard" element={
+          <ProtectedStudentRoute>
+            <StudentDashboardPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/timetable" element={
+          <ProtectedStudentRoute>
+            <SmartTimetablePage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/assignments" element={
+          <ProtectedStudentRoute>
+            <AssignmentsPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/grades" element={
+          <ProtectedStudentRoute>
+            <GradesProgressPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/messages" element={
+          <ProtectedStudentRoute>
+            <CommunicationCenterPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/goals" element={
+          <ProtectedStudentRoute>
+            <LearningGoalsPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/knowledge" element={
+          <ProtectedStudentRoute>
+            <StudentKnowledgeGalaxyPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/ai-assistant" element={
+          <ProtectedStudentRoute>
+            <AIStudyAssistantPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/exams" element={
+          <ProtectedStudentRoute>
+            <ExamsAssessmentsPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/achievements" element={
+          <ProtectedStudentRoute>
+            <AchievementsPage />
+          </ProtectedStudentRoute>
+        } />
+
+        {/* Parent Routes */}
+        <Route path="/parents/dashboard" element={
+          <ProtectedParentRoute>
+            <ParentDashboardPage />
+          </ProtectedParentRoute>
+        } />
+        <Route path="/parents/communication" element={
+          <ProtectedParentRoute>
+            <ParentCommunicationPage />
+          </ProtectedParentRoute>
+        } />
+        <Route path="/parents/timetable" element={
+          <ProtectedParentRoute>
+            <ParentTimetablePage />
+          </ProtectedParentRoute>
+        } />
+        <Route path="/parents/notifications" element={
+          <ProtectedParentRoute>
+            <ParentNotificationsPage />
+          </ProtectedParentRoute>
+        } />
+
         {/* Catch-all for removed routes - redirect to home */}
-        <Route path="/students/*" element={<Navigate404 />} />
         <Route path="/waitlist" element={<Navigate404 />} />
       </Routes>
       <RoleSelectionModal />
       <TeacherSignupModal 
-        isOpen={showTeacherSignup} 
-        onClose={closeTeacherSignup} 
+        isOpen={showSignupModal} 
+        onClose={closeSignupModal} 
       />
       <LoginModal
         isOpen={showLoginModal}
@@ -308,10 +438,12 @@ const AppContent = () => {
 // Component to redirect to appropriate dashboard based on role
 const DashboardRedirect = () => {
   const { user } = useAuth();
-  const { role } = useRole();
+  const { role, isLoading } = useRole();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isLoading) return; // Wait until role finishes loading
+
     if (!user) {
       navigate('/auth/login');
       return;
@@ -320,11 +452,15 @@ const DashboardRedirect = () => {
     // Redirect based on role
     if (role === 'teacher') {
       navigate('/teachers/dashboard');
+    } else if (role === 'student') {
+      navigate('/students/dashboard');
+    } else if (role === 'parent') {
+      navigate('/parents/dashboard');
     } else {
-      // Default to login if role is not teacher
+      // Default to login if role is not recognized
       navigate('/auth/login');
     }
-  }, [user, role, navigate]);
+  }, [user, role, isLoading, navigate]);
 
   return <Loader />;
 };

@@ -1,18 +1,20 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-type Role = 'student' | 'teacher' | null;
+type Role = 'student' | 'teacher' | 'parent' | null;
+type ActionType = 'login' | 'signup' | null;
 
 interface RoleSelectionContextType {
   isOpen: boolean;
   selectedRole: Role;
-  showTeacherSignup: boolean;
+  actionType: ActionType;
+  showSignupModal: boolean;
   showLoginModal: boolean;
-  openRoleSelection: (callback?: () => void) => void;
+  openRoleSelection: (action?: ActionType, callback?: () => void) => void;
   closeRoleSelection: () => void;
   selectRole: (role: Role) => void;
   currentCallback: (() => void) | null;
-  openTeacherSignup: () => void;
-  closeTeacherSignup: () => void;
+  openSignupModal: () => void;
+  closeSignupModal: () => void;
   openLoginModal: () => void;
   closeLoginModal: () => void;
 }
@@ -20,14 +22,15 @@ interface RoleSelectionContextType {
 export const RoleSelectionContext = createContext<RoleSelectionContextType>({
   isOpen: false,
   selectedRole: null,
-  showTeacherSignup: false,
+  actionType: null,
+  showSignupModal: false,
   showLoginModal: false,
   openRoleSelection: () => {},
   closeRoleSelection: () => {},
   selectRole: () => {},
   currentCallback: null,
-  openTeacherSignup: () => {},
-  closeTeacherSignup: () => {},
+  openSignupModal: () => {},
+  closeSignupModal: () => {},
   openLoginModal: () => {},
   closeLoginModal: () => {},
 });
@@ -41,17 +44,18 @@ interface RoleSelectionProviderProps {
 export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role>(null);
-  const [showTeacherSignup, setShowTeacherSignup] = useState(false);
+  const [actionType, setActionType] = useState<ActionType>(null);
+  const [showSignupModal, setShowSignupModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [currentCallback, setCurrentCallback] = useState<(() => void) | null>(null);
 
   const openLoginModal = () => setShowLoginModal(true);
   const closeLoginModal = () => setShowLoginModal(false);
 
-  const openRoleSelection = (callback?: () => void) => {
-    // Instead of showing the role selection, directly open teacher signup
-    setIsOpen(false);
-    setShowTeacherSignup(true);
+  const openRoleSelection = (action: ActionType = 'signup', callback?: () => void) => {
+    // Show the role selection modal
+    setActionType(action);
+    setIsOpen(true);
     
     if (callback) {
       setCurrentCallback(() => callback);
@@ -60,25 +64,28 @@ export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ ch
 
   const closeRoleSelection = () => {
     setIsOpen(false);
+    setActionType(null);
     setCurrentCallback(null);
   };
 
-  const openTeacherSignup = () => {
-    setShowTeacherSignup(true);
+  const openSignupModal = () => {
+    setShowSignupModal(true);
     setIsOpen(false);
   };
 
-  const closeTeacherSignup = () => {
-    setShowTeacherSignup(false);
+  const closeSignupModal = () => {
+    setShowSignupModal(false);
   };
 
   const selectRole = (role: Role) => {
     setSelectedRole(role);
     setIsOpen(false);
     
-    // Always open teacher signup regardless of selected role
-    if (role === 'student' || role === 'teacher' || role === null) {
-      openTeacherSignup();
+    // Open the appropriate modal based on action type
+    if (actionType === 'login') {
+      openLoginModal();
+    } else {
+      openSignupModal();
     }
   };
 
@@ -87,14 +94,15 @@ export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ ch
       value={{
         isOpen,
         selectedRole,
-        showTeacherSignup,
+        actionType,
+        showSignupModal,
         showLoginModal,
         openRoleSelection,
         closeRoleSelection,
         selectRole,
         currentCallback,
-        openTeacherSignup,
-        closeTeacherSignup,
+        openSignupModal,
+        closeSignupModal,
         openLoginModal,
         closeLoginModal,
       }}

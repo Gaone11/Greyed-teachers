@@ -26,7 +26,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
-  const { openTeacherSignup } = useRoleSelection();
+  const { openRoleSelection, selectedRole } = useRoleSelection();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -69,9 +69,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         return;
       }
 
-
       onClose();
-      navigate('/teachers/dashboard');
+      
+      // We still redirect based on the role tied to their account in App.tsx (DashboardRedirect),
+      // or we can redirect right here if we fetch their role properly. But relying on DashboardRedirect
+      // is usually safer if the auth state change triggers App to re-route or if we navigate to /dashboard
+      navigate('/dashboard');
     } catch {
       setLoginError("An unexpected error occurred. Please try again.");
     } finally {
@@ -86,7 +89,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
   const handleSignup = () => {
     onClose();
-    openTeacherSignup();
+    openRoleSelection('signup');
   };
 
   const containerVariants = {
@@ -140,7 +143,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             <div className="p-6 sm:p-8">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-headline font-bold text-greyed-navy mb-2">Welcome Back</h2>
-                <p className="text-greyed-navy/70 text-sm">Log in to your teacher account</p>
+                <p className="text-greyed-navy/70 text-sm">
+                  Log in to your {selectedRole === 'student' ? 'Student' : selectedRole === 'parent' ? 'Parent' : 'Teacher'} account
+                </p>
               </div>
 
               {loginError && (
