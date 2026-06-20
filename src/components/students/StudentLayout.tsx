@@ -10,7 +10,7 @@ import { X } from 'lucide-react';
 
 interface StudentLayoutProps {
   children: React.ReactNode;
-  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings';
+  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge';
 }
 
 const StudentLayout: React.FC<StudentLayoutProps> = ({ children, activePage }) => {
@@ -96,7 +96,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, activePage }) =
         <div className="flex-1 pb-20 md:pb-6 transition-all duration-300 flex flex-col min-h-screen"
           style={{ marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem' }}>
           
-          <main className="flex-1 px-3 sm:px-6 lg:px-8 w-full max-w-7xl pt-4">
+          <main className="flex-1 px-4 sm:px-6 lg:px-10 w-full mx-auto pt-6 pb-8">
             {children}
           </main>
           

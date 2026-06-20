@@ -44,11 +44,11 @@ const StudentDashboardPage: React.FC = () => {
 
   return (
     <StudentLayout activePage="dashboard">
-      <div className="mb-6 animate-slide-up">
-        <h1 className="text-2xl sm:text-3xl font-headline font-bold text-greyed-navy">
+      <div className="mb-8 animate-slide-up">
+        <h1 className="text-3xl sm:text-4xl font-headline font-bold text-greyed-navy">
           Welcome back, {userName}!
         </h1>
-        <p className="text-greyed-beige/70 mt-1">Here is an overview of your academic day.</p>
+        <p className="text-greyed-navy/60 mt-1 text-base">Here is an overview of your academic day.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-slide-up" style={{ animationDelay: '50ms' }}>
@@ -56,27 +56,27 @@ const StudentDashboardPage: React.FC = () => {
         {/* Left Column: Timetable & Classes */}
         <div className="lg:col-span-2 space-y-6">
           {/* Today's Timetable */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-greyed-navy/5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-greyed-navy flex items-center gap-2">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-greyed-navy/5">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-bold text-greyed-navy flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-greyed-blue" />
                 Today's Timetable
               </h2>
-              <Link to="/students/timetable" className="text-xs font-semibold text-greyed-blue hover:text-[#2a2f6e] transition-colors">
+              <Link to="/students/timetable" className="text-sm font-semibold text-greyed-blue hover:text-[#2a2f6e] transition-colors">
                 View Full Timetable
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {todaysClasses.map((cls) => (
-                <div key={cls.id} className={`${cls.color} rounded-xl p-4 flex flex-col justify-between shadow-sm min-h-[100px]`}>
+                <div key={cls.id} className={`${cls.color} rounded-xl p-5 flex flex-col justify-between shadow-sm min-h-[120px]`}>
                   <div>
-                    <h3 className="font-bold font-headline">{cls.subject}</h3>
-                    <p className="text-xs opacity-90 mt-1 flex items-center gap-1">
+                    <h3 className="font-bold font-headline text-base">{cls.subject}</h3>
+                    <p className="text-xs opacity-90 mt-1.5 flex items-center gap-1">
                       <Clock className="w-3 h-3" /> {cls.time}
                     </p>
                   </div>
-                  <div className="text-xs font-medium mt-3 opacity-90 text-right">
+                  <div className="text-xs font-medium mt-4 opacity-90 text-right">
                     {cls.room}
                   </div>
                 </div>
@@ -85,13 +85,13 @@ const StudentDashboardPage: React.FC = () => {
           </div>
 
           {/* Homework Due Dates */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-greyed-navy/5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-greyed-navy flex items-center gap-2">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-greyed-navy/5">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-bold text-greyed-navy flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-greyed-blue" />
                 Homework & Assignments
               </h2>
-              <Link to="/students/assignments" className="text-xs font-semibold text-greyed-blue hover:text-[#2a2f6e] transition-colors">
+              <Link to="/students/assignments" className="text-sm font-semibold text-greyed-blue hover:text-[#2a2f6e] transition-colors">
                 View All
               </Link>
             </div>
@@ -167,19 +167,19 @@ const StudentDashboardPage: React.FC = () => {
           </div>
 
           {/* Recent Grades */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-greyed-navy/5">
-            <h2 className="text-lg font-bold text-greyed-navy flex items-center gap-2 mb-4">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-greyed-navy/5">
+            <h2 className="text-xl font-bold text-greyed-navy flex items-center gap-2 mb-5">
               <TrendingUp className="w-5 h-5 text-greyed-blue" />
               Recent Grades
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {recentGrades.map((grade) => (
-                <div key={grade.id} className="p-4 rounded-xl border border-greyed-navy/5 bg-greyed-white flex items-center justify-between">
+                <div key={grade.id} className="p-5 rounded-xl border border-greyed-navy/5 bg-greyed-white flex items-center justify-between">
                   <div>
-                    <h4 className="font-bold text-greyed-navy text-sm">{grade.subject}</h4>
-                    <p className="text-xs text-greyed-beige/60">{grade.title}</p>
+                    <h4 className="font-bold text-greyed-navy">{grade.subject}</h4>
+                    <p className="text-sm text-greyed-navy/50">{grade.title}</p>
                   </div>
-                  <div className="text-xl font-bold text-[#2a2f6e]">{grade.grade}</div>
+                  <div className="text-2xl font-bold text-[#2a2f6e]">{grade.grade}</div>
                 </div>
               ))}
             </div>
@@ -188,19 +188,19 @@ const StudentDashboardPage: React.FC = () => {
 
         {/* Right Column: Widgets */}
         <div className="space-y-6">
-          {/* Attendance Status */}
-          <div className="bg-gradient-to-br from-[#212754] to-[#2a2f6e] rounded-2xl p-5 shadow-sm text-white relative overflow-hidden">
-            <h2 className="text-lg font-bold mb-4 flex items-center gap-2 relative z-10">
+          {/* Overall GPA */}
+          <div className="bg-gradient-to-br from-[#212754] to-[#2a2f6e] rounded-2xl p-6 shadow-sm text-white relative overflow-hidden">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 relative z-10">
               <CheckCircle className="w-5 h-5 text-[#bbd7eb]" />
               Overall GPA
             </h2>
             <div className="flex items-end justify-between relative z-10">
               <div>
-                <p className="text-4xl font-bold flex items-center gap-2">
+                <p className="text-5xl font-bold flex items-center gap-2">
                   {assignmentStatus === 'graded' ? '3.92' : '3.85'}
                   {assignmentStatus === 'graded' && <TrendingUp className="w-6 h-6 text-green-400 animate-bounce" />}
                 </p>
-                <p className="text-xs text-white/70 mt-1">
+                <p className="text-sm text-white/70 mt-2">
                   {assignmentStatus === 'graded' ? 'Increased from 3.85!' : 'Current Semester'}
                 </p>
               </div>
