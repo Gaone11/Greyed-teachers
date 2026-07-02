@@ -17,50 +17,6 @@ const SmartTimetablePage: React.FC = () => {
   const [periodOffset, setPeriodOffset] = useState(0);
   const [remindersOn, setRemindersOn] = useState(true);
 
-  const baseDate = new Date(2026, 9, 19);
-  const visibleDate = new Date(baseDate);
-  visibleDate.setDate(baseDate.getDate() + (view === 'daily' ? periodOffset : periodOffset * 7));
-  if (view === 'monthly') {
-    visibleDate.setMonth(baseDate.getMonth() + periodOffset);
-  }
-
-  const visibleMonth = visibleDate.toLocaleDateString('en-US', {
-    month: 'long',
-    year: 'numeric',
-  });
-  const visibleDay = visibleDate.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-  const weekEnd = new Date(visibleDate);
-  weekEnd.setDate(visibleDate.getDate() + 4);
-  const visibleWeek = `${visibleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-  const visibleTitle = view === 'daily' ? visibleDay : view === 'weekly' ? visibleWeek : visibleMonth;
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const dailyDay = days[((periodOffset % days.length) + days.length) % days.length];
-  const dailyClasses = classes.filter(c => c.day === dailyDay);
-  const monthlyWeeks = [
-    ['Mathematics', 'Physics'],
-    ['Literature'],
-    ['World History'],
-    ['Art Studio'],
-  ];
-
-  const movePeriod = (direction: -1 | 1) => {
-    setPeriodOffset(offset => offset + direction);
-  };
-
-  // Baby matte colors for subjects
-  const colors = {
-    math: 'bg-[#ffb3ba] text-[#8a3a41] border-[#ffb3ba]', // Pastel pink
-    science: 'bg-[#baffc9] text-[#2e6b3c] border-[#baffc9]', // Pastel green
-    literature: 'bg-[#bae1ff] text-[#2e528a] border-[#bae1ff]', // Pastel blue
-    history: 'bg-[#ffffba] text-[#8a8a2e] border-[#ffffba]', // Pastel yellow
-    art: 'bg-[#e5ccff] text-[#5c3a8a] border-[#e5ccff]', // Pastel purple
-  };
-
   const classes = [
     {
       id: 1,
@@ -123,6 +79,50 @@ const SmartTimetablePage: React.FC = () => {
       day: 'Thursday'
     }
   ];
+
+  const baseDate = new Date(2026, 9, 19);
+  const visibleDate = new Date(baseDate);
+  visibleDate.setDate(baseDate.getDate() + (view === 'daily' ? periodOffset : periodOffset * 7));
+  if (view === 'monthly') {
+    visibleDate.setMonth(baseDate.getMonth() + periodOffset);
+  }
+
+  const visibleMonth = visibleDate.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+  });
+  const visibleDay = visibleDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  const weekEnd = new Date(visibleDate);
+  weekEnd.setDate(visibleDate.getDate() + 4);
+  const visibleWeek = `${visibleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+  const visibleTitle = view === 'daily' ? visibleDay : view === 'weekly' ? visibleWeek : visibleMonth;
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const dailyDay = days[((periodOffset % days.length) + days.length) % days.length];
+  const dailyClasses = classes.filter(c => c.day === dailyDay);
+  const monthlyWeeks = [
+    ['Mathematics', 'Physics'],
+    ['Literature'],
+    ['World History'],
+    ['Art Studio'],
+  ];
+
+  const movePeriod = (direction: -1 | 1) => {
+    setPeriodOffset(offset => offset + direction);
+  };
+
+  // Baby matte colors for subjects
+  const colors = {
+    math: 'bg-[#ffb3ba] text-[#8a3a41] border-[#ffb3ba]', // Pastel pink
+    science: 'bg-[#baffc9] text-[#2e6b3c] border-[#baffc9]', // Pastel green
+    literature: 'bg-[#bae1ff] text-[#2e528a] border-[#bae1ff]', // Pastel blue
+    history: 'bg-[#ffffba] text-[#8a8a2e] border-[#ffffba]', // Pastel yellow
+    art: 'bg-[#e5ccff] text-[#5c3a8a] border-[#e5ccff]', // Pastel purple
+  };
 
   return (
     <StudentLayout activePage="timetable">

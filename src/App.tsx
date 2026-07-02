@@ -43,6 +43,7 @@ import LearningGoalsPage from './pages/students/LearningGoalsPage';
 import AIStudyAssistantPage from './pages/students/AIStudyAssistantPage';
 import ExamsAssessmentsPage from './pages/students/ExamsAssessmentsPage';
 import AchievementsPage from './pages/students/AchievementsPage';
+import StudentSettingsPage from './pages/students/StudentSettingsPage';
 // Parent Pages
 import ParentDashboardPage from './pages/parents/ParentDashboardPage';
 import ParentCommunicationPage from './pages/parents/ParentCommunicationPage';
@@ -390,6 +391,11 @@ const AppContent = () => {
         <Route path="/students/achievements" element={
           <ProtectedStudentRoute>
             <AchievementsPage />
+          </ProtectedStudentRoute>
+        } />
+        <Route path="/students/settings" element={
+          <ProtectedStudentRoute>
+            <StudentSettingsPage />
           </ProtectedStudentRoute>
         } />
 

@@ -326,7 +326,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
                 
                   <button
                     onClick={() => {
-                      navigate(role === 'teacher' ? '/teachers/settings' : '/profile');
+                      navigate(role === 'teacher' ? '/teachers/settings' : role === 'student' ? '/students/settings' : '/profile');
                       setIsMenuOpen(false);
                     }}
                     className="w-full flex items-center justify-center bg-greyed-white/10 text-greyed-white px-5 py-3 rounded-full font-medium hover:bg-greyed-white/20 transition-colors text-center text-xl"

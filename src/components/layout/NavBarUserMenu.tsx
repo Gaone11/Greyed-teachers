@@ -119,7 +119,7 @@ const NavBarUserMenu = () => {
           <button
             onClick={() => {
               setIsOpen(false);
-              navigate(isTeacher ? '/teachers/settings' : isStudent ? '/students/profile' : '/profile');
+              navigate(isTeacher ? '/teachers/settings' : isStudent ? '/students/settings' : '/profile');
             }}
             className="w-full text-left px-4 py-2 text-sm text-greyed-navy hover:bg-greyed-navy/5 flex items-center"
           >
