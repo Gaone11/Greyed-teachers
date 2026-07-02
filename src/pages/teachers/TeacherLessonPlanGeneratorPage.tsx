@@ -104,6 +104,7 @@ export default function TeacherLessonPlanGeneratorPage() {
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
   const [kbChunkCount, setKbChunkCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [generationError, setGenerationError] = useState('');
 
   const defaultGrade = saGrades[0].value;
   const defaultPhase = getPhaseFromGrade(saGrades[0].num);
@@ -219,6 +220,7 @@ export default function TeacherLessonPlanGeneratorPage() {
 
     try {
       setIsGenerating(true);
+      setGenerationError('');
       const selectedClass = classes.find(c => c.id === formData.classId);
       if (!selectedClass) return;
 
@@ -249,8 +251,9 @@ export default function TeacherLessonPlanGeneratorPage() {
 
       setGeneratedPlan(plan.markdown || plan);
       setCurrentPage(0);
-    } catch {
-      alert('Failed to generate lesson plan. Please try again.');
+    } catch (error) {
+      console.error('Lesson plan generation failed.', error);
+      setGenerationError('The lesson plan could not be generated. Please check the required fields and try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -501,6 +504,12 @@ export default function TeacherLessonPlanGeneratorPage() {
               )}
 
               {/* Generate Button */}
+              {generationError && (
+                <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-3 text-sm font-medium text-red-700">
+                  {generationError}
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={isGenerating}

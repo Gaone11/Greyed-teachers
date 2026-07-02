@@ -96,6 +96,141 @@ interface NotificationSettings {
   assessmentDeadlines: boolean;
 }
 
+interface GenerateLessonPlanParams {
+  classId: string;
+  subject: string;
+  topic: string;
+  syllabus?: string;
+  date?: string;
+  duration?: string;
+  focusAreas?: string[];
+  includeAssessment?: boolean;
+  includeDifferentiation?: boolean;
+  includeResources?: boolean;
+  className?: string;
+  grade?: string;
+  term?: string;
+  week?: string;
+  kbContext?: string;
+  // Legacy params (kept for backward compat)
+  lessonLength?: string;
+  teachingStyle?: string;
+  includeActivities?: boolean;
+  includeAssessments?: boolean;
+}
+
+function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
+  lessonDate: string;
+  duration: string;
+  syllabus: string;
+  grade: string;
+  className: string;
+  term: string;
+  week: string;
+}) {
+  const durationNum = parseInt(params.duration) || 45;
+  const introMinutes = Math.max(5, Math.round(durationNum * 0.15));
+  const teachingMinutes = Math.max(15, Math.round(durationNum * 0.4));
+  const practiceMinutes = Math.max(10, Math.round(durationNum * 0.3));
+  const closureMinutes = Math.max(5, durationNum - introMinutes - teachingMinutes - practiceMinutes);
+  const focusAreas = (params.focusAreas || []).filter(Boolean);
+  const assessmentSection = params.includeAssessment
+    ? `
+## Assessment Activities
+
+- **Observation:** Listen for learners using correct vocabulary and complete sentence structures during pair discussion.
+- **Quick check:** Ask three learners to restate the main idea in their own words.
+- **Exit ticket:** Learners write or say one sentence showing what they understood from ${params.topic}.
+- **Success criteria:** Learners can identify the purpose of the listening/speaking task, respond appropriately, and use subject vocabulary with growing confidence.`
+    : '';
+  const differentiationSection = params.includeDifferentiation
+    ? `
+## Differentiation Strategies
+
+- **Support:** Provide sentence starters, key vocabulary on the board, and allow learners to rehearse answers with a partner.
+- **Core:** Ask learners to give full responses using evidence from the listening or speaking prompt.
+- **Extension:** Invite advanced learners to lead a short peer discussion or create a follow-up question for the class.
+- **LSEN accommodations:** Use clear instructions, chunked tasks, visual prompts, and extra processing time where needed.`
+    : '';
+  const resourcesSection = params.includeResources
+    ? `
+## Required Resources
+
+- Chalkboard or whiteboard.
+- Learner notebooks.
+- Short oral text, picture prompt, or teacher-prepared speaking prompt.
+- Vocabulary list for ${params.topic}.
+- Optional audio device if a listening text is used.`
+    : '';
+
+  return `# CAPS Lesson Plan: ${params.subject} - ${params.topic}
+
+## Lesson Information
+
+| Field | Details |
+| --- | --- |
+| Class | ${params.className || 'Selected class'} |
+| Grade | ${params.grade || 'Selected grade'} |
+| Subject | ${params.subject} |
+| Topic | ${params.topic} |
+| Curriculum | ${params.syllabus} |
+| Term / Week | Term ${params.term}, Week ${params.week} |
+| Date | ${params.lessonDate} |
+| Duration | ${durationNum} minutes |
+
+## Learning Objectives
+
+By the end of the lesson, learners should be able to:
+
+1. Demonstrate understanding of the main ideas connected to ${params.topic}.
+2. Use appropriate vocabulary and sentence structures when responding orally or in writing.
+3. Participate in a structured listening and speaking activity with confidence.
+4. Reflect on their own response and improve it using teacher or peer feedback.
+
+## CAPS Alignment
+
+This lesson supports ${params.syllabus} language development through active listening, purposeful speaking, vocabulary building, and learner participation.
+${focusAreas.length > 0 ? `\nAdditional focus areas: ${focusAreas.join(', ')}.` : ''}
+
+## Lesson Flow
+
+| Phase | Time | Teacher Actions | Learner Actions |
+| --- | ---: | --- | --- |
+| Introduction | ${introMinutes} min | Greet learners, introduce ${params.topic}, activate prior knowledge, and explain the success criteria. | Answer warm-up questions and predict what the lesson will focus on. |
+| Direct Teaching | ${teachingMinutes} min | Model the listening/speaking skill, write key vocabulary, and demonstrate one strong response. | Listen, repeat key vocabulary, and identify what makes the model answer clear. |
+| Guided Practice | ${practiceMinutes} min | Give learners a prompt or short oral text, then guide pair or group responses. Circulate and support. | Discuss in pairs, prepare responses, and share answers with the class. |
+| Closure | ${closureMinutes} min | Summarise the key points and ask learners to complete an exit response. | Share one learning point and complete the exit ticket. |
+
+## Teacher Script And Questions
+
+- "Today we are focusing on ${params.topic}. Listen carefully for the main idea and the supporting details."
+- "What words helped you understand the speaker's message?"
+- "Can you improve that answer by adding a reason or example?"
+- "How should a respectful listener respond when someone else is speaking?"
+
+Expected learner responses should include a clear main idea, relevant detail, and appropriate language for the context.
+
+${assessmentSection}
+
+${differentiationSection}
+
+${resourcesSection}
+
+## Homework
+
+Learners prepare a short spoken response of 6-8 sentences on ${params.topic}. They should practise speaking clearly, using at least five vocabulary words from the lesson, and bring their written notes to the next class.
+
+## Teacher Reflection
+
+- Which learners participated confidently?
+- Which vocabulary or speaking skill needs reteaching?
+- What adjustment is needed for the next lesson?
+
+---
+
+Generated in preview-safe mode because the live AI service was unavailable. Review and adapt before classroom use.`;
+}
+
 /**
  * Fetch all classes for a teacher
  */
@@ -850,37 +985,22 @@ export async function updateNotificationSettings(userId: string, settings: Notif
 /**
  * Generate a CAPS-compliant lesson plan (SA DBE format)
  */
-export async function generateLessonPlan(params: {
-  classId: string;
-  subject: string;
-  topic: string;
-  syllabus?: string;
-  date?: string;
-  duration?: string;
-  focusAreas?: string[];
-  includeAssessment?: boolean;
-  includeDifferentiation?: boolean;
-  includeResources?: boolean;
-  className?: string;
-  grade?: string;
-  term?: string;
-  week?: string;
-  kbContext?: string;
-  // Legacy params (kept for backward compat)
-  lessonLength?: string;
-  teachingStyle?: string;
-  includeActivities?: boolean;
-  includeAssessments?: boolean;
-}) {
+export async function generateLessonPlan(params: GenerateLessonPlanParams) {
   try {
     // Get class details for context
-    const { data: classData, error: classError } = await supabase
-      .from('classes')
-      .select('*')
-      .eq('id', params.classId)
-      .single();
+    let classData: any = {};
+    try {
+      const { data, error: classError } = await supabase
+        .from('classes')
+        .select('*')
+        .eq('id', params.classId)
+        .single();
 
-    if (classError) throw classError;
+      if (classError) throw classError;
+      classData = data || {};
+    } catch (error) {
+      console.warn('Using lesson plan form data because class lookup failed.', error);
+    }
 
     const today = new Date();
     const lessonDate = params.date || today.toISOString().split('T')[0];
@@ -904,6 +1024,17 @@ export async function generateLessonPlan(params: {
       ? `\nUse the following syllabus reference material to inform the lesson content:\n${params.kbContext}\n`
       : '';
 
+    const fallbackPlan = () => buildFallbackLessonPlan({
+      ...params,
+      lessonDate,
+      duration,
+      syllabus,
+      grade,
+      className,
+      term,
+      week,
+    });
+
     const aiMessage = `Create a complete, ready-to-teach CAPS-aligned lesson plan with these details:
 - Subject: ${params.subject}
 - Topic: ${params.topic}
@@ -925,40 +1056,49 @@ CRITICAL INSTRUCTIONS:
 - Time allocations across all phases must add up to ${duration} minutes.
 - Generate the full lesson plan in markdown format with all CAPS-required sections.`;
 
-    // Call the el-ai-teacher edge function
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const { data: { session } } = await supabase.auth.getSession();
+    let lessonPlan = '';
+    let generatedBy: 'ai' | 'fallback' = 'ai';
 
-    if (!session) {
-      throw new Error('User must be logged in to generate lesson plans');
-    }
+    try {
+      // Call the el-ai-teacher edge function
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const { data: { session } } = await supabase.auth.getSession();
 
-    const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`,
-      },
-      body: JSON.stringify({
-        message: aiMessage,
-        conversationHistory: [],
-        teacherContext: {
-          subjectArea: params.subject,
-          gradeLevel: grade,
-          examBoard: syllabus,
-          classSize: classData.class_size || undefined,
-          className: className,
+      if (!session) {
+        throw new Error('User must be logged in to use the live AI lesson-plan service');
+      }
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
         },
-      }),
-    });
+        body: JSON.stringify({
+          message: aiMessage,
+          conversationHistory: [],
+          teacherContext: {
+            subjectArea: params.subject,
+            gradeLevel: grade,
+            examBoard: syllabus,
+            classSize: classData.class_size || undefined,
+            className: className,
+          },
+        }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to generate lesson plan');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to generate lesson plan');
+      }
+
+      const aiData = await response.json();
+      lessonPlan = aiData.response || fallbackPlan();
+    } catch (error) {
+      console.warn('Live AI lesson-plan generation failed. Using fallback plan.', error);
+      lessonPlan = fallbackPlan();
+      generatedBy = 'fallback';
     }
-
-    const aiData = await response.json();
-    const lessonPlan = aiData.response;
 
     // Create metadata
     const meta = {
@@ -983,30 +1123,37 @@ CRITICAL INSTRUCTIONS:
       week: week,
       focusAreas: focusAreas,
       syllabus: syllabus,
-      hasKbContext: !!params.kbContext
+      hasKbContext: !!params.kbContext,
+      generatedBy
     };
 
     // Save to the lesson_plans table
-    const { data, error } = await supabase
-      .from('lesson_plans')
-      .insert([
-        {
-          class_id: params.classId,
-          date: today.toISOString().split('T')[0],
-          topic: `${params.subject} - ${params.topic}`,
-          md_path: lessonPlan,
-          meta: meta,
-          status: 'draft'
-        }
-      ])
-      .select();
+    let savedPlan = null;
+    try {
+      const { data, error } = await supabase
+        .from('lesson_plans')
+        .insert([
+          {
+            class_id: params.classId,
+            date: lessonDate,
+            topic: `${params.subject} - ${params.topic}`,
+            md_path: lessonPlan,
+            meta: meta,
+            status: 'draft'
+          }
+        ])
+        .select();
 
-    if (error) throw error;
+      if (error) throw error;
+      savedPlan = data && data.length > 0 ? data[0] : null;
+    } catch (error) {
+      console.warn('Lesson plan generated but could not be saved to Supabase.', error);
+    }
 
     return {
       markdown: lessonPlan,
       meta,
-      savedPlan: data && data.length > 0 ? data[0] : null
+      savedPlan
     };
   } catch (error) {
     throw error;
