@@ -95,7 +95,7 @@ const SmartTimetablePage: React.FC = () => {
             <CalendarIcon className="w-8 h-8 text-greyed-blue" />
             Smart Timetable
           </h1>
-          <p className="text-greyed-beige/70 mt-1">Manage your schedule, classes, and deadlines.</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Manage your schedule, classes, and deadlines.</p>
         </div>
         
         {/* View Toggle */}

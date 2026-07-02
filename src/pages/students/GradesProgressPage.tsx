@@ -50,7 +50,7 @@ const GradesProgressPage: React.FC = () => {
           <TrendingUp className="w-8 h-8 text-greyed-blue" />
           Grades & Progress
         </h1>
-        <p className="text-greyed-beige/70 mt-1">Track your performance and level up your learning.</p>
+        <p className="text-greyed-navy/75 mt-1 font-medium">Track your performance and level up your learning.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

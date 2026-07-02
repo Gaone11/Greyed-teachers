@@ -85,7 +85,7 @@ const AchievementsPage: React.FC = () => {
             <Award className="w-8 h-8 text-greyed-blue" />
             Achievement System
           </h1>
-          <p className="text-greyed-beige/70 mt-1">Unlock badges, build streaks, and celebrate your wins!</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Unlock badges, build streaks, and celebrate your wins!</p>
         </div>
         
         <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-2 rounded-xl flex items-center gap-2 font-bold shadow-sm">

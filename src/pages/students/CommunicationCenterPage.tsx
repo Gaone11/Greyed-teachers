@@ -52,7 +52,7 @@ const CommunicationCenterPage: React.FC = () => {
             <MessageSquare className="w-8 h-8 text-greyed-blue" />
             Communication Center
           </h1>
-          <p className="text-greyed-beige/70 mt-1">Connect with your teachers, parents, and peers.</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Connect with your teachers, parents, and peers.</p>
         </div>
       </div>
 

@@ -111,7 +111,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
           marginLeft: isMobile ? 0 : sidebarCollapsed ? '4rem' : '16rem',
         }}
       >
-        <main className="px-4 sm:px-6 lg:px-10 py-6 sm:py-6 pb-20 md:pb-8">
+        <main className="app-shell-main px-4 sm:px-6 lg:px-10 py-6 sm:py-6 pb-20 md:pb-8">
           {children}
         </main>
       </div>

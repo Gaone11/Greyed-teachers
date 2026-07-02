@@ -6,7 +6,7 @@ import './index.css';
 import './styles/responsive.css';
 import './styles/editor.css';
 
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js')
@@ -29,6 +29,12 @@ if ('serviceWorker' in navigator) {
       .catch((registrationError) => {
       });
   });
+} else if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations()
+    .then((registrations) => {
+      registrations.forEach((registration) => registration.unregister());
+    })
+    .catch(() => {});
 }
 
 createRoot(document.getElementById('root')!).render(

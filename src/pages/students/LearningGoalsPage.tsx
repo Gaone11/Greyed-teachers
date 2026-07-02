@@ -82,7 +82,7 @@ const LearningGoalsPage: React.FC = () => {
             <Target className="w-8 h-8 text-greyed-blue" />
             Learning Goals
           </h1>
-          <p className="text-greyed-beige/70 mt-1">Set, track, and achieve your academic objectives.</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Set, track, and achieve your academic objectives.</p>
         </div>
 
         <button className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#2a2f6e] hover:bg-[#212754] text-white rounded-xl font-bold shadow-sm transition-all transform hover:-translate-y-0.5">

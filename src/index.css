@@ -15,7 +15,18 @@
 }
 
 html {
+  font-size: 17px;
   scroll-behavior: smooth;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.app-shell-main h1 + p {
+  color: rgba(33, 39, 84, 0.78) !important;
+  font-weight: 500;
 }
 
 /* Improve tap highlight on mobile */

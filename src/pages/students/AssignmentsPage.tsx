@@ -84,7 +84,7 @@ const AssignmentsPage: React.FC = () => {
             <FileText className="w-8 h-8 text-greyed-blue" />
             Assignments & Homework
           </h1>
-          <p className="text-greyed-beige/70 mt-1">Track, submit, and review your coursework.</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Track, submit, and review your coursework.</p>
         </div>
       </div>
 

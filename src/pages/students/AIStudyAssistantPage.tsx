@@ -67,7 +67,7 @@ const AIStudyAssistantPage: React.FC = () => {
             <Bot className="w-8 h-8 text-greyed-blue" />
             AI Study Assistant
           </h1>
-          <p className="text-greyed-beige/70 mt-1">Your personal tutor, available 24/7.</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Your personal tutor, available 24/7.</p>
         </div>
       </div>
 

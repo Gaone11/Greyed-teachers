@@ -48,7 +48,7 @@ const StudentDashboardPage: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl font-headline font-bold text-greyed-navy">
           Welcome back, {userName}!
         </h1>
-        <p className="text-greyed-navy/60 mt-1 text-base">Here is an overview of your academic day.</p>
+        <p className="text-greyed-navy/75 mt-1 text-base font-medium">Here is an overview of your academic day.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-slide-up" style={{ animationDelay: '50ms' }}>
@@ -115,7 +115,7 @@ const StudentDashboardPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-sm text-greyed-navy">History Midterm Essay (Demo)</h4>
-                      <p className="text-xs text-greyed-beige/60">
+                      <p className="text-xs text-greyed-navy/70">
                         History 101 • 
                         {assignmentStatus === 'assigned' ? ' Due: Tomorrow' :
                          assignmentStatus === 'submitted' ? ' Waiting for grade' :
@@ -153,7 +153,7 @@ const StudentDashboardPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-sm text-greyed-navy">{hw.title}</h4>
-                      <p className="text-xs text-greyed-beige/60">{hw.subject} • Due: {hw.due}</p>
+                      <p className="text-xs text-greyed-navy/70">{hw.subject} • Due: {hw.due}</p>
                     </div>
                   </div>
                   <span className={`px-2 py-1 rounded text-[10px] font-bold ${
@@ -177,7 +177,7 @@ const StudentDashboardPage: React.FC = () => {
                 <div key={grade.id} className="p-5 rounded-xl border border-greyed-navy/5 bg-greyed-white flex items-center justify-between">
                   <div>
                     <h4 className="font-bold text-greyed-navy">{grade.subject}</h4>
-                    <p className="text-sm text-greyed-navy/50">{grade.title}</p>
+                    <p className="text-sm text-greyed-navy/70">{grade.title}</p>
                   </div>
                   <div className="text-2xl font-bold text-[#2a2f6e]">{grade.grade}</div>
                 </div>
