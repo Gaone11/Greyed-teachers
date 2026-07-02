@@ -119,6 +119,21 @@ interface GenerateLessonPlanParams {
   includeAssessments?: boolean;
 }
 
+interface GenerateAssessmentParams {
+  classId: string;
+  title: string;
+  topic: string;
+  difficulty: string;
+  questionCount: number;
+  assessmentType: string;
+  includeAnswerKey?: boolean;
+  requiredTest?: string;
+  kbContext?: string;
+  subject?: string;
+  grade?: string;
+  className?: string;
+}
+
 function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
   lessonDate: string;
   duration: string;
@@ -225,6 +240,98 @@ Learners prepare a short spoken response of 6-8 sentences on ${params.topic}. Th
 - Which learners participated confidently?
 - Which vocabulary or speaking skill needs reteaching?
 - What adjustment is needed for the next lesson?
+
+---
+
+Generated in preview-safe mode because the live AI service was unavailable. Review and adapt before classroom use.`;
+}
+
+function buildFallbackAssessment(params: GenerateAssessmentParams & {
+  subject: string;
+  grade: string;
+  className: string;
+  syllabus: string;
+}) {
+  const count = Math.max(1, Math.min(params.questionCount || 10, 30));
+  const questionTypes = ['multiple choice', 'short answer', 'true or false', 'structured response', 'paragraph response'];
+  const questions = Array.from({ length: count }, (_, index) => {
+    const questionNumber = index + 1;
+    const type = questionTypes[index % questionTypes.length];
+    const marks = type === 'multiple choice' || type === 'true or false' ? 1 : type === 'paragraph response' ? 5 : 3;
+
+    if (type === 'multiple choice') {
+      return `**${questionNumber}. Multiple choice** [${marks} mark]\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`;
+    }
+
+    if (type === 'true or false') {
+      return `**${questionNumber}. True or false** [${marks} mark]\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`;
+    }
+
+    if (type === 'paragraph response') {
+      return `**${questionNumber}. Paragraph response** [${marks} marks]\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`;
+    }
+
+    if (type === 'structured response') {
+      return `**${questionNumber}. Structured response** [${marks} marks]\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`;
+    }
+
+    return `**${questionNumber}. Short answer** [${marks} marks]\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`;
+  });
+
+  const totalMarks = questions.reduce((sum, question) => {
+    const match = question.match(/\[(\d+) marks?\]/);
+    return sum + (match ? parseInt(match[1]) : 0);
+  }, 0);
+
+  const memo = params.includeAnswerKey
+    ? `
+## Memorandum / Answer Key
+
+Use this memorandum as a marking guide and adjust wording where learners show correct understanding.
+
+${questions.map((question, index) => {
+  const questionNumber = index + 1;
+  if (question.includes('Multiple choice')) return `**${questionNumber}.** B. Award 1 mark for the correct option.`;
+  if (question.includes('True or false')) return `**${questionNumber}.** True. Award 1 mark for identifying that reasoned answers are required.`;
+  if (question.includes('Paragraph response')) return `**${questionNumber}.** Award up to 5 marks: clear main point [1], two relevant details/examples [2], correct subject vocabulary [1], coherent paragraph structure [1].`;
+  if (question.includes('Structured response')) return `**${questionNumber}.** Award 1 mark each for a relevant key idea, a valid explanation, and a suitable example.`;
+  return `**${questionNumber}.** Award marks for an accurate definition and a relevant example linked to ${params.subject}.`;
+}).join('\n\n')}
+
+## Marking Notes
+
+- Accept equivalent wording where the learner demonstrates correct understanding.
+- Give partial credit for accurate ideas even if grammar or spelling is imperfect, unless language accuracy is the assessed outcome.
+- For extended answers, reward clarity, relevance, and evidence.`
+    : '';
+
+  return `# ${params.title}
+
+## Assessment Header
+
+| Field | Details |
+| --- | --- |
+| Class | ${params.className || 'Selected class'} |
+| Grade | ${params.grade || 'Selected grade'} |
+| Subject | ${params.subject} |
+| Topic | ${params.topic} |
+| Assessment Type | ${params.assessmentType} |
+| Difficulty | ${params.difficulty} |
+| Curriculum | ${params.syllabus} |
+| Total Marks | ${totalMarks} |
+${params.requiredTest ? `| Required Test | ${params.requiredTest} |\n` : ''}
+## Instructions To Learners
+
+1. Read each question carefully before answering.
+2. Write neatly and number your answers correctly.
+3. Use examples from class where possible.
+4. Answer in full sentences for short and paragraph questions.
+
+## Questions
+
+${questions.join('\n\n')}
+
+${memo}
 
 ---
 
@@ -422,30 +529,21 @@ export async function fetchAllTeacherAssessments(userId: string) {
 /**
  * Generate an assessment
  */
-export async function generateAssessment(params: {
-  classId: string;
-  title: string;
-  topic: string;
-  difficulty: string;
-  questionCount: number;
-  assessmentType: string;
-  includeAnswerKey?: boolean;
-  requiredTest?: string;
-  kbContext?: string;
-  subject?: string;
-  grade?: string;
-  className?: string;
-}) {
+export async function generateAssessment(params: GenerateAssessmentParams) {
   try {
     // Get the class details
-    const { data: classData } = await supabase
-      .from('classes')
-      .select('*')
-      .eq('id', params.classId)
-      .single();
+    let classData: any = {};
+    try {
+      const { data, error: classError } = await supabase
+        .from('classes')
+        .select('*')
+        .eq('id', params.classId)
+        .single();
 
-    if (!classData) {
-      throw new Error("Class not found");
+      if (classError) throw classError;
+      classData = data || {};
+    } catch (error) {
+      console.warn('Using assessment form data because class lookup failed.', error);
     }
 
     const grade = params.grade || classData.grade || '';
@@ -485,60 +583,92 @@ ${params.includeAnswerKey ? '7. Include a complete MEMORANDUM / ANSWER KEY secti
 
 Make all content specific to ${grade} ${subject} level and aligned with CAPS requirements.`;
 
-    // Call the el-ai-teacher edge function
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (!session) {
-      throw new Error('User must be logged in to generate assessments');
-    }
-
-    const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`,
-      },
-      body: JSON.stringify({
-        message: aiMessage,
-        conversationHistory: [],
-        teacherContext: {
-          subjectArea: subject,
-          gradeLevel: grade,
-          examBoard: syllabus,
-          classSize: classData.class_size || undefined,
-          className: className,
-        },
-      }),
+    const fallbackAssessment = () => buildFallbackAssessment({
+      ...params,
+      subject,
+      grade,
+      className,
+      syllabus,
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to generate assessment');
+    let assessmentMarkdown = '';
+    let generatedBy: 'ai' | 'fallback' = 'ai';
+
+    try {
+      // Call the el-ai-teacher edge function
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        throw new Error('User must be logged in to use the live AI assessment service');
+      }
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/el-ai-teacher`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          message: aiMessage,
+          conversationHistory: [],
+          teacherContext: {
+            subjectArea: subject,
+            gradeLevel: grade,
+            examBoard: syllabus,
+            classSize: classData.class_size || undefined,
+            className: className,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to generate assessment');
+      }
+
+      const aiData = await response.json();
+      assessmentMarkdown = aiData.response || fallbackAssessment();
+    } catch (error) {
+      console.warn('Live AI assessment generation failed. Using fallback assessment.', error);
+      assessmentMarkdown = fallbackAssessment();
+      generatedBy = 'fallback';
     }
 
-    const aiData = await response.json();
-    const assessmentMarkdown = aiData.response;
-
     // Save to the assessments table
-    const { data, error } = await supabase
-      .from('assessments')
-      .insert([{
-        class_id: params.classId,
-        title: params.title,
-        status: 'draft',
-        generated: true,
-        assessment_type: params.assessmentType,
-        difficulty: params.difficulty,
-        topic: params.topic,
-        question_count: params.questionCount,
-      }])
-      .select();
+    let assessment = null;
+    try {
+      const { data, error } = await supabase
+        .from('assessments')
+        .insert([{
+          class_id: params.classId,
+          title: params.title,
+          status: 'draft',
+          generated: true,
+          assessment_type: params.assessmentType,
+          difficulty: params.difficulty,
+          topic: params.topic,
+          question_count: params.questionCount,
+          meta: {
+            subject,
+            grade,
+            className,
+            syllabus,
+            generatedBy,
+            hasKbContext: !!params.kbContext,
+            requiredTest: params.requiredTest || null,
+          },
+        }])
+        .select();
 
-    if (error) throw error;
+      if (error) throw error;
+      assessment = data && data.length > 0 ? data[0] : null;
+    } catch (error) {
+      console.warn('Assessment generated but could not be saved to Supabase.', error);
+    }
 
     return {
-      assessment: data[0],
+      assessment,
       markdown: assessmentMarkdown,
     };
   } catch (error) {
