@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ParentLayout from '../../layouts/ParentLayout';
 import { useWorkflowDemo } from '../../context/WorkflowDemoContext';
 import { 
@@ -15,6 +15,8 @@ import {
 
 const ParentNotificationsPage: React.FC = () => {
   const { parentNotifications, assignmentStatus, assignmentGrade, clearNotifications } = useWorkflowDemo();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [acknowledgedIds, setAcknowledgedIds] = useState<number[]>([]);
 
   const notifications = [
     {
@@ -87,11 +89,21 @@ const ParentNotificationsPage: React.FC = () => {
           >
             Mark All as Read
           </button>
-          <button className="bg-greyed-navy/5 text-greyed-navy p-2.5 rounded-xl hover:bg-greyed-navy/10 transition-colors" title="Notification Settings">
+          <button
+            onClick={() => setSettingsOpen(open => !open)}
+            className="bg-greyed-navy/5 text-greyed-navy p-2.5 rounded-xl hover:bg-greyed-navy/10 transition-colors"
+            title="Notification Settings"
+          >
             <Settings className="w-5 h-5" />
           </button>
         </div>
       </div>
+
+      {settingsOpen && (
+        <div className="mb-4 rounded-xl border border-greyed-navy/10 bg-white p-4 text-sm font-medium text-greyed-navy shadow-sm">
+          Notification settings are enabled for grades, attendance, messages, and exams in this preview.
+        </div>
+      )}
 
       <div className="bg-white rounded-2xl shadow-sm border border-greyed-navy/10 overflow-hidden animate-slide-up" style={{ animationDelay: '50ms' }}>
         <div className="p-4 sm:p-6 space-y-4">
@@ -115,7 +127,7 @@ const ParentNotificationsPage: React.FC = () => {
                 <p className="text-sm text-greyed-navy/80 font-medium">
                   A new assignment "History Midterm Essay" was assigned to Emma by the Teacher.
                 </p>
-                <button className="mt-3 text-sm font-semibold text-greyed-blue hover:underline">
+                <button onClick={() => alert('Assignment details opened in this preview.')} className="mt-3 text-sm font-semibold text-greyed-blue hover:underline">
                   View Details
                 </button>
               </div>
@@ -141,7 +153,7 @@ const ParentNotificationsPage: React.FC = () => {
                 <p className="text-sm text-greyed-navy/80 font-medium">
                   The Teacher graded "History Midterm Essay". Emma received {assignmentGrade}%.
                 </p>
-                <button className="mt-3 text-sm font-semibold text-green-600 hover:underline">
+                <button onClick={() => alert(`Grade details opened. Score: ${assignmentGrade}%.`)} className="mt-3 text-sm font-semibold text-green-600 hover:underline">
                   View Grade Details
                 </button>
               </div>
@@ -152,7 +164,9 @@ const ParentNotificationsPage: React.FC = () => {
           {notifications.map((notification) => {
             const Icon = notification.icon;
             // If there's a demo notification, these static ones are visually "pushed down" and look older
-            const isUnread = parentNotifications > 0 ? false : notification.unread;
+            const isUnread = acknowledgedIds.includes(notification.id)
+              ? false
+              : parentNotifications > 0 ? false : notification.unread;
             return (
               <div 
                 key={notification.id} 
@@ -180,18 +194,18 @@ const ParentNotificationsPage: React.FC = () => {
                   </p>
                   
                   {notification.type === 'message' && (
-                    <button className="mt-3 text-sm font-semibold text-greyed-blue hover:underline">
+                    <button onClick={() => alert('Message thread opened in this preview.')} className="mt-3 text-sm font-semibold text-greyed-blue hover:underline">
                       View Message
                     </button>
                   )}
                   {notification.type === 'grade' && (
-                    <button className="mt-3 text-sm font-semibold text-greyed-blue hover:underline">
+                    <button onClick={() => alert('Grade details opened in this preview.')} className="mt-3 text-sm font-semibold text-greyed-blue hover:underline">
                       View Grade Details
                     </button>
                   )}
                   {notification.type === 'absence' && (
-                    <button className="mt-3 text-sm font-semibold text-red-600 hover:underline">
-                      Acknowledge Absence
+                    <button onClick={() => setAcknowledgedIds(prev => Array.from(new Set([...prev, notification.id])))} className="mt-3 text-sm font-semibold text-red-600 hover:underline">
+                      {acknowledgedIds.includes(notification.id) ? 'Acknowledged' : 'Acknowledge Absence'}
                     </button>
                   )}
                 </div>

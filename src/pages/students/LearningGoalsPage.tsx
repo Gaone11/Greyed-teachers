@@ -13,6 +13,7 @@ import {
 
 const LearningGoalsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'active' | 'completed'>('active');
+  const [extraGoals, setExtraGoals] = useState<any[]>([]);
 
   const goals = [
     {
@@ -72,7 +73,29 @@ const LearningGoalsPage: React.FC = () => {
     }
   ];
 
-  const filteredGoals = goals.filter(g => g.status === activeTab);
+  const allGoals = [...goals, ...extraGoals];
+  const filteredGoals = allGoals.filter(g => g.status === activeTab);
+
+  const handleSetNewGoal = () => {
+    const title = window.prompt('What learning goal would you like to set?');
+    if (!title?.trim()) return;
+
+    setExtraGoals(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        title: title.trim(),
+        category: 'Personal',
+        progress: 0,
+        total: 100,
+        deadline: 'Self-paced',
+        status: 'active',
+        icon: Target,
+        color: 'bg-[#bbd7eb]/30 text-[#2a2f6e]',
+      },
+    ]);
+    setActiveTab('active');
+  };
 
   return (
     <StudentLayout activePage="goals">
@@ -85,7 +108,10 @@ const LearningGoalsPage: React.FC = () => {
           <p className="text-greyed-navy/75 mt-1 font-medium">Set, track, and achieve your academic objectives.</p>
         </div>
 
-        <button className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#2a2f6e] hover:bg-[#212754] text-white rounded-xl font-bold shadow-sm transition-all transform hover:-translate-y-0.5">
+        <button
+          onClick={handleSetNewGoal}
+          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#2a2f6e] hover:bg-[#212754] text-white rounded-xl font-bold shadow-sm transition-all transform hover:-translate-y-0.5"
+        >
           <PlusCircle className="w-5 h-5" />
           Set New Goal
         </button>
@@ -133,7 +159,11 @@ const LearningGoalsPage: React.FC = () => {
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${goal.color}`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <button className="text-greyed-navy/30 hover:text-greyed-navy transition-colors">
+                  <button
+                    onClick={() => alert(`${goal.title} options opened in this preview.`)}
+                    className="text-greyed-navy/30 hover:text-greyed-navy transition-colors"
+                    title="Goal options"
+                  >
                     <MoreVertical className="w-5 h-5" />
                   </button>
                 </div>

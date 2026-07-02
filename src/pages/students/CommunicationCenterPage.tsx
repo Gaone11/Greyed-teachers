@@ -13,6 +13,11 @@ import {
 const CommunicationCenterPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'teacher' | 'parent' | 'group'>('teacher');
   const [messageInput, setMessageInput] = useState('');
+  const [sentMessages, setSentMessages] = useState<Record<'teacher' | 'parent' | 'group', any[]>>({
+    teacher: [],
+    parent: [],
+    group: [],
+  });
 
   // Mock Conversations
   const teacherMessages = [
@@ -42,7 +47,27 @@ const CommunicationCenterPage: React.FC = () => {
     }
   };
 
-  const activeMessages = getActiveMessages();
+  const activeMessages = [...getActiveMessages(), ...sentMessages[activeTab]];
+
+  const handleSendMessage = () => {
+    const text = messageInput.trim();
+    if (!text) return;
+
+    setSentMessages(prev => ({
+      ...prev,
+      [activeTab]: [
+        ...prev[activeTab],
+        {
+          id: `sent-${activeTab}-${Date.now()}`,
+          sender: 'student',
+          name: 'You',
+          text,
+          time: 'Just now',
+        },
+      ],
+    }));
+    setMessageInput('');
+  };
 
   return (
     <StudentLayout activePage="messages">
@@ -135,7 +160,11 @@ const CommunicationCenterPage: React.FC = () => {
         {/* Input Area */}
         <div className="p-4 border-t border-greyed-navy/10 bg-white">
           <div className="flex items-center gap-2">
-            <button className="p-2 text-greyed-navy/40 hover:text-greyed-navy hover:bg-greyed-navy/5 rounded-full transition-colors">
+            <button
+              onClick={() => alert('Attachment picker is a demo action in this preview.')}
+              className="p-2 text-greyed-navy/40 hover:text-greyed-navy hover:bg-greyed-navy/5 rounded-full transition-colors"
+              title="Attach file"
+            >
               <Paperclip className="w-5 h-5" />
             </button>
             <div className="flex-1 bg-greyed-white rounded-full border border-greyed-navy/10 flex items-center px-4 py-2 focus-within:border-greyed-blue transition-colors">
@@ -150,13 +179,22 @@ const CommunicationCenterPage: React.FC = () => {
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
               />
-              <button className="p-1 text-greyed-navy/40 hover:text-greyed-navy transition-colors ml-2">
+              <button
+                onClick={() => setMessageInput(current => `${current}${current ? ' ' : ''}🙂`)}
+                className="p-1 text-greyed-navy/40 hover:text-greyed-navy transition-colors ml-2"
+                title="Add emoji"
+              >
                 <Smile className="w-5 h-5" />
               </button>
             </div>
-            <button className={`p-2.5 rounded-full flex items-center justify-center transition-colors ${
+            <button
+              onClick={handleSendMessage}
+              disabled={!messageInput.trim()}
+              className={`p-2.5 rounded-full flex items-center justify-center transition-colors ${
               messageInput.trim() ? 'bg-[#2a2f6e] text-white hover:bg-[#212754] shadow-sm' : 'bg-greyed-navy/10 text-greyed-navy/40 cursor-not-allowed'
-            }`}>
+            }`}
+              title="Send message"
+            >
               <Send className="w-4 h-4 ml-0.5" />
             </button>
           </div>

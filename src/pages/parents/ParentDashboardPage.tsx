@@ -101,7 +101,7 @@ const ParentDashboardPage: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-greyed-navy/10 p-6 animate-slide-up" style={{ animationDelay: '250ms' }}>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-bold text-greyed-navy">Recent Academic Activity</h2>
-              <button className="text-sm font-semibold text-greyed-blue hover:text-greyed-navy transition-colors">View Full Report</button>
+              <Link to="/parents/notifications" className="text-sm font-semibold text-greyed-blue hover:text-greyed-navy transition-colors">View Full Report</Link>
             </div>
             
             <div className="space-y-4">
@@ -147,9 +147,9 @@ const ParentDashboardPage: React.FC = () => {
                     <p className="text-xs text-greyed-navy/60 mt-0.5">Score: 92% (A)</p>
                   </div>
                 </div>
-                <button className="text-greyed-blue p-2 rounded-lg hover:bg-blue-50 transition-colors">
+                <Link to="/parents/notifications" className="text-greyed-blue p-2 rounded-lg hover:bg-blue-50 transition-colors" aria-label="View grade details">
                   <ChevronRight className="w-5 h-5" />
-                </button>
+                </Link>
               </div>
               
               <div className="p-4 border border-greyed-navy/10 rounded-xl flex items-center justify-between group hover:border-greyed-blue/30 transition-colors">
@@ -162,9 +162,9 @@ const ParentDashboardPage: React.FC = () => {
                     <p className="text-xs text-greyed-navy/60 mt-0.5">Emma was nominated by Mr. Davis.</p>
                   </div>
                 </div>
-                <button className="text-greyed-blue p-2 rounded-lg hover:bg-blue-50 transition-colors">
+                <Link to="/parents/notifications" className="text-greyed-blue p-2 rounded-lg hover:bg-blue-50 transition-colors" aria-label="View nomination details">
                   <ChevronRight className="w-5 h-5" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

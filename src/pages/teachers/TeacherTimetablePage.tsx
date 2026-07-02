@@ -14,6 +14,15 @@ import {
 
 const TeacherTimetablePage: React.FC = () => {
   const [currentWeek, setCurrentWeek] = useState(new Date());
+  const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
+
+  const weekLabel = currentWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const weekEndLabel = new Date(currentWeek.getTime() + 4 * 24 * 60 * 60 * 1000)
+    .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const moveWeek = (direction: -1 | 1) => {
+    setCurrentWeek(date => new Date(date.getTime() + direction * 7 * 24 * 60 * 60 * 1000));
+  };
 
   const schedule = [
     { id: 1, title: 'Biology 101', type: 'Class', time: '09:00 AM - 10:30 AM', location: 'Room 302', date: 'Monday' },
@@ -36,11 +45,17 @@ const TeacherTimetablePage: React.FC = () => {
         </div>
         
         <div className="flex gap-2">
-          <button className="bg-white border border-greyed-navy/20 hover:bg-greyed-navy/5 text-greyed-navy px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm">
+          <button
+            onClick={() => alert('Schedule updates shared with classes in this preview.')}
+            className="bg-white border border-greyed-navy/20 hover:bg-greyed-navy/5 text-greyed-navy px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm"
+          >
             <Share2 className="w-5 h-5" />
             Share Updates
           </button>
-          <button className="bg-greyed-navy hover:bg-greyed-navy/90 text-white px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm">
+          <button
+            onClick={() => alert('Lesson scheduling form is a demo action here.')}
+            className="bg-greyed-navy hover:bg-greyed-navy/90 text-white px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm"
+          >
             <Plus className="w-5 h-5" />
             Schedule Lesson
           </button>
@@ -51,24 +66,45 @@ const TeacherTimetablePage: React.FC = () => {
         {/* Calendar Header */}
         <div className="p-4 md:p-6 border-b border-greyed-navy/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <button className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors">
+            <button
+              onClick={() => moveWeek(-1)}
+              className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors"
+              title="Previous week"
+            >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <h2 className="text-lg font-bold text-greyed-navy min-w-[150px] text-center">
-              Oct 16 - Oct 20, 2023
+              {weekLabel} - {weekEndLabel}
             </h2>
-            <button className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors">
+            <button
+              onClick={() => moveWeek(1)}
+              className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors"
+              title="Next week"
+            >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
           
           <div className="flex items-center gap-2">
-            <button className="text-sm font-semibold text-greyed-navy border border-greyed-navy/20 px-4 py-2 rounded-lg hover:bg-greyed-navy/5 transition-colors">
+            <button
+              onClick={() => setCurrentWeek(new Date())}
+              className="text-sm font-semibold text-greyed-navy border border-greyed-navy/20 px-4 py-2 rounded-lg hover:bg-greyed-navy/5 transition-colors"
+            >
               Today
             </button>
             <div className="bg-greyed-navy/5 p-1 rounded-lg flex border border-greyed-navy/10">
-              <button className="px-3 py-1 bg-white shadow-sm rounded-md text-sm font-bold text-greyed-navy">Week</button>
-              <button className="px-3 py-1 text-sm font-bold text-greyed-navy/60 hover:text-greyed-navy transition-colors">Month</button>
+              <button
+                onClick={() => setViewMode('week')}
+                className={`px-3 py-1 rounded-md text-sm font-bold ${viewMode === 'week' ? 'bg-white shadow-sm text-greyed-navy' : 'text-greyed-navy/60 hover:text-greyed-navy'}`}
+              >
+                Week
+              </button>
+              <button
+                onClick={() => setViewMode('month')}
+                className={`px-3 py-1 rounded-md text-sm font-bold ${viewMode === 'month' ? 'bg-white shadow-sm text-greyed-navy' : 'text-greyed-navy/60 hover:text-greyed-navy'}`}
+              >
+                Month
+              </button>
             </div>
           </div>
         </div>
@@ -99,7 +135,7 @@ const TeacherTimetablePage: React.FC = () => {
                       }`}
                     >
                       <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="p-1 hover:bg-white/50 rounded" title="Options">
+                        <button onClick={() => alert(`${item.title} options opened in this preview.`)} className="p-1 hover:bg-white/50 rounded" title="Options">
                           <MoreVertical className="w-4 h-4 text-greyed-navy/60" />
                         </button>
                       </div>
@@ -127,7 +163,11 @@ const TeacherTimetablePage: React.FC = () => {
 
                       {/* Hover Actions */}
                       <div className="absolute inset-0 bg-white/90 backdrop-blur-sm rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 transition-opacity pointer-events-none group-hover:pointer-events-auto">
-                        <button className="p-2 bg-greyed-navy/5 hover:bg-greyed-blue/10 text-greyed-navy hover:text-greyed-blue rounded-lg transition-colors" title="Reschedule">
+                        <button
+                          onClick={() => alert(`${item.title} marked for reschedule in this preview.`)}
+                          className="p-2 bg-greyed-navy/5 hover:bg-greyed-blue/10 text-greyed-navy hover:text-greyed-blue rounded-lg transition-colors"
+                          title="Reschedule"
+                        >
                           <RefreshCw className="w-4 h-4" />
                         </button>
                       </div>
@@ -135,9 +175,12 @@ const TeacherTimetablePage: React.FC = () => {
                   ))}
                   
                   {/* Empty Slot Droppable Area (Mock) */}
-                  <div className="h-24 rounded-xl border-2 border-dashed border-greyed-navy/10 hover:border-greyed-blue/40 hover:bg-greyed-blue/5 transition-colors flex items-center justify-center cursor-pointer group">
+                  <button
+                    onClick={() => alert(`Add a new item for ${day} in this preview.`)}
+                    className="h-24 w-full rounded-xl border-2 border-dashed border-greyed-navy/10 hover:border-greyed-blue/40 hover:bg-greyed-blue/5 transition-colors flex items-center justify-center cursor-pointer group"
+                  >
                     <Plus className="w-6 h-6 text-greyed-navy/20 group-hover:text-greyed-blue/50" />
-                  </div>
+                  </button>
                 </div>
               ))}
             </div>

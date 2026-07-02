@@ -14,6 +14,43 @@ import {
 
 const SmartTimetablePage: React.FC = () => {
   const [view, setView] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
+  const [periodOffset, setPeriodOffset] = useState(0);
+  const [remindersOn, setRemindersOn] = useState(true);
+
+  const baseDate = new Date(2026, 9, 19);
+  const visibleDate = new Date(baseDate);
+  visibleDate.setDate(baseDate.getDate() + (view === 'daily' ? periodOffset : periodOffset * 7));
+  if (view === 'monthly') {
+    visibleDate.setMonth(baseDate.getMonth() + periodOffset);
+  }
+
+  const visibleMonth = visibleDate.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+  });
+  const visibleDay = visibleDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  const weekEnd = new Date(visibleDate);
+  weekEnd.setDate(visibleDate.getDate() + 4);
+  const visibleWeek = `${visibleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+  const visibleTitle = view === 'daily' ? visibleDay : view === 'weekly' ? visibleWeek : visibleMonth;
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const dailyDay = days[((periodOffset % days.length) + days.length) % days.length];
+  const dailyClasses = classes.filter(c => c.day === dailyDay);
+  const monthlyWeeks = [
+    ['Mathematics', 'Physics'],
+    ['Literature'],
+    ['World History'],
+    ['Art Studio'],
+  ];
+
+  const movePeriod = (direction: -1 | 1) => {
+    setPeriodOffset(offset => offset + direction);
+  };
 
   // Baby matte colors for subjects
   const colors = {
@@ -103,7 +140,10 @@ const SmartTimetablePage: React.FC = () => {
           {['daily', 'weekly', 'monthly'].map((v) => (
             <button
               key={v}
-              onClick={() => setView(v as 'daily' | 'weekly' | 'monthly')}
+              onClick={() => {
+                setView(v as 'daily' | 'weekly' | 'monthly');
+                setPeriodOffset(0);
+              }}
               className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
                 view === v 
                   ? 'bg-greyed-navy text-white shadow-sm' 
@@ -121,89 +161,130 @@ const SmartTimetablePage: React.FC = () => {
         {/* Calendar Header */}
         <div className="flex items-center justify-between p-4 border-b border-greyed-navy/5 bg-greyed-white/50">
           <div className="flex items-center gap-2">
-            <button className="p-2 hover:bg-greyed-navy/10 rounded-lg transition-colors">
+            <button
+              onClick={() => movePeriod(-1)}
+              className="p-2 hover:bg-greyed-navy/10 rounded-lg transition-colors"
+              title={`Previous ${view}`}
+            >
               <ChevronLeft className="w-5 h-5 text-greyed-navy" />
             </button>
-            <h2 className="text-lg font-bold text-greyed-navy">October 2026</h2>
-            <button className="p-2 hover:bg-greyed-navy/10 rounded-lg transition-colors">
+            <h2 className="text-lg font-bold text-greyed-navy">{visibleTitle}</h2>
+            <button
+              onClick={() => movePeriod(1)}
+              className="p-2 hover:bg-greyed-navy/10 rounded-lg transition-colors"
+              title={`Next ${view}`}
+            >
               <ChevronRight className="w-5 h-5 text-greyed-navy" />
             </button>
           </div>
           
-          <button className="flex items-center gap-2 text-sm font-semibold text-greyed-blue bg-[#bbd7eb]/20 px-3 py-1.5 rounded-lg hover:bg-[#bbd7eb]/40 transition-colors">
+          <button
+            onClick={() => setRemindersOn(enabled => !enabled)}
+            className="flex items-center gap-2 text-sm font-semibold text-greyed-blue bg-[#bbd7eb]/20 px-3 py-1.5 rounded-lg hover:bg-[#bbd7eb]/40 transition-colors"
+          >
             <Bell className="w-4 h-4" />
-            Reminders On
+            Reminders {remindersOn ? 'On' : 'Off'}
           </button>
         </div>
 
-        {/* Timetable Grid (Weekly view mock) */}
-        <div className="p-4 sm:p-6 overflow-x-auto">
-          <div className="min-w-[800px]">
-            {/* Days Header */}
-            <div className="grid grid-cols-6 gap-4 mb-4">
-              <div className="text-center font-semibold text-sm text-greyed-navy/50">Time</div>
-              {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
-                <div key={day} className="text-center font-bold text-greyed-navy pb-2 border-b-2 border-greyed-navy/10">
+        {view === 'daily' && (
+          <div className="p-4 sm:p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-greyed-navy">{dailyDay}'s Classes</h3>
+              <span className="rounded-full bg-greyed-navy/5 px-3 py-1 text-sm font-semibold text-greyed-navy/70">
+                {dailyClasses.length} scheduled
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {dailyClasses.length > 0 ? dailyClasses.map(cls => (
+                <ClassCard key={cls.id} cls={cls} colors={colors} size="large" />
+              )) : (
+                <div className="md:col-span-2 min-h-[180px] rounded-2xl border-2 border-dashed border-greyed-navy/10 flex items-center justify-center text-greyed-navy/40 font-semibold">
+                  No classes for {dailyDay}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {view === 'weekly' && (
+          <div className="p-4 sm:p-6 overflow-x-auto">
+            <div className="min-w-[800px]">
+              <div className="grid grid-cols-6 gap-4 mb-4">
+                <div className="text-center font-semibold text-sm text-greyed-navy/50">Time</div>
+                {days.map((day) => (
+                  <div key={day} className="text-center font-bold text-greyed-navy pb-2 border-b-2 border-greyed-navy/10">
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-6 gap-4">
+                <div className="space-y-4 text-center text-xs font-semibold text-greyed-navy/40 pt-4">
+                  <div className="h-32">09:00 AM</div>
+                  <div className="h-32">11:00 AM</div>
+                  <div className="h-32">01:00 PM</div>
+                </div>
+
+                {days.map(day => (
+                  <div key={day} className="space-y-4">
+                    {classes.filter(c => c.day === day).map(cls => (
+                      <ClassCard key={cls.id} cls={cls} colors={colors} />
+                    ))}
+                    {classes.filter(c => c.day === day).length === 0 && (
+                      <div className="h-32 border-2 border-dashed border-greyed-navy/10 rounded-xl flex items-center justify-center text-greyed-navy/30 text-sm font-semibold">
+                        No Classes
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {view === 'monthly' && (
+          <div className="p-4 sm:p-6">
+            <div className="grid grid-cols-7 gap-2 mb-3">
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                <div key={day} className="text-center text-xs font-bold uppercase tracking-wide text-greyed-navy/50">
                   {day}
                 </div>
               ))}
             </div>
+            <div className="grid grid-cols-7 gap-2">
+              {Array.from({ length: 35 }).map((_, index) => {
+                const dayNumber = index + 1;
+                const weekIndex = Math.floor(index / 7);
+                const subject = index < 28 ? monthlyWeeks[weekIndex]?.[index % 2] : undefined;
 
-            {/* Timetable Rows */}
-            <div className="grid grid-cols-6 gap-4">
-              {/* This is a simplified mock layout for demonstration */}
-              <div className="space-y-4 text-center text-xs font-semibold text-greyed-navy/40 pt-4">
-                <div className="h-32">09:00 AM</div>
-                <div className="h-32">11:00 AM</div>
-                <div className="h-32">01:00 PM</div>
-              </div>
-
-              {/* Monday */}
-              <div className="space-y-4">
-                {classes.filter(c => c.day === 'Monday').map(cls => (
-                  <ClassCard key={cls.id} cls={cls} colors={colors} />
-                ))}
-              </div>
-
-              {/* Tuesday */}
-              <div className="space-y-4">
-                {classes.filter(c => c.day === 'Tuesday').map(cls => (
-                  <ClassCard key={cls.id} cls={cls} colors={colors} />
-                ))}
-              </div>
-
-              {/* Wednesday */}
-              <div className="space-y-4">
-                {classes.filter(c => c.day === 'Wednesday').map(cls => (
-                  <ClassCard key={cls.id} cls={cls} colors={colors} />
-                ))}
-              </div>
-
-              {/* Thursday */}
-              <div className="space-y-4">
-                {classes.filter(c => c.day === 'Thursday').map(cls => (
-                  <ClassCard key={cls.id} cls={cls} colors={colors} />
-                ))}
-              </div>
-
-              {/* Friday */}
-              <div className="space-y-4">
-                 <div className="h-32 border-2 border-dashed border-greyed-navy/10 rounded-xl flex items-center justify-center text-greyed-navy/30 text-sm font-semibold">
-                   No Classes
-                 </div>
-              </div>
+                return (
+                  <button
+                    key={dayNumber}
+                    onClick={() => setView('daily')}
+                    className="min-h-[110px] rounded-xl border border-greyed-navy/10 bg-white p-2 text-left hover:border-greyed-blue hover:bg-[#bbd7eb]/10 transition-colors"
+                  >
+                    <span className="text-xs font-bold text-greyed-navy/50">{dayNumber}</span>
+                    {subject && (
+                      <div className="mt-3 rounded-lg bg-greyed-navy/5 px-2 py-1 text-[11px] font-semibold text-greyed-navy">
+                        {subject}
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </StudentLayout>
   );
 };
 
 // Helper Component for Class Card
-const ClassCard = ({ cls, colors }: { cls: any, colors: any }) => {
+const ClassCard = ({ cls, colors, size = 'default' }: { cls: any, colors: any, size?: 'default' | 'large' }) => {
   return (
-    <div className={`${colors[cls.type as keyof typeof colors]} p-3 rounded-xl shadow-sm border h-32 flex flex-col justify-between group cursor-pointer hover:scale-[1.02] transition-transform`}>
+    <div className={`${colors[cls.type as keyof typeof colors]} p-3 rounded-xl shadow-sm border ${size === 'large' ? 'min-h-[180px]' : 'h-32'} flex flex-col justify-between group cursor-pointer hover:scale-[1.02] transition-transform`}>
       <div>
         <h3 className="font-bold text-sm leading-tight">{cls.subject}</h3>
         <p className="text-[10px] opacity-80 mt-1 flex items-center gap-1 font-medium">

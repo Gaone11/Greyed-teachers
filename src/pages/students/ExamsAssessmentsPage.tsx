@@ -12,6 +12,7 @@ import {
 
 const ExamsAssessmentsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'schedule' | 'revision' | 'practice' | 'results'>('schedule');
+  const [startedTest, setStartedTest] = useState<string | null>(null);
 
   const upcomingExams = [
     { id: 1, subject: 'Mathematics', title: 'Calculus Final Exam', date: 'Oct 30, 2026', time: '09:00 AM', room: 'Hall A', status: 'Upcoming', daysLeft: 14 },
@@ -122,7 +123,11 @@ const ExamsAssessmentsPage: React.FC = () => {
                   </div>
                   <div className="mt-auto flex items-center justify-between pt-3 border-t border-greyed-navy/5">
                     <span className="text-xs font-semibold text-greyed-navy/40">{mat.type} • {mat.size}</span>
-                    <button className="text-greyed-blue hover:text-[#2a2f6e] transition-colors p-1">
+                    <button
+                      onClick={() => alert(`${mat.title} downloaded in this preview.`)}
+                      className="text-greyed-blue hover:text-[#2a2f6e] transition-colors p-1"
+                      title="Download material"
+                    >
                       <Download className="w-4 h-4" />
                     </button>
                   </div>
@@ -140,8 +145,11 @@ const ExamsAssessmentsPage: React.FC = () => {
                     <h3 className="font-bold text-indigo-900 mb-1">{test.title}</h3>
                     <p className="text-xs font-semibold text-indigo-700/70">{test.subject} • {test.questions} Questions • {test.timeLimit}</p>
                   </div>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-sm hover:bg-indigo-700 transition-colors transform group-hover:scale-105">
-                    <PlayCircle className="w-4 h-4" /> Start
+                  <button
+                    onClick={() => setStartedTest(test.title)}
+                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-sm hover:bg-indigo-700 transition-colors transform group-hover:scale-105"
+                  >
+                    <PlayCircle className="w-4 h-4" /> {startedTest === test.title ? 'Started' : 'Start'}
                   </button>
                 </div>
               ))}

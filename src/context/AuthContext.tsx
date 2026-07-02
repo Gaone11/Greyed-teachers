@@ -32,6 +32,44 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
+const isLocalPreviewAuth = () => {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+  return import.meta.env.DEV && (
+    supabaseUrl.includes('localhost') ||
+    supabaseAnonKey === 'local-preview-anon-key'
+  );
+};
+
+const getDemoRole = (email: string) => {
+  const normalizedEmail = email.toLowerCase();
+
+  if (normalizedEmail.includes('student') || normalizedEmail === 'gaone@uhuruai.co') {
+    return 'student';
+  }
+
+  if (normalizedEmail.includes('parent') || normalizedEmail === 'hildagmolefi@gmail.com') {
+    return 'parent';
+  }
+
+  return 'teacher';
+};
+
+const createDemoUser = (email: string): User => {
+  const role = getDemoRole(email);
+
+  return {
+    id: `demo-${role}`,
+    email,
+    user_metadata: {
+      first_name: role === 'student' ? 'Hilda' : role === 'parent' ? 'Parent' : 'Teacher',
+      name: role === 'student' ? 'Hilda' : role === 'parent' ? 'Parent Demo' : 'Teacher Demo',
+      role,
+    },
+  };
+};
+
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -62,6 +100,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (isLocalPreviewAuth()) {
+      const storedDemoUser = localStorage.getItem('greyedDemoUser');
+      if (storedDemoUser) {
+        try {
+          setUser(JSON.parse(storedDemoUser));
+        } catch {
+          localStorage.removeItem('greyedDemoUser');
+        }
+      }
+
+      setLoading(false);
+      return;
+    }
+
     const getInitialSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
@@ -107,6 +159,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setLoading(true);
 
+      if (isLocalPreviewAuth()) {
+        const demoUser = createDemoUser(email);
+        setUser(demoUser);
+        localStorage.setItem('greyedDemoUser', JSON.stringify(demoUser));
+        return {};
+      }
+
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -117,7 +176,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return {};
-    } catch {
+    } catch (error) {
       return { error };
     } finally {
       setLoading(false);
@@ -172,7 +231,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return {};
-    } catch {
+    } catch (error) {
       return { error };
     } finally {
       setLoading(false);
@@ -182,6 +241,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signOut = async (): Promise<void> => {
     try {
       setLoading(true);
+
+      if (isLocalPreviewAuth()) {
+        localStorage.removeItem('greyedDemoUser');
+        setUser(null);
+        return;
+      }
+
       const { error } = await supabase.auth.signOut();
 
       if (error) {

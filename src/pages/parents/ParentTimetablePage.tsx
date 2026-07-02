@@ -12,6 +12,14 @@ import {
 
 const ParentTimetablePage: React.FC = () => {
   const [activeView, setActiveView] = useState<'classes' | 'exams' | 'events'>('classes');
+  const [weekOffset, setWeekOffset] = useState(0);
+  const [subjectFilter, setSubjectFilter] = useState(false);
+
+  const weekLabel = weekOffset === 0
+    ? 'Oct 16 - Oct 20, 2023'
+    : weekOffset < 0
+      ? 'Oct 9 - Oct 13, 2023'
+      : 'Oct 23 - Oct 27, 2023';
 
   const schedule = [
     { id: 1, title: 'Biology 101', time: '09:00 AM - 10:30 AM', location: 'Room 302', teacher: 'Ms. Smith', date: 'Monday' },
@@ -76,13 +84,21 @@ const ParentTimetablePage: React.FC = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                  <button className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors">
+                  <button
+                    onClick={() => setWeekOffset(offset => offset - 1)}
+                    className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors"
+                    title="Previous week"
+                  >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
                   <h2 className="text-lg font-bold text-greyed-navy min-w-[150px] text-center">
-                    Oct 16 - Oct 20, 2023
+                    {weekLabel}
                   </h2>
-                  <button className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors">
+                  <button
+                    onClick={() => setWeekOffset(offset => offset + 1)}
+                    className="p-2 border border-greyed-navy/20 rounded-lg text-greyed-navy/60 hover:bg-greyed-navy/5 transition-colors"
+                    title="Next week"
+                  >
                     <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
@@ -137,8 +153,11 @@ const ParentTimetablePage: React.FC = () => {
             <div className="space-y-4 max-w-4xl mx-auto">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-greyed-navy">Upcoming Exams & Assessments</h2>
-                <button className="text-sm text-greyed-navy/60 font-semibold flex items-center gap-1 hover:text-greyed-navy">
-                  <Filter className="w-4 h-4" /> Filter by Subject
+                <button
+                  onClick={() => setSubjectFilter(enabled => !enabled)}
+                  className="text-sm text-greyed-navy/60 font-semibold flex items-center gap-1 hover:text-greyed-navy"
+                >
+                  <Filter className="w-4 h-4" /> {subjectFilter ? 'Showing Biology' : 'Filter by Subject'}
                 </button>
               </div>
 
@@ -164,7 +183,10 @@ const ParentTimetablePage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="w-full md:w-auto px-4 py-2 border border-greyed-navy/20 text-greyed-navy font-semibold rounded-xl hover:bg-greyed-navy/5 transition-colors">
+                  <button
+                    onClick={() => alert(`${exam.title} added to calendar in this preview.`)}
+                    className="w-full md:w-auto px-4 py-2 border border-greyed-navy/20 text-greyed-navy font-semibold rounded-xl hover:bg-greyed-navy/5 transition-colors"
+                  >
                     Add to Calendar
                   </button>
                 </div>
@@ -196,7 +218,10 @@ const ParentTimetablePage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="w-full md:w-auto px-4 py-2 border border-greyed-navy/20 text-greyed-navy font-semibold rounded-xl hover:bg-greyed-navy/5 transition-colors">
+                  <button
+                    onClick={() => alert(`${event.title} added to calendar in this preview.`)}
+                    className="w-full md:w-auto px-4 py-2 border border-greyed-navy/20 text-greyed-navy font-semibold rounded-xl hover:bg-greyed-navy/5 transition-colors"
+                  >
                     Add to Calendar
                   </button>
                 </div>

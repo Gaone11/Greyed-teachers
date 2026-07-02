@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TeacherLayout from '../../layouts/TeacherLayout';
 import { 
   BarChart2, 
@@ -11,6 +11,13 @@ import {
 } from 'lucide-react';
 
 const TeacherAnalyticsPage: React.FC = () => {
+  const [range, setRange] = useState('Last 6 Months');
+  const [contactedStudents, setContactedStudents] = useState<string[]>([]);
+
+  const handleContact = (student: string) => {
+    setContactedStudents(prev => Array.from(new Set([...prev, student])));
+  };
+
   return (
     <TeacherLayout activePage="analytics">
       <div className="mb-6 animate-slide-up flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -22,7 +29,10 @@ const TeacherAnalyticsPage: React.FC = () => {
           <p className="text-greyed-navy/70 mt-1">Track performance, attendance, and identify at-risk students.</p>
         </div>
         
-        <button className="bg-white border border-greyed-navy/20 hover:bg-greyed-navy/5 text-greyed-navy px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm">
+        <button
+          onClick={() => alert('Analytics report exported in this preview.')}
+          className="bg-white border border-greyed-navy/20 hover:bg-greyed-navy/5 text-greyed-navy px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm"
+        >
           <Download className="w-5 h-5" />
           Export Report
         </button>
@@ -70,8 +80,11 @@ const TeacherAnalyticsPage: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-greyed-navy/10 p-6 animate-slide-up" style={{ animationDelay: '200ms' }}>
             <div className="flex justify-between items-center mb-6">
               <h2 className="font-bold text-lg text-greyed-navy">Class Performance Trend</h2>
-              <button className="text-sm font-semibold text-greyed-navy/60 flex items-center gap-1 border border-greyed-navy/20 px-3 py-1.5 rounded-lg">
-                Last 6 Months <ChevronDown className="w-4 h-4" />
+              <button
+                onClick={() => setRange(current => current === 'Last 6 Months' ? 'This Term' : 'Last 6 Months')}
+                className="text-sm font-semibold text-greyed-navy/60 flex items-center gap-1 border border-greyed-navy/20 px-3 py-1.5 rounded-lg"
+              >
+                {range} <ChevronDown className="w-4 h-4" />
               </button>
             </div>
             
@@ -113,7 +126,9 @@ const TeacherAnalyticsPage: React.FC = () => {
                   <span className="text-xs font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">Attendance</span>
                 </div>
                 <p className="text-xs text-greyed-navy/70 mt-1 mb-2">Missed 4 classes in the last 2 weeks.</p>
-                <button className="text-xs font-bold text-red-600 hover:underline">Message Parent</button>
+                <button onClick={() => handleContact('Noah Williams')} className="text-xs font-bold text-red-600 hover:underline">
+                  {contactedStudents.includes('Noah Williams') ? 'Parent Messaged' : 'Message Parent'}
+                </button>
               </div>
 
               <div className="border border-greyed-navy/10 p-3 rounded-xl bg-orange-50/50">
@@ -122,7 +137,9 @@ const TeacherAnalyticsPage: React.FC = () => {
                   <span className="text-xs font-bold bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">Grades</span>
                 </div>
                 <p className="text-xs text-greyed-navy/70 mt-1 mb-2">Score dropped by 15% in recent exams.</p>
-                <button className="text-xs font-bold text-orange-600 hover:underline">Schedule Review</button>
+                <button onClick={() => handleContact('Sophia Martinez')} className="text-xs font-bold text-orange-600 hover:underline">
+                  {contactedStudents.includes('Sophia Martinez') ? 'Review Scheduled' : 'Schedule Review'}
+                </button>
               </div>
             </div>
           </div>

@@ -13,6 +13,8 @@ import {
 
 const AssignmentsPage: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'Not Started' | 'In Progress' | 'Submitted' | 'Graded'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [localStatuses, setLocalStatuses] = useState<Record<number, string>>({});
 
   const assignments = [
     {
@@ -57,9 +59,30 @@ const AssignmentsPage: React.FC = () => {
     }
   ];
 
-  const filteredAssignments = filter === 'all' 
-    ? assignments 
-    : assignments.filter(a => a.status === filter);
+  const assignmentsWithLocalStatus = assignments.map(assignment => ({
+    ...assignment,
+    status: localStatuses[assignment.id] || assignment.status,
+  }));
+
+  const filteredAssignments = assignmentsWithLocalStatus.filter(assignment => {
+    const matchesFilter = filter === 'all' || assignment.status === filter;
+    const matchesSearch = `${assignment.title} ${assignment.subject} ${assignment.description}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesFilter && matchesSearch;
+  });
+
+  const handleUploadWork = (assignmentId: number) => {
+    setLocalStatuses(prev => ({ ...prev, [assignmentId]: 'Submitted' }));
+  };
+
+  const handleAddComment = (assignmentTitle: string) => {
+    const comment = window.prompt(`Add a comment for ${assignmentTitle}`);
+    if (comment?.trim()) {
+      alert('Comment added for this preview.');
+    }
+  };
 
   const getStatusBadge = (status: string) => {
     switch(status) {
@@ -98,6 +121,8 @@ const AssignmentsPage: React.FC = () => {
               type="text" 
               placeholder="Search assignments..." 
               className="w-full pl-9 pr-4 py-2 bg-white border border-greyed-navy/10 rounded-xl text-sm focus:outline-none focus:border-greyed-blue transition-colors"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
             />
           </div>
 
@@ -167,7 +192,10 @@ const AssignmentsPage: React.FC = () => {
                 </div>
                 
                 {assignment.status !== 'Graded' && assignment.status !== 'Submitted' && (
-                  <button className="w-full py-2.5 px-4 bg-[#2a2f6e] hover:bg-[#212754] text-white rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm mb-3">
+                  <button
+                    onClick={() => handleUploadWork(assignment.id)}
+                    className="w-full py-2.5 px-4 bg-[#2a2f6e] hover:bg-[#212754] text-white rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm mb-3"
+                  >
                     <Upload className="w-4 h-4" />
                     Upload Work
                   </button>
@@ -181,7 +209,10 @@ const AssignmentsPage: React.FC = () => {
 
                 {assignment.status !== 'Graded' && (
                   <div className="text-center">
-                    <button className="text-xs font-semibold text-greyed-blue hover:underline">
+                    <button
+                      onClick={() => handleAddComment(assignment.title)}
+                      className="text-xs font-semibold text-greyed-blue hover:underline"
+                    >
                       Add a comment
                     </button>
                   </div>
