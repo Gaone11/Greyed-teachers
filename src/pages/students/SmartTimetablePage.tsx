@@ -9,15 +9,35 @@ import {
   Video,
   FileText,
   AlertCircle,
-  Bell
+  Bell,
+  CheckCircle,
+  X
 } from 'lucide-react';
 
+type TimetableView = 'daily' | 'weekly' | 'monthly';
+
+interface StudentClass {
+  id: number;
+  subject: string;
+  type: 'math' | 'science' | 'literature' | 'history' | 'art';
+  time: string;
+  location: string;
+  teacherNotes: string | null;
+  homework: string | null;
+  isOnline: boolean;
+  examDate: string | null;
+  day: string;
+}
+
 const SmartTimetablePage: React.FC = () => {
-  const [view, setView] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
+  const [view, setView] = useState<TimetableView>('weekly');
   const [periodOffset, setPeriodOffset] = useState(0);
   const [remindersOn, setRemindersOn] = useState(true);
+  const [selectedClass, setSelectedClass] = useState<StudentClass | null>(null);
+  const [statusMessage, setStatusMessage] = useState('Weekly timetable loaded.');
+  const [syncedClasses, setSyncedClasses] = useState<number[]>([]);
 
-  const classes = [
+  const classes: StudentClass[] = [
     {
       id: 1,
       subject: 'Mathematics',
@@ -113,6 +133,33 @@ const SmartTimetablePage: React.FC = () => {
 
   const movePeriod = (direction: -1 | 1) => {
     setPeriodOffset(offset => offset + direction);
+    setSelectedClass(null);
+    setStatusMessage(`Showing ${direction === 1 ? 'next' : 'previous'} ${view}.`);
+  };
+
+  const selectView = (nextView: TimetableView) => {
+    setView(nextView);
+    setPeriodOffset(0);
+    setSelectedClass(null);
+    setStatusMessage(`${nextView[0].toUpperCase()}${nextView.slice(1)} view selected.`);
+  };
+
+  const showDailyForDay = (day: string) => {
+    const dayIndex = days.indexOf(day);
+    setView('daily');
+    setPeriodOffset(dayIndex >= 0 ? dayIndex : 0);
+    setSelectedClass(null);
+    setStatusMessage(`${day} selected.`);
+  };
+
+  const handleClassSelect = (cls: StudentClass) => {
+    setSelectedClass(cls);
+    setStatusMessage(`${cls.subject} selected.`);
+  };
+
+  const handleSyncClass = (classId: number) => {
+    setSyncedClasses(current => current.includes(classId) ? current : [...current, classId]);
+    setStatusMessage('Class added to your calendar preview.');
   };
 
   // Baby matte colors for subjects
@@ -140,10 +187,9 @@ const SmartTimetablePage: React.FC = () => {
           {['daily', 'weekly', 'monthly'].map((v) => (
             <button
               key={v}
-              onClick={() => {
-                setView(v as 'daily' | 'weekly' | 'monthly');
-                setPeriodOffset(0);
-              }}
+              type="button"
+              onClick={() => selectView(v as TimetableView)}
+              aria-pressed={view === v}
               className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
                 view === v 
                   ? 'bg-greyed-navy text-white shadow-sm' 
@@ -162,6 +208,7 @@ const SmartTimetablePage: React.FC = () => {
         <div className="flex items-center justify-between p-4 border-b border-greyed-navy/5 bg-greyed-white/50">
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => movePeriod(-1)}
               className="p-2 hover:bg-greyed-navy/10 rounded-lg transition-colors"
               title={`Previous ${view}`}
@@ -170,6 +217,7 @@ const SmartTimetablePage: React.FC = () => {
             </button>
             <h2 className="text-lg font-bold text-greyed-navy">{visibleTitle}</h2>
             <button
+              type="button"
               onClick={() => movePeriod(1)}
               className="p-2 hover:bg-greyed-navy/10 rounded-lg transition-colors"
               title={`Next ${view}`}
@@ -178,13 +226,39 @@ const SmartTimetablePage: React.FC = () => {
             </button>
           </div>
           
-          <button
-            onClick={() => setRemindersOn(enabled => !enabled)}
-            className="flex items-center gap-2 text-sm font-semibold text-greyed-blue bg-[#bbd7eb]/20 px-3 py-1.5 rounded-lg hover:bg-[#bbd7eb]/40 transition-colors"
-          >
-            <Bell className="w-4 h-4" />
-            Reminders {remindersOn ? 'On' : 'Off'}
-          </button>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setPeriodOffset(0);
+                setSelectedClass(null);
+                setStatusMessage('Returned to the current timetable period.');
+              }}
+              className="rounded-lg border border-greyed-navy/10 px-3 py-1.5 text-sm font-semibold text-greyed-navy hover:bg-greyed-navy/5 transition-colors"
+            >
+              Today
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRemindersOn(enabled => !enabled);
+                setStatusMessage(`Reminders turned ${remindersOn ? 'off' : 'on'}.`);
+              }}
+              className={`flex items-center gap-2 text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors ${
+                remindersOn
+                  ? 'text-greyed-blue bg-[#bbd7eb]/20 hover:bg-[#bbd7eb]/40'
+                  : 'text-greyed-navy bg-greyed-navy/10 hover:bg-greyed-navy/15'
+              }`}
+              aria-pressed={remindersOn}
+            >
+              <Bell className="w-4 h-4" />
+              Reminders {remindersOn ? 'On' : 'Off'}
+            </button>
+          </div>
+        </div>
+
+        <div className="border-b border-greyed-navy/5 bg-white px-4 py-3 text-sm font-semibold text-greyed-navy/70" role="status">
+          {statusMessage}
         </div>
 
         {view === 'daily' && (
@@ -195,9 +269,37 @@ const SmartTimetablePage: React.FC = () => {
                 {dailyClasses.length} scheduled
               </span>
             </div>
+            <div className="mb-5 flex flex-wrap gap-2">
+              {days.map((day, index) => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => {
+                    setPeriodOffset(index);
+                    setSelectedClass(null);
+                    setStatusMessage(`${day} selected.`);
+                  }}
+                  className={`rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
+                    dailyDay === day
+                      ? 'bg-greyed-navy text-white'
+                      : 'bg-greyed-navy/5 text-greyed-navy/70 hover:bg-greyed-navy/10'
+                  }`}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {dailyClasses.length > 0 ? dailyClasses.map(cls => (
-                <ClassCard key={cls.id} cls={cls} colors={colors} size="large" />
+                <ClassCard
+                  key={cls.id}
+                  cls={cls}
+                  colors={colors}
+                  size="large"
+                  isSelected={selectedClass?.id === cls.id}
+                  isSynced={syncedClasses.includes(cls.id)}
+                  onSelect={handleClassSelect}
+                />
               )) : (
                 <div className="md:col-span-2 min-h-[180px] rounded-2xl border-2 border-dashed border-greyed-navy/10 flex items-center justify-center text-greyed-navy/40 font-semibold">
                   No classes for {dailyDay}
@@ -213,9 +315,15 @@ const SmartTimetablePage: React.FC = () => {
               <div className="grid grid-cols-6 gap-4 mb-4">
                 <div className="text-center font-semibold text-sm text-greyed-navy/50">Time</div>
                 {days.map((day) => (
-                  <div key={day} className="text-center font-bold text-greyed-navy pb-2 border-b-2 border-greyed-navy/10">
+                  <button
+                    key={day}
+                    type="button"
+                    onClick={() => showDailyForDay(day)}
+                    className="text-center font-bold text-greyed-navy pb-2 border-b-2 border-greyed-navy/10 hover:text-greyed-blue hover:border-greyed-blue transition-colors"
+                    title={`Open ${day} daily view`}
+                  >
                     {day}
-                  </div>
+                  </button>
                 ))}
               </div>
 
@@ -229,7 +337,14 @@ const SmartTimetablePage: React.FC = () => {
                 {days.map(day => (
                   <div key={day} className="space-y-4">
                     {classes.filter(c => c.day === day).map(cls => (
-                      <ClassCard key={cls.id} cls={cls} colors={colors} />
+                      <ClassCard
+                        key={cls.id}
+                        cls={cls}
+                        colors={colors}
+                        isSelected={selectedClass?.id === cls.id}
+                        isSynced={syncedClasses.includes(cls.id)}
+                        onSelect={handleClassSelect}
+                      />
                     ))}
                     {classes.filter(c => c.day === day).length === 0 && (
                       <div className="h-32 border-2 border-dashed border-greyed-navy/10 rounded-xl flex items-center justify-center text-greyed-navy/30 text-sm font-semibold">
@@ -261,7 +376,11 @@ const SmartTimetablePage: React.FC = () => {
                 return (
                   <button
                     key={dayNumber}
-                    onClick={() => setView('daily')}
+                    type="button"
+                    onClick={() => {
+                      const day = days[index % days.length] || 'Monday';
+                      showDailyForDay(day);
+                    }}
                     className="min-h-[110px] rounded-xl border border-greyed-navy/10 bg-white p-2 text-left hover:border-greyed-blue hover:bg-[#bbd7eb]/10 transition-colors"
                   >
                     <span className="text-xs font-bold text-greyed-navy/50">{dayNumber}</span>
@@ -277,16 +396,103 @@ const SmartTimetablePage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {selectedClass && (
+        <div className="mt-6 rounded-2xl border border-greyed-navy/5 bg-white p-5 sm:p-6 shadow-sm animate-slide-up">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-greyed-navy">{selectedClass.subject}</h2>
+              <p className="mt-1 text-sm font-medium text-greyed-navy/70">{selectedClass.day} • {selectedClass.time}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedClass(null);
+                setStatusMessage('Class details closed.');
+              }}
+              className="self-start rounded-lg p-2 text-greyed-navy/60 hover:bg-greyed-navy/10 hover:text-greyed-navy transition-colors"
+              title="Close details"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="rounded-xl bg-greyed-navy/5 p-4">
+              <p className="text-xs font-bold uppercase text-greyed-navy/50">Location</p>
+              <p className="mt-1 font-semibold text-greyed-navy">{selectedClass.isOnline ? 'Online Meeting' : selectedClass.location}</p>
+            </div>
+            <div className="rounded-xl bg-greyed-navy/5 p-4">
+              <p className="text-xs font-bold uppercase text-greyed-navy/50">Homework</p>
+              <p className="mt-1 font-semibold text-greyed-navy">{selectedClass.homework || 'No homework attached'}</p>
+            </div>
+            <div className="rounded-xl bg-greyed-navy/5 p-4">
+              <p className="text-xs font-bold uppercase text-greyed-navy/50">Teacher Note</p>
+              <p className="mt-1 font-semibold text-greyed-navy">{selectedClass.teacherNotes || 'No note for this class'}</p>
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => handleSyncClass(selectedClass.id)}
+              className="inline-flex items-center gap-2 rounded-xl bg-greyed-navy px-4 py-2.5 text-sm font-bold text-white hover:bg-[#2a2f6e] transition-colors"
+            >
+              <CalendarIcon className="h-4 w-4" />
+              {syncedClasses.includes(selectedClass.id) ? 'Added to Calendar' : 'Add to Calendar'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusMessage(selectedClass.isOnline ? 'Opening online class preview.' : `Room directions loaded for ${selectedClass.location}.`)}
+              className="inline-flex items-center gap-2 rounded-xl border border-greyed-navy/10 px-4 py-2.5 text-sm font-bold text-greyed-navy hover:bg-greyed-navy/5 transition-colors"
+            >
+              {selectedClass.isOnline ? <Video className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
+              {selectedClass.isOnline ? 'Join Class' : 'Find Room'}
+            </button>
+            {selectedClass.homework && (
+              <button
+                type="button"
+                onClick={() => setStatusMessage(`${selectedClass.homework} opened from timetable.`)}
+                className="inline-flex items-center gap-2 rounded-xl border border-greyed-navy/10 px-4 py-2.5 text-sm font-bold text-greyed-navy hover:bg-greyed-navy/5 transition-colors"
+              >
+                <FileText className="h-4 w-4" />
+                Open Homework
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </StudentLayout>
   );
 };
 
 // Helper Component for Class Card
-const ClassCard = ({ cls, colors, size = 'default' }: { cls: any, colors: any, size?: 'default' | 'large' }) => {
+const ClassCard = ({
+  cls,
+  colors,
+  size = 'default',
+  isSelected,
+  isSynced,
+  onSelect
+}: {
+  cls: StudentClass;
+  colors: Record<StudentClass['type'], string>;
+  size?: 'default' | 'large';
+  isSelected: boolean;
+  isSynced: boolean;
+  onSelect: (cls: StudentClass) => void;
+}) => {
   return (
-    <div className={`${colors[cls.type as keyof typeof colors]} p-3 rounded-xl shadow-sm border ${size === 'large' ? 'min-h-[180px]' : 'h-32'} flex flex-col justify-between group cursor-pointer hover:scale-[1.02] transition-transform`}>
+    <button
+      type="button"
+      onClick={() => onSelect(cls)}
+      className={`${colors[cls.type]} relative overflow-hidden text-left p-3 rounded-xl shadow-sm border ${size === 'large' ? 'min-h-[180px]' : 'h-32'} flex flex-col justify-between group cursor-pointer hover:scale-[1.02] transition-transform ${isSelected ? 'ring-4 ring-greyed-blue/30' : ''}`}
+    >
       <div>
-        <h3 className="font-bold text-sm leading-tight">{cls.subject}</h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-bold text-sm leading-tight">{cls.subject}</h3>
+          {isSynced && <CheckCircle className="h-4 w-4 shrink-0" />}
+        </div>
         <p className="text-[10px] opacity-80 mt-1 flex items-center gap-1 font-medium">
           <Clock className="w-3 h-3" /> {cls.time}
         </p>
@@ -323,10 +529,11 @@ const ClassCard = ({ cls, colors, size = 'default' }: { cls: any, colors: any, s
       {cls.teacherNotes && (
         <div className="absolute inset-0 bg-black/80 text-white p-3 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center text-xs z-10">
           <span className="font-bold mb-1 text-[#bbd7eb]">Teacher Note:</span>
-          {cls.teacherNotes}
+          <span>{cls.teacherNotes}</span>
+          <span className="mt-2 text-[10px] font-bold text-white/70">Click for details</span>
         </div>
       )}
-    </div>
+    </button>
   );
 }
 
