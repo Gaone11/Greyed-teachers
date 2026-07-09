@@ -40,7 +40,7 @@ const PersonalityCTA: React.FC = () => {
         <Card
           number="01"
           title="Curriculum-Aligned Planning"
-          description="AI generates lesson plans aligned to the South African Curriculum and Assessment Policy Statement."
+          description="AI generates lesson plans aligned to the Nigerian Educational Research and Development Council curriculum."
           delay={0}
         />
         <Card

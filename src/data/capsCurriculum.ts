@@ -1,353 +1,249 @@
 /**
- * CAPS (Curriculum and Assessment Policy Statement) - South Africa
- * Primary School Curriculum: Foundation Phase (R-3), Intermediate Phase (4-6), Senior Phase (7-9)
+ * NERDC curriculum data for Nigerian junior and senior secondary school.
  *
- * Subjects and topics aligned with the Department of Basic Education (DBE) CAPS documents.
- * Includes Home Languages: Setswana, Siswati, IsiXhosa as requested.
+ * Source structure:
+ * - Junior Secondary School (JSS 1-3) Basic Education Curriculum
+ * - New Revised Senior Secondary Education Curriculum (SSEC), SSS 1-3
+ *
+ * The old export names are kept as aliases so existing generator and
+ * knowledgebase code can keep working while the platform uses NERDC.
  */
 
 export interface CAPSTopic {
   name: string;
-  /** Short key used for metadata matching */
   key: string;
 }
 
 export interface CAPSSubject {
   name: string;
   key: string;
-  phase: ('foundation' | 'intermediate' | 'senior')[];
+  phase: ('junior' | 'senior')[];
   topics: CAPSTopic[];
 }
 
-// ─── Home Languages ─────────────────────────────────────────────────────────
-
-const homeLanguageTopics: CAPSTopic[] = [
+const languageTopics: CAPSTopic[] = [
   { name: 'Listening and Speaking', key: 'listening-speaking' },
-  { name: 'Reading and Phonics', key: 'reading-phonics' },
-  { name: 'Reading and Viewing', key: 'reading-viewing' },
-  { name: 'Writing and Presenting', key: 'writing-presenting' },
-  { name: 'Language Structures and Conventions', key: 'language-structures' },
-  { name: 'Oral Communication', key: 'oral-communication' },
-  { name: 'Handwriting', key: 'handwriting' },
-  { name: 'Creative Writing', key: 'creative-writing' },
-  { name: 'Poetry', key: 'poetry' },
-  { name: 'Comprehension', key: 'comprehension' },
-  { name: 'Visual Literacy', key: 'visual-literacy' },
-  { name: 'Grammar and Spelling', key: 'grammar-spelling' },
+  { name: 'Reading and Comprehension', key: 'reading-comprehension' },
+  { name: 'Writing and Composition', key: 'writing-composition' },
+  { name: 'Grammar and Vocabulary', key: 'grammar-vocabulary' },
+  { name: 'Literature and Oral Tradition', key: 'literature-oral-tradition' },
+  { name: 'Speech Work and Presentation', key: 'speech-presentation' },
 ];
-
-// ─── Mathematics ─────────────────────────────────────────────────────────────
 
 const mathematicsTopics: CAPSTopic[] = [
-  { name: 'Numbers, Operations and Relationships', key: 'numbers-operations' },
-  { name: 'Counting', key: 'counting' },
-  { name: 'Addition and Subtraction', key: 'addition-subtraction' },
-  { name: 'Multiplication and Division', key: 'multiplication-division' },
-  { name: 'Fractions', key: 'fractions' },
-  { name: 'Patterns, Functions and Algebra', key: 'patterns-algebra' },
-  { name: 'Space and Shape (Geometry)', key: 'space-shape' },
-  { name: 'Measurement', key: 'measurement' },
-  { name: 'Data Handling', key: 'data-handling' },
-  { name: 'Number Patterns', key: 'number-patterns' },
-  { name: 'Properties of 2D Shapes', key: '2d-shapes' },
-  { name: 'Properties of 3D Objects', key: '3d-objects' },
-  { name: 'Symmetry', key: 'symmetry' },
-  { name: 'Position and Directions', key: 'position-directions' },
-  { name: 'Time', key: 'time' },
-  { name: 'Length', key: 'length' },
-  { name: 'Mass', key: 'mass' },
-  { name: 'Capacity and Volume', key: 'capacity-volume' },
-  { name: 'Perimeter, Area and Volume', key: 'perimeter-area-volume' },
-  { name: 'Ratio and Rate', key: 'ratio-rate' },
-  { name: 'Probability', key: 'probability' },
+  { name: 'Number and Numeration', key: 'number-numeration' },
+  { name: 'Algebraic Processes', key: 'algebraic-processes' },
+  { name: 'Geometry and Mensuration', key: 'geometry-mensuration' },
+  { name: 'Trigonometry', key: 'trigonometry' },
+  { name: 'Statistics and Probability', key: 'statistics-probability' },
+  { name: 'Financial Arithmetic', key: 'financial-arithmetic' },
+  { name: 'Graphs and Functions', key: 'graphs-functions' },
 ];
 
-// ─── Life Skills ─────────────────────────────────────────────────────────────
-
-const lifeSkillsTopics: CAPSTopic[] = [
-  { name: 'Beginning Knowledge (Social Sciences)', key: 'beginning-knowledge' },
-  { name: 'Personal and Social Well-being', key: 'personal-social-wellbeing' },
-  { name: 'Creative Arts', key: 'creative-arts' },
-  { name: 'Physical Education', key: 'physical-education' },
-  { name: 'Health and Environmental Responsibility', key: 'health-environment' },
-  { name: 'Social Responsibility', key: 'social-responsibility' },
-  { name: 'Rights and Responsibilities', key: 'rights-responsibilities' },
-  { name: 'Safety', key: 'safety' },
-  { name: 'Performing Arts (Music, Dance, Drama)', key: 'performing-arts' },
-  { name: 'Visual Arts', key: 'visual-arts' },
-  { name: 'Movement and Games', key: 'movement-games' },
-];
-
-// ─── Natural Sciences and Technology ─────────────────────────────────────────
-
-const naturalSciencesTopics: CAPSTopic[] = [
-  { name: 'Life and Living', key: 'life-living' },
+const scienceTopics: CAPSTopic[] = [
+  { name: 'Scientific Investigation', key: 'scientific-investigation' },
+  { name: 'Living Things and Environment', key: 'living-things-environment' },
   { name: 'Matter and Materials', key: 'matter-materials' },
-  { name: 'Energy and Change', key: 'energy-change' },
-  { name: 'Planet Earth and Beyond', key: 'planet-earth' },
-  { name: 'Biodiversity', key: 'biodiversity' },
-  { name: 'Ecosystems', key: 'ecosystems' },
-  { name: 'Human Body Systems', key: 'human-body' },
-  { name: 'Properties of Materials', key: 'properties-materials' },
-  { name: 'Processing Materials', key: 'processing-materials' },
-  { name: 'Forces', key: 'forces' },
-  { name: 'Electric Circuits', key: 'electric-circuits' },
-  { name: 'The Solar System', key: 'solar-system' },
-  { name: 'Weather and Seasons', key: 'weather-seasons' },
+  { name: 'Energy, Forces and Motion', key: 'energy-forces-motion' },
+  { name: 'Earth and Space', key: 'earth-space' },
+  { name: 'Technology, Design and Practical Work', key: 'technology-design-practical' },
 ];
 
-// ─── Social Sciences ─────────────────────────────────────────────────────────
-
-const socialSciencesTopics: CAPSTopic[] = [
-  { name: 'History: Local History', key: 'local-history' },
-  { name: 'History: National History', key: 'national-history' },
-  { name: 'History: African History', key: 'african-history' },
-  { name: 'History: World History', key: 'world-history' },
-  { name: 'History: Heritage', key: 'heritage' },
-  { name: 'Geography: Mapwork and Practical Geography', key: 'mapwork' },
-  { name: 'Geography: Physical Geography', key: 'physical-geography' },
-  { name: 'Geography: Human Geography', key: 'human-geography' },
-  { name: 'Geography: Environmental Geography', key: 'environmental-geography' },
-  { name: 'Geography: Settlement', key: 'settlement' },
-  { name: 'Geography: Population', key: 'population' },
-  { name: 'Geography: Climate and Weather', key: 'climate-weather' },
-  { name: 'Geography: Resources and Sustainability', key: 'resources-sustainability' },
+const biologyTopics: CAPSTopic[] = [
+  { name: 'Cell Biology', key: 'cell-biology' },
+  { name: 'Nutrition and Transport', key: 'nutrition-transport' },
+  { name: 'Ecology and Conservation', key: 'ecology-conservation' },
+  { name: 'Reproduction and Growth', key: 'reproduction-growth' },
+  { name: 'Genetics and Evolution', key: 'genetics-evolution' },
+  { name: 'Health and Disease', key: 'health-disease' },
 ];
 
-// ─── Technology ──────────────────────────────────────────────────────────────
-
-const technologyTopics: CAPSTopic[] = [
-  { name: 'Structures', key: 'structures' },
-  { name: 'Processing', key: 'processing-tech' },
-  { name: 'Systems and Control', key: 'systems-control' },
-  { name: 'Design Process', key: 'design-process' },
-  { name: 'Communication', key: 'communication-tech' },
-  { name: 'Impact of Technology', key: 'impact-technology' },
-  { name: 'Indigenous Technology', key: 'indigenous-technology' },
-  { name: 'Mechanical Systems and Control', key: 'mechanical-systems' },
-  { name: 'Electrical Systems and Control', key: 'electrical-systems' },
+const chemistryTopics: CAPSTopic[] = [
+  { name: 'Particulate Nature of Matter', key: 'particulate-matter' },
+  { name: 'Chemical Bonding and Structure', key: 'bonding-structure' },
+  { name: 'Acids, Bases and Salts', key: 'acids-bases-salts' },
+  { name: 'Organic Chemistry', key: 'organic-chemistry' },
+  { name: 'Energy Changes and Rates', key: 'energy-rates' },
+  { name: 'Industrial and Environmental Chemistry', key: 'industrial-environmental-chemistry' },
 ];
 
-// ─── Economic and Management Sciences ────────────────────────────────────────
+const physicsTopics: CAPSTopic[] = [
+  { name: 'Measurement and Units', key: 'measurement-units' },
+  { name: 'Motion and Forces', key: 'motion-forces' },
+  { name: 'Work, Energy and Power', key: 'work-energy-power' },
+  { name: 'Waves, Sound and Light', key: 'waves-sound-light' },
+  { name: 'Electricity and Magnetism', key: 'electricity-magnetism' },
+  { name: 'Modern Physics and Applications', key: 'modern-physics' },
+];
 
-const emsTopics: CAPSTopic[] = [
-  { name: 'The Economy', key: 'the-economy' },
-  { name: 'Financial Literacy', key: 'financial-literacy' },
+const socialStudiesTopics: CAPSTopic[] = [
+  { name: 'Family, Community and Society', key: 'family-community-society' },
+  { name: 'Citizenship and National Values', key: 'citizenship-national-values' },
+  { name: 'Culture, Identity and Heritage', key: 'culture-identity-heritage' },
+  { name: 'Human Rights and Responsibilities', key: 'rights-responsibilities' },
+  { name: 'Peace, Security and Conflict Resolution', key: 'peace-security-conflict' },
+  { name: 'Leadership and Governance', key: 'leadership-governance' },
+];
+
+const historyGovernmentTopics: CAPSTopic[] = [
+  { name: 'Nigerian History and Heritage', key: 'nigerian-history-heritage' },
+  { name: 'Pre-colonial and Colonial Societies', key: 'precolonial-colonial' },
+  { name: 'Nationalism and Independence', key: 'nationalism-independence' },
+  { name: 'Constitution and Government', key: 'constitution-government' },
+  { name: 'Democracy and Civic Participation', key: 'democracy-civic-participation' },
+  { name: 'International Relations', key: 'international-relations' },
+];
+
+const businessTopics: CAPSTopic[] = [
+  { name: 'Office Practice and Communication', key: 'office-practice-communication' },
+  { name: 'Commerce and Trade', key: 'commerce-trade' },
+  { name: 'Bookkeeping and Accounting', key: 'bookkeeping-accounting' },
   { name: 'Entrepreneurship', key: 'entrepreneurship' },
-  { name: 'The Business Environment', key: 'business-environment' },
-  { name: 'Accounting Concepts', key: 'accounting-concepts' },
-  { name: 'The Role of Government in the Economy', key: 'government-economy' },
-  { name: 'Markets', key: 'markets' },
-  { name: 'Savings and Investments', key: 'savings-investments' },
+  { name: 'Marketing and Consumer Education', key: 'marketing-consumer-education' },
+  { name: 'Business Ethics and Careers', key: 'business-ethics-careers' },
 ];
 
-// ─── Life Orientation (Senior Phase) ─────────────────────────────────────────
-
-const lifeOrientationTopics: CAPSTopic[] = [
-  { name: 'Development of the Self in Society', key: 'self-in-society' },
-  { name: 'Health, Social and Environmental Responsibility', key: 'health-social-environment' },
-  { name: 'Constitutional Rights and Responsibilities', key: 'constitutional-rights' },
-  { name: 'Physical Education', key: 'lo-physical-education' },
-  { name: 'World of Work', key: 'world-of-work' },
-  { name: 'Study Skills', key: 'study-skills' },
-  { name: 'Career and Career Choices', key: 'career-choices' },
-  { name: 'Democracy and Human Rights', key: 'democracy-human-rights' },
-  { name: 'Responsible Citizenship', key: 'responsible-citizenship' },
+const digitalTopics: CAPSTopic[] = [
+  { name: 'Digital Literacy', key: 'digital-literacy' },
+  { name: 'Computer Systems and Hardware', key: 'computer-systems-hardware' },
+  { name: 'Productivity Tools', key: 'productivity-tools' },
+  { name: 'Data, Algorithms and Programming', key: 'data-algorithms-programming' },
+  { name: 'Internet, Networks and Cyber Safety', key: 'internet-networks-cyber-safety' },
+  { name: 'Emerging Technologies', key: 'emerging-technologies' },
 ];
 
-// ─── English (First Additional Language) ─────────────────────────────────────
-
-const englishFALTopics: CAPSTopic[] = [
-  { name: 'Listening and Speaking', key: 'fal-listening-speaking' },
-  { name: 'Reading and Viewing', key: 'fal-reading-viewing' },
-  { name: 'Writing and Presenting', key: 'fal-writing-presenting' },
-  { name: 'Language Structures and Conventions', key: 'fal-language-structures' },
-  { name: 'Comprehension', key: 'fal-comprehension' },
-  { name: 'Creative and Transactional Writing', key: 'fal-creative-writing' },
-  { name: 'Grammar in Context', key: 'fal-grammar' },
-  { name: 'Literature', key: 'fal-literature' },
+const artsTopics: CAPSTopic[] = [
+  { name: 'Drawing, Painting and Design', key: 'drawing-painting-design' },
+  { name: 'Music and Performance', key: 'music-performance' },
+  { name: 'Drama and Dance', key: 'drama-dance' },
+  { name: 'Creative Production and Appreciation', key: 'creative-production-appreciation' },
+  { name: 'Nigerian Arts and Cultural Heritage', key: 'nigerian-arts-cultural-heritage' },
 ];
 
-// ─── Creative Arts ───────────────────────────────────────────────────────────
+const religiousTopics: CAPSTopic[] = [
+  { name: 'Sacred Texts and Teachings', key: 'sacred-texts-teachings' },
+  { name: 'Faith, Worship and Practice', key: 'faith-worship-practice' },
+  { name: 'Moral Instruction and Values', key: 'moral-instruction-values' },
+  { name: 'Religion and Society', key: 'religion-society' },
+  { name: 'Peaceful Coexistence', key: 'peaceful-coexistence' },
+];
 
-const creativeArtsTopics: CAPSTopic[] = [
-  { name: 'Visual Arts: Create in 2D', key: 'visual-arts-2d' },
-  { name: 'Visual Arts: Create in 3D', key: 'visual-arts-3d' },
-  { name: 'Performing Arts: Warm-up and Play', key: 'performing-warmup' },
-  { name: 'Performing Arts: Improvise and Create', key: 'performing-create' },
-  { name: 'Performing Arts: Read, Interpret and Perform', key: 'performing-perform' },
-  { name: 'Performing Arts: Appreciate and Reflect', key: 'performing-reflect' },
-  { name: 'Dance', key: 'dance' },
+const tradeTopics: CAPSTopic[] = [
+  { name: 'Tools, Materials and Safety', key: 'tools-materials-safety' },
+  { name: 'Practical Skills and Production', key: 'practical-skills-production' },
+  { name: 'Maintenance and Troubleshooting', key: 'maintenance-troubleshooting' },
+  { name: 'Entrepreneurship and Costing', key: 'entrepreneurship-costing' },
+  { name: 'Project Work and Portfolio', key: 'project-work-portfolio' },
+];
+
+const agricultureTopics: CAPSTopic[] = [
+  { name: 'Crop Production', key: 'crop-production' },
+  { name: 'Animal Production', key: 'animal-production' },
+  { name: 'Soil, Water and Farm Inputs', key: 'soil-water-inputs' },
+  { name: 'Agricultural Economics and Extension', key: 'agric-economics-extension' },
+  { name: 'Farm Tools, Machinery and Safety', key: 'farm-tools-machinery-safety' },
+];
+
+const geographyTopics: CAPSTopic[] = [
+  { name: 'Map Reading and GIS', key: 'map-reading-gis' },
+  { name: 'Physical Geography', key: 'physical-geography' },
+  { name: 'Human and Economic Geography', key: 'human-economic-geography' },
+  { name: 'Climate and Environmental Management', key: 'climate-environmental-management' },
+  { name: 'Nigeria and Regional Geography', key: 'nigeria-regional-geography' },
+];
+
+const literatureTopics: CAPSTopic[] = [
+  { name: 'Prose', key: 'prose' },
+  { name: 'Poetry', key: 'poetry' },
   { name: 'Drama', key: 'drama' },
-  { name: 'Music', key: 'music' },
-  { name: 'Design', key: 'design' },
+  { name: 'Literary Appreciation', key: 'literary-appreciation' },
+  { name: 'Context and Themes', key: 'context-themes' },
 ];
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// CAPS Curriculum Master List
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export const capsCurriculum: CAPSSubject[] = [
-  // ── Home Languages ──
-  {
-    name: 'Setswana Home Language',
-    key: 'setswana-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'Siswati Home Language',
-    key: 'siswati-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'IsiXhosa Home Language',
-    key: 'isixhosa-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'English Home Language',
-    key: 'english-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'Afrikaans Home Language',
-    key: 'afrikaans-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'IsiZulu Home Language',
-    key: 'isizulu-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'Sepedi Home Language',
-    key: 'sepedi-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'Sesotho Home Language',
-    key: 'sesotho-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'Xitsonga Home Language',
-    key: 'xitsonga-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'Tshivenda Home Language',
-    key: 'tshivenda-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-  {
-    name: 'IsiNdebele Home Language',
-    key: 'isindebele-hl',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: homeLanguageTopics,
-  },
-
-  // ── First Additional Languages (CAPS requires FAL from Grade 1) ──
-  {
-    name: 'English First Additional Language',
-    key: 'english-fal',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: englishFALTopics,
-  },
-  {
-    name: 'Afrikaans First Additional Language',
-    key: 'afrikaans-fal',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: englishFALTopics,
-  },
-
-  // ── Core Subjects ──
-  {
-    name: 'Mathematics',
-    key: 'mathematics',
-    phase: ['foundation', 'intermediate', 'senior'],
-    topics: mathematicsTopics,
-  },
-  {
-    name: 'Life Skills',
-    key: 'life-skills',
-    phase: ['foundation', 'intermediate'],
-    topics: lifeSkillsTopics,
-  },
-  {
-    name: 'Natural Sciences and Technology',
-    key: 'natural-sciences-technology',
-    phase: ['intermediate', 'senior'],
-    topics: naturalSciencesTopics,
-  },
-  {
-    name: 'Social Sciences',
-    key: 'social-sciences',
-    phase: ['intermediate', 'senior'],
-    topics: socialSciencesTopics,
-  },
-  {
-    name: 'Technology',
-    key: 'technology',
-    phase: ['senior'],
-    topics: technologyTopics,
-  },
-  {
-    name: 'Economic and Management Sciences',
-    key: 'ems',
-    phase: ['senior'],
-    topics: emsTopics,
-  },
-  {
-    name: 'Creative Arts',
-    key: 'creative-arts',
-    phase: ['senior'],
-    topics: creativeArtsTopics,
-  },
-  {
-    name: 'Life Orientation',
-    key: 'life-orientation',
-    phase: ['senior'],
-    topics: lifeOrientationTopics,
-  },
+const economicsTopics: CAPSTopic[] = [
+  { name: 'Basic Economic Concepts', key: 'basic-economic-concepts' },
+  { name: 'Demand, Supply and Markets', key: 'demand-supply-markets' },
+  { name: 'Production and Costs', key: 'production-costs' },
+  { name: 'Money, Banking and Public Finance', key: 'money-banking-public-finance' },
+  { name: 'Economic Development and Planning', key: 'economic-development-planning' },
 ];
 
-/** Flat lookup map: subjectKey -> CAPSSubject */
+const healthPeTopics: CAPSTopic[] = [
+  { name: 'Personal Health and Hygiene', key: 'personal-health-hygiene' },
+  { name: 'Fitness, Games and Athletics', key: 'fitness-games-athletics' },
+  { name: 'Safety, First Aid and Injury Prevention', key: 'safety-first-aid' },
+  { name: 'Nutrition and Wellness', key: 'nutrition-wellness' },
+  { name: 'Community Health', key: 'community-health' },
+];
+
+export const nerdcCurriculum: CAPSSubject[] = [
+  { name: 'English Studies', key: 'english-studies', phase: ['junior'], topics: languageTopics },
+  { name: 'English Language', key: 'english-language', phase: ['senior'], topics: languageTopics },
+  { name: 'Mathematics', key: 'mathematics', phase: ['junior'], topics: mathematicsTopics },
+  { name: 'General Mathematics', key: 'general-mathematics', phase: ['senior'], topics: mathematicsTopics },
+  { name: 'Hausa Language', key: 'hausa-language', phase: ['junior', 'senior'], topics: languageTopics },
+  { name: 'Igbo Language', key: 'igbo-language', phase: ['junior', 'senior'], topics: languageTopics },
+  { name: 'Yoruba Language', key: 'yoruba-language', phase: ['junior', 'senior'], topics: languageTopics },
+  { name: 'Arabic Language', key: 'arabic-language', phase: ['junior', 'senior'], topics: languageTopics },
+  { name: 'French', key: 'french', phase: ['junior', 'senior'], topics: languageTopics },
+  { name: 'Physical and Health Education', key: 'physical-health-education', phase: ['junior'], topics: healthPeTopics },
+  { name: 'Physical Education', key: 'physical-education', phase: ['senior'], topics: healthPeTopics },
+  { name: 'Health Education', key: 'health-education', phase: ['senior'], topics: healthPeTopics },
+  { name: 'Christian Religious Studies', key: 'christian-religious-studies', phase: ['junior', 'senior'], topics: religiousTopics },
+  { name: 'Islamic Studies', key: 'islamic-studies', phase: ['junior', 'senior'], topics: religiousTopics },
+  { name: 'Nigerian History', key: 'nigerian-history', phase: ['junior', 'senior'], topics: historyGovernmentTopics },
+  { name: 'Government', key: 'government', phase: ['senior'], topics: historyGovernmentTopics },
+  { name: 'Social and Citizenship Studies', key: 'social-citizenship-studies', phase: ['junior'], topics: socialStudiesTopics },
+  { name: 'Citizenship and Heritage Studies', key: 'citizenship-heritage-studies', phase: ['senior'], topics: socialStudiesTopics },
+  { name: 'Cultural and Creative Arts (CCA)', key: 'cultural-creative-arts', phase: ['junior'], topics: artsTopics },
+  { name: 'Visual Arts', key: 'visual-arts', phase: ['senior'], topics: artsTopics },
+  { name: 'Music', key: 'music', phase: ['senior'], topics: artsTopics },
+  { name: 'Intermediate Science', key: 'intermediate-science', phase: ['junior'], topics: scienceTopics },
+  { name: 'Biology', key: 'biology', phase: ['senior'], topics: biologyTopics },
+  { name: 'Chemistry', key: 'chemistry', phase: ['senior'], topics: chemistryTopics },
+  { name: 'Physics', key: 'physics', phase: ['senior'], topics: physicsTopics },
+  { name: 'Agriculture Science', key: 'agriculture-science', phase: ['senior'], topics: agricultureTopics },
+  { name: 'Food & Nutrition', key: 'food-nutrition', phase: ['senior'], topics: healthPeTopics },
+  { name: 'Geography', key: 'geography', phase: ['senior'], topics: geographyTopics },
+  { name: 'Technical Drawing', key: 'technical-drawing', phase: ['senior'], topics: tradeTopics },
+  { name: 'Digital Technologies', key: 'digital-technologies', phase: ['junior', 'senior'], topics: digitalTopics },
+  { name: 'Business Studies', key: 'business-studies', phase: ['junior'], topics: businessTopics },
+  { name: 'Financial Accounting', key: 'financial-accounting', phase: ['senior'], topics: businessTopics },
+  { name: 'Commerce', key: 'commerce', phase: ['senior'], topics: businessTopics },
+  { name: 'Marketing', key: 'marketing', phase: ['senior'], topics: businessTopics },
+  { name: 'Economics', key: 'economics', phase: ['senior'], topics: economicsTopics },
+  { name: 'Literature-in-English', key: 'literature-in-english', phase: ['senior'], topics: literatureTopics },
+  { name: 'Home Management', key: 'home-management', phase: ['senior'], topics: healthPeTopics },
+  { name: 'Catering Craft', key: 'catering-craft', phase: ['senior'], topics: tradeTopics },
+  { name: 'Solar Photovoltaic Installation and Maintenance', key: 'solar-photovoltaic', phase: ['senior'], topics: tradeTopics },
+  { name: 'Fashion Design and Garment Making', key: 'fashion-design-garment-making', phase: ['senior'], topics: tradeTopics },
+  { name: 'Livestock Farming', key: 'livestock-farming', phase: ['senior'], topics: agricultureTopics },
+  { name: 'Beauty and Cosmetology', key: 'beauty-cosmetology', phase: ['senior'], topics: tradeTopics },
+  { name: 'Computer Hardware and GSM Repairs', key: 'computer-hardware-gsm-repairs', phase: ['senior'], topics: digitalTopics },
+  { name: 'Crop Production and Horticulture', key: 'crop-production-horticulture', phase: ['senior'], topics: agricultureTopics },
+];
+
+export const capsCurriculum = nerdcCurriculum;
+
 export const capsSubjectMap = new Map<string, CAPSSubject>(
-  capsCurriculum.map(s => [s.key, s])
+  nerdcCurriculum.map(s => [s.key, s])
 );
 
-/** Get subjects filtered by phase */
-export function getSubjectsByPhase(phase: 'foundation' | 'intermediate' | 'senior'): CAPSSubject[] {
-  return capsCurriculum.filter(s => s.phase.includes(phase));
+export function getSubjectsByPhase(phase: 'junior' | 'senior'): CAPSSubject[] {
+  return nerdcCurriculum.filter(s => s.phase.includes(phase));
 }
 
-/** Get phase from grade number */
-export function getPhaseFromGrade(grade: number): 'foundation' | 'intermediate' | 'senior' {
-  if (grade <= 3) return 'foundation';
-  if (grade <= 6) return 'intermediate';
-  return 'senior';
+export function getPhaseFromGrade(grade: number): 'junior' | 'senior' {
+  return grade <= 9 ? 'junior' : 'senior';
 }
 
-/** Grade options for SA primary/senior phase */
-export const saGrades = [
-  { value: 'Grade R', label: 'Grade R', num: 0 },
-  { value: 'Grade 1', label: 'Grade 1', num: 1 },
-  { value: 'Grade 2', label: 'Grade 2', num: 2 },
-  { value: 'Grade 3', label: 'Grade 3', num: 3 },
-  { value: 'Grade 4', label: 'Grade 4', num: 4 },
-  { value: 'Grade 5', label: 'Grade 5', num: 5 },
-  { value: 'Grade 6', label: 'Grade 6', num: 6 },
-  { value: 'Grade 7', label: 'Grade 7', num: 7 },
-  { value: 'Grade 8', label: 'Grade 8', num: 8 },
-  { value: 'Grade 9', label: 'Grade 9', num: 9 },
+export const nerdcGrades = [
+  { value: 'JSS 1', label: 'JSS 1', num: 7 },
+  { value: 'JSS 2', label: 'JSS 2', num: 8 },
+  { value: 'JSS 3', label: 'JSS 3', num: 9 },
+  { value: 'SSS 1', label: 'SSS 1', num: 10 },
+  { value: 'SSS 2', label: 'SSS 2', num: 11 },
+  { value: 'SSS 3', label: 'SSS 3', num: 12 },
 ];
+
+export const saGrades = nerdcGrades;

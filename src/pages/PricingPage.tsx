@@ -24,7 +24,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ openAdminLoginModal }) => {
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Choose the Siyafunda plan that fits your teaching needs — from CAPS-aligned lesson plans to full AI-powered classroom management.');
+        'Choose the Siyafunda plan that fits your teaching needs — from NERDC-aligned lesson plans to full AI-powered classroom management.');
     }
   }, []);
 

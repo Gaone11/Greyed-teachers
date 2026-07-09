@@ -546,7 +546,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                       type="text"
                       value={uploadName}
                       onChange={e => setUploadName(e.target.value)}
-                      placeholder="e.g., CAPS Mathematics Grade 4 Syllabus"
+                      placeholder="e.g., NERDC Mathematics JSS 1 Syllabus"
                       className="w-full px-4 py-2.5 rounded-lg border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
                     />
                   </div>
@@ -609,7 +609,7 @@ const AdminKnowledgeBasePage: React.FC = () => {
                       type="text"
                       value={uploadTags}
                       onChange={e => setUploadTags(e.target.value)}
-                      placeholder="e.g., mathematics, grade-4, CAPS, term-1"
+                      placeholder="e.g., mathematics, jss-1, NERDC, term-1"
                       className="w-full px-4 py-2.5 rounded-lg border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy"
                     />
                   </div>

@@ -50,7 +50,7 @@ function loadAllChunks(): KnowledgeChunk[] {
   return [];
 }
 
-// Get current SA school term based on month
+// Get current Nigerian school term based on month
 function getCurrentTerm(): string {
   const month = new Date().getMonth(); // 0-indexed
   if (month <= 2) return '1';  // Jan-Mar = Term 1
@@ -59,7 +59,7 @@ function getCurrentTerm(): string {
   return '4';                   // Oct-Dec = Term 4
 }
 
-// Match grade from class grade string to saGrades value
+// Match grade from class grade string to NERDC grade value
 function matchGradeFromClass(classGrade: string): string {
   const exact = saGrades.find(g => g.value.toLowerCase() === classGrade.toLowerCase());
   if (exact) return exact.value;
@@ -69,7 +69,6 @@ function matchGradeFromClass(classGrade: string): string {
     const grade = saGrades.find(g => g.num === num);
     if (grade) return grade.value;
   }
-  if (/\bR\b/i.test(classGrade)) return 'Grade R';
   return saGrades[0].value;
 }
 
@@ -117,7 +116,7 @@ export default function TeacherLessonPlanGeneratorPage() {
     selectedGrade: defaultGrade,
     selectedSubjectKey: defaultSubjectKey,
     selectedTopicKey: defaultTopicKey,
-    syllabus: 'CAPS',
+    syllabus: 'NERDC',
     term: getCurrentTerm(),
     week: '1',
     date: format(new Date(), 'yyyy-MM-dd'),
@@ -128,7 +127,7 @@ export default function TeacherLessonPlanGeneratorPage() {
     includeResources: true
   });
 
-  // Derived CAPS data
+  // Derived NERDC data
   const gradeNum = saGrades.find(g => g.value === formData.selectedGrade)?.num ?? 0;
   const phase = getPhaseFromGrade(gradeNum);
   const availableSubjects = getSubjectsByPhase(phase);
@@ -387,7 +386,7 @@ export default function TeacherLessonPlanGeneratorPage() {
 
               {/* Subject */}
               <div>
-                <label className={labelClass}>Subject (CAPS)</label>
+                <label className={labelClass}>Subject (NERDC)</label>
                 <select name="selectedSubjectKey" value={formData.selectedSubjectKey} onChange={handleInputChange} className={inputClass} required title="Select subject">
                   {availableSubjects.map(subject => (
                     <option key={subject.key} value={subject.key}>{subject.name}</option>
@@ -405,11 +404,11 @@ export default function TeacherLessonPlanGeneratorPage() {
                 </select>
               </div>
 
-              {/* Syllabus (locked to CAPS) */}
+              {/* Syllabus (locked to NERDC) */}
               <div>
                 <label className={labelClass}>Syllabus</label>
                 <div className="w-full p-3 rounded-xl text-sm text-[#212754] bg-[#dedbc2]/20 font-medium">
-                  CAPS (South Africa)
+                  NERDC (Nigeria)
                 </div>
               </div>
 
@@ -523,7 +522,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                 ) : (
                   <>
                     <Wand2 className="h-4 w-4 mr-2 text-[#bbd7eb]" />
-                    Generate CAPS Lesson Plan
+                    Generate NERDC Lesson Plan
                   </>
                 )}
               </button>

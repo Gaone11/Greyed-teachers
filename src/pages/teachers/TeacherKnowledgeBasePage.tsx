@@ -125,7 +125,7 @@ export default function TeacherKnowledgeBasePage() {
       setProgress('Extracting text from document...');
       const pages = await extractFilePages(selectedFile);
 
-      setProgress('Chunking document with CAPS metadata...');
+      setProgress('Chunking document with NERDC metadata...');
       const chunkedDoc = chunkDocument(pages, {
         fileName: selectedFile.name,
         fileSize: selectedFile.size,
@@ -197,7 +197,7 @@ export default function TeacherKnowledgeBasePage() {
             </button>
             <h1 className="text-xl font-semibold text-greyed-white flex items-center gap-2">
               <Database className="h-5 w-5" />
-              CAPS Knowledgebase
+              NERDC Knowledgebase
             </h1>
           </div>
         </div>
@@ -246,7 +246,7 @@ export default function TeacherKnowledgeBasePage() {
             )}
           </div>
 
-          {/* CAPS Metadata */}
+          {/* NERDC Metadata */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
               <label className="block text-sm font-medium text-greyed-white mb-1">Grade</label>
@@ -333,7 +333,7 @@ export default function TeacherKnowledgeBasePage() {
               <FileText className="h-12 w-12 text-gray-300 mx-auto mb-3" />
               <p className="text-greyed-beige">No documents uploaded yet.</p>
               <p className="text-sm text-greyed-beige mt-1">
-                Upload CAPS syllabus PDFs above to enable knowledgebase-enhanced lesson plans and assessments.
+                Upload NERDC syllabus PDFs above to enable knowledgebase-enhanced lesson plans and assessments.
               </p>
             </div>
           ) : (

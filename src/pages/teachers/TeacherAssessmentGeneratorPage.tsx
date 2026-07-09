@@ -344,7 +344,7 @@ export default function TeacherAssessmentGeneratorPage() {
               <div className="border-b border-white/5" />
 
               <div>
-                <label className={labelClass}>Subject (CAPS)</label>
+                <label className={labelClass}>Subject (NERDC)</label>
                 <select name="selectedSubjectKey" value={formData.selectedSubjectKey} onChange={handleInputChange} className={inputClass} required title="Select subject">
                   {availableSubjects.map(subject => (
                     <option key={subject.key} value={subject.key}>{subject.name}</option>
@@ -549,7 +549,7 @@ export default function TeacherAssessmentGeneratorPage() {
                   </div>
                   <h3 className="font-headline font-semibold text-[#212754] mb-2">Ready to Generate</h3>
                   <p className="text-[#212754]/45 text-center max-w-xs text-sm leading-relaxed">
-                    Fill out the form and click "Generate Assessment" to create a detailed, CAPS-aligned assessment.
+                    Fill out the form and click "Generate Assessment" to create a detailed, NERDC-aligned assessment.
                   </p>
                 </div>
               </div>

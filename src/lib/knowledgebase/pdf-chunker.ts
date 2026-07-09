@@ -2,7 +2,7 @@
  * PDF Knowledgebase Chunker
  *
  * Fast client-side PDF text extraction and intelligent chunking with
- * CAPS-aligned metadata so only the relevant chunk is injected into the
+ * NERDC-aligned metadata so only the relevant chunk is injected into the
  * system prompt — saving tokens and speeding up responses.
  */
 
@@ -11,15 +11,15 @@ import { capsCurriculum, type CAPSSubject } from '../../data/capsCurriculum';
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface ChunkMetadata {
-  /** Subject key matching CAPSSubject.key (e.g. "setswana-hl") */
+  /** Subject key matching CAPSSubject.key (e.g. "english-studies") */
   subjectKey: string;
   /** Human-readable subject name */
   subjectName: string;
-  /** Topic key matching CAPSTopic.key (e.g. "listening-speaking") */
+  /** Topic key matching CAPSTopic.key (e.g. "reading-comprehension") */
   topicKey: string;
   /** Human-readable topic name */
   topicName: string;
-  /** Grade label (e.g. "Grade 4") */
+  /** Grade label (e.g. "JSS 1") */
   grade: string;
   /** Document source filename */
   sourceFile: string;
@@ -191,7 +191,7 @@ function splitIntoRawChunks(
 // ─── Metadata Assignment ─────────────────────────────────────────────────────
 
 /**
- * Assign CAPS-aligned metadata to each chunk.
+ * Assign NERDC-aligned metadata to each chunk.
  *
  * The caller provides the subject, topic, and grade chosen from the
  * settings UI dropdowns — these are stamped onto every chunk from that
@@ -274,7 +274,7 @@ export function buildChunkContext(
 ): string {
   if (chunks.length === 0) return '';
 
-  const header = `[CAPS Knowledgebase — ${chunks[0].metadata.subjectName} / ${chunks[0].metadata.topicName} / ${chunks[0].metadata.grade}]\n\n`;
+  const header = `[NERDC Knowledgebase - ${chunks[0].metadata.subjectName} / ${chunks[0].metadata.topicName} / ${chunks[0].metadata.grade}]\n\n`;
   let context = header;
   let tokens = Math.ceil(header.length / 4);
 

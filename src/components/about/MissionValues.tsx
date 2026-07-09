@@ -17,7 +17,7 @@ const MissionValues: React.FC = () => {
     {
       icon: <GraduationCap className="w-8 h-8" />,
       title: "Educator Enablement",
-      description: "Equipping teachers with AI-powered tools and training so they can deliver quality, CAPS-aligned education."
+      description: "Equipping teachers with AI-powered tools and training so they can deliver quality, NERDC-aligned education."
     },
     {
       icon: <Users className="w-8 h-8" />,

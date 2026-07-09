@@ -24,7 +24,7 @@ const FAQAccordion: React.FC = () => {
     {
       id: 'what-subjects',
       question: 'What subjects are covered?',
-      answer: 'Tutoring sessions are aligned to the South African CAPS curriculum and focus on the subjects and topics where learners need the most support, as identified through the GreyEd platform.'
+      answer: 'Tutoring sessions are aligned to the Nigerian NERDC curriculum and focus on the subjects and topics where learners need the most support, as identified through the GreyEd platform.'
     },
     {
       id: 'how-structured',

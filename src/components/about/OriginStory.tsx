@@ -113,7 +113,7 @@ const OriginStory: React.FC = () => {
             </p>
 
             <p className="text-greyed-black/80 mb-4">
-              The GreyEd platform provides educators and tutors with AI-powered, CAPS-aligned tools for lesson planning, learner assessment and personalised support. The pilot begins with educator enablement, followed by a carefully phased learner rollout, supported by ongoing monitoring, evaluation and learning.
+              The GreyEd platform provides educators and tutors with AI-powered, NERDC-aligned tools for lesson planning, learner assessment and personalised support. The pilot begins with educator enablement, followed by a carefully phased learner rollout, supported by ongoing monitoring, evaluation and learning.
             </p>
 
             <p className="text-greyed-black/80">

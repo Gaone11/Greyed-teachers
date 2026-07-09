@@ -20,7 +20,7 @@ const MeetEl: React.FC = () => {
     {
       icon: <Bot size={24} />,
       title: "Curriculum-Smart Planning",
-      description: "Generates lesson plans, activities, and resources aligned to South Africa's Curriculum and Assessment Policy Statement."
+      description: "Generates lesson plans, activities, and resources aligned to Nigeria's NERDC curriculum."
     },
     {
       icon: <Brain size={24} />,

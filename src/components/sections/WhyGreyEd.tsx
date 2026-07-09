@@ -44,7 +44,7 @@ const WhyGreyEd: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           <TableRow
             title="Curriculum-Aligned Lesson Plans"
-            description="AI generates plans aligned to the South African national curriculum"
+            description="AI generates plans aligned to the Nigerian NERDC curriculum"
             compared="Hours spent manually writing plans from scratch"
           />
           <TableRow

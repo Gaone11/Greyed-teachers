@@ -298,14 +298,14 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
                   ? 'bg-gradient-to-r from-greyed-blue/10 to-transparent border-l-4 border-greyed-navy shadow-sm'
                   : 'hover:bg-premium-neutral-50 active:bg-premium-neutral-100 border-l-4 border-transparent'
               } touch-manipulation`}
-              title={isCollapsed && !isMobile ? 'CAPS Knowledgebase' : undefined}
+              title={isCollapsed && !isMobile ? 'NERDC Knowledgebase' : undefined}
             >
               <div className={`relative flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
                 <Database className={`w-5 h-5 ${activePage === 'knowledgebase' ? 'text-greyed-navy' : 'text-premium-neutral-600 group-hover:text-greyed-navy'} transition-colors duration-200`} />
               </div>
               {(!isCollapsed || isMobile) && (
                 <span className={`font-semibold text-sm ${activePage === 'knowledgebase' ? 'text-greyed-navy' : 'text-premium-neutral-700 group-hover:text-greyed-navy'} transition-colors duration-200 truncate block`}>
-                  CAPS Knowledgebase
+                  NERDC Knowledgebase
                 </span>
               )}
             </Link>

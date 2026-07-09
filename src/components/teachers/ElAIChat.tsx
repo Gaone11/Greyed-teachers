@@ -194,7 +194,7 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
       let aiResponse;
 
       if (identityQuestions.some(pattern => pattern.test(userInput))) {
-        aiResponse = "I'm El AI, an education-focused AI assistant developed by GreyEd. I'm powered by the Uhuru 3 LLM combined with GreyEd's proprietary eLLM (emotional Large Language Model), which allows me to understand not just educational content but also the emotional and motivational aspects of teaching. I'm specifically designed to help teachers with lesson planning, assessment creation, and educational resource development — all aligned with the Ministry of Education's curriculum standards including CAPS, IGCSE, BGCSE, and JCE syllabi.";
+        aiResponse = "I'm El AI, an education-focused AI assistant developed by GreyEd. I'm powered by the Uhuru 3 LLM combined with GreyEd's proprietary eLLM (emotional Large Language Model), which allows me to understand not just educational content but also the emotional and motivational aspects of teaching. I'm specifically designed to help teachers with lesson planning, assessment creation, and educational resource development — all aligned with curriculum standards including NERDC, IGCSE, BGCSE, and JCE syllabi.";
       } else {
         aiResponse = await processTeacherQuery(userInput, 'teacher');
       }

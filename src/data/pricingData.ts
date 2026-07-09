@@ -90,7 +90,7 @@ export const pricingPlans: Plan[] = [
     ctaLabel: 'Get Started Free',
     ctaLink: '#',
     features: [
-      'Unlimited CAPS-aligned AI lesson plans',
+      'Unlimited NERDC-aligned AI lesson plans',
       'Unlimited assessments with auto-grading',
       'Weekly tutor updates',
       'Student management dashboard',
@@ -238,6 +238,6 @@ export const faqItems: FAQ[] = [
   {
     id: 'teacher-access',
     question: 'How do I get started with Siyafunda Pro?',
-    answer: 'Teachers at GreyEd get full access to all features including CAPS-aligned lesson plans, assessments, and student management. Simply sign up and start using the platform right away.'
+    answer: 'Teachers at GreyEd get full access to all features including NERDC-aligned lesson plans, assessments, and student management. Simply sign up and start using the platform right away.'
   }
 ];

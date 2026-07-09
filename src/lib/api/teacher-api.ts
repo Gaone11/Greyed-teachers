@@ -178,7 +178,7 @@ function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
 - Optional audio device if a listening text is used.`
     : '';
 
-  return `# CAPS Lesson Plan: ${params.subject} - ${params.topic}
+  return `# NERDC Lesson Plan: ${params.subject} - ${params.topic}
 
 ## Lesson Information
 
@@ -202,9 +202,9 @@ By the end of the lesson, learners should be able to:
 3. Participate in a structured listening and speaking activity with confidence.
 4. Reflect on their own response and improve it using teacher or peer feedback.
 
-## CAPS Alignment
+## NERDC Alignment
 
-This lesson supports ${params.syllabus} language development through active listening, purposeful speaking, vocabulary building, and learner participation.
+This lesson supports ${params.syllabus} curriculum expectations through active participation, subject vocabulary, practical examples, and learner-centred classroom activities.
 ${focusAreas.length > 0 ? `\nAdditional focus areas: ${focusAreas.join(', ')}.` : ''}
 
 ## Lesson Flow
@@ -549,7 +549,7 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
     const grade = params.grade || classData.grade || '';
     const subject = params.subject || classData.subject || '';
     const className = params.className || classData.name || '';
-    const syllabus = classData.syllabus || 'CAPS';
+    const syllabus = classData.syllabus || 'NERDC';
 
     // Build the AI prompt
     const extras: string[] = [];
@@ -561,7 +561,7 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
       ? `\nUse the following syllabus reference material to inform the assessment content:\n${params.kbContext}\n`
       : '';
 
-    const aiMessage = `Create a complete CAPS-aligned ${params.assessmentType} assessment with the following details:
+    const aiMessage = `Create a complete NERDC-aligned ${params.assessmentType} assessment with the following details:
 - Subject: ${subject}
 - Topic: ${params.topic}
 - Grade: ${grade}
@@ -581,7 +581,7 @@ Generate the full assessment in markdown format with these sections:
 6. Total marks must add up correctly
 ${params.includeAnswerKey ? '7. Include a complete MEMORANDUM / ANSWER KEY section at the end with expected answers and marking guidelines' : ''}
 
-Make all content specific to ${grade} ${subject} level and aligned with CAPS requirements.`;
+Make all content specific to ${grade} ${subject} level and aligned with NERDC curriculum expectations.`;
 
     const fallbackAssessment = () => buildFallbackAssessment({
       ...params,
@@ -1113,7 +1113,7 @@ export async function updateNotificationSettings(userId: string, settings: Notif
 }
 
 /**
- * Generate a CAPS-compliant lesson plan (SA DBE format)
+ * Generate a NERDC-compliant lesson plan
  */
 export async function generateLessonPlan(params: GenerateLessonPlanParams) {
   try {
@@ -1136,7 +1136,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
     const lessonDate = params.date || today.toISOString().split('T')[0];
     const duration = params.duration || params.lessonLength || '45';
     const durationNum = parseInt(duration);
-    const syllabus = params.syllabus || classData.syllabus || 'CAPS';
+    const syllabus = params.syllabus || classData.syllabus || 'NERDC';
     const grade = params.grade || classData.grade || '';
     const className = params.className || classData.name || '';
     const term = params.term || '1';
@@ -1147,7 +1147,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
     const extras: string[] = [];
     if (params.includeAssessment) extras.push('Include detailed assessment activities with rubric or memorandum.');
     if (params.includeDifferentiation) extras.push('Include differentiation strategies for struggling, core, and advanced learners, as well as LSEN accommodations.');
-    if (params.includeResources) extras.push('Include specific textbook references, DBE workbook pages, and required teaching materials.');
+    if (params.includeResources) extras.push('Include specific textbook references, NERDC curriculum references where available, and required teaching materials.');
     if (focusAreas.length > 0) extras.push(`Additional focus areas to incorporate: ${focusAreas.join(', ')}.`);
 
     const kbSection = params.kbContext
@@ -1165,7 +1165,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
       week,
     });
 
-    const aiMessage = `Create a complete, ready-to-teach CAPS-aligned lesson plan with these details:
+    const aiMessage = `Create a complete, ready-to-teach NERDC-aligned lesson plan with these details:
 - Subject: ${params.subject}
 - Topic: ${params.topic}
 - Grade: ${grade}
@@ -1184,7 +1184,7 @@ CRITICAL INSTRUCTIONS:
 - Write real learning objectives specific to ${params.topic} — not generic statements like "acquire knowledge".
 - Write a concrete homework task with actual instructions and examples.
 - Time allocations across all phases must add up to ${duration} minutes.
-- Generate the full lesson plan in markdown format with all CAPS-required sections.`;
+- Generate the full lesson plan in markdown format with all NERDC-relevant lesson planning sections.`;
 
     let lessonPlan = '';
     let generatedBy: 'ai' | 'fallback' = 'ai';
@@ -1239,7 +1239,7 @@ CRITICAL INSTRUCTIONS:
       ],
       materials: [
         "Textbook",
-        "DBE Workbook",
+        "NERDC curriculum guide",
         "Whiteboard and markers",
         "Student worksheets",
         "Digital presentation"

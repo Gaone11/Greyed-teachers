@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, AlertCircle } from 'lucide-react';
-import { SUBJECT_OPTIONS, getSubjectTopicPreview } from '../../data/knowledgeGalaxy';
+import { capsCurriculum, saGrades } from '../../data/capsCurriculum';
 
 interface ClassFormProps {
   isOpen: boolean;
@@ -38,7 +38,7 @@ const ClassForm: React.FC<ClassFormProps> = ({
     subject: initialData.subject || '',
     grade: initialData.grade || '',
     description: initialData.description || '',
-    syllabus: initialData.syllabus || 'CAPS',
+    syllabus: initialData.syllabus || 'NERDC',
     classSize: initialData.classSize?.toString() || '',
     duration: initialData.duration?.toString() || '',
   });
@@ -104,7 +104,7 @@ const ClassForm: React.FC<ClassFormProps> = ({
               type="text"
               name="name"
               className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-greyed-blue"
-              placeholder="e.g. Year 11 Physics"
+              placeholder="e.g. SSS 1 Physics"
               value={formData.name}
               onChange={handleInputChange}
               required
@@ -121,17 +121,17 @@ const ClassForm: React.FC<ClassFormProps> = ({
               required
             >
               <option value="">Select a subject...</option>
-              {SUBJECT_OPTIONS.map(opt => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.icon} {opt.label}
+              {capsCurriculum.map(subject => (
+                <option key={subject.key} value={subject.name}>
+                  {subject.name}
                 </option>
               ))}
             </select>
             {formData.subject && (
               <p className="mt-1.5 text-xs text-greyed-beige">
-                Flagship topics:{' '}
+                NERDC topics:{' '}
                 <span className="text-greyed-navy font-medium">
-                  {getSubjectTopicPreview(formData.subject).join(' · ') || 'Coming soon'}
+                  {capsCurriculum.find(subject => subject.name === formData.subject)?.topics.slice(0, 3).map(topic => topic.name).join(' · ') || 'Select a NERDC subject'}
                 </span>
               </p>
             )}
@@ -146,7 +146,7 @@ const ClassForm: React.FC<ClassFormProps> = ({
               value={formData.syllabus}
               onChange={handleInputChange}
             >
-              <option value="CAPS">CAPS (South Africa)</option>
+              <option value="NERDC">NERDC (Nigeria)</option>
               <option value="Other">Other</option>
             </select>
           </div>
@@ -161,14 +161,9 @@ const ClassForm: React.FC<ClassFormProps> = ({
              required
            >
              <option value="">Select a grade...</option>
-             <option value="Reception">Reception</option>
-             <option value="Standard 1">Standard 1</option>
-             <option value="Standard 2">Standard 2</option>
-             <option value="Standard 3">Standard 3</option>
-             <option value="Standard 4">Standard 4</option>
-             <option value="Standard 5">Standard 5</option>
-             <option value="Standard 6">Standard 6</option>
-             <option value="Standard 7">Standard 7</option>
+             {saGrades.map(grade => (
+               <option key={grade.value} value={grade.value}>{grade.label}</option>
+             ))}
            </select>
           </div>
           

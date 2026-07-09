@@ -15,7 +15,7 @@ const TutorBenefits: React.FC = () => {
     {
       icon: <BookOpen className="w-10 h-10" />,
       title: "Curriculum-aligned",
-      description: "All sessions follow the South African CAPS curriculum, reinforcing what is taught in the classroom."
+      description: "All sessions follow the Nigerian NERDC curriculum, reinforcing what is taught in the classroom."
     },
     {
       icon: <HeartHandshake className="w-10 h-10" />,

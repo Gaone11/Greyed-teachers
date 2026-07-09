@@ -31,8 +31,8 @@ const WhyHybridSection: React.FC = () => {
     },
     {
       icon: <BookOpen className="w-5 h-5 text-greyed-blue" />,
-      title: "CAPS-aligned support",
-      text: "All tutoring sessions follow the South African CAPS curriculum, reinforcing what teachers cover in the classroom."
+      title: "NERDC-aligned support",
+      text: "All tutoring sessions follow the Nigerian NERDC curriculum, reinforcing what teachers cover in the classroom."
     }
   ];
 
