@@ -108,7 +108,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-hidden">
       <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[90vh] flex flex-col">
         <div className="p-4 border-b border-white/10 bg-greyed-navy text-white flex justify-between items-center">
-          <h3 className="text-lg font-headline font-bold">Edit Tutor Update</h3>
+          <h3 className="text-lg font-headline font-bold">Edit Update</h3>
           <div className="flex items-center">
             <button
               onClick={onClose}
@@ -224,7 +224,7 @@ const TutorUpdateEditor: React.FC<TutorUpdateEditorProps> = ({
               <iframe 
                 srcDoc={content}
                 className="w-full h-full border-0"
-                title="Tutor Update Preview"
+                title="Update Preview"
               ></iframe>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, MessageSquare, Loader, CheckCircle } from 'lucide-react';
+import { Loader, CheckCircle } from 'lucide-react';
 
 interface StudentUpdate {
   id: string;
@@ -42,7 +42,7 @@ const StudentUpdateCard: React.FC<StudentUpdateCardProps> = ({
           {update.sent ? (
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-700 text-slate-200">
               <CheckCircle size={12} className="mr-1" />
-              Sent via {update.sent_via}
+              Followed up
             </span>
           ) : (
             <div className="flex space-x-2">
@@ -51,16 +51,8 @@ const StudentUpdateCard: React.FC<StudentUpdateCardProps> = ({
                 className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20"
                 disabled={isSending}
               >
-                <Mail size={12} className="mr-1" />
-                Email
-              </button>
-              <button
-                onClick={() => onSend(update.id, 'whatsapp')}
-                className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-slate-700 text-slate-200 hover:bg-slate-700"
-                disabled={isSending}
-              >
-                <MessageSquare size={12} className="mr-1" />
-                WhatsApp
+                {isSending ? <Loader size={12} className="mr-1 animate-spin" /> : <CheckCircle size={12} className="mr-1" />}
+                Mark Done
               </button>
             </div>
           )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard as Edit2, Eye, Mail, CheckCircle, Calendar, Trash2, Loader } from 'lucide-react';
+import { CreditCard as Edit2, Eye, CheckCircle, Calendar, Trash2, Loader } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface TutorUpdateListItemProps {
@@ -118,9 +118,9 @@ const TutorUpdateListItem: React.FC<TutorUpdateListItemProps> = ({
                 className={`p-1.5 text-cyan-400 hover:text-slate-200 hover:bg-slate-800 rounded transition-colors ${
                   isSending ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
-                title="Send update"
+                title="Mark complete"
               >
-                {isSending ? <Loader size={16} className="animate-spin" /> : <Mail size={16} />}
+                {isSending ? <Loader size={16} className="animate-spin" /> : <CheckCircle size={16} />}
               </button>
             </>
           )}

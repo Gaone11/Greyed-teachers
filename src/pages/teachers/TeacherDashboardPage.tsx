@@ -120,7 +120,7 @@ const TeacherDashboardPage: React.FC = () => {
     { icon: BookOpen, label: 'Lesson Planner', path: '/teachers/lesson-planner', color: 'from-[#212754] to-[#2a2f6e]' },
     { icon: FileText, label: 'Test Maker', path: '/teachers/assessments', color: 'from-[#bbd7eb] to-[#d4e9f5]' },
     { icon: Snowflake, label: 'GreyEd AI', path: '/teachers/el-ai', color: 'from-[#2a2f6e] to-[#bbd7eb]' },
-    { icon: MessageSquare, label: 'Tutor Updates', path: '/teachers/tutors', color: 'from-[#2a2f6e] to-[#334155]' },
+    { icon: MessageSquare, label: 'Updates', path: '/teachers/tutors', color: 'from-[#2a2f6e] to-[#334155]' },
     { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#2a2f6e] to-[#212754]' },
     { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#212754] to-[#1e2d6b]' },
     { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#212754] to-[#1c2063]' },
@@ -265,7 +265,7 @@ const TeacherDashboardPage: React.FC = () => {
                   </div>
                   <h3 className="text-lg font-bold text-greyed-white mb-2">Create your first class</h3>
                   <p className="text-sm text-greyed-beige/60 max-w-md mx-auto mb-6">
-                    Add a class to unlock lesson planning, assessments, tutor updates, and AI-powered teaching tools — all tailored to your curriculum.
+                    Add a class to unlock lesson planning, assessments, updates, and AI-powered teaching tools — all tailored to your curriculum.
                   </p>
                   <Link
                     to="/teachers/classes"

@@ -18,7 +18,7 @@ interface TutorUpdateStatsProps {
 const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-lg font-semibold text-black mb-6">Tutor Update Analytics</h2>
+      <h2 className="text-lg font-semibold text-black mb-6">Update Overview</h2>
       
       {/* Summary metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
@@ -33,7 +33,7 @@ const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
         <div className="bg-greyed-navy/5 p-4 rounded-lg">
           <div className="flex items-center mb-2">
             <Calendar className="w-5 h-5 text-greyed-blue mr-2" />
-            <h3 className="font-medium text-black">Updates Sent</h3>
+            <h3 className="font-medium text-black">Completed Updates</h3>
           </div>
           <p className="text-2xl font-semibold text-black">{stats.totalSent}</p>
         </div>
@@ -41,7 +41,7 @@ const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
         <div className="bg-greyed-navy/5 p-4 rounded-lg">
           <div className="flex items-center mb-2">
             <Users className="w-5 h-5 text-greyed-blue mr-2" />
-            <h3 className="font-medium text-black">Open Rate</h3>
+            <h3 className="font-medium text-black">Review Rate</h3>
           </div>
           <p className="text-2xl font-semibold text-black">{stats.averageOpenRate}%</p>
         </div>
@@ -61,7 +61,7 @@ const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
       
       {/* Weekly chart */}
       <div className="mb-6">
-        <h3 className="font-medium text-black mb-4">Weekly Engagement</h3>
+        <h3 className="font-medium text-black mb-4">Weekly Activity</h3>
         
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
@@ -74,8 +74,8 @@ const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="sent" name="Updates Sent" fill="#212754" />
-              <Bar dataKey="opened" name="Updates Opened" fill="#bbd7eb" />
+              <Bar dataKey="sent" name="Updates Completed" fill="#212754" />
+              <Bar dataKey="opened" name="Updates Reviewed" fill="#bbd7eb" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -83,12 +83,12 @@ const TutorUpdateStats: React.FC<TutorUpdateStatsProps> = ({ stats }) => {
       
       {/* Tips */}
       <div className="bg-greyed-blue/10 p-4 rounded-lg">
-        <h3 className="font-medium text-black mb-2">Tips to Improve Engagement</h3>
+        <h3 className="font-medium text-black mb-2">Tips for Useful Updates</h3>
         <ul className="space-y-1 text-sm text-black/80">
-          <li>• Send updates consistently on the same day of the week</li>
-          <li>• Include visually engaging content and student work samples</li>
-          <li>• Keep content concise and actionable for tutors</li>
-          <li>• Include specific calls to action for parent involvement</li>
+          <li>• Save reminders consistently on the same day of the week</li>
+          <li>• Include student names, dates, and specific follow-up actions</li>
+          <li>• Keep each update concise and actionable</li>
+          <li>• Review completed updates before planning the next lesson</li>
         </ul>
       </div>
     </div>

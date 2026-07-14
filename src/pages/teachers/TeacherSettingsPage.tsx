@@ -785,8 +785,8 @@ const TeacherSettingsPage: React.FC = () => {
                               className="mt-0.5 mr-2"
                             />
                             <div>
-                              <span className="text-black">Tutor update reminders</span>
-                              <p className="text-black/60 text-sm">Receive reminders to send weekly tutor updates</p>
+                              <span className="text-black">Update reminders</span>
+                              <p className="text-black/60 text-sm">Receive reminders to save weekly class and student follow-ups</p>
                             </div>
                           </label>
                           

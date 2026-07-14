@@ -168,7 +168,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
     // In a real app, generate and download a PDF
     // For this demo, we'll just show an alert
     
-    alert('In a production environment, this would download a PDF version of the tutor update.');
+    alert('In a production environment, this would download a PDF version of the update.');
   };
   
   // If rendered as a standalone page
@@ -205,17 +205,17 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
                   {isSending ? (
                     <>
                       <Loader size={16} className="animate-spin mr-1" />
-                      Sending...
+                      Completing...
                     </>
                   ) : sendSuccess ? (
                     <>
                       <CheckCircle size={16} className="mr-1" />
-                      Sent!
+                      Complete!
                     </>
                   ) : (
                     <>
-                      <Mail size={16} className="mr-1" />
-                      Send Update
+                      <CheckCircle size={16} className="mr-1" />
+                      Mark Complete
                     </>
                   )}
                 </button>
@@ -240,7 +240,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
               <iframe 
                 srcDoc={content || ''}
                 className="w-full h-[800px] border-0"
-                title="Tutor Update Preview"
+                title="Update Preview"
               ></iframe>
             )}
           </div>
@@ -258,7 +258,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
         <div className="p-4 border-b border-white/10 flex justify-between items-center bg-greyed-navy text-white">
           <h3 className="text-lg font-headline font-bold flex items-center">
             <FileText className="w-5 h-5 mr-2" />
-            Tutor Update Preview
+            Update Preview
           </h3>
           <div className="flex items-center space-x-2">
             <button
@@ -276,14 +276,14 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
                 className={`p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors ${
                   isSending || sendSuccess ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
-                title="Send update"
+                title="Mark complete"
               >
                 {isSending ? (
                   <Loader size={18} className="animate-spin" />
                 ) : sendSuccess ? (
                   <CheckCircle size={18} />
                 ) : (
-                  <Mail size={18} />
+                  <CheckCircle size={18} />
                 )}
               </button>
             )}
@@ -309,7 +309,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
           {sendSuccess && (
             <div className="mb-4 bg-slate-800 border border-slate-600 text-cyan-400 px-4 py-3 rounded-lg flex items-start">
               <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-              <span>Tutor update sent successfully!</span>
+              <span>Update marked complete successfully!</span>
             </div>
           )}
           
@@ -333,7 +333,7 @@ const TutorUpdatePreview: React.FC<TutorUpdatePreviewProps> = ({
               <iframe 
                 srcDoc={content || ''}
                 className="w-full h-full border-0"
-                title="Tutor Update Preview"
+                title="Update Preview"
               ></iframe>
             </div>
           )}

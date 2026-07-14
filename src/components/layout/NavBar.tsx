@@ -129,7 +129,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
     if (/^\/teachers\/lesson-planner\/.+/.test(path)) return { title: 'Generate Lesson Plan', subtitle: 'Create an AI-powered lesson plan' };
     if (path === '/teachers/settings') return { title: 'Settings', subtitle: 'Manage your account and preferences' };
     if (path === '/teachers/grey-ed-ta') return { title: 'GreyEd Teaching Assistant', subtitle: 'AI-powered virtual teaching support' };
-    if (path === '/teachers/courses') return { title: 'Knowledge Galaxy Progress', subtitle: 'Your exploration and learning activity across all subjects' };
+    if (path === '/teachers/courses') return { title: 'Class Knowledge Usage', subtitle: 'Average subject usage and mastery across your classes' };
     if (/^\/teachers\/courses\/.+/.test(path)) return { title: 'Course Details', subtitle: 'Continue your professional development' };
     if (path === '/teachers/assessment-grading') return { title: 'AI Auto-Grading', subtitle: 'Upload and grade assessments with AI' };
     if (path === '/teachers/el-ai') return { title: 'GreyEd AI', subtitle: 'Your intelligent teaching assistant' };

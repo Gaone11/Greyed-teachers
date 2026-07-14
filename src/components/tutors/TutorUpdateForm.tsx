@@ -76,7 +76,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
       await onSubmit(formData);
       onClose();
     } catch (error: any) {
-      setError(error.message || 'Failed to generate tutor update. Please try again.');
+      setError(error.message || 'Failed to save update. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -86,7 +86,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-lg max-w-md w-full">
         <div className="p-5 border-b border-white/10 flex justify-between items-center">
-          <h3 className="text-lg font-headline font-bold">Compose Tutor Update</h3>
+          <h3 className="text-lg font-headline font-bold">Create Update</h3>
           <button 
             onClick={onClose}
             className="text-greyed-beige hover:text-greyed-beige"
@@ -137,12 +137,12 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
               />
             </div>
             <p className="text-xs text-greyed-beige mt-1">
-              Usually a Monday. The update will cover the whole week.
+              Usually a Monday. Use this to group reminders for the week.
             </p>
           </div>
           
           <div className="mb-4">
-            <h4 className="text-sm font-medium text-greyed-white mb-2">Include in Update:</h4>
+            <h4 className="text-sm font-medium text-greyed-white mb-2">Reminder areas:</h4>
             <div className="space-y-2">
               <label className="flex items-center">
                 <input
@@ -152,7 +152,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-greyed-white">Progress Report</span>
+                <span className="text-sm text-greyed-white">Student progress to remember</span>
               </label>
               
               <label className="flex items-center">
@@ -163,7 +163,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-greyed-white">Upcoming Learning Content</span>
+                <span className="text-sm text-greyed-white">Upcoming lesson notes</span>
               </label>
               
               <label className="flex items-center">
@@ -174,7 +174,7 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-greyed-white">Homework Assignments</span>
+                <span className="text-sm text-greyed-white">Homework follow-ups</span>
               </label>
               
               <label className="flex items-center">
@@ -185,18 +185,18 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
                   onChange={handleCheckboxChange}
                   className="mr-2 h-5 w-5"
                 />
-                <span className="text-sm text-greyed-white">Resource Links</span>
+                <span className="text-sm text-greyed-white">Resources to revisit</span>
               </label>
             </div>
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-greyed-white mb-1">Additional Notes (Optional)</label>
+            <label className="block text-sm font-medium text-greyed-white mb-1">Notes or reminders (Optional)</label>
             <textarea
               name="additionalNotes"
               className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-greyed-blue"
               rows={3}
-              placeholder="Add any specific information you'd like to include in this update..."
+              placeholder="e.g., Call Amina's parent, check homework for JSS 2, revisit fractions on Monday..."
               value={formData.additionalNotes}
               onChange={handleInputChange}
             ></textarea>
@@ -221,10 +221,10 @@ const TutorUpdateForm: React.FC<TutorUpdateFormProps> = ({
               {isSubmitting ? (
                 <>
                   <Loader size={16} className="animate-spin mr-2" />
-                  Generating...
+                  Saving...
                 </>
               ) : (
-                'Generate Update'
+                'Save Update'
               )}
             </button>
           </div>

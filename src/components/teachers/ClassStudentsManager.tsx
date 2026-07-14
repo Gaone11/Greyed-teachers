@@ -16,6 +16,44 @@ interface ClassStudentsManagerProps {
   onStudentCountChange?: (count: number) => void;
 }
 
+type RawStudentRow = {
+  id: string;
+  class_id: string;
+  created_at?: string;
+  name?: string | null;
+  full_name?: string | null;
+  student_name?: string | null;
+  student_id?: string | null;
+};
+
+const getSupabaseErrorMessage = (error: any, fallback: string) => {
+  const message = error?.message || '';
+  const code = error?.code || '';
+  const details = error?.details || '';
+  const hint = error?.hint || '';
+
+  if (code === '42P01' || /relation .*class_students.* does not exist/i.test(message)) {
+    return 'Student table is missing in Supabase. Please run the class_students migration first.';
+  }
+  if (code === '42501' || /row-level security/i.test(message)) {
+    return 'Permission denied by Supabase RLS policy for class_students.';
+  }
+  if (code === '23505') {
+    return 'This student is already in the class.';
+  }
+
+  if (message && details) return `${message} (${details})`;
+  if (message && hint) return `${message} (${hint})`;
+  return message || fallback;
+};
+
+const normalizeStudent = (row: RawStudentRow): Student => ({
+  id: row.id,
+  class_id: row.class_id,
+  created_at: row.created_at || new Date().toISOString(),
+  name: row.name || row.full_name || row.student_name || row.student_id || 'Unnamed Student',
+});
+
 const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, onStudentCountChange }) => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,23 +77,89 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
     }
   }, [toast]);
 
+  const fetchStudentsWithFallback = async (): Promise<Student[]> => {
+    const attempts = [
+      { select: 'id,class_id,created_at,name', orderBy: 'name' },
+      { select: 'id,class_id,created_at,full_name', orderBy: 'full_name' },
+      { select: 'id,class_id,created_at,student_name', orderBy: 'student_name' },
+      { select: 'id,class_id,created_at,student_id', orderBy: 'student_id' },
+      { select: '*' as const, orderBy: '' },
+    ];
+
+    let lastError: any = null;
+
+    for (const attempt of attempts) {
+      let query = supabase.from('class_students').select(attempt.select).eq('class_id', classId);
+      if (attempt.orderBy) {
+        query = query.order(attempt.orderBy, { ascending: true });
+      }
+      const { data, error } = await query;
+
+      if (!error) {
+        const rows = (data || []) as RawStudentRow[];
+        return rows.map(normalizeStudent).sort((a, b) => a.name.localeCompare(b.name));
+      }
+      lastError = error;
+    }
+
+    throw lastError;
+  };
+
+  const insertStudentWithFallback = async (name: string): Promise<Student> => {
+    const { data: authData } = await supabase.auth.getUser();
+    const teacherId = authData?.user?.id;
+
+    const payloads = [
+      { class_id: classId, name },
+      { class_id: classId, full_name: name },
+      { class_id: classId, student_name: name },
+      { class_id: classId, student_id: name },
+    ].flatMap(payload => {
+      if (!teacherId) return [payload];
+      return [payload, { ...payload, teacher_id: teacherId }];
+    });
+
+    let lastError: any = null;
+
+    for (const payload of payloads) {
+      const { data, error } = await supabase
+        .from('class_students')
+        .insert(payload)
+        .select('*')
+        .limit(1)
+        .maybeSingle();
+
+      if (!error && data) return normalizeStudent(data as RawStudentRow);
+      if (!error && !data) {
+        // Row may insert successfully but not return due policy. Re-read list.
+        const refreshed = await fetchStudentsWithFallback();
+        const existing = refreshed.find(student => student.name.toLowerCase() === name.toLowerCase());
+        if (existing) return existing;
+        lastError = {
+          message: 'Insert completed but no student row was returned or found after refresh.',
+          details: 'Possible RLS SELECT restriction or schema mismatch on class_students.',
+        };
+        continue;
+      }
+      lastError = error;
+    }
+
+    throw lastError || {
+      message: 'Unable to insert student with current class_students schema.',
+      details: 'Expected one of name/full_name/student_name/student_id and class_id.',
+    };
+  };
+
   const fetchStudents = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('class_students')
-        .select('*')
-        .eq('class_id', classId)
-        .order('name', { ascending: true });
-
-      if (error) throw error;
-      const list = data || [];
+      const list = await fetchStudentsWithFallback();
       setStudents(list);
       onStudentCountChange?.(list.length);
-    } catch {
-      // Table may not exist yet — treat as empty
+    } catch (error: any) {
       setStudents([]);
       onStudentCountChange?.(0);
+      setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Could not load students for this class.') });
     } finally {
       setLoading(false);
     }
@@ -66,20 +170,16 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
     if (!name) return;
     setSaving(true);
     try {
-      const { data, error } = await supabase
-        .from('class_students')
-        .insert({ class_id: classId, name })
-        .select()
-        .single();
-      if (error) throw error;
+      const data = await insertStudentWithFallback(name);
       const updated = [...students, data].sort((a, b) => a.name.localeCompare(b.name));
       setStudents(updated);
       onStudentCountChange?.(updated.length);
       setNewName('');
       setShowAddForm(false);
       setToast({ type: 'success', message: `${name} added successfully` });
-    } catch {
-      setToast({ type: 'error', message: 'Failed to add student. Please try again.' });
+    } catch (error: any) {
+      console.error('Add student failed', error);
+      setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Failed to add student. Please try again.') });
     } finally {
       setSaving(false);
     }
@@ -93,20 +193,28 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
     if (!names.length) return;
     setSaving(true);
     try {
-      const rows = names.map(name => ({ class_id: classId, name }));
-      const { data, error } = await supabase
-        .from('class_students')
-        .insert(rows)
-        .select();
-      if (error) throw error;
-      const updated = [...students, ...(data || [])].sort((a, b) => a.name.localeCompare(b.name));
+      const createdStudents: Student[] = [];
+      for (const name of names) {
+        const student = await insertStudentWithFallback(name);
+        createdStudents.push(student);
+      }
+
+      const seen = new Set<string>();
+      const updated = [...students, ...createdStudents].filter(student => {
+        const key = `${student.class_id}:${student.name.toLowerCase()}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      }).sort((a, b) => a.name.localeCompare(b.name));
+
       setStudents(updated);
       onStudentCountChange?.(updated.length);
       setBulkNames('');
       setShowAddForm(false);
       setToast({ type: 'success', message: `${names.length} student${names.length > 1 ? 's' : ''} added` });
-    } catch {
-      setToast({ type: 'error', message: 'Failed to add students. Please try again.' });
+    } catch (error: any) {
+      console.error('Add students failed', error);
+      setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Failed to add students. Please try again.') });
     } finally {
       setSaving(false);
     }

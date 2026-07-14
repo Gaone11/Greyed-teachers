@@ -135,7 +135,7 @@ const TeacherTutorsPage: React.FC = () => {
   const [isSavingStudentUpdate, setIsSavingStudentUpdate] = useState(false);
   
   useEffect(() => {
-    document.title = "Tutor Updates | GreyEd Teachers";
+    document.title = "Updates | GreyEd Teachers";
     
     // Redirect if not logged in
     if (!authLoading && !user) {
@@ -163,7 +163,7 @@ const TeacherTutorsPage: React.FC = () => {
           setStudents(mockStudents);
         }
         
-        // Fetch tutor updates from API
+        // Fetch saved updates from API
         const updateData = await fetchTutorUpdates(user.id);
         
         // Process update data to add className from class ID
@@ -191,7 +191,7 @@ const TeacherTutorsPage: React.FC = () => {
         
         setUpdates(processedUpdates);
       } catch {
-        setError('Failed to load tutor updates. Please try again later.');
+        setError('Failed to load updates. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -241,7 +241,7 @@ const TeacherTutorsPage: React.FC = () => {
     return `${formatDate(start)} - ${formatDate(end)}`;
   };
   
-  // Generate and create tutor update
+  // Generate and create an update
   const handleGenerateUpdate = async (formData: {
     classId: string;
     weekStart: string;
@@ -264,7 +264,7 @@ const TeacherTutorsPage: React.FC = () => {
         throw new Error('Selected class not found');
       }
       
-      // Generate the tutor update via API
+      // Generate the update via API
       const result = await generateTutorUpdate({
         classId: formData.classId,
         weekStart: formData.weekStart,
@@ -293,7 +293,7 @@ const TeacherTutorsPage: React.FC = () => {
       };
       
       setUpdates([newUpdate, ...updates]);
-      setSuccess('Tutor update generated successfully!');
+      setSuccess('Update saved successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
@@ -313,7 +313,7 @@ const TeacherTutorsPage: React.FC = () => {
         }
         setShowStorageBucketError(true);
       } else {
-        setError(err.message || 'Failed to generate tutor update. Please try again.');
+        setError(err.message || 'Failed to save update. Please try again.');
       }
     } finally {
       setIsGenerating(false);
@@ -344,20 +344,20 @@ const TeacherTutorsPage: React.FC = () => {
       });
       
       setUpdates(updatedUpdates);
-      setSuccess('Tutor update sent successfully!');
+      setSuccess('Update marked complete successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to send tutor update. Please try again.');
+      setError(err.message || 'Failed to mark update complete. Please try again.');
     } finally {
       setIsSending(null);
     }
   };
   
-  // Delete a tutor update
+  // Delete an update
   const handleDeleteUpdate = async (updateId: string) => {
-    if (!confirm('Are you sure you want to delete this tutor update?')) {
+    if (!confirm('Are you sure you want to delete this update?')) {
       return;
     }
     
@@ -376,12 +376,12 @@ const TeacherTutorsPage: React.FC = () => {
       
       // Update the state
       setUpdates(updates.filter(update => update.id !== updateId));
-      setSuccess('Tutor update deleted successfully!');
+      setSuccess('Update deleted successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to delete tutor update. Please try again.');
+      setError(err.message || 'Failed to delete update. Please try again.');
     } finally {
       setIsDeleting(null);
     }
@@ -474,7 +474,7 @@ const TeacherTutorsPage: React.FC = () => {
       }, 800);
       
     } catch (err: any) {
-      setError(err.message || 'Failed to load tutor update content. Please try again.');
+      setError(err.message || 'Failed to load update content. Please try again.');
       setShowUpdateModal(false);
     }
   };
@@ -574,12 +574,12 @@ const TeacherTutorsPage: React.FC = () => {
       
       // Update the state (in real app, you'd fetch the updated data)
       setShowUpdateModal(false);
-      setSuccess('Tutor update saved successfully!');
+      setSuccess('Update saved successfully!');
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to save tutor update. Please try again.');
+      setError(err.message || 'Failed to save update. Please try again.');
     } finally {
       setIsUpdating(false);
     }
@@ -682,11 +682,11 @@ const TeacherTutorsPage: React.FC = () => {
       // Update selected student
       setSelectedStudent(updatedStudent);
       
-      setSuccess(`Update sent successfully via ${method}!`);
+      setSuccess(`Update saved successfully for ${method}.`);
       setTimeout(() => setSuccess(null), 3000);
       
     } catch (err: any) {
-      setError(err.message || `Failed to send update via ${method}`);
+      setError(err.message || `Failed to save update for ${method}`);
     } finally {
       setIsSavingStudentUpdate(false);
     }
@@ -710,7 +710,7 @@ const TeacherTutorsPage: React.FC = () => {
             className="inline-flex items-center bg-greyed-navy text-white px-3 md:px-4 py-2 rounded-lg hover:bg-greyed-navy/90 transition-colors text-sm whitespace-nowrap"
           >
             <PlusCircle size={16} className="mr-2" />
-            <span className="hidden sm:inline">Create Class Update</span>
+            <span className="hidden sm:inline">Create Update</span>
             <span className="sm:hidden">New Update</span>
           </button>
         }
@@ -805,7 +805,7 @@ const TeacherTutorsPage: React.FC = () => {
                     className={`px-4 py-3 font-medium relative ${activeView === 'updates' ? 'text-greyed-blue' : 'text-greyed-beige hover:text-greyed-white'}`}
                     onClick={() => setActiveView('updates')}
                   >
-                    Class Updates
+                    Updates
                     {activeView === 'updates' && (
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-blue"></div>
                     )}
@@ -825,7 +825,7 @@ const TeacherTutorsPage: React.FC = () => {
             
             {activeView === 'updates' ? (
               <>
-                {/* Class Updates View */}
+                {/* Updates View */}
                 
                 {/* Search and filters */}
                 <div className="bg-white rounded-lg shadow-sm p-3 mb-5">
@@ -875,7 +875,7 @@ const TeacherTutorsPage: React.FC = () => {
                     <p className="text-black/70 max-w-md mx-auto mb-6">
                       {searchTerm || selectedClass 
                         ? "Try adjusting your search or filters to see more results." 
-                        : "You haven't created any tutor updates yet."}
+                        : "You haven't saved any class or student reminders yet."}
                     </p>
                     {!searchTerm && !selectedClass && (
                       <button 
@@ -949,14 +949,14 @@ const TeacherTutorsPage: React.FC = () => {
               </>
             )}
             
-            {/* Weekly Update Reminder */}
+            {/* Weekly Reminder */}
             <div className="mt-6 bg-greyed-blue/10 border-l-4 border-slate-400 p-4 rounded-lg">
               <div className="flex">
                 <div className="flex-shrink-0">
                   <AlertTriangle className="h-5 w-5 text-slate-300" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-slate-200">Weekly Update Reminder</h3>
+                  <h3 className="text-sm font-medium text-slate-200">Weekly Reminder</h3>
                   <div className="mt-2 text-sm text-greyed-navy">
                     <p>
                       {classes.length > 0 
@@ -966,7 +966,7 @@ const TeacherTutorsPage: React.FC = () => {
                             const updateStart = new Date(u.weekStart);
                             return updateStart.getTime() >= weekStart.getTime();
                           }).length} classes without updates for the current week.`
-                        : 'You have no classes set up yet. Create classes to start sending weekly updates.'}
+                        : 'You have no classes set up yet. Create classes to start saving weekly updates.'}
                     </p>
                     {classes.length > 0 && (
                       <ul className="list-disc pl-5 mt-1 space-y-1">
@@ -992,23 +992,23 @@ const TeacherTutorsPage: React.FC = () => {
             {/* Feature callout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div className="bg-white p-5 rounded-lg shadow-sm border-l-4 border-greyed-blue">
-                <h3 className="font-medium text-black text-lg mb-3">Automated Content Generation</h3>
+                <h3 className="font-medium text-black text-lg mb-3">Update Prompts</h3>
                 <p className="text-black/70 text-sm mb-4">
-                  El AI automatically summarizes class progress, upcoming content, and homework assignments based on your lesson plans and assessments.
+                  Save things you do not want to forget: class follow-ups, student reminders, homework checks, parent calls, or next-lesson notes.
                 </p>
                 <button className="px-3 py-1.5 bg-greyed-navy text-white rounded text-sm hover:bg-greyed-navy/90 transition-colors inline-flex items-center">
                   <Wand2 size={14} className="mr-1" />
-                  Learn More
+                  Draft Update
                 </button>
               </div>
               
               <div className="bg-white p-5 rounded-lg shadow-sm border-l-4 border-greyed-beige">
-                <h3 className="font-medium text-black text-lg mb-3">Engagement Analytics</h3>
+                <h3 className="font-medium text-black text-lg mb-3">Student Follow-ups</h3>
                 <p className="text-black/70 text-sm mb-4">
-                  Track which tutors are engaging with your updates and identify students who might need additional support.
+                  Keep student-specific reminders in one place so support needs, behaviour notes, and progress checks are easier to revisit.
                 </p>
                 <button className="px-3 py-1.5 bg-greyed-navy text-white rounded text-sm hover:bg-greyed-navy/90 transition-colors">
-                  View Sample Report
+                  View Follow-ups
                 </button>
               </div>
             </div>
@@ -1017,7 +1017,7 @@ const TeacherTutorsPage: React.FC = () => {
         </div>
       </div>
       
-      {/* Tutor Update Form Modal */}
+      {/* Update Form Modal */}
       <TutorUpdateForm
         isOpen={showComposeModal}
         onClose={() => setShowComposeModal(false)}

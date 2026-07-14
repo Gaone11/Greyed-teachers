@@ -10,6 +10,7 @@ import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavig
 import { fetchTeacherClasses, createClass, deleteClass } from '../../lib/api/teacher-api';
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { supabase } from '../../lib/supabase';
 
 const TeacherClassesPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
@@ -91,12 +92,15 @@ const TeacherClassesPage: React.FC = () => {
     syllabus: string;
     classSize?: number;
     duration?: number;
+    students?: { name: string }[];
   }) => {
     if (!user) return;
     
     try {
       setError(null);
       
+      const initialStudentCount = classData.students?.length || classData.classSize;
+
       // Create the class via API
       const newClass = await createClass({
         teacher_id: user.id,
@@ -105,11 +109,26 @@ const TeacherClassesPage: React.FC = () => {
         grade: classData.grade,
         description: classData.description,
         syllabus: classData.syllabus,
-        student_count: classData.classSize
+        student_count: initialStudentCount
       });
+
+      const studentRows = (classData.students || [])
+        .map(student => student.name.trim())
+        .filter(Boolean)
+        .map(name => ({ class_id: newClass.id, name }));
+
+      if (studentRows.length > 0) {
+        const { error: studentsError } = await supabase
+          .from('class_students')
+          .insert(studentRows);
+
+        if (studentsError) {
+          setError('Class created, but the student list could not be saved. You can add students from the class page.');
+        }
+      }
       
       // Add the new class to state
-      setClasses([...classes, newClass]);
+      setClasses([...classes, { ...newClass, student_count: studentRows.length || newClass.student_count }]);
       
       // Close the modal
       setShowCreateModal(false);

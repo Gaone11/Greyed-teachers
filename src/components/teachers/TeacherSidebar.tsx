@@ -128,7 +128,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     },
     {
       id: 'tutors',
-      label: 'Tutor Updates',
+      label: 'Updates',
       icon: MessageSquare,
       path: '/teachers/tutors',
       color: 'from-greyed-navy to-greyed-navy',
