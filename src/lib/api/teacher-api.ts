@@ -308,21 +308,36 @@ function buildFallbackAssessment(params: GenerateAssessmentParams & {
     const marks = type === 'multiple choice' || type === 'true or false' ? 1 : type === 'paragraph response' ? 5 : 3;
 
     if (type === 'multiple choice') {
+      if (bilingualArabic) {
+        return `**${questionNumber}. اختيار من متعدد** [${marks} درجة]\n\nما الخيار الذي يطابق الفكرة الرئيسة لموضوع ${params.topic} في مادة ${params.subject}؟\n\nA. لا يرتبط بالتعلم داخل الصف.\n\nB. يساعد المتعلمين على الفهم والتواصل بوضوح.\n\nC. يجب حفظه فقط دون شرح.\n\nD. يفيد خارج المدرسة فقط.\n\n**English Translation**\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`;
+      }
       return `**${questionNumber}. Multiple choice** [${marks} mark]\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`;
     }
 
     if (type === 'true or false') {
+      if (bilingualArabic) {
+        return `**${questionNumber}. صح أم خطأ** [${marks} درجة]\n\nيتطلب موضوع ${params.topic} من المتعلمين تقديم أسباب لإجاباتهم، وليس إجابات من كلمة واحدة فقط.\n\n**English Translation**\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`;
+      }
       return `**${questionNumber}. True or false** [${marks} mark]\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`;
     }
 
     if (type === 'paragraph response') {
+      if (bilingualArabic) {
+        return `**${questionNumber}. إجابة فقرة** [${marks} درجات]\n\nاكتب فقرة قصيرة تشرح كيف يمكن استخدام ${params.topic} في موقف صفي أو حياتي واقعي. ضمّن تفصيلين أو مثالين على الأقل.\n\n**English Translation**\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`;
+      }
       return `**${questionNumber}. Paragraph response** [${marks} marks]\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`;
     }
 
     if (type === 'structured response') {
+      if (bilingualArabic) {
+        return `**${questionNumber}. إجابة منظمة** [${marks} درجات]\n\nاقرأ الموجز الخاص بموضوع ${params.topic}.\n\n(أ) حدّد فكرة رئيسة واحدة. [1]\n\n(ب) اشرح لماذا هذه الفكرة مهمة. [1]\n\n(ج) أعط مثالاً واحداً يدعم شرحك. [1]\n\n**English Translation**\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`;
+      }
       return `**${questionNumber}. Structured response** [${marks} marks]\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`;
     }
 
+    if (bilingualArabic) {
+      return `**${questionNumber}. إجابة قصيرة** [${marks} درجات]\n\nعرّف ${params.topic} بكلماتك وقدّم مثالاً واحداً مرتبطاً بمادة ${params.subject}.\n\n**English Translation**\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`;
+    }
     return `**${questionNumber}. Short answer** [${marks} marks]\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`;
   });
 
@@ -370,10 +385,21 @@ ${questions.map((question, index) => {
 ${params.requiredTest ? `| Required Test | ${params.requiredTest} |\n` : ''}
 ## Instructions To Learners
 
-1. Read each question carefully before answering.
+${bilingualArabic
+  ? `1. أجب أولاً باللغة العربية ثم راجع الترجمة الإنجليزية.
+2. اقرأ كل سؤال بعناية قبل الإجابة.
+3. اكتب إجاباتك بوضوح ورقّمها بشكل صحيح.
+4. استخدم أمثلة من الدرس حيثما أمكن.
+
+English Translation:
+1. Answer in Arabic first, then use the English translation for support.
+2. Read each question carefully before answering.
+3. Write neatly and number your answers correctly.
+4. Use examples from class where possible.`
+  : `1. Read each question carefully before answering.
 2. Write neatly and number your answers correctly.
 3. Use examples from class where possible.
-4. Answer in full sentences for short and paragraph questions.
+4. Answer in full sentences for short and paragraph questions.`}
 
 ## Questions
 
@@ -384,30 +410,7 @@ ${memo}
 ---
 
 Generated in preview-safe mode because the live AI service was unavailable. Review and adapt before classroom use.`;
-
-  if (!bilingualArabic) return assessment;
-
-  return `${assessment}
-
-## Arabic Version (العربية)
-
-### تعليمات للمتعلمين
-1. اقرأ كل سؤال بعناية.
-2. اكتب الإجابات بوضوح.
-3. استخدم أمثلة من الدرس.
-
-### أسئلة ثنائية اللغة (Arabic + English)
-1. عرّف "${params.topic}" بكلماتك.  
-   Define "${params.topic}" in your own words.
-
-2. اذكر فكرة رئيسة مرتبطة بموضوع "${params.topic}".  
-   State one main idea linked to "${params.topic}".
-
-3. أعط مثالاً عملياً يوضح الفكرة.  
-   Give one practical example that explains the idea.
-
-### English Translation
-The Arabic prompts above are direct classroom-ready equivalents of the English assessment intent.`;
+  return assessment;
 }
 
 /**
