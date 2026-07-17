@@ -139,6 +139,15 @@ function isArabicLanguageSubject(subject: string): boolean {
   return value.includes('arabic') || value.includes('عربي') || value.includes('اللغة العربية');
 }
 
+function isLanguageSubject(subject: string): boolean {
+  const value = (subject || '').toLowerCase();
+  return value.includes(' language') || value === 'french' || value.includes('french');
+}
+
+function containsArabicScript(text: string): boolean {
+  return /[\u0600-\u06FF]/.test(text || '');
+}
+
 function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
   lessonDate: string;
   duration: string;
@@ -631,6 +640,12 @@ CRITICAL LANGUAGE RULES (Arabic Language Subject):
 - Immediately provide an English translation for every section and question.
 - Use clear labels: "Arabic (العربية)" and "English Translation".
 - Keep mark allocations and numbering identical across both language versions.`
+      : isLanguageSubject(subject)
+      ? `
+CRITICAL LANGUAGE RULES (Language Subject):
+- Write the full assessment in the selected subject language first.
+- Immediately provide an English translation for every section and question.
+- Keep mark allocations and numbering identical across both language versions.`
       : '';
 
     const aiMessage = `Create a complete ${syllabus}-aligned ${params.assessmentType} assessment with the following details:
@@ -706,7 +721,11 @@ Make all content specific to ${grade} ${subject} level and aligned with ${syllab
       }
 
       const aiData = await response.json();
-      assessmentMarkdown = aiData.response || fallbackAssessment();
+      const candidate = aiData.response || fallbackAssessment();
+      if (bilingualArabic && !containsArabicScript(candidate)) {
+        throw new Error('Arabic output validation failed: AI response did not include Arabic script.');
+      }
+      assessmentMarkdown = candidate;
     } catch (error) {
       console.warn('Live AI assessment generation failed. Using fallback assessment.', error);
       assessmentMarkdown = fallbackAssessment();
@@ -1239,6 +1258,12 @@ CRITICAL LANGUAGE RULES (Arabic Language Subject):
 - Immediately provide an English translation for every main section.
 - Use clear labels: "Arabic (العربية)" and "English Translation".
 - Keep learning objectives, activities, and assessment expectations equivalent in both languages.`
+      : isLanguageSubject(params.subject)
+      ? `
+CRITICAL LANGUAGE RULES (Language Subject):
+- Write the full lesson plan in the selected subject language first.
+- Immediately provide an English translation for every main section.
+- Keep objectives, activities, and assessment expectations equivalent in both language versions.`
       : '';
 
     const fallbackPlan = () => buildFallbackLessonPlan({
@@ -1312,7 +1337,11 @@ CRITICAL INSTRUCTIONS:
       }
 
       const aiData = await response.json();
-      lessonPlan = aiData.response || fallbackPlan();
+      const candidate = aiData.response || fallbackPlan();
+      if (bilingualArabic && !containsArabicScript(candidate)) {
+        throw new Error('Arabic output validation failed: AI response did not include Arabic script.');
+      }
+      lessonPlan = candidate;
     } catch (error) {
       console.warn('Live AI lesson-plan generation failed. Using fallback plan.', error);
       lessonPlan = fallbackPlan();
