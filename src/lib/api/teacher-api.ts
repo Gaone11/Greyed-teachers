@@ -561,7 +561,7 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
       ? `\nUse the following syllabus reference material to inform the assessment content:\n${params.kbContext}\n`
       : '';
 
-    const aiMessage = `Create a complete NERDC-aligned ${params.assessmentType} assessment with the following details:
+    const aiMessage = `Create a complete ${syllabus}-aligned ${params.assessmentType} assessment with the following details:
 - Subject: ${subject}
 - Topic: ${params.topic}
 - Grade: ${grade}
@@ -572,6 +572,11 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
 - Curriculum: ${syllabus}
 ${extras.length > 0 ? '\nAdditional requirements:\n' + extras.map(e => `- ${e}`).join('\n') : ''}
 ${kbSection}
+CRITICAL CURRICULUM RULES:
+- Align strictly to ${syllabus}. Do not switch to CAPS or any other curriculum unless explicitly requested.
+- Use terminology and outcomes appropriate for ${syllabus}, ${grade}, and ${subject}.
+- If a required detail is missing, make a labeled assumption that remains consistent with ${syllabus}.
+
 Generate the full assessment in markdown format with these sections:
 1. Assessment header (subject, grade, date, duration, total marks, instructions to learners)
 2. All ${params.questionCount} questions with mark allocations — use a variety of question types appropriate for the assessment type (multiple choice, short answer, match columns, true/false, structured questions, essay/paragraph questions as appropriate)
@@ -581,7 +586,7 @@ Generate the full assessment in markdown format with these sections:
 6. Total marks must add up correctly
 ${params.includeAnswerKey ? '7. Include a complete MEMORANDUM / ANSWER KEY section at the end with expected answers and marking guidelines' : ''}
 
-Make all content specific to ${grade} ${subject} level and aligned with NERDC curriculum expectations.`;
+Make all content specific to ${grade} ${subject} level and aligned with ${syllabus} curriculum expectations.`;
 
     const fallbackAssessment = () => buildFallbackAssessment({
       ...params,
@@ -1165,7 +1170,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
       week,
     });
 
-    const aiMessage = `Create a complete, ready-to-teach NERDC-aligned lesson plan with these details:
+    const aiMessage = `Create a complete, ready-to-teach ${syllabus}-aligned lesson plan with these details:
 - Subject: ${params.subject}
 - Topic: ${params.topic}
 - Grade: ${grade}
@@ -1178,6 +1183,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
 ${extras.length > 0 ? '\nAdditional requirements:\n' + extras.map(e => `- ${e}`).join('\n') : ''}
 ${kbSection}
 CRITICAL INSTRUCTIONS:
+- Align strictly to ${syllabus}. Do not switch to CAPS or any other curriculum unless explicitly requested.
 - Write ALL content as if you are the teacher preparing this exact lesson for "${className}". Every activity, question, and resource must be specific to ${params.topic}.
 - Do NOT use placeholder text in parentheses like (Teacher name), (Insert page), or (Describe activity). Every section must be immediately usable in the classroom.
 - For lesson phases, write out the actual activities step by step: what the teacher says, what questions to ask (with expected answers), what learners do, and what they produce.
