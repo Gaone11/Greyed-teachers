@@ -134,6 +134,11 @@ interface GenerateAssessmentParams {
   className?: string;
 }
 
+function isArabicLanguageSubject(subject: string): boolean {
+  const value = (subject || '').toLowerCase();
+  return value.includes('arabic') || value.includes('عربي') || value.includes('اللغة العربية');
+}
+
 function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
   lessonDate: string;
   duration: string;
@@ -148,6 +153,7 @@ function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
   const teachingMinutes = Math.max(15, Math.round(durationNum * 0.4));
   const practiceMinutes = Math.max(10, Math.round(durationNum * 0.3));
   const closureMinutes = Math.max(5, durationNum - introMinutes - teachingMinutes - practiceMinutes);
+  const bilingualArabic = isArabicLanguageSubject(params.subject);
   const focusAreas = (params.focusAreas || []).filter(Boolean);
   const assessmentSection = params.includeAssessment
     ? `
@@ -178,7 +184,7 @@ function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
 - Optional audio device if a listening text is used.`
     : '';
 
-  return `# NERDC Lesson Plan: ${params.subject} - ${params.topic}
+  const plan = `# NERDC Lesson Plan: ${params.subject} - ${params.topic}
 
 ## Lesson Information
 
@@ -244,6 +250,38 @@ Learners prepare a short spoken response of 6-8 sentences on ${params.topic}. Th
 ---
 
 Generated in preview-safe mode because the live AI service was unavailable. Review and adapt before classroom use.`;
+
+  if (!bilingualArabic) return plan;
+
+  return `${plan}
+
+## Arabic Version (العربية)
+
+### معلومات الدرس
+- المادة: ${params.subject}
+- الموضوع: ${params.topic}
+- الصف: ${params.grade}
+- المدة: ${durationNum} دقيقة
+- المنهج: ${params.syllabus}
+
+### أهداف التعلم
+1. أن يحدد المتعلم الفكرة الرئيسة المتعلقة بموضوع "${params.topic}".
+2. أن يستخدم مفردات عربية مناسبة في الإجابة الشفهية والكتابية.
+3. أن يشارك في نشاط لغوي منظم ويقدم إجابات واضحة.
+
+### سير الحصة
+- التمهيد (${introMinutes} د): أسئلة سريعة لتنشيط المعرفة السابقة.
+- العرض (${teachingMinutes} د): شرح المفردات والنموذج اللغوي.
+- التطبيق الموجَّه (${practiceMinutes} د): نشاط ثنائي/جماعي مع متابعة المعلم.
+- الخاتمة (${closureMinutes} د): تلخيص الفكرة الرئيسة وتذكرة خروج قصيرة.
+
+### واجب منزلي
+اكتب فقرة قصيرة (6-8 جمل) حول "${params.topic}" مستخدماً خمس مفردات جديدة على الأقل.
+
+## English Translation
+
+The Arabic section above mirrors the same lesson expectations in Arabic for classroom delivery.
+Use it alongside the English plan for bilingual instruction.`;
 }
 
 function buildFallbackAssessment(params: GenerateAssessmentParams & {
@@ -252,6 +290,7 @@ function buildFallbackAssessment(params: GenerateAssessmentParams & {
   className: string;
   syllabus: string;
 }) {
+  const bilingualArabic = isArabicLanguageSubject(params.subject);
   const count = Math.max(1, Math.min(params.questionCount || 10, 30));
   const questionTypes = ['multiple choice', 'short answer', 'true or false', 'structured response', 'paragraph response'];
   const questions = Array.from({ length: count }, (_, index) => {
@@ -305,7 +344,7 @@ ${questions.map((question, index) => {
 - For extended answers, reward clarity, relevance, and evidence.`
     : '';
 
-  return `# ${params.title}
+  const assessment = `# ${params.title}
 
 ## Assessment Header
 
@@ -336,6 +375,30 @@ ${memo}
 ---
 
 Generated in preview-safe mode because the live AI service was unavailable. Review and adapt before classroom use.`;
+
+  if (!bilingualArabic) return assessment;
+
+  return `${assessment}
+
+## Arabic Version (العربية)
+
+### تعليمات للمتعلمين
+1. اقرأ كل سؤال بعناية.
+2. اكتب الإجابات بوضوح.
+3. استخدم أمثلة من الدرس.
+
+### أسئلة ثنائية اللغة (Arabic + English)
+1. عرّف "${params.topic}" بكلماتك.  
+   Define "${params.topic}" in your own words.
+
+2. اذكر فكرة رئيسة مرتبطة بموضوع "${params.topic}".  
+   State one main idea linked to "${params.topic}".
+
+3. أعط مثالاً عملياً يوضح الفكرة.  
+   Give one practical example that explains the idea.
+
+### English Translation
+The Arabic prompts above are direct classroom-ready equivalents of the English assessment intent.`;
 }
 
 /**
@@ -550,6 +613,7 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
     const subject = params.subject || classData.subject || '';
     const className = params.className || classData.name || '';
     const syllabus = classData.syllabus || 'NERDC';
+    const bilingualArabic = isArabicLanguageSubject(subject);
 
     // Build the AI prompt
     const extras: string[] = [];
@@ -559,6 +623,14 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
 
     const kbSection = params.kbContext
       ? `\nUse the following syllabus reference material to inform the assessment content:\n${params.kbContext}\n`
+      : '';
+    const languageSection = bilingualArabic
+      ? `
+CRITICAL LANGUAGE RULES (Arabic Language Subject):
+- Write the assessment in Arabic first.
+- Immediately provide an English translation for every section and question.
+- Use clear labels: "Arabic (العربية)" and "English Translation".
+- Keep mark allocations and numbering identical across both language versions.`
       : '';
 
     const aiMessage = `Create a complete ${syllabus}-aligned ${params.assessmentType} assessment with the following details:
@@ -572,6 +644,7 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
 - Curriculum: ${syllabus}
 ${extras.length > 0 ? '\nAdditional requirements:\n' + extras.map(e => `- ${e}`).join('\n') : ''}
 ${kbSection}
+${languageSection}
 CRITICAL CURRICULUM RULES:
 - Align strictly to ${syllabus}. Do not switch to CAPS or any other curriculum unless explicitly requested.
 - Use terminology and outcomes appropriate for ${syllabus}, ${grade}, and ${subject}.
@@ -1144,6 +1217,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
     const syllabus = params.syllabus || classData.syllabus || 'NERDC';
     const grade = params.grade || classData.grade || '';
     const className = params.className || classData.name || '';
+    const bilingualArabic = isArabicLanguageSubject(params.subject);
     const term = params.term || '1';
     const week = params.week || '1';
     const focusAreas = params.focusAreas || [];
@@ -1157,6 +1231,14 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
 
     const kbSection = params.kbContext
       ? `\nUse the following syllabus reference material to inform the lesson content:\n${params.kbContext}\n`
+      : '';
+    const languageSection = bilingualArabic
+      ? `
+CRITICAL LANGUAGE RULES (Arabic Language Subject):
+- Write the lesson plan in Arabic first.
+- Immediately provide an English translation for every main section.
+- Use clear labels: "Arabic (العربية)" and "English Translation".
+- Keep learning objectives, activities, and assessment expectations equivalent in both languages.`
       : '';
 
     const fallbackPlan = () => buildFallbackLessonPlan({
@@ -1182,6 +1264,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
 - Curriculum: ${syllabus}
 ${extras.length > 0 ? '\nAdditional requirements:\n' + extras.map(e => `- ${e}`).join('\n') : ''}
 ${kbSection}
+${languageSection}
 CRITICAL INSTRUCTIONS:
 - Align strictly to ${syllabus}. Do not switch to CAPS or any other curriculum unless explicitly requested.
 - Write ALL content as if you are the teacher preparing this exact lesson for "${className}". Every activity, question, and resource must be specific to ${params.topic}.
