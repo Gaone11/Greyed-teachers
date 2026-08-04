@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ParentLayout from '../../layouts/ParentLayout';
 import { 
   Calendar as CalendarIcon, 
@@ -7,13 +7,55 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
-  Filter
+  Filter,
+  Bell
 } from 'lucide-react';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import {
+  CONNECTED_TIMETABLE_UPDATED_EVENT,
+  ConnectedTimetableItem,
+  formatTimetableTimeRange,
+  loadConnectedTimetableItems,
+} from '../../lib/connected-timetable';
+
+interface ParentScheduleItem {
+  id: string;
+  title: string;
+  time: string;
+  location: string;
+  teacher: string;
+  date: string;
+  isTeacherUpdate?: boolean;
+}
 
 const ParentTimetablePage: React.FC = () => {
   const [activeView, setActiveView] = useState<'classes' | 'exams' | 'events'>('classes');
   const [weekOffset, setWeekOffset] = useState(0);
   const [subjectFilter, setSubjectFilter] = useState(false);
+  const [teacherUpdates, setTeacherUpdates] = useState<ConnectedTimetableItem[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const refreshTimetable = () => {
+      const circle = loadConnectionCircle();
+      loadConnectedTimetableItems(circle).then(items => {
+        if (mounted) setTeacherUpdates(items);
+      });
+    };
+
+    refreshTimetable();
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshTimetable);
+    window.addEventListener(CONNECTED_TIMETABLE_UPDATED_EVENT, refreshTimetable);
+    window.addEventListener('storage', refreshTimetable);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshTimetable);
+      window.removeEventListener(CONNECTED_TIMETABLE_UPDATED_EVENT, refreshTimetable);
+      window.removeEventListener('storage', refreshTimetable);
+    };
+  }, []);
 
   const weekLabel = weekOffset === 0
     ? 'Oct 16 - Oct 20, 2023'
@@ -21,13 +63,27 @@ const ParentTimetablePage: React.FC = () => {
       ? 'Oct 9 - Oct 13, 2023'
       : 'Oct 23 - Oct 27, 2023';
 
-  const schedule = [
-    { id: 1, title: 'Biology 101', time: '09:00 AM - 10:30 AM', location: 'Room 302', teacher: 'Ms. Smith', date: 'Monday' },
-    { id: 2, title: 'Mathematics Adv', time: '11:00 AM - 12:30 PM', location: 'Room 405', teacher: 'Mr. Johnson', date: 'Monday' },
-    { id: 3, title: 'Literature', time: '01:30 PM - 03:00 PM', location: 'Library', teacher: 'Mrs. Davis', date: 'Monday' },
-    { id: 4, title: 'Physics', time: '09:00 AM - 10:30 AM', location: 'Lab 2', teacher: 'Dr. Brown', date: 'Tuesday' },
-    { id: 5, title: 'Physical Education', time: '11:00 AM - 12:30 PM', location: 'Gymnasium', teacher: 'Coach Taylor', date: 'Tuesday' },
-  ];
+  const schedule = useMemo<ParentScheduleItem[]>(() => {
+    const previewSchedule: ParentScheduleItem[] = [
+      { id: 'preview-1', title: 'Biology 101', time: '09:00 AM - 10:30 AM', location: 'Room 302', teacher: 'Ms. Smith', date: 'Monday' },
+      { id: 'preview-2', title: 'Mathematics Adv', time: '11:00 AM - 12:30 PM', location: 'Room 405', teacher: 'Mr. Johnson', date: 'Monday' },
+      { id: 'preview-3', title: 'Literature', time: '01:30 PM - 03:00 PM', location: 'Library', teacher: 'Mrs. Davis', date: 'Monday' },
+      { id: 'preview-4', title: 'Physics', time: '09:00 AM - 10:30 AM', location: 'Lab 2', teacher: 'Dr. Brown', date: 'Tuesday' },
+      { id: 'preview-5', title: 'Physical Education', time: '11:00 AM - 12:30 PM', location: 'Gymnasium', teacher: 'Coach Taylor', date: 'Tuesday' },
+    ];
+
+    const sharedSchedule = teacherUpdates.map<ParentScheduleItem>(update => ({
+      id: update.id,
+      title: update.title,
+      time: formatTimetableTimeRange(update),
+      location: update.location,
+      teacher: update.created_by_name || 'Connected teacher',
+      date: update.day_label,
+      isTeacherUpdate: true,
+    }));
+
+    return [...previewSchedule, ...sharedSchedule];
+  }, [teacherUpdates]);
 
   const exams = [
     { id: 1, subject: 'Biology 101', title: 'Midterm Exam', date: 'Oct 24, 2023', time: '09:00 AM', duration: '2 Hours', location: 'Main Hall' },
@@ -79,6 +135,18 @@ const ParentTimetablePage: React.FC = () => {
           </button>
         </div>
 
+        {teacherUpdates.length > 0 && (
+          <div className="border-b border-greyed-navy/10 bg-green-50 px-6 py-3">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-green-800">
+              <Bell className="h-4 w-4" />
+              Latest teacher timetable update:
+              <span className="text-greyed-navy">
+                {teacherUpdates[teacherUpdates.length - 1].title} on {teacherUpdates[teacherUpdates.length - 1].day_label}
+              </span>
+            </div>
+          </div>
+        )}
+
         <div className="p-6">
           {activeView === 'classes' && (
             <div>
@@ -122,8 +190,17 @@ const ParentTimetablePage: React.FC = () => {
                         {schedule.filter(s => s.date === day).map(item => (
                           <div 
                             key={item.id} 
-                            className="p-3 bg-white rounded-xl border border-greyed-navy/10 shadow-sm hover:border-greyed-blue/30 transition-colors"
+                            className={`p-3 rounded-xl border shadow-sm transition-colors ${
+                              item.isTeacherUpdate
+                                ? 'bg-green-50 border-green-200 hover:border-green-300'
+                                : 'bg-white border-greyed-navy/10 hover:border-greyed-blue/30'
+                            }`}
                           >
+                            {item.isTeacherUpdate && (
+                              <span className="mb-2 inline-flex rounded bg-green-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-green-700">
+                                Teacher update
+                              </span>
+                            )}
                             <h4 className="font-bold text-greyed-navy text-sm mb-2">{item.title}</h4>
                             <div className="space-y-1.5">
                               <div className="flex items-center gap-1.5 text-xs text-greyed-navy/70">

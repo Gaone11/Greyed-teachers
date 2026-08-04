@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import StudentLayout from '../../components/students/StudentLayout';
 import { 
   Calendar as CalendarIcon,
@@ -13,11 +13,18 @@ import {
   CheckCircle,
   X
 } from 'lucide-react';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import {
+  CONNECTED_TIMETABLE_UPDATED_EVENT,
+  ConnectedTimetableItem,
+  formatTimetableTimeRange,
+  loadConnectedTimetableItems,
+} from '../../lib/connected-timetable';
 
 type TimetableView = 'daily' | 'weekly' | 'monthly';
 
 interface StudentClass {
-  id: number;
+  id: string;
   subject: string;
   type: 'math' | 'science' | 'literature' | 'history' | 'art';
   time: string;
@@ -27,6 +34,7 @@ interface StudentClass {
   isOnline: boolean;
   examDate: string | null;
   day: string;
+  isTeacherUpdate?: boolean;
 }
 
 const SmartTimetablePage: React.FC = () => {
@@ -35,70 +43,116 @@ const SmartTimetablePage: React.FC = () => {
   const [remindersOn, setRemindersOn] = useState(true);
   const [selectedClass, setSelectedClass] = useState<StudentClass | null>(null);
   const [statusMessage, setStatusMessage] = useState('Weekly timetable loaded.');
-  const [syncedClasses, setSyncedClasses] = useState<number[]>([]);
+  const [syncedClasses, setSyncedClasses] = useState<string[]>([]);
+  const [teacherUpdates, setTeacherUpdates] = useState<ConnectedTimetableItem[]>([]);
 
-  const classes: StudentClass[] = [
-    {
-      id: 1,
-      subject: 'Mathematics',
-      type: 'math',
-      time: '09:00 AM - 10:30 AM',
-      location: 'Room 302',
-      teacherNotes: 'Bring your graphing calculator.',
-      homework: 'Calculus Worksheet 4',
-      isOnline: false,
-      examDate: 'Oct 15',
-      day: 'Monday'
-    },
-    {
-      id: 2,
-      subject: 'Physics',
-      type: 'science',
-      time: '11:00 AM - 12:30 PM',
-      location: 'Lab 1',
-      teacherNotes: 'Lab safety goggles required.',
+  useEffect(() => {
+    let mounted = true;
+
+    const refreshTimetable = () => {
+      const nextCircle = loadConnectionCircle();
+      loadConnectedTimetableItems(nextCircle).then(items => {
+        if (!mounted) return;
+        setTeacherUpdates(items);
+        if (items.length > 0) {
+          setStatusMessage(`${items.length} teacher timetable update${items.length === 1 ? '' : 's'} loaded.`);
+        }
+      });
+    };
+
+    refreshTimetable();
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshTimetable);
+    window.addEventListener(CONNECTED_TIMETABLE_UPDATED_EVENT, refreshTimetable);
+    window.addEventListener('storage', refreshTimetable);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshTimetable);
+      window.removeEventListener(CONNECTED_TIMETABLE_UPDATED_EVENT, refreshTimetable);
+      window.removeEventListener('storage', refreshTimetable);
+    };
+  }, []);
+
+  const classes: StudentClass[] = useMemo(() => {
+    const previewClasses: StudentClass[] = [
+      {
+        id: 'preview-1',
+        subject: 'Mathematics',
+        type: 'math',
+        time: '09:00 AM - 10:30 AM',
+        location: 'Room 302',
+        teacherNotes: 'Bring your graphing calculator.',
+        homework: 'Calculus Worksheet 4',
+        isOnline: false,
+        examDate: 'Oct 15',
+        day: 'Monday'
+      },
+      {
+        id: 'preview-2',
+        subject: 'Physics',
+        type: 'science',
+        time: '11:00 AM - 12:30 PM',
+        location: 'Lab 1',
+        teacherNotes: 'Lab safety goggles required.',
+        homework: null,
+        isOnline: false,
+        examDate: null,
+        day: 'Monday'
+      },
+      {
+        id: 'preview-3',
+        subject: 'Literature',
+        type: 'literature',
+        time: '01:30 PM - 03:00 PM',
+        location: 'https://zoom.us/j/123456',
+        teacherNotes: 'Read Chapter 4 before class.',
+        homework: 'Essay Draft',
+        isOnline: true,
+        examDate: null,
+        day: 'Tuesday'
+      },
+      {
+        id: 'preview-4',
+        subject: 'World History',
+        type: 'history',
+        time: '10:00 AM - 11:30 AM',
+        location: 'Room 105',
+        teacherNotes: null,
+        homework: 'Read pages 100-115',
+        isOnline: false,
+        examDate: 'Oct 20',
+        day: 'Wednesday'
+      },
+      {
+        id: 'preview-5',
+        subject: 'Art Studio',
+        type: 'art',
+        time: '01:00 PM - 03:00 PM',
+        location: 'Art Room 2',
+        teacherNotes: 'Bring water colors.',
+        homework: null,
+        isOnline: false,
+        examDate: null,
+        day: 'Thursday'
+      }
+    ];
+
+    const sharedClasses = teacherUpdates.map<StudentClass>(update => ({
+      id: update.id,
+      subject: update.title,
+      type: update.item_type === 'Exam' ? 'history' : 'science',
+      time: formatTimetableTimeRange(update),
+      location: update.location,
+      teacherNotes: update.notes || `Shared by ${update.created_by_name || 'your teacher'}.`,
       homework: null,
-      isOnline: false,
-      examDate: null,
-      day: 'Monday'
-    },
-    {
-      id: 3,
-      subject: 'Literature',
-      type: 'literature',
-      time: '01:30 PM - 03:00 PM',
-      location: 'https://zoom.us/j/123456',
-      teacherNotes: 'Read Chapter 4 before class.',
-      homework: 'Essay Draft',
-      isOnline: true,
-      examDate: null,
-      day: 'Tuesday'
-    },
-    {
-      id: 4,
-      subject: 'World History',
-      type: 'history',
-      time: '10:00 AM - 11:30 AM',
-      location: 'Room 105',
-      teacherNotes: null,
-      homework: 'Read pages 100-115',
-      isOnline: false,
-      examDate: 'Oct 20',
-      day: 'Wednesday'
-    },
-    {
-      id: 5,
-      subject: 'Art Studio',
-      type: 'art',
-      time: '01:00 PM - 03:00 PM',
-      location: 'Art Room 2',
-      teacherNotes: 'Bring water colors.',
-      homework: null,
-      isOnline: false,
-      examDate: null,
-      day: 'Thursday'
-    }
-  ];
+      isOnline: /^https?:\/\//i.test(update.location),
+      examDate: update.item_type === 'Exam' ? update.item_date || null : null,
+      day: update.day_label,
+      isTeacherUpdate: true,
+    }));
+
+    return [...previewClasses, ...sharedClasses];
+  }, [teacherUpdates]);
 
   const baseDate = new Date(2026, 9, 19);
   const visibleDate = new Date(baseDate);
@@ -157,7 +211,7 @@ const SmartTimetablePage: React.FC = () => {
     setStatusMessage(`${cls.subject} selected.`);
   };
 
-  const handleSyncClass = (classId: number) => {
+  const handleSyncClass = (classId: string) => {
     setSyncedClasses(current => current.includes(classId) ? current : [...current, classId]);
     setStatusMessage('Class added to your calendar preview.');
   };
@@ -261,6 +315,18 @@ const SmartTimetablePage: React.FC = () => {
           {statusMessage}
         </div>
 
+        {teacherUpdates.length > 0 && (
+          <div className="border-b border-greyed-navy/5 bg-green-50 px-4 py-3">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-green-800">
+              <Bell className="h-4 w-4" />
+              Latest teacher update:
+              <span className="text-greyed-navy">
+                {teacherUpdates[teacherUpdates.length - 1].title} on {teacherUpdates[teacherUpdates.length - 1].day_label}
+              </span>
+            </div>
+          </div>
+        )}
+
         {view === 'daily' && (
           <div className="p-4 sm:p-6">
             <div className="mb-4 flex items-center justify-between">
@@ -293,9 +359,9 @@ const SmartTimetablePage: React.FC = () => {
               {dailyClasses.length > 0 ? dailyClasses.map(cls => (
                 <ClassCard
                   key={cls.id}
-                  cls={cls}
-                  colors={colors}
-                  size="large"
+          cls={cls}
+          colors={colors}
+          size="large"
                   isSelected={selectedClass?.id === cls.id}
                   isSynced={syncedClasses.includes(cls.id)}
                   onSelect={handleClassSelect}
@@ -336,7 +402,7 @@ const SmartTimetablePage: React.FC = () => {
 
                 {days.map(day => (
                   <div key={day} className="space-y-4">
-                    {classes.filter(c => c.day === day).map(cls => (
+                  {classes.filter(c => c.day === day).map(cls => (
                       <ClassCard
                         key={cls.id}
                         cls={cls}
@@ -401,8 +467,11 @@ const SmartTimetablePage: React.FC = () => {
         <div className="mt-6 rounded-2xl border border-greyed-navy/5 bg-white p-5 sm:p-6 shadow-sm animate-slide-up">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-xl font-bold text-greyed-navy">{selectedClass.subject}</h2>
-              <p className="mt-1 text-sm font-medium text-greyed-navy/70">{selectedClass.day} • {selectedClass.time}</p>
+                <h2 className="text-xl font-bold text-greyed-navy">{selectedClass.subject}</h2>
+              <p className="mt-1 text-sm font-medium text-greyed-navy/70">
+                {selectedClass.day} • {selectedClass.time}
+                {selectedClass.isTeacherUpdate ? ' • Teacher update' : ''}
+              </p>
             </div>
             <button
               type="button"
