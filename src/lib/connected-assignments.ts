@@ -17,6 +17,9 @@ export interface ConnectedAssignment {
   topic?: string | null;
   description?: string | null;
   content?: string | null;
+  attachment_name?: string | null;
+  attachment_url?: string | null;
+  attachment_type?: string | null;
   due_at?: string | null;
   status: ConnectedAssignmentStatus;
   student_name: string;
@@ -44,6 +47,9 @@ export interface ConnectedAssignmentInput {
   topic?: string | null;
   description?: string | null;
   content?: string | null;
+  attachment_name?: string | null;
+  attachment_url?: string | null;
+  attachment_type?: string | null;
   due_at?: string | null;
   max_score?: number | null;
 }
@@ -148,7 +154,7 @@ export const loadConnectedAssignments = async (
   try {
     const { data, error } = await supabase
       .from('connected_assignments')
-      .select('id,circle_key,source_assessment_id,class_id,class_name,subject,grade_level,title,assignment_type,topic,description,content,due_at,status,student_name,student_email,teacher_name,teacher_email,score,max_score,grade_label,feedback,submitted_at,graded_at,created_at,updated_at')
+      .select('id,circle_key,source_assessment_id,class_id,class_name,subject,grade_level,title,assignment_type,topic,description,content,attachment_name,attachment_url,attachment_type,due_at,status,student_name,student_email,teacher_name,teacher_email,score,max_score,grade_label,feedback,submitted_at,graded_at,created_at,updated_at')
       .eq('circle_key', circleKey)
       .order('updated_at', { ascending: false });
 
@@ -186,6 +192,9 @@ export const publishConnectedAssignment = async (
     topic: input.topic?.trim() || null,
     description: input.description?.trim() || null,
     content: input.content || null,
+    attachment_name: input.attachment_name?.trim() || null,
+    attachment_url: input.attachment_url || null,
+    attachment_type: input.attachment_type || null,
     due_at: input.due_at || null,
     status: 'assigned',
     student_name: student.name,
@@ -220,6 +229,9 @@ export const publishConnectedAssignment = async (
         topic: assignment.topic,
         description: assignment.description,
         content: assignment.content,
+        attachment_name: assignment.attachment_name,
+        attachment_url: assignment.attachment_url,
+        attachment_type: assignment.attachment_type,
         due_at: assignment.due_at,
         status: assignment.status,
         student_name: assignment.student_name,
@@ -229,7 +241,7 @@ export const publishConnectedAssignment = async (
         participant_emails: getAssignmentParticipantEmails(circle),
         max_score: assignment.max_score,
       })
-      .select('id,circle_key,source_assessment_id,class_id,class_name,subject,grade_level,title,assignment_type,topic,description,content,due_at,status,student_name,student_email,teacher_name,teacher_email,score,max_score,grade_label,feedback,submitted_at,graded_at,created_at,updated_at')
+      .select('id,circle_key,source_assessment_id,class_id,class_name,subject,grade_level,title,assignment_type,topic,description,content,attachment_name,attachment_url,attachment_type,due_at,status,student_name,student_email,teacher_name,teacher_email,score,max_score,grade_label,feedback,submitted_at,graded_at,created_at,updated_at')
       .single();
 
     if (error) {

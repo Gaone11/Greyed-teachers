@@ -1,5 +1,5 @@
-const CACHE_NAME = 'greyed-v1.0.3';
-const RUNTIME_CACHE = 'greyed-runtime-v1.0.3';
+const CACHE_NAME = 'greyed-v1.0.4';
+const RUNTIME_CACHE = 'greyed-runtime-v1.0.4';
 const APP_SCOPE = new URL(self.registration.scope).pathname.replace(/\/$/, '');
 const scopedPath = (path) => `${APP_SCOPE}${path}` || '/';
 

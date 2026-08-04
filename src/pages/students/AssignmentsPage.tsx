@@ -3,6 +3,7 @@ import StudentLayout from '../../components/students/StudentLayout';
 import { 
   FileText, 
   Upload, 
+  Download,
   CheckCircle, 
   Clock, 
   XCircle, 
@@ -30,6 +31,8 @@ interface StudentAssignmentView {
   grade: string | null;
   isConnected?: boolean;
   raw?: ConnectedAssignment;
+  attachmentName?: string | null;
+  attachmentUrl?: string | null;
 }
 
 type AssignmentFilter = 'all' | 'Not Started' | 'In Progress' | 'Submitted' | 'Graded';
@@ -125,6 +128,8 @@ const AssignmentsPage: React.FC = () => {
       grade: assignment.grade_label || (typeof assignment.score === 'number' && assignment.max_score ? `${Math.round((assignment.score / assignment.max_score) * 100)}%` : null),
       isConnected: true,
       raw: assignment,
+      attachmentName: assignment.attachment_name,
+      attachmentUrl: assignment.attachment_url,
     }));
 
     return [...sharedAssignments, ...previewAssignments];
@@ -254,6 +259,12 @@ const AssignmentsPage: React.FC = () => {
                   <span className="flex items-center gap-1 bg-red-50 text-red-600 px-2 py-1 rounded">
                     <Clock className="w-3.5 h-3.5" /> Due: {assignment.dueDate}
                   </span>
+
+                  {assignment.attachmentName && (
+                    <span className="flex items-center gap-1 bg-purple-50 text-purple-700 px-2 py-1 rounded">
+                      <FileText className="w-3.5 h-3.5" /> {assignment.attachmentName}
+                    </span>
+                  )}
                   
                   {assignment.grade && (
                      <span className="flex items-center gap-1 bg-green-50 text-green-700 px-2 py-1 rounded font-bold">
@@ -278,6 +289,18 @@ const AssignmentsPage: React.FC = () => {
                 <div className="sm:hidden mb-4">
                   {getStatusBadge(assignment.status)}
                 </div>
+
+                {assignment.attachmentUrl && (
+                  <a
+                    href={assignment.attachmentUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mb-3 flex w-full items-center justify-center gap-2 rounded-xl border border-greyed-navy/10 bg-white px-4 py-2.5 text-sm font-semibold text-greyed-navy transition-colors hover:bg-greyed-navy/5"
+                  >
+                    <Download className="h-4 w-4" />
+                    Open File
+                  </a>
+                )}
                 
                 {assignment.status !== 'Graded' && assignment.status !== 'Submitted' && (
                   <button
