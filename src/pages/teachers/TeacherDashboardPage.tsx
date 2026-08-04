@@ -34,11 +34,30 @@ const CLASS_COLORS = [
   { bg: 'bg-gradient-to-br from-[#2a2f6e] to-[#212754]', text: 'text-white', badge: 'bg-white/20 text-white' },
 ];
 
+type DashboardClass = {
+  id: string;
+  name?: string;
+  subject?: string;
+  grade?: string;
+  student_count?: number;
+  created_at?: string;
+};
+
+const isMissingClassStudentsTableError = (error: unknown) => {
+  const err = error as { code?: string; message?: string };
+  const message = err?.message || '';
+  return err?.code === '42P01'
+    || err?.code === 'PGRST205'
+    || /relation .*class_students.* does not exist/i.test(message)
+    || /schema cache.*public\.class_students/i.test(message)
+    || /could not find the table .*class_students/i.test(message);
+};
+
 const TeacherDashboardPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [classes, setClasses] = useState<any[]>([]);
+  const [classes, setClasses] = useState<DashboardClass[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState({
     totalClasses: 0,
@@ -65,17 +84,22 @@ const TeacherDashboardPage: React.FC = () => {
             fetchTeacherClasses(user.id),
             getTeacherDashboardData(user.id)
           ]);
-          const classList = classesData || [];
+          const classList = (classesData || []) as DashboardClass[];
           setClasses(classList);
 
           // Count real students across all classes
           let totalStudents = 0;
           if (classList.length > 0) {
-            const classIds = classList.map((c: any) => c.id);
-            const { count } = await supabase
+            const classIds = classList.map((c) => c.id);
+            const { count, error: studentsCountError } = await supabase
               .from('class_students')
               .select('id', { count: 'exact', head: true })
               .in('class_id', classIds);
+
+            if (studentsCountError && !isMissingClassStudentsTableError(studentsCountError)) {
+              throw studentsCountError;
+            }
+
             totalStudents = count || 0;
           }
 
@@ -85,7 +109,7 @@ const TeacherDashboardPage: React.FC = () => {
             lessonPlans: dashboardData?.stats?.lessonPlansCount || 0,
             assessments: dashboardData?.stats?.assessmentsCount || 0,
           });
-        } catch (err) {
+        } catch {
           setError('Failed to load dashboard data');
         } finally {
           setLoading(false);

@@ -44,7 +44,14 @@ const attendanceStatuses: { value: AttendanceStatus; label: string; className: s
 const isMissingTableError = (error: unknown) => {
   const err = error as { code?: string; message?: string };
   const message = err?.message || '';
-  return err?.code === '42P01' || /relation .*class_students.* does not exist/i.test(message) || /relation .*class_attendance.* does not exist/i.test(message);
+  return err?.code === '42P01'
+    || err?.code === 'PGRST205'
+    || /relation .*class_students.* does not exist/i.test(message)
+    || /relation .*class_attendance.* does not exist/i.test(message)
+    || /schema cache.*public\.class_students/i.test(message)
+    || /schema cache.*public\.class_attendance/i.test(message)
+    || /could not find the table .*class_students/i.test(message)
+    || /could not find the table .*class_attendance/i.test(message);
 };
 
 const getSupabaseErrorMessage = (error: unknown, fallback: string) => {
