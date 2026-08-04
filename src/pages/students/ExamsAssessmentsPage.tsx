@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import StudentLayout from '../../components/students/StudentLayout';
 import { 
   GraduationCap, 
@@ -9,15 +9,68 @@ import {
   Download,
   PlayCircle
 } from 'lucide-react';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import {
+  CONNECTED_ASSIGNMENTS_UPDATED_EVENT,
+  ConnectedAssignment,
+  loadConnectedAssignments,
+} from '../../lib/connected-assignments';
+
+type ExamsTab = 'schedule' | 'revision' | 'practice' | 'results';
 
 const ExamsAssessmentsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'schedule' | 'revision' | 'practice' | 'results'>('schedule');
+  const [activeTab, setActiveTab] = useState<ExamsTab>('schedule');
   const [startedTest, setStartedTest] = useState<string | null>(null);
+  const [connectedAssignments, setConnectedAssignments] = useState<ConnectedAssignment[]>([]);
 
-  const upcomingExams = [
-    { id: 1, subject: 'Mathematics', title: 'Calculus Final Exam', date: 'Oct 30, 2026', time: '09:00 AM', room: 'Hall A', status: 'Upcoming', daysLeft: 14 },
-    { id: 2, subject: 'Physics', title: 'Kinematics Midterm', date: 'Oct 20, 2026', time: '11:00 AM', room: 'Lab 1', status: 'Upcoming', daysLeft: 4 },
-  ];
+  useEffect(() => {
+    let mounted = true;
+
+    const refreshAssignments = () => {
+      const circle = loadConnectionCircle();
+      loadConnectedAssignments(circle).then(assignments => {
+        if (mounted) setConnectedAssignments(assignments);
+      });
+    };
+
+    refreshAssignments();
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener('storage', refreshAssignments);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener('storage', refreshAssignments);
+    };
+  }, []);
+
+  const upcomingExams = useMemo(() => {
+    const teacherExams = connectedAssignments
+      .filter(assignment => assignment.status !== 'graded' && assignment.assignment_type !== 'homework')
+      .map(assignment => {
+        const dueDate = assignment.due_at ? new Date(assignment.due_at) : new Date();
+        const daysLeft = Math.max(0, Math.ceil((dueDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000)));
+        return {
+          id: assignment.id,
+          subject: assignment.subject || assignment.class_name || 'Assessment',
+          title: assignment.title,
+          date: dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          time: '11:59 PM',
+          room: assignment.class_name || 'GreyEd',
+          status: 'Upcoming',
+          daysLeft,
+          isConnected: true,
+        };
+      });
+
+    return [
+      ...teacherExams,
+      { id: 'preview-1', subject: 'Mathematics', title: 'Calculus Final Exam', date: 'Oct 30, 2026', time: '09:00 AM', room: 'Hall A', status: 'Upcoming', daysLeft: 14 },
+      { id: 'preview-2', subject: 'Physics', title: 'Kinematics Midterm', date: 'Oct 20, 2026', time: '11:00 AM', room: 'Lab 1', status: 'Upcoming', daysLeft: 4 },
+    ];
+  }, [connectedAssignments]);
 
   const revisionMaterials = [
     { id: 1, subject: 'Mathematics', title: 'Calculus Formula Sheet', type: 'PDF', size: '2.4 MB' },
@@ -30,10 +83,30 @@ const ExamsAssessmentsPage: React.FC = () => {
     { id: 2, subject: 'History', title: 'WWI Practice Quiz', questions: 15, timeLimit: '20 mins' },
   ];
 
-  const pastResults = [
-    { id: 1, subject: 'Biology', title: 'Cell Structure Quiz', score: '95%', grade: 'A' },
-    { id: 2, subject: 'Literature', title: 'Poetry Analysis Essay', score: '88%', grade: 'B+' },
-  ];
+  const pastResults = useMemo(() => {
+    const teacherResults = connectedAssignments
+      .filter(assignment => assignment.status === 'graded')
+      .map(assignment => {
+        const percent = typeof assignment.score === 'number' && assignment.max_score
+          ? `${Math.round((assignment.score / assignment.max_score) * 100)}%`
+          : assignment.grade_label || 'Graded';
+
+        return {
+          id: assignment.id,
+          subject: assignment.subject || assignment.class_name || 'Assessment',
+          title: assignment.title,
+          score: assignment.grade_label || percent,
+          grade: assignment.grade_label || percent,
+          isConnected: true,
+        };
+      });
+
+    return [
+      ...teacherResults,
+      { id: 'preview-1', subject: 'Biology', title: 'Cell Structure Quiz', score: '95%', grade: 'A' },
+      { id: 'preview-2', subject: 'Literature', title: 'Poetry Analysis Essay', score: '88%', grade: 'B+' },
+    ];
+  }, [connectedAssignments]);
 
   return (
     <StudentLayout activePage="exams">
@@ -51,17 +124,17 @@ const ExamsAssessmentsPage: React.FC = () => {
         
         {/* Tabs */}
         <div className="flex border-b border-greyed-navy/10 bg-greyed-white/50 px-2 sm:px-6 overflow-x-auto hide-scrollbar">
-          {[
+          {([
             { id: 'schedule', label: 'Exam Schedule', icon: Calendar },
             { id: 'revision', label: 'Revision Materials', icon: FileText },
             { id: 'practice', label: 'Practice Tests', icon: PenTool },
             { id: 'results', label: 'Results Tracking', icon: BarChart2 },
-          ].map((tab) => {
+          ] as { id: ExamsTab; label: string; icon: typeof Calendar }[]).map((tab) => {
             const Icon = tab.icon;
             return (
               <button 
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-4 text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
                   activeTab === tab.id ? 'border-[#2a2f6e] text-[#2a2f6e]' : 'border-transparent text-greyed-navy/60 hover:text-greyed-navy hover:bg-greyed-navy/5'
                 }`}
@@ -89,6 +162,9 @@ const ExamsAssessmentsPage: React.FC = () => {
                     <div>
                       <h3 className="font-bold text-lg text-greyed-navy">{exam.title}</h3>
                       <p className="text-sm font-semibold text-greyed-blue mb-2">{exam.subject}</p>
+                      {'isConnected' in exam && exam.isConnected && (
+                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-green-700">Teacher assigned</p>
+                      )}
                       <div className="flex items-center gap-3 text-xs font-semibold text-greyed-navy/60">
                         <span className="bg-greyed-navy/5 px-2 py-1 rounded">Time: {exam.time}</span>
                         <span className="bg-greyed-navy/5 px-2 py-1 rounded">Room: {exam.room}</span>
@@ -189,6 +265,9 @@ const ExamsAssessmentsPage: React.FC = () => {
                       <div>
                         <h4 className="font-bold text-sm text-greyed-navy">{result.title}</h4>
                         <span className="text-xs text-greyed-navy/50">{result.subject}</span>
+                        {'isConnected' in result && result.isConnected && (
+                          <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-green-700">Teacher grade</span>
+                        )}
                       </div>
                       <div className="flex items-center gap-4">
                         <span className="text-lg font-bold text-[#2a2f6e]">{result.score}</span>

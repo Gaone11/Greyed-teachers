@@ -3,12 +3,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
 import { fetchTeacherClasses, generateAssessment } from '../../lib/api/teacher-api';
-import { Wand2, CheckCircle, Download, FileText, Database, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Wand2, CheckCircle, Download, FileText, Database, ArrowLeft, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import { downloadMarkdownAsDocx } from '../../lib/markdown-to-docx';
 import { capsCurriculum, saGrades, getSubjectsByPhase, getPhaseFromGrade } from '../../data/capsCurriculum';
 import { findMatchingChunks, buildChunkContext, type KnowledgeChunk, type ChunkedDocument } from '../../lib/knowledgebase/pdf-chunker';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { loadConnectionCircle } from '../../lib/connection-circle';
+import { publishConnectedAssignment, ConnectedAssignmentType } from '../../lib/connected-assignments';
+import { sendConnectedMessage } from '../../lib/connected-messages';
 
 const KB_STORAGE_KEY = 'greyed-kb-chunks';
 
@@ -30,7 +33,19 @@ interface FormData {
   questionCount: number;
   includeAnswerKey: boolean;
   requiredTest: string;
+  dueDate: string;
 }
+
+const getDefaultDueDate = () => {
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 7);
+  return dueDate.toISOString().slice(0, 10);
+};
+
+const normalizeAssessmentType = (type?: string): ConnectedAssignmentType => {
+  if (type === 'homework' || type === 'quiz' || type === 'test' || type === 'exam') return type;
+  return 'assessment';
+};
 
 function loadAllChunks(): KnowledgeChunk[] {
   try {
@@ -56,6 +71,10 @@ export default function TeacherAssessmentGeneratorPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedMarkdown, setGeneratedMarkdown] = useState<string | null>(null);
+  const [generatedAssessmentId, setGeneratedAssessmentId] = useState<string | null>(null);
+  const [generatedTitle, setGeneratedTitle] = useState<string>('');
+  const [isSending, setIsSending] = useState(false);
+  const [sendStatus, setSendStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [kbChunkCount, setKbChunkCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
@@ -75,7 +94,8 @@ export default function TeacherAssessmentGeneratorPage() {
     assessmentType: 'quiz',
     questionCount: 10,
     includeAnswerKey: true,
-    requiredTest: ''
+    requiredTest: '',
+    dueDate: getDefaultDueDate()
   });
 
   const [requiredTests, setRequiredTests] = useState<string[]>([]);
@@ -111,6 +131,7 @@ export default function TeacherAssessmentGeneratorPage() {
         const chunks = loadAllChunks();
         setKbChunkCount(chunks.length);
       } catch {
+        setError('Classes could not be loaded. Please check your connection and try again.');
       } finally {
         setIsLoading(false);
       }
@@ -199,12 +220,61 @@ export default function TeacherAssessmentGeneratorPage() {
       });
 
       setGeneratedMarkdown(assessmentData.markdown);
+      setGeneratedAssessmentId(assessmentData.assessment?.id ? String(assessmentData.assessment.id) : `local-assessment-${Date.now()}`);
+      setGeneratedTitle(`${subjectName} - ${topicName} Assessment`);
+      setSendStatus(null);
       setCurrentPage(0);
     } catch (error: any) {
       setError(error.message || 'Failed to generate assessment. Please try again.');
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleSendAssessment = async () => {
+    if (!generatedMarkdown) return;
+
+    const circle = loadConnectionCircle();
+    if (circle.status !== 'connected') {
+      setSendStatus('Connect the student and parent first, then assessments can be sent across hubs.');
+      return;
+    }
+
+    const selectedClass = classes.find(c => c.id === formData.classId);
+    const subjectName = selectedSubject?.name || formData.selectedSubjectKey;
+    const topicName = availableTopics.find(t => t.key === formData.selectedTopicKey)?.name || formData.selectedTopicKey;
+    const dueAt = formData.dueDate ? new Date(`${formData.dueDate}T23:59:00`).toISOString() : undefined;
+
+    setIsSending(true);
+    const published = await publishConnectedAssignment(circle, {
+      source_assessment_id: generatedAssessmentId,
+      class_id: selectedClass?.id || formData.classId,
+      class_name: selectedClass?.name || null,
+      subject: subjectName,
+      grade_level: selectedClass?.grade || formData.selectedGrade,
+      title: generatedTitle || `${subjectName} - ${topicName} Assessment`,
+      assignment_type: normalizeAssessmentType(formData.assessmentType),
+      topic: topicName,
+      description: `${topicName} ${formData.assessmentType} assigned by your teacher.`,
+      content: generatedMarkdown,
+      due_at: dueAt,
+      max_score: 100,
+    });
+
+    const message = [
+      `New ${published.assignment_type}: ${published.title}`,
+      published.class_name ? `Class: ${published.class_name}` : '',
+      published.subject ? `Subject: ${published.subject}` : '',
+      published.due_at ? `Due: ${new Date(published.due_at).toLocaleDateString()}` : '',
+    ].filter(Boolean).join('\n');
+
+    await Promise.all([
+      sendConnectedMessage(circle, ['student', 'teacher'], 'teacher', message),
+      sendConnectedMessage(circle, ['teacher', 'parent'], 'teacher', message),
+    ]);
+
+    setIsSending(false);
+    setSendStatus('Assessment sent to the connected student and parent.');
   };
 
   const handleDownloadAssessment = () => {
@@ -373,6 +443,17 @@ export default function TeacherAssessmentGeneratorPage() {
                 </div>
               )}
 
+              <div>
+                <label className={labelClass}>Due Date</label>
+                <input
+                  type="date"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleInputChange}
+                  className={inputClass}
+                />
+              </div>
+
               <div className="border-b border-white/5" />
 
               <div className="grid grid-cols-2 gap-4">
@@ -470,15 +551,32 @@ export default function TeacherAssessmentGeneratorPage() {
                     <CheckCircle className="h-4 w-4 text-cyan-400 mr-2" />
                     Assessment
                   </h2>
-                  <button
-                    type="button"
-                    onClick={handleDownloadAssessment}
-                    className="flex items-center bg-[#212754] text-white px-3 py-1.5 rounded-lg hover:bg-[#212754]/90 text-xs font-medium transition-colors shadow-sm"
-                  >
-                    <Download className="h-3.5 w-3.5 mr-1.5" />
-                    Download DOCX
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleSendAssessment}
+                      disabled={isSending}
+                      className="flex items-center bg-[#212754] text-white px-3 py-1.5 rounded-lg hover:bg-[#212754]/90 text-xs font-medium transition-colors shadow-sm disabled:opacity-60"
+                    >
+                      <Send className="h-3.5 w-3.5 mr-1.5" />
+                      {isSending ? 'Sending...' : 'Send'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDownloadAssessment}
+                      className="flex items-center bg-white border border-[#212754]/15 text-[#212754] px-3 py-1.5 rounded-lg hover:bg-[#212754]/5 text-xs font-medium transition-colors shadow-sm"
+                    >
+                      <Download className="h-3.5 w-3.5 mr-1.5" />
+                      Download
+                    </button>
+                  </div>
                 </div>
+
+                {sendStatus && (
+                  <div className="mb-3 rounded-xl border border-[#bbd7eb]/25 bg-[#bbd7eb]/10 px-3 py-2 text-sm font-medium text-[#212754]">
+                    {sendStatus}
+                  </div>
+                )}
 
                 {/* Document Page */}
                 <div className="bg-white rounded-2xl border border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">

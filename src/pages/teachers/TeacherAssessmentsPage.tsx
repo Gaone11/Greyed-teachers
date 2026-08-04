@@ -10,12 +10,42 @@ import ClassForm from '../../components/teachers/ClassForm';
 import AssessmentViewModal from '../../components/teachers/AssessmentViewModal';
 import { fetchAssessments, fetchTeacherClasses, generateAssessment, createClass } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { loadConnectionCircle } from '../../lib/connection-circle';
+import { publishConnectedAssignment, ConnectedAssignmentType } from '../../lib/connected-assignments';
+import { sendConnectedMessage } from '../../lib/connected-messages';
 
 const syllabusRequiredTests: Record<string, string[]> = {
   'Cambridge IGCSE': ['End of Unit Test', 'Mid-Term Assessment', 'Mock Examination', 'Practical Assessment', 'Final Examination'],
   'Cambridge A Level': ['AS Level Test', 'A2 Level Test', 'Practical Assessment', 'Mock Examination', 'Final Examination'],
   'Botswana BGCSE': ['Continuous Assessment', 'Term Test', 'BGCSE Mock Examination', 'Final Examination'],
   'Botswana JSE': ['Monthly Test', 'Term Assessment', 'Project Evaluation', 'Mock Examination', 'Final Examination']
+};
+
+const getDefaultDueDate = () => {
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 7);
+  return dueDate.toISOString().slice(0, 10);
+};
+
+const normalizeAssessmentType = (type?: string): ConnectedAssignmentType => {
+  if (type === 'homework' || type === 'quiz' || type === 'test' || type === 'exam') return type;
+  return 'assessment';
+};
+
+const formatAssessmentRecord = (assessment: any, classes: any[]) => {
+  const matchedClass = classes.find(cls => cls.id === assessment.class_id || cls.id === assessment.classId);
+  return {
+    ...assessment,
+    classId: assessment.class_id || assessment.classId || matchedClass?.id || '',
+    className: assessment.className || matchedClass?.name || assessment.classes?.name || 'Unknown class',
+    created: assessment.created || assessment.created_at || new Date().toISOString(),
+    questionCount: assessment.questionCount || assessment.question_count || assessment.meta?.questionCount || 0,
+    averageScore: assessment.averageScore ?? assessment.average_score ?? null,
+    submissionRate: assessment.submissionRate || '0/0',
+    assessmentType: assessment.assessmentType || assessment.assessment_type || assessment.meta?.assessmentType || 'assessment',
+    topic: assessment.topic || assessment.meta?.topic || '',
+    dueDate: assessment.dueDate || getDefaultDueDate(),
+  };
 };
 
 const TeacherAssessmentsPage: React.FC = () => {
@@ -30,7 +60,7 @@ const TeacherAssessmentsPage: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, _setSuccess] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
   const [selectedAssessment, setSelectedAssessment] = useState<any | null>(null);
@@ -47,7 +77,8 @@ const TeacherAssessmentsPage: React.FC = () => {
     questionCount: '5',
     includeAnswerKey: true,
     topic: '',
-    requiredTest: ''
+    requiredTest: '',
+    dueDate: getDefaultDueDate()
   });
 
   useEffect(() => {
@@ -59,10 +90,10 @@ const TeacherAssessmentsPage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const assessmentData = await fetchAssessments(user.id);
-        setAssessments(assessmentData);
         const classData = await fetchTeacherClasses(user.id);
         setClasses(classData);
+        const assessmentData = await fetchAssessments(user.id);
+        setAssessments(assessmentData.map(assessment => formatAssessmentRecord(assessment, classData)));
         if (classData.length > 0) {
           const firstClass = classData[0];
           setFormData(prev => ({ ...prev, classId: firstClass.id }));
@@ -135,29 +166,86 @@ const TeacherAssessmentsPage: React.FC = () => {
         requiredTest: formData.requiredTest
       });
 
+      const selectedClass = classes.find(c => c.id === formData.classId);
+      const fallbackId = `local-assessment-${Date.now()}`;
       const newAssessment = {
-        id: result.assessment.id,
-        title: result.assessment.title,
+        id: result.assessment?.id || fallbackId,
+        title: result.assessment?.title || formData.title,
         classId: formData.classId,
-        className: classes.find(c => c.id === formData.classId)?.name || '',
-        created: result.assessment.created_at,
-        status: result.assessment.status,
+        className: selectedClass?.name || '',
+        created: result.assessment?.created_at || new Date().toISOString(),
+        status: 'published',
+        assessmentType: formData.assessmentType,
+        topic: formData.topic,
+        dueDate: formData.dueDate,
+        content: result.markdown,
         questionCount: parseInt(formData.questionCount),
         averageScore: null,
-        submissionRate: `0/${classes.find(c => c.id === formData.classId)?.student_count || 0}`
+        submissionRate: `0/${selectedClass?.student_count || 0}`
       };
 
+      await handlePublishAssessment(newAssessment, result.markdown);
       setAssessments([newAssessment, ...assessments]);
-      setFormData({ title: '', classId: '', assessmentType: 'quiz', difficulty: 'medium', questionCount: '5', includeAnswerKey: true, topic: '', requiredTest: '' });
+      setFormData({ title: '', classId: '', assessmentType: 'quiz', difficulty: 'medium', questionCount: '5', includeAnswerKey: true, topic: '', requiredTest: '', dueDate: getDefaultDueDate() });
       setShowCreateModal(false);
       setSelectedAssessment(newAssessment);
-      setSelectedQuestions(result.questions);
+      setSelectedQuestions(generateMockQuestions(parseInt(formData.questionCount), formData.title));
       setShowViewModal(true);
+      setSuccess('Assessment created and sent to the connected student.');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
       setError(err.message || 'Failed to create assessment. Please try again.');
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handlePublishAssessment = async (assessment: any, content?: string | null) => {
+    const circle = loadConnectionCircle();
+    if (circle.status !== 'connected') {
+      setError('Connect the student and parent first, then homework and assessments can be sent across hubs.');
+      return null;
+    }
+
+    const classId = assessment.classId || assessment.class_id || formData.classId;
+    const selectedClass = classes.find(cls => cls.id === classId);
+    const dueAt = assessment.dueDate
+      ? new Date(`${assessment.dueDate}T23:59:00`).toISOString()
+      : undefined;
+
+    const published = await publishConnectedAssignment(circle, {
+      source_assessment_id: String(assessment.id),
+      class_id: classId || null,
+      class_name: assessment.className || selectedClass?.name || null,
+      subject: selectedClass?.subject || assessment.subject || assessment.meta?.subject || null,
+      grade_level: selectedClass?.grade || assessment.grade || assessment.meta?.grade || null,
+      title: assessment.title,
+      assignment_type: normalizeAssessmentType(assessment.assessmentType || assessment.assessment_type),
+      topic: assessment.topic || null,
+      description: assessment.topic || `${assessment.title} has been assigned by your teacher.`,
+      content: content || assessment.content || null,
+      due_at: dueAt,
+      max_score: 100,
+    });
+
+    const message = [
+      `New ${published.assignment_type}: ${published.title}`,
+      published.class_name ? `Class: ${published.class_name}` : '',
+      published.subject ? `Subject: ${published.subject}` : '',
+      published.due_at ? `Due: ${new Date(published.due_at).toLocaleDateString()}` : '',
+    ].filter(Boolean).join('\n');
+
+    await Promise.all([
+      sendConnectedMessage(circle, ['student', 'teacher'], 'teacher', message),
+      sendConnectedMessage(circle, ['teacher', 'parent'], 'teacher', message),
+    ]);
+
+    setAssessments(current => current.map(item => (
+      item.id === assessment.id ? { ...item, status: 'published' } : item
+    )));
+    setSuccess('Sent to the connected student and parent.');
+    setTimeout(() => setSuccess(null), 3000);
+    return published;
   };
 
   const handleCreateClass = async (classData: { name: string; subject: string; grade: string; description: string; syllabus: string; classSize?: number; duration?: number; }) => {
@@ -271,7 +359,7 @@ const TeacherAssessmentsPage: React.FC = () => {
               <span className="md:hidden">Grade</span>
             </Link>
             <button
-              onClick={() => navigate('/teachers/assessments/generate')}
+              onClick={() => setShowCreateModal(true)}
               className="inline-flex items-center bg-[#212754] text-white px-4 py-2.5 rounded-xl hover:bg-[#212754]/90 transition-colors text-sm font-medium whitespace-nowrap shadow-sm"
             >
               <PlusCircle size={15} className="mr-2" />
@@ -473,6 +561,14 @@ const TeacherAssessmentsPage: React.FC = () => {
                           <Download size={14} />
                           Download
                         </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handlePublishAssessment(assessment); }}
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#212754]/70 hover:text-[#212754] hover:bg-[#212754]/5 rounded-lg transition-colors"
+                          title="Send to students"
+                        >
+                          <Upload size={14} />
+                          Send
+                        </button>
                         <div className="flex-1" />
                         <span className="text-xs text-[#212754]/35">{assessment.submissionRate}</span>
                       </div>
@@ -632,6 +728,11 @@ const TeacherAssessmentsPage: React.FC = () => {
                   <textarea name="topic" className={`${inputClass} resize-none`} rows={3} placeholder="Describe what topics this assessment should cover..." value={formData.topic} onChange={handleInputChange} />
                 </div>
 
+                <div>
+                  <label className={labelClass}>Due Date</label>
+                  <input type="date" name="dueDate" className={inputClass} value={formData.dueDate} onChange={handleInputChange} />
+                </div>
+
                 <label className="flex items-center cursor-pointer group">
                   <input type="checkbox" name="includeAnswerKey" checked={formData.includeAnswerKey} onChange={handleCheckboxChange}
                     className="rounded border-white/20 text-[#212754] focus:ring-[#212754]/30 transition-colors" />
@@ -653,7 +754,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                     ) : (
                       <>
                         <Wand2 size={15} className="mr-2" />
-                        Generate
+                        Generate & Send
                       </>
                     )}
                   </button>

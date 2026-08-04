@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import StudentLayout from '../../components/students/StudentLayout';
 import { 
   FileText, 
@@ -7,18 +7,69 @@ import {
   Clock, 
   XCircle, 
   MessageSquare,
-  Search,
-  Filter
+  Search
 } from 'lucide-react';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import {
+  CONNECTED_ASSIGNMENTS_UPDATED_EVENT,
+  ConnectedAssignment,
+  formatAssignmentDueDate,
+  loadConnectedAssignments,
+  submitConnectedAssignment,
+} from '../../lib/connected-assignments';
+import { sendConnectedMessage } from '../../lib/connected-messages';
+
+interface StudentAssignmentView {
+  id: string;
+  title: string;
+  subject: string;
+  dueDate: string;
+  status: string;
+  description: string;
+  feedback: string | null;
+  grade: string | null;
+  isConnected?: boolean;
+  raw?: ConnectedAssignment;
+}
+
+type AssignmentFilter = 'all' | 'Not Started' | 'In Progress' | 'Submitted' | 'Graded';
+const assignmentFilters: AssignmentFilter[] = ['all', 'Not Started', 'In Progress', 'Submitted', 'Graded'];
 
 const AssignmentsPage: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | 'Not Started' | 'In Progress' | 'Submitted' | 'Graded'>('all');
+  const [filter, setFilter] = useState<AssignmentFilter>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [localStatuses, setLocalStatuses] = useState<Record<number, string>>({});
+  const [localStatuses, setLocalStatuses] = useState<Record<string, string>>({});
+  const [circle, setCircle] = useState(() => loadConnectionCircle());
+  const [connectedAssignments, setConnectedAssignments] = useState<ConnectedAssignment[]>([]);
 
-  const assignments = [
+  useEffect(() => {
+    let mounted = true;
+
+    const refreshAssignments = () => {
+      const nextCircle = loadConnectionCircle();
+      setCircle(nextCircle);
+      loadConnectedAssignments(nextCircle).then(assignments => {
+        if (mounted) setConnectedAssignments(assignments);
+      });
+    };
+
+    refreshAssignments();
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener('storage', refreshAssignments);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener('storage', refreshAssignments);
+    };
+  }, []);
+
+  const assignments = useMemo<StudentAssignmentView[]>(() => {
+    const previewAssignments: StudentAssignmentView[] = [
     {
-      id: 1,
+      id: 'preview-1',
       title: 'Calculus Worksheet 4',
       subject: 'Mathematics',
       dueDate: 'Oct 12, 11:59 PM',
@@ -28,7 +79,7 @@ const AssignmentsPage: React.FC = () => {
       grade: null
     },
     {
-      id: 2,
+      id: 'preview-2',
       title: 'Essay Draft: The Great Gatsby',
       subject: 'Literature',
       dueDate: 'Oct 15, 5:00 PM',
@@ -38,7 +89,7 @@ const AssignmentsPage: React.FC = () => {
       grade: null
     },
     {
-      id: 3,
+      id: 'preview-3',
       title: 'Lab Report: Photosynthesis',
       subject: 'Biology',
       dueDate: 'Oct 8, 11:59 PM',
@@ -48,7 +99,7 @@ const AssignmentsPage: React.FC = () => {
       grade: null
     },
     {
-      id: 4,
+      id: 'preview-4',
       title: 'History Quiz 2',
       subject: 'World History',
       dueDate: 'Oct 1, 11:59 PM',
@@ -57,7 +108,27 @@ const AssignmentsPage: React.FC = () => {
       feedback: 'Great job! Make sure to review the causes of WWI.',
       grade: '95%'
     }
-  ];
+    ];
+
+    const sharedAssignments = connectedAssignments.map<StudentAssignmentView>(assignment => ({
+      id: assignment.id,
+      title: assignment.title,
+      subject: assignment.subject || assignment.class_name || 'Assigned work',
+      dueDate: formatAssignmentDueDate(assignment.due_at),
+      status: assignment.status === 'graded'
+        ? 'Graded'
+        : assignment.status === 'submitted'
+          ? 'Submitted'
+          : 'Not Started',
+      description: assignment.description || assignment.topic || 'Open the assignment from your teacher.',
+      feedback: assignment.feedback || null,
+      grade: assignment.grade_label || (typeof assignment.score === 'number' && assignment.max_score ? `${Math.round((assignment.score / assignment.max_score) * 100)}%` : null),
+      isConnected: true,
+      raw: assignment,
+    }));
+
+    return [...sharedAssignments, ...previewAssignments];
+  }, [connectedAssignments]);
 
   const assignmentsWithLocalStatus = assignments.map(assignment => ({
     ...assignment,
@@ -73,8 +144,22 @@ const AssignmentsPage: React.FC = () => {
     return matchesFilter && matchesSearch;
   });
 
-  const handleUploadWork = (assignmentId: number) => {
-    setLocalStatuses(prev => ({ ...prev, [assignmentId]: 'Submitted' }));
+  const handleUploadWork = async (assignment: StudentAssignmentView) => {
+    if (assignment.isConnected) {
+      const updated = await submitConnectedAssignment(circle, assignment.id);
+      if (updated) {
+        setConnectedAssignments(await loadConnectedAssignments(circle));
+        await sendConnectedMessage(
+          circle,
+          ['student', 'teacher'],
+          'student',
+          `Submitted ${updated.assignment_type}: ${updated.title}`
+        );
+      }
+      return;
+    }
+
+    setLocalStatuses(prev => ({ ...prev, [assignment.id]: 'Submitted' }));
   };
 
   const handleAddComment = (assignmentTitle: string) => {
@@ -127,10 +212,10 @@ const AssignmentsPage: React.FC = () => {
           </div>
 
           <div className="flex gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 hide-scrollbar">
-            {['all', 'Not Started', 'In Progress', 'Submitted', 'Graded'].map(f => (
+            {assignmentFilters.map(f => (
               <button
                 key={f}
-                onClick={() => setFilter(f as any)}
+                onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
                   filter === f
                     ? 'bg-greyed-navy text-white'
@@ -154,6 +239,9 @@ const AssignmentsPage: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-bold text-greyed-navy">{assignment.title}</h3>
                     <p className="text-sm text-greyed-blue font-semibold">{assignment.subject}</p>
+                    {assignment.isConnected && (
+                      <p className="mt-1 text-xs font-bold uppercase tracking-wide text-green-700">Teacher assigned</p>
+                    )}
                   </div>
                   <div className="hidden sm:block">
                     {getStatusBadge(assignment.status)}
@@ -193,7 +281,7 @@ const AssignmentsPage: React.FC = () => {
                 
                 {assignment.status !== 'Graded' && assignment.status !== 'Submitted' && (
                   <button
-                    onClick={() => handleUploadWork(assignment.id)}
+                    onClick={() => handleUploadWork(assignment)}
                     className="w-full py-2.5 px-4 bg-[#2a2f6e] hover:bg-[#212754] text-white rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm mb-3"
                   >
                     <Upload className="w-4 h-4" />

@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import StudentLayout from '../../components/students/StudentLayout';
 import { 
   TrendingUp, 
   Award, 
   Star, 
-  Target, 
-  ChevronRight,
   BookOpen,
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import {
+  CONNECTED_ASSIGNMENTS_UPDATED_EVENT,
+  ConnectedAssignment,
+  loadConnectedAssignments,
+} from '../../lib/connected-assignments';
 
 const GradesProgressPage: React.FC = () => {
+  const [connectedAssignments, setConnectedAssignments] = useState<ConnectedAssignment[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const refreshAssignments = () => {
+      const circle = loadConnectionCircle();
+      loadConnectedAssignments(circle).then(assignments => {
+        if (mounted) setConnectedAssignments(assignments);
+      });
+    };
+
+    refreshAssignments();
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener('storage', refreshAssignments);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener('storage', refreshAssignments);
+    };
+  }, []);
+
   // Gamified data
   const xp = 8450;
   const level = 12;
@@ -25,12 +54,35 @@ const GradesProgressPage: React.FC = () => {
     { subject: 'History', level: 7, progress: 60, color: 'bg-green-500' },
   ];
 
-  const recentResults = [
-    { id: 1, title: 'Calculus Midterm', subject: 'Mathematics', type: 'Test', score: '92%', date: 'Oct 15', xpEarned: 500 },
-    { id: 2, title: 'Gatsby Essay', subject: 'Literature', type: 'Assignment', score: '88%', date: 'Oct 12', xpEarned: 300 },
-    { id: 3, title: 'Kinematics Lab', subject: 'Physics', type: 'Assignment', score: '85%', date: 'Oct 10', xpEarned: 250 },
-    { id: 4, title: 'WWII Quiz', subject: 'History', type: 'Test', score: '95%', date: 'Oct 8', xpEarned: 150 },
-  ];
+  const recentResults = useMemo(() => {
+    const teacherResults = connectedAssignments
+      .filter(assignment => assignment.status === 'graded')
+      .map(assignment => {
+        const percent = typeof assignment.score === 'number' && assignment.max_score
+          ? Math.round((assignment.score / assignment.max_score) * 100)
+          : 0;
+
+        return {
+          id: assignment.id,
+          title: assignment.title,
+          subject: assignment.subject || assignment.class_name || 'Assigned work',
+          type: assignment.assignment_type === 'homework' ? 'Assignment' : 'Test',
+          score: assignment.grade_label || `${percent}%`,
+          date: assignment.graded_at
+            ? new Date(assignment.graded_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+            : 'Recently',
+          xpEarned: Math.max(100, percent * 5),
+        };
+      });
+
+    return [
+      ...teacherResults,
+      { id: 'preview-1', title: 'Calculus Midterm', subject: 'Mathematics', type: 'Test', score: '92%', date: 'Oct 15', xpEarned: 500 },
+      { id: 'preview-2', title: 'Gatsby Essay', subject: 'Literature', type: 'Assignment', score: '88%', date: 'Oct 12', xpEarned: 300 },
+      { id: 'preview-3', title: 'Kinematics Lab', subject: 'Physics', type: 'Assignment', score: '85%', date: 'Oct 10', xpEarned: 250 },
+      { id: 'preview-4', title: 'WWII Quiz', subject: 'History', type: 'Test', score: '95%', date: 'Oct 8', xpEarned: 150 },
+    ];
+  }, [connectedAssignments]);
 
   const skillsMastery = [
     { skill: 'Algebraic Equations', subject: 'Mathematics' },

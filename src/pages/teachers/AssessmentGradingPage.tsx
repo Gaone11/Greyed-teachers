@@ -9,6 +9,14 @@ import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import {
+  CONNECTED_ASSIGNMENTS_UPDATED_EVENT,
+  ConnectedAssignment,
+  gradeConnectedAssignment,
+  loadConnectedAssignments,
+} from '../../lib/connected-assignments';
+import { sendConnectedMessage } from '../../lib/connected-messages';
 
 const mockStudents = [
   { id: 1, name: "Emma Smith", grade: "A", strengths: ["Mathematical reasoning", "Problem solving"], weaknesses: ["Time management"], insights: "Shows excellent analytical skills but could benefit from more structured practice." },
@@ -32,12 +40,46 @@ const AssessmentGradingPage: React.FC = () => {
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
   const [studentInsights, setStudentInsights] = useState<typeof mockStudents>([]);
   const [activeTab, setActiveTab] = useState<'upload' | 'insights'>('upload');
+  const [circle, setCircle] = useState(() => loadConnectionCircle());
+  const [connectedAssignments, setConnectedAssignments] = useState<ConnectedAssignment[]>([]);
+  const [selectedAssignmentId, setSelectedAssignmentId] = useState('');
+  const [score, setScore] = useState('85');
+  const [maxScore, setMaxScore] = useState('100');
+  const [gradeLabel, setGradeLabel] = useState('85%');
+  const [feedback, setFeedback] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     document.title = "AI Auto-Grading | GreyEd Teachers";
     if (!authLoading && !user) { navigate('/auth/login'); }
   }, [user, authLoading, navigate]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const refreshAssignments = () => {
+      const nextCircle = loadConnectionCircle();
+      setCircle(nextCircle);
+      loadConnectedAssignments(nextCircle).then(assignments => {
+        if (!mounted) return;
+        const gradableAssignments = assignments.filter(assignment => assignment.status !== 'graded');
+        setConnectedAssignments(assignments);
+        setSelectedAssignmentId(current => current || gradableAssignments[0]?.id || assignments[0]?.id || '');
+      });
+    };
+
+    refreshAssignments();
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+    window.addEventListener('storage', refreshAssignments);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener(CONNECTED_ASSIGNMENTS_UPDATED_EVENT, refreshAssignments);
+      window.removeEventListener('storage', refreshAssignments);
+    };
+  }, []);
 
   const handleLogout = async () => { await signOut(); navigate('/'); };
 
@@ -100,11 +142,55 @@ const AssessmentGradingPage: React.FC = () => {
       setSuccess('Assessment successfully processed and graded!');
       setStudentInsights(mockStudents);
       setActiveTab('insights');
-    } catch (error: any) {
-      setError(error.message || 'An error occurred while processing the assessment.');
+      if (selectedAssignmentId) {
+        await handleSaveConnectedGrade('Assessment processed and graded with AI support.');
+      }
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'An error occurred while processing the assessment.');
     } finally {
       setIsProcessing(false);
     }
+  };
+
+  const handleSaveConnectedGrade = async (fallbackFeedback?: string) => {
+    if (!selectedAssignmentId) {
+      setError('Select a sent homework or assessment before saving marks.');
+      return;
+    }
+
+    const numericScore = Number(score);
+    const numericMax = Number(maxScore);
+    if (!Number.isFinite(numericScore) || !Number.isFinite(numericMax) || numericMax <= 0) {
+      setError('Enter a valid score and max score.');
+      return;
+    }
+
+    const updated = await gradeConnectedAssignment(circle, selectedAssignmentId, {
+      score: numericScore,
+      max_score: numericMax,
+      grade_label: gradeLabel || `${Math.round((numericScore / numericMax) * 100)}%`,
+      feedback: feedback || fallbackFeedback || 'Marked by your teacher.',
+    });
+
+    if (!updated) {
+      setError('Could not find that connected assignment to grade.');
+      return;
+    }
+
+    setConnectedAssignments(await loadConnectedAssignments(circle));
+    const message = [
+      `Grade posted: ${updated.title}`,
+      `Mark: ${updated.grade_label}`,
+      updated.feedback ? `Feedback: ${updated.feedback}` : '',
+    ].filter(Boolean).join('\n');
+
+    await Promise.all([
+      sendConnectedMessage(circle, ['student', 'teacher'], 'teacher', message),
+      sendConnectedMessage(circle, ['teacher', 'parent'], 'teacher', message),
+    ]);
+
+    setSuccess('Grade saved and sent to the connected student and parent.');
+    setError(null);
   };
 
   const handleReset = () => {
@@ -254,6 +340,78 @@ const AssessmentGradingPage: React.FC = () => {
               </div>
 
               <div className="p-6">
+                <div className="mb-6 rounded-xl border border-[#212754]/10 bg-[#212754]/3 p-5">
+                  <h3 className="font-headline font-semibold text-[#212754] text-[15px] mb-1.5">Connected Gradebook</h3>
+                  <p className="text-[#212754]/50 text-sm mb-4">
+                    Select a sent homework or assessment, enter the mark, and the result will appear on the student's account.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+                    <label className="md:col-span-2 text-xs font-bold text-[#212754]/70">
+                      Sent work
+                      <select
+                        value={selectedAssignmentId}
+                        onChange={event => setSelectedAssignmentId(event.target.value)}
+                        className="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm font-semibold text-[#212754] outline-none focus:border-[#212754]/40"
+                      >
+                        <option value="">Select assignment</option>
+                        {connectedAssignments.map(assignment => (
+                          <option key={assignment.id} value={assignment.id}>
+                            {assignment.title} - {assignment.status}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="text-xs font-bold text-[#212754]/70">
+                      Score
+                      <input
+                        type="number"
+                        value={score}
+                        onChange={event => {
+                          setScore(event.target.value);
+                          const nextScore = Number(event.target.value);
+                          const nextMax = Number(maxScore);
+                          if (Number.isFinite(nextScore) && Number.isFinite(nextMax) && nextMax > 0) {
+                            setGradeLabel(`${Math.round((nextScore / nextMax) * 100)}%`);
+                          }
+                        }}
+                        className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm font-semibold outline-none focus:border-[#212754]/40"
+                      />
+                    </label>
+                    <label className="text-xs font-bold text-[#212754]/70">
+                      Max
+                      <input
+                        type="number"
+                        value={maxScore}
+                        onChange={event => setMaxScore(event.target.value)}
+                        className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm font-semibold outline-none focus:border-[#212754]/40"
+                      />
+                    </label>
+                    <label className="text-xs font-bold text-[#212754]/70">
+                      Grade
+                      <input
+                        value={gradeLabel}
+                        onChange={event => setGradeLabel(event.target.value)}
+                        className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm font-semibold outline-none focus:border-[#212754]/40"
+                      />
+                    </label>
+                  </div>
+                  <div className="mt-3 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3">
+                    <textarea
+                      value={feedback}
+                      onChange={event => setFeedback(event.target.value)}
+                      className="min-h-[82px] rounded-xl border border-gray-300 px-3 py-2.5 text-sm font-semibold text-[#212754] outline-none focus:border-[#212754]/40"
+                      placeholder="Feedback for the student"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleSaveConnectedGrade()}
+                      className="rounded-xl bg-[#212754] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#212754]/90 md:self-end"
+                    >
+                      Save Grade
+                    </button>
+                  </div>
+                </div>
+
                 {/* Upload Tab */}
                 {activeTab === 'upload' && (
                   <AnimatePresence mode="wait">
