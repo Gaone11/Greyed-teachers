@@ -40,9 +40,9 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
   collapsed = false,
   onToggleCollapse,
   isMobile = false,
-  isOpen = false,
   onClose
 }) => {
+  const { user } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState(0);
@@ -161,7 +161,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     },
     {
       id: 'assignments',
-      label: 'Assignments & Homework',
+      label: 'Homework & Assessments',
       icon: ClipboardList,
       path: '/teachers/assignments',
       color: 'from-greyed-navy to-greyed-navy',
@@ -295,8 +295,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
         {/* Knowledgebase — only visible for specific emails */}
         {(() => {
           const KB_EMAILS = ['pax@greyed.org', 'gaone@orionx.xyz'];
-          const { user: kbUser } = useAuth();
-          const hasKbAccess = KB_EMAILS.includes(kbUser?.email || '');
+          const hasKbAccess = KB_EMAILS.includes(user?.email || '');
           if (!hasKbAccess) return null;
           return (
             <Link
@@ -324,7 +323,6 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
         {/* Admin Section — only visible for authorized emails */}
         {(() => {
           const ADMIN_EMAILS = ['monti@orionx.xyz', 'gaone@orionx.xyz'];
-          const { user } = useAuth();
           const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
           if (!isAdmin) return null;
           return (

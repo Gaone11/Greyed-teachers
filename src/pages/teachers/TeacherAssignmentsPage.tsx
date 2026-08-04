@@ -333,9 +333,9 @@ const TeacherAssignmentsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-headline font-bold text-greyed-navy flex items-center gap-2">
             <ClipboardList className="w-8 h-8 text-greyed-blue" />
-            Assignments & Homework
+            Homework & Assessments
           </h1>
-          <p className="text-greyed-navy/70 mt-1">Create homework, grade submissions, and give feedback.</p>
+          <p className="text-greyed-navy/70 mt-1">Create homework or upload assessments, grade submissions, and give feedback.</p>
         </div>
 
         <button
@@ -343,7 +343,7 @@ const TeacherAssignmentsPage: React.FC = () => {
           className="bg-greyed-navy hover:bg-greyed-navy/90 text-white px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="w-5 h-5" />
-          Create Work
+          Create Homework/Assessment
         </button>
       </div>
 
@@ -353,7 +353,7 @@ const TeacherAssignmentsPage: React.FC = () => {
             className={`px-6 py-4 font-semibold text-sm transition-colors relative whitespace-nowrap ${activeTab === 'active' ? 'text-greyed-navy' : 'text-greyed-navy/50 hover:text-greyed-navy/80'}`}
             onClick={() => setActiveTab('active')}
           >
-            Active Homework
+            Active Work
             {activeTab === 'active' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-greyed-navy"></div>}
           </button>
           <button
@@ -426,7 +426,7 @@ const TeacherAssignmentsPage: React.FC = () => {
               <div>
                 <h2 className="text-xl font-bold text-greyed-navy">Create Homework or Assessment</h2>
                 <p className="mt-1 text-sm font-semibold text-greyed-navy/60">
-                  This will appear in the connected student's Assignments & Homework page.
+                  This will appear in the connected student's Homework & Assessments page.
                 </p>
               </div>
               <button

@@ -35,7 +35,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   collapsed = false,
   onToggleCollapse,
   isMobile = false,
-  isOpen = false,
   onClose
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
@@ -104,7 +103,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
     },
     {
       id: 'assignments',
-      label: 'Assignments & Homework',
+      label: 'Homework & Assessments',
       icon: FileText,
       path: '/students/assignments',
     },

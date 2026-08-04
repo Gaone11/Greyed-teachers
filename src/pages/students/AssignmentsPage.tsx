@@ -195,9 +195,9 @@ const AssignmentsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-headline font-bold text-greyed-navy flex items-center gap-2">
             <FileText className="w-8 h-8 text-greyed-blue" />
-            Assignments & Homework
+            Homework & Assessments
           </h1>
-          <p className="text-greyed-navy/75 mt-1 font-medium">Track, submit, and review your coursework.</p>
+          <p className="text-greyed-navy/75 mt-1 font-medium">Track homework, open assessments, submit work, and review feedback.</p>
         </div>
       </div>
 
@@ -209,7 +209,7 @@ const AssignmentsPage: React.FC = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-greyed-navy/40" />
             <input 
               type="text" 
-              placeholder="Search assignments..." 
+              placeholder="Search homework or assessments..." 
               className="w-full pl-9 pr-4 py-2 bg-white border border-greyed-navy/10 rounded-xl text-sm focus:outline-none focus:border-greyed-blue transition-colors"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}

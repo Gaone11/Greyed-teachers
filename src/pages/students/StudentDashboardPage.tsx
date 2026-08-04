@@ -89,7 +89,7 @@ const StudentDashboardPage: React.FC = () => {
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-xl font-bold text-greyed-navy flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-greyed-blue" />
-                Homework & Assignments
+                Homework & Assessments
               </h2>
               <Link to="/students/assignments" className="text-sm font-semibold text-greyed-blue hover:text-[#2a2f6e] transition-colors">
                 View All
