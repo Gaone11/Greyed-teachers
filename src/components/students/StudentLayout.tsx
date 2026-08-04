@@ -10,7 +10,7 @@ import { X } from 'lucide-react';
 
 interface StudentLayoutProps {
   children: React.ReactNode;
-  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge';
+  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge' | 'connections';
 }
 
 const StudentLayout: React.FC<StudentLayoutProps> = ({ children, activePage }) => {

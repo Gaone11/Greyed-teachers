@@ -9,12 +9,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Shield,
-  Bell
+  Bell,
+  UserPlus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface ParentSidebarProps {
-  activePage: 'dashboard' | 'communication' | 'timetable' | 'notifications' | 'settings';
+  activePage: 'dashboard' | 'communication' | 'timetable' | 'notifications' | 'settings' | 'connections';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -95,6 +96,12 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
       label: 'Communication', 
       icon: MessageSquare, 
       path: '/parents/communication' 
+    },
+    {
+      id: 'connections',
+      label: 'Connections',
+      icon: UserPlus,
+      path: '/parents/connections'
     },
     { 
       id: 'timetable', 

@@ -49,6 +49,7 @@ import ParentDashboardPage from './pages/parents/ParentDashboardPage';
 import ParentCommunicationPage from './pages/parents/ParentCommunicationPage';
 import ParentTimetablePage from './pages/parents/ParentTimetablePage';
 import ParentNotificationsPage from './pages/parents/ParentNotificationsPage';
+import ConnectionsPage from './pages/connections/ConnectionsPage';
 import Loader from './components/ui/Loader';
 
 // Checkout pages removed — platform is free
@@ -296,6 +297,12 @@ const AppContent = () => {
             <TeacherCommunicationPage />
           </ProtectedTeacherRoute>
         } />
+
+        <Route path="/teachers/connections" element={
+          <ProtectedTeacherRoute>
+            <ConnectionsPage role="teacher" />
+          </ProtectedTeacherRoute>
+        } />
         
         <Route path="/teachers/analytics" element={
           <ProtectedTeacherRoute>
@@ -368,6 +375,11 @@ const AppContent = () => {
             <CommunicationCenterPage />
           </ProtectedStudentRoute>
         } />
+        <Route path="/students/connections" element={
+          <ProtectedStudentRoute>
+            <ConnectionsPage role="student" />
+          </ProtectedStudentRoute>
+        } />
         <Route path="/students/goals" element={
           <ProtectedStudentRoute>
             <LearningGoalsPage />
@@ -408,6 +420,11 @@ const AppContent = () => {
         <Route path="/parents/communication" element={
           <ProtectedParentRoute>
             <ParentCommunicationPage />
+          </ProtectedParentRoute>
+        } />
+        <Route path="/parents/connections" element={
+          <ProtectedParentRoute>
+            <ConnectionsPage role="parent" />
           </ProtectedParentRoute>
         } />
         <Route path="/parents/timetable" element={

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Loader, Search, Filter, PlusCircle, AlertCircle, Users, CreditCard as Edit2, Trash2, BookOpen, Calendar, MoreVertical, X, ChevronRight, Menu } from 'lucide-react';
+import { Loader, Search, Filter, PlusCircle, AlertCircle, Users, Trash2, MoreVertical, X, ChevronRight } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
@@ -11,6 +11,61 @@ import { fetchTeacherClasses, createClass, deleteClass } from '../../lib/api/tea
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
+
+type ClassStudentPayload = {
+  class_id: string;
+  name?: string;
+  full_name?: string;
+  student_name?: string;
+  student_id?: string;
+  teacher_id?: string;
+};
+
+const getClassStudentPayloads = (classId: string, name: string, teacherId: string): ClassStudentPayload[] => {
+  const basePayloads: ClassStudentPayload[] = [
+    { class_id: classId, name },
+    { class_id: classId, full_name: name },
+    { class_id: classId, student_name: name },
+    { class_id: classId, student_id: name },
+  ];
+
+  return basePayloads.flatMap(payload => [
+    payload,
+    { ...payload, teacher_id: teacherId },
+  ]);
+};
+
+const insertClassStudent = async (classId: string, name: string, teacherId: string) => {
+  let lastError: unknown = null;
+
+  for (const payload of getClassStudentPayloads(classId, name, teacherId)) {
+    const { error } = await supabase
+      .from('class_students')
+      .insert(payload);
+
+    if (!error) {
+      return;
+    }
+
+    lastError = error;
+  }
+
+  throw lastError || new Error('Unable to save student with the current class_students schema.');
+};
+
+const insertClassStudents = async (classId: string, students: { name: string }[], teacherId: string) => {
+  const uniqueNames = [...new Set(
+    students
+      .map(student => student.name.trim())
+      .filter(Boolean)
+  )];
+
+  for (const name of uniqueNames) {
+    await insertClassStudent(classId, name, teacherId);
+  }
+
+  return uniqueNames.length;
+};
 
 const TeacherClassesPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
@@ -95,46 +150,38 @@ const TeacherClassesPage: React.FC = () => {
     students?: { name: string }[];
   }) => {
     if (!user) return;
-    
-    try {
-      setError(null);
-      
-      const initialStudentCount = classData.students?.length || classData.classSize;
 
-      // Create the class via API
-      const newClass = await createClass({
-        teacher_id: user.id,
-        name: classData.name,
-        subject: classData.subject,
-        grade: classData.grade,
-        description: classData.description,
-        syllabus: classData.syllabus,
-        student_count: initialStudentCount
-      });
+    setError(null);
 
-      const studentRows = (classData.students || [])
-        .map(student => student.name.trim())
-        .filter(Boolean)
-        .map(name => ({ class_id: newClass.id, name }));
+    const initialStudentCount = classData.students?.length || classData.classSize;
 
-      if (studentRows.length > 0) {
-        const { error: studentsError } = await supabase
-          .from('class_students')
-          .insert(studentRows);
+    // Create the class via API
+    const newClass = await createClass({
+      teacher_id: user.id,
+      name: classData.name,
+      subject: classData.subject,
+      grade: classData.grade,
+      description: classData.description,
+      syllabus: classData.syllabus,
+      student_count: initialStudentCount
+    });
 
-        if (studentsError) {
-          setError('Class created, but the student list could not be saved. You can add students from the class page.');
-        }
+    const studentsToSave = classData.students || [];
+    let savedStudentCount = 0;
+
+    if (studentsToSave.length > 0) {
+      try {
+        savedStudentCount = await insertClassStudents(newClass.id, studentsToSave, user.id);
+      } catch {
+        setError('Class created, but the student list could not be saved. You can add students from the class page.');
       }
-      
-      // Add the new class to state
-      setClasses([...classes, { ...newClass, student_count: studentRows.length || newClass.student_count }]);
-      
-      // Close the modal
-      setShowCreateModal(false);
-    } catch (err: any) {
-      throw err; // Re-throw to be handled by the form component
     }
+
+    // Add the new class to state
+    setClasses([...classes, { ...newClass, student_count: savedStudentCount || newClass.student_count }]);
+
+    // Close the modal
+    setShowCreateModal(false);
   };
   
   // Handle deleting a class

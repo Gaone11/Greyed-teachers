@@ -8,7 +8,7 @@ import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface ParentLayoutProps {
   children: React.ReactNode;
-  activePage: 'dashboard' | 'communication' | 'timetable' | 'notifications' | 'settings';
+  activePage: 'dashboard' | 'communication' | 'timetable' | 'notifications' | 'settings' | 'connections';
 }
 
 const ParentLayout: React.FC<ParentLayoutProps> = ({ children, activePage }) => {

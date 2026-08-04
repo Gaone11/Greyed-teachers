@@ -15,11 +15,12 @@ import {
   Bot,
   GraduationCap,
   Award,
-  Telescope
+  Telescope,
+  UserPlus
 } from 'lucide-react';
 
 interface StudentSidebarProps {
-  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge';
+  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge' | 'connections';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -118,6 +119,12 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       label: 'Communication Center',
       icon: MessageSquare,
       path: '/students/messages',
+    },
+    {
+      id: 'connections',
+      label: 'Connections',
+      icon: UserPlus,
+      path: '/students/connections',
     },
     {
       id: 'goals',

@@ -19,12 +19,13 @@ import {
   UserCheck,
   ClipboardList,
   BarChart2,
-  Calendar
+  Calendar,
+  UserPlus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface TeacherSidebarProps {
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'tutors' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable';
+  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'tutors' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable' | 'connections';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -171,6 +172,14 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
       label: 'Communication Center',
       icon: MessageSquare,
       path: '/teachers/messages',
+      color: 'from-greyed-navy to-greyed-navy',
+      activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
+    },
+    {
+      id: 'connections',
+      label: 'Connections',
+      icon: UserPlus,
+      path: '/teachers/connections',
       color: 'from-greyed-navy to-greyed-navy',
       activeColor: 'bg-greyed-blue/20 text-greyed-navy border-greyed-blue/30'
     },

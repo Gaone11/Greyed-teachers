@@ -8,7 +8,7 @@ import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface TeacherLayoutProps {
   children: React.ReactNode;
-  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable';
+  activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'families' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable' | 'connections';
 }
 
 const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) => {
