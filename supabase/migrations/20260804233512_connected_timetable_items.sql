@@ -1,6 +1,10 @@
 create table if not exists public.connected_timetable_items (
   id uuid primary key default gen_random_uuid(),
   circle_key text not null,
+  class_id uuid,
+  class_name text,
+  subject text,
+  grade text,
   title text not null,
   item_type text not null default 'Class',
   day_label text not null,

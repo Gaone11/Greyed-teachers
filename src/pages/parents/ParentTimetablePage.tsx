@@ -20,6 +20,9 @@ import {
 
 interface ParentScheduleItem {
   id: string;
+  className?: string | null;
+  subject?: string | null;
+  grade?: string | null;
   title: string;
   time: string;
   location: string;
@@ -74,6 +77,9 @@ const ParentTimetablePage: React.FC = () => {
 
     const sharedSchedule = teacherUpdates.map<ParentScheduleItem>(update => ({
       id: update.id,
+      className: update.class_name,
+      subject: update.subject,
+      grade: update.grade,
       title: update.title,
       time: formatTimetableTimeRange(update),
       location: update.location,
@@ -202,6 +208,11 @@ const ParentTimetablePage: React.FC = () => {
                               </span>
                             )}
                             <h4 className="font-bold text-greyed-navy text-sm mb-2">{item.title}</h4>
+                            {(item.className || item.subject || item.grade) && (
+                              <p className="mb-2 text-[11px] font-semibold text-greyed-navy/60">
+                                {[item.className, item.subject, item.grade].filter(Boolean).join(' • ')}
+                              </p>
+                            )}
                             <div className="space-y-1.5">
                               <div className="flex items-center gap-1.5 text-xs text-greyed-navy/70">
                                 <Clock className="w-3.5 h-3.5 text-greyed-blue flex-shrink-0" />

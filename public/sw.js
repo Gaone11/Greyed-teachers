@@ -1,18 +1,20 @@
-const CACHE_NAME = 'greyed-v1.0.0';
-const RUNTIME_CACHE = 'greyed-runtime';
+const CACHE_NAME = 'greyed-v1.0.2';
+const RUNTIME_CACHE = 'greyed-runtime-v1.0.2';
+const APP_SCOPE = new URL(self.registration.scope).pathname.replace(/\/$/, '');
+const scopedPath = (path) => `${APP_SCOPE}${path}` || '/';
 
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/favicon.svg',
-  '/manifest.json'
+  scopedPath('/'),
+  scopedPath('/index.html'),
+  scopedPath('/favicon.svg'),
+  scopedPath('/manifest.json')
 ];
 
 const CACHE_STRATEGIES = {
   fonts: 'cache-first',
   images: 'cache-first',
   api: 'network-first',
-  static: 'cache-first',
+  static: 'network-first',
   default: 'network-first'
 };
 
@@ -123,7 +125,7 @@ async function networkFirst(request) {
     }
 
     if (request.destination === 'document') {
-      const offlineResponse = await caches.match('/index.html');
+      const offlineResponse = await caches.match(scopedPath('/index.html'));
       if (offlineResponse) {
         return offlineResponse;
       }
@@ -175,7 +177,7 @@ self.addEventListener('notificationclick', (event) => {
 
   if (event.action === 'open') {
     event.waitUntil(
-      clients.openWindow('/')
+      clients.openWindow(scopedPath('/'))
     );
   }
 });

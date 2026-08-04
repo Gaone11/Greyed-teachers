@@ -25,6 +25,8 @@ type TimetableView = 'daily' | 'weekly' | 'monthly';
 
 interface StudentClass {
   id: string;
+  className?: string | null;
+  grade?: string | null;
   subject: string;
   type: 'math' | 'science' | 'literature' | 'history' | 'art';
   time: string;
@@ -139,6 +141,8 @@ const SmartTimetablePage: React.FC = () => {
 
     const sharedClasses = teacherUpdates.map<StudentClass>(update => ({
       id: update.id,
+      className: update.class_name,
+      grade: update.grade,
       subject: update.title,
       type: update.item_type === 'Exam' ? 'history' : 'science',
       time: formatTimetableTimeRange(update),
@@ -472,6 +476,11 @@ const SmartTimetablePage: React.FC = () => {
                 {selectedClass.day} • {selectedClass.time}
                 {selectedClass.isTeacherUpdate ? ' • Teacher update' : ''}
               </p>
+              {(selectedClass.className || selectedClass.grade) && (
+                <p className="mt-1 text-sm font-semibold text-greyed-navy/60">
+                  {[selectedClass.className, selectedClass.grade].filter(Boolean).join(' • ')}
+                </p>
+              )}
             </div>
             <button
               type="button"
@@ -562,6 +571,11 @@ const ClassCard = ({
           <h3 className="font-bold text-sm leading-tight">{cls.subject}</h3>
           {isSynced && <CheckCircle className="h-4 w-4 shrink-0" />}
         </div>
+        {(cls.className || cls.grade) && (
+          <p className="mt-1 text-[10px] font-semibold opacity-80">
+            {[cls.className, cls.grade].filter(Boolean).join(' • ')}
+          </p>
+        )}
         <p className="text-[10px] opacity-80 mt-1 flex items-center gap-1 font-medium">
           <Clock className="w-3 h-3" /> {cls.time}
         </p>

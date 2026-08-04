@@ -6,6 +6,10 @@ export type TimetableItemType = 'Class' | 'Meeting' | 'Office Hours' | 'Exam' | 
 export interface ConnectedTimetableItem {
   id: string;
   circle_key: string;
+  class_id?: string | null;
+  class_name?: string | null;
+  subject?: string | null;
+  grade?: string | null;
   title: string;
   item_type: TimetableItemType;
   day_label: string;
@@ -21,6 +25,10 @@ export interface ConnectedTimetableItem {
 }
 
 export interface ConnectedTimetableInput {
+  class_id?: string | null;
+  class_name?: string | null;
+  subject?: string | null;
+  grade?: string | null;
   title: string;
   item_type: TimetableItemType;
   day_label: string;
@@ -111,7 +119,7 @@ export const loadConnectedTimetableItems = async (
   try {
     const { data, error } = await supabase
       .from('connected_timetable_items')
-      .select('id,circle_key,title,item_type,day_label,item_date,start_time,end_time,location,notes,created_by_role,created_by_name,created_at,updated_at')
+      .select('id,circle_key,class_id,class_name,subject,grade,title,item_type,day_label,item_date,start_time,end_time,location,notes,created_by_role,created_by_name,created_at,updated_at')
       .eq('circle_key', circleKey)
       .order('day_label', { ascending: true })
       .order('start_time', { ascending: true });
@@ -140,6 +148,10 @@ export const saveConnectedTimetableItem = async (
   const item: ConnectedTimetableItem = {
     id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     circle_key: circleKey,
+    class_id: input.class_id || null,
+    class_name: input.class_name?.trim() || null,
+    subject: input.subject?.trim() || null,
+    grade: input.grade?.trim() || null,
     title: input.title.trim(),
     item_type: input.item_type,
     day_label: input.day_label,
@@ -162,6 +174,10 @@ export const saveConnectedTimetableItem = async (
       .from('connected_timetable_items')
       .insert({
         circle_key: circleKey,
+        class_id: item.class_id,
+        class_name: item.class_name,
+        subject: item.subject,
+        grade: item.grade,
         title: item.title,
         item_type: item.item_type,
         day_label: item.day_label,
@@ -174,7 +190,7 @@ export const saveConnectedTimetableItem = async (
         created_by_name: item.created_by_name,
         participant_emails: getTimetableParticipantEmails(circle),
       })
-      .select('id,circle_key,title,item_type,day_label,item_date,start_time,end_time,location,notes,created_by_role,created_by_name,created_at,updated_at')
+      .select('id,circle_key,class_id,class_name,subject,grade,title,item_type,day_label,item_date,start_time,end_time,location,notes,created_by_role,created_by_name,created_at,updated_at')
       .single();
 
     if (error) {

@@ -8,8 +8,10 @@ import './styles/editor.css';
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
+    const baseUrl = import.meta.env.BASE_URL || '/';
+
     navigator.serviceWorker
-      .register('/sw.js')
+      .register(`${baseUrl}sw.js`, { scope: baseUrl })
       .then((registration) => {
 
         registration.addEventListener('updatefound', () => {
@@ -26,7 +28,7 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
           }
         });
       })
-      .catch((registrationError) => {
+      .catch(() => {
       });
   });
 } else if ('serviceWorker' in navigator) {

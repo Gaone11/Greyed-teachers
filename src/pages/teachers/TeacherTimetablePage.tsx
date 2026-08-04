@@ -23,9 +23,15 @@ import {
   saveConnectedTimetableItem,
 } from '../../lib/connected-timetable';
 import { sendConnectedMessage } from '../../lib/connected-messages';
+import { useAuth } from '../../context/AuthContext';
+import { fetchTeacherClasses } from '../../lib/api/teacher-api';
+import { Class } from '../../types/teacher';
 
 interface TeacherScheduleItem {
   id: string;
+  className?: string | null;
+  subject?: string | null;
+  grade?: string | null;
   title: string;
   type: TimetableItemType;
   time: string;
@@ -39,6 +45,10 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const itemTypes: TimetableItemType[] = ['Class', 'Meeting', 'Office Hours', 'Exam', 'Event'];
 
 const defaultForm: ConnectedTimetableInput = {
+  class_id: null,
+  class_name: '',
+  subject: '',
+  grade: '',
   title: '',
   item_type: 'Class',
   day_label: 'Monday',
@@ -77,10 +87,12 @@ const getBadgeClasses = (type: TimetableItemType, isConnectedUpdate?: boolean) =
 };
 
 const TeacherTimetablePage: React.FC = () => {
+  const { user } = useAuth();
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [circle, setCircle] = useState(() => loadConnectionCircle());
   const [connectedItems, setConnectedItems] = useState<ConnectedTimetableItem[]>([]);
+  const [teacherClasses, setTeacherClasses] = useState<Class[]>([]);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
   const [form, setForm] = useState<ConnectedTimetableInput>(defaultForm);
   const [statusMessage, setStatusMessage] = useState('Timetable ready.');
@@ -93,6 +105,30 @@ const TeacherTimetablePage: React.FC = () => {
   const moveWeek = (direction: -1 | 1) => {
     setCurrentWeek(date => new Date(date.getTime() + direction * 7 * 24 * 60 * 60 * 1000));
   };
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadTeacherClasses = async () => {
+      if (!user) return;
+
+      try {
+        const classes = await fetchTeacherClasses(user.id);
+        if (mounted) setTeacherClasses(classes);
+      } catch {
+        if (mounted) {
+          setTeacherClasses([]);
+          setStatusMessage('Classes could not be loaded, but you can still schedule a lesson manually.');
+        }
+      }
+    };
+
+    loadTeacherClasses();
+
+    return () => {
+      mounted = false;
+    };
+  }, [user]);
 
   useEffect(() => {
     let mounted = true;
@@ -128,6 +164,9 @@ const TeacherTimetablePage: React.FC = () => {
 
     const sharedItems = connectedItems.map<TeacherScheduleItem>(item => ({
       id: item.id,
+      className: item.class_name,
+      subject: item.subject,
+      grade: item.grade,
       title: item.title,
       type: item.item_type,
       time: formatTimetableTimeRange(item),
@@ -141,8 +180,14 @@ const TeacherTimetablePage: React.FC = () => {
   }, [connectedItems]);
 
   const openScheduleForm = (day = 'Monday') => {
+    const firstClass = teacherClasses[0];
     setForm({
       ...defaultForm,
+      class_id: firstClass?.id || null,
+      class_name: firstClass?.name || '',
+      subject: firstClass?.subject || '',
+      grade: firstClass?.grade || '',
+      title: firstClass ? `${firstClass.subject} lesson` : '',
       day_label: day,
       item_date: getWeekdayDate(currentWeek, day),
     });
@@ -155,6 +200,8 @@ const TeacherTimetablePage: React.FC = () => {
 
     const message = [
       `Timetable update: ${savedItem.title}`,
+      savedItem.class_name ? `Class: ${savedItem.class_name}` : '',
+      savedItem.subject ? `Subject: ${savedItem.subject}${savedItem.grade ? ` (${savedItem.grade})` : ''}` : '',
       `${savedItem.day_label}, ${formatTimetableTimeRange(savedItem)}`,
       savedItem.location ? `Location: ${savedItem.location}` : '',
       savedItem.notes ? `Note: ${savedItem.notes}` : '',
@@ -169,7 +216,7 @@ const TeacherTimetablePage: React.FC = () => {
   const handleSubmitSchedule = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!form.title.trim() || !form.location.trim()) {
-      setStatusMessage('Add a title and location before saving.');
+      setStatusMessage('Add a lesson title and location before saving.');
       return;
     }
 
@@ -326,6 +373,11 @@ const TeacherTimetablePage: React.FC = () => {
                       </span>
                       
                       <h4 className="font-bold text-greyed-navy text-sm mb-1 pr-6">{item.title}</h4>
+                      {(item.className || item.subject) && (
+                        <p className="mb-2 text-[11px] font-semibold text-greyed-navy/60">
+                          {[item.className, item.subject, item.grade].filter(Boolean).join(' • ')}
+                        </p>
+                      )}
                       
                       <div className="space-y-1 mt-2">
                         <div className="flex items-center gap-1.5 text-xs text-greyed-navy/70">
@@ -393,12 +445,58 @@ const TeacherTimetablePage: React.FC = () => {
 
             <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <label className="sm:col-span-2 text-sm font-bold text-greyed-navy">
-                Title
+                Class
+                <select
+                  value={form.class_id || ''}
+                  onChange={event => {
+                    const selectedClass = teacherClasses.find(cls => cls.id === event.target.value);
+                    setForm(current => ({
+                      ...current,
+                      class_id: selectedClass?.id || null,
+                      class_name: selectedClass?.name || '',
+                      subject: selectedClass?.subject || current.subject || '',
+                      grade: selectedClass?.grade || current.grade || '',
+                      title: selectedClass && !current.title.trim() ? `${selectedClass.subject} lesson` : current.title,
+                    }));
+                  }}
+                  className="mt-1 w-full rounded-xl border border-greyed-navy/20 px-3 py-2.5 font-semibold outline-none focus:border-greyed-blue"
+                >
+                  <option value="">Manual lesson</option>
+                  {teacherClasses.map(cls => (
+                    <option key={cls.id} value={cls.id}>
+                      {cls.name} - {cls.grade} ({cls.subject})
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="sm:col-span-2 text-sm font-bold text-greyed-navy">
+                Lesson title
                 <input
                   value={form.title}
                   onChange={event => setForm(current => ({ ...current, title: event.target.value }))}
                   className="mt-1 w-full rounded-xl border border-greyed-navy/20 px-3 py-2.5 font-semibold outline-none focus:border-greyed-blue"
                   placeholder="Mathematics revision"
+                />
+              </label>
+
+              <label className="text-sm font-bold text-greyed-navy">
+                Subject
+                <input
+                  value={form.subject || ''}
+                  onChange={event => setForm(current => ({ ...current, subject: event.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-greyed-navy/20 px-3 py-2.5 font-semibold outline-none focus:border-greyed-blue"
+                  placeholder="Mathematics"
+                />
+              </label>
+
+              <label className="text-sm font-bold text-greyed-navy">
+                Grade
+                <input
+                  value={form.grade || ''}
+                  onChange={event => setForm(current => ({ ...current, grade: event.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-greyed-navy/20 px-3 py-2.5 font-semibold outline-none focus:border-greyed-blue"
+                  placeholder="JSS 3"
                 />
               </label>
 
