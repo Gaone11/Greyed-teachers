@@ -21,6 +21,53 @@ type ClassStudentPayload = {
   teacher_id?: string;
 };
 
+type LocalClassStudent = {
+  id: string;
+  class_id: string;
+  name: string;
+  created_at: string;
+  source: 'local';
+};
+
+const isMissingClassRosterTableError = (error: unknown) => {
+  const err = error as { code?: string; message?: string };
+  const message = err?.message || '';
+  return err?.code === '42P01' || /relation .*class_students.* does not exist/i.test(message);
+};
+
+const getLocalRosterKey = (classId: string) => `greyed-local-class-roster:${classId}`;
+
+const loadLocalStudents = (classId: string): LocalClassStudent[] => {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const stored = window.localStorage.getItem(getLocalRosterKey(classId));
+    return stored ? JSON.parse(stored) as LocalClassStudent[] : [];
+  } catch {
+    return [];
+  }
+};
+
+const upsertLocalStudent = (classId: string, name: string) => {
+  if (typeof window === 'undefined') return;
+
+  const students = loadLocalStudents(classId);
+  if (students.some(student => student.name.toLowerCase() === name.toLowerCase())) return;
+
+  const nextStudents = [
+    ...students,
+    {
+      id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      class_id: classId,
+      name,
+      created_at: new Date().toISOString(),
+      source: 'local' as const,
+    },
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  window.localStorage.setItem(getLocalRosterKey(classId), JSON.stringify(nextStudents));
+};
+
 const getClassStudentPayloads = (classId: string, name: string, teacherId: string): ClassStudentPayload[] => {
   const basePayloads: ClassStudentPayload[] = [
     { class_id: classId, name },
@@ -48,6 +95,11 @@ const insertClassStudent = async (classId: string, name: string, teacherId: stri
     }
 
     lastError = error;
+  }
+
+  if (isMissingClassRosterTableError(lastError)) {
+    upsertLocalStudent(classId, name);
+    return;
   }
 
   throw lastError || new Error('Unable to save student with the current class_students schema.');

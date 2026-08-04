@@ -9,6 +9,7 @@ interface Student {
   name: string;
   class_id: string;
   created_at: string;
+  source?: 'supabase' | 'local';
 }
 
 interface ClassStudentsManagerProps {
@@ -26,17 +27,38 @@ type RawStudentRow = {
   student_id?: string | null;
 };
 
-const getSupabaseErrorMessage = (error: any, fallback: string) => {
-  const message = error?.message || '';
-  const code = error?.code || '';
-  const details = error?.details || '';
-  const hint = error?.hint || '';
+type AttendanceStatus = 'present' | 'late' | 'absent' | 'excused';
 
-  if (code === '42P01' || /relation .*class_students.* does not exist/i.test(message)) {
-    return 'Student table is missing in Supabase. Please run the class_students migration first.';
+type RawAttendanceRow = {
+  student_id: string;
+  status: AttendanceStatus;
+};
+
+const attendanceStatuses: { value: AttendanceStatus; label: string; className: string }[] = [
+  { value: 'present', label: 'Present', className: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100' },
+  { value: 'late', label: 'Late', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100' },
+  { value: 'absent', label: 'Absent', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100' },
+  { value: 'excused', label: 'Excused', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100' },
+];
+
+const isMissingTableError = (error: unknown) => {
+  const err = error as { code?: string; message?: string };
+  const message = err?.message || '';
+  return err?.code === '42P01' || /relation .*class_students.* does not exist/i.test(message) || /relation .*class_attendance.* does not exist/i.test(message);
+};
+
+const getSupabaseErrorMessage = (error: unknown, fallback: string) => {
+  const err = error as { message?: string; code?: string; details?: string; hint?: string };
+  const message = err?.message || '';
+  const code = err?.code || '';
+  const details = err?.details || '';
+  const hint = err?.hint || '';
+
+  if (isMissingTableError(error)) {
+    return 'Roster tables are not available in Supabase yet. This class is using temporary local roster storage.';
   }
   if (code === '42501' || /row-level security/i.test(message)) {
-    return 'Permission denied by Supabase RLS policy for class_students.';
+    return 'Permission denied by Supabase RLS policy for the class roster.';
   }
   if (code === '23505') {
     return 'This student is already in the class.';
@@ -47,12 +69,95 @@ const getSupabaseErrorMessage = (error: any, fallback: string) => {
   return message || fallback;
 };
 
+const getLocalRosterKey = (classId: string) => `greyed-local-class-roster:${classId}`;
+const getLocalAttendanceKey = (classId: string, attendanceDate: string) => `greyed-local-class-attendance:${classId}:${attendanceDate}`;
+
+const loadLocalStudents = (classId: string): Student[] => {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const stored = window.localStorage.getItem(getLocalRosterKey(classId));
+    if (!stored) return [];
+    return (JSON.parse(stored) as Student[])
+      .map(student => ({ ...student, source: 'local' as const }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  } catch {
+    return [];
+  }
+};
+
+const saveLocalStudents = (classId: string, students: Student[]) => {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(getLocalRosterKey(classId), JSON.stringify(students));
+};
+
+const upsertLocalStudent = (classId: string, name: string): Student => {
+  const students = loadLocalStudents(classId);
+  const existing = students.find(student => student.name.toLowerCase() === name.toLowerCase());
+  if (existing) return existing;
+
+  const student: Student = {
+    id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    class_id: classId,
+    name,
+    created_at: new Date().toISOString(),
+    source: 'local',
+  };
+  saveLocalStudents(classId, [...students, student].sort((a, b) => a.name.localeCompare(b.name)));
+  return student;
+};
+
+const removeLocalStudent = (classId: string, studentId: string) => {
+  saveLocalStudents(classId, loadLocalStudents(classId).filter(student => student.id !== studentId));
+};
+
+const loadLocalAttendance = (classId: string, attendanceDate: string): Record<string, AttendanceStatus> => {
+  if (typeof window === 'undefined') return {};
+
+  try {
+    const stored = window.localStorage.getItem(getLocalAttendanceKey(classId, attendanceDate));
+    return stored ? JSON.parse(stored) as Record<string, AttendanceStatus> : {};
+  } catch {
+    return {};
+  }
+};
+
+const saveLocalAttendance = (classId: string, attendanceDate: string, attendance: Record<string, AttendanceStatus>) => {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(getLocalAttendanceKey(classId, attendanceDate), JSON.stringify(attendance));
+};
+
+const saveLocalAttendanceStatus = (
+  classId: string,
+  attendanceDate: string,
+  studentId: string,
+  status: AttendanceStatus
+) => {
+  const attendance = loadLocalAttendance(classId, attendanceDate);
+  saveLocalAttendance(classId, attendanceDate, { ...attendance, [studentId]: status });
+};
+
+const getTodayInputValue = () => new Date().toISOString().slice(0, 10);
+
 const normalizeStudent = (row: RawStudentRow): Student => ({
   id: row.id,
   class_id: row.class_id,
   created_at: row.created_at || new Date().toISOString(),
   name: row.name || row.full_name || row.student_name || row.student_id || 'Unnamed Student',
+  source: 'supabase',
 });
+
+const mergeStudents = (students: Student[]) => {
+  const seen = new Set<string>();
+  return students
+    .filter(student => {
+      const key = `${student.class_id}:${student.id}:${student.name.toLowerCase()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
+};
 
 const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, onStudentCountChange }) => {
   const [students, setStudents] = useState<Student[]>([]);
@@ -65,6 +170,10 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
   const [saving, setSaving] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [attendanceDate, setAttendanceDate] = useState(getTodayInputValue());
+  const [attendance, setAttendance] = useState<Record<string, AttendanceStatus>>({});
+  const [attendanceLoading, setAttendanceLoading] = useState(false);
+  const [attendanceSavingId, setAttendanceSavingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchStudents();
@@ -86,7 +195,7 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       { select: '*' as const, orderBy: '' },
     ];
 
-    let lastError: any = null;
+    let lastError: unknown = null;
 
     for (const attempt of attempts) {
       let query = supabase.from('class_students').select(attempt.select).eq('class_id', classId);
@@ -100,6 +209,10 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
         return rows.map(normalizeStudent).sort((a, b) => a.name.localeCompare(b.name));
       }
       lastError = error;
+    }
+
+    if (isMissingTableError(lastError)) {
+      return loadLocalStudents(classId);
     }
 
     throw lastError;
@@ -119,7 +232,7 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       return [payload, { ...payload, teacher_id: teacherId }];
     });
 
-    let lastError: any = null;
+    let lastError: unknown = null;
 
     for (const payload of payloads) {
       const { data, error } = await supabase
@@ -144,10 +257,97 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       lastError = error;
     }
 
+    if (isMissingTableError(lastError)) {
+      return upsertLocalStudent(classId, name);
+    }
+
     throw lastError || {
       message: 'Unable to insert student with current class_students schema.',
       details: 'Expected one of name/full_name/student_name/student_id and class_id.',
     };
+  };
+
+  const fetchAttendance = async (studentList = students) => {
+    if (!studentList.length) {
+      setAttendance({});
+      return;
+    }
+
+    setAttendanceLoading(true);
+    const localAttendance = loadLocalAttendance(classId, attendanceDate);
+
+    try {
+      const { data, error } = await supabase
+        .from('class_attendance')
+        .select('student_id,status')
+        .eq('class_id', classId)
+        .eq('attendance_date', attendanceDate);
+
+      if (error) {
+        if (isMissingTableError(error)) {
+          setAttendance(localAttendance);
+          return;
+        }
+        throw error;
+      }
+
+      const remoteAttendance = ((data || []) as RawAttendanceRow[]).reduce<Record<string, AttendanceStatus>>((acc, row) => {
+        acc[row.student_id] = row.status;
+        return acc;
+      }, {});
+
+      setAttendance({ ...localAttendance, ...remoteAttendance });
+    } catch (error: unknown) {
+      setAttendance(localAttendance);
+      setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Could not load attendance for this date.') });
+    } finally {
+      setAttendanceLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttendance();
+  }, [attendanceDate]);
+
+  const handleAttendanceChange = async (student: Student, status: AttendanceStatus) => {
+    setAttendanceSavingId(student.id);
+    setAttendance(current => ({ ...current, [student.id]: status }));
+    saveLocalAttendanceStatus(classId, attendanceDate, student.id, status);
+
+    try {
+      if (student.source === 'local') {
+        setToast({ type: 'success', message: `${student.name} marked ${status}.` });
+        return;
+      }
+
+      const { data: authData } = await supabase.auth.getUser();
+      const { error } = await supabase
+        .from('class_attendance')
+        .upsert(
+          {
+            class_id: classId,
+            student_id: student.id,
+            teacher_id: authData?.user?.id,
+            attendance_date: attendanceDate,
+            status,
+          },
+          { onConflict: 'student_id,attendance_date' }
+        );
+
+      if (error) {
+        if (isMissingTableError(error)) {
+          setToast({ type: 'success', message: `${student.name} marked ${status} locally.` });
+          return;
+        }
+        throw error;
+      }
+
+      setToast({ type: 'success', message: `${student.name} marked ${status}.` });
+    } catch (error: unknown) {
+      setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Could not save attendance.') });
+    } finally {
+      setAttendanceSavingId(null);
+    }
   };
 
   const fetchStudents = async () => {
@@ -156,7 +356,8 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       const list = await fetchStudentsWithFallback();
       setStudents(list);
       onStudentCountChange?.(list.length);
-    } catch (error: any) {
+      await fetchAttendance(list);
+    } catch (error: unknown) {
       setStudents([]);
       onStudentCountChange?.(0);
       setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Could not load students for this class.') });
@@ -171,13 +372,14 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
     setSaving(true);
     try {
       const data = await insertStudentWithFallback(name);
-      const updated = [...students, data].sort((a, b) => a.name.localeCompare(b.name));
+      const updated = mergeStudents([...students, data]);
       setStudents(updated);
       onStudentCountChange?.(updated.length);
+      await fetchAttendance(updated);
       setNewName('');
       setShowAddForm(false);
       setToast({ type: 'success', message: `${name} added successfully` });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Add student failed', error);
       setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Failed to add student. Please try again.') });
     } finally {
@@ -199,20 +401,15 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
         createdStudents.push(student);
       }
 
-      const seen = new Set<string>();
-      const updated = [...students, ...createdStudents].filter(student => {
-        const key = `${student.class_id}:${student.name.toLowerCase()}`;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      }).sort((a, b) => a.name.localeCompare(b.name));
+      const updated = mergeStudents([...students, ...createdStudents]);
 
       setStudents(updated);
       onStudentCountChange?.(updated.length);
+      await fetchAttendance(updated);
       setBulkNames('');
       setShowAddForm(false);
       setToast({ type: 'success', message: `${names.length} student${names.length > 1 ? 's' : ''} added` });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Add students failed', error);
       setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Failed to add students. Please try again.') });
     } finally {
@@ -222,11 +419,28 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
 
   const handleDelete = async (id: string, name: string) => {
     try {
+      const student = students.find(item => item.id === id);
+      if (student?.source === 'local') {
+        removeLocalStudent(classId, id);
+        const updated = students.filter(s => s.id !== id);
+        setStudents(updated);
+        onStudentCountChange?.(updated.length);
+        setDeleteConfirmId(null);
+        setToast({ type: 'success', message: `${name} removed` });
+        return;
+      }
+
       const { error } = await supabase
         .from('class_students')
         .delete()
         .eq('id', id);
-      if (error) throw error;
+      if (error) {
+        if (isMissingTableError(error)) {
+          removeLocalStudent(classId, id);
+        } else {
+          throw error;
+        }
+      }
       const updated = students.filter(s => s.id !== id);
       setStudents(updated);
       onStudentCountChange?.(updated.length);
@@ -354,6 +568,34 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
         </div>
       )}
 
+      {students.length > 0 && (
+        <div className="bg-white border border-greyed-navy/10 rounded-2xl p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div>
+            <h3 className="font-semibold text-greyed-navy text-sm">Attendance</h3>
+            <p className="text-xs text-gray-500 mt-1">
+              Mark attendance for the selected date.
+              {attendanceLoading && <span className="ml-1">Loading saved marks...</span>}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <label className="text-xs font-semibold text-gray-500">
+              Date
+              <input
+                type="date"
+                value={attendanceDate}
+                onChange={event => setAttendanceDate(event.target.value)}
+                className="mt-1 sm:mt-0 sm:ml-2 px-3 py-2 border border-gray-300 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40"
+              />
+            </label>
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <span>{Object.keys(attendance).length} marked</span>
+              <span className="w-1 h-1 rounded-full bg-gray-300" />
+              <span>{students.length} enrolled</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Search */}
       {students.length > 0 && (
         <div className="relative">
@@ -403,6 +645,7 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Added</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Attendance</th>
                 <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
@@ -422,6 +665,27 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-400">
                     {new Date(student.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {attendanceStatuses.map(status => {
+                        const isSelected = attendance[student.id] === status.value;
+                        return (
+                          <button
+                            key={status.value}
+                            onClick={() => handleAttendanceChange(student, status.value)}
+                            disabled={attendanceSavingId === student.id}
+                            className={`px-2.5 py-1 rounded-lg border text-xs font-semibold transition-colors ${
+                              isSelected
+                                ? status.className
+                                : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'
+                            } disabled:opacity-60 disabled:cursor-wait`}
+                          >
+                            {attendanceSavingId === student.id && isSelected ? 'Saving...' : status.label}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-right">
                     {deleteConfirmId === student.id ? (
