@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ParentLayout from '../../layouts/ParentLayout';
 import { 
   MessageSquare, 
   Users, 
   Megaphone,
-  Send,
   Search,
-  Paperclip,
-  Smile,
-  MoreVertical,
   Calendar as CalendarIcon,
   Clock
 } from 'lucide-react';
+import ConnectedMessageThread from '../../components/messages/ConnectedMessageThread';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
 
 const ParentCommunicationPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'teachers' | 'announcements'>('teachers');
+  const [activeTab, setActiveTab] = useState<'teachers' | 'child' | 'announcements'>('teachers');
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [circle, setCircle] = useState(() => loadConnectionCircle());
+
+  useEffect(() => {
+    const refreshCircle = () => setCircle(loadConnectionCircle());
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshCircle);
+    window.addEventListener('storage', refreshCircle);
+
+    return () => {
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshCircle);
+      window.removeEventListener('storage', refreshCircle);
+    };
+  }, []);
+
+  const activeContact = activeTab === 'child' ? circle.members.student : circle.members.teacher;
 
   return (
     <ParentLayout activePage="communication">
@@ -48,6 +60,13 @@ const ParentCommunicationPage: React.FC = () => {
             <Users className="w-4 h-4" /> Teachers
             {activeTab === 'teachers' && <div className="absolute top-0 left-0 right-0 h-1 bg-greyed-navy rounded-t-xl"></div>}
           </button>
+          <button
+            className={`flex-1 py-4 font-semibold text-sm transition-colors relative flex justify-center items-center gap-2 ${activeTab === 'child' ? 'text-greyed-navy bg-white rounded-t-xl' : 'text-greyed-navy/50 hover:text-greyed-navy/80'}`}
+            onClick={() => setActiveTab('child')}
+          >
+            <Users className="w-4 h-4" /> Child
+            {activeTab === 'child' && <div className="absolute top-0 left-0 right-0 h-1 bg-greyed-navy rounded-t-xl"></div>}
+          </button>
           <button 
             className={`flex-1 py-4 font-semibold text-sm transition-colors relative flex justify-center items-center gap-2 ${activeTab === 'announcements' ? 'text-greyed-navy bg-white rounded-t-xl' : 'text-greyed-navy/50 hover:text-greyed-navy/80'}`}
             onClick={() => setActiveTab('announcements')}
@@ -57,7 +76,7 @@ const ParentCommunicationPage: React.FC = () => {
           </button>
         </div>
 
-        {activeTab === 'teachers' ? (
+        {activeTab !== 'announcements' ? (
           <div className="flex flex-1 overflow-hidden">
             {/* Sidebar List */}
             <div className="w-1/3 border-r border-greyed-navy/10 bg-white flex flex-col">
@@ -66,7 +85,7 @@ const ParentCommunicationPage: React.FC = () => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-greyed-navy/40" />
                   <input 
                     type="text"
-                    placeholder="Search teachers..."
+                    placeholder={activeTab === 'teachers' ? 'Search teachers...' : 'Search child...'}
                     className="w-full pl-9 pr-4 py-2 bg-greyed-navy/5 rounded-lg border-transparent focus:bg-white focus:border-greyed-navy/20 focus:outline-none focus:ring-2 focus:ring-greyed-blue/50 text-sm"
                   />
                 </div>
@@ -74,98 +93,35 @@ const ParentCommunicationPage: React.FC = () => {
               <div className="flex-1 overflow-y-auto">
                 <div className="p-4 border-b border-greyed-navy/5 hover:bg-greyed-navy/5 cursor-pointer flex gap-3 bg-greyed-blue/5">
                   <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex flex-shrink-0 items-center justify-center text-greyed-navy font-bold">
-                    D
+                    {activeContact.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline mb-0.5">
-                      <h4 className="font-bold text-greyed-navy truncate text-sm">Mr. Davis (History)</h4>
-                      <span className="text-xs text-greyed-navy/50">10:42 AM</span>
+                      <h4 className="font-bold text-greyed-navy truncate text-sm">{activeContact.name}</h4>
+                      <span className="text-xs text-green-600">Connected</span>
                     </div>
-                    <p className="text-xs text-greyed-navy/60 truncate">Thank you! We'll see you at 3PM.</p>
-                  </div>
-                </div>
-                
-                <div className="p-4 border-b border-greyed-navy/5 hover:bg-greyed-navy/5 cursor-pointer flex gap-3">
-                  <div className="w-10 h-10 rounded-full bg-greyed-navy/10 flex flex-shrink-0 items-center justify-center text-greyed-navy/60 font-bold">
-                    S
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-baseline mb-0.5">
-                      <h4 className="font-bold text-greyed-navy truncate text-sm">Ms. Smith (Science)</h4>
-                      <span className="text-xs text-greyed-navy/50">Yesterday</span>
-                    </div>
-                    <p className="text-xs text-greyed-navy/60 truncate">Emma did great in the lab today.</p>
+                    <p className="text-xs text-greyed-navy/60 truncate">
+                      {activeTab === 'teachers' ? `Student: ${circle.members.student.name}` : `Teacher: ${circle.members.teacher.name}`}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 flex flex-col bg-white">
-              <div className="p-4 border-b border-greyed-navy/10 flex justify-between items-center bg-white">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy font-bold">
-                    D
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-greyed-navy">Mr. Davis</h3>
-                    <p className="text-xs text-greyed-navy/60 font-medium">History Teacher</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button className="bg-greyed-navy/5 text-greyed-navy hover:bg-greyed-navy/10 px-3 py-1.5 rounded-lg transition-colors text-sm font-semibold flex items-center gap-1">
-                    <CalendarIcon className="w-4 h-4" /> Book
-                  </button>
-                  <button className="text-greyed-navy/40 hover:text-greyed-navy">
-                    <MoreVertical className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-greyed-navy/5">
-                <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-greyed-blue text-white px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%] text-sm">
-                    Hi Mr. Davis, I would like to schedule a quick meeting to discuss Emma's recent history project.
-                  </div>
-                  <span className="text-[10px] text-greyed-navy/40">Today, 9:00 AM</span>
-                </div>
-                
-                <div className="flex flex-col gap-1 items-start">
-                  <div className="bg-white border border-greyed-navy/10 text-greyed-navy px-4 py-2.5 rounded-2xl rounded-tl-sm max-w-[80%] text-sm shadow-sm">
-                    Hello! Yes, absolutely. I'm available tomorrow at 3:00 PM. Does that work for you?
-                  </div>
-                  <span className="text-[10px] text-greyed-navy/40">Today, 10:15 AM</span>
-                </div>
-
-                <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-greyed-blue text-white px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%] text-sm">
-                    Yes, that's perfect. Thank you! We'll see you at 3PM.
-                  </div>
-                  <span className="text-[10px] text-greyed-navy/40">Today, 10:42 AM</span>
-                </div>
-              </div>
-
-              <div className="p-4 bg-white border-t border-greyed-navy/10">
-                <div className="flex items-end gap-2 bg-greyed-navy/5 p-2 rounded-2xl border border-greyed-navy/10">
-                  <button className="p-2 text-greyed-navy/40 hover:text-greyed-blue transition-colors rounded-full hover:bg-greyed-blue/10 flex-shrink-0">
-                    <Paperclip className="w-5 h-5" />
-                  </button>
-                  <textarea 
-                    placeholder="Type a message..."
-                    className="w-full bg-transparent border-transparent focus:ring-0 focus:outline-none resize-none max-h-32 min-h-[40px] text-sm py-2 text-greyed-navy placeholder:text-greyed-navy/40"
-                    rows={1}
-                  ></textarea>
-                  <div className="flex items-center gap-1">
-                    <button className="p-2 text-greyed-navy/40 hover:text-yellow-500 transition-colors rounded-full hover:bg-yellow-50 flex-shrink-0">
-                      <Smile className="w-5 h-5" />
-                    </button>
-                    <button className="p-2 bg-greyed-navy text-white hover:bg-greyed-blue transition-colors rounded-full shadow-sm flex-shrink-0">
-                      <Send className="w-4 h-4 translate-x-[-1px] translate-y-[1px]" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {activeTab === 'teachers' ? (
+              <ConnectedMessageThread
+                currentRole="parent"
+                roles={['teacher', 'parent']}
+                placeholder={`Message ${circle.members.teacher.name}...`}
+              />
+            ) : (
+              <ConnectedMessageThread
+                currentRole="parent"
+                roles={['student', 'parent']}
+                placeholder={`Message ${circle.members.student.name}...`}
+              />
+            )}
           </div>
         ) : (
           <div className="flex-1 p-6 bg-greyed-navy/5 overflow-y-auto">

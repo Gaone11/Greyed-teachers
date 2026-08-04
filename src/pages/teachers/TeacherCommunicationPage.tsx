@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TeacherLayout from '../../layouts/TeacherLayout';
 import { 
   MessageSquare, 
   Users, 
   Megaphone,
-  Send,
   Search,
-  Paperclip,
-  Smile,
-  MoreVertical
+  CheckCircle,
+  Eye
 } from 'lucide-react';
+import ConnectedMessageThread from '../../components/messages/ConnectedMessageThread';
+import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
 
 const TeacherCommunicationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'students' | 'parents' | 'announcements'>('students');
+  const [circle, setCircle] = useState(() => loadConnectionCircle());
+
+  useEffect(() => {
+    const refreshCircle = () => setCircle(loadConnectionCircle());
+    window.addEventListener(CONNECTION_UPDATED_EVENT, refreshCircle);
+    window.addEventListener('storage', refreshCircle);
+
+    return () => {
+      window.removeEventListener(CONNECTION_UPDATED_EVENT, refreshCircle);
+      window.removeEventListener('storage', refreshCircle);
+    };
+  }, []);
+
+  const activeContact = activeTab === 'students' ? circle.members.student : circle.members.parent;
+  const contactSubtitle = activeTab === 'students'
+    ? `Parent: ${circle.members.parent.name}`
+    : `Student: ${circle.members.student.name}`;
 
   return (
     <TeacherLayout activePage="messages">
@@ -73,91 +90,36 @@ const TeacherCommunicationPage: React.FC = () => {
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto">
-                {/* Mock Contact Item */}
                 <div className="p-4 border-b border-greyed-navy/5 hover:bg-greyed-navy/5 cursor-pointer flex gap-3 bg-greyed-blue/5">
                   <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex flex-shrink-0 items-center justify-center text-greyed-navy font-bold">
-                    E
+                    {activeContact.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline mb-0.5">
-                      <h4 className="font-bold text-greyed-navy truncate text-sm">Emma Thompson</h4>
-                      <span className="text-xs text-greyed-navy/50">10:42 AM</span>
+                      <h4 className="font-bold text-greyed-navy truncate text-sm">{activeContact.name}</h4>
+                      <span className="text-xs text-green-600">Connected</span>
                     </div>
-                    <p className="text-xs text-greyed-navy/60 truncate">Can you clarify the homework assignment?</p>
+                    <p className="text-xs text-greyed-navy/60 truncate">{contactSubtitle}</p>
                   </div>
                   <div className="w-2 h-2 rounded-full bg-greyed-blue mt-1"></div>
-                </div>
-                
-                <div className="p-4 border-b border-greyed-navy/5 hover:bg-greyed-navy/5 cursor-pointer flex gap-3">
-                  <div className="w-10 h-10 rounded-full bg-greyed-navy/10 flex flex-shrink-0 items-center justify-center text-greyed-navy/60 font-bold">
-                    L
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-baseline mb-0.5">
-                      <h4 className="font-bold text-greyed-navy truncate text-sm">Liam Johnson</h4>
-                      <span className="text-xs text-greyed-navy/50">Yesterday</span>
-                    </div>
-                    <p className="text-xs text-greyed-navy/60 truncate">Thank you for the feedback!</p>
-                  </div>
                 </div>
               </div>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 flex flex-col bg-white">
-              <div className="p-4 border-b border-greyed-navy/10 flex justify-between items-center bg-white">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-greyed-blue/20 flex items-center justify-center text-greyed-navy font-bold">
-                    E
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-greyed-navy">Emma Thompson</h3>
-                    <p className="text-xs text-green-500 font-medium">Online</p>
-                  </div>
-                </div>
-                <button className="text-greyed-navy/40 hover:text-greyed-navy">
-                  <MoreVertical className="w-5 h-5" />
-                </button>
-              </div>
-              
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-greyed-navy/5">
-                {/* Messages */}
-                <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-greyed-blue text-white px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%] text-sm">
-                    Hi Emma, I noticed you were struggling with the last assignment. Do you need any help?
-                  </div>
-                  <span className="text-[10px] text-greyed-navy/40">Yesterday, 2:30 PM</span>
-                </div>
-                
-                <div className="flex flex-col gap-1 items-start">
-                  <div className="bg-white border border-greyed-navy/10 text-greyed-navy px-4 py-2.5 rounded-2xl rounded-tl-sm max-w-[80%] text-sm shadow-sm">
-                    Yes please! Can you clarify the homework assignment? I'm not sure which chapters to read.
-                  </div>
-                  <span className="text-[10px] text-greyed-navy/40">Today, 10:42 AM</span>
-                </div>
-              </div>
-
-              <div className="p-4 bg-white border-t border-greyed-navy/10">
-                <div className="flex items-end gap-2 bg-greyed-navy/5 p-2 rounded-2xl border border-greyed-navy/10">
-                  <button className="p-2 text-greyed-navy/40 hover:text-greyed-blue transition-colors rounded-full hover:bg-greyed-blue/10 flex-shrink-0">
-                    <Paperclip className="w-5 h-5" />
-                  </button>
-                  <textarea 
-                    placeholder="Type a message..."
-                    className="w-full bg-transparent border-transparent focus:ring-0 focus:outline-none resize-none max-h-32 min-h-[40px] text-sm py-2 text-greyed-navy placeholder:text-greyed-navy/40"
-                    rows={1}
-                  ></textarea>
-                  <div className="flex items-center gap-1">
-                    <button className="p-2 text-greyed-navy/40 hover:text-yellow-500 transition-colors rounded-full hover:bg-yellow-50 flex-shrink-0">
-                      <Smile className="w-5 h-5" />
-                    </button>
-                    <button className="p-2 bg-greyed-navy text-white hover:bg-greyed-blue transition-colors rounded-full shadow-sm flex-shrink-0">
-                      <Send className="w-4 h-4 translate-x-[-1px] translate-y-[1px]" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {activeTab === 'students' ? (
+              <ConnectedMessageThread
+                currentRole="teacher"
+                roles={['student', 'teacher']}
+                placeholder={`Message ${circle.members.student.name}...`}
+              />
+            ) : (
+              <ConnectedMessageThread
+                currentRole="teacher"
+                roles={['teacher', 'parent']}
+                placeholder={`Message ${circle.members.parent.name}...`}
+              />
+            )}
           </div>
         ) : (
           <div className="flex-1 p-6 bg-greyed-navy/5 overflow-y-auto">

@@ -4,70 +4,18 @@ import {
   MessageSquare, 
   Users, 
   UserCircle, 
-  Send,
-  Paperclip,
-  Smile,
   Info
 } from 'lucide-react';
+import ConnectedMessageThread from '../../components/messages/ConnectedMessageThread';
 
 const CommunicationCenterPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'teacher' | 'parent' | 'group'>('teacher');
-  const [messageInput, setMessageInput] = useState('');
-  const [sentMessages, setSentMessages] = useState<Record<'teacher' | 'parent' | 'group', any[]>>({
-    teacher: [],
-    parent: [],
-    group: [],
-  });
-
-  // Mock Conversations
-  const teacherMessages = [
-    { id: 1, sender: 'teacher', name: 'Mr. Anderson (Math)', text: 'Don\'t forget your calculus worksheet is due tomorrow. Let me know if you need help with problem #4.', time: '10:30 AM' },
-    { id: 2, sender: 'student', name: 'You', text: 'Thank you Mr. Anderson. I was actually stuck on #4, could we go over it during office hours?', time: '10:45 AM' },
-    { id: 3, sender: 'teacher', name: 'Mr. Anderson (Math)', text: 'Absolutely. Drop by the lab at 3:15 PM.', time: '11:00 AM' },
-  ];
-
-  const parentMessages = [
-    { id: 1, sender: 'student', name: 'You', text: 'Hey mom, I just got a 92% on my physics midterm!', time: 'Yesterday' },
-    { id: 2, sender: 'parent', name: 'Mom', text: 'That is amazing honey! I am so proud of you. 🌟 Keep up the great work!', time: 'Yesterday' },
-    { id: 3, sender: 'system', name: 'System', text: 'Mr. Anderson (Math) shared an update regarding your behavior in class: "Excellent participation today!"', time: 'Today, 9:00 AM', isSystem: true },
-  ];
 
   const groupMessages = [
     { id: 1, sender: 'admin', name: 'School Admin', text: '📢 Reminder: The Science Fair registration closes this Friday.', time: 'Monday' },
     { id: 2, sender: 'student_other', name: 'Sarah J.', text: 'Is anyone working on the Biology project this weekend?', time: '10:00 AM' },
     { id: 3, sender: 'student', name: 'You', text: 'I am! We can meet at the library on Saturday if you want.', time: '10:15 AM' },
   ];
-
-  const getActiveMessages = () => {
-    switch(activeTab) {
-      case 'teacher': return teacherMessages;
-      case 'parent': return parentMessages;
-      case 'group': return groupMessages;
-      default: return teacherMessages;
-    }
-  };
-
-  const activeMessages = [...getActiveMessages(), ...sentMessages[activeTab]];
-
-  const handleSendMessage = () => {
-    const text = messageInput.trim();
-    if (!text) return;
-
-    setSentMessages(prev => ({
-      ...prev,
-      [activeTab]: [
-        ...prev[activeTab],
-        {
-          id: `sent-${activeTab}-${Date.now()}`,
-          sender: 'student',
-          name: 'You',
-          text,
-          time: 'Just now',
-        },
-      ],
-    }));
-    setMessageInput('');
-  };
 
   return (
     <StudentLayout activePage="messages">
@@ -114,91 +62,58 @@ const CommunicationCenterPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-greyed-white/30 space-y-6 flex flex-col">
-          {activeTab === 'teacher' && (
-            <div className="text-center pb-4">
-              <span className="bg-[#bbd7eb]/20 text-greyed-navy/70 text-xs font-semibold px-3 py-1 rounded-full border border-[#bbd7eb]/30">
-                You can ask questions, request help, or discuss assignments here.
-              </span>
-            </div>
-          )}
+        {activeTab === 'teacher' && (
+          <ConnectedMessageThread
+            currentRole="student"
+            roles={['student', 'teacher']}
+            placeholder="Ask your teacher a question..."
+          />
+        )}
 
-          {activeMessages.map((msg) => (
-            <div 
-              key={msg.id} 
-              className={`flex flex-col ${
-                msg.isSystem ? 'items-center' : msg.sender === 'student' ? 'items-end' : 'items-start'
-              }`}
-            >
-              {!msg.isSystem && (
-                 <span className="text-[10px] font-bold text-greyed-navy/50 mb-1 px-1">{msg.name} • {msg.time}</span>
-              )}
+        {activeTab === 'parent' && (
+          <ConnectedMessageThread
+            currentRole="student"
+            roles={['student', 'parent']}
+            placeholder="Message your parent..."
+          />
+        )}
 
-              {msg.isSystem ? (
-                <div className="bg-yellow-50 text-yellow-800 text-xs font-semibold px-4 py-2 rounded-xl border border-yellow-200/50 flex items-center gap-2 my-2 max-w-[80%] text-center">
-                  <Info className="w-4 h-4 flex-shrink-0" />
-                  {msg.text}
-                </div>
-              ) : (
+        {activeTab === 'group' && (
+          <>
+            {/* Chat Area */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-greyed-white/30 space-y-6 flex flex-col">
+              {groupMessages.map((msg) => (
                 <div 
-                  className={`px-4 py-2.5 rounded-2xl max-w-[85%] sm:max-w-[70%] text-sm ${
-                    msg.sender === 'student' 
-                      ? 'bg-[#2a2f6e] text-white rounded-tr-sm' 
-                      : msg.sender === 'admin'
-                        ? 'bg-[#bbd7eb]/40 text-greyed-navy rounded-tl-sm font-medium border border-[#bbd7eb]/50'
-                        : 'bg-white text-greyed-navy rounded-tl-sm shadow-sm border border-greyed-navy/5'
+                  key={msg.id} 
+                  className={`flex flex-col ${
+                    msg.sender === 'student' ? 'items-end' : 'items-start'
                   }`}
                 >
-                  {msg.text}
+                  <span className="text-[10px] font-bold text-greyed-navy/50 mb-1 px-1">{msg.name} • {msg.time}</span>
+                  <div 
+                    className={`px-4 py-2.5 rounded-2xl max-w-[85%] sm:max-w-[70%] text-sm ${
+                      msg.sender === 'student' 
+                        ? 'bg-[#2a2f6e] text-white rounded-tr-sm' 
+                        : msg.sender === 'admin'
+                          ? 'bg-[#bbd7eb]/40 text-greyed-navy rounded-tl-sm font-medium border border-[#bbd7eb]/50'
+                          : 'bg-white text-greyed-navy rounded-tl-sm shadow-sm border border-greyed-navy/5'
+                    }`}
+                  >
+                    {msg.text}
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Input Area */}
-        <div className="p-4 border-t border-greyed-navy/10 bg-white">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => alert('Attachment picker is a demo action in this preview.')}
-              className="p-2 text-greyed-navy/40 hover:text-greyed-navy hover:bg-greyed-navy/5 rounded-full transition-colors"
-              title="Attach file"
-            >
-              <Paperclip className="w-5 h-5" />
-            </button>
-            <div className="flex-1 bg-greyed-white rounded-full border border-greyed-navy/10 flex items-center px-4 py-2 focus-within:border-greyed-blue transition-colors">
-              <input 
-                type="text"
-                placeholder={
-                  activeTab === 'teacher' ? "Ask a question or request help..." :
-                  activeTab === 'parent' ? "Share an achievement or update..." :
-                  "Message the group..."
-                }
-                className="w-full bg-transparent border-none focus:outline-none text-sm text-greyed-navy"
-                value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
-              />
-              <button
-                onClick={() => setMessageInput(current => `${current}${current ? ' ' : ''}🙂`)}
-                className="p-1 text-greyed-navy/40 hover:text-greyed-navy transition-colors ml-2"
-                title="Add emoji"
-              >
-                <Smile className="w-5 h-5" />
-              </button>
+            {/* Input Area */}
+            <div className="p-4 border-t border-greyed-navy/10 bg-white">
+              <div className="bg-yellow-50 text-yellow-800 text-xs font-semibold px-4 py-2 rounded-xl border border-yellow-200/50 flex items-center justify-center gap-2">
+                <Info className="w-4 h-4 flex-shrink-0" />
+                Group announcements are read-only in this preview.
+              </div>
             </div>
-            <button
-              onClick={handleSendMessage}
-              disabled={!messageInput.trim()}
-              className={`p-2.5 rounded-full flex items-center justify-center transition-colors ${
-              messageInput.trim() ? 'bg-[#2a2f6e] text-white hover:bg-[#212754] shadow-sm' : 'bg-greyed-navy/10 text-greyed-navy/40 cursor-not-allowed'
-            }`}
-              title="Send message"
-            >
-              <Send className="w-4 h-4 ml-0.5" />
-            </button>
-          </div>
-        </div>
+          </>
+        )}
 
       </div>
     </StudentLayout>
