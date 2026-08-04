@@ -10,6 +10,7 @@ import StorageBucketErrorModal from '../../components/ui/StorageBucketErrorModal
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
 import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 import {
   CONNECTED_ASSIGNMENTS_UPDATED_EVENT,
   ConnectedAssignment,
@@ -28,7 +29,7 @@ const AssessmentGradingPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   const [error, setError] = useState<string | null>(null);
@@ -267,7 +268,7 @@ const AssessmentGradingPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              setSidebarCollapsedPreference('teacher', newState);
             }}
             isMobile={isMobile}
             isOpen={showMobileMenu}

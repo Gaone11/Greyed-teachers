@@ -11,6 +11,7 @@ import { fetchTeacherClasses } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { format, parseISO } from 'date-fns';
 import { supabase } from '../../lib/supabase';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 const TeacherLessonPlannerPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
@@ -25,7 +26,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<string>('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
 
   useEffect(() => {
     document.title = "Lesson Planner | GreyEd Teachers";
@@ -203,7 +204,7 @@ const TeacherLessonPlannerPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              setSidebarCollapsedPreference('teacher', newState);
             }}
             isMobile={isMobile}
             isOpen={showMobileMenu}

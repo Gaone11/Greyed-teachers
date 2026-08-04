@@ -23,6 +23,7 @@ import Loader from '../../components/ui/Loader';
 import { fetchTeacherClasses, getTeacherDashboardData } from '../../lib/api/teacher-api';
 import { supabase } from '../../lib/supabase';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 // Color palette for class cards — cycles through these
 const CLASS_COLORS = [
@@ -67,7 +68,7 @@ const TeacherDashboardPage: React.FC = () => {
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
 
   useEffect(() => {
     document.title = "Dashboard | GreyEd";
@@ -127,7 +128,7 @@ const TeacherDashboardPage: React.FC = () => {
   const toggleSidebar = () => {
     setSidebarCollapsed(prev => {
       const next = !prev;
-      localStorage.setItem('teacherSidebarCollapsed', String(next));
+      setSidebarCollapsedPreference('teacher', next);
       return next;
     });
   };

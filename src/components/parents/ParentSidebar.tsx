@@ -13,6 +13,7 @@ import {
   UserPlus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface ParentSidebarProps {
   activePage: 'dashboard' | 'communication' | 'timetable' | 'notifications' | 'settings' | 'connections';
@@ -40,10 +41,7 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
 
   useEffect(() => {
     if (!isMobile) {
-      const savedState = localStorage.getItem('parentSidebarCollapsed');
-      if (savedState !== null) {
-        setIsCollapsed(savedState === 'true');
-      }
+      setIsCollapsed(getSidebarCollapsedPreference('parent'));
     }
   }, [isMobile]);
 
@@ -57,7 +55,7 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
     } else {
       const newState = !isCollapsed;
       setIsCollapsed(newState);
-      localStorage.setItem('parentSidebarCollapsed', String(newState));
+      setSidebarCollapsedPreference('parent', newState);
     }
   };
 

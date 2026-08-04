@@ -29,6 +29,7 @@ import {
   updateClass,
   deleteClass
 } from '../../lib/api/teacher-api';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 const TeacherClassDetailPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
@@ -43,7 +44,7 @@ const TeacherClassDetailPage: React.FC = () => {
   const [analytics, setAnalytics] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
 
   useEffect(() => {
     // Set active tab based on location hash if present
@@ -174,7 +175,7 @@ const TeacherClassDetailPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              setSidebarCollapsedPreference('teacher', newState);
             }}
           />
         </div>

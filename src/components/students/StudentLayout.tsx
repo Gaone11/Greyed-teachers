@@ -7,6 +7,7 @@ import StudentSidebar from './StudentSidebar';
 import MobileBottomNavigation from '../dashboard/MobileBottomNavigation';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { X } from 'lucide-react';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface StudentLayoutProps {
   children: React.ReactNode;
@@ -18,7 +19,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, activePage }) =
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('studentSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('student'));
 
   const handleLogout = async () => {
     await signOut();
@@ -28,7 +29,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, activePage }) =
   const toggleSidebar = () => {
     setSidebarCollapsed(prev => {
       const next = !prev;
-      localStorage.setItem('studentSidebarCollapsed', String(next));
+      setSidebarCollapsedPreference('student', next);
       return next;
     });
   };

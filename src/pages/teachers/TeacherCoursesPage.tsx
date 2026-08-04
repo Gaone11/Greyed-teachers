@@ -26,6 +26,7 @@ import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavig
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { SUBJECTS } from '../../data/knowledgeGalaxy';
 import { supabase } from '../../lib/supabase';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 const SUBJECT_ICONS: Record<string, React.FC<{ className?: string }>> = {
   mathematics: Calculator,
@@ -81,7 +82,7 @@ const TeacherCoursesPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
-    () => localStorage.getItem('teacherSidebarCollapsed') === 'true'
+    () => getSidebarCollapsedPreference('teacher')
   );
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -144,7 +145,7 @@ const TeacherCoursesPage: React.FC = () => {
   const handleToggleSidebar = () => {
     const next = !sidebarCollapsed;
     setSidebarCollapsed(next);
-    localStorage.setItem('teacherSidebarCollapsed', String(next));
+    setSidebarCollapsedPreference('teacher', next);
   };
 
   const subjectByKey = useMemo(() => {

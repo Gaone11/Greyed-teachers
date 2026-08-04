@@ -18,6 +18,7 @@ import {
   Telescope,
   UserPlus
 } from 'lucide-react';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface StudentSidebarProps {
   activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge' | 'connections';
@@ -44,10 +45,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
 
   useEffect(() => {
     if (!isMobile) {
-      const savedState = localStorage.getItem('studentSidebarCollapsed');
-      if (savedState !== null) {
-        setIsCollapsed(savedState === 'true');
-      }
+      setIsCollapsed(getSidebarCollapsedPreference('student'));
     }
   }, [isMobile]);
 
@@ -61,7 +59,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
     } else {
       const newState = !isCollapsed;
       setIsCollapsed(newState);
-      localStorage.setItem('studentSidebarCollapsed', String(newState));
+      setSidebarCollapsedPreference('student', newState);
     }
   };
 

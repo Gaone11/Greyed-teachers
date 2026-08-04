@@ -16,6 +16,7 @@ import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavig
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
 import Loader from '../../components/ui/Loader';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface Module {
   id: number;
@@ -88,7 +89,7 @@ const TeacherCourseDetailPage: React.FC = () => {
   const [quizPassed, setQuizPassed] = useState(false);
   const [courseCompleted, setCourseCompleted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -160,7 +161,7 @@ const TeacherCourseDetailPage: React.FC = () => {
   const handleToggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    setSidebarCollapsedPreference('teacher', newState);
   };
 
   const markModuleComplete = async (moduleId: number) => {

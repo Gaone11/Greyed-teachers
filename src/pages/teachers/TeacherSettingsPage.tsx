@@ -9,6 +9,7 @@ import AccessibilitySettings from '../../components/accessibility/AccessibilityS
 import { getTeacherProfile, updateTeacherProfile, updateNotificationSettings } from '../../lib/api/teacher-api';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 const TeacherSettingsPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
@@ -21,7 +22,7 @@ const TeacherSettingsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
   const isMobile = useMediaQuery('(max-width: 768px)');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -116,7 +117,7 @@ const TeacherSettingsPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    setSidebarCollapsedPreference('teacher', newState);
   };
   
   // Handle profile form input changes

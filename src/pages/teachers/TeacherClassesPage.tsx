@@ -11,6 +11,7 @@ import { fetchTeacherClasses, createClass, deleteClass } from '../../lib/api/tea
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 type ClassStudentPayload = {
   class_id: string;
@@ -138,7 +139,7 @@ const TeacherClassesPage: React.FC = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
 
   useEffect(() => {
     document.title = "Manage Classes | GreyEd Teachers";
@@ -376,7 +377,7 @@ const TeacherClassesPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              setSidebarCollapsedPreference('teacher', newState);
             }}
             isMobile={isMobile}
             isOpen={showMobileMenu}

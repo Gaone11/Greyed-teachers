@@ -8,6 +8,7 @@ import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavig
 import TopicView from '../../components/knowledge/TopicView';
 import DiscoveryFeed from '../../components/knowledge/DiscoveryFeed';
 import { fetchTeacherClasses } from '../../lib/api/teacher-api';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 import {
   SUBJECTS,
   getSubjectById,
@@ -144,7 +145,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
-    () => localStorage.getItem('teacherSidebarCollapsed') === 'true'
+    () => getSidebarCollapsedPreference('teacher')
   );
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [view, setView] = useState<View>({ layer: 'subjects' });
@@ -166,7 +167,7 @@ const KnowledgeGalaxyPage: React.FC = () => {
   const handleToggleSidebar = () => {
     const next = !sidebarCollapsed;
     setSidebarCollapsed(next);
-    localStorage.setItem('teacherSidebarCollapsed', String(next));
+    setSidebarCollapsedPreference('teacher', next);
   };
 
   const handleLogout = async () => {

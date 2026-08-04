@@ -5,6 +5,7 @@ import Loader from '../components/ui/Loader';
 import ParentSidebar from '../components/parents/ParentSidebar';
 import MobileBottomNavigation from '../components/dashboard/MobileBottomNavigation';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../lib/sidebar-preferences';
 
 interface ParentLayoutProps {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ const ParentLayout: React.FC<ParentLayoutProps> = ({ children, activePage }) => 
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('parentSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('parent'));
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -43,7 +44,7 @@ const ParentLayout: React.FC<ParentLayoutProps> = ({ children, activePage }) => 
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('parentSidebarCollapsed', String(newState));
+    setSidebarCollapsedPreference('parent', newState);
   };
 
   const toggleMobileMenu = () => {

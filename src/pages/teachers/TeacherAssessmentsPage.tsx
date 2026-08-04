@@ -13,6 +13,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { loadConnectionCircle } from '../../lib/connection-circle';
 import { publishConnectedAssignment, ConnectedAssignmentType } from '../../lib/connected-assignments';
 import { sendConnectedMessage } from '../../lib/connected-messages';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 const syllabusRequiredTests: Record<string, string[]> = {
   'Cambridge IGCSE': ['End of Unit Test', 'Mid-Term Assessment', 'Mock Examination', 'Practical Assessment', 'Final Examination'],
@@ -62,7 +63,7 @@ const TeacherAssessmentsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
   const [selectedAssessment, setSelectedAssessment] = useState<any | null>(null);
   const [selectedQuestions, setSelectedQuestions] = useState<any[]>([]);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -387,7 +388,7 @@ const TeacherAssessmentsPage: React.FC = () => {
             onToggleCollapse={() => {
               const newState = !sidebarCollapsed;
               setSidebarCollapsed(newState);
-              localStorage.setItem('teacherSidebarCollapsed', String(newState));
+              setSidebarCollapsedPreference('teacher', newState);
             }}
             isMobile={isMobile}
             isOpen={showMobileMenu}

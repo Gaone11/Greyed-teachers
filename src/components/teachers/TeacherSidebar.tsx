@@ -23,6 +23,7 @@ import {
   UserPlus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface TeacherSidebarProps {
   activePage: 'dashboard' | 'classes' | 'lesson-planner' | 'assessments' | 'tutors' | 'settings' | 'el-ai' | 'grey-ed-ta' | 'courses' | 'admin-kb' | 'knowledge' | 'knowledgebase' | 'students' | 'assignments' | 'messages' | 'analytics' | 'timetable' | 'connections';
@@ -50,10 +51,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
   useEffect(() => {
     if (!isMobile) {
-      const savedState = localStorage.getItem('teacherSidebarCollapsed');
-      if (savedState !== null) {
-        setIsCollapsed(savedState === 'true');
-      }
+      setIsCollapsed(getSidebarCollapsedPreference('teacher'));
     }
   }, [isMobile]);
 
@@ -67,7 +65,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     } else {
       const newState = !isCollapsed;
       setIsCollapsed(newState);
-      localStorage.setItem('teacherSidebarCollapsed', String(newState));
+      setSidebarCollapsedPreference('teacher', newState);
     }
   };
 

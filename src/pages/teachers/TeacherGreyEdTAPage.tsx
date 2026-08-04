@@ -6,12 +6,13 @@ import Footer from '../../components/layout/Footer';
 import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import { AlertCircle, Loader, X, Menu, BookOpen, MessageCircle } from 'lucide-react';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 const TeacherGreyEdTAPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const TeacherGreyEdTAPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    setSidebarCollapsedPreference('teacher', newState);
   };
   
   if (authLoading) {

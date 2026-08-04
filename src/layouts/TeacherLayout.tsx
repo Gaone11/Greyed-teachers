@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/ui/Loader';
 import TeacherSidebar from '../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../components/dashboard/MobileBottomNavigation';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../lib/sidebar-preferences';
 
 interface TeacherLayoutProps {
   children: React.ReactNode;
@@ -16,8 +17,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
-  const autoCollapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -36,22 +36,6 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
     };
   }, [showMobileMenu, isMobile]);
 
-  // Auto-collapse sidebar after 5 seconds
-  useEffect(() => {
-    if (!isMobile && !sidebarCollapsed) {
-      autoCollapseTimerRef.current = setTimeout(() => {
-        setSidebarCollapsed(true);
-        localStorage.setItem('teacherSidebarCollapsed', 'true');
-      }, 5000);
-    }
-
-    return () => {
-      if (autoCollapseTimerRef.current) {
-        clearTimeout(autoCollapseTimerRef.current);
-      }
-    };
-  }, [isMobile, sidebarCollapsed]);
-
   const handleLogout = async () => {
     await signOut();
     navigate('/');
@@ -60,7 +44,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    setSidebarCollapsedPreference('teacher', newState);
   };
 
   const toggleMobileMenu = () => {

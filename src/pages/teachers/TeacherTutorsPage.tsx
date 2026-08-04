@@ -17,6 +17,7 @@ import { fetchTeacherClasses, fetchTutorUpdates, generateTutorUpdate, sendTutorU
 import { Class } from '../../types/teacher';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { supabase } from '../../lib/supabase';
+import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 // Mock data for students in a class
 const mockStudents = [
@@ -112,7 +113,7 @@ const TeacherTutorsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem('teacherSidebarCollapsed') === 'true');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => getSidebarCollapsedPreference('teacher'));
   const [showStorageBucketError, setShowStorageBucketError] = useState(false);
   const [bucketName, setBucketName] = useState('uploads');
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -217,7 +218,7 @@ const TeacherTutorsPage: React.FC = () => {
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem('teacherSidebarCollapsed', String(newState));
+    setSidebarCollapsedPreference('teacher', newState);
   };
   
   // Filter updates by search term and class
