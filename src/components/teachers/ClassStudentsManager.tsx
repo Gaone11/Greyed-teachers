@@ -34,6 +34,26 @@ type RawAttendanceRow = {
   status: AttendanceStatus;
 };
 
+type AttendanceSession = {
+  completed: boolean;
+  completed_at?: string | null;
+  total_students: number;
+  present_count: number;
+  late_count: number;
+  absent_count: number;
+  excused_count: number;
+};
+
+type RawAttendanceSessionRow = {
+  completed?: boolean | null;
+  completed_at?: string | null;
+  total_students?: number | null;
+  present_count?: number | null;
+  late_count?: number | null;
+  absent_count?: number | null;
+  excused_count?: number | null;
+};
+
 const attendanceStatuses: { value: AttendanceStatus; label: string; className: string }[] = [
   { value: 'present', label: 'Present', className: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100' },
   { value: 'late', label: 'Late', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100' },
@@ -48,10 +68,13 @@ const isMissingTableError = (error: unknown) => {
     || err?.code === 'PGRST205'
     || /relation .*class_students.* does not exist/i.test(message)
     || /relation .*class_attendance.* does not exist/i.test(message)
+    || /relation .*class_attendance_sessions.* does not exist/i.test(message)
     || /schema cache.*public\.class_students/i.test(message)
     || /schema cache.*public\.class_attendance/i.test(message)
+    || /schema cache.*public\.class_attendance_sessions/i.test(message)
     || /could not find the table .*class_students/i.test(message)
-    || /could not find the table .*class_attendance/i.test(message);
+    || /could not find the table .*class_attendance/i.test(message)
+    || /could not find the table .*class_attendance_sessions/i.test(message);
 };
 
 const getSupabaseErrorMessage = (error: unknown, fallback: string) => {
@@ -78,6 +101,7 @@ const getSupabaseErrorMessage = (error: unknown, fallback: string) => {
 
 const getLocalRosterKey = (classId: string) => `greyed-local-class-roster:${classId}`;
 const getLocalAttendanceKey = (classId: string, attendanceDate: string) => `greyed-local-class-attendance:${classId}:${attendanceDate}`;
+const getLocalAttendanceSessionKey = (classId: string, attendanceDate: string) => `greyed-local-class-attendance-session:${classId}:${attendanceDate}`;
 
 const loadLocalStudents = (classId: string): Student[] => {
   if (typeof window === 'undefined') return [];
@@ -144,6 +168,22 @@ const saveLocalAttendanceStatus = (
   saveLocalAttendance(classId, attendanceDate, { ...attendance, [studentId]: status });
 };
 
+const loadLocalAttendanceSession = (classId: string, attendanceDate: string): AttendanceSession | null => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const stored = window.localStorage.getItem(getLocalAttendanceSessionKey(classId, attendanceDate));
+    return stored ? JSON.parse(stored) as AttendanceSession : null;
+  } catch {
+    return null;
+  }
+};
+
+const saveLocalAttendanceSession = (classId: string, attendanceDate: string, session: AttendanceSession) => {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(getLocalAttendanceSessionKey(classId, attendanceDate), JSON.stringify(session));
+};
+
 const getTodayInputValue = () => new Date().toISOString().slice(0, 10);
 
 const normalizeStudent = (row: RawStudentRow): Student => ({
@@ -166,6 +206,42 @@ const mergeStudents = (students: Student[]) => {
     .sort((a, b) => a.name.localeCompare(b.name));
 };
 
+const getAttendanceSummary = (students: Student[], attendance: Record<string, AttendanceStatus>): AttendanceSession => {
+  const counts = students.reduce(
+    (acc, student) => {
+      const status = attendance[student.id];
+      if (status === 'present') acc.present_count += 1;
+      if (status === 'late') acc.late_count += 1;
+      if (status === 'absent') acc.absent_count += 1;
+      if (status === 'excused') acc.excused_count += 1;
+      return acc;
+    },
+    {
+      present_count: 0,
+      late_count: 0,
+      absent_count: 0,
+      excused_count: 0,
+    }
+  );
+
+  return {
+    completed: false,
+    completed_at: null,
+    total_students: students.length,
+    ...counts,
+  };
+};
+
+const normalizeAttendanceSession = (row: RawAttendanceSessionRow): AttendanceSession => ({
+  completed: Boolean(row.completed),
+  completed_at: row.completed_at || null,
+  total_students: row.total_students || 0,
+  present_count: row.present_count || 0,
+  late_count: row.late_count || 0,
+  absent_count: row.absent_count || 0,
+  excused_count: row.excused_count || 0,
+});
+
 const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, onStudentCountChange }) => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
@@ -179,8 +255,10 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [attendanceDate, setAttendanceDate] = useState(getTodayInputValue());
   const [attendance, setAttendance] = useState<Record<string, AttendanceStatus>>({});
+  const [attendanceSession, setAttendanceSession] = useState<AttendanceSession | null>(null);
   const [attendanceLoading, setAttendanceLoading] = useState(false);
   const [attendanceSavingId, setAttendanceSavingId] = useState<string | null>(null);
+  const [completionSaving, setCompletionSaving] = useState(false);
 
   useEffect(() => {
     fetchStudents();
@@ -277,6 +355,7 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
   const fetchAttendance = async (studentList = students) => {
     if (!studentList.length) {
       setAttendance({});
+      setAttendanceSession(loadLocalAttendanceSession(classId, attendanceDate));
       return;
     }
 
@@ -293,6 +372,7 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       if (error) {
         if (isMissingTableError(error)) {
           setAttendance(localAttendance);
+          await fetchAttendanceSession();
           return;
         }
         throw error;
@@ -304,11 +384,38 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       }, {});
 
       setAttendance({ ...localAttendance, ...remoteAttendance });
+      await fetchAttendanceSession();
     } catch (error: unknown) {
       setAttendance(localAttendance);
+      await fetchAttendanceSession();
       setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Could not load attendance for this date.') });
     } finally {
       setAttendanceLoading(false);
+    }
+  };
+
+  const fetchAttendanceSession = async () => {
+    const localSession = loadLocalAttendanceSession(classId, attendanceDate);
+
+    try {
+      const { data, error } = await supabase
+        .from('class_attendance_sessions')
+        .select('completed,completed_at,total_students,present_count,late_count,absent_count,excused_count')
+        .eq('class_id', classId)
+        .eq('attendance_date', attendanceDate)
+        .maybeSingle();
+
+      if (error) {
+        if (isMissingTableError(error)) {
+          setAttendanceSession(localSession);
+          return;
+        }
+        throw error;
+      }
+
+      setAttendanceSession(data ? normalizeAttendanceSession(data as RawAttendanceSessionRow) : localSession);
+    } catch {
+      setAttendanceSession(localSession);
     }
   };
 
@@ -354,6 +461,87 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Could not save attendance.') });
     } finally {
       setAttendanceSavingId(null);
+    }
+  };
+
+  const handleCompleteAttendance = async () => {
+    if (!students.length) {
+      setToast({ type: 'error', message: 'Add students before completing attendance.' });
+      return;
+    }
+
+    const unmarkedStudents = students.filter(student => !attendance[student.id]);
+    if (unmarkedStudents.length > 0) {
+      setToast({ type: 'error', message: `Mark attendance for ${unmarkedStudents.length} student${unmarkedStudents.length === 1 ? '' : 's'} before completing the register.` });
+      return;
+    }
+
+    setCompletionSaving(true);
+
+    const completedAt = new Date().toISOString();
+    const summary = {
+      ...getAttendanceSummary(students, attendance),
+      completed: true,
+      completed_at: completedAt,
+    };
+
+    saveLocalAttendance(classId, attendanceDate, attendance);
+    saveLocalAttendanceSession(classId, attendanceDate, summary);
+    setAttendanceSession(summary);
+
+    try {
+      const remoteStudents = students.filter(student => student.source !== 'local');
+
+      if (remoteStudents.length > 0) {
+        const { data: authData } = await supabase.auth.getUser();
+        const teacherId = authData?.user?.id;
+
+        const attendanceRows = remoteStudents.map(student => ({
+          class_id: classId,
+          student_id: student.id,
+          teacher_id: teacherId,
+          attendance_date: attendanceDate,
+          status: attendance[student.id],
+        }));
+
+        const { error: attendanceError } = await supabase
+          .from('class_attendance')
+          .upsert(attendanceRows, { onConflict: 'student_id,attendance_date' });
+
+        if (attendanceError && !isMissingTableError(attendanceError)) {
+          throw attendanceError;
+        }
+      }
+
+      const { data: authData } = await supabase.auth.getUser();
+      const { error: sessionError } = await supabase
+        .from('class_attendance_sessions')
+        .upsert(
+          {
+            class_id: classId,
+            teacher_id: authData?.user?.id,
+            completed_by: authData?.user?.id,
+            attendance_date: attendanceDate,
+            completed: true,
+            completed_at: completedAt,
+            total_students: summary.total_students,
+            present_count: summary.present_count,
+            late_count: summary.late_count,
+            absent_count: summary.absent_count,
+            excused_count: summary.excused_count,
+          },
+          { onConflict: 'class_id,attendance_date' }
+        );
+
+      if (sessionError && !isMissingTableError(sessionError)) {
+        throw sessionError;
+      }
+
+      setToast({ type: 'success', message: 'Attendance completed and saved for this date.' });
+    } catch (error: unknown) {
+      setToast({ type: 'error', message: getSupabaseErrorMessage(error, 'Attendance was saved locally, but could not sync to Supabase yet.') });
+    } finally {
+      setCompletionSaving(false);
     }
   };
 
@@ -461,6 +649,12 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
   const filtered = students.filter(s =>
     s.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  const attendanceSummary = getAttendanceSummary(students, attendance);
+  const markedCount = Object.keys(attendance).filter(studentId =>
+    students.some(student => student.id === studentId)
+  ).length;
+  const unmarkedCount = Math.max(students.length - markedCount, 0);
+  const attendanceComplete = Boolean(attendanceSession?.completed);
 
   return (
     <div className="space-y-4">
@@ -576,15 +770,26 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
       )}
 
       {students.length > 0 && (
-        <div className="bg-white border border-greyed-navy/10 rounded-2xl p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div className="bg-white border border-greyed-navy/10 rounded-2xl p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <div>
-            <h3 className="font-semibold text-greyed-navy text-sm">Attendance</h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="font-semibold text-greyed-navy text-sm">Attendance</h3>
+              <span className={`px-2 py-1 rounded-lg text-[11px] font-bold ${
+                attendanceComplete
+                  ? 'bg-green-50 text-green-700 border border-green-200'
+                  : 'bg-amber-50 text-amber-700 border border-amber-200'
+              }`}>
+                {attendanceComplete ? 'Completed' : 'In progress'}
+              </span>
+            </div>
             <p className="text-xs text-gray-500 mt-1">
-              Mark attendance for the selected date.
+              {attendanceComplete && attendanceSession?.completed_at
+                ? `Completed ${new Date(attendanceSession.completed_at).toLocaleString('en-GB')}. Records are saved for this date.`
+                : 'Mark every learner, then complete the register for the selected date.'}
               {attendanceLoading && <span className="ml-1">Loading saved marks...</span>}
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-3">
             <label className="text-xs font-semibold text-gray-500">
               Date
               <input
@@ -594,11 +799,23 @@ const ClassStudentsManager: React.FC<ClassStudentsManagerProps> = ({ classId, on
                 className="mt-1 sm:mt-0 sm:ml-2 px-3 py-2 border border-gray-300 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-greyed-navy/20 focus:border-greyed-navy/40"
               />
             </label>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <span>{Object.keys(attendance).length} marked</span>
-              <span className="w-1 h-1 rounded-full bg-gray-300" />
-              <span>{students.length} enrolled</span>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+              <span>{markedCount} marked</span>
+              <span>{unmarkedCount} unmarked</span>
+              <span>{attendanceSummary.present_count} present</span>
+              <span>{attendanceSummary.late_count} late</span>
+              <span>{attendanceSummary.absent_count} absent</span>
+              <span>{attendanceSummary.excused_count} excused</span>
             </div>
+            <button
+              onClick={handleCompleteAttendance}
+              disabled={completionSaving || unmarkedCount > 0}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-greyed-navy text-white rounded-xl text-sm font-semibold hover:bg-greyed-navy/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              title={unmarkedCount > 0 ? 'Mark every student before completing attendance' : 'Complete attendance for this date'}
+            >
+              <CheckCircle2 size={15} />
+              {completionSaving ? 'Saving...' : attendanceComplete ? 'Update Completed Register' : 'Complete Attendance'}
+            </button>
           </div>
         </div>
       )}
