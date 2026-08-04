@@ -64,7 +64,7 @@ const TeacherAssignmentsPage: React.FC = () => {
   const [assignments, setAssignments] = useState<ConnectedAssignment[]>([]);
   const [form, setForm] = useState<HomeworkForm>(defaultForm);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [statusMessage, setStatusMessage] = useState('Homework tools ready.');
+  const [statusMessage, setStatusMessage] = useState('Homework and assessment tools ready.');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -570,7 +570,7 @@ const EmptyAssignments = ({ activeTab }: { activeTab: AssignmentTab }) => (
     <h3 className="text-lg font-bold text-greyed-navy">No {activeTab} assignments</h3>
     <p className="text-greyed-navy/60 mt-2 max-w-sm">
       {activeTab === 'active'
-        ? 'Create homework and it will appear here and on the connected student account.'
+        ? 'Create homework or upload an assessment and it will appear here and on the connected student account.'
         : 'When students submit work or you complete grading, it will appear here.'}
     </p>
   </div>
