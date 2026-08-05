@@ -57,59 +57,46 @@ PERSONALITY:
 
 // Injected when lesson planning is detected for NERDC context
 const NERDC_LESSON_PLAN_PROMPT = `
-NERDC LESSON PLAN GENERATION RULES — CRITICAL:
+NERDC LESSON NOTE GENERATION RULES — CRITICAL:
 
-You are generating a READY-TO-USE lesson plan, NOT a template. Every section must contain real, specific, actionable content that a teacher can take directly into the classroom.
+You are generating a READY-TO-USE Nigerian classroom LESSON NOTE, NOT a short lesson-plan outline and NOT a template. Every section must contain real, specific, actionable content that a teacher can take directly into the classroom.
 
 ABSOLUTE RULE: NEVER write parenthetical placeholders like (Teacher name), (Insert relevant...), (Describe...), or (specify...). If you don't have specific information, write concrete suggestions instead. Every line must be immediately usable.
 
-Use this NERDC-aligned structure:
+Use this NERDC-aligned lesson-note structure for every subject:
 
-A. IDENTIFICATION — Fill in a markdown table with: School (use the class name provided), Subject, Grade, Date, Duration, Term, Week, Curriculum. Never write "(Teacher name)".
+A. TITLE — Start with "# LESSON NOTE".
 
-B. NERDC ALIGNMENT — Write the exact NERDC strand/theme/content standard for this specific subject and topic where possible. Write real lesson outcomes that are unique to this subject (not generic "acquire knowledge" statements).
+B. LESSON DETAILS — Fill in a markdown table with: Class, Grade, Week, Date, Duration, Average Age, Subject, Topic, Sub-topic, Curriculum, Instructional Materials, Reference Book. Never write "(Teacher name)".
 
-C. LEARNING OBJECTIVES — Write 3-4 specific, measurable objectives for THIS topic. Each must describe exactly what learners will know or do by the end. Example: "Learners will be able to identify and name 5 basic 2D shapes (circle, square, triangle, rectangle, oval)" — NOT "Identify and explain key concepts."
+C. BEHAVIOURAL OBJECTIVES — Write 3-5 specific, measurable objectives for THIS topic using "By the end of the lesson, learners/students should be able to..." Each objective must describe exactly what learners will know or do by the end.
 
-D. PRIOR KNOWLEDGE — Describe what learners should already know from previous lessons that connects to this topic. Include 2-3 specific baseline check questions the teacher can ask.
+D. PREVIOUS KNOWLEDGE — Describe what learners should already know from previous lessons that connects to this topic. Include 2-3 specific baseline check questions the teacher can ask.
 
-E. RESOURCES / LTSM — List specific resources needed. Name actual types of materials (e.g., "Flashcards with Setswana vowel sounds", "Number line 0-100 poster", "Counters or bottle caps for grouping"). If referencing workbooks, describe the type of exercise rather than writing "(Insert page references)".
+E. INSTRUCTIONAL MATERIALS — List specific resources needed. Name actual types of materials (e.g., flashcards, number line poster, counters, labelled chart, real objects, maps, pictures, textbook). If referencing books, give a concrete reference-book description rather than writing "(Insert page references)".
 
-F. LESSON PHASES — This is the most important section. Write it as a practical teaching script:
+F. INTRODUCTION — Write a concrete teacher action: demonstration, real object, picture, story, short problem, question, or quick activity. Include expected learner responses.
 
-Phase 1: Introduction (~5 min)
-- Write the actual warm-up activity step by step
-- Write 2-3 specific oral questions to activate prior knowledge
-- State the learning objective in learner-friendly language
+G. PRESENTATION — This is the most important section. Use Step 1, Step 2, Step 3, and more steps where useful. Each step must include teacher explanation, learner activity, board work, and enough subject notes for the teacher to teach directly from the output.
 
-Phase 2: Direct Instruction (~10-15 min)
-- Describe exactly what the teacher explains, demonstrates, or models
-- Include specific examples, diagrams to draw, or demonstrations to perform
-- List key vocabulary with simple definitions
+H. WORKED EXAMPLES / CALCULATIONS / DEMONSTRATIONS — Include solved examples for mathematics, science, business, technology, grammar, reading, social studies, or any topic where examples help. For language subjects, include model sentences, reading extracts, vocabulary examples, or oral practice examples.
 
-Phase 3: Guided Practice (~15-20 min)
-- Describe the actual activity learners will do (not "learner activities")
-- Write specific task instructions, example problems, or worksheet prompts
-- Describe how learners work (individually, in pairs, groups) and what they produce
+I. BOARD DIAGRAMS AND ILLUSTRATIONS — Include at least two simple markdown-friendly diagrams or illustration guides for EVERY subject. Use concept maps, labelled sketches, flow charts, tables, timelines, grammar trees, process diagrams, maps, or board drawing instructions. Use text diagrams that can be copied to the board.
 
-Phase 4: Consolidation (~5 min)
-- Write 2-3 specific review questions
-- Describe the exit activity (e.g., "Learners write one thing they learned on a sticky note")
+J. CLASS ACTIVITIES — Include a timing table showing teacher action, learner action, and time allocation.
 
-G. ASSESSMENT — Describe the specific informal assessment method for this lesson. Write 3-5 actual assessment questions or criteria. If including a rubric, write the actual rubric with levels and descriptors.
+K. EVALUATION — Write 3-6 actual questions the teacher can ask at the end of the lesson.
 
-H. DIFFERENTIATION — Write specific adaptations:
+L. CONCLUSION — Write the teacher's closing summary and how learners show what they learned.
+
+M. ASSIGNMENT — Write the actual assignment task with clear instructions. Include at least one diagram/illustration task where appropriate.
+
+N. DIFFERENTIATION / REMEDIAL SUPPORT — Write specific adaptations:
 - Support: Describe the simplified version of the main activity
 - Core: The standard activity (reference Phase 3)
 - Extension: A specific challenge task for advanced learners
 
-I. HOMEWORK — Write the actual homework task with clear instructions. Example: "Complete 10 addition sums using the column method: 45+23, 67+18..." — NOT "(Describe homework activity)".
-
-J. CROSS-CURRICULAR LINKS — Name one or two specific connections to other subjects with a brief explanation.
-
-K. TEACHER REFLECTION — Leave these as blank lines for the teacher to complete after teaching: Strengths ___, Areas for improvement ___, Learner engagement ___, Adjustments for next lesson ___
-
-L. HOD SIGN-OFF — Include signature/date table with blank lines (this is correctly left empty).
+O. TEACHER REFLECTION — Leave these as blank lines for the teacher to complete after teaching: Strengths ___, Areas for improvement ___, Learner engagement ___, Adjustments for next lesson ___
 
 CONTENT QUALITY RULES:
 - Every activity must be described concretely enough that a substitute teacher could deliver the lesson
@@ -122,35 +109,39 @@ CONTENT QUALITY RULES:
 const CAPS_LESSON_PLAN_PROMPT = `
 CAPS LESSON PLAN GENERATION RULES — CRITICAL:
 
-You are generating a READY-TO-USE lesson plan, NOT a template. Every section must contain real, specific, actionable content that a teacher can take directly into the classroom.
+You are generating a READY-TO-USE classroom lesson note, NOT a short outline and NOT a template. Every section must contain real, specific, actionable content that a teacher can take directly into the classroom.
 
 ABSOLUTE RULE: NEVER write parenthetical placeholders like (Teacher name), (Insert relevant...), (Describe...), or (specify...). If you don't have specific information, write concrete suggestions instead. Every line must be immediately usable.
 
-Use this CAPS-aligned structure:
+Use this CAPS-aligned lesson-note structure:
 
-A. IDENTIFICATION — Fill in a markdown table with: School (use the class name provided), Subject, Grade, Date, Duration, Term, Week, Curriculum. Never write "(Teacher name)".
+A. TITLE — Start with "# LESSON NOTE".
 
-B. CAPS ALIGNMENT — Write the actual CAPS content area for this specific subject and topic. Write real Specific Aims that are unique to this subject (not generic "acquire knowledge" statements). Reference the actual CAPS document section.
+B. LESSON DETAILS — Fill in a markdown table with: Class, Grade, Week, Date, Duration, Average Age, Subject, Topic, Sub-topic, Curriculum, Instructional Materials, Reference Book. Never write "(Teacher name)".
 
-C. LEARNING OBJECTIVES — Write 3-4 specific, measurable objectives for THIS topic. Each must describe exactly what learners will know or do by the end.
+C. BEHAVIOURAL OBJECTIVES — Write 3-4 specific, measurable objectives for THIS topic. Each must describe exactly what learners will know or do by the end.
 
-D. PRIOR KNOWLEDGE — Describe what learners should already know from previous lessons that connects to this topic. Include 2-3 specific baseline check questions the teacher can ask.
+D. PREVIOUS KNOWLEDGE — Describe what learners should already know from previous lessons that connects to this topic. Include 2-3 specific baseline check questions the teacher can ask.
 
-E. RESOURCES / LTSM — List specific resources needed. Name actual types of materials.
+E. INSTRUCTIONAL MATERIALS — List specific resources needed. Name actual types of materials.
 
-F. LESSON PHASES — Write a practical teaching script with introduction, direct instruction, guided practice, and consolidation.
+F. INTRODUCTION — Write a concrete teacher action or demonstration with expected learner responses.
 
-G. ASSESSMENT — Describe the specific informal assessment method for this lesson. Write 3-5 actual assessment questions or criteria.
+G. PRESENTATION — Use Step 1, Step 2, Step 3, and more steps where useful. Each step must include teacher explanation, learner activity, and enough subject notes for direct teaching.
 
-H. DIFFERENTIATION — Write specific adaptations for support, core, and extension.
+H. WORKED EXAMPLES / CALCULATIONS / DEMONSTRATIONS — Include solved examples or model responses where applicable.
 
-I. HOMEWORK — Write the actual homework task with clear instructions.
+I. BOARD DIAGRAMS AND ILLUSTRATIONS — Include at least two markdown-friendly diagrams or illustration guides for every subject.
 
-J. CROSS-CURRICULAR LINKS — Name one or two specific connections to other subjects.
+J. EVALUATION — Write actual questions the teacher can ask.
 
-K. TEACHER REFLECTION — Leave blank lines for post-lesson reflections.
+K. CONCLUSION — Write the closing summary.
 
-L. HOD SIGN-OFF — Include signature/date table with blank lines.
+L. ASSIGNMENT — Write the actual homework or assignment task with clear instructions.
+
+M. DIFFERENTIATION — Write specific adaptations for support, core, and extension.
+
+N. TEACHER REFLECTION — Leave blank lines for post-lesson reflections.
 
 CONTENT QUALITY RULES:
 - Every activity must be described concretely enough that a substitute teacher could deliver the lesson.
@@ -161,10 +152,12 @@ CONTENT QUALITY RULES:
 
 // Injected when lesson planning is detected and curriculum is not explicit
 const GENERIC_LESSON_PLAN_PROMPT = `
-LESSON PLAN GENERATION RULES — CRITICAL:
+LESSON NOTE GENERATION RULES — CRITICAL:
 - Follow the curriculum framework explicitly provided in the user message or teacher context.
 - If no framework is provided, ask a short clarifying question before giving framework-specific compliance claims.
-- Provide a ready-to-use lesson plan with concrete activities, checks for understanding, differentiation, and homework.
+- Provide a ready-to-use classroom lesson note, not a short outline.
+- Use this structure for every subject: LESSON NOTE, Lesson Details, Behavioural Objectives, Previous Knowledge, Introduction, Presentation with Step 1/Step 2/Step 3, Worked Examples or Demonstrations where useful, Board Diagrams And Illustrations with at least two markdown-friendly diagrams, Evaluation, Conclusion, Assignment, Differentiation, Teacher Reflection.
+- Include concrete activities, teacher explanations, subject notes, expected learner responses, checks for understanding, diagrams/illustrations, and homework.
 - Never use placeholder text or empty template fields.`;
 
 // Injected when assessment creation is detected for CAPS context

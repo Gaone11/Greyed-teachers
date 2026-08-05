@@ -107,26 +107,32 @@ export async function generateLessonPlan(params: {
       examBoard: params.examBoard
     };
     
-    // Format a structured prompt for lesson plan generation
+    // Format a structured prompt for lesson note generation
     const prompt = `
-      Please create a detailed lesson plan for teaching "${params.topic}" to ${params.gradeLevel} ${params.subjectArea} students.
-      
+      Please create a detailed Nigerian classroom LESSON NOTE for teaching "${params.topic}" to ${params.gradeLevel} ${params.subjectArea} students.
+
       Details:
       - Duration: ${params.duration} minutes
       - Teaching style: ${params.teachingStyle || 'balanced'}
       ${params.examBoard ? `- Exam board: ${params.examBoard}` : ''}
       ${params.focusAreas && params.focusAreas.length > 0 ? `- Focus areas: ${params.focusAreas.join(', ')}` : ''}
       
-      Please format the lesson plan using the GreyEd template with sections: 
-      - Standards & Alignment
-      - Essential Question
-      - Learning Outcomes
-      - Materials
-      - Lesson Flow (with timing)
-      - Differentiation
-      - Assessment
+      Format the output as a full lesson note for any subject, not a short outline. Use these sections:
+      - LESSON NOTE
+      - Lesson Details table: Class, Week, Date, Duration, Average Age, Subject, Topic, Sub-topic, Curriculum, Instructional Materials, Reference Book
+      - Behavioural Objectives
+      - Previous Knowledge
+      - Introduction with a concrete teacher action or demonstration
+      - Presentation with Step 1, Step 2, Step 3, and more steps where useful
+      - Worked Examples / Calculations / Demonstrations where applicable
+      - Board Diagrams And Illustrations with at least two markdown-friendly diagrams, labelled sketches, concept maps, flow charts, or board drawing guides
+      - Evaluation
+      - Conclusion
+      - Assignment
+
+      Include enough subject notes, examples, teacher prompts, expected learner responses, and board-work guidance for a teacher to teach directly from the output.
     `;
-    
+
     const lessonPlan = await sendTeacherMessage(prompt, [], teacherContext);
     return lessonPlan;
   } catch (error) {

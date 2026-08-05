@@ -522,7 +522,7 @@ export default function TeacherLessonPlanGeneratorPage() {
                 ) : (
                   <>
                     <Wand2 className="h-4 w-4 mr-2 text-[#bbd7eb]" />
-                    Generate NERDC Lesson Plan
+                    Generate Lesson Note
                   </>
                 )}
               </button>

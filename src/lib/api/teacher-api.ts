@@ -134,18 +134,288 @@ interface GenerateAssessmentParams {
   className?: string;
 }
 
-function isArabicLanguageSubject(subject: string): boolean {
-  const value = (subject || '').toLowerCase();
-  return value.includes('arabic') || value.includes('عربي') || value.includes('اللغة العربية');
+type LanguageCode = 'none' | 'arabic' | 'french' | 'hausa' | 'igbo' | 'yoruba';
+
+interface LanguageProfile {
+  code: LanguageCode;
+  bilingual: boolean;
+  englishName: string;
+  localLabel: string;
+  localHeader: string;
+  scriptRegex?: RegExp;
 }
 
-function isLanguageSubject(subject: string): boolean {
+function getLanguageProfile(subject: string): LanguageProfile {
   const value = (subject || '').toLowerCase();
-  return value.includes(' language') || value === 'french' || value.includes('french');
+
+  if (value.includes('arabic') || value.includes('عربي') || value.includes('اللغة العربية')) {
+    return {
+      code: 'arabic',
+      bilingual: true,
+      englishName: 'Arabic',
+      localLabel: 'العربية',
+      localHeader: 'Arabic (العربية)',
+      scriptRegex: /[\u0600-\u06FF]/,
+    };
+  }
+  if (value.includes('french') || value.includes('francais') || value.includes('français')) {
+    return {
+      code: 'french',
+      bilingual: true,
+      englishName: 'French',
+      localLabel: 'Français',
+      localHeader: 'French (Français)',
+    };
+  }
+  if (value.includes('hausa')) {
+    return {
+      code: 'hausa',
+      bilingual: true,
+      englishName: 'Hausa',
+      localLabel: 'Harshen Hausa',
+      localHeader: 'Hausa (Harshen Hausa)',
+    };
+  }
+  if (value.includes('igbo')) {
+    return {
+      code: 'igbo',
+      bilingual: true,
+      englishName: 'Igbo',
+      localLabel: 'Asụsụ Igbo',
+      localHeader: 'Igbo (Asụsụ Igbo)',
+    };
+  }
+  if (value.includes('yoruba') || value.includes('yorùbá')) {
+    return {
+      code: 'yoruba',
+      bilingual: true,
+      englishName: 'Yoruba',
+      localLabel: 'Èdè Yorùbá',
+      localHeader: 'Yoruba (Èdè Yorùbá)',
+    };
+  }
+  return {
+    code: 'none',
+    bilingual: false,
+    englishName: '',
+    localLabel: '',
+    localHeader: '',
+  };
 }
 
-function containsArabicScript(text: string): boolean {
-  return /[\u0600-\u06FF]/.test(text || '');
+function hasRequiredLanguageSignals(text: string, profile: LanguageProfile): boolean {
+  if (!profile.bilingual) return true;
+  const content = text || '';
+  if (!content.includes('English Translation')) return false;
+  if (!content.includes(profile.localLabel) && !content.includes(profile.localHeader)) return false;
+  if (profile.scriptRegex && !profile.scriptRegex.test(content)) return false;
+  return true;
+}
+
+function localizeAssessmentQuestion(
+  profile: LanguageProfile,
+  type: string,
+  marks: number,
+  topic: string,
+  subject: string
+): string {
+  if (profile.code === 'arabic') {
+    if (type === 'multiple choice') {
+      return `اختيار من متعدد [${marks} درجة]\n\nما الخيار الذي يطابق الفكرة الرئيسة لموضوع ${topic} في مادة ${subject}؟\n\nA. لا يرتبط بالتعلم داخل الصف.\n\nB. يساعد المتعلمين على الفهم والتواصل بوضوح.\n\nC. يجب حفظه فقط دون شرح.\n\nD. يفيد خارج المدرسة فقط.`;
+    }
+    if (type === 'true or false') {
+      return `صح أم خطأ [${marks} درجة]\n\nيتطلب موضوع ${topic} من المتعلمين تقديم أسباب لإجاباتهم، وليس إجابات من كلمة واحدة فقط.`;
+    }
+    if (type === 'paragraph response') {
+      return `إجابة فقرة [${marks} درجات]\n\nاكتب فقرة قصيرة تشرح كيف يمكن استخدام ${topic} في موقف صفي أو حياتي واقعي. ضمّن تفصيلين أو مثالين على الأقل.`;
+    }
+    if (type === 'structured response') {
+      return `إجابة منظمة [${marks} درجات]\n\nاقرأ الموجز الخاص بموضوع ${topic}.\n\n(أ) حدّد فكرة رئيسة واحدة. [1]\n\n(ب) اشرح لماذا هذه الفكرة مهمة. [1]\n\n(ج) أعط مثالاً واحداً يدعم شرحك. [1]`;
+    }
+    return `إجابة قصيرة [${marks} درجات]\n\nعرّف ${topic} بكلماتك وقدّم مثالاً واحداً مرتبطاً بمادة ${subject}.`;
+  }
+
+  if (profile.code === 'french') {
+    if (type === 'multiple choice') {
+      return `Choix multiple [${marks} points]\n\nQuelle option correspond le mieux a l'idee principale de ${topic} en ${subject}?\n\nA. Ce n'est pas lie a l'apprentissage en classe.\n\nB. Cela aide les apprenants a comprendre et a communiquer clairement.\n\nC. Il faut seulement memoriser sans explication.\n\nD. C'est utile seulement hors de l'ecole.`;
+    }
+    if (type === 'true or false') return `Vrai ou faux [${marks} point]\n\n${topic} demande aux apprenants de donner des raisons pour leurs reponses, pas seulement des reponses en un mot.`;
+    if (type === 'paragraph response') return `Reponse redigee [${marks} points]\n\nEcris un court paragraphe expliquant comment ${topic} peut etre utilise en classe ou dans la vie quotidienne. Donne au moins deux details ou exemples.`;
+    if (type === 'structured response') return `Reponse structuree [${marks} points]\n\nLis le texte sur ${topic}.\n\n(a) Identifie une idee principale. [1]\n\n(b) Explique pourquoi cette idee est importante. [1]\n\n(c) Donne un exemple qui soutient ton explication. [1]`;
+    return `Reponse courte [${marks} points]\n\nDefinis ${topic} avec tes propres mots et donne un exemple lie a ${subject}.`;
+  }
+
+  if (profile.code === 'hausa') {
+    if (type === 'multiple choice') return `Zabi na yawa [${marks} maki]\n\nWanne zabi ne ya fi dacewa da babban ra'ayi na ${topic} a ${subject}?\n\nA. Ba ya da alaka da koyo a aji.\n\nB. Yana taimaka wa dalibai su fahimta su kuma yi bayani a sarari.\n\nC. A haddace kawai ba tare da bayani ba.\n\nD. Yana da amfani ne kawai a wajen makaranta.`;
+    if (type === 'true or false') return `Gaskiya ko Karya [${marks} maki]\n\n${topic} yana bukatar dalibai su bayar da dalilai ga amsoshinsu, ba kalma daya kawai ba.`;
+    if (type === 'paragraph response') return `Amsar sakin layi [${marks} maki]\n\nRubuta gajeren sakin layi kan yadda za a yi amfani da ${topic} a aji ko rayuwa ta yau da kullum. Ka bayar da misalai biyu ko fiye.`;
+    if (type === 'structured response') return `Amsa mai tsari [${marks} maki]\n\nKaranta rubutun game da ${topic}.\n\n(a) Fadi babban ra'ayi daya. [1]\n\n(b) Bayyana dalilin da yasa wannan ra'ayin yake da muhimmanci. [1]\n\n(c) Bayar da misali daya da ke goyon bayan bayaninka. [1]`;
+    return `Amsa a takaice [${marks} maki]\n\nBayyana ${topic} da kalmominka sannan ka kawo misali daya da ya shafi ${subject}.`;
+  }
+
+  if (profile.code === 'igbo') {
+    if (type === 'multiple choice') return `Nhoro otutu [${marks} points]\n\nKedu nhọrọ kacha kwekọọ na isi echiche nke ${topic} na ${subject}?\n\nA. O nweghị njikọ na mmụta n'ụlọ akwụkwọ.\n\nB. O na-enyere ụmụakwụkwọ nghọta na nkwurịta okwu doo anya.\n\nC. A ga-ebu ya n'isi naanị, enweghị nkọwa.\n\nD. Ọ bara uru naanị n'èzí ụlọ akwụkwọ.`;
+    if (type === 'true or false') return `Eziokwu ma obu Ugha [${marks} point]\n\n${topic} chọrọ ka ụmụakwụkwọ nye ihe kpatara azịza ha, ọ bụghị naanị okwu otu.`;
+    if (type === 'paragraph response') return `Aziza paragraf [${marks} points]\n\nDee paragraf mkpirikpi na-akọwa otu esi eji ${topic} n'ụlọ akwụkwọ ma ọ bụ ndụ kwa ụbọchị. Tinye ihe atụ ma ọ bụ nkọwa abụọ ma ọ bụ karịa.`;
+    if (type === 'structured response') return `Aziza ahaziri [${marks} points]\n\nGụọ ihe ederede gbasara ${topic}.\n\n(a) Kọwaa otu isi echiche. [1]\n\n(b) Kọwaa ihe mere echiche ahụ ji dị mkpa. [1]\n\n(c) Nye otu ihe atụ na-akwado nkọwa gị. [1]`;
+    return `Aziza mkpirikpi [${marks} points]\n\nKọwaa ${topic} n'okwu gị ma nye otu ihe atụ metụtara ${subject}.`;
+  }
+
+  if (profile.code === 'yoruba') {
+    if (type === 'multiple choice') return `Yiyan opolopo [${marks} ami]\n\nEwo ni yiyan to ba koko oro ${topic} mu julo ninu ${subject}?\n\nA. Ko ni ibatan si eko inu kilasi.\n\nB. O n ran awon akeko lowo lati ni oye ati lati so ni kedere.\n\nC. Ki a kan ko o mo lai se alaye.\n\nD. O wulo nikan ni ita ile-iwe.`;
+    if (type === 'true or false') return `Otito tabi Iro [${marks} ami]\n\n${topic} nilo ki awon akeko fun ni idi fun idahun won, kii se oro kan pere.`;
+    if (type === 'paragraph response') return `Idahun paragirafi [${marks} ami]\n\nKo paragirafi kukuru kan lati salaye bi a se le lo ${topic} ninu kilasi tabi igbesi aye ojoojumọ. Fi alaye tabi apeere meji kun un.`;
+    if (type === 'structured response') return `Idahun eto [${marks} ami]\n\nKa akosile nipa ${topic}.\n\n(a) So ero pataki kan. [1]\n\n(b) Salaye idi ti ero naa fi se pataki. [1]\n\n(c) Fun apeere kan to n se atilẹyin alaye re. [1]`;
+    return `Idahun kukuru [${marks} ami]\n\nSalaye ${topic} ni oro tirẹ ki o si fun apeere kan to ni ibatan si ${subject}.`;
+  }
+
+  return '';
+}
+
+function localizeFallbackLessonSection(
+  profile: LanguageProfile,
+  params: GenerateLessonPlanParams & {
+    duration: string;
+    syllabus: string;
+    grade: string;
+  },
+  timings: {
+    introMinutes: number;
+    teachingMinutes: number;
+    practiceMinutes: number;
+    closureMinutes: number;
+  }
+): string {
+  const durationNum = parseInt(params.duration) || 45;
+
+  if (profile.code === 'arabic') {
+    return `## Arabic Language Subject Version (العربية)
+
+### معلومات الدرس
+- المادة: ${params.subject}
+- الموضوع: ${params.topic}
+- الصف: ${params.grade}
+- المدة: ${durationNum} دقيقة
+- المنهج: ${params.syllabus}
+
+### أهداف التعلم
+1. أن يحدد المتعلم الفكرة الرئيسة المتعلقة بموضوع "${params.topic}".
+2. أن يستخدم مفردات عربية مناسبة في الإجابة الشفهية والكتابية.
+3. أن يشارك في نشاط لغوي منظم ويقدم إجابات واضحة.
+
+### سير الحصة
+- التمهيد (${timings.introMinutes} د): أسئلة سريعة لتنشيط المعرفة السابقة.
+- العرض (${timings.teachingMinutes} د): شرح المفردات والنموذج اللغوي.
+- التطبيق الموجَّه (${timings.practiceMinutes} د): نشاط ثنائي/جماعي مع متابعة المعلم.
+- الخاتمة (${timings.closureMinutes} د): تلخيص الفكرة الرئيسة وتذكرة خروج قصيرة.
+
+### واجب منزلي
+اكتب فقرة قصيرة (6-8 جمل) حول "${params.topic}" مستخدماً خمس مفردات جديدة على الأقل.`;
+  }
+
+  if (profile.code === 'french') {
+    return `## French Language Subject Version (Français)
+
+### Informations Sur La Leçon
+- Matière: ${params.subject}
+- Sujet: ${params.topic}
+- Classe: ${params.grade}
+- Durée: ${durationNum} minutes
+- Programme: ${params.syllabus}
+
+### Objectifs D'Apprentissage
+1. Les apprenants identifient l'idée principale liée à "${params.topic}".
+2. Les apprenants utilisent un vocabulaire français approprié à l'oral et à l'écrit.
+3. Les apprenants participent à une activité de langue structurée et donnent des réponses claires.
+
+### Déroulement De La Leçon
+- Introduction (${timings.introMinutes} min): questions rapides pour activer les connaissances antérieures.
+- Enseignement (${timings.teachingMinutes} min): explication du vocabulaire et modélisation d'une réponse forte.
+- Pratique guidée (${timings.practiceMinutes} min): activité en binômes ou en groupes avec accompagnement de l'enseignant.
+- Conclusion (${timings.closureMinutes} min): résumé de l'idée principale et court billet de sortie.
+
+### Devoir
+Écris un paragraphe court de 6 à 8 phrases sur "${params.topic}" en utilisant au moins cinq nouveaux mots de vocabulaire.`;
+  }
+
+  if (profile.code === 'hausa') {
+    return `## Hausa Language Subject Version (Harshen Hausa)
+
+### Bayanin Darasi
+- Darasi: ${params.subject}
+- Maudu'i: ${params.topic}
+- Aji: ${params.grade}
+- Tsawon lokaci: minti ${durationNum}
+- Manhaja: ${params.syllabus}
+
+### Manufofin Koyo
+1. Dalibai su gano babban ra'ayi da ya shafi "${params.topic}".
+2. Dalibai su yi amfani da kalmomin Hausa da suka dace a magana da rubutu.
+3. Dalibai su shiga aikin harshe mai tsari kuma su bayar da amsoshi a sarari.
+
+### Gudanar Da Darasi
+- Gabatarwa (${timings.introMinutes} min): tambayoyi gajeru don tuna abin da aka sani.
+- Koyarwa kai tsaye (${timings.teachingMinutes} min): bayanin sababbin kalmomi da nuna misalin amsa mai kyau.
+- Aiki tare da jagora (${timings.practiceMinutes} min): aiki a biyu-biyu ko rukuni tare da taimakon malami.
+- Kammalawa (${timings.closureMinutes} min): takaita babban ra'ayi da rubuta gajeren abin da aka koya.
+
+### Aikin Gida
+Rubuta gajeren sakin layi na jimloli 6-8 game da "${params.topic}" ta amfani da sababbin kalmomi akalla biyar.`;
+  }
+
+  if (profile.code === 'igbo') {
+    return `## Igbo Language Subject Version (Asụsụ Igbo)
+
+### Ozi Banyere Ihe Ọmụmụ
+- Isiokwu: ${params.subject}
+- Ihe a na-amụ: ${params.topic}
+- Klas: ${params.grade}
+- Oge: nkeji ${durationNum}
+- Usoro ọmụmụ: ${params.syllabus}
+
+### Ebumnuche Ọmụmụ
+1. Ụmụakwụkwọ ga-amata isi echiche metụtara "${params.topic}".
+2. Ụmụakwụkwọ ga-eji okwu Igbo kwesịrị ekwesị kwuo ma dee azịza.
+3. Ụmụakwụkwọ ga-esonye n'ọrụ asụsụ ahaziri nke ọma ma nye azịza doro anya.
+
+### Usoro Ihe Ọmụmụ
+- Mbido (${timings.introMinutes} min): ajụjụ ngwa ngwa iji kpọlite ihe ụmụakwụkwọ marala.
+- Nkuzi kpọmkwem (${timings.teachingMinutes} min): ịkọwa okwu ọhụrụ na igosi ezigbo azịza.
+- Omume nduzi (${timings.practiceMinutes} min): ọrụ abụọ abụọ ma ọ bụ otu, onye nkuzi na-enyere ha aka.
+- Mmechi (${timings.closureMinutes} min): nchịkọta isi echiche na obere ọrụ mmechi.
+
+### Ọrụ Ụlọ
+Dee paragraf mkpirikpi nke ahịrịokwu 6-8 gbasara "${params.topic}" jiri opekata mpe okwu ọhụrụ ise.`;
+  }
+
+  if (profile.code === 'yoruba') {
+    return `## Yoruba Language Subject Version (Èdè Yorùbá)
+
+### Alaye Ẹkọ
+- Koko-ẹkọ: ${params.subject}
+- Akori: ${params.topic}
+- Kilasi: ${params.grade}
+- Akoko: iṣẹju ${durationNum}
+- Eto ẹkọ: ${params.syllabus}
+
+### Àfojúsùn Ẹkọ
+1. Awọn akẹkọ yoo mọ ero pataki ti o ni ibatan si "${params.topic}".
+2. Awọn akẹkọ yoo lo ọrọ Yorùbá to yẹ ninu sisọ ati kikọ.
+3. Awọn akẹkọ yoo kopa ninu iṣẹ ede to ni eto ki wọn si fun ni idahun kedere.
+
+### Ilana Ẹkọ
+- Ibẹrẹ (${timings.introMinutes} min): awọn ibeere kukuru lati ranti ohun ti wọn ti mọ.
+- Ikọni taara (${timings.teachingMinutes} min): ṣalaye awọn ọrọ tuntun ki o fi apẹẹrẹ idahun to dara han.
+- Iṣe pẹlu itọsọna (${timings.practiceMinutes} min): iṣẹ tọkọtaya tabi ẹgbẹ pẹlu atilẹyin olukọ.
+- Ipari (${timings.closureMinutes} min): ṣoki ero pataki ati tikẹti ijade kukuru.
+
+### Iṣẹ Ile
+Kọ paragiraafi kukuru ti gbolohun 6-8 lori "${params.topic}" ki o lo o kere ju ọrọ tuntun marun.`;
+  }
+
+  return `## ${profile.englishName} Language Subject Version (${profile.localLabel})
+
+Prepare and teach this language-subject section in ${profile.englishName}, using the same lesson details, objectives, activities, assessment expectations, and homework task from the English plan.`;
 }
 
 function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
@@ -162,134 +432,213 @@ function buildFallbackLessonPlan(params: GenerateLessonPlanParams & {
   const teachingMinutes = Math.max(15, Math.round(durationNum * 0.4));
   const practiceMinutes = Math.max(10, Math.round(durationNum * 0.3));
   const closureMinutes = Math.max(5, durationNum - introMinutes - teachingMinutes - practiceMinutes);
-  const bilingualArabic = isArabicLanguageSubject(params.subject);
+  const languageProfile = getLanguageProfile(params.subject);
   const focusAreas = (params.focusAreas || []).filter(Boolean);
+  const subTopic = focusAreas[0] || `Key ideas and classroom applications of ${params.topic}`;
+  const averageAge = params.grade?.toLowerCase().includes('jss') ? '9-13 years' : 'Appropriate to selected grade';
   const assessmentSection = params.includeAssessment
     ? `
-## Assessment Activities
+## Assessment / Evaluation Notes
 
-- **Observation:** Listen for learners using correct vocabulary and complete sentence structures during pair discussion.
-- **Quick check:** Ask three learners to restate the main idea in their own words.
-- **Exit ticket:** Learners write or say one sentence showing what they understood from ${params.topic}.
-- **Success criteria:** Learners can identify the purpose of the listening/speaking task, respond appropriately, and use subject vocabulary with growing confidence.`
+- Observe learners as they explain ${params.topic} in their own words.
+- Check whether learners can identify the main idea, give relevant examples, and use correct subject vocabulary.
+- Mark short written responses for accuracy, clarity, and correct use of lesson terms.`
     : '';
   const differentiationSection = params.includeDifferentiation
     ? `
-## Differentiation Strategies
+## Differentiation / Remedial Support
 
-- **Support:** Provide sentence starters, key vocabulary on the board, and allow learners to rehearse answers with a partner.
-- **Core:** Ask learners to give full responses using evidence from the listening or speaking prompt.
-- **Extension:** Invite advanced learners to lead a short peer discussion or create a follow-up question for the class.
-- **LSEN accommodations:** Use clear instructions, chunked tasks, visual prompts, and extra processing time where needed.`
+- Support: Give key words, sentence starters, and extra examples to learners who need help.
+- Core: Ask learners to answer the evaluation questions independently.
+- Extension: Ask fast finishers to create one extra example, diagram, or question based on ${params.topic}.
+- LSEN: Use short instructions, visual prompts, peer support, and extra response time where needed.`
     : '';
   const resourcesSection = params.includeResources
     ? `
-## Required Resources
+## Instructional Materials
 
 - Chalkboard or whiteboard.
 - Learner notebooks.
-- Short oral text, picture prompt, or teacher-prepared speaking prompt.
-- Vocabulary list for ${params.topic}.
-- Optional audio device if a listening text is used.`
+- Relevant real objects, pictures, charts, or flashcards connected to ${params.topic}.
+- Teacher-drawn diagrams for illustration.
+- Recommended textbook or ${params.syllabus} curriculum guide.`
     : '';
 
-  const plan = `# NERDC Lesson Plan: ${params.subject} - ${params.topic}
+  const plan = `# LESSON NOTE
 
-## Lesson Information
+## Lesson Details
 
 | Field | Details |
 | --- | --- |
 | Class | ${params.className || 'Selected class'} |
 | Grade | ${params.grade || 'Selected grade'} |
-| Subject | ${params.subject} |
-| Topic | ${params.topic} |
-| Curriculum | ${params.syllabus} |
-| Term / Week | Term ${params.term}, Week ${params.week} |
+| Week | ${params.week} |
 | Date | ${params.lessonDate} |
 | Duration | ${durationNum} minutes |
+| Average Age | ${averageAge} |
+| Subject | ${params.subject} |
+| Topic | ${params.topic} |
+| Sub-topic | ${subTopic} |
+| Curriculum | ${params.syllabus} |
+| Instructional Materials | Chalkboard/whiteboard, learner notebooks, relevant objects or pictures, and teacher-drawn diagrams |
+| Reference Book | Recommended ${params.subject} textbook and ${params.syllabus} curriculum guide |
 
-## Learning Objectives
+${resourcesSection || `## Instructional Materials
+
+- Chalkboard or whiteboard.
+- Learner notebooks.
+- Relevant real objects, pictures, charts, or flashcards connected to ${params.topic}.
+- Teacher-drawn diagrams for illustration.`}
+
+## Behavioural Objectives
 
 By the end of the lesson, learners should be able to:
 
-1. Demonstrate understanding of the main ideas connected to ${params.topic}.
-2. Use appropriate vocabulary and sentence structures when responding orally or in writing.
-3. Participate in a structured listening and speaking activity with confidence.
-4. Reflect on their own response and improve it using teacher or peer feedback.
+1. Define or explain ${params.topic} in their own words.
+2. State at least three important facts, features, or effects connected to ${params.topic}.
+3. Give practical classroom or everyday examples of ${params.topic}.
+4. Answer oral and written questions on ${params.topic} with correct subject vocabulary.
 
-## NERDC Alignment
+## Previous Knowledge
 
-This lesson supports ${params.syllabus} curriculum expectations through active participation, subject vocabulary, practical examples, and learner-centred classroom activities.
-${focusAreas.length > 0 ? `\nAdditional focus areas: ${focusAreas.join(', ')}.` : ''}
+Learners have basic prior knowledge from earlier lessons and everyday experiences related to ${params.topic}. The teacher will connect the lesson to what learners have already observed, heard, read, or practised.
 
-## Lesson Flow
+## Introduction
 
-| Phase | Time | Teacher Actions | Learner Actions |
-| --- | ---: | --- | --- |
-| Introduction | ${introMinutes} min | Greet learners, introduce ${params.topic}, activate prior knowledge, and explain the success criteria. | Answer warm-up questions and predict what the lesson will focus on. |
-| Direct Teaching | ${teachingMinutes} min | Model the listening/speaking skill, write key vocabulary, and demonstrate one strong response. | Listen, repeat key vocabulary, and identify what makes the model answer clear. |
-| Guided Practice | ${practiceMinutes} min | Give learners a prompt or short oral text, then guide pair or group responses. Circulate and support. | Discuss in pairs, prepare responses, and share answers with the class. |
-| Closure | ${closureMinutes} min | Summarise the key points and ask learners to complete an exit response. | Share one learning point and complete the exit ticket. |
+The teacher introduces the topic by showing a relevant object, picture, short sentence, problem, or classroom situation connected to ${params.topic}. Learners are asked simple guiding questions:
 
-## Teacher Script And Questions
+- What do you notice?
+- Where have you seen or used this before?
+- What words can we use to describe it?
 
-- "Today we are focusing on ${params.topic}. Listen carefully for the main idea and the supporting details."
-- "What words helped you understand the speaker's message?"
-- "Can you improve that answer by adding a reason or example?"
-- "How should a respectful listener respond when someone else is speaking?"
+The teacher writes the topic on the board and briefly explains what learners should be able to do by the end of the lesson.
 
-Expected learner responses should include a clear main idea, relevant detail, and appropriate language for the context.
+## Presentation
+
+### Step 1: Teacher Explains The Meaning Of ${params.topic}
+
+The teacher gives a clear definition of ${params.topic} and explains the main terms learners must know. The teacher writes the key words on the board and asks learners to repeat and use them in short sentences.
+
+**Teacher's explanation:** ${params.topic} is studied in ${params.subject} because it helps learners understand important ideas, solve problems, communicate clearly, and connect classroom learning to real life.
+
+**Learner activity:** Learners copy the definition and give one example in their own words.
+
+### Step 2: Teacher States The Main Points Or Effects Of ${params.topic}
+
+The teacher explains the major points one after another, using examples and questions after each point.
+
+1. ${params.topic} has key terms that learners must understand and use correctly.
+2. ${params.topic} can be observed, explained, practised, or applied in real situations.
+3. ${params.topic} helps learners build stronger thinking, communication, and problem-solving skills.
+4. ${params.topic} connects with previous lessons and prepares learners for future topics.
+
+**Teacher questions:**
+
+- What is the first important idea in this topic?
+- Can you give an example?
+- Why is this idea useful?
+
+### Step 3: Teacher Demonstrates With Examples
+
+The teacher gives two worked examples or classroom demonstrations. Learners first watch, then answer similar questions with teacher guidance.
+
+**Example 1:** Explain ${params.topic} using one simple classroom example.
+
+**Solution / Explanation:** The teacher identifies the important idea, links it to the example, and shows learners how to write a complete answer.
+
+**Example 2:** Describe one way ${params.topic} can be used in everyday life or another school subject.
+
+**Solution / Explanation:** Learners mention the situation, state the connection to ${params.topic}, and explain the result or importance.
+
+## Board Diagrams And Illustrations
+
+### Diagram 1: Concept Map
+
+> [${params.topic}]
+>   |
+>   +-- Meaning / definition
+>   +-- Key words
+>   +-- Examples
+>   +-- Effects or uses
+>   +-- Evaluation questions
+
+**How to use it:** Draw this on the board after the introduction. Fill each branch with learners' answers as the lesson develops.
+
+### Diagram 2: Cause-And-Effect / Process Flow
+
+> Idea or example from ${params.topic}
+>        |
+>        v
+> What happens?
+>        |
+>        v
+> Why does it matter?
+>        |
+>        v
+> Learner's conclusion
+
+**How to use it:** Use this diagram during presentation Step 2 or Step 3 to help learners see the relationship between the topic, examples, and conclusions.
+
+## Class Activities
+
+| Activity | Teacher Action | Learner Action | Time |
+| --- | --- | --- | ---: |
+| Introduction | Introduce ${params.topic} with a prompt, object, picture, or question. | Observe, predict, and answer orally. | ${introMinutes} min |
+| Explanation | Define the topic and explain key vocabulary. | Listen, repeat key words, and copy notes. | ${teachingMinutes} min |
+| Guided Practice | Lead examples, board diagrams, and class discussion. | Answer questions and complete short examples. | ${practiceMinutes} min |
+| Summary | Review the main points and correct misconceptions. | State what they learnt and complete exit responses. | ${closureMinutes} min |
 
 ${assessmentSection}
 
 ${differentiationSection}
 
-${resourcesSection}
+## Evaluation
 
-## Homework
+The teacher evaluates the topic by asking:
 
-Learners prepare a short spoken response of 6-8 sentences on ${params.topic}. They should practise speaking clearly, using at least five vocabulary words from the lesson, and bring their written notes to the next class.
+1. What is ${params.topic}?
+2. State three important points about ${params.topic}.
+3. Give two examples connected to ${params.topic}.
+4. Explain why ${params.topic} is important in ${params.subject}.
+
+## Conclusion
+
+The teacher summarises the lesson by restating the meaning, main points, examples, and diagrams. Learners are encouraged to ask questions, correct their notes, and explain one thing they learnt.
+
+## Assignment
+
+1. Write a short definition of ${params.topic}.
+2. State four important facts, effects, uses, or examples of ${params.topic}.
+3. Draw and label a simple diagram that explains ${params.topic}.
+4. Answer one application question showing how ${params.topic} can be used in real life.
 
 ## Teacher Reflection
 
-- Which learners participated confidently?
-- Which vocabulary or speaking skill needs reteaching?
-- What adjustment is needed for the next lesson?
+- Which learners understood the definition and examples quickly?
+- Which learners need more support with vocabulary, diagrams, or written answers?
+- What should be revised before the next lesson?
+${focusAreas.length > 0 ? `\nAdditional focus areas: ${focusAreas.join(', ')}.` : ''}
 
 ---
 
 Generated in preview-safe mode because the live AI service was unavailable. Review and adapt before classroom use.`;
 
-  if (!bilingualArabic) return plan;
+  if (!languageProfile.bilingual) return plan;
+
+  const localizedSection = localizeFallbackLessonSection(languageProfile, params, {
+    introMinutes,
+    teachingMinutes,
+    practiceMinutes,
+    closureMinutes,
+  });
 
   return `${plan}
 
-## Arabic Version (العربية)
-
-### معلومات الدرس
-- المادة: ${params.subject}
-- الموضوع: ${params.topic}
-- الصف: ${params.grade}
-- المدة: ${durationNum} دقيقة
-- المنهج: ${params.syllabus}
-
-### أهداف التعلم
-1. أن يحدد المتعلم الفكرة الرئيسة المتعلقة بموضوع "${params.topic}".
-2. أن يستخدم مفردات عربية مناسبة في الإجابة الشفهية والكتابية.
-3. أن يشارك في نشاط لغوي منظم ويقدم إجابات واضحة.
-
-### سير الحصة
-- التمهيد (${introMinutes} د): أسئلة سريعة لتنشيط المعرفة السابقة.
-- العرض (${teachingMinutes} د): شرح المفردات والنموذج اللغوي.
-- التطبيق الموجَّه (${practiceMinutes} د): نشاط ثنائي/جماعي مع متابعة المعلم.
-- الخاتمة (${closureMinutes} د): تلخيص الفكرة الرئيسة وتذكرة خروج قصيرة.
-
-### واجب منزلي
-اكتب فقرة قصيرة (6-8 جمل) حول "${params.topic}" مستخدماً خمس مفردات جديدة على الأقل.
+${localizedSection}
 
 ## English Translation
 
-The Arabic section above mirrors the same lesson expectations in Arabic for classroom delivery.
+The ${languageProfile.englishName} language-subject section above mirrors the same lesson expectations in ${languageProfile.englishName} for classroom delivery.
 Use it alongside the English plan for bilingual instruction.`;
 }
 
@@ -299,50 +648,92 @@ function buildFallbackAssessment(params: GenerateAssessmentParams & {
   className: string;
   syllabus: string;
 }) {
-  const bilingualArabic = isArabicLanguageSubject(params.subject);
+  const languageProfile = getLanguageProfile(params.subject);
+  const bilingualLanguage = languageProfile.bilingual;
   const count = Math.max(1, Math.min(params.questionCount || 10, 30));
   const questionTypes = ['multiple choice', 'short answer', 'true or false', 'structured response', 'paragraph response'];
-  const questions = Array.from({ length: count }, (_, index) => {
+  const questionEntries = Array.from({ length: count }, (_, index) => {
     const questionNumber = index + 1;
     const type = questionTypes[index % questionTypes.length];
     const marks = type === 'multiple choice' || type === 'true or false' ? 1 : type === 'paragraph response' ? 5 : 3;
 
     if (type === 'multiple choice') {
-      if (bilingualArabic) {
-        return `**${questionNumber}. اختيار من متعدد** [${marks} درجة]\n\nما الخيار الذي يطابق الفكرة الرئيسة لموضوع ${params.topic} في مادة ${params.subject}؟\n\nA. لا يرتبط بالتعلم داخل الصف.\n\nB. يساعد المتعلمين على الفهم والتواصل بوضوح.\n\nC. يجب حفظه فقط دون شرح.\n\nD. يفيد خارج المدرسة فقط.\n\n**English Translation**\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`;
+      if (bilingualLanguage) {
+        const localized = localizeAssessmentQuestion(languageProfile, type, marks, params.topic, params.subject);
+        const [localizedTitle, ...localizedRest] = localized.split('\n\n');
+        return {
+          type,
+          content: `**${questionNumber}. ${localizedTitle}**\n\n${localizedRest.join('\n\n')}\n\n**English Translation**\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`,
+        };
       }
-      return `**${questionNumber}. Multiple choice** [${marks} mark]\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`;
+      return {
+        type,
+        content: `**${questionNumber}. Multiple choice** [${marks} mark]\n\nWhich option best matches the main idea of ${params.topic} in ${params.subject}?\n\nA. It is unrelated to classroom learning.\n\nB. It helps learners understand and communicate the concept clearly.\n\nC. It should only be memorised without explanation.\n\nD. It is only useful outside school.`,
+      };
     }
 
     if (type === 'true or false') {
-      if (bilingualArabic) {
-        return `**${questionNumber}. صح أم خطأ** [${marks} درجة]\n\nيتطلب موضوع ${params.topic} من المتعلمين تقديم أسباب لإجاباتهم، وليس إجابات من كلمة واحدة فقط.\n\n**English Translation**\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`;
+      if (bilingualLanguage) {
+        const localized = localizeAssessmentQuestion(languageProfile, type, marks, params.topic, params.subject);
+        const [localizedTitle, ...localizedRest] = localized.split('\n\n');
+        return {
+          type,
+          content: `**${questionNumber}. ${localizedTitle}**\n\n${localizedRest.join('\n\n')}\n\n**English Translation**\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`,
+        };
       }
-      return `**${questionNumber}. True or false** [${marks} mark]\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`;
+      return {
+        type,
+        content: `**${questionNumber}. True or false** [${marks} mark]\n\n${params.topic} requires learners to give reasons for their answers, not only one-word responses.`,
+      };
     }
 
     if (type === 'paragraph response') {
-      if (bilingualArabic) {
-        return `**${questionNumber}. إجابة فقرة** [${marks} درجات]\n\nاكتب فقرة قصيرة تشرح كيف يمكن استخدام ${params.topic} في موقف صفي أو حياتي واقعي. ضمّن تفصيلين أو مثالين على الأقل.\n\n**English Translation**\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`;
+      if (bilingualLanguage) {
+        const localized = localizeAssessmentQuestion(languageProfile, type, marks, params.topic, params.subject);
+        const [localizedTitle, ...localizedRest] = localized.split('\n\n');
+        return {
+          type,
+          content: `**${questionNumber}. ${localizedTitle}**\n\n${localizedRest.join('\n\n')}\n\n**English Translation**\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`,
+        };
       }
-      return `**${questionNumber}. Paragraph response** [${marks} marks]\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`;
+      return {
+        type,
+        content: `**${questionNumber}. Paragraph response** [${marks} marks]\n\nWrite a short paragraph explaining how ${params.topic} can be used in a real classroom or everyday situation. Include at least two details or examples.`,
+      };
     }
 
     if (type === 'structured response') {
-      if (bilingualArabic) {
-        return `**${questionNumber}. إجابة منظمة** [${marks} درجات]\n\nاقرأ الموجز الخاص بموضوع ${params.topic}.\n\n(أ) حدّد فكرة رئيسة واحدة. [1]\n\n(ب) اشرح لماذا هذه الفكرة مهمة. [1]\n\n(ج) أعط مثالاً واحداً يدعم شرحك. [1]\n\n**English Translation**\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`;
+      if (bilingualLanguage) {
+        const localized = localizeAssessmentQuestion(languageProfile, type, marks, params.topic, params.subject);
+        const [localizedTitle, ...localizedRest] = localized.split('\n\n');
+        return {
+          type,
+          content: `**${questionNumber}. ${localizedTitle}**\n\n${localizedRest.join('\n\n')}\n\n**English Translation**\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`,
+        };
       }
-      return `**${questionNumber}. Structured response** [${marks} marks]\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`;
+      return {
+        type,
+        content: `**${questionNumber}. Structured response** [${marks} marks]\n\nRead the prompt about ${params.topic}.\n\n(a) Identify one key idea. [1]\n\n(b) Explain why that idea matters. [1]\n\n(c) Give one example that supports your explanation. [1]`,
+      };
     }
 
-    if (bilingualArabic) {
-      return `**${questionNumber}. إجابة قصيرة** [${marks} درجات]\n\nعرّف ${params.topic} بكلماتك وقدّم مثالاً واحداً مرتبطاً بمادة ${params.subject}.\n\n**English Translation**\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`;
+    if (bilingualLanguage) {
+      const localized = localizeAssessmentQuestion(languageProfile, type, marks, params.topic, params.subject);
+      const [localizedTitle, ...localizedRest] = localized.split('\n\n');
+      return {
+        type,
+        content: `**${questionNumber}. ${localizedTitle}**\n\n${localizedRest.join('\n\n')}\n\n**English Translation**\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`,
+      };
     }
-    return `**${questionNumber}. Short answer** [${marks} marks]\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`;
+    return {
+      type,
+      content: `**${questionNumber}. Short answer** [${marks} marks]\n\nDefine ${params.topic} in your own words and give one example linked to ${params.subject}.`,
+    };
   });
+  const questions = questionEntries.map(entry => entry.content);
 
   const totalMarks = questions.reduce((sum, question) => {
-    const match = question.match(/\[(\d+) marks?\]/);
+    const match = question.match(/\[(\d+)\s*[^\]]*\]/);
     return sum + (match ? parseInt(match[1]) : 0);
   }, 0);
 
@@ -352,12 +743,12 @@ function buildFallbackAssessment(params: GenerateAssessmentParams & {
 
 Use this memorandum as a marking guide and adjust wording where learners show correct understanding.
 
-${questions.map((question, index) => {
+${questionEntries.map((entry, index) => {
   const questionNumber = index + 1;
-  if (question.includes('Multiple choice')) return `**${questionNumber}.** B. Award 1 mark for the correct option.`;
-  if (question.includes('True or false')) return `**${questionNumber}.** True. Award 1 mark for identifying that reasoned answers are required.`;
-  if (question.includes('Paragraph response')) return `**${questionNumber}.** Award up to 5 marks: clear main point [1], two relevant details/examples [2], correct subject vocabulary [1], coherent paragraph structure [1].`;
-  if (question.includes('Structured response')) return `**${questionNumber}.** Award 1 mark each for a relevant key idea, a valid explanation, and a suitable example.`;
+  if (entry.type === 'multiple choice') return `**${questionNumber}.** B. Award 1 mark for the correct option.`;
+  if (entry.type === 'true or false') return `**${questionNumber}.** True. Award 1 mark for identifying that reasoned answers are required.`;
+  if (entry.type === 'paragraph response') return `**${questionNumber}.** Award up to 5 marks: clear main point [1], two relevant details/examples [2], correct subject vocabulary [1], coherent paragraph structure [1].`;
+  if (entry.type === 'structured response') return `**${questionNumber}.** Award 1 mark each for a relevant key idea, a valid explanation, and a suitable example.`;
   return `**${questionNumber}.** Award marks for an accurate definition and a relevant example linked to ${params.subject}.`;
 }).join('\n\n')}
 
@@ -385,17 +776,15 @@ ${questions.map((question, index) => {
 ${params.requiredTest ? `| Required Test | ${params.requiredTest} |\n` : ''}
 ## Instructions To Learners
 
-${bilingualArabic
-  ? `1. أجب أولاً باللغة العربية ثم راجع الترجمة الإنجليزية.
-2. اقرأ كل سؤال بعناية قبل الإجابة.
-3. اكتب إجاباتك بوضوح ورقّمها بشكل صحيح.
-4. استخدم أمثلة من الدرس حيثما أمكن.
-
-English Translation:
-1. Answer in Arabic first, then use the English translation for support.
+${bilingualLanguage
+  ? `1. Because this is a ${languageProfile.englishName} language subject, answer in ${languageProfile.englishName} first, then review the English translation.
 2. Read each question carefully before answering.
 3. Write neatly and number your answers correctly.
-4. Use examples from class where possible.`
+4. Use examples from class where possible.
+
+${languageProfile.localHeader}:
+1. Use ${languageProfile.localLabel} as the subject language for your main answer.
+2. Follow the same numbering and mark allocation shown in English.`
   : `1. Read each question carefully before answering.
 2. Write neatly and number your answers correctly.
 3. Use examples from class where possible.
@@ -625,7 +1014,7 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
     const subject = params.subject || classData.subject || '';
     const className = params.className || classData.name || '';
     const syllabus = classData.syllabus || 'NERDC';
-    const bilingualArabic = isArabicLanguageSubject(subject);
+    const languageProfile = getLanguageProfile(subject);
 
     // Build the AI prompt
     const extras: string[] = [];
@@ -636,17 +1025,11 @@ export async function generateAssessment(params: GenerateAssessmentParams) {
     const kbSection = params.kbContext
       ? `\nUse the following syllabus reference material to inform the assessment content:\n${params.kbContext}\n`
       : '';
-    const languageSection = bilingualArabic
+    const languageSection = languageProfile.bilingual
       ? `
-CRITICAL LANGUAGE RULES (Arabic Language Subject):
-- Write the assessment in Arabic first.
-- Immediately provide an English translation for every section and question.
-- Use clear labels: "Arabic (العربية)" and "English Translation".
-- Keep mark allocations and numbering identical across both language versions.`
-      : isLanguageSubject(subject)
-      ? `
-CRITICAL LANGUAGE RULES (Language Subject):
-- Write the full assessment in the selected subject language first.
+CRITICAL LANGUAGE RULES (Selected Language Subject):
+- The selected subject is ${subject}; treat it as a ${languageProfile.englishName} language subject, not as a general UI language preference.
+- Write the full assessment in the subject language, ${languageProfile.englishName}, first, using label "${languageProfile.localHeader}".
 - Immediately provide an English translation for every section and question.
 - Keep mark allocations and numbering identical across both language versions.`
       : '';
@@ -725,8 +1108,8 @@ Make all content specific to ${grade} ${subject} level and aligned with ${syllab
 
       const aiData = await response.json();
       const candidate = aiData.response || fallbackAssessment();
-      if (bilingualArabic && !containsArabicScript(candidate)) {
-        throw new Error('Arabic output validation failed: AI response did not include Arabic script.');
+      if (languageProfile.bilingual && !hasRequiredLanguageSignals(candidate, languageProfile)) {
+        throw new Error(`${languageProfile.englishName} language-subject output validation failed: AI response did not include the required bilingual subject-language signals.`);
       }
       assessmentMarkdown = candidate;
     } catch (error) {
@@ -1239,7 +1622,7 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
     const syllabus = params.syllabus || classData.syllabus || 'NERDC';
     const grade = params.grade || classData.grade || '';
     const className = params.className || classData.name || '';
-    const bilingualArabic = isArabicLanguageSubject(params.subject);
+    const languageProfile = getLanguageProfile(params.subject);
     const term = params.term || '1';
     const week = params.week || '1';
     const focusAreas = params.focusAreas || [];
@@ -1254,17 +1637,11 @@ export async function generateLessonPlan(params: GenerateLessonPlanParams) {
     const kbSection = params.kbContext
       ? `\nUse the following syllabus reference material to inform the lesson content:\n${params.kbContext}\n`
       : '';
-    const languageSection = bilingualArabic
+    const languageSection = languageProfile.bilingual
       ? `
-CRITICAL LANGUAGE RULES (Arabic Language Subject):
-- Write the lesson plan in Arabic first.
-- Immediately provide an English translation for every main section.
-- Use clear labels: "Arabic (العربية)" and "English Translation".
-- Keep learning objectives, activities, and assessment expectations equivalent in both languages.`
-      : isLanguageSubject(params.subject)
-      ? `
-CRITICAL LANGUAGE RULES (Language Subject):
-- Write the full lesson plan in the selected subject language first.
+CRITICAL LANGUAGE RULES (Selected Language Subject):
+- The selected subject is ${params.subject}; treat it as a ${languageProfile.englishName} language subject, not as a general UI language preference.
+- Write the full lesson plan in the subject language, ${languageProfile.englishName}, first, using label "${languageProfile.localHeader}".
 - Immediately provide an English translation for every main section.
 - Keep objectives, activities, and assessment expectations equivalent in both language versions.`
       : '';
@@ -1301,7 +1678,19 @@ CRITICAL INSTRUCTIONS:
 - Write real learning objectives specific to ${params.topic} — not generic statements like "acquire knowledge".
 - Write a concrete homework task with actual instructions and examples.
 - Time allocations across all phases must add up to ${duration} minutes.
-- Generate the full lesson plan in markdown format with all NERDC-relevant lesson planning sections.`;
+- Generate the full lesson note in markdown format, following this Nigerian classroom lesson-note style:
+  1. Title: "LESSON NOTE"
+  2. Lesson Details table with Class, Week, Date, Duration, Average Age, Subject, Topic, Sub-topic, Curriculum, Instructional Materials, and Reference Book.
+  3. Behavioural Objectives written as "By the end of the lesson, students/learners should be able to..."
+  4. Previous Knowledge.
+  5. Introduction with a concrete teacher action, demonstration, object, picture, story, question, or quick activity.
+  6. Presentation with Step 1, Step 2, Step 3, and more steps where needed. Each step must include teacher explanation, learner activity, and enough subject notes for the teacher to teach directly from the output.
+  7. Worked Examples / Calculations / Demonstrations where applicable. Include solved examples for maths, science, business, or any topic where examples help.
+  8. Board Diagrams And Illustrations. Include at least two simple markdown-friendly diagrams or illustration guides, such as concept maps, labelled sketches, flow charts, tables, or board drawing instructions. Use text diagrams that can be copied to the board.
+  9. Evaluation questions.
+  10. Conclusion.
+  11. Assignment with practical questions and at least one diagram/illustration task where appropriate.
+- Make the lesson note more detailed than a short outline. Include definitions, explanations, examples, teacher prompts, expected learner responses, and board-work guidance.`;
 
     let lessonPlan = '';
     let generatedBy: 'ai' | 'fallback' = 'ai';
@@ -1341,8 +1730,8 @@ CRITICAL INSTRUCTIONS:
 
       const aiData = await response.json();
       const candidate = aiData.response || fallbackPlan();
-      if (bilingualArabic && !containsArabicScript(candidate)) {
-        throw new Error('Arabic output validation failed: AI response did not include Arabic script.');
+      if (languageProfile.bilingual && !hasRequiredLanguageSignals(candidate, languageProfile)) {
+        throw new Error(`${languageProfile.englishName} language-subject output validation failed: AI response did not include the required bilingual subject-language signals.`);
       }
       lessonPlan = candidate;
     } catch (error) {
