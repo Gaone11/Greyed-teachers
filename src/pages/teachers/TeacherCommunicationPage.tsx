@@ -5,15 +5,22 @@ import {
   Users, 
   Megaphone,
   Search,
-  CheckCircle,
-  Eye
 } from 'lucide-react';
 import ConnectedMessageThread from '../../components/messages/ConnectedMessageThread';
-import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import ConnectedAnnouncementsPanel from '../../components/messages/ConnectedAnnouncementsPanel';
+import {
+  CONNECTION_UPDATED_EVENT,
+  isConnectionCircleReady,
+  loadConnectionCircle,
+  loadRemoteConnectionCircle,
+} from '../../lib/connection-circle';
+import { useAuth } from '../../context/AuthContext';
 
 const TeacherCommunicationPage: React.FC = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'students' | 'parents' | 'announcements'>('students');
   const [circle, setCircle] = useState(() => loadConnectionCircle());
+  const connected = isConnectionCircleReady(circle);
 
   useEffect(() => {
     const refreshCircle = () => setCircle(loadConnectionCircle());
@@ -25,6 +32,22 @@ const TeacherCommunicationPage: React.FC = () => {
       window.removeEventListener('storage', refreshCircle);
     };
   }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const syncRemoteCircle = async () => {
+      if (!user?.email || isConnectionCircleReady(loadConnectionCircle())) return;
+      const remoteCircle = await loadRemoteConnectionCircle(user.email);
+      if (active && remoteCircle) setCircle(remoteCircle);
+    };
+
+    syncRemoteCircle();
+
+    return () => {
+      active = false;
+    };
+  }, [user?.email]);
 
   const activeContact = activeTab === 'students' ? circle.members.student : circle.members.parent;
   const contactSubtitle = activeTab === 'students'
@@ -41,13 +64,6 @@ const TeacherCommunicationPage: React.FC = () => {
           </h1>
           <p className="text-greyed-navy/70 mt-1">Message students, parents, and send class-wide announcements.</p>
         </div>
-        
-        {activeTab === 'announcements' && (
-          <button className="bg-greyed-navy hover:bg-greyed-navy/90 text-white px-4 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2">
-            <Megaphone className="w-5 h-5" />
-            New Announcement
-          </button>
-        )}
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-greyed-navy/10 overflow-hidden animate-slide-up flex flex-col h-[600px]" style={{ animationDelay: '50ms' }}>
@@ -97,7 +113,9 @@ const TeacherCommunicationPage: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline mb-0.5">
                       <h4 className="font-bold text-greyed-navy truncate text-sm">{activeContact.name}</h4>
-                      <span className="text-xs text-green-600">Connected</span>
+                      <span className={`text-xs ${connected ? 'text-green-600' : 'text-amber-600'}`}>
+                        {connected ? 'Connected' : 'Needs link'}
+                      </span>
                     </div>
                     <p className="text-xs text-greyed-navy/60 truncate">{contactSubtitle}</p>
                   </div>
@@ -122,51 +140,7 @@ const TeacherCommunicationPage: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="flex-1 p-6 bg-greyed-navy/5 overflow-y-auto">
-            <div className="max-w-3xl mx-auto space-y-6">
-              
-              <div className="bg-white rounded-xl shadow-sm border border-greyed-navy/10 p-5 relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1.5 h-full bg-greyed-blue"></div>
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 className="font-bold text-greyed-navy text-lg group-hover:text-greyed-blue transition-colors">Midterm Exam Schedule Change</h3>
-                    <p className="text-xs text-greyed-navy/50 mt-1">Sent to: All Classes • Oct 12, 2023</p>
-                  </div>
-                  <span className="bg-greyed-blue/10 text-greyed-blue px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    <CheckCircle className="w-3 h-3" /> Sent
-                  </span>
-                </div>
-                <p className="text-sm text-greyed-navy/70 line-clamp-2">
-                  Dear Students, Please note that the midterm exam scheduled for next Tuesday has been moved to Thursday due to the assembly. Make sure you update your calendars. Let me know if you have any questions!
-                </p>
-                <div className="mt-4 flex gap-4 text-sm font-semibold text-greyed-navy/60">
-                  <div className="flex items-center gap-1.5"><Users className="w-4 h-4" /> 145 Recipients</div>
-                  <div className="flex items-center gap-1.5"><Eye className="w-4 h-4" /> 120 Read</div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-sm border border-greyed-navy/10 p-5 relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1.5 h-full bg-greyed-navy/20"></div>
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 className="font-bold text-greyed-navy text-lg group-hover:text-greyed-blue transition-colors">Science Fair Projects Due</h3>
-                    <p className="text-xs text-greyed-navy/50 mt-1">Sent to: Biology 101 • Oct 5, 2023</p>
-                  </div>
-                  <span className="bg-greyed-navy/10 text-greyed-navy/60 px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    <CheckCircle className="w-3 h-3" /> Sent
-                  </span>
-                </div>
-                <p className="text-sm text-greyed-navy/70 line-clamp-2">
-                  A reminder that your final Science Fair project proposals are due this Friday. Please ensure you submit them via the assignments tab.
-                </p>
-                <div className="mt-4 flex gap-4 text-sm font-semibold text-greyed-navy/60">
-                  <div className="flex items-center gap-1.5"><Users className="w-4 h-4" /> 30 Recipients</div>
-                  <div className="flex items-center gap-1.5"><Eye className="w-4 h-4" /> 28 Read</div>
-                </div>
-              </div>
-
-            </div>
-          </div>
+          <ConnectedAnnouncementsPanel currentRole="teacher" canCompose />
         )}
       </div>
     </TeacherLayout>

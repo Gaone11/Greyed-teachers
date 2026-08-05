@@ -19,7 +19,9 @@ import {
   CONNECTION_UPDATED_EVENT,
   createConnectedCircle,
   loadConnectionCircle,
+  loadRemoteConnectionCircle,
   saveConnectionCircle,
+  saveRemoteConnectionCircle,
 } from '../../lib/connection-circle';
 
 interface ConnectionsPageProps {
@@ -90,6 +92,21 @@ const ConnectionsPage: React.FC<ConnectionsPageProps> = ({ role }) => {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+
+    const syncRemoteCircle = async () => {
+      const remoteCircle = await loadRemoteConnectionCircle(user?.email);
+      if (active && remoteCircle) setCircle(remoteCircle);
+    };
+
+    syncRemoteCircle();
+
+    return () => {
+      active = false;
+    };
+  }, [user?.email]);
+
   const missingRoles = useMemo(
     () => (Object.keys(roleLabels) as ConnectionRole[]).filter(item => item !== role),
     [role]
@@ -103,7 +120,7 @@ const ConnectionsPage: React.FC<ConnectionsPageProps> = ({ role }) => {
     setSuccess('');
   };
 
-  const handleConnect = (event: FormEvent<HTMLFormElement>) => {
+  const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!hasAnyConnectionInput) {
@@ -114,6 +131,7 @@ const ConnectionsPage: React.FC<ConnectionsPageProps> = ({ role }) => {
     const nextCircle = createConnectedCircle(role, circle, formData, user);
     saveConnectionCircle(nextCircle);
     setCircle(nextCircle);
+    await saveRemoteConnectionCircle(nextCircle);
     setSuccess('Connected. Student, teacher, and parent access are now joined for this learning circle.');
   };
 

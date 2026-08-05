@@ -11,8 +11,11 @@ import {
 import {
   ConnectionRole,
   CONNECTION_UPDATED_EVENT,
+  isConnectionCircleReady,
   loadConnectionCircle,
+  loadRemoteConnectionCircle,
 } from '../../lib/connection-circle';
+import { useAuth } from '../../context/AuthContext';
 
 interface ConnectedMessageThreadProps {
   currentRole: ConnectionRole;
@@ -40,6 +43,7 @@ const ConnectedMessageThread: React.FC<ConnectedMessageThreadProps> = ({
   roles,
   placeholder,
 }) => {
+  const { user } = useAuth();
   const [circle, setCircle] = useState(() => loadConnectionCircle());
   const [messages, setMessages] = useState<ConnectedMessage[]>([]);
   const [messageInput, setMessageInput] = useState('');
@@ -62,6 +66,22 @@ const ConnectedMessageThread: React.FC<ConnectedMessageThreadProps> = ({
   useEffect(() => {
     refreshMessages(true);
   }, [refreshMessages]);
+
+  useEffect(() => {
+    let active = true;
+
+    const syncRemoteCircle = async () => {
+      if (!user?.email || isConnectionCircleReady(loadConnectionCircle())) return;
+      const remoteCircle = await loadRemoteConnectionCircle(user.email);
+      if (active && remoteCircle) setCircle(remoteCircle);
+    };
+
+    syncRemoteCircle();
+
+    return () => {
+      active = false;
+    };
+  }, [user?.email]);
 
   useEffect(() => {
     const refreshCircle = () => setCircle(loadConnectionCircle());
@@ -93,7 +113,7 @@ const ConnectedMessageThread: React.FC<ConnectedMessageThreadProps> = ({
     setSending(false);
   };
 
-  if (circle.status !== 'connected') {
+  if (!isConnectionCircleReady(circle)) {
     return (
       <div className="flex-1 flex items-center justify-center bg-greyed-navy/5 p-6">
         <div className="text-center max-w-sm">

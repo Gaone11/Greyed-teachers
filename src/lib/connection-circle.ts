@@ -25,6 +25,7 @@ export interface ConnectionInput {
 
 const CONNECTION_STORAGE_KEY = 'greyedConnectionCircle';
 export const CONNECTION_UPDATED_EVENT = 'greyed-connection-circle-updated';
+const CONNECTED_CIRCLES_TABLE = 'connected_circles';
 
 const defaultMembers: Record<ConnectionRole, ConnectionPerson> = {
   student: {
@@ -89,6 +90,80 @@ export const saveConnectionCircle = (circle: ConnectionCircle) => {
 
   window.localStorage.setItem(CONNECTION_STORAGE_KEY, JSON.stringify(circle));
   window.dispatchEvent(new CustomEvent(CONNECTION_UPDATED_EVENT, { detail: circle }));
+};
+
+const normalizeEmail = (email?: string) => (email || '').trim().toLowerCase();
+
+const getParticipantEmails = (circle: ConnectionCircle) => {
+  return (['student', 'teacher', 'parent'] as ConnectionRole[])
+    .map(role => normalizeEmail(circle.members[role].email))
+    .filter(Boolean);
+};
+
+export const isConnectionCircleReady = (circle: ConnectionCircle) => {
+  return circle.status === 'connected'
+    && (['student', 'teacher', 'parent'] as ConnectionRole[]).every(role => circle.members[role].connected);
+};
+
+const isMissingConnectedCirclesTableError = (error: unknown) => {
+  const err = error as { code?: string; message?: string };
+  const message = err?.message || '';
+  return err?.code === '42P01'
+    || err?.code === 'PGRST205'
+    || /relation .*connected_circles.* does not exist/i.test(message)
+    || /schema cache.*public\.connected_circles/i.test(message)
+    || /could not find the table .*connected_circles/i.test(message);
+};
+
+export const loadRemoteConnectionCircle = async (email?: string): Promise<ConnectionCircle | null> => {
+  const participantEmail = normalizeEmail(email);
+  if (!participantEmail) return null;
+
+  try {
+    const { supabase } = await import('./supabase');
+    const { data, error } = await supabase
+      .from(CONNECTED_CIRCLES_TABLE)
+      .select('circle_payload')
+      .contains('participant_emails', [participantEmail])
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      if (isMissingConnectedCirclesTableError(error)) return null;
+      throw error;
+    }
+
+    const remoteCircle = data?.circle_payload as ConnectionCircle | undefined;
+    if (!remoteCircle) return null;
+    saveConnectionCircle(remoteCircle);
+    return remoteCircle;
+  } catch {
+    return null;
+  }
+};
+
+export const saveRemoteConnectionCircle = async (circle: ConnectionCircle) => {
+  const participantEmails = getParticipantEmails(circle);
+  if (participantEmails.length === 0) return;
+
+  try {
+    const { supabase } = await import('./supabase');
+    const circleKey = participantEmails.join('|');
+    const { error } = await supabase
+      .from(CONNECTED_CIRCLES_TABLE)
+      .upsert({
+        circle_key: circleKey,
+        participant_emails: participantEmails,
+        circle_payload: circle,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'circle_key' });
+
+    if (error && !isMissingConnectedCirclesTableError(error)) {
+      throw error;
+    }
+  } catch {
+  }
 };
 
 export const createConnectedCircle = (

@@ -9,12 +9,21 @@ import {
   Clock
 } from 'lucide-react';
 import ConnectedMessageThread from '../../components/messages/ConnectedMessageThread';
-import { CONNECTION_UPDATED_EVENT, loadConnectionCircle } from '../../lib/connection-circle';
+import ConnectedAnnouncementsPanel from '../../components/messages/ConnectedAnnouncementsPanel';
+import {
+  CONNECTION_UPDATED_EVENT,
+  isConnectionCircleReady,
+  loadConnectionCircle,
+  loadRemoteConnectionCircle,
+} from '../../lib/connection-circle';
+import { useAuth } from '../../context/AuthContext';
 
 const ParentCommunicationPage: React.FC = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'teachers' | 'child' | 'announcements'>('teachers');
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [circle, setCircle] = useState(() => loadConnectionCircle());
+  const connected = isConnectionCircleReady(circle);
 
   useEffect(() => {
     const refreshCircle = () => setCircle(loadConnectionCircle());
@@ -26,6 +35,22 @@ const ParentCommunicationPage: React.FC = () => {
       window.removeEventListener('storage', refreshCircle);
     };
   }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const syncRemoteCircle = async () => {
+      if (!user?.email || isConnectionCircleReady(loadConnectionCircle())) return;
+      const remoteCircle = await loadRemoteConnectionCircle(user.email);
+      if (active && remoteCircle) setCircle(remoteCircle);
+    };
+
+    syncRemoteCircle();
+
+    return () => {
+      active = false;
+    };
+  }, [user?.email]);
 
   const activeContact = activeTab === 'child' ? circle.members.student : circle.members.teacher;
 
@@ -98,7 +123,9 @@ const ParentCommunicationPage: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline mb-0.5">
                       <h4 className="font-bold text-greyed-navy truncate text-sm">{activeContact.name}</h4>
-                      <span className="text-xs text-green-600">Connected</span>
+                      <span className={`text-xs ${connected ? 'text-green-600' : 'text-amber-600'}`}>
+                        {connected ? 'Connected' : 'Needs link'}
+                      </span>
                     </div>
                     <p className="text-xs text-greyed-navy/60 truncate">
                       {activeTab === 'teachers' ? `Student: ${circle.members.student.name}` : `Teacher: ${circle.members.teacher.name}`}
@@ -124,41 +151,7 @@ const ParentCommunicationPage: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="flex-1 p-6 bg-greyed-navy/5 overflow-y-auto">
-            <div className="max-w-3xl mx-auto space-y-6">
-              
-              <div className="bg-white rounded-xl shadow-sm border border-greyed-navy/10 p-5 relative overflow-hidden group hover:border-greyed-blue/30 transition-colors cursor-pointer">
-                <div className="absolute top-0 left-0 w-1.5 h-full bg-greyed-blue"></div>
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 className="font-bold text-greyed-navy text-lg group-hover:text-greyed-blue transition-colors">Parent-Teacher Conferences</h3>
-                    <p className="text-xs text-greyed-navy/50 mt-1">From: School Administration • Oct 12, 2023</p>
-                  </div>
-                  <span className="bg-red-100 text-red-600 px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    New
-                  </span>
-                </div>
-                <p className="text-sm text-greyed-navy/70 mb-4">
-                  Dear Parents, our annual Parent-Teacher conferences will be held next week on Thursday and Friday. Please ensure you use the scheduling tool to book a slot with your child's teachers.
-                </p>
-                <button className="text-sm font-semibold text-greyed-blue hover:underline">Read Full Announcement</button>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-sm border border-greyed-navy/10 p-5 relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1.5 h-full bg-greyed-navy/20"></div>
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 className="font-bold text-greyed-navy text-lg">School Closed for Public Holiday</h3>
-                    <p className="text-xs text-greyed-navy/50 mt-1">From: School Administration • Oct 5, 2023</p>
-                  </div>
-                </div>
-                <p className="text-sm text-greyed-navy/70">
-                  Just a reminder that the school will be closed this coming Monday for the public holiday. Classes will resume as normal on Tuesday.
-                </p>
-              </div>
-
-            </div>
-          </div>
+          <ConnectedAnnouncementsPanel currentRole="parent" />
         )}
       </div>
 
