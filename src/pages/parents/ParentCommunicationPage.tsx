@@ -17,12 +17,18 @@ import {
   loadRemoteConnectionCircle,
 } from '../../lib/connection-circle';
 import { useAuth } from '../../context/AuthContext';
+import { publishConnectedMeetingRequest } from '../../lib/connected-meetings';
 
 const ParentCommunicationPage: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'teachers' | 'child' | 'announcements'>('teachers');
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [circle, setCircle] = useState(() => loadConnectionCircle());
+  const [meetingDate, setMeetingDate] = useState('');
+  const [meetingTime, setMeetingTime] = useState('');
+  const [meetingReason, setMeetingReason] = useState('');
+  const [meetingNotice, setMeetingNotice] = useState('');
+  const [submittingMeeting, setSubmittingMeeting] = useState(false);
   const connected = isConnectionCircleReady(circle);
 
   useEffect(() => {
@@ -53,6 +59,25 @@ const ParentCommunicationPage: React.FC = () => {
   }, [user?.email]);
 
   const activeContact = activeTab === 'child' ? circle.members.student : circle.members.teacher;
+  const connectedTeachers = connected ? [circle.members.teacher] : [];
+
+  const handleSubmitMeetingRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!connected || !meetingDate || !meetingTime || !meetingReason.trim() || submittingMeeting) return;
+
+    setSubmittingMeeting(true);
+    await publishConnectedMeetingRequest(circle, {
+      requested_date: meetingDate,
+      requested_time: meetingTime,
+      reason: meetingReason,
+    });
+    setMeetingDate('');
+    setMeetingTime('');
+    setMeetingReason('');
+    setShowScheduleModal(false);
+    setMeetingNotice(`Meeting request sent to ${circle.members.teacher.name}.`);
+    setSubmittingMeeting(false);
+  };
 
   return (
     <ParentLayout activePage="communication">
@@ -155,10 +180,15 @@ const ParentCommunicationPage: React.FC = () => {
         )}
       </div>
 
-      {/* Schedule Meeting Modal Mock */}
+      {meetingNotice && (
+        <div className="mt-4 rounded-xl bg-green-50 border border-green-100 text-green-700 px-4 py-3 text-sm font-bold">
+          {meetingNotice}
+        </div>
+      )}
+
       {showScheduleModal && (
         <div className="fixed inset-0 bg-greyed-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-scale-up">
+          <form onSubmit={handleSubmitMeetingRequest} className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-scale-up">
             <div className="p-6 border-b border-greyed-navy/10 flex justify-between items-center">
               <h2 className="text-xl font-bold text-greyed-navy font-headline">Schedule Meeting</h2>
               <button 
@@ -171,9 +201,21 @@ const ParentCommunicationPage: React.FC = () => {
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-bold text-greyed-navy mb-2">Select Teacher</label>
-                <select className="w-full p-3 rounded-xl border border-greyed-navy/20 focus:ring-2 focus:ring-greyed-blue/50 outline-none bg-white">
-                  <option>Mr. Davis (History)</option>
-                  <option>Ms. Smith (Science)</option>
+                <select
+                  className="w-full p-3 rounded-xl border border-greyed-navy/20 focus:ring-2 focus:ring-greyed-blue/50 outline-none bg-white"
+                  disabled={!connectedTeachers.length}
+                  value={circle.members.teacher.email || circle.members.teacher.name}
+                  title="Connected teacher"
+                >
+                  {connectedTeachers.length ? (
+                    connectedTeachers.map(teacher => (
+                      <option key={teacher.email || teacher.name} value={teacher.email || teacher.name}>
+                        {teacher.name}{teacher.email ? ` (${teacher.email})` : ''}
+                      </option>
+                    ))
+                  ) : (
+                    <option>Connect a teacher first</option>
+                  )}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -181,22 +223,37 @@ const ParentCommunicationPage: React.FC = () => {
                   <label className="block text-sm font-bold text-greyed-navy mb-2">Date</label>
                   <div className="relative">
                     <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-greyed-navy/40" />
-                    <input type="date" className="w-full pl-9 pr-3 py-3 rounded-xl border border-greyed-navy/20 outline-none text-sm" />
+                    <input
+                      type="date"
+                      value={meetingDate}
+                      onChange={event => setMeetingDate(event.target.value)}
+                      className="w-full pl-9 pr-3 py-3 rounded-xl border border-greyed-navy/20 outline-none text-sm"
+                      required
+                    />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-greyed-navy mb-2">Time</label>
                   <div className="relative">
                     <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-greyed-navy/40" />
-                    <input type="time" className="w-full pl-9 pr-3 py-3 rounded-xl border border-greyed-navy/20 outline-none text-sm" />
+                    <input
+                      type="time"
+                      value={meetingTime}
+                      onChange={event => setMeetingTime(event.target.value)}
+                      className="w-full pl-9 pr-3 py-3 rounded-xl border border-greyed-navy/20 outline-none text-sm"
+                      required
+                    />
                   </div>
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-bold text-greyed-navy mb-2">Reason for Meeting</label>
                 <textarea 
+                  value={meetingReason}
+                  onChange={event => setMeetingReason(event.target.value)}
                   className="w-full p-3 rounded-xl border border-greyed-navy/20 outline-none resize-none h-24"
                   placeholder="Briefly describe what you'd like to discuss..."
+                  required
                 ></textarea>
               </div>
             </div>
@@ -208,13 +265,14 @@ const ParentCommunicationPage: React.FC = () => {
                 Cancel
               </button>
               <button 
-                onClick={() => setShowScheduleModal(false)}
-                className="px-5 py-2.5 bg-greyed-navy text-white font-semibold rounded-xl hover:bg-greyed-navy/90 transition-colors shadow-sm"
+                type="submit"
+                disabled={!connected || !meetingDate || !meetingTime || !meetingReason.trim() || submittingMeeting}
+                className="px-5 py-2.5 bg-greyed-navy text-white font-semibold rounded-xl hover:bg-greyed-navy/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Request
+                {submittingMeeting ? 'Sending...' : 'Send Request'}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </ParentLayout>

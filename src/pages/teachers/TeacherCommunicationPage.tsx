@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import TeacherLayout from '../../layouts/TeacherLayout';
 import { 
+  Calendar as CalendarIcon,
+  CheckCircle,
+  Clock,
   MessageSquare, 
   Users, 
   Megaphone,
   Search,
+  XCircle,
 } from 'lucide-react';
 import ConnectedMessageThread from '../../components/messages/ConnectedMessageThread';
 import ConnectedAnnouncementsPanel from '../../components/messages/ConnectedAnnouncementsPanel';
@@ -15,11 +19,30 @@ import {
   loadRemoteConnectionCircle,
 } from '../../lib/connection-circle';
 import { useAuth } from '../../context/AuthContext';
+import {
+  ConnectedMeetingRequest,
+  CONNECTED_MEETINGS_UPDATED_EVENT,
+  loadConnectedMeetingRequests,
+  updateConnectedMeetingRequestStatus,
+} from '../../lib/connected-meetings';
+
+const formatMeetingDate = (date: string, time: string) => {
+  const dateValue = new Date(`${date}T${time || '00:00'}`);
+
+  return dateValue.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+};
 
 const TeacherCommunicationPage: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'students' | 'parents' | 'announcements'>('students');
   const [circle, setCircle] = useState(() => loadConnectionCircle());
+  const [meetingRequests, setMeetingRequests] = useState<ConnectedMeetingRequest[]>([]);
+  const [updatingRequestId, setUpdatingRequestId] = useState('');
   const connected = isConnectionCircleReady(circle);
 
   useEffect(() => {
@@ -49,6 +72,46 @@ const TeacherCommunicationPage: React.FC = () => {
     };
   }, [user?.email]);
 
+  const refreshMeetingRequests = useCallback(async () => {
+    if (!isConnectionCircleReady(circle)) {
+      setMeetingRequests([]);
+      return;
+    }
+
+    const requests = await loadConnectedMeetingRequests(circle);
+    setMeetingRequests(requests);
+  }, [circle]);
+
+  useEffect(() => {
+    refreshMeetingRequests();
+  }, [refreshMeetingRequests]);
+
+  useEffect(() => {
+    const interval = window.setInterval(refreshMeetingRequests, 5000);
+    window.addEventListener(CONNECTED_MEETINGS_UPDATED_EVENT, refreshMeetingRequests);
+    window.addEventListener('storage', refreshMeetingRequests);
+
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener(CONNECTED_MEETINGS_UPDATED_EVENT, refreshMeetingRequests);
+      window.removeEventListener('storage', refreshMeetingRequests);
+    };
+  }, [refreshMeetingRequests]);
+
+  const pendingMeetingRequests = useMemo(
+    () => meetingRequests.filter(request => request.status === 'pending'),
+    [meetingRequests]
+  );
+
+  const handleMeetingStatus = async (requestId: string, status: 'accepted' | 'declined') => {
+    setUpdatingRequestId(requestId);
+    const updated = await updateConnectedMeetingRequestStatus(circle, requestId, status);
+    if (updated) {
+      setMeetingRequests(current => current.map(request => request.id === updated.id ? updated : request));
+    }
+    setUpdatingRequestId('');
+  };
+
   const activeContact = activeTab === 'students' ? circle.members.student : circle.members.parent;
   const contactSubtitle = activeTab === 'students'
     ? `Parent: ${circle.members.parent.name}`
@@ -65,6 +128,66 @@ const TeacherCommunicationPage: React.FC = () => {
           <p className="text-greyed-navy/70 mt-1">Message students, parents, and send class-wide announcements.</p>
         </div>
       </div>
+
+      {pendingMeetingRequests.length > 0 && (
+        <div className="mb-5 bg-white border border-greyed-blue/30 rounded-2xl shadow-sm p-4 animate-slide-up">
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-greyed-blue/15 text-greyed-navy flex items-center justify-center">
+                <CalendarIcon className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="font-bold text-greyed-navy">Meeting Requests</h2>
+                <p className="text-xs text-greyed-navy/55">
+                  {pendingMeetingRequests.length} pending request{pendingMeetingRequests.length === 1 ? '' : 's'} from connected parents.
+                </p>
+              </div>
+            </div>
+            <span className="bg-amber-50 text-amber-700 border border-amber-100 rounded-full px-3 py-1 text-xs font-bold">
+              New
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {pendingMeetingRequests.map(request => (
+              <div key={request.id} className="rounded-xl border border-greyed-navy/10 bg-greyed-navy/5 p-3">
+                <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-bold text-greyed-navy text-sm">
+                      {request.parent_name} wants to meet about {request.student_name}
+                    </p>
+                    <p className="text-xs text-greyed-navy/60 mt-1 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5" />
+                      {formatMeetingDate(request.requested_date, request.requested_time)}
+                    </p>
+                    <p className="text-sm text-greyed-navy/70 mt-2">{request.reason}</p>
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleMeetingStatus(request.id, 'accepted')}
+                      disabled={updatingRequestId === request.id}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-green-600 text-white text-xs font-bold hover:bg-green-700 disabled:opacity-50"
+                    >
+                      <CheckCircle className="w-3.5 h-3.5" />
+                      Accept
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleMeetingStatus(request.id, 'declined')}
+                      disabled={updatingRequestId === request.id}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white border border-greyed-navy/10 text-greyed-navy text-xs font-bold hover:bg-greyed-navy/5 disabled:opacity-50"
+                    >
+                      <XCircle className="w-3.5 h-3.5" />
+                      Decline
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="bg-white rounded-2xl shadow-sm border border-greyed-navy/10 overflow-hidden animate-slide-up flex flex-col h-[600px]" style={{ animationDelay: '50ms' }}>
         <div className="flex border-b border-greyed-navy/10 bg-greyed-navy/5">
