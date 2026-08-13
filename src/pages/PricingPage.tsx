@@ -9,7 +9,6 @@ import FeatureMatrix from '../components/pricing/FeatureMatrix';
 import FAQAccordion from '../components/pricing/FAQAccordion';
 import CTAJoin from '../components/pricing/CTAJoin';
 import { BillingProvider } from '../context/BillingContext';
-import UserDashboardRedirect from '../components/ui/UserDashboardRedirect';
 
 interface PricingPageProps {
   openAdminLoginModal?: () => void;
@@ -18,30 +17,28 @@ interface PricingPageProps {
 const PricingPage: React.FC<PricingPageProps> = ({ openAdminLoginModal }) => {
   // Set document title and meta description for SEO
   useEffect(() => {
-    document.title = "Pricing | GreyEd — Siyafunda Plans for Teachers";
+    document.title = "Pricing | GreyEd Tiers";
     
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Choose the Siyafunda plan that fits your teaching needs — from NERDC-aligned lesson plans to full AI-powered classroom management.');
+        'Compare GreyEd Basic, Standard, Premium, and Enterprise tiers for students, parents, teachers, schools, and organisations.');
     }
   }, []);
 
   return (
-    <UserDashboardRedirect>
-      <BillingProvider>
-        <LandingLayout footerProps={{ openAdminLoginModal }}>
-          <NavBar />
-          <HeroPricing />
-          <BillingToggle />
-          <PlanGrid />
-          <FeatureMatrix />
-          <FAQAccordion />
-          <CTAJoin />
-        </LandingLayout>
-      </BillingProvider>
-    </UserDashboardRedirect>
+    <BillingProvider>
+      <LandingLayout footerProps={{ openAdminLoginModal }}>
+        <NavBar />
+        <HeroPricing />
+        <BillingToggle />
+        <PlanGrid />
+        <FeatureMatrix />
+        <FAQAccordion />
+        <CTAJoin />
+      </LandingLayout>
+    </BillingProvider>
   );
 };
 

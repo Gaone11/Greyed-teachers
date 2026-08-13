@@ -10,7 +10,8 @@ import {
   ChevronRight,
   Shield,
   Bell,
-  UserPlus
+  UserPlus,
+  Crown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
@@ -194,8 +195,22 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
         })}
       </nav>
 
-      {/* Logout Button */}
-      <div className="p-4 border-t border-greyed-navy/10">
+      {/* Upgrade and Logout */}
+      <div className="p-4 border-t border-greyed-navy/10 space-y-2">
+        <Link
+          to="/pricing"
+          onClick={handleLinkClick}
+          className={`w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} px-4 py-3.5 rounded-xl bg-greyed-navy text-white hover:bg-greyed-navy/90 font-semibold transition-colors`}
+          title={isCollapsed && !isMobile ? "Upgrade" : undefined}
+        >
+          <Crown className={`w-5 h-5 text-greyed-blue ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`} />
+          {(!isCollapsed || isMobile) && (
+            <div className="min-w-0 text-left">
+              <span className="text-sm block">Upgrade</span>
+              <span className="text-[11px] text-white/70 block truncate">Basic tier</span>
+            </div>
+          )}
+        </Link>
         <button
           onClick={onLogout}
           className={`w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} px-4 py-3.5 rounded-xl text-red-500 hover:bg-red-50 hover:text-red-600 font-semibold transition-colors`}

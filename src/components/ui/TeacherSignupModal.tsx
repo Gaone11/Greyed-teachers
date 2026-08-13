@@ -12,7 +12,8 @@ const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   password: z.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(10, "Password must be at least 10 characters")
+    .regex(/[A-Z]/, "Password must contain at least one capital letter")
     .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, "Password must contain at least one special character"),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -87,7 +88,8 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
         first_name: firstName,
         last_name: lastName,
         name: data.name,
-        role: roleToUse
+        role: roleToUse,
+        plan: 'basic'
       });
       
       if (error) {
@@ -167,7 +169,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                 {title}
               </h2>
               <p className="text-greyed-navy/70 text-sm sm:text-base">
-                Enter your information to access the platform
+                Enter your information to start on the Basic tier
               </p>
             </div>
               
@@ -259,7 +261,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                   <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
                 )}
                 <p className="mt-1 text-xs text-greyed-navy/60">
-                  6+ characters, 1 special character
+                  10+ characters, 1 capital letter, 1 special character
                 </p>
               </div>
 
@@ -293,27 +295,27 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
               </div>
 
               <div className="bg-greyed-beige/20 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-greyed-navy mb-2">Features Included</h3>
+                <h3 className="text-sm font-medium text-greyed-navy mb-2">Basic Tier Included</h3>
                 {selectedRole === 'student' ? (
                   <ul className="text-xs text-greyed-navy/80 space-y-1">
                     <li>• Access your timetable</li>
-                    <li>• View and manage notes</li>
+                    <li>• View core notes and assignments</li>
                     <li>• Explore Knowledge Galaxy</li>
-                    <li>• Track your progress</li>
+                    <li>• Upgrade from the sidebar any time</li>
                   </ul>
                 ) : selectedRole === 'parent' ? (
                   <ul className="text-xs text-greyed-navy/80 space-y-1">
                     <li>• Track children's performance</li>
                     <li>• View latest scores</li>
                     <li>• Message teachers and students</li>
-                    <li>• Receive important updates</li>
+                    <li>• Upgrade from the sidebar any time</li>
                   </ul>
                 ) : (
                   <ul className="text-xs text-greyed-navy/80 space-y-1">
-                    <li>• Unlimited AI lesson plans</li>
-                    <li>• Auto-graded assessments</li>
-                    <li>• Weekly tutor updates</li>
-                    <li>• Analytics dashboard</li>
+                    <li>• Access your teaching dashboard</li>
+                    <li>• Manage classes and core workflows</li>
+                    <li>• Use basic AI teaching support</li>
+                    <li>• Upgrade from the sidebar any time</li>
                   </ul>
                 )}
               </div>

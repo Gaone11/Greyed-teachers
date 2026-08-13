@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 const CTAJoin: React.FC = () => {
   const { enabled } = useContext(MotionContext);
   const navigate = useNavigate();
-  const { openTeacherSignup } = useRoleSelection();
+  const { openRoleSelection } = useRoleSelection();
   const { user } = useAuth();
   
   const containerVariants = {
@@ -28,12 +28,11 @@ const CTAJoin: React.FC = () => {
     }
   };
 
-  // Redirect to dashboard if logged in, otherwise open teacher signup
   const handleStartJourney = () => {
     if (user) {
-      navigate('/teachers/dashboard');
+      navigate('/dashboard');
     } else {
-      openTeacherSignup();
+      openRoleSelection('signup');
     }
   };
 
@@ -53,7 +52,7 @@ const CTAJoin: React.FC = () => {
               variants={contentVariants}
             >
               <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white text-center">
-                Ready to transform your teaching with AI?
+                Ready to start on Basic?
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -85,7 +84,7 @@ const CTAJoin: React.FC = () => {
           <div className="max-w-4xl mx-auto bg-greyed-navy rounded-xl overflow-hidden">
             <div className="p-8 md:p-12">
               <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white text-center">
-                Ready to transform your teaching with AI?
+                Ready to start on Basic?
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">

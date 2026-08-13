@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MotionContext } from '../../context/MotionContext';
 import { BillingContext } from '../../context/BillingContext';
-import { Check, ArrowRight, Loader, ChevronRight } from 'lucide-react';
+import { Check, ArrowRight, ChevronRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { redirectToCheckout } from '../../lib/stripe';
 import { useNavigate } from 'react-router-dom';
 import { useRoleSelection } from '../../context/RoleSelectionContext';
 
@@ -12,10 +11,11 @@ interface PlanCardProps {
   id: string;
   name: string;
   badge: string;
-  priceId: string;
   price: number;
+  priceLabel?: string;
   features: string[];
   ctaLabel: string;
+  ctaLink: string;
   isPrimary?: boolean;
   index: number;
 }
@@ -24,10 +24,11 @@ const PlanCard: React.FC<PlanCardProps> = ({
   id,
   name, 
   badge, 
-  priceId,
   price, 
+  priceLabel,
   features, 
   ctaLabel,
+  ctaLink,
   isPrimary,
   index
 }) => {
@@ -35,8 +36,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
   const { billingPeriod } = useContext(BillingContext);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { openTeacherSignup } = useRoleSelection();
-  const [isLoading, setIsLoading] = useState(false);
+  const { openRoleSelection } = useRoleSelection();
   const [displayPrice, setDisplayPrice] = useState(price);
 
   // Animate price change when billing period changes
@@ -84,37 +84,22 @@ const PlanCard: React.FC<PlanCardProps> = ({
     }
   };
 
-  // Format price to show 2 decimal places and add currency symbol
-  const formattedPrice = `£${(displayPrice / 100).toFixed(2)}`;
+  const formattedPrice = priceLabel || `£${(displayPrice / 100).toFixed(2)}`;
+  const isEnterprisePlan = id === 'enterprise';
+  const isBasicPlan = id === 'basic';
   
-  // Add "per month" or "per year" text
-  const priceText = `${formattedPrice}${billingPeriod === 'monthly' ? '/mo' : '/yr'}`;
-
-  // Check if this is a teacher plan
-  const isTeacherPlan = id === 'teacher';
-  
-  // Handle plan selection
   const handlePlanClick = async () => {
-    // If user is already logged in, redirect to dashboard
+    if (isEnterprisePlan || ctaLink === '/contact') {
+      navigate('/contact');
+      return;
+    }
+
     if (user) {
-      navigate('/teachers/dashboard');
+      navigate(isBasicPlan ? '/dashboard' : '/contact');
       return;
     }
-    
-    // For free plan, direct to role selection
-    if (price === 0) {
-      openTeacherSignup();
-      return;
-    }
-    
-    // For teacher plan, open signup modal
-    if (isTeacherPlan) {
-      openTeacherSignup();
-      return;
-    }
-    
-    // For all other paid plans
-    openTeacherSignup();
+
+    openRoleSelection('signup');
   };
 
   return (
@@ -148,7 +133,14 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <h3 className="font-headline font-bold text-2xl mb-2 mt-6">{name}</h3>
         
         <div className="mb-6">
-          {price === 0 ? (
+          {priceLabel ? (
+            <>
+              <div className="flex items-baseline">
+                <span className="text-3xl font-bold">{priceLabel}</span>
+              </div>
+              <p className="text-sm mt-1 opacity-80">For schools and organisations</p>
+            </>
+          ) : price === 0 ? (
             <>
               <div className="flex items-baseline">
                 <span className="text-3xl font-bold">Free</span>
@@ -174,19 +166,13 @@ const PlanCard: React.FC<PlanCardProps> = ({
         
         <button
           onClick={handlePlanClick}
-          disabled={isLoading}
           className={`block w-full py-2 px-4 rounded-full text-center transition-colors ${
             isPrimary 
               ? 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white font-medium'
               : 'bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20 font-medium'
-          } ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          }`}
         >
-          {isLoading ? (
-            <span className="flex items-center justify-center">
-              <Loader className="animate-spin w-4 h-4 mr-2" />
-              Processing...
-            </span>
-          ) : user ? (
+          {user && isBasicPlan ? (
             <span className="flex items-center justify-center">
               Go to Dashboard
               <ChevronRight size={16} className="ml-2" />
@@ -219,7 +205,14 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <h3 className="font-headline font-bold text-2xl mb-2 mt-6">{name}</h3>
         
         <div className="mb-6">
-          {price === 0 ? (
+          {priceLabel ? (
+            <>
+              <div className="flex items-baseline">
+                <span className="text-3xl font-bold">{priceLabel}</span>
+              </div>
+              <p className="text-sm mt-1 opacity-80">For schools and organisations</p>
+            </>
+          ) : price === 0 ? (
             <>
               <div className="flex items-baseline">
                 <span className="text-3xl font-bold">Free</span>
@@ -245,19 +238,13 @@ const PlanCard: React.FC<PlanCardProps> = ({
         
         <button
           onClick={handlePlanClick}
-          disabled={isLoading}
           className={`block w-full py-2 px-4 rounded-full text-center transition-colors ${
             isPrimary 
               ? 'bg-greyed-blue text-greyed-navy hover:bg-greyed-white font-medium'
               : 'bg-greyed-navy/10 text-greyed-navy hover:bg-greyed-navy/20 font-medium'
-          } ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          }`}
         >
-          {isLoading ? (
-            <span className="flex items-center justify-center">
-              <Loader className="animate-spin w-4 h-4 mr-2" />
-              Processing...
-            </span>
-          ) : user ? (
+          {user && isBasicPlan ? (
             <span className="flex items-center justify-center">
               Go to Dashboard
               <ChevronRight size={16} className="ml-2" />

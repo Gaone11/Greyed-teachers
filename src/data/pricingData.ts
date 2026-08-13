@@ -1,12 +1,13 @@
-// This file simulates fetching data from a CMS/environment variables
-// In a production environment, this would be replaced with API calls or env variables
+// This file simulates fetching data from a CMS/environment variables.
+// In production, this can be replaced with API or CMS-backed tier data.
 
 export interface Plan {
-  id: 'free' | 'premium' | 'hybrid' | 'teacher';
+  id: 'basic' | 'standard' | 'premium' | 'enterprise';
   name: string;
   badge: string;
   monthlyPriceGBP: number;
   annualPriceGBP: number;
+  priceLabel?: string;
   ctaLabel: string;
   ctaLink: string;
   features: string[];
@@ -18,10 +19,10 @@ export interface Feature {
   id: string;
   name: string;
   availableIn: {
-    free: boolean;
+    basic: boolean;
+    standard: boolean;
     premium: boolean;
-    hybrid: boolean;
-    teacher: boolean;
+    enterprise: boolean;
   };
 }
 
@@ -33,211 +34,174 @@ export interface FAQ {
 
 export const pricingPlans: Plan[] = [
   {
-    id: 'free',
-    name: 'El Free',
-    badge: 'Start now',
+    id: 'basic',
+    name: 'Basic',
+    badge: 'Included on signup',
     monthlyPriceGBP: 0,
     annualPriceGBP: 0,
-    ctaLabel: 'Get Started',
+    ctaLabel: 'Start Basic',
     ctaLink: '#',
     features: [
-      '10 AI messages/day',
-      '5 min video calls/day',
-      'Basic timetable'
+      'Access to your selected hub',
+      'Core dashboard, timetable, and communication tools',
+      'Basic AI support and learning resources',
+      'Upgrade any time from the sidebar'
     ]
   },
   {
-    id: 'premium',
-    name: 'El Premium Monthly',
-    badge: 'Popular',
+    id: 'standard',
+    name: 'Standard',
+    badge: 'Everyday learning',
     monthlyPriceGBP: 9.99,
-    annualPriceGBP: 99.5, // 9.99 * 12 * 0.83 (17% discount)
-    ctaLabel: 'Get Started',
+    annualPriceGBP: 99.5,
+    ctaLabel: 'Upgrade to Standard',
     ctaLink: '#',
     features: [
-      'Unlimited AI chat & calls',
-      'Smart Notes & flashcards',
-      'Emotion-aware coaching',
-      'Personal avatar'
+      'Everything in Basic',
+      'Expanded AI study and planning tools',
+      'Progress tracking and parent/teacher updates',
+      'Priority feature access for individual users'
     ],
     isPrimary: true,
-    stripePriceId: 'price_test123'
+    stripePriceId: 'price_standard_placeholder'
   },
   {
-    id: 'hybrid',
-    name: 'Hybrid Tutoring',
-    badge: 'Best results',
-    monthlyPriceGBP: 44.99,
-    annualPriceGBP: 448.6, // 44.99 * 12 * 0.83 (17% discount)
-    ctaLabel: 'Sign Up',
+    id: 'premium',
+    name: 'Premium',
+    badge: 'Most capable',
+    monthlyPriceGBP: 19.99,
+    annualPriceGBP: 199.1,
+    ctaLabel: 'Upgrade to Premium',
     ctaLink: '#',
     features: [
-      'Everything in Premium',
-      '4 live tutor sessions/mo',
-      'Session recaps',
+      'Everything in Standard',
+      'Advanced AI lesson, assessment, and study workflows',
+      'Deeper analytics and progress insights',
       'Priority support'
     ],
-    stripePriceId: 'price_test456'
+    stripePriceId: 'price_premium_placeholder'
   },
   {
-    id: 'teacher',
-    name: 'Siyafunda Pro',
-    badge: 'For Teachers',
+    id: 'enterprise',
+    name: 'Enterprise',
+    badge: 'Schools & organisations',
     monthlyPriceGBP: 0,
     annualPriceGBP: 0,
-    monthlyPriceZAR: 0,
-    annualPriceZAR: 0,
-    ctaLabel: 'Get Started Free',
-    ctaLink: '#',
+    priceLabel: 'Custom',
+    ctaLabel: 'Contact GreyEd',
+    ctaLink: '/contact',
     features: [
-      'Unlimited NERDC-aligned AI lesson plans',
-      'Unlimited assessments with auto-grading',
-      'Weekly tutor updates',
-      'Student management dashboard',
-      'Government document template compliance',
-      'Priority support'
+      'Everything in Premium',
+      'Organisation-wide accounts and onboarding',
+      'School analytics and admin oversight',
+      'Custom implementation and support'
     ],
-    stripePriceId: 'price_1RUB57KhB7e46jXjQaGUjQU6'
+    stripePriceId: 'price_enterprise_placeholder'
   }
 ];
 
 export const featureMatrix: Feature[] = [
   {
+    id: 'hub-access',
+    name: 'Student, teacher, or parent hub access',
+    availableIn: {
+      basic: true,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
     id: 'ai-chat',
     name: 'Personalised AI chat',
     availableIn: {
-      free: true,
+      basic: true,
+      standard: true,
       premium: true,
-      hybrid: true,
-      teacher: true
+      enterprise: true
     }
   },
   {
-    id: 'video-calls',
-    name: 'Video calls with El',
+    id: 'progress-tracking',
+    name: 'Progress tracking and updates',
     availableIn: {
-      free: true,
+      basic: true,
+      standard: true,
       premium: true,
-      hybrid: true,
-      teacher: false
+      enterprise: true
     }
   },
   {
-    id: 'smart-notes',
-    name: 'Smart Notes & flashcards',
+    id: 'smart-tools',
+    name: 'Smart notes, planning, and learning tools',
     availableIn: {
-      free: false,
+      basic: false,
+      standard: true,
       premium: true,
-      hybrid: true,
-      teacher: false
+      enterprise: true
     }
   },
   {
-    id: 'emotion-detection',
-    name: 'Emotion detection',
+    id: 'advanced-ai',
+    name: 'Advanced AI workflows',
     availableIn: {
-      free: false,
+      basic: false,
+      standard: false,
       premium: true,
-      hybrid: true,
-      teacher: false
-    }
-  },
-  {
-    id: 'curriculum-tests',
-    name: 'Curriculum-aligned tests',
-    availableIn: {
-      free: false,
-      premium: true,
-      hybrid: true,
-      teacher: false
-    }
-  },
-  {
-    id: 'human-tutors',
-    name: 'Human tutor sessions',
-    availableIn: {
-      free: false,
-      premium: false,
-      hybrid: true,
-      teacher: false
-    }
-  },
-  {
-    id: 'session-recap',
-    name: 'Session recap emails',
-    availableIn: {
-      free: false,
-      premium: false,
-      hybrid: true,
-      teacher: false
+      enterprise: true
     }
   },
   {
     id: 'priority-support',
     name: 'Priority support',
     availableIn: {
-      free: false,
-      premium: false,
-      hybrid: true,
-      teacher: true
+      basic: false,
+      standard: false,
+      premium: true,
+      enterprise: true
     }
   },
   {
-    id: 'lesson-plans',
-    name: 'AI lesson planning',
+    id: 'analytics',
+    name: 'Advanced analytics and reports',
     availableIn: {
-      free: false,
+      basic: false,
+      standard: false,
       premium: false,
-      hybrid: false,
-      teacher: true
+      enterprise: true
     }
   },
   {
-    id: 'assessments',
-    name: 'Auto-graded assessments',
+    id: 'admin-controls',
+    name: 'Organisation admin controls',
     availableIn: {
-      free: false,
+      basic: false,
+      standard: false,
       premium: false,
-      hybrid: false,
-      teacher: true
-    }
-  },
-  {
-    id: 'tutor-updates',
-    name: 'Tutor weekly updates',
-    availableIn: {
-      free: false,
-      premium: false,
-      hybrid: false,
-      teacher: true
+      enterprise: true
     }
   }
 ];
 
 export const faqItems: FAQ[] = [
   {
-    id: 'free-forever',
-    question: 'Can I stay on Free forever?',
-    answer: 'Yes, no card required. The El Free plan is completely free and will always remain available to you without requiring any payment information.'
+    id: 'basic-default',
+    question: 'What plan do new accounts start on?',
+    answer: 'Every new student, teacher, or parent account starts on Basic. You can upgrade from the dashboard sidebar whenever you need more features.'
   },
   {
-    id: 'tutor-sessions',
-    question: 'How do tutor sessions work?',
-    answer: 'Book via in-app calendar; delivered on Daily.co video. Our certified tutors receive insights from your El AI interactions before the call to make each session as productive as possible.'
+    id: 'tier-differences',
+    question: 'How do the tiers differ?',
+    answer: 'Basic covers core hub access. Standard adds richer learning and planning tools. Premium unlocks advanced AI workflows and priority support. Enterprise is tailored for schools and organisations.'
   },
   {
-    id: 'cancel-anytime',
-    question: 'Can I cancel any time?',
-    answer: 'Absolutely. There are no long-term commitments, and you can downgrade or cancel your account at any time with just a few clicks.'
+    id: 'change-tiers',
+    question: 'Can I change tiers later?',
+    answer: 'Yes. You can move between individual tiers as your needs change, and schools can contact GreyEd for an Enterprise setup.'
   },
   {
-    id: 'data-safety',
-    question: 'Is my data safe?',
-    answer: '256-bit encryption, GDPR & UK DPA compliant. We never sell your data or use it for advertising. Your privacy and security are our top priorities.'
-  },
-  {
-    id: 'teacher-access',
-    question: 'How do I get started with Siyafunda Pro?',
-    answer: 'Teachers at GreyEd get full access to all features including NERDC-aligned lesson plans, assessments, and student management. Simply sign up and start using the platform right away.'
+    id: 'enterprise',
+    question: 'Who is Enterprise for?',
+    answer: 'Enterprise is for schools, tutoring groups, NGOs, and organisations that need managed accounts, rollout support, reporting, and custom implementation.'
   }
 ];

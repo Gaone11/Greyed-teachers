@@ -13,6 +13,7 @@ interface RoleSelectionContextType {
   closeRoleSelection: () => void;
   selectRole: (role: Role) => void;
   currentCallback: (() => void) | null;
+  openTeacherSignup: () => void;
   openSignupModal: () => void;
   closeSignupModal: () => void;
   openLoginModal: () => void;
@@ -29,6 +30,7 @@ export const RoleSelectionContext = createContext<RoleSelectionContextType>({
   closeRoleSelection: () => {},
   selectRole: () => {},
   currentCallback: null,
+  openTeacherSignup: () => {},
   openSignupModal: () => {},
   closeSignupModal: () => {},
   openLoginModal: () => {},
@@ -73,6 +75,12 @@ export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ ch
     setIsOpen(false);
   };
 
+  const openTeacherSignup = () => {
+    setSelectedRole('teacher');
+    setShowSignupModal(true);
+    setIsOpen(false);
+  };
+
   const closeSignupModal = () => {
     setShowSignupModal(false);
   };
@@ -101,6 +109,7 @@ export const RoleSelectionProvider: React.FC<RoleSelectionProviderProps> = ({ ch
         closeRoleSelection,
         selectRole,
         currentCallback,
+        openTeacherSignup,
         openSignupModal,
         closeSignupModal,
         openLoginModal,

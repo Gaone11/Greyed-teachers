@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import FeaturesPage from './pages/FeaturesPage';
-// PricingPage removed — platform is free
+import PricingPage from './pages/PricingPage';
 import TutoringPage from './pages/TutoringPage';
 import ELLMPage from './pages/ELLMPage';
 import AboutPage from './pages/AboutPage';
@@ -197,7 +197,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<LandingPage openLoginModal={openLoginModal} openAdminLoginModal={openAdminLoginModal} />} />
         <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/pricing" element={<Navigate to="/" replace />} />
+        <Route path="/pricing" element={<PricingPage openAdminLoginModal={openAdminLoginModal} />} />
         <Route path="/tutoring" element={<TutoringPage />} />
         <Route path="/ellm" element={<ELLMPage />} />
         <Route path="/about" element={<AboutPage />} />

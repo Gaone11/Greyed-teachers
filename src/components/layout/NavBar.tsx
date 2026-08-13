@@ -167,6 +167,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   // Public navigation links
   const publicLinks = [
     { to: "/features", label: "Features" },
+    { to: "/pricing", label: "Pricing" },
     { to: "/tutoring", label: "Tutoring" },
     { to: "/ellm", label: "eLLM" },
     { to: "/about", label: "About" },

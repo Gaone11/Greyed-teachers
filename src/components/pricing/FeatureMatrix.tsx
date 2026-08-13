@@ -4,200 +4,60 @@ import { MotionContext } from '../../context/MotionContext';
 import { Check, X } from 'lucide-react';
 import { featureMatrix } from '../../data/pricingData';
 
+const tierColumns = [
+  { key: 'basic', label: 'Basic' },
+  { key: 'standard', label: 'Standard' },
+  { key: 'premium', label: 'Premium' },
+  { key: 'enterprise', label: 'Enterprise' },
+] as const;
+
 const FeatureMatrix: React.FC = () => {
   const { enabled } = useContext(MotionContext);
-  
+
   const tableVariants = {
     hidden: { opacity: 0, x: 50 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
       transition: { duration: 0.5 }
     }
   };
 
-  // For desktop: a sticky scrollable feature matrix
-  const DesktopMatrix = () => (
+  const matrix = (
     <div className="max-w-6xl mx-auto overflow-x-auto">
-      {enabled ? (
-        <motion.div
-          variants={tableVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-          className="min-w-full"
-        >
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b border-greyed-navy/10">
-                <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-greyed-white">Feature</th>
-                <th className="px-8 py-4 text-center font-semibold">Free</th>
-                <th className="px-8 py-4 text-center font-semibold">Premium</th>
-                <th className="px-8 py-4 text-center font-semibold">Hybrid</th>
-                <th className="px-8 py-4 text-center font-semibold">Teacher</th>
-              </tr>
-            </thead>
-            <tbody>
-              {featureMatrix.map((feature, index) => (
-                <tr key={feature.id} className={index % 2 === 0 ? 'bg-greyed-white' : 'bg-greyed-beige/20'}>
-                  <td className="py-3 pl-4 pr-8 sticky left-0 font-medium"
-                    style={{ backgroundColor: index % 2 === 0 ? 'var(--greyed-white)' : 'rgba(222, 219, 194, 0.2)' }}>
-                    {feature.name}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.free ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.premium ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.hybrid ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.teacher ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                </tr>
+      <table className="w-full min-w-[720px] border-collapse">
+        <thead>
+          <tr className="border-b border-greyed-navy/10">
+            <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-greyed-white">Feature</th>
+            {tierColumns.map((tier) => (
+              <th key={tier.key} className="px-6 py-4 text-center font-semibold">
+                {tier.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {featureMatrix.map((feature, index) => (
+            <tr key={feature.id} className={index % 2 === 0 ? 'bg-greyed-white' : 'bg-greyed-beige/20'}>
+              <td
+                className="py-3 pl-4 pr-8 sticky left-0 font-medium"
+                style={{ backgroundColor: index % 2 === 0 ? 'var(--greyed-white)' : 'rgba(222, 219, 194, 0.2)' }}
+              >
+                {feature.name}
+              </td>
+              {tierColumns.map((tier) => (
+                <td key={tier.key} className="px-6 py-3 text-center">
+                  {feature.availableIn[tier.key] ? (
+                    <Check size={16} className="mx-auto text-cyan-500" />
+                  ) : (
+                    <X size={16} className="mx-auto text-greyed-beige" />
+                  )}
+                </td>
               ))}
-            </tbody>
-          </table>
-        </motion.div>
-      ) : (
-        <div className="min-w-full">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b border-greyed-navy/10">
-                <th className="text-left py-4 pl-4 pr-8 sticky left-0 bg-greyed-white">Feature</th>
-                <th className="px-8 py-4 text-center font-semibold">Free</th>
-                <th className="px-8 py-4 text-center font-semibold">Premium</th>
-                <th className="px-8 py-4 text-center font-semibold">Hybrid</th>
-                <th className="px-8 py-4 text-center font-semibold">Teacher</th>
-              </tr>
-            </thead>
-            <tbody>
-              {featureMatrix.map((feature, index) => (
-                <tr key={feature.id} className={index % 2 === 0 ? 'bg-greyed-white' : 'bg-greyed-beige/20'}>
-                  <td className="py-3 pl-4 pr-8 sticky left-0 font-medium"
-                    style={{ backgroundColor: index % 2 === 0 ? 'var(--greyed-white)' : 'rgba(222, 219, 194, 0.2)' }}>
-                    {feature.name}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.free ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.premium ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.hybrid ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                  <td className="px-8 py-3 text-center">
-                    {feature.availableIn.teacher ? 
-                      <Check size={16} className="mx-auto text-cyan-400" /> : 
-                      <X size={16} className="mx-auto text-greyed-beige" />}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
-  );
-
-  // For mobile: collapsible sections under each plan
-  const MobileMatrix = () => (
-    <div className="space-y-6">
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
-        <h3 className="font-headline font-semibold mb-3">Free Plan Features</h3>
-        <ul className="space-y-2">
-          {featureMatrix.map(feature => (
-            <li key={feature.id} className="flex items-center">
-              {feature.availableIn.free ? 
-                <Check size={16} className="mr-2 text-cyan-400" /> : 
-                <X size={16} className="mr-2 text-greyed-beige" />}
-              <span className={`text-sm ${feature.availableIn.free ? '' : 'text-greyed-beige'}`}>
-                {feature.name}
-                {feature.id === 'video-calls' && feature.availableIn.free && (
-                  <span className="ml-2 text-xs text-greyed-beige">5 min/day</span>
-                )}
-              </span>
-            </li>
+            </tr>
           ))}
-        </ul>
-      </div>
-
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
-        <h3 className="font-headline font-semibold mb-3">Premium Plan Features</h3>
-        <ul className="space-y-2">
-          {featureMatrix.map(feature => (
-            <li key={feature.id} className="flex items-center">
-              {feature.availableIn.premium ? 
-                <Check size={16} className="mr-2 text-cyan-400" /> : 
-                <X size={16} className="mr-2 text-greyed-beige" />}
-              <span className={`text-sm ${feature.availableIn.premium ? '' : 'text-greyed-beige'}`}>
-                {feature.name}
-                {feature.id === 'video-calls' && feature.availableIn.premium && (
-                  <span className="ml-2 text-xs text-greyed-beige">unlimited</span>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
-        <h3 className="font-headline font-semibold mb-3">Hybrid Plan Features</h3>
-        <ul className="space-y-2">
-          {featureMatrix.map(feature => (
-            <li key={feature.id} className="flex items-center">
-              {feature.availableIn.hybrid ? 
-                <Check size={16} className="mr-2 text-cyan-400" /> : 
-                <X size={16} className="mr-2 text-greyed-beige" />}
-              <span className={`text-sm ${feature.availableIn.hybrid ? '' : 'text-greyed-beige'}`}>
-                {feature.name}
-                {feature.id === 'video-calls' && feature.availableIn.hybrid && (
-                  <span className="ml-2 text-xs text-greyed-beige">unlimited</span>
-                )}
-                {feature.id === 'human-tutors' && feature.availableIn.hybrid && (
-                  <span className="ml-2 text-xs text-greyed-beige">4/mo</span>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      
-      <div className="rounded-lg border border-greyed-navy/10 p-4">
-        <h3 className="font-headline font-semibold mb-3">Teacher Plan Features</h3>
-        <ul className="space-y-2">
-          {featureMatrix.map(feature => (
-            <li key={feature.id} className="flex items-center">
-              {feature.availableIn.teacher ? 
-                <Check size={16} className="mr-2 text-cyan-400" /> : 
-                <X size={16} className="mr-2 text-greyed-beige" />}
-              <span className={`text-sm ${feature.availableIn.teacher ? '' : 'text-greyed-beige'}`}>
-                {feature.name}
-                {feature.id === 'lesson-plans' && feature.availableIn.teacher && (
-                  <span className="ml-2 text-xs text-greyed-beige">unlimited</span>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 
@@ -207,14 +67,19 @@ const FeatureMatrix: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-headline font-bold text-center text-greyed-navy mb-10">
           Compare All Features
         </h2>
-        
-        <div className="hidden md:block">
-          <DesktopMatrix />
-        </div>
-        
-        <div className="md:hidden">
-          <MobileMatrix />
-        </div>
+
+        {enabled ? (
+          <motion.div
+            variants={tableVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            {matrix}
+          </motion.div>
+        ) : (
+          matrix
+        )}
       </div>
     </section>
   );

@@ -20,7 +20,8 @@ import {
   ClipboardList,
   BarChart2,
   Calendar,
-  UserPlus
+  UserPlus,
+  Crown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
@@ -382,8 +383,28 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
         </Link>
       </nav>
 
-      {/* Logout Button */}
-      <div className={`${isMobile ? 'p-4' : 'p-3'} border-t border-premium-neutral-200`}>
+      {/* Upgrade and Logout */}
+      <div className={`${isMobile ? 'p-4' : 'p-3'} border-t border-premium-neutral-200 space-y-2`}>
+        <Link
+          to="/pricing"
+          onClick={handleLinkClick}
+          className={`group w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg bg-greyed-navy text-greyed-white hover:bg-greyed-navy/90 border border-greyed-blue/30 transition-all duration-300 hover:shadow-sm touch-manipulation`}
+          title={isCollapsed && !isMobile ? "Upgrade" : undefined}
+        >
+          <div className={`flex items-center justify-center ${!isCollapsed || isMobile ? 'mr-3' : 'mr-0'}`}>
+            <Crown className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} text-greyed-blue transition-colors duration-200`} />
+          </div>
+          {(!isCollapsed || isMobile) && (
+            <div className="min-w-0 text-left">
+              <span className="font-semibold text-sm text-greyed-white transition-colors duration-200 block">
+                Upgrade
+              </span>
+              <span className="text-[11px] text-greyed-white/70 block truncate">
+                Basic tier
+              </span>
+            </div>
+          )}
+        </Link>
         <button
           onClick={onLogout}
           className={`group w-full flex items-center ${isCollapsed && !isMobile ? 'justify-center' : ''} ${isMobile ? 'px-4 py-3.5' : 'px-3 py-3'} rounded-lg bg-greyed-navy/5 hover:bg-greyed-navy/10 active:bg-greyed-navy/15 border border-greyed-navy/10 hover:border-greyed-navy/20 transition-all duration-300 hover:shadow-sm touch-manipulation`}

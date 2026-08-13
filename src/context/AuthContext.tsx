@@ -9,6 +9,7 @@ interface User {
     last_name?: string;
     name?: string;
     role?: string;
+    plan?: string;
   };
 }
 
@@ -66,6 +67,7 @@ const createDemoUser = (email: string): User => {
       first_name: role === 'student' ? 'Hilda' : role === 'parent' ? 'Parent' : 'Teacher',
       name: role === 'student' ? 'Hilda' : role === 'parent' ? 'Parent Demo' : 'Teacher Demo',
       role,
+      plan: 'basic',
     },
   };
 };
@@ -203,7 +205,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         options: {
           data: {
             ...userData,
-            role: 'teacher'
+            role: userData.role || 'teacher',
+            plan: userData.plan || 'basic',
           },
           emailRedirectTo: undefined,
         },
@@ -221,8 +224,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             email: email,
             first_name: userData.first_name || '',
             last_name: userData.last_name || '',
-            role: 'teacher',
-            plan: 'free',
+            role: userData.role || 'teacher',
+            plan: userData.plan || 'basic',
           }]);
 
         if (profileError) {

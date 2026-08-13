@@ -42,7 +42,7 @@ const HeroPricing: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              Pick a plan, level-up your learning.
+              Choose the GreyEd tier that fits your hub.
             </motion.h1>
             
             <motion.p 
@@ -52,17 +52,17 @@ const HeroPricing: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              From a forever-free AI tutor to full hybrid support, there's a GreyEd plan for every goal.
+              Start on Basic in the student, parent, or teacher hub. Upgrade to Standard, Premium, or Enterprise when your learning community needs more.
             </motion.p>
           </>
         ) : (
           <>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-greyed-white mb-6">
-              Pick a plan, level-up your learning.
+              Choose the GreyEd tier that fits your hub.
             </h1>
             
             <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">
-              From a forever-free AI tutor to full hybrid support, there's a GreyEd plan for every goal.
+              Start on Basic in the student, parent, or teacher hub. Upgrade to Standard, Premium, or Enterprise when your learning community needs more.
             </p>
           </>
         )}
