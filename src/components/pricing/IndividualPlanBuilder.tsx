@@ -14,7 +14,7 @@ import { MotionContext } from '../../context/MotionContext';
 import {
   IndividualPricingRole,
   individualRoleOptions
-} from '../../data/pricingData';
+} from '../../data/individualPricingData';
 import { useAuth } from '../../context/AuthContext';
 import { useRoleSelection } from '../../context/RoleSelectionContext';
 import { useNavigate } from 'react-router-dom';

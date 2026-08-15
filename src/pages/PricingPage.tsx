@@ -33,9 +33,9 @@ const PricingPage: React.FC<PricingPageProps> = ({ openAdminLoginModal }) => {
         <NavBar />
         <HeroPricing />
         <BillingToggle />
-        <IndividualPlanBuilder />
         <PlanGrid />
         <FeatureMatrix />
+        <IndividualPlanBuilder />
         <FAQAccordion />
         <CTAJoin />
       </LandingLayout>
