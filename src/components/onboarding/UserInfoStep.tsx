@@ -1,31 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOnboarding } from '../../context/OnboardingContext';
 import { User, Mail, School } from 'lucide-react';
 import { z } from 'zod';
-
-// Education levels for the dropdown
-const educationLevels = [
-  { value: 'primary', label: 'Primary School' },
-  { value: 'secondary', label: 'Secondary School' },
-  { value: 'a-level', label: 'A-Level' },
-  { value: 'university', label: 'University' },
-  { value: 'vocational', label: 'Vocational Training' },
-  { value: 'other', label: 'Other' }
-];
-
-// Countries list (shortened for brevity)
-const countries = [
-  { value: 'botswana', label: 'Botswana' },
-  { value: 'ghana', label: 'Ghana' },
-  { value: 'uk', label: 'United Kingdom' },
-  { value: 'us', label: 'United States' },
-  { value: 'canada', label: 'Canada' },
-  { value: 'australia', label: 'Australia' },
-  { value: 'nigeria', label: 'Nigeria' },
-  { value: 'kenya', label: 'Kenya' },
-  { value: 'south_africa', label: 'South Africa' },
-  { value: 'other', label: 'Other' }
-];
+import { OnboardingData } from '../../types/onboarding';
+import {
+  academicCountryOptions,
+  getStageLabel,
+  gradeOptionsByStage,
+  SchoolStage,
+  schoolStageOptions,
+  universityMajorOptions
+} from '../../data/academicProfile';
 
 interface UserInfoStepProps {
   onValidityChange: (isValid: boolean) => void;
@@ -34,24 +19,38 @@ interface UserInfoStepProps {
 const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
   const { onboardingData, updateOnboardingData } = useOnboarding();
   const [errors, setErrors] = useState<Record<string, string>>({});
-  
+
+  const selectedSchoolStage = onboardingData.schoolStage as SchoolStage | '';
+  const selectedGradeOptions = selectedSchoolStage ? gradeOptionsByStage[selectedSchoolStage] : [];
+  const showUniversityMajor = selectedSchoolStage === 'university';
+
   // Schema for validation
-  const userInfoSchema = z.object({
-    firstName: z.string().min(2, "First name must be at least 2 characters"),
-    lastName: z.string().min(2, "Last name must be at least 2 characters"),
-    email: z.string().email("Please enter a valid email address"),
-    age: z.string().refine(val => {
-      const num = parseInt(val);
-      return !isNaN(num) && num > 0 && num < 100;
-    }, "Please enter a valid age between 1-99"),
-    country: z.string().min(1, "Please select your country"),
-    educationLevel: z.string().min(1, "Please select your education level")
-  });
+  const userInfoSchema = useMemo(() => z.object({
+      firstName: z.string().min(2, "First name must be at least 2 characters"),
+      lastName: z.string().min(2, "Last name must be at least 2 characters"),
+      email: z.string().email("Please enter a valid email address"),
+      age: z.string().refine(val => {
+        const num = parseInt(val);
+        return !isNaN(num) && num > 0 && num < 100;
+      }, "Please enter a valid age between 1-99"),
+      country: z.string().min(1, "Please select your country"),
+      schoolStage: z.string().min(1, "Please select your school level"),
+      gradeLevel: z.string().min(1, "Please select your grade or year"),
+      universityMajor: z.string().optional()
+    }).superRefine((data, ctx) => {
+      if (data.schoolStage === 'university' && !data.universityMajor) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['universityMajor'],
+          message: 'Please select your university major'
+        });
+      }
+    }), []);
   
   // Update fields
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    updateOnboardingData({ [name]: value } as any);
+    updateOnboardingData({ [name]: value } as Partial<OnboardingData>);
     
     // Clear error for this field when user types
     if (errors[name]) {
@@ -62,32 +61,51 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
       });
     }
   };
+
+  const handleSchoolStageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const stage = event.target.value as SchoolStage | '';
+
+    updateOnboardingData({
+      schoolStage: stage,
+      educationLevel: stage ? getStageLabel(stage) : '',
+      gradeLevel: '',
+      universityMajor: ''
+    });
+
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      delete newErrors.schoolStage;
+      delete newErrors.educationLevel;
+      delete newErrors.gradeLevel;
+      delete newErrors.universityMajor;
+      return newErrors;
+    });
+  };
   
   // Validate all fields
-  const validateForm = () => {
-    try {
-      userInfoSchema.parse(onboardingData);
+  const validateForm = useCallback(() => {
+    const result = userInfoSchema.safeParse(onboardingData);
+
+    if (result.success) {
       setErrors({});
       return true;
-    } catch {
-      if (error instanceof z.ZodError) {
-        const formattedErrors: Record<string, string> = {};
-        error.errors.forEach(err => {
-          if (err.path.length > 0) {
-            formattedErrors[err.path[0].toString()] = err.message;
-          }
-        });
-        setErrors(formattedErrors);
-      }
-      return false;
     }
-  };
+
+    const formattedErrors: Record<string, string> = {};
+    result.error.errors.forEach(err => {
+      if (err.path.length > 0) {
+        formattedErrors[err.path[0].toString()] = err.message;
+      }
+    });
+    setErrors(formattedErrors);
+    return false;
+  }, [onboardingData, userInfoSchema]);
   
   // Check validity when data changes
   useEffect(() => {
     const isValid = validateForm();
     onValidityChange(isValid);
-  }, [onboardingData, onValidityChange]);
+  }, [onValidityChange, validateForm]);
 
   return (
     <div>
@@ -199,7 +217,7 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
             className={`block w-full px-3 py-2 border ${errors.country ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
           >
             <option value="">Select your country</option>
-            {countries.map(country => (
+            {academicCountryOptions.map(country => (
               <option key={country.value} value={country.value}>{country.label}</option>
             ))}
           </select>
@@ -209,30 +227,77 @@ const UserInfoStep: React.FC<UserInfoStepProps> = ({ onValidityChange }) => {
         </div>
       </div>
       
-      {/* Education Level */}
+      {/* School Level */}
       <div className="mb-4">
-        <label htmlFor="educationLevel" className="block text-sm font-medium text-greyed-navy mb-1">
-          Education Level
+        <label htmlFor="schoolStage" className="block text-sm font-medium text-greyed-navy mb-1">
+          School Level
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <School className="h-5 w-5 text-greyed-navy/40" />
           </div>
           <select
-            id="educationLevel"
-            name="educationLevel"
-            value={onboardingData.educationLevel}
-            onChange={handleInputChange}
-            className={`block w-full pl-10 pr-3 py-2 border ${errors.educationLevel ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            id="schoolStage"
+            name="schoolStage"
+            value={onboardingData.schoolStage}
+            onChange={handleSchoolStageChange}
+            className={`block w-full pl-10 pr-3 py-2 border ${errors.schoolStage ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
           >
-            <option value="">Select your education level</option>
-            {educationLevels.map(level => (
+            <option value="">Select your school level</option>
+            {schoolStageOptions.map(level => (
               <option key={level.value} value={level.value}>{level.label}</option>
             ))}
           </select>
         </div>
-        {errors.educationLevel && (
-          <p className="mt-1 text-sm text-red-600">{errors.educationLevel}</p>
+        {errors.schoolStage && (
+          <p className="mt-1 text-sm text-red-600">{errors.schoolStage}</p>
+        )}
+      </div>
+
+      <div className={`grid grid-cols-1 ${showUniversityMajor ? 'sm:grid-cols-2' : ''} gap-4 mb-4`}>
+        <div>
+          <label htmlFor="gradeLevel" className="block text-sm font-medium text-greyed-navy mb-1">
+            Grade / Year
+          </label>
+          <select
+            id="gradeLevel"
+            name="gradeLevel"
+            value={onboardingData.gradeLevel}
+            onChange={handleInputChange}
+            disabled={!selectedSchoolStage}
+            className={`block w-full px-3 py-2 border ${errors.gradeLevel ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm disabled:bg-greyed-navy/5 disabled:text-greyed-navy/40`}
+          >
+            <option value="">{selectedSchoolStage ? 'Select your grade or year' : 'Choose school level first'}</option>
+            {selectedGradeOptions.map(grade => (
+              <option key={grade} value={grade}>{grade}</option>
+            ))}
+          </select>
+          {errors.gradeLevel && (
+            <p className="mt-1 text-sm text-red-600">{errors.gradeLevel}</p>
+          )}
+        </div>
+
+        {showUniversityMajor && (
+          <div>
+            <label htmlFor="universityMajor" className="block text-sm font-medium text-greyed-navy mb-1">
+              University Major
+            </label>
+            <select
+              id="universityMajor"
+              name="universityMajor"
+              value={onboardingData.universityMajor}
+              onChange={handleInputChange}
+              className={`block w-full px-3 py-2 border ${errors.universityMajor ? 'border-red-500' : 'border-greyed-navy/20'} rounded-md shadow-sm focus:ring-greyed-blue focus:border-greyed-blue sm:text-sm`}
+            >
+              <option value="">Select your major</option>
+              {universityMajorOptions.map(major => (
+                <option key={major} value={major}>{major}</option>
+              ))}
+            </select>
+            {errors.universityMajor && (
+              <p className="mt-1 text-sm text-red-600">{errors.universityMajor}</p>
+            )}
+          </div>
         )}
       </div>
       

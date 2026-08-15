@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Mail, User, Loader, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { X, Mail, User, Loader, CheckCircle, AlertCircle, Eye, EyeOff, Globe2, GraduationCap, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -7,6 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useRoleSelection } from '../../context/RoleSelectionContext';
+import {
+  academicCountryOptions,
+  getStageLabel,
+  gradeOptionsByStage,
+  SchoolStage,
+  schoolStageOptions,
+  universityMajorOptions
+} from '../../data/academicProfile';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -14,14 +22,27 @@ const formSchema = z.object({
   password: z.string()
     .min(10, "Password must be at least 10 characters")
     .regex(/[A-Z]/, "Password must contain at least one capital letter")
-    .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, "Password must contain at least one special character"),
+    .regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, "Password must contain at least one special character"),
   confirmPassword: z.string(),
+  country: z.string().optional(),
+  schoolStage: z.string().optional(),
+  gradeLevel: z.string().optional(),
+  universityMajor: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],
 });
 
 type FormValues = z.infer<typeof formSchema>;
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message;
+  if (error && typeof error === 'object' && 'message' in error) {
+    const message = (error as { message?: unknown }).message;
+    if (typeof message === 'string') return message;
+  }
+  return "Failed to create account. Please try again.";
+};
 
 interface TeacherSignupModalProps {
   isOpen: boolean;
@@ -34,20 +55,32 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [academicError, setAcademicError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { signUp } = useAuth();
   const { selectedRole } = useRoleSelection();
+  const isStudentSignup = selectedRole === 'student';
 
   // Initialize react-hook-form
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
+  const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
+      country: '',
+      schoolStage: '',
+      gradeLevel: '',
+      universityMajor: '',
     }
   });
+
+  const selectedSchoolStage = watch('schoolStage') as SchoolStage | undefined;
+  const selectedGradeLevel = watch('gradeLevel');
+  const selectedUniversityMajor = watch('universityMajor');
+  const selectedGradeOptions = selectedSchoolStage ? gradeOptionsByStage[selectedSchoolStage] : [];
+  const showUniversityMajor = selectedSchoolStage === 'university';
   
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -67,6 +100,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
       setTimeout(() => {
         reset();
         setSignupError(null);
+        setAcademicError(null);
         setSignupSuccess(false);
         setShowPassword(false);
         setShowConfirmPassword(false);
@@ -74,9 +108,25 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
     }
   }, [isOpen, reset]);
 
+  useEffect(() => {
+    if (!isStudentSignup) return;
+
+    const stage = selectedSchoolStage;
+    const gradeOptions = stage ? gradeOptionsByStage[stage] : [];
+
+    if (stage && !gradeOptions.includes(selectedGradeLevel || '')) {
+      setValue('gradeLevel', '');
+    }
+
+    if (stage !== 'university' && selectedUniversityMajor) {
+      setValue('universityMajor', '');
+    }
+  }, [isStudentSignup, selectedGradeLevel, selectedSchoolStage, selectedUniversityMajor, setValue]);
+
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     setSignupError(null);
+    setAcademicError(null);
     
     try {
       const nameParts = data.name.trim().split(' ');
@@ -84,16 +134,42 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
       const lastName = nameParts.slice(1).join(' ') || '';
       const roleToUse = selectedRole || 'teacher';
 
+      if (roleToUse === 'student') {
+        if (!data.country || !data.schoolStage || !data.gradeLevel) {
+          setAcademicError('Please select your country, school level, and grade so GreyEd can align your content.');
+          return;
+        }
+
+        if (data.schoolStage === 'university' && !data.universityMajor) {
+          setAcademicError('Please select your university major.');
+          return;
+        }
+      }
+
+      const academicProfile = roleToUse === 'student' ? {
+        country: data.country || '',
+        educationLevel: data.schoolStage ? getStageLabel(data.schoolStage) : '',
+        schoolStage: data.schoolStage || '',
+        gradeLevel: data.gradeLevel || '',
+        universityMajor: data.universityMajor || '',
+      } : undefined;
+
       const { error } = await signUp(data.email, data.password, {
         first_name: firstName,
         last_name: lastName,
         name: data.name,
         role: roleToUse,
-        plan: 'basic'
+        plan: 'basic',
+        country: academicProfile?.country,
+        education_level: academicProfile?.educationLevel,
+        school_stage: academicProfile?.schoolStage,
+        grade_level: academicProfile?.gradeLevel,
+        university_major: academicProfile?.universityMajor,
+        academic_profile: academicProfile
       });
       
       if (error) {
-        setSignupError(error.message || "Failed to create account. Please try again.");
+        setSignupError(getErrorMessage(error));
         return;
       }
       
@@ -152,7 +228,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
           onClick={onClose}
         >
           <motion.div
-            className="relative bg-white w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-xl"
+            className="relative bg-white w-full max-w-lg rounded-2xl p-6 sm:p-8 shadow-xl max-h-[90vh] overflow-y-auto"
             variants={modalVariants}
             onClick={(e) => e.stopPropagation()}
           >
@@ -178,6 +254,13 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                 <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg flex items-start">
                   <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
                   <span>{signupError}</span>
+                </div>
+              )}
+
+              {academicError && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg flex items-start">
+                  <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>{academicError}</span>
                 </div>
               )}
               
@@ -293,6 +376,83 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                   <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>
                 )}
               </div>
+
+              {isStudentSignup && (
+                <div className="rounded-xl border border-greyed-navy/10 bg-greyed-white/50 p-4 space-y-4">
+                  <div>
+                    <h3 className="text-sm font-bold text-greyed-navy flex items-center gap-2">
+                      <GraduationCap className="h-4 w-4 text-greyed-blue" />
+                      Academic Profile
+                    </h3>
+                    <p className="mt-1 text-xs text-greyed-navy/65">
+                      GreyEd uses this to align your dashboard, assessments, and study help to your level.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label className="block">
+                      <span className="text-sm font-medium text-greyed-navy mb-1 flex items-center gap-1.5">
+                        <Globe2 className="h-4 w-4 text-greyed-navy/40" />
+                        Country
+                      </span>
+                      <select
+                        {...register('country')}
+                        className="w-full px-3 py-2 border border-greyed-navy/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue text-sm"
+                      >
+                        <option value="">Select country</option>
+                        {academicCountryOptions.map((country) => (
+                          <option key={country.value} value={country.value}>{country.label}</option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label className="block">
+                      <span className="text-sm font-medium text-greyed-navy mb-1 flex items-center gap-1.5">
+                        <BookOpen className="h-4 w-4 text-greyed-navy/40" />
+                        School level
+                      </span>
+                      <select
+                        {...register('schoolStage')}
+                        className="w-full px-3 py-2 border border-greyed-navy/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue text-sm"
+                      >
+                        <option value="">Select level</option>
+                        {schoolStageOptions.map((stage) => (
+                          <option key={stage.value} value={stage.value}>{stage.label}</option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label className="block">
+                      <span className="text-sm font-medium text-greyed-navy mb-1">Grade / year</span>
+                      <select
+                        {...register('gradeLevel')}
+                        disabled={!selectedSchoolStage}
+                        className="w-full px-3 py-2 border border-greyed-navy/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue text-sm disabled:bg-greyed-navy/5 disabled:text-greyed-navy/40"
+                      >
+                        <option value="">{selectedSchoolStage ? 'Select grade or year' : 'Choose school level first'}</option>
+                        {selectedGradeOptions.map((grade) => (
+                          <option key={grade} value={grade}>{grade}</option>
+                        ))}
+                      </select>
+                    </label>
+
+                    {showUniversityMajor && (
+                      <label className="block">
+                        <span className="text-sm font-medium text-greyed-navy mb-1">Major</span>
+                        <select
+                          {...register('universityMajor')}
+                          className="w-full px-3 py-2 border border-greyed-navy/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-greyed-blue text-sm"
+                        >
+                          <option value="">Select major</option>
+                          {universityMajorOptions.map((major) => (
+                            <option key={major} value={major}>{major}</option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="bg-greyed-beige/20 p-4 rounded-lg">
                 <h3 className="text-sm font-medium text-greyed-navy mb-2">Basic Tier Included</h3>

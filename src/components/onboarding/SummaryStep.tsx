@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useOnboarding } from '../../context/OnboardingContext';
 import { CheckCircle } from 'lucide-react';
+import { getCountryLabel } from '../../data/academicProfile';
 
 interface SummaryStepProps {
   onValidityChange: (isValid: boolean) => void;
@@ -77,7 +78,11 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ onValidityChange }) => {
           {onboardingData.firstName} {onboardingData.lastName}
         </h3>
         <p className="text-greyed-navy/80">
-          {onboardingData.age} years old · {onboardingData.country && onboardingData.country.charAt(0).toUpperCase() + onboardingData.country.slice(1)} · {onboardingData.educationLevel && onboardingData.educationLevel.charAt(0).toUpperCase() + onboardingData.educationLevel.slice(1)} Education
+          {onboardingData.age} years old · {getCountryLabel(onboardingData.country)} · {onboardingData.educationLevel || 'Learning level selected'}
+        </p>
+        <p className="mt-2 text-sm text-greyed-navy/70">
+          Content alignment: {onboardingData.gradeLevel || 'Grade not selected'}
+          {onboardingData.universityMajor ? ` · ${onboardingData.universityMajor}` : ''}
         </p>
       </div>
       

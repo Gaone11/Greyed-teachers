@@ -10,15 +10,35 @@ interface User {
     name?: string;
     role?: string;
     plan?: string;
+    country?: string;
+    education_level?: string;
+    school_stage?: string;
+    grade_level?: string;
+    university_major?: string;
+    academic_profile?: Record<string, string>;
   };
+}
+
+interface SignupUserData {
+  first_name?: string;
+  last_name?: string;
+  name?: string;
+  role?: string;
+  plan?: string;
+  country?: string;
+  education_level?: string;
+  school_stage?: string;
+  grade_level?: string;
+  university_major?: string;
+  academic_profile?: Record<string, string>;
 }
 
 interface AuthContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   signOut: () => Promise<void>;
-  signIn: (email: string, password: string) => Promise<{ error?: any }>;
-  signUp: (email: string, password: string, userData: any) => Promise<{ error?: any }>;
+  signIn: (email: string, password: string) => Promise<{ error?: unknown }>;
+  signUp: (email: string, password: string, userData: SignupUserData) => Promise<{ error?: unknown }>;
   loading: boolean;
 }
 
@@ -87,7 +107,7 @@ export const validatePassword = (password: string): { isValid: boolean; errors: 
     errors.push('Password must contain at least one capital letter');
   }
 
-  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
     errors.push('Password must contain at least one special character');
   }
 
@@ -108,6 +128,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
           setUser(JSON.parse(storedDemoUser));
         } catch {
+          // Ignore invalid preview auth data and reset it.
           localStorage.removeItem('greyedDemoUser');
         }
       }
@@ -128,6 +149,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           });
         }
       } catch {
+        // Ignore session bootstrap failures; the UI will remain logged out.
       } finally {
         setLoading(false);
       }
@@ -157,7 +179,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const signIn = async (email: string, password: string): Promise<{ error?: any }> => {
+  const signIn = async (email: string, password: string): Promise<{ error?: unknown }> => {
     try {
       setLoading(true);
 
@@ -168,7 +190,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return {};
       }
 
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -185,7 +207,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const signUp = async (email: string, password: string, userData: any): Promise<{ error?: any }> => {
+  const signUp = async (email: string, password: string, userData: SignupUserData): Promise<{ error?: unknown }> => {
     try {
       setLoading(true);
 
@@ -207,6 +229,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             ...userData,
             role: userData.role || 'teacher',
             plan: userData.plan || 'basic',
+            academic_profile: userData.academic_profile,
           },
           emailRedirectTo: undefined,
         },
@@ -226,6 +249,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             last_name: userData.last_name || '',
             role: userData.role || 'teacher',
             plan: userData.plan || 'basic',
+            country: userData.country || null,
+            education_level: userData.education_level || null,
+            school_stage: userData.school_stage || null,
+            grade_level: userData.grade_level || null,
+            university_major: userData.university_major || null,
+            academic_profile: userData.academic_profile || {},
           }]);
 
         if (profileError) {
@@ -254,10 +283,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { error } = await supabase.auth.signOut();
 
       if (error) {
+        // Supabase sign-out errors should not leave local state stale.
       }
 
       setUser(null);
     } catch {
+      // Keep sign-out idempotent for the UI.
     } finally {
       setLoading(false);
     }

@@ -21,6 +21,9 @@ const defaultOnboardingData: OnboardingData = {
   age: '',
   country: '',
   educationLevel: '',
+  schoolStage: '',
+  gradeLevel: '',
+  universityMajor: '',
 };
 
 const defaultPersonalityAssessment: PersonalityAssessment = {
@@ -159,6 +162,18 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({ children
         first_name: onboardingData.firstName,
         last_name: onboardingData.lastName,
         email: onboardingData.email,
+        country: onboardingData.country,
+        education_level: onboardingData.educationLevel,
+        school_stage: onboardingData.schoolStage,
+        grade_level: onboardingData.gradeLevel,
+        university_major: onboardingData.universityMajor,
+        academic_profile: {
+          country: onboardingData.country,
+          educationLevel: onboardingData.educationLevel,
+          schoolStage: onboardingData.schoolStage,
+          gradeLevel: onboardingData.gradeLevel,
+          universityMajor: onboardingData.universityMajor,
+        },
         personality_profile: {
           bigFive: personalityAssessment.bigFive,
           creativityProfile: personalityAssessment.creativityProfile,
@@ -191,14 +206,14 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({ children
         if (emailError) {
           // Continue even if email sends fails
         }
-      } catch (emailErr) {
+      } catch {
         // Continue even if email sending fails
       }
       
       
       return true;
-    } catch {
-      setError(error instanceof Error ? error.message : 'Failed to save your profile');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save your profile');
       return false;
     } finally {
       setIsLoading(false);

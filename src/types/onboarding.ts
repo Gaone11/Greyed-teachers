@@ -6,6 +6,9 @@ export interface OnboardingData {
   age: string;
   country: string;
   educationLevel: string;
+  schoolStage: string;
+  gradeLevel: string;
+  universityMajor: string;
 }
 
 // Big Five personality traits

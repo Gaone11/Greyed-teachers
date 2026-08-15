@@ -17,12 +17,13 @@ import {
   Award,
   Telescope,
   UserPlus,
-  Crown
+  Crown,
+  Library
 } from 'lucide-react';
 import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface StudentSidebarProps {
-  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'achievements' | 'settings' | 'knowledge' | 'connections';
+  activePage: 'dashboard' | 'timetable' | 'assignments' | 'grades' | 'messages' | 'goals' | 'ai-assistant' | 'exams' | 'assessment-library' | 'achievements' | 'settings' | 'knowledge' | 'connections';
   onLogout: () => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
@@ -147,6 +148,12 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       label: 'Exams & Assessments',
       icon: GraduationCap,
       path: '/students/exams',
+    },
+    {
+      id: 'assessment-library',
+      label: 'Assessment Library',
+      icon: Library,
+      path: '/students/assessment-library',
     },
     {
       id: 'achievements',
