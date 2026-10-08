@@ -132,9 +132,9 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
         <div className="pt-6 px-4 pb-4 border-b border-greyed-navy/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
-              src={`${import.meta.env.BASE_URL}greyed-hub-logo.png`}
+              src={`${import.meta.env.BASE_URL}logo.png`}
               alt="GreyEd"
-              className="h-9 w-9 object-cover object-left flex-shrink-0"
+              className="h-9 w-9 object-contain flex-shrink-0"
             />
             <div>
               <p className="font-headline font-bold text-greyed-navy text-sm leading-tight">GreyEd - Parents</p>
@@ -156,9 +156,9 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
       {isCollapsed && !isMobile && (
         <div className="pt-6 px-2 pb-4 border-b border-greyed-navy/10 flex flex-col items-center gap-4">
           <img
-            src={`${import.meta.env.BASE_URL}greyed-hub-logo.png`}
+            src={`${import.meta.env.BASE_URL}logo.png`}
             alt="GreyEd"
-            className="h-9 w-9 object-cover object-left"
+            className="h-9 w-9 object-contain"
           />
           <button 
             onClick={handleToggleCollapse}
