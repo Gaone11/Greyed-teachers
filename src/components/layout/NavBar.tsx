@@ -111,6 +111,8 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
   
   // Determine if we are in a teacher page
   const isTeacherPage = location.pathname.startsWith('/teachers');
+  // Student hub pages render their own sidebar with the logo, so the header sits beside it on desktop
+  const isStudentHubPage = location.pathname.startsWith('/students');
 
   // Get teacher page title/subtitle for the top bar
   const getTeacherPageInfo = (): { title: string; subtitle: string } | null => {
@@ -202,6 +204,8 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       className={`fixed top-0 right-0 left-0 transition-all duration-300 ${
         isTeacherPage ? 'z-40' : 'z-50'
       } ${
+        isStudentHubPage ? (sidebarCollapsed ? 'md:left-16' : 'md:left-64') : ''
+      } ${
         isScrolled ? (isOverLight ? 'bg-white/90 backdrop-blur-md' : 'bg-greyed-navy/90 backdrop-blur-md') : 'bg-transparent'
       }`}
       style={isTeacherPage ? { left: sidebarOffsetPx } : undefined}
@@ -212,7 +216,7 @@ const NavBar: React.FC<NavBarProps> = ({ openLoginModal, sidebarCollapsed, onTog
       <div className="w-full px-4 py-3 flex items-center justify-between min-h-[56px]">
         {/* Left section: Logo or page title for teacher pages */}
         <div className="flex items-center gap-2 min-w-0">
-          {!isTeacherPage ? (
+          {isStudentHubPage ? null : !isTeacherPage ? (
             <Link to="/" className={`hidden md:flex items-center gap-2 ${logoTextClass}`}>
               <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-8 w-auto" />
             </Link>
