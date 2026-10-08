@@ -8,7 +8,6 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   TrendingUp,
   MessageSquare,
   Target,
@@ -139,7 +138,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
     },
     {
       id: 'ai-assistant',
-      label: 'AI Study Assistant',
+      label: 'Ask El',
       icon: Bot,
       path: '/students/ai-assistant',
     },
@@ -175,9 +174,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       {(!isCollapsed || isMobile) && (
         <div className={`${isMobile ? 'pt-6 px-4 pb-4' : 'pt-4 px-4 pb-4'} border-b border-premium-neutral-200`}>
           <div className="flex items-center gap-3">
-            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="GreyEd" className="h-8 w-auto flex-shrink-0" />
+            <img
+              src={`${import.meta.env.BASE_URL}greyed-hub-logo.png`}
+              alt="GreyEd"
+              className="h-9 w-9 object-cover object-left flex-shrink-0"
+            />
             <div className="flex-1 min-w-0">
-              <p className="font-headline font-bold text-greyed-navy text-sm leading-tight">Student Hub</p>
+              <p className="font-headline font-bold text-greyed-navy text-sm leading-tight">GreyEd - Students</p>
+              <p className="text-xs text-premium-neutral-500 leading-tight">democratizing quality learning</p>
             </div>
             {!isMobile && (
               <button
@@ -194,9 +198,11 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
 
       {isCollapsed && !isMobile && (
         <div className="pt-4 px-2 pb-4 border-b border-premium-neutral-200 flex flex-col items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e2d6b] to-[#3B82F6] shadow-premium">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
+          <img
+            src={`${import.meta.env.BASE_URL}greyed-hub-logo.png`}
+            alt="GreyEd"
+            className="h-9 w-9 object-cover object-left"
+          />
           <button
             onClick={handleToggleCollapse}
             className="text-premium-navy hover:text-greyed-navy transition-colors duration-300"

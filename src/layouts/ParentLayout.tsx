@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/ui/Loader';
@@ -65,7 +65,7 @@ const ParentLayout: React.FC<ParentLayoutProps> = ({ children, activePage }) => 
       <div 
         className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300
         ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72` : (sidebarCollapsed ? 'w-20' : 'w-64')}
-        shadow-lg border-r border-greyed-navy/5`}
+        shadow-lg`}
         style={{ willChange: 'transform' }}
       >
         <ParentSidebar 

@@ -8,8 +8,11 @@ import {
   RefreshCw,
   UserCheck,
   Users,
+  UsersRound,
 } from 'lucide-react';
 import StudentLayout from '../../components/students/StudentLayout';
+import StudentFriendsPanel from '../../components/students/StudentFriendsPanel';
+import StudentPeerBoard from '../../components/students/StudentPeerBoard';
 import TeacherLayout from '../../layouts/TeacherLayout';
 import ParentLayout from '../../layouts/ParentLayout';
 import { useAuth } from '../../context/AuthContext';
@@ -79,6 +82,9 @@ const ConnectionsPage: React.FC<ConnectionsPageProps> = ({ role }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [copied, setCopied] = useState(false);
+  const [studentView, setStudentView] = useState<'circle' | 'students'>(() => (
+    typeof window !== 'undefined' && window.location.hash === '#students' ? 'students' : 'circle'
+  ));
 
   useEffect(() => {
     const handleUpdate = () => setCircle(loadConnectionCircle());
@@ -357,7 +363,42 @@ const ConnectionsPage: React.FC<ConnectionsPageProps> = ({ role }) => {
   );
 
   if (role === 'student') {
-    return <StudentLayout activePage="connections">{content}</StudentLayout>;
+    const tabs = [
+      { id: 'circle' as const, label: 'Teacher & parent', icon: Link2 },
+      { id: 'students' as const, label: 'Students & study groups', icon: UsersRound },
+    ];
+
+    return (
+      <StudentLayout activePage="connections">
+        <div className="max-w-6xl mx-auto mb-6 flex flex-wrap gap-2">
+          {tabs.map(tab => {
+            const Icon = tab.icon;
+            const active = studentView === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setStudentView(tab.id)}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold border transition-colors ${
+                  active
+                    ? 'bg-greyed-navy text-white border-greyed-navy'
+                    : 'bg-white text-greyed-navy border-greyed-navy/15 hover:bg-greyed-navy/5'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+        {studentView === 'circle' ? content : (
+          <div className="max-w-6xl mx-auto space-y-6 animate-slide-up">
+            <StudentFriendsPanel />
+            <StudentPeerBoard />
+          </div>
+        )}
+      </StudentLayout>
+    );
   }
 
   if (role === 'teacher') {

@@ -65,7 +65,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
       <div
         className={`fixed top-0 left-0 bottom-0 z-50 transition-all duration-300
         ${isMobile ? `${showMobileMenu ? 'translate-x-0' : '-translate-x-full'} w-72` : (sidebarCollapsed ? 'w-16' : 'w-64')}
-        bg-greyed-card border-r border-white/5 shadow-md`}
+        bg-greyed-card shadow-md`}
         style={{ willChange: 'transform' }}
       >
         <TeacherSidebar

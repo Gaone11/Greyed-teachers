@@ -69,7 +69,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, activePage }) =
         )}
 
         {/* Left sidebar */}
-        <div className={`bg-greyed-card border-r border-white/5 shadow-sm ${
+        <div className={`bg-greyed-card shadow-sm ${
           isMobile
             ? `fixed inset-y-0 pt-16 z-50 transition-transform duration-300 transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'

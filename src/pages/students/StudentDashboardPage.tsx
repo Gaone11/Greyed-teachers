@@ -14,6 +14,7 @@ import {
   FileText
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import StudentPeerBoard from '../../components/students/StudentPeerBoard';
 
 const StudentDashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -258,6 +259,9 @@ const StudentDashboardPage: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Students who want to connect */}
+          <StudentPeerBoard compact />
 
           {/* Announcements */}
           <div className="bg-[#bbd7eb]/20 rounded-2xl p-5 shadow-sm border border-[#bbd7eb]/30">

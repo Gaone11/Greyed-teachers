@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   LayoutDashboard, 
   MessageSquare, 
   Calendar, 
@@ -8,12 +8,10 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Shield,
   Bell,
   UserPlus,
   Crown
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface ParentSidebarProps {
@@ -32,7 +30,6 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
   collapsed = false,
   onToggleCollapse,
   isMobile = false,
-  isOpen = false,
   onClose
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
@@ -134,10 +131,14 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
       {(!isCollapsed || isMobile) && (
         <div className="pt-6 px-4 pb-4 border-b border-greyed-navy/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Shield className="w-8 h-8 text-greyed-navy" />
+            <img
+              src={`${import.meta.env.BASE_URL}greyed-hub-logo.png`}
+              alt="GreyEd"
+              className="h-9 w-9 object-cover object-left flex-shrink-0"
+            />
             <div>
-              <p className="font-headline font-bold text-greyed-navy text-lg leading-tight">GreyEd</p>
-              <p className="text-xs text-greyed-navy/60 font-semibold uppercase tracking-wider">Parent Portal</p>
+              <p className="font-headline font-bold text-greyed-navy text-sm leading-tight">GreyEd - Parents</p>
+              <p className="text-xs text-greyed-navy/60 leading-tight">democratizing quality learning</p>
             </div>
           </div>
           {!isMobile && (
@@ -154,7 +155,11 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
 
       {isCollapsed && !isMobile && (
         <div className="pt-6 px-2 pb-4 border-b border-greyed-navy/10 flex flex-col items-center gap-4">
-          <Shield className="w-8 h-8 text-greyed-navy" />
+          <img
+            src={`${import.meta.env.BASE_URL}greyed-hub-logo.png`}
+            alt="GreyEd"
+            className="h-9 w-9 object-cover object-left"
+          />
           <button 
             onClick={handleToggleCollapse}
             className="text-greyed-navy/40 hover:text-greyed-navy transition-colors duration-300 bg-greyed-navy/5 p-1 rounded-lg mt-2"
