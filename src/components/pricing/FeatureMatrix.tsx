@@ -47,7 +47,9 @@ const FeatureMatrix: React.FC = () => {
               </td>
               {tierColumns.map((tier) => (
                 <td key={tier.key} className="px-6 py-3 text-center">
-                  {feature.availableIn[tier.key] ? (
+                  {typeof feature.availableIn[tier.key] === 'string' ? (
+                    <span className="text-sm font-medium text-greyed-navy">{feature.availableIn[tier.key]}</span>
+                  ) : feature.availableIn[tier.key] ? (
                     <Check size={16} className="mx-auto text-cyan-500" />
                   ) : (
                     <X size={16} className="mx-auto text-greyed-beige" />

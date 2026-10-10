@@ -15,14 +15,17 @@ export interface Plan {
   stripePriceId?: string;
 }
 
+// true = included, false = not included, string = included with a limit or note
+export type FeatureAvailability = boolean | string;
+
 export interface Feature {
   id: string;
   name: string;
   availableIn: {
-    basic: boolean;
-    standard: boolean;
-    premium: boolean;
-    enterprise: boolean;
+    basic: FeatureAvailability;
+    standard: FeatureAvailability;
+    premium: FeatureAvailability;
+    enterprise: FeatureAvailability;
   };
 }
 
@@ -42,10 +45,11 @@ export const pricingPlans: Plan[] = [
     ctaLabel: 'Start Basic',
     ctaLink: '#',
     features: [
-      'Access to your selected hub',
-      'Core dashboard, timetable, and communication tools',
-      'Basic AI support and learning resources',
-      'Upgrade any time from the sidebar'
+      'Student, teacher, or parent hub (parent hub is fully free)',
+      'Dashboard, timetable, messaging, and connections',
+      'Homework, assessments, and basic grades',
+      'Ask El AI chat: 20 messages a day',
+      'Teachers: up to 2 classes'
     ]
   },
   {
@@ -58,9 +62,10 @@ export const pricingPlans: Plan[] = [
     ctaLink: '#',
     features: [
       'Everything in Basic',
-      'Expanded AI study and planning tools',
-      'Progress tracking and parent/teacher updates',
-      'Priority feature access for individual users'
+      'Higher daily AI chat limits',
+      'Knowledge Galaxy, smart notes, and flashcards',
+      'Learning goals, achievements, and lesson planner',
+      'Unlimited classes and family progress updates'
     ],
     isPrimary: true,
     stripePriceId: 'price_standard_placeholder'
@@ -75,8 +80,9 @@ export const pricingPlans: Plan[] = [
     ctaLink: '#',
     features: [
       'Everything in Standard',
-      'Advanced AI lesson, assessment, and study workflows',
-      'Deeper analytics and progress insights',
+      'AI lesson plan and assessment generators',
+      'AI auto-grading and GreyEd TA avatar',
+      'Personal analytics and your own knowledge base',
       'Priority support'
     ],
     stripePriceId: 'price_premium_placeholder'
@@ -92,9 +98,9 @@ export const pricingPlans: Plan[] = [
     ctaLink: '/contact',
     features: [
       'Everything in Premium',
-      'Organisation-wide accounts and onboarding',
-      'School analytics and admin oversight',
-      'Custom implementation and support'
+      'Organisation admin controls and bulk onboarding',
+      'School-wide analytics and reporting',
+      'Custom curriculum, SSO, and dedicated support'
     ],
     stripePriceId: 'price_enterprise_placeholder'
   }
@@ -112,28 +118,58 @@ export const featureMatrix: Feature[] = [
     }
   },
   {
+    id: 'core-tools',
+    name: 'Dashboard, timetable, and notifications',
+    availableIn: {
+      basic: true,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'messaging',
+    name: 'Messaging and connections',
+    availableIn: {
+      basic: true,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'homework',
+    name: 'Homework, assessments, and basic grades',
+    availableIn: {
+      basic: true,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
     id: 'ai-chat',
-    name: 'Personalised AI chat',
+    name: 'Ask El / GreyEd AI chat',
     availableIn: {
-      basic: true,
-      standard: true,
-      premium: true,
-      enterprise: true
+      basic: '20 / day',
+      standard: 'Higher limit',
+      premium: 'Highest limit',
+      enterprise: 'Custom'
     }
   },
   {
-    id: 'progress-tracking',
-    name: 'Progress tracking and updates',
+    id: 'classes',
+    name: 'Teacher classes',
     availableIn: {
-      basic: true,
-      standard: true,
-      premium: true,
-      enterprise: true
+      basic: 'Up to 2',
+      standard: 'Unlimited',
+      premium: 'Unlimited',
+      enterprise: 'Unlimited'
     }
   },
   {
-    id: 'smart-tools',
-    name: 'Smart notes, planning, and learning tools',
+    id: 'knowledge-galaxy',
+    name: 'Knowledge Galaxy, smart notes, and flashcards',
     availableIn: {
       basic: false,
       standard: true,
@@ -142,8 +178,78 @@ export const featureMatrix: Feature[] = [
     }
   },
   {
-    id: 'advanced-ai',
-    name: 'Advanced AI workflows',
+    id: 'goals',
+    name: 'Learning goals and achievements',
+    availableIn: {
+      basic: false,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'planning',
+    name: 'Lesson planner, courses, and assessment library',
+    availableIn: {
+      basic: false,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'family-updates',
+    name: 'Tutor and family progress updates',
+    availableIn: {
+      basic: false,
+      standard: true,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'ai-generators',
+    name: 'AI lesson plan and assessment generators',
+    availableIn: {
+      basic: false,
+      standard: false,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'auto-grading',
+    name: 'AI auto-grading',
+    availableIn: {
+      basic: false,
+      standard: false,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'ta-exam-prep',
+    name: 'GreyEd TA avatar and exam prep',
+    availableIn: {
+      basic: false,
+      standard: false,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'personal-analytics',
+    name: 'Personal analytics and reports',
+    availableIn: {
+      basic: false,
+      standard: false,
+      premium: true,
+      enterprise: true
+    }
+  },
+  {
+    id: 'knowledge-base',
+    name: 'Upload your own knowledge base',
     availableIn: {
       basic: false,
       standard: false,
@@ -162,8 +268,8 @@ export const featureMatrix: Feature[] = [
     }
   },
   {
-    id: 'analytics',
-    name: 'Advanced analytics and reports',
+    id: 'admin-controls',
+    name: 'Organisation admin controls and bulk onboarding',
     availableIn: {
       basic: false,
       standard: false,
@@ -172,8 +278,18 @@ export const featureMatrix: Feature[] = [
     }
   },
   {
-    id: 'admin-controls',
-    name: 'Organisation admin controls',
+    id: 'school-analytics',
+    name: 'School-wide analytics',
+    availableIn: {
+      basic: false,
+      standard: false,
+      premium: false,
+      enterprise: true
+    }
+  },
+  {
+    id: 'custom-setup',
+    name: 'Custom curriculum, SSO, and dedicated support',
     availableIn: {
       basic: false,
       standard: false,
@@ -192,7 +308,7 @@ export const faqItems: FAQ[] = [
   {
     id: 'tier-differences',
     question: 'How do the tiers differ?',
-    answer: 'Basic covers core hub access. Standard adds richer learning and planning tools. Premium unlocks advanced AI workflows and priority support. Enterprise is tailored for schools and organisations.'
+    answer: 'Basic is free and covers your hub, messaging, connections, homework, and 20 AI chat messages a day. Standard adds higher AI limits, Knowledge Galaxy, learning goals, and planning tools. Premium unlocks AI lesson and assessment generators, auto-grading, analytics, and priority support. Enterprise adds organisation admin, school-wide analytics, and custom setup.'
   },
   {
     id: 'change-tiers',

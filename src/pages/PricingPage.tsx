@@ -3,7 +3,6 @@ import LandingLayout from '../components/layout/LandingLayout';
 import NavBar from '../components/layout/NavBar';
 import HeroPricing from '../components/pricing/HeroPricing';
 import BillingToggle from '../components/pricing/BillingToggle';
-import IndividualPlanBuilder from '../components/pricing/IndividualPlanBuilder';
 import PlanGrid from '../components/pricing/PlanGrid';
 import FeatureMatrix from '../components/pricing/FeatureMatrix';
 import FAQAccordion from '../components/pricing/FAQAccordion';
@@ -35,7 +34,6 @@ const PricingPage: React.FC<PricingPageProps> = ({ openAdminLoginModal }) => {
         <BillingToggle />
         <PlanGrid />
         <FeatureMatrix />
-        <IndividualPlanBuilder />
         <FAQAccordion />
         <CTAJoin />
       </LandingLayout>
