@@ -1,166 +1,120 @@
-# Siyafunda — Platform Overview
+# GreyEd: Platform Overview
 
-## What is Siyafunda?
+## What is GreyEd?
 
-Siyafunda is an AI-powered teaching platform built for South African primary and secondary school teachers. It reduces the administrative burden on teachers so they can spend more time doing what matters — teaching. Every major feature in the platform is either powered by AI or designed to work alongside AI tools.
+GreyEd is an AI-native learning platform operated by OrionX. It connects the people around a learner (the student, their teachers, their parents, and private tutors) in one platform, with an AI assistant, El AI, built into each workspace.
 
----
+GreyEd is built for African classrooms first. It is pan-African and multi-curriculum: the AI aligns lesson plans and assessments to the curriculum a teacher names, including NERDC (Nigeria), CAPS (South Africa), BGCSE and JCE (Botswana), and IGCSE, GCSE and A Level.
 
-## The Problem It Solves
-
-South African teachers face a unique combination of challenges:
-
-- **Overloaded workload** — lesson planning, grading, reporting, and communication all compete for limited time outside the classroom.
-- **Curriculum complexity** — the CAPS curriculum is detailed and specific; preparing compliant lesson plans from scratch is time-consuming.
-- **Learner diversity** — classrooms include learners at very different levels, including those with reading difficulties like dyslexia.
-- **Limited access to teaching resources** — especially for STEM subjects, quality, curriculum-aligned content is hard to find.
-- **Marking bottlenecks** — manually grading written assessments for dozens of learners takes hours teachers don't have.
-
-Siyafunda addresses all of these directly.
+Website: greyed.org. Contact: hello@greyed.org (general), support@greyed.org (support).
 
 ---
 
-## AI Features
+## The problem it solves
 
-### 1. GreyEd Teaching Assistant
-An AI assistant built specifically for teachers. Ask it anything related to your lesson, subject, or class. It can:
-- Answer curriculum-specific questions
-- Suggest teaching strategies for specific learners
-- Generate examples, analogies, and explanations tailored to a chosen difficulty level
-- Help draft communications to parents or tutors
-
-### 2. Siyafunda AI (El AI)
-A general-purpose intelligent assistant embedded in the teacher's workspace. It is context-aware — it knows your active subject and class — and supports:
-- Open-ended Q&A on any topic
-- Subject-specific deep dives
-- Generating study notes and summaries
-- Explaining complex concepts at multiple levels (Explorer → Researcher)
-
-### 3. AI Lesson Planner
-Teachers select a subject, topic, grade, and duration. The AI generates a complete, CAPS-aligned lesson plan including:
-- Learning objectives
-- Introduction and engagement activity
-- Main teaching content with suggested delivery method
-- Guided practice and activities
-- Assessment strategy
-- Differentiation notes for different learner levels
-- Homework recommendation
-
-Plans can be edited, saved, and reused across classes.
-
-### 4. AI Auto-Grading (Assessment Grading)
-Teachers upload learner answer sheets (PDF or image). The AI:
-- Reads and interprets handwritten or typed answers
-- Grades against the memorandum the teacher provides
-- Assigns marks per question
-- Generates a summary report per learner
-- Flags answers that need human review
-- Produces a class performance overview
-
-This turns hours of marking into minutes.
-
-### 5. AI Assessment Generator
-Teachers specify the topic, grade, difficulty, and number of questions. The AI generates a complete assessment including:
-- Multiple choice questions
-- Short answer questions
-- Problem-solving questions (for STEM subjects)
-- A memorandum with worked solutions
-- A marking rubric
-
-Assessments are editable before distributing to learners.
-
-### 6. Learning Hub
-An AI-driven interactive knowledge universe covering all STEM subjects (Mathematics, Physics, Chemistry, Biology, General Science, Computer Studies, Environmental Science, Agriculture, Statistics). For each topic it provides:
-- **Multi-level explanations** — the same concept explained four ways: Explorer (ages 7–10), Investigator (ages 11–14), Scholar (High School), Researcher (University level)
-- **Flashcard decks** — 30–100+ flashcards per topic with flip-to-reveal answers
-- **Experiments** — Easy, Medium, and Hard experiments with materials, steps, and expected results
-- **Interactive Concept Maps** — visual knowledge graphs showing how topics connect; when a subtopic is selected the map recentres and updates to show that subtopic's connections
-- **Quiz engine** — 20+ questions per topic with instant feedback and explanations
-- **Curiosity Trees** — "Explore further" branches that guide teachers and learners deeper into related concepts
-- **Real World Applications** — shows how abstract concepts connect to everyday life
-
-The Learning Hub is linked to the Classes feature: if a teacher has a Physics class and a Mathematics class, those subjects are automatically highlighted at the top of the Learning Hub with a "Your Class" badge.
-
-### 7. CAPS Knowledgebase
-An AI-indexed reference library of CAPS curriculum documents. Teachers can search by grade, subject, or topic and get precise curriculum guidance without reading through the full document. Useful for:
-- Confirming what must be taught per term
-- Finding assessment guidelines
-- Understanding formal vs informal assessment weighting
-
-### 8. AI Knowledge Base
-A broader reference system where subject-specific teaching knowledge is stored and made searchable. The AI surfaces relevant content as teachers navigate the platform.
+- **Teachers run out of time.** Lesson planning, test writing, marking, and reporting compete with teaching itself.
+- **Curriculum alignment is slow.** Writing plans that follow a specific national syllabus from scratch takes hours.
+- **Learners differ widely.** One classroom can include learners at different levels and learners with dyslexia, ADHD, or ASD.
+- **The people around a learner are disconnected.** Students, teachers, parents, and tutors coordinate through scattered messages.
+- **Devices and data are constrained.** Many users are on phones with limited data, so heavy platforms fail.
 
 ---
 
-## Non-AI Features
+## Who it is for
 
-### Classes Management
-Create and manage teaching classes. Each class stores:
-- Subject, grade, and learner count
-- Linked lesson plans and assessments
-- A direct link to the Learning Hub for that subject
+| User | Hub | What they get |
+|---|---|---|
+| Students | Student hub | Study help, timetable, homework, progress, Learning Hub |
+| Teachers | Teacher hub | Classes, AI planning and assessment tools, communication, analytics |
+| Parents | Parent hub | Their child's progress, timetable, messages, notifications |
+| Private tutors | Teacher hub (tutor updates) and connections | Structured progress updates to learners and families |
+| Schools and organisations | Enterprise | Organisation-wide setup and support (sales-led) |
 
-### Lesson Planner Library
-All generated and manually created lesson plans are saved in one place. Teachers can:
-- Browse by subject and date
-- Edit and duplicate plans
-- Track which plans have been taught
-
-### Assessments Library
-Store, organise, and track all assessments in one place. View performance per class over time.
-
-### Tutor Updates
-Send structured updates to tutors about learner progress, upcoming assessments, or class announcements. Keeps communication organised and on record.
-
-### Professional Development (Courses)
-A library of professional development courses for teachers covering pedagogy, digital skills, and subject knowledge. Teachers progress through courses at their own pace.
-
-### Accessibility — Dyslexia Mode
-A toggle in the navigation bar that switches the entire platform to a dyslexia-friendly reading mode:
-- Switches to OpenDyslexic font (or Comic Sans / Arial / Verdana — user's choice)
-- Increases line spacing and letter spacing
-- Increases word spacing
-- Increases font size
-- Does not break any layout or UI components — only text elements are affected
-The setting is saved per user account and persists across sessions.
+The three hubs are connected: students, teachers, and parents link through Connections, and messages, assignments, timetables, and announcements flow between them.
 
 ---
 
-## How It Helps
+## El AI
 
-| Challenge | How Siyafunda Addresses It |
+El AI is GreyEd's assistant, powered by the Uhuru 3 LLM and GreyEd's eLLM (emotional large language model). It is restricted to education topics and follows safety rules suitable for schools.
+
+- **Ask El (students):** explanations, revision help, and study support, with selectable learning modes and output types (for example explanation or key points).
+- **GreyEd AI (teachers):** a full chat workspace with saved conversations for lesson ideas, explanations, differentiation strategies, parent communication, and subject questions. It aligns answers to the curriculum framework in the teacher's request.
+
+---
+
+## Teacher hub
+
+| Feature | What it does |
 |---|---|
-| Lesson planning takes 2–3 hours per plan | AI generates a complete CAPS-aligned plan in under 60 seconds |
-| Grading 35 papers takes an entire evening | AI auto-grading processes a full class set in minutes |
-| Creating assessments is difficult | AI generates questions, memoranda, and rubrics on demand |
-| Hard to explain concepts at different levels | Learning Hub has 4 pre-built explanation levels per topic |
-| Learners with dyslexia struggle to read materials | Dyslexia Mode reformats all text platform-wide instantly |
-| Teachers have no STEM reference library | Learning Hub covers 9 subjects with 100+ flashcards and experiments per topic |
-| Communicating with tutors is disorganised | Tutor Updates centralises all teacher-to-tutor communication |
-| No quick access to CAPS requirements | AI-indexed CAPS Knowledgebase gives instant answers |
+| Dashboard | Overview of classes, students, lesson plans, and assessments, with shortcuts to tools |
+| Classes | Create classes by subject and grade, manage rosters and attendance, store class documents, and see linked lesson plans and assessments |
+| AI Lesson Planner | Generates a curriculum-aligned lesson plan from subject, topic, grade, and duration. Plans are saved, tracked (draft, ready, taught), and downloadable |
+| AI Test Maker | Generates assessments with questions and an optional memorandum and answer key |
+| AI Auto-Grading | Upload learner scripts (image, scanned, PDF, or Word) for AI-assisted grading |
+| Homework & Assessments | Assign work to connected students |
+| Timetable | Teaching schedule shared with connected students and parents |
+| Communication Center | Messages and announcements to students and parents |
+| Tutor & Family Updates | Structured progress updates for tutors and families |
+| Analytics & Reports | Class engagement and performance insights |
+| Learning Hub | The subject explorer (see below), highlighting subjects the teacher already teaches |
+| Courses | Shows how classes use Learning Hub subjects, with average usage and mastery |
+| GreyEd TA | A voice-enabled AI avatar teaching assistant |
+| Accommodations | Lesson plans can include accommodations for dyslexia, ADHD, and ASD |
+
+## Student hub
+
+| Feature | What it does |
+|---|---|
+| Dashboard | Today's timetable, upcoming homework, and peer activity |
+| Smart Timetable | Classes and study time in one schedule |
+| Homework & Assessments | Assigned work from connected teachers |
+| Grades & Progress | Marks and progress over time |
+| Communication Center and Connections | Messages, plus links to teachers, parents, classmates, and study groups |
+| Ask El | AI study assistant |
+| Learning Goals and Achievements | Personal goals, streaks, and achievements |
+| Learning Hub | The subject explorer (see below) |
+| Assessment Library and Exams | Practice assessments and exam preparation |
+
+## Parent hub
+
+Child dashboard, communication with teachers, timetable access, connections, and notifications. The parent hub is free on every tier.
+
+## Learning Hub
+
+An interactive explorer covering nine STEM subjects: Mathematics, Physics, Chemistry, Biology, General Science, Computer Studies, Environmental Science, Agriculture, and Statistics. For each topic it offers:
+
+- **Explanations at four levels:** Explorer (ages 7 to 10), Investigator (ages 11 to 14), Scholar (high school), Researcher (university)
+- **Flashcards** with flip-to-reveal answers
+- **Experiments** at easy, medium, and hard levels, with materials and steps
+- **Concept maps** showing how topics connect
+- **Quizzes** with instant feedback and explanations
+- **Curiosity trees** and real-world applications for going deeper
+
+Progress (topics visited and quiz scores) is saved on the device.
+
+## Accessibility
+
+- **Dyslexia mode:** a platform-wide reading mode with a dyslexia-friendly font choice, larger text, and wider letter, word, and line spacing.
+- **Low-data friendly:** installable as a progressive web app, and designed for phones, tablets, and desktops.
 
 ---
 
-## Target Users
+## Plans
 
-- **Primary and secondary school teachers** in South Africa, particularly those teaching CAPS-aligned subjects
-- **School administrators** who need visibility into teaching activity
-- **Tutors** who receive structured updates from classroom teachers
+| Tier | Price | Summary |
+|---|---|---|
+| Basic | Free | Hubs, messaging, connections, homework, timetable, 20 El AI requests a day, up to 2 classes |
+| Standard | GBP 9.99 / month | Adds Learning Hub, goals, courses, family updates, unlimited classes, 100 AI requests a day |
+| Premium | GBP 19.99 / month | Adds AI lesson planner, test maker, auto-grading, GreyEd TA, analytics, 300 AI requests a day |
+| Enterprise | Custom | Organisation-wide setup, admin, and dedicated support |
+
+Full feature matrix and enforcement details: [TIERS.md](TIERS.md).
 
 ---
 
-## Subject Coverage
+## Curriculum coverage
 
-The platform currently covers:
+The AI planning and assessment tools align to the framework a teacher specifies. Detailed lesson-plan structures are built in for NERDC and CAPS; other frameworks (BGCSE, JCE, IGCSE, GCSE, A Level) are supported through the AI's general curriculum knowledge.
 
-| Subject | Learning Hub | Lesson Planner | Assessment Generator |
-|---|---|---|---|
-| Mathematics | ✓ | ✓ | ✓ |
-| Physics | ✓ | ✓ | ✓ |
-| Chemistry | ✓ | ✓ | ✓ |
-| Biology | ✓ | ✓ | ✓ |
-| General Science | ✓ | ✓ | ✓ |
-| Computer Studies | ✓ | ✓ | ✓ |
-| Environmental Science | ✓ | ✓ | ✓ |
-| Agriculture | ✓ | ✓ | ✓ |
-| Statistics | ✓ | ✓ | ✓ |
+The Learning Hub content covers the nine STEM subjects listed above and is curriculum-neutral.

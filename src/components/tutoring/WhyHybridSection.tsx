@@ -21,18 +21,18 @@ const WhyHybridSection: React.FC = () => {
   const approaches = [
     {
       icon: <ChartBar className="w-5 h-5 text-greyed-blue" />,
-      title: "AI-informed preparation",
-      text: "Before each session, tutors review learner data on GreyEd to understand where each child needs the most help, so no time is wasted."
+      title: "Progress updates for families",
+      text: "Share regular updates with parents covering the topics you worked on, homework and assessments, so families always know how their child is doing."
     },
     {
       icon: <HeartHandshake className="w-5 h-5 text-greyed-blue" />,
-      title: "Real human connection",
-      text: "Tutors provide the empathy, encouragement and patience that only a person can give. Every learner is seen and supported."
+      title: "Human tutors, AI support",
+      text: "You bring the encouragement and judgement that only a person can give. Between sessions, students can keep learning with El and the Learning Hub."
     },
     {
       icon: <BookOpen className="w-5 h-5 text-greyed-blue" />,
-      title: "NERDC-aligned support",
-      text: "All tutoring sessions follow the Nigerian NERDC curriculum, reinforcing what teachers cover in the classroom."
+      title: "Multi-curriculum",
+      text: "GreyEd supports NERDC, CAPS, BGCSE and JCE, as well as IGCSE, GCSE and A Level, so you can tutor students on the curriculum they are studying."
     }
   ];
 
@@ -41,10 +41,10 @@ const WhyHybridSection: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-headline font-bold mb-4 text-greyed-navy text-center">
-            How Our Tutors Use GreyEd
+            How Tutors Use GreyEd
           </h2>
           <p className="text-greyed-navy/70 text-center mb-12 max-w-2xl mx-auto">
-            Our tutoring programme combines the best of human care with technology. Tutors use the GreyEd platform to prepare for each session and track learner progress over time.
+            GreyEd gives private tutors one place to work with their students and keep parents informed, with El, our AI assistant, supporting learning along the way.
           </p>
 
           <div className="space-y-8">

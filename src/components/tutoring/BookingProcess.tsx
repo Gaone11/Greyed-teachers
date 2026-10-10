@@ -9,18 +9,18 @@ const BookingProcess: React.FC = () => {
   const steps = [
     {
       icon: <ClipboardList className="w-6 h-6" />,
-      title: "Tutor prepares with GreyEd",
-      description: "The tutor reviews each learner's progress, strengths and gaps on the GreyEd platform before the session."
+      title: "Connect with your students and families",
+      description: "Bring the students you already tutor, and their parents, onto GreyEd so everyone works from the same picture of progress."
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: "One-on-one or small group session",
-      description: "Learners receive focused, personalised support on the topics where they need it most."
+      title: "Teach, with El alongside",
+      description: "Run your sessions as you normally would. Between sessions, students can ask El questions and revise in the Learning Hub."
     },
     {
       icon: <TrendingUp className="w-6 h-6" />,
-      title: "Progress shared with teachers",
-      description: "After each session, insights are captured in GreyEd so classroom teachers stay informed about learner progress."
+      title: "Share progress with parents",
+      description: "Send progress updates covering topics, homework and assessments, so parents can follow their child's learning."
     }
   ];
 
@@ -37,7 +37,7 @@ const BookingProcess: React.FC = () => {
     <section className="py-20 bg-greyed-beige/30 snap-start">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-headline font-bold mb-10 text-greyed-navy text-center">
-          How Tutoring Works
+          How It Works
         </h2>
 
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">

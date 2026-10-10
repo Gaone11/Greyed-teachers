@@ -20,12 +20,12 @@ const MeetEl: React.FC = () => {
     {
       icon: <Bot size={24} />,
       title: "Curriculum-Smart Planning",
-      description: "Generates lesson plans, activities, and resources aligned to Nigeria's NERDC curriculum."
+      description: "Generates lesson plans, activities, and resources aligned to NERDC, CAPS, BGCSE, JCE, IGCSE, GCSE and A Level."
     },
     {
       icon: <Brain size={24} />,
       title: "Neurodiversity Aware",
-      description: "Built-in accommodations for ADHD, dyslexia, and ASD learners — following SIAS policy guidelines."
+      description: "Built-in accommodations for ADHD, dyslexia, and ASD learners."
     },
     {
       icon: <Calendar size={24} />,
@@ -35,7 +35,7 @@ const MeetEl: React.FC = () => {
     {
       icon: <Zap size={24} />,
       title: "Instant Assessments",
-      description: "Create differentiated tests, worksheets, and activities in seconds — auto-graded and ready to print."
+      description: "Create differentiated tests, worksheets, and activities in seconds, auto-graded and ready to print."
     }
   ];
 
@@ -44,10 +44,10 @@ const MeetEl: React.FC = () => {
       <div className="container mx-auto px-4">
         <AnimatedSection className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            Meet Your AI Teaching Assistant
+            Meet El, Your AI Learning Assistant
           </h2>
           <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            Your AI assistant understands curriculum, knows your learners, and works around the clock.
+            El runs on the Uhuru 3 LLM and the GreyEd eLLM. It understands your curriculum and supports students, teachers and parents around the clock.
           </p>
           <p className="text-sm text-greyed-black/50 mt-2 italic">
             "Imfundo yisikhali esiyiso" — Education is the right weapon

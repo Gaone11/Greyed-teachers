@@ -17,24 +17,34 @@ const FAQAccordion: React.FC = () => {
 
   const faqItems = [
     {
-      id: 'who-are-tutors',
-      question: 'Who are the tutors?',
-      answer: 'Our tutors are trained individuals who work with the GreyEd platform to support learners at GreyEd. They are screened and supervised as part of the programme\'s safeguarding requirements.'
+      id: 'who-is-it-for',
+      question: 'Who is GreyEd tutoring for?',
+      answer: 'GreyEd is for private tutors who want to work more closely with their students and keep parents informed. Parents and students can also use GreyEd alongside their tutor.'
+    },
+    {
+      id: 'find-students',
+      question: 'Can I find new students on GreyEd?',
+      answer: 'Not at the moment. GreyEd does not offer a tutor marketplace. It is designed to help you work with the students and families you already tutor.'
     },
     {
       id: 'what-subjects',
-      question: 'What subjects are covered?',
-      answer: 'Tutoring sessions are aligned to the Nigerian NERDC curriculum and focus on the subjects and topics where learners need the most support, as identified through the GreyEd platform.'
+      question: 'Which curricula are supported?',
+      answer: 'GreyEd supports NERDC (Nigeria), CAPS (South Africa), BGCSE and JCE (Botswana), as well as IGCSE, GCSE and A Level. The Learning Hub covers 9 STEM subjects.'
     },
     {
-      id: 'how-structured',
-      question: 'How are sessions structured?',
-      answer: 'Before each session, the tutor reviews learner data on GreyEd to prepare. Sessions take place one-on-one or in small groups. Afterwards, session insights are recorded so classroom teachers can follow each learner\'s progress.'
+      id: 'role-of-el',
+      question: 'What does El do?',
+      answer: 'El is the GreyEd AI assistant, powered by the Uhuru 3 LLM and GreyEd\'s eLLM (emotional large language model). Students can ask El questions and get explanations between sessions, while you remain the guide for their learning.'
     },
     {
-      id: 'safety',
-      question: 'How is learner safety ensured?',
-      answer: 'Learner safety is a top priority. The programme follows strict safeguarding protocols, including tutor screening, supervision, and data protection measures in compliance with South African law (POPIA).'
+      id: 'pricing',
+      question: 'How much does it cost?',
+      answer: 'GreyEd offers Basic (free), Standard, Premium and Enterprise plans. See the pricing page for what each plan includes.'
+    },
+    {
+      id: 'privacy',
+      question: 'How is student data protected?',
+      answer: 'We take the privacy of students and families seriously. Our Privacy Policy explains how GreyEd collects, uses and protects personal data. For questions, contact support@greyed.org.'
     }
   ];
 

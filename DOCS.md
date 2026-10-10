@@ -1,10 +1,10 @@
 # GreyEd — Platform Documentation
 
 ## What it is
-GreyEd is an AI-powered teaching platform that helps teachers plan lessons, generate and grade assessments, manage classes, and communicate with tutors — all aligned with the Ministry of Education curriculum (CAPS, IGCSE, BGCSE, JCE).
+GreyEd is an AI-native learning platform operated by OrionX. It connects students, teachers, parents, and tutors through three linked hubs, with the El AI assistant in each. Teacher AI tools align to the curriculum a teacher specifies (NERDC, CAPS, BGCSE, JCE, IGCSE, GCSE, A Level). Product overview: `docs/platform-overview.md`. Tiers: `docs/TIERS.md`.
 
 ## Who it's for
-**Primary users:** Teachers in Mpumalanga, South Africa, and the broader Southern African region. The platform is currently scoped to teachers — there is no learner-facing app yet. Tutors receive updates as recipients, not as platform users.
+**Users:** students, teachers, and parents (each with a hub), and private tutors, across Africa. Schools and organisations are served through the Enterprise tier.
 
 **Admin access** (knowledge-base management, system controls) is gated to specific emails (`gaone@orionx.xyz`, `monti@orionx.xyz`, `pax@greyed.org`).
 
@@ -23,7 +23,7 @@ GreyEd is an AI-powered teaching platform that helps teachers plan lessons, gene
 1. **Auth** → Supabase auth issues a session; `AuthContext` and `RoleContext` hydrate the user and role across the app.
 2. **Dashboard** → Teacher lands on `/teachers/dashboard`, sees real-time counts (classes, students from `class_students`, lessons, assessments) pulled from Supabase.
 3. **Classes** → Create class → open class detail → manage Students, Notes, Settings tabs. Student roster is editable by name (single or bulk add).
-4. **Lesson Planner** → Pick subject/grade/topic → El AI generates a CAPS-aligned lesson plan → save, edit, or export to `.docx`.
+4. **Lesson Planner** → Pick subject/grade/topic → El AI generates a curriculum-aligned lesson plan (NERDC and CAPS have built-in structures) → save, edit, or export to `.docx`.
 5. **Assessments** → Generate questions by topic → AI Auto-Grading uploads student work and returns scored feedback.
 6. **El AI** → Conversational assistant scoped to teaching tasks. Conversations persist per teacher in Supabase and stream into the sidebar.
 7. **Tutor Updates** → Weekly digest per class, previewable and sendable to tutors.

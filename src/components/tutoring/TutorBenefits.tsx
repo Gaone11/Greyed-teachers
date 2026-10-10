@@ -9,18 +9,18 @@ const TutorBenefits: React.FC = () => {
   const benefits = [
     {
       icon: <UserCheck className="w-10 h-10" />,
-      title: "Personalised attention",
-      description: "Each learner receives support tailored to their specific needs, informed by data from the GreyEd platform."
+      title: "A shared view of progress",
+      description: "Tutors, students and parents can all see how learning is going, so nobody has to wait for the next session to find out."
     },
     {
       icon: <BookOpen className="w-10 h-10" />,
       title: "Curriculum-aligned",
-      description: "All sessions follow the Nigerian NERDC curriculum, reinforcing what is taught in the classroom."
+      description: "Support for NERDC, CAPS, BGCSE, JCE, IGCSE, GCSE and A Level means students practise on the curriculum they are studying."
     },
     {
       icon: <HeartHandshake className="w-10 h-10" />,
-      title: "Confidence building",
-      description: "Learners gain confidence through consistent, caring support from a dedicated human tutor."
+      title: "Support between sessions",
+      description: "El and the Learning Hub give students explanations, flashcards and quizzes whenever they need them, alongside their tutor."
     }
   ];
 
@@ -37,7 +37,7 @@ const TutorBenefits: React.FC = () => {
     <section className="py-20 bg-greyed-white snap-start">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-headline font-bold mb-12 text-greyed-navy text-center">
-          What Learners Gain
+          What Tutors and Families Gain
         </h2>
 
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">

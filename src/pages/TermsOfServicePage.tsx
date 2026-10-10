@@ -42,7 +42,7 @@ const TermsOfServicePage: React.FC = () => {
                     1. Acceptance of Terms
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Welcome to GreyEd ("Cophetsheni," "we," "us," or "our"), a public school located in Mpumalanga Province, Republic of South Africa. These Terms of Service ("Terms," "Agreement") constitute a legally binding agreement between you ("you," "your," "User," "Teacher," "Subscriber") and GreyEd governing your access to and use of the Siyafunda platform, website, mobile applications, software, services, and all related features, content, and functionality (collectively, the "Services").
+                    Welcome to GreyEd. GreyEd is an AI learning platform operated by OrionX ("GreyEd," "we," "us," or "our"). These Terms of Service ("Terms," "Agreement") constitute a legally binding agreement between you ("you," "your," "User," "Teacher," "Subscriber") and GreyEd governing your access to and use of the GreyEd platform, website, mobile applications, software, services, and all related features, content, and functionality (collectively, the "Services").
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     By accessing, browsing, registering for, or using any part of our Services, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and our Refund Policy, which are incorporated herein by reference. If you do not agree to these Terms in their entirety, you must immediately discontinue all use of our Services and may not create an account or access any features of the platform.
@@ -185,7 +185,7 @@ const TermsOfServicePage: React.FC = () => {
                     4.3 Trademarks
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    "Siyafunda," the Siyafunda logo, "GreyEd," and all related names, logos, product and service names, designs, and slogans are trademarks of GreyEd. You may not use such marks without our prior written permission. All other names, logos, product and service names, designs, and slogans on the Services are the trademarks of their respective owners.
+                    "GreyEd," the GreyEd logo, and all related names, logos, product and service names, designs, and slogans are trademarks of GreyEd. You may not use such marks without our prior written permission. All other names, logos, product and service names, designs, and slogans on the Services are the trademarks of their respective owners.
                   </p>
                 </div>
               </div>
@@ -377,7 +377,7 @@ const TermsOfServicePage: React.FC = () => {
                     10.1 No Warranties
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.</strong> TO THE FULLEST EXTENT PERMITTED BY LAW, COPHETSHENI PRIMARY SCHOOL DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+                    <strong>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.</strong> TO THE FULLEST EXTENT PERMITTED BY LAW, ORIONX DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -413,7 +413,7 @@ const TermsOfServicePage: React.FC = () => {
                   </h2>
 
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL COPHETSHENI PRIMARY SCHOOL, ITS AFFILIATES, LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, REVENUE, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM:</strong>
+                    <strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL ORIONX, ITS AFFILIATES, LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, REVENUE, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM:</strong>
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Your access to, use of, or inability to access or use the Services</li>
@@ -426,7 +426,7 @@ const TermsOfServicePage: React.FC = () => {
                     <li>Bugs, viruses, trojan horses, or the like transmitted through the Services</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>IN NO EVENT SHALL COPHETSHENI PRIMARY SCHOOL'S TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATED TO THE SERVICES EXCEED THE GREATER OF (A) THE AMOUNT YOU PAID TO COPHETSHENI PRIMARY SCHOOL IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) ONE THOUSAND RAND (R1,000).</strong>
+                    <strong>IN NO EVENT SHALL ORIONX'S TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATED TO THE SERVICES EXCEED THE GREATER OF (A) THE AMOUNT YOU PAID TO ORIONX IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) ONE THOUSAND RAND (R1,000).</strong>
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
                     Some jurisdictions do not allow the exclusion or limitation of incidental or consequential damages, so the above limitations may not apply to you. In such jurisdictions, our liability is limited to the maximum extent permitted by law.
@@ -473,14 +473,14 @@ const TermsOfServicePage: React.FC = () => {
                     13.1 Informal Resolution
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    Before filing a claim, you agree to contact us at legal@cophetsheni.edu.za and attempt to resolve the dispute informally by providing a written description of the dispute and your proposed resolution. We will have 60 days to respond and attempt to resolve the issue. If we cannot resolve the dispute within 60 days, either party may proceed with formal dispute resolution as outlined below.
+                    Before filing a claim, you agree to contact us at support@greyed.org and attempt to resolve the dispute informally by providing a written description of the dispute and your proposed resolution. We will have 60 days to respond and attempt to resolve the issue. If we cannot resolve the dispute within 60 days, either party may proceed with formal dispute resolution as outlined below.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
                     13.2 Formal Dispute Resolution
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    <strong>YOU AND COPHETSHENI PRIMARY SCHOOL AGREE THAT ANY DISPUTE, CLAIM, OR CONTROVERSY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICES SHALL BE RESOLVED IN ACCORDANCE WITH THE LAWS OF THE REPUBLIC OF SOUTH AFRICA.</strong>
+                    <strong>YOU AND ORIONX AGREE THAT ANY DISPUTE, CLAIM, OR CONTROVERSY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICES SHALL BE RESOLVED IN ACCORDANCE WITH THE LAWS OF THE REPUBLIC OF SOUTH AFRICA.</strong>
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     Any dispute that cannot be resolved informally shall be submitted to the jurisdiction of the Magistrate's Court or the High Court of South Africa (Mpumalanga Division), as applicable, in accordance with the Magistrates' Courts Act 32 of 1944 or the Superior Courts Act 10 of 2013. Consumers may also lodge complaints with the National Consumer Commission or the relevant provincial consumer protection authority under the Consumer Protection Act 68 of 2008.
@@ -588,13 +588,10 @@ const TermsOfServicePage: React.FC = () => {
                   <div className="bg-greyed-beige/20 p-6 rounded-lg mt-4">
                     <p className="text-greyed-navy">
                       <strong>GreyEd</strong><br />
-                      Legal Department<br />
-                      Mpumalanga Province<br />
-                      Republic of South Africa
+                      Operated by OrionX
                     </p>
                     <p className="text-greyed-navy mt-3">
-                      <strong>Email:</strong> legal@cophetsheni.edu.za<br />
-                      <strong>Support:</strong> support@cophetsheni.edu.za
+                      <strong>Email:</strong> support@greyed.org
                     </p>
                   </div>
                 </div>

@@ -22,13 +22,13 @@ const PersonalityCTA: React.FC = () => {
           variants={containerVariants}
         >
           <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
-            Empowering teachers with AI: curriculum-aligned plans, smart assessments, inclusive education.
+            AI for students, teachers, parents and tutors: curriculum-aligned plans, smart assessments, inclusive education.
           </h2>
         </motion.div>
       ) : (
         <div className="container mx-auto px-4">
           <h2 className="text-xl md:text-2xl font-semibold text-center text-greyed-navy">
-            Empowering teachers with AI: curriculum-aligned plans, smart assessments, inclusive education.
+            AI for students, teachers, parents and tutors: curriculum-aligned plans, smart assessments, inclusive education.
           </h2>
         </div>
       )}
@@ -40,19 +40,19 @@ const PersonalityCTA: React.FC = () => {
         <Card
           number="01"
           title="Curriculum-Aligned Planning"
-          description="AI generates lesson plans aligned to the Nigerian Educational Research and Development Council curriculum."
+          description="AI generates lesson plans aligned to your curriculum: NERDC, CAPS, BGCSE, JCE, IGCSE, GCSE and A Level."
           delay={0}
         />
         <Card
           number="02"
           title="Smart Assessment Builder"
-          description="Create tests, worksheets, and exams instantly — mapped to your grade and subject requirements."
+          description="Create tests, worksheets, and exams instantly, mapped to your grade and subject requirements."
           delay={0.15}
         />
         <Card
           number="03"
           title="Inclusive by Design"
-          description="Built-in neurodiversity accommodations for every learner — ADHD, dyslexia, ASD, and more."
+          description="Built-in neurodiversity accommodations for every learner, including ADHD, dyslexia, ASD, and more."
           delay={0.3}
         />
       </AnimatedSection>

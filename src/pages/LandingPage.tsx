@@ -8,7 +8,6 @@ import WhyGreyEd from '../components/sections/WhyGreyEd';
 import TryElAI from '../components/sections/TryElAI';
 import CurriculumGrid from '../components/sections/CurriculumGrid';
 import SafetyBanner from '../components/sections/SafetyBanner';
-import Testimonials from '../components/sections/Testimonials';
 import MeetEl from '../components/sections/MeetEl';
 import FeaturedOn from '../components/sections/FeaturedOn';
 import Newsletter from '../components/sections/Newsletter';
@@ -31,7 +30,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ openLoginModal, openAdminLogi
         <TryElAI />
         <CurriculumGrid />
         <SafetyBanner />
-        <Testimonials />
         <MeetEl />
         <Newsletter />
         <Footer openAdminLoginModal={openAdminLoginModal} />

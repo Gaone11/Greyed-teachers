@@ -42,7 +42,7 @@ const CTABookDemo: React.FC = () => {
                 Want to learn more?
               </h2>
               <p className="text-greyed-blue mb-8 max-w-2xl mx-auto">
-                If you are a parent, guardian or community member and would like to know more about the tutoring programme at GreyEd, please get in touch.
+                If you are a private tutor, or a parent working with one, and would like to know how GreyEd can help, please get in touch.
               </p>
 
               <Link
@@ -61,7 +61,7 @@ const CTABookDemo: React.FC = () => {
                 Want to learn more?
               </h2>
               <p className="text-greyed-blue mb-8 max-w-2xl mx-auto">
-                If you are a parent, guardian or community member and would like to know more about the tutoring programme at GreyEd, please get in touch.
+                If you are a private tutor, or a parent working with one, and would like to know how GreyEd can help, please get in touch.
               </p>
 
               <Link

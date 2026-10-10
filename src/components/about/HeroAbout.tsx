@@ -37,7 +37,7 @@ const HeroAbout: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              A Partnership for Education
+              Africa-Rooted AI for Learning
             </motion.h1>
 
             <motion.p
@@ -47,17 +47,17 @@ const HeroAbout: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              OrionX and SkyVerse888 Foundation are working together to bring the GreyEd AI education platform to GreyEd in Mpumalanga, South Africa.
+              GreyEd is an AI-native learning platform, operated by OrionX, built to unleash the African imagination and democratize quality learning.
             </motion.p>
           </>
         ) : (
           <>
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
-              A Partnership for Education
+              Africa-Rooted AI for Learning
             </h1>
 
             <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">
-              OrionX and SkyVerse888 Foundation are working together to bring the GreyEd AI education platform to GreyEd in Mpumalanga, South Africa.
+              GreyEd is an AI-native learning platform, operated by OrionX, built to unleash the African imagination and democratize quality learning.
             </p>
           </>
         )}

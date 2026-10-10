@@ -43,10 +43,10 @@ const RefundPolicyPage: React.FC = () => {
                     1. Overview and Scope
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    This Refund Policy ("Policy") governs all payment transactions and refund requests made through GreyEd ("Cophetsheni," "we," "us," or "our"), a public school located in Mpumalanga Province, Republic of South Africa. This Policy applies to all users, subscribers, customers, educational institutions, and business entities ("you," "your," or "User") who purchase, subscribe to, or otherwise engage with our Siyafunda educational technology platform and services.
+                    This Refund Policy ("Policy") governs all payment transactions and refund requests made through GreyEd, an AI learning platform operated by OrionX ("GreyEd," "we," "us," or "our"). This Policy applies to all users, subscribers, customers, educational institutions, and business entities ("you," "your," or "User") who purchase, subscribe to, or otherwise engage with our GreyEd educational technology platform and services.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    By accessing or using GreyEd's Siyafunda services, creating an account, making a payment, or accepting these terms through any means, you acknowledge that you have read, understood, and agree to be bound by this Policy in its entirety. If you do not agree with any provision of this Policy, you must immediately cease using our services and refrain from making any payments.
+                    By accessing or using GreyEd's services, creating an account, making a payment, or accepting these terms through any means, you acknowledge that you have read, understood, and agree to be bound by this Policy in its entirety. If you do not agree with any provision of this Policy, you must immediately cease using our services and refrain from making any payments.
                   </p>
                 </div>
               </div>
@@ -192,7 +192,7 @@ const RefundPolicyPage: React.FC = () => {
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Refunds will be issued to the original payment method within 30 business days of written approval</li>
                     <li>Processing fees, transaction costs, and administrative fees (up to 5% of the payment amount) may be deducted from the refund</li>
-                    <li>All access to Siyafunda services, platforms, APIs, and resources will be immediately terminated</li>
+                    <li>All access to GreyEd services, platforms, APIs, and resources will be immediately terminated</li>
                     <li>Any work product, deliverables, code, documentation, or materials provided must be destroyed and cannot be retained or used</li>
                     <li>Client agrees to execute a mutual release of claims as a condition of receiving the refund</li>
                   </ul>
@@ -257,7 +257,7 @@ const RefundPolicyPage: React.FC = () => {
                     If you believe your account has been compromised or charges were made without your authorization:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li>Immediately notify GreyEd in writing at support@cophetsheni.edu.za</li>
+                    <li>Immediately notify GreyEd in writing at support@greyed.org</li>
                     <li>Provide detailed information about the unauthorized activity</li>
                     <li>Cooperate fully with our security investigation</li>
                     <li>If we verify unauthorized access, refunds may be issued for fraudulent charges</li>
@@ -342,10 +342,10 @@ const RefundPolicyPage: React.FC = () => {
                     Before initiating any formal dispute or chargeback, you agree to:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
-                    <li>Contact GreyEd support at support@cophetsheni.edu.za with a detailed description of the issue</li>
+                    <li>Contact GreyEd support at support@greyed.org with a detailed description of the issue</li>
                     <li>Provide us with at least 30 days to investigate and respond to your concern</li>
                     <li>Engage in good faith negotiations to reach a mutually acceptable resolution</li>
-                    <li>Escalate unresolved issues to our administration at info@cophetsheni.edu.za</li>
+                    <li>Escalate unresolved issues to our administration at support@greyed.org</li>
                   </ul>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -359,7 +359,7 @@ const RefundPolicyPage: React.FC = () => {
                     <li>Loss of access to all data, content, and materials associated with your account</li>
                     <li>Reporting to credit bureaus or collection agencies for unpaid fees</li>
                     <li>Legal action to recover owed amounts plus collection costs, attorney fees, and damages</li>
-                    <li>Prohibition from creating new accounts or accessing Siyafunda services in the future</li>
+                    <li>Prohibition from creating new accounts or accessing GreyEd services in the future</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
                     If a chargeback is filed, GreyEd will provide evidence to the financial institution demonstrating that services were properly delivered and charges were authorized. You acknowledge that chargebacks are inappropriate for services that were delivered as promised, and you may be liable for chargeback fees and related costs.
@@ -487,7 +487,7 @@ const RefundPolicyPage: React.FC = () => {
                     <li>For B2B customers, we will provide written notice per the terms of your service agreement</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    Your continued use of Siyafunda services after changes become effective constitutes acceptance of the revised Policy. If you do not agree to the changes, you must cancel your account before the effective date of the changes.
+                    Your continued use of GreyEd services after changes become effective constitutes acceptance of the revised Policy. If you do not agree to the changes, you must cancel your account before the effective date of the changes.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -515,17 +515,12 @@ const RefundPolicyPage: React.FC = () => {
                   <div className="bg-greyed-beige/20 p-6 rounded-lg space-y-3">
                     <p className="text-greyed-navy">
                       <strong>GreyEd</strong><br />
-                      Mpumalanga Province<br />
-                      Republic of South Africa
+                      Operated by OrionX
                     </p>
                     <p className="text-greyed-navy">
                       <strong>Email Support:</strong><br />
-                      General Inquiries: info@cophetsheni.edu.za<br />
-                      Support: support@cophetsheni.edu.za<br />
-                      Privacy: privacy@cophetsheni.edu.za
-                    </p>
-                    <p className="text-greyed-navy">
-                      <strong>Phone:</strong> +27 (0)13 XXX XXXX
+                      General Inquiries: hello@greyed.org<br />
+                      Support, billing and privacy: support@greyed.org
                     </p>
                     <p className="text-greyed-navy/70 text-sm mt-4">
                       Support hours: Monday-Friday, 08:00 - 16:00 SAST (excluding public holidays)
@@ -545,7 +540,7 @@ const RefundPolicyPage: React.FC = () => {
               <div className="bg-greyed-navy/5 p-6 rounded-lg">
                 <h3 className="font-semibold text-greyed-navy mb-3">Acknowledgment</h3>
                 <p className="text-greyed-navy/80 text-sm leading-relaxed">
-                  By using GreyEd's Siyafunda services and making any payment, you acknowledge that you have read, understood, and agree to be bound by this Refund Policy. You further acknowledge that this Policy has been made available to you prior to purchase, you have had adequate opportunity to review it, and you accept the terms including the no-refund provisions for consumer services and the limited refund provisions for B2B services. This Policy forms an integral part of your agreement with GreyEd and should be read in conjunction with our Terms of Service and Privacy Policy.
+                  By using GreyEd's services and making any payment, you acknowledge that you have read, understood, and agree to be bound by this Refund Policy. You further acknowledge that this Policy has been made available to you prior to purchase, you have had adequate opportunity to review it, and you accept the terms including the no-refund provisions for consumer services and the limited refund provisions for B2B services. This Policy forms an integral part of your agreement with GreyEd and should be read in conjunction with our Terms of Service and Privacy Policy.
                 </p>
               </div>
             </section>

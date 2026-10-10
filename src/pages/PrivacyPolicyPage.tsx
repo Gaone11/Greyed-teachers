@@ -42,7 +42,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     1. Introduction and Scope
                   </h2>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    GreyEd ("Cophetsheni," "we," "us," or "our"), located in Mpumalanga Province, Republic of South Africa, is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy ("Policy") explains how we collect, use, disclose, store, and protect information about you when you access or use our Siyafunda educational technology platform, website, mobile applications, and related services (collectively, the "Services").
+                    GreyEd is operated by OrionX ("GreyEd," "we," "us," or "our"). GreyEd is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy ("Policy") explains how we collect, use, disclose, store, and protect information about you when you access or use our GreyEd educational technology platform, website, mobile applications, and related services (collectively, the "Services").
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     This Policy applies to all users of our Services, including teachers, educational professionals, administrators, and visitors. By accessing or using our Services, you acknowledge that you have read, understood, and agree to the collection, use, and disclosure of your information as described in this Policy.
@@ -360,7 +360,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     7.1 Access and Correction
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You can access, review, and update your account information at any time by logging into your account settings. If you need assistance accessing or correcting your information, please contact us at privacy@cophetsheni.edu.za.
+                    You can access, review, and update your account information at any time by logging into your account settings. If you need assistance accessing or correcting your information, please contact us at support@greyed.org.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -374,7 +374,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     7.3 Deletion Rights
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
-                    You have the right to request deletion of your personal information, subject to certain exceptions required by law or legitimate business purposes. To request deletion, please contact us at privacy@cophetsheni.edu.za. We will respond within 30 days.
+                    You have the right to request deletion of your personal information, subject to certain exceptions required by law or legitimate business purposes. To request deletion, please contact us at support@greyed.org. We will respond within 30 days.
                   </p>
 
                   <h3 className="text-xl font-semibold text-greyed-navy mb-2 mt-4">
@@ -386,7 +386,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <ul className="list-disc pl-6 space-y-2 text-greyed-navy/80 mb-4">
                     <li>Clicking the "unsubscribe" link in any promotional email</li>
                     <li>Adjusting your email preferences in your account settings</li>
-                    <li>Contacting us at support@cophetsheni.edu.za</li>
+                    <li>Contacting us at support@greyed.org</li>
                   </ul>
                   <p className="text-greyed-navy/80 leading-relaxed mb-3">
                     Please note that even if you opt out of marketing communications, we will still send you service-related messages, such as transaction confirmations, account notifications, and security alerts.
@@ -417,7 +417,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     If a school or parent/guardian provides consent for a child to use our Services, we collect and use the child's information only for educational purposes as authorized by the school or parent/guardian. We do not use children's information for targeted advertising or direct marketing.
                   </p>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    If we learn that we have collected personal information from a child without proper consent, we will delete that information as quickly as possible. If you believe we have collected information from a child without consent, please contact us immediately at privacy@cophetsheni.edu.za.
+                    If we learn that we have collected personal information from a child without proper consent, we will delete that information as quickly as possible. If you believe we have collected information from a child without consent, please contact us immediately at support@greyed.org.
                   </p>
                 </div>
               </div>
@@ -467,7 +467,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     9.5 Exercising Your Rights
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    To exercise your POPIA rights, please contact us at privacy@cophetsheni.edu.za or call +27 (0)13 XXX XXXX. We will verify your identity before processing your request and respond within a reasonable time. You may designate an authorised representative to make requests on your behalf by providing written authorisation.
+                    To exercise your POPIA rights, please contact us at support@greyed.org. We will verify your identity before processing your request and respond within a reasonable time. You may designate an authorised representative to make requests on your behalf by providing written authorisation.
                   </p>
                 </div>
               </div>
@@ -518,7 +518,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     10.3 Data Transfers
                   </h3>
                   <p className="text-greyed-navy/80 leading-relaxed">
-                    Your information may be transferred to and processed in countries outside the Republic of South Africa where we or our service providers operate. We ensure appropriate safeguards are in place in accordance with POPIA Section 72, including ensuring that the recipient country has adequate data protection laws or that binding agreements are in place. For more information about our data transfer mechanisms, please contact privacy@cophetsheni.edu.za.
+                    Your information may be transferred to and processed in countries outside the Republic of South Africa where we or our service providers operate. We ensure appropriate safeguards are in place in accordance with POPIA Section 72, including ensuring that the recipient country has adequate data protection laws or that binding agreements are in place. For more information about our data transfer mechanisms, please contact support@greyed.org.
                   </p>
                 </div>
               </div>
@@ -563,14 +563,10 @@ const PrivacyPolicyPage: React.FC = () => {
                   <div className="bg-greyed-beige/20 p-6 rounded-lg space-y-3">
                     <p className="text-greyed-navy">
                       <strong>GreyEd</strong><br />
-                      Privacy Department<br />
-                      Mpumalanga Province<br />
-                      Republic of South Africa
+                      Operated by OrionX
                     </p>
                     <p className="text-greyed-navy">
-                      <strong>Email:</strong> privacy@cophetsheni.edu.za<br />
-                      <strong>Support:</strong> support@cophetsheni.edu.za<br />
-                      <strong>Phone:</strong> +27 (0)13 XXX XXXX
+                      <strong>Email:</strong> support@greyed.org
                     </p>
                     <p className="text-greyed-navy/70 text-sm mt-4">
                       For POPIA-related inquiries, please include "POPIA Request" in your subject line.<br />
@@ -580,7 +576,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
                   <div className="mt-6 p-4 bg-greyed-blue/10 border border-greyed-blue/30 rounded-lg">
                     <p className="text-greyed-navy text-sm">
-                      <strong>Information Officer:</strong> For privacy matters requiring escalation, you may contact our Information Officer at privacy@cophetsheni.edu.za. You may also contact the Information Regulator at inforeg@justice.gov.za.
+                      <strong>Information Officer:</strong> For privacy matters requiring escalation, you may contact our Information Officer at support@greyed.org. You may also contact the Information Regulator at inforeg@justice.gov.za.
                     </p>
                   </div>
                 </div>

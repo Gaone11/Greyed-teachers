@@ -4,6 +4,7 @@ import NavBar from '../components/layout/NavBar';
 import HeroAbout from '../components/about/HeroAbout';
 import OriginStory from '../components/about/OriginStory';
 import MissionValues from '../components/about/MissionValues';
+import CareersCTA from '../components/about/CareersCTA';
 import UserDashboardRedirect from '../components/ui/UserDashboardRedirect';
 
 interface AboutPageProps {
@@ -12,12 +13,12 @@ interface AboutPageProps {
 
 const AboutPage: React.FC<AboutPageProps> = ({ openAdminLoginModal }) => {
   useEffect(() => {
-    document.title = "About — OrionX × SkyVerse888 | GreyEd at GreyEd";
+    document.title = "About GreyEd | Africa-Rooted AI for Learning";
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content',
-        'Learn about the partnership between OrionX and SkyVerse888 Foundation bringing the GreyEd AI education platform to GreyEd in Mpumalanga, South Africa.');
+        'GreyEd is an AI-native learning platform operated by OrionX, democratizing quality learning for students, teachers, parents and tutors across African and international curricula.');
     }
   }, []);
 
@@ -28,6 +29,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ openAdminLoginModal }) => {
         <HeroAbout />
         <OriginStory />
         <MissionValues />
+        <CareersCTA />
       </LandingLayout>
     </UserDashboardRedirect>
   );

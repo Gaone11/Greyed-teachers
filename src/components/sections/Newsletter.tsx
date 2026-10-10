@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 const Newsletter: React.FC = () => {
   const { enabled } = useContext(MotionContext);
   const navigate = useNavigate();
-  const { openTeacherSignup } = useRoleSelection();
+  const { openRoleSelection } = useRoleSelection();
   const { user } = useAuth();
   
   const containerVariants = {
@@ -28,12 +28,12 @@ const Newsletter: React.FC = () => {
     }
   };
 
-  // Redirect to dashboard if logged in, otherwise open teacher signup
+  // Logged-in users go to their own hub; others choose student, teacher, or parent signup
   const handleStartFree = () => {
     if (user) {
-      navigate('/teachers/dashboard');
+      navigate('/dashboard');
     } else {
-      openTeacherSignup();
+      openRoleSelection('signup');
     }
   };
 
@@ -53,7 +53,7 @@ const Newsletter: React.FC = () => {
               variants={contentVariants}
             >
               <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white text-center">
-                Ready to revolutionize your teaching?
+                Ready to start learning with GreyEd?
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -68,7 +68,7 @@ const Newsletter: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      Get Started
+                      Start Free
                       <motion.div
                         whileHover={{ rotate: 90 }}
                         className="ml-2"
@@ -85,7 +85,7 @@ const Newsletter: React.FC = () => {
           <div className="max-w-4xl mx-auto bg-greyed-navy rounded-xl overflow-hidden">
             <div className="p-8 md:p-12">
               <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white text-center">
-                Ready to revolutionize your teaching?
+                Ready to start learning with GreyEd?
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -100,7 +100,7 @@ const Newsletter: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      Get Started
+                      Start Free
                       <span className="ml-2">
                         <ArrowRight size={18} />
                       </span>

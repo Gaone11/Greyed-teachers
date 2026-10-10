@@ -9,9 +9,9 @@ export interface StripeProduct {
 export const stripeProducts: StripeProduct[] = [
   {
     id: 'prod_SEX33cyJtBoQVP',
-    name: 'GreyEd — Siyafunda Pro',
+    name: 'GreyEd Teachers Pro',
     priceId: 'price_1RUB57KhB7e46jXjQaGUjQU6',
-    description: 'Monthly access for Cophetsheni teachers — AI lesson plans, NERDC assessments, and student management',
+    description: 'Monthly teacher access: AI lesson plans, assessments, and student management',
     mode: 'subscription'
   }
 ];

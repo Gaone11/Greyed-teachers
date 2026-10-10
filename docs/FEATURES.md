@@ -1,6 +1,6 @@
 # GreyEd Teachers Platform — Feature Documentation
 
-> A comprehensive AI-powered teaching platform for South African educators, aligned to the CAPS curriculum.
+> The teacher hub of GreyEd, an AI-native learning platform operated by OrionX. AI tools align to the curriculum a teacher specifies, including NERDC, CAPS, BGCSE, JCE, IGCSE, GCSE and A Level.
 
 ---
 
@@ -14,7 +14,7 @@
 6. [AI Auto-Grading](#6-ai-auto-grading)
 7. [Tutor & Family Updates](#7-tutor--family-updates)
 8. [Learning Hub](#8-learning-hub)
-9. [Siyafunda AI Assistant](#9-siyafunda-ai-assistant)
+9. [GreyEd AI Assistant](#9-greyed-ai-assistant)
 10. [GreyEd Teaching Assistant (Avatar)](#10-greyed-teaching-assistant-avatar)
 11. [Learning Hub Progress (Courses)](#11-learning-hub-progress-courses)
 12. [Settings](#12-settings)
@@ -296,7 +296,7 @@ All diagrams are pure inline SVG — no external images or libraries.
 
 ---
 
-## 9. Siyafunda AI Assistant
+## 9. GreyEd AI Assistant
 
 A full conversational AI assistant built for teachers (`/teachers/el-ai`).
 
@@ -394,7 +394,7 @@ Teacher account and preferences management (`/teachers/settings`).
 
 ## Curriculum Alignment
 
-All content, lesson plans, assessments, and knowledge topics are aligned to the **South African CAPS (Curriculum and Assessment Policy Statement)** curriculum, covering:
+The AI lesson planner and test maker align to the framework the teacher specifies: NERDC (Nigeria), CAPS (South Africa), BGCSE and JCE (Botswana), IGCSE, GCSE and A Level. NERDC and CAPS have built-in lesson-plan structures. The topic pickers are populated from built-in CAPS curriculum data, covering:
 
 - **Grades:** R through 12
 - **Subjects:** Mathematics, Physical Sciences, Life Sciences, Natural Sciences, Agricultural Sciences, Computer Applications Technology, Information Technology, and more
@@ -402,4 +402,4 @@ All content, lesson plans, assessments, and knowledge topics are aligned to the 
 
 ---
 
-*GreyEd Teachers Platform — Built for South African educators.*
+*GreyEd teacher hub. Operated by OrionX.*

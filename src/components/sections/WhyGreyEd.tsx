@@ -34,17 +34,17 @@ const WhyGreyEd: React.FC = () => {
         <AnimatedSection className="text-center mb-12">
           <p className="text-greyed-blue italic mb-3">"Isandla sihlamba esinye" — One hand washes the other</p>
           <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-greyed-navy">
-            Why Teachers Choose GreyEd
+            Why GreyEd
           </h2>
           <p className="text-xl text-greyed-black/70 max-w-2xl mx-auto">
-            From curriculum-aligned lesson plans to AI-powered assessments — everything you need to teach with confidence.
+            From curriculum-aligned lesson plans to AI-powered assessments, with connected hubs for students, teachers and parents.
           </p>
         </AnimatedSection>
         
         <div className="max-w-4xl mx-auto">
           <TableRow
             title="Curriculum-Aligned Lesson Plans"
-            description="AI generates plans aligned to the Nigerian NERDC curriculum"
+            description="AI generates plans aligned to your curriculum: NERDC, CAPS, BGCSE, JCE, IGCSE and more"
             compared="Hours spent manually writing plans from scratch"
           />
           <TableRow
@@ -58,8 +58,8 @@ const WhyGreyEd: React.FC = () => {
             compared="One-size-fits-all resources that leave learners behind"
           />
           <TableRow
-            title="Tutor Communication"
-            description="AI-powered weekly updates keep tutors engaged in learning"
+            title="Parent Communication"
+            description="The Parent Hub keeps parents updated on progress and school communication"
             compared="Scattered WhatsApp messages with no structure"
           />
           <TableRow

@@ -37,7 +37,7 @@ const HeroTutoring: React.FC = () => {
               variants={headlineVariants}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              Tutoring at GreyEd
+              Tutoring with GreyEd
             </motion.h1>
 
             <motion.p
@@ -47,17 +47,17 @@ const HeroTutoring: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              Human tutors, supported by the GreyEd platform, helping learners in Mpumalanga build confidence and achieve more.
+              Private tutors use GreyEd to stay connected with their students and families, share progress updates and give learners El AI support between sessions.
             </motion.p>
           </>
         ) : (
           <>
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-greyed-white mb-6">
-              Tutoring at GreyEd
+              Tutoring with GreyEd
             </h1>
 
             <p className="text-xl md:text-2xl text-greyed-blue max-w-3xl mx-auto">
-              Human tutors, supported by the GreyEd platform, helping learners in Mpumalanga build confidence and achieve more.
+              Private tutors use GreyEd to stay connected with their students and families, share progress updates and give learners El AI support between sessions.
             </p>
           </>
         )}

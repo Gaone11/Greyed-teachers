@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { MotionContext } from '../../context/MotionContext';
-import { GraduationCap, Shield, Users, BarChart } from 'lucide-react';
+import { GraduationCap, Globe, Users, Accessibility } from 'lucide-react';
 
 interface ObjectiveTileProps {
   icon: React.ReactNode;
@@ -15,24 +15,24 @@ const MissionValues: React.FC = () => {
 
   const objectives = [
     {
+      icon: <Globe className="w-8 h-8" />,
+      title: "Africa-Rooted",
+      description: "Built for African learners and classrooms, supporting NERDC, CAPS, BGCSE and JCE alongside IGCSE, GCSE and A Level."
+    },
+    {
       icon: <GraduationCap className="w-8 h-8" />,
-      title: "Educator Enablement",
-      description: "Equipping teachers with AI-powered tools and training so they can deliver quality, NERDC-aligned education."
+      title: "Teachers First",
+      description: "AI tools for lesson planning, test making and auto-grading give teachers more time for the work only they can do."
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Learner Support",
-      description: "Providing personalised learning pathways and human tutoring support to help every learner succeed."
+      title: "Connected Learning",
+      description: "Students, teachers, parents and tutors share one picture of progress across three connected hubs."
     },
     {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Safeguarding",
-      description: "Maintaining strict child protection, data privacy and safety measures throughout the programme."
-    },
-    {
-      icon: <BarChart className="w-8 h-8" />,
-      title: "Evidence & Learning",
-      description: "Measuring impact through structured monitoring, evaluation and learning to guide future decisions."
+      icon: <Accessibility className="w-8 h-8" />,
+      title: "Learning for Every Mind",
+      description: "Dyslexia mode and neurodiversity accommodations help more learners use GreyEd in the way that works for them."
     }
   ];
 
@@ -58,19 +58,19 @@ const MissionValues: React.FC = () => {
               className="mb-16"
             >
               <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-                Programme Objectives
+                Our Mission
               </h2>
               <p className="text-xl text-greyed-navy/90 max-w-3xl mx-auto">
-                The pilot aims to validate the GreyEd solution in a South African public-school context, building evidence for what works and laying the foundation for broader impact.
+                We are democratizing quality learning with Africa-rooted AI, so that every student, teacher and family can unleash the African imagination.
               </p>
             </motion.div>
           ) : (
             <div className="mb-16">
               <h2 className="text-3xl font-headline font-bold mb-6 text-greyed-navy">
-                Programme Objectives
+                Our Mission
               </h2>
               <p className="text-xl text-greyed-navy/90 max-w-3xl mx-auto">
-                The pilot aims to validate the GreyEd solution in a South African public-school context, building evidence for what works and laying the foundation for broader impact.
+                We are democratizing quality learning with Africa-rooted AI, so that every student, teacher and family can unleash the African imagination.
               </p>
             </div>
           )}

@@ -34,7 +34,7 @@ const SessionRecapStrip: React.FC = () => {
               Every Session Counts
             </h2>
             <p className="text-xl text-greyed-blue">
-              After each tutoring session, insights are recorded in GreyEd so classroom teachers stay informed and learners receive consistent support.
+              Progress updates keep parents informed about what their child is learning, and help students see how far they have come.
             </p>
           </motion.div>
         ) : (
@@ -43,7 +43,7 @@ const SessionRecapStrip: React.FC = () => {
               Every Session Counts
             </h2>
             <p className="text-xl text-greyed-blue">
-              After each tutoring session, insights are recorded in GreyEd so classroom teachers stay informed and learners receive consistent support.
+              Progress updates keep parents informed about what their child is learning, and help students see how far they have come.
             </p>
           </div>
         )}

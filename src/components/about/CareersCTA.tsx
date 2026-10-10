@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { MotionContext } from '../../context/MotionContext';
-import { ExternalLink } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const CareersCTA: React.FC = () => {
   const { enabled } = useContext(MotionContext);
@@ -37,49 +38,53 @@ const CareersCTA: React.FC = () => {
               className="text-center"
               variants={contentVariants}
             >
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white">
-                Join Siyafunda — help empower Mpumalanga's teachers.
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4 text-greyed-white">
+                Want to work with GreyEd?
               </h2>
+              <p className="text-greyed-blue mb-8 max-w-2xl mx-auto">
+                Whether you are interested in joining the team, bringing GreyEd to your school or organisation, or partnering with us, we would like to hear from you. Get in touch through our contact page or email{' '}
+                <a href="mailto:hello@greyed.org" className="underline hover:text-greyed-white">hello@greyed.org</a>.
+              </p>
               
               <div className="flex justify-center">
-                <a 
-                  href="https://cophetsheni.edu.za/careers"
+                <Link
+                  to="/contact"
                   className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
-                  
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
-                  See open roles
+                  <Mail size={18} className="mr-2" />
+                  Contact us
                   <motion.div
-                    whileHover={{ rotate: 90 }}
+                    whileHover={{ x: 4 }}
                     className="ml-2"
                   >
-                    <ExternalLink size={18} />
+                    <ArrowRight size={18} />
                   </motion.div>
-                </a>
+                </Link>
               </div>
             </motion.div>
           </motion.div>
         ) : (
           <div className="max-w-4xl mx-auto">
             <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-6 text-greyed-white">
-                Join Siyafunda — help empower Mpumalanga's teachers.
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4 text-greyed-white">
+                Want to work with GreyEd?
               </h2>
+              <p className="text-greyed-blue mb-8 max-w-2xl mx-auto">
+                Whether you are interested in joining the team, bringing GreyEd to your school or organisation, or partnering with us, we would like to hear from you. Get in touch through our contact page or email{' '}
+                <a href="mailto:hello@greyed.org" className="underline hover:text-greyed-white">hello@greyed.org</a>.
+              </p>
               
               <div className="flex justify-center">
-                <a 
-                  href="https://cophetsheni.edu.za/careers"
+                <Link
+                  to="/contact"
                   className="inline-flex items-center text-greyed-white border border-greyed-white hover:bg-greyed-white/10 px-8 py-3 rounded-full font-medium transition-colors"
-                  
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
-                  See open roles
+                  <Mail size={18} className="mr-2" />
+                  Contact us
                   <span className="ml-2">
-                    <ExternalLink size={18} />
+                    <ArrowRight size={18} />
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

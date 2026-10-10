@@ -77,7 +77,7 @@ const SafetyBanner: React.FC = () => {
                 Safety & Privacy First
               </h3>
               <p className="text-greyed-black/70">
-                El AI is designed with student privacy at its core. We never sell data, use it for ads, or share it with third parties. All interactions are encrypted, and we comply with GDPR, FERPA, and COPPA regulations.
+                El AI is designed with student privacy at its core. We do not sell personal information. Data travels over encrypted connections and is handled in line with South Africa's POPIA, as set out in our Privacy Policy.
               </p>
             </div>
           </motion.div>
@@ -89,10 +89,10 @@ const SafetyBanner: React.FC = () => {
             
             <div>
               <h3 className="text-xl font-headline font-semibold text-greyed-navy mb-2">
-                Safety & Privacy — POPIA Compliant
+                Safety and Privacy
               </h3>
               <p className="text-greyed-black/70">
-                GreyEd's platform is built with learner and teacher privacy at its core. We comply with South Africa's Protection of Personal Information Act (POPIA), as well as GDPR standards. All data is encrypted and never shared with third parties.
+                GreyEd is built with learner and teacher privacy at its core. We do not sell personal information. Data travels over encrypted connections and is handled in line with South Africa's POPIA, as set out in our Privacy Policy.
               </p>
             </div>
           </div>

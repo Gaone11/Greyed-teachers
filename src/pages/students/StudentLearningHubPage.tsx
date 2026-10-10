@@ -150,7 +150,7 @@ const StudentLearningHubPage: React.FC = () => {
   const [view, setView] = useState<View>({ layer: 'subjects' });
 
   useEffect(() => {
-    document.title = 'Learning Hub | Siyafunda';
+    document.title = 'Learning Hub | GreyEd';
   }, []);
 
   const handleToggleSidebar = () => {

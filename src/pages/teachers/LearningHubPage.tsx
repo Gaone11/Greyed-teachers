@@ -152,7 +152,7 @@ const LearningHubPage: React.FC = () => {
   const [myClassSubjectIds, setMyClassSubjectIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    document.title = 'Learning Hub | Siyafunda';
+    document.title = 'Learning Hub | GreyEd';
   }, []);
 
   useEffect(() => {

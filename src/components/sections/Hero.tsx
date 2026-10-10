@@ -10,7 +10,7 @@ import { ChevronRight } from 'lucide-react';
 const Hero: React.FC = () => {
   const { enabled } = useContext(MotionContext);
   const navigate = useNavigate();
-  const { openTeacherSignup } = useRoleSelection();
+  const { openRoleSelection } = useRoleSelection();
   const { user } = useAuth();
   const [lottieData, setLottieData] = useState<any>(null);
 
@@ -104,12 +104,12 @@ const Hero: React.FC = () => {
     }
   };
 
-  // Direct user to dashboard if logged in, otherwise open teacher signup
+  // Logged-in users go to their own hub; others choose student, teacher, or parent signup
   const handleStartJourney = () => {
     if (user) {
-      navigate('/teachers/dashboard');
+      navigate('/dashboard');
     } else {
-      openTeacherSignup();
+      openRoleSelection('signup');
     }
   };
 
@@ -147,7 +147,7 @@ const Hero: React.FC = () => {
               variants={subheadVariants}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              AI-Powered Teaching Tools for Every Classroom
+              AI-powered learning for students, teachers, parents and tutors
             </motion.p>
 
             <motion.p
@@ -171,7 +171,7 @@ const Hero: React.FC = () => {
                 onClick={handleStartJourney}
                 className="w-full sm:w-auto bg-greyed-blue hover:bg-greyed-white text-greyed-navy px-8 py-3 rounded-full font-medium transition-colors text-lg flex items-center justify-center"
               >
-                {user ? "Go to Dashboard" : "Get Started"}
+                {user ? "Go to Dashboard" : "Start Free"}
                 {user && <ChevronRight size={20} className="ml-2" />}
               </button>
               <a 
@@ -189,7 +189,7 @@ const Hero: React.FC = () => {
             </h1>
             
             <p className="text-lg md:text-2xl text-greyed-blue max-w-3xl mx-auto mb-4 px-2">
-              AI-Powered Teaching Tools for Every Classroom
+              AI-powered learning for students, teachers, parents and tutors
             </p>
 
             <p className="text-base md:text-lg text-greyed-white/70 max-w-2xl mx-auto mb-10 px-2 italic">
@@ -201,7 +201,7 @@ const Hero: React.FC = () => {
                 onClick={handleStartJourney}
                 className="w-full sm:w-auto bg-greyed-blue hover:bg-greyed-white text-greyed-navy px-8 py-3 rounded-full font-medium transition-colors text-lg flex items-center justify-center"
               >
-                {user ? "Go to Dashboard" : "Get Started"}
+                {user ? "Go to Dashboard" : "Start Free"}
                 {user && <ChevronRight size={20} className="ml-2" />}
               </button>
               <a 

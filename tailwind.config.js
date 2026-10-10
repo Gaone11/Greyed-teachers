@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Cophetsheni Primary School — Mpumalanga Earth Palette
+        // GreyEd brand palette
         // greyed-* aliases preserved for backward compatibility across 130+ files
         greyed: {
           navy: '#212754',      // Primary — Deep brand navy
