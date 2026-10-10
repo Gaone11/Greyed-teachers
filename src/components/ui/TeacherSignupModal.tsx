@@ -460,7 +460,7 @@ const TeacherSignupModal: React.FC<TeacherSignupModalProps> = ({ isOpen, onClose
                   <ul className="text-xs text-greyed-navy/80 space-y-1">
                     <li>• Access your timetable</li>
                     <li>• View core notes and assignments</li>
-                    <li>• Explore Knowledge Galaxy</li>
+                    <li>• Explore Learning Hub</li>
                     <li>• Upgrade from the sidebar any time</li>
                   </ul>
                 ) : selectedRole === 'parent' ? (

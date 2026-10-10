@@ -1,4 +1,4 @@
-import type { Domain, FlagshipTopic } from '../knowledgeGalaxy';
+import type { Domain, FlagshipTopic } from '../learningHub';
 
 // ─── Electrostatics ───────────────────────────────────────────────────────────
 const electrostaticsTopic: FlagshipTopic = {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FlaskConical, ChevronDown, ChevronUp, AlertTriangle, CheckCircle, Package, ListChecks } from 'lucide-react';
-import type { Experiment } from '../../data/knowledgeGalaxy';
+import type { Experiment } from '../../data/learningHub';
 
 interface ExperimentCardProps {
   experiments: Experiment[];

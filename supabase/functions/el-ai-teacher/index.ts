@@ -1,3 +1,5 @@
+import { consumeAiRequest } from "../_shared/ai-usage.ts";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -313,6 +315,15 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    // Count this request against the caller's daily tier limit
+    const aiUsage = await consumeAiRequest(req);
+    if (!aiUsage.ok) {
+      return new Response(JSON.stringify(aiUsage.body), {
+        status: aiUsage.status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Detect intent and inject only relevant curriculum sections
     const intents = detectIntent(message, conversationHistory);
     const framework = detectCurriculumFramework(message, conversationHistory, teacherContext);
@@ -439,7 +450,7 @@ Deno.serve(async (req: Request) => {
       data?.choices[0]?.message?.content ||
       "I'm sorry, I couldn't generate a response at this time.";
 
-    return new Response(JSON.stringify({ response: aiResponse }), {
+    return new Response(JSON.stringify({ response: aiResponse, usage: aiUsage.usage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {

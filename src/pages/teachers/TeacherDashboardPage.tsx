@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTier } from '../../context/TierContext';
 import {
   AlertCircle,
   X,
@@ -56,6 +57,7 @@ const isMissingClassStudentsTableError = (error: unknown) => {
 
 const TeacherDashboardPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
+  const { canAccess } = useTier();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState<DashboardClass[]>([]);
@@ -148,7 +150,7 @@ const TeacherDashboardPage: React.FC = () => {
     { icon: MessageSquare, label: 'Updates', path: '/teachers/tutors', color: 'from-[#2a2f6e] to-[#334155]' },
     { icon: Sparkles, label: 'Teaching Assistant', path: '/teachers/grey-ed-ta', color: 'from-[#2a2f6e] to-[#212754]' },
     { icon: GraduationCap, label: 'Courses', path: '/teachers/courses', color: 'from-[#212754] to-[#1e2d6b]' },
-    { icon: Globe2, label: 'Knowledge Galaxy', path: '/teachers/knowledge', color: 'from-[#212754] to-[#1c2063]' },
+    { icon: Globe2, label: 'Learning Hub', path: '/teachers/knowledge', color: 'from-[#212754] to-[#1c2063]' },
   ];
 
   return (
@@ -219,7 +221,7 @@ const TeacherDashboardPage: React.FC = () => {
             {/* ────── Quick Nav ────── */}
             <section className="mb-4 sm:mb-6 animate-slide-up pt-3">
               <div className="flex flex-wrap gap-2">
-                {quickNav.map((item, i) => {
+                {quickNav.filter((item) => canAccess(item.path)).map((item, i) => {
                   const Icon = item.icon;
                   return (
                     <Link

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTier } from '../../context/TierContext';
+import { CLASS_LIMITS } from '../../lib/tiers';
 import { Loader, Search, Filter, PlusCircle, AlertCircle, Users, Trash2, MoreVertical, X, ChevronRight } from 'lucide-react';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
@@ -130,6 +132,9 @@ const TeacherClassesPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState<Class[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const { tier } = useTier();
+  const classLimit = CLASS_LIMITS[tier];
+  const atClassLimit = classLimit !== null && classes.length >= classLimit;
   const [searchTerm, setSearchTerm] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -207,6 +212,12 @@ const TeacherClassesPage: React.FC = () => {
     students?: { name: string }[];
   }) => {
     if (!user) return;
+
+    if (atClassLimit) {
+      setError(`Your plan includes up to ${classLimit} classes. Upgrade to Standard for unlimited classes.`);
+      setShowCreateModal(false);
+      return;
+    }
 
     setError(null);
 
@@ -348,13 +359,23 @@ const TeacherClassesPage: React.FC = () => {
       <NavBar
         sidebarCollapsed={sidebarCollapsed}
         actionButton={
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center justify-center bg-greyed-navy hover:bg-greyed-navy/90 text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
-          >
-            <PlusCircle size={16} className="mr-2" />
-            Create New Class
-          </button>
+          atClassLimit ? (
+            <Link
+              to="/pricing"
+              className="inline-flex items-center justify-center bg-greyed-navy hover:bg-greyed-navy/90 text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
+              title={`Your plan includes up to ${classLimit} classes`}
+            >
+              Upgrade for more classes
+            </Link>
+          ) : (
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="inline-flex items-center justify-center bg-greyed-navy hover:bg-greyed-navy/90 text-white px-3 md:px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
+            >
+              <PlusCircle size={16} className="mr-2" />
+              Create New Class
+            </button>
+          )
         }
       />
       

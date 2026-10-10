@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { processTeacherQuery } from '../../lib/api';
+import { AiLimitError, processTeacherQuery } from '../../lib/api';
 import { supabase } from '../../lib/supabase';
 import { Snowflake, ArrowUp, Loader } from 'lucide-react';
 
@@ -223,10 +223,12 @@ const ElAIChat: React.FC<ElAIChatProps> = ({ className = '', isFullPage = false,
           .update({ updated_at: new Date().toISOString() })
           .eq('id', activeConvId);
       }
-    } catch {
+    } catch (error) {
       const errorMessage: Message = {
         id: crypto.randomUUID(),
-        content: "I'm sorry, I encountered an error while processing your request. Please try again.",
+        content: error instanceof AiLimitError
+          ? error.message
+          : "I'm sorry, I encountered an error while processing your request. Please try again.",
         role: 'assistant',
         timestamp: new Date()
       };

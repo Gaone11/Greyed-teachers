@@ -1,4 +1,4 @@
-import type { Subject, Domain, FlagshipTopic } from '../knowledgeGalaxy';
+import type { Subject, Domain, FlagshipTopic } from '../learningHub';
 
 // ─── SCIENTIFIC METHOD ───────────────────────────────────────────────────────
 

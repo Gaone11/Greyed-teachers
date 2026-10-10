@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTier } from '../../context/TierContext';
 import {
   LayoutDashboard,
   Users,
@@ -16,6 +17,7 @@ const MobileBottomNavigation: React.FC<MobileBottomNavigationProps> = ({
   onMenuClick
 }) => {
   const location = useLocation();
+  const { canAccess } = useTier();
   
   const isActive = (path: string) => {
     if (path === '/teachers/dashboard') {
@@ -81,23 +83,25 @@ const MobileBottomNavigation: React.FC<MobileBottomNavigationProps> = ({
           </span>
         </Link>
 
-        <Link
-          to="/teachers/lesson-planner"
-          className={`flex flex-col items-center justify-center flex-1 transition-all duration-200 touch-manipulation relative ${
-            isActive('/teachers/lesson-planner')
-              ? 'text-greyed-navy'
-              : 'text-premium-neutral-400 active:text-premium-neutral-500'
-          }`}
-          aria-label="Lessons"
-        >
-          {isActive('/teachers/lesson-planner') && (
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-greyed-navy rounded-full" />
-          )}
-          <BookOpen size={22} strokeWidth={isActive('/teachers/lesson-planner') ? 2.5 : 2} />
-          <span className={`text-[11px] mt-1 font-medium ${isActive('/teachers/lesson-planner') ? 'font-semibold' : ''}`}>
-            Lessons
-          </span>
-        </Link>
+        {canAccess('/teachers/lesson-planner') && (
+          <Link
+            to="/teachers/lesson-planner"
+            className={`flex flex-col items-center justify-center flex-1 transition-all duration-200 touch-manipulation relative ${
+              isActive('/teachers/lesson-planner')
+                ? 'text-greyed-navy'
+                : 'text-premium-neutral-400 active:text-premium-neutral-500'
+            }`}
+            aria-label="Lessons"
+          >
+            {isActive('/teachers/lesson-planner') && (
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-greyed-navy rounded-full" />
+            )}
+            <BookOpen size={22} strokeWidth={isActive('/teachers/lesson-planner') ? 2.5 : 2} />
+            <span className={`text-[11px] mt-1 font-medium ${isActive('/teachers/lesson-planner') ? 'font-semibold' : ''}`}>
+              Lessons
+            </span>
+          </Link>
+        )}
 
         <button
           onClick={onMenuClick}

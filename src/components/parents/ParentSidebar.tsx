@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTier } from '../../context/TierContext';
+import { TIER_LABELS } from '../../lib/tiers';
 import { Link } from 'react-router-dom';
 import {
   LayoutDashboard, 
@@ -33,6 +35,7 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
   onClose
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
+  const { tier } = useTier();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
@@ -212,7 +215,7 @@ const ParentSidebar: React.FC<ParentSidebarProps> = ({
           {(!isCollapsed || isMobile) && (
             <div className="min-w-0 text-left">
               <span className="text-sm block">Upgrade</span>
-              <span className="text-[11px] text-white/70 block truncate">Basic tier</span>
+              <span className="text-[11px] text-white/70 block truncate">{TIER_LABELS[tier]} tier</span>
             </div>
           )}
         </Link>

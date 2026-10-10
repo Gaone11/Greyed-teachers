@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import type { DifficultyLevel } from '../../data/knowledgeGalaxy';
+import type { DifficultyLevel } from '../../data/learningHub';
 
 interface DifficultySelectorProps {
   value: DifficultyLevel;

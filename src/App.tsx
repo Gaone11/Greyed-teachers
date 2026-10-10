@@ -20,6 +20,7 @@ import PersonalityTestRedirectPage from './pages/auth/PersonalityTestRedirectPag
 import PersonalityAssessmentPage from './pages/auth/PersonalityAssessmentPage';
 // ActivateAccountPage removed — no subscription activation needed
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { TierProvider } from './context/TierContext';
 import { RoleProvider, useRole } from './context/RoleContext';
 import { RoleSelectionProvider, useRoleSelection } from './context/RoleSelectionContext';
 import { ViewModeProvider } from './context/ViewModeContext';
@@ -34,7 +35,7 @@ import DyslexiaModeBadge from './components/accessibility/DyslexiaModeBadge';
 import ProtectedStudentRoute from './components/ui/ProtectedStudentRoute';
 import ProtectedParentRoute from './components/ui/ProtectedParentRoute';
 import StudentDashboardPage from './pages/students/StudentDashboardPage';
-import StudentKnowledgeGalaxyPage from './pages/students/StudentKnowledgeGalaxyPage';
+import StudentLearningHubPage from './pages/students/StudentLearningHubPage';
 import SmartTimetablePage from './pages/students/SmartTimetablePage';
 import AssignmentsPage from './pages/students/AssignmentsPage';
 import GradesProgressPage from './pages/students/GradesProgressPage';
@@ -76,7 +77,7 @@ import ElAIAssistantPage from './pages/teachers/ElAIAssistantPage';
 import TeacherGreyEdTAPage from './pages/teachers/TeacherGreyEdTAPage';
 import TeacherCoursesPage from './pages/teachers/TeacherCoursesPage';
 import TeacherCourseDetailPage from './pages/teachers/TeacherCourseDetailPage';
-import KnowledgeGalaxyPage from './pages/teachers/KnowledgeGalaxyPage';
+import LearningHubPage from './pages/teachers/LearningHubPage';
 
 
 function App() {
@@ -155,17 +156,19 @@ function App() {
 
   return (
     <AuthProvider>
-      <RoleProvider>
-        <RoleSelectionProvider>
-          <LoadingProvider>
-            <ViewModeProvider>
-              <WorkflowDemoProvider>
-                <AppContent />
-              </WorkflowDemoProvider>
-            </ViewModeProvider>
-          </LoadingProvider>
-        </RoleSelectionProvider>
-      </RoleProvider>
+      <TierProvider>
+        <RoleProvider>
+          <RoleSelectionProvider>
+            <LoadingProvider>
+              <ViewModeProvider>
+                <WorkflowDemoProvider>
+                  <AppContent />
+                </WorkflowDemoProvider>
+              </ViewModeProvider>
+            </LoadingProvider>
+          </RoleSelectionProvider>
+        </RoleProvider>
+      </TierProvider>
     </AuthProvider>
   );
 }
@@ -343,7 +346,7 @@ const AppContent = () => {
 
         <Route path="/teachers/knowledge" element={
           <ProtectedTeacherRoute>
-            <KnowledgeGalaxyPage />
+            <LearningHubPage />
           </ProtectedTeacherRoute>
         } />
 
@@ -388,7 +391,7 @@ const AppContent = () => {
         } />
         <Route path="/students/knowledge" element={
           <ProtectedStudentRoute>
-            <StudentKnowledgeGalaxyPage />
+            <StudentLearningHubPage />
           </ProtectedStudentRoute>
         } />
         <Route path="/students/ai-assistant" element={

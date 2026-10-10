@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Network } from 'lucide-react';
-import { getTopicById } from '../../data/knowledgeGalaxy';
+import { getTopicById } from '../../data/learningHub';
 
 interface ConceptMapProps {
   topicId: string;

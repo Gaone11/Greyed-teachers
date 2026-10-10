@@ -1,4 +1,4 @@
-import type { Subject, FlagshipTopic, Domain } from '../knowledgeGalaxy';
+import type { Subject, FlagshipTopic, Domain } from '../learningHub';
 
 // ─── Algebra & Functions ──────────────────────────────────────────────────────
 const algebraTopic: FlagshipTopic = {

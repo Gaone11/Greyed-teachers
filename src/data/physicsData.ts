@@ -1,4 +1,4 @@
-import type { Subject } from './knowledgeGalaxy';
+import type { Subject } from './learningHub';
 import { CLASSICAL_MECHANICS_DOMAIN } from './physics/classicalMechanics';
 import { THERMODYNAMICS_DOMAIN } from './physics/thermodynamics';
 import { WAVES_OSCILLATIONS_DOMAIN } from './physics/wavesOscillations';

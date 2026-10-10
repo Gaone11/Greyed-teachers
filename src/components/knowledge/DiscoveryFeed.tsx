@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Zap, ArrowRight, RefreshCw, Calculator, FlaskConical, Microscope, Globe, Monitor, Leaf, Sprout, BarChart2, BookOpen } from 'lucide-react';
-import { SUBJECTS } from '../../data/knowledgeGalaxy';
+import { SUBJECTS } from '../../data/learningHub';
 
 const SUBJECT_ICONS: Record<string, React.FC<{ className?: string }>> = {
   'mathematics':           Calculator,

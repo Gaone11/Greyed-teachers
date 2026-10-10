@@ -23,6 +23,8 @@ import {
   Crown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useTier } from '../../context/TierContext';
+import { TIER_LABELS } from '../../lib/tiers';
 import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 
 interface TeacherSidebarProps {
@@ -46,6 +48,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
   const { user } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const { tier, canAccess } = useTier();
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -191,7 +194,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
     },
     {
       id: 'knowledge',
-      label: 'Knowledge Galaxy',
+      label: 'Learning Hub',
       icon: Globe2,
       path: '/teachers/knowledge',
       color: 'from-[#212754] to-[#1c2063]',
@@ -261,7 +264,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto pt-4 py-3 px-3 space-y-1">
-        {navItems.map((item, index) => {
+        {navItems.filter((item) => canAccess(item.path)).map((item, index) => {
           const Icon = item.icon;
           const isActive = activePage === item.id;
 
@@ -405,7 +408,7 @@ const TeacherSidebar: React.FC<TeacherSidebarProps> = ({
                 Upgrade
               </span>
               <span className="text-[11px] text-greyed-white/70 block truncate">
-                Basic tier
+                {TIER_LABELS[tier]} tier
               </span>
             </div>
           )}

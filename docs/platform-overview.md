@@ -69,7 +69,7 @@ Teachers specify the topic, grade, difficulty, and number of questions. The AI g
 
 Assessments are editable before distributing to learners.
 
-### 6. Knowledge Galaxy
+### 6. Learning Hub
 An AI-driven interactive knowledge universe covering all STEM subjects (Mathematics, Physics, Chemistry, Biology, General Science, Computer Studies, Environmental Science, Agriculture, Statistics). For each topic it provides:
 - **Multi-level explanations** — the same concept explained four ways: Explorer (ages 7–10), Investigator (ages 11–14), Scholar (High School), Researcher (University level)
 - **Flashcard decks** — 30–100+ flashcards per topic with flip-to-reveal answers
@@ -79,7 +79,7 @@ An AI-driven interactive knowledge universe covering all STEM subjects (Mathemat
 - **Curiosity Trees** — "Explore further" branches that guide teachers and learners deeper into related concepts
 - **Real World Applications** — shows how abstract concepts connect to everyday life
 
-The Knowledge Galaxy is linked to the Classes feature: if a teacher has a Physics class and a Mathematics class, those subjects are automatically highlighted at the top of the Knowledge Galaxy with a "Your Class" badge.
+The Learning Hub is linked to the Classes feature: if a teacher has a Physics class and a Mathematics class, those subjects are automatically highlighted at the top of the Learning Hub with a "Your Class" badge.
 
 ### 7. CAPS Knowledgebase
 An AI-indexed reference library of CAPS curriculum documents. Teachers can search by grade, subject, or topic and get precise curriculum guidance without reading through the full document. Useful for:
@@ -98,7 +98,7 @@ A broader reference system where subject-specific teaching knowledge is stored a
 Create and manage teaching classes. Each class stores:
 - Subject, grade, and learner count
 - Linked lesson plans and assessments
-- A direct link to the Knowledge Galaxy for that subject
+- A direct link to the Learning Hub for that subject
 
 ### Lesson Planner Library
 All generated and manually created lesson plans are saved in one place. Teachers can:
@@ -133,9 +133,9 @@ The setting is saved per user account and persists across sessions.
 | Lesson planning takes 2–3 hours per plan | AI generates a complete CAPS-aligned plan in under 60 seconds |
 | Grading 35 papers takes an entire evening | AI auto-grading processes a full class set in minutes |
 | Creating assessments is difficult | AI generates questions, memoranda, and rubrics on demand |
-| Hard to explain concepts at different levels | Knowledge Galaxy has 4 pre-built explanation levels per topic |
+| Hard to explain concepts at different levels | Learning Hub has 4 pre-built explanation levels per topic |
 | Learners with dyslexia struggle to read materials | Dyslexia Mode reformats all text platform-wide instantly |
-| Teachers have no STEM reference library | Knowledge Galaxy covers 9 subjects with 100+ flashcards and experiments per topic |
+| Teachers have no STEM reference library | Learning Hub covers 9 subjects with 100+ flashcards and experiments per topic |
 | Communicating with tutors is disorganised | Tutor Updates centralises all teacher-to-tutor communication |
 | No quick access to CAPS requirements | AI-indexed CAPS Knowledgebase gives instant answers |
 
@@ -153,7 +153,7 @@ The setting is saved per user account and persists across sessions.
 
 The platform currently covers:
 
-| Subject | Knowledge Galaxy | Lesson Planner | Assessment Generator |
+| Subject | Learning Hub | Lesson Planner | Assessment Generator |
 |---|---|---|---|
 | Mathematics | ✓ | ✓ | ✓ |
 | Physics | ✓ | ✓ | ✓ |

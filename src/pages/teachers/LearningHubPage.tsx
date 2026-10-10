@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import NavBar from '../../components/layout/NavBar';
-import StudentSidebar from '../../components/students/StudentSidebar';
+import TeacherSidebar from '../../components/teachers/TeacherSidebar';
 import MobileBottomNavigation from '../../components/dashboard/MobileBottomNavigation';
 import TopicView from '../../components/knowledge/TopicView';
 import DiscoveryFeed from '../../components/knowledge/DiscoveryFeed';
+import { fetchTeacherClasses } from '../../lib/api/teacher-api';
 import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '../../lib/sidebar-preferences';
 import {
   SUBJECTS,
@@ -16,8 +17,8 @@ import {
   type Subject,
   type Domain,
   type FlagshipTopic,
-} from '../../data/knowledgeGalaxy';
-import { saveTopicVisit } from '../../lib/kgProgress';
+} from '../../data/learningHub';
+import { saveTopicVisit } from '../../lib/learningHubProgress';
 import { Telescope, ChevronRight, ArrowLeft, BookOpen, Layers, Star, GraduationCap, Calculator, Zap, FlaskConical, Microscope, Globe, Monitor, Leaf, Sprout, BarChart2 } from 'lucide-react';
 
 const SUBJECT_ICONS: Record<string, React.FC<{ className?: string }>> = {
@@ -139,24 +140,34 @@ const EmptyDomain: React.FC<{ domainTitle: string }> = ({ domainTitle }) => (
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-const StudentKnowledgeGalaxyPage: React.FC = () => {
+const LearningHubPage: React.FC = () => {
   const { signOut } = useAuth();
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
-    () => getSidebarCollapsedPreference('student')
+    () => getSidebarCollapsedPreference('teacher')
   );
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [view, setView] = useState<View>({ layer: 'subjects' });
+  const [myClassSubjectIds, setMyClassSubjectIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    document.title = 'Knowledge Galaxy | Siyafunda';
+    document.title = 'Learning Hub | Siyafunda';
+  }, []);
+
+  useEffect(() => {
+    fetchTeacherClasses()
+      .then(classes => {
+        const ids = new Set(classes.map(c => c.subject).filter(Boolean));
+        setMyClassSubjectIds(ids);
+      })
+      .catch(() => {/* silently ignore */});
   }, []);
 
   const handleToggleSidebar = () => {
     const next = !sidebarCollapsed;
     setSidebarCollapsed(next);
-    setSidebarCollapsedPreference('student', next);
+    setSidebarCollapsedPreference('teacher', next);
   };
 
   const handleLogout = async () => {
@@ -200,7 +211,7 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
           onClick={() => setView({ layer: 'subjects' })}
           className="hover:text-greyed-navy font-medium transition-colors"
         >
-          Galaxy
+          Learning Hub
         </button>
         {view.layer !== 'subjects' && currentSubject && (
           <>
@@ -246,7 +257,7 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
             <div className="flex items-start gap-4">
               <Telescope className="w-10 h-10 text-white/80 flex-shrink-0 mt-1" />
               <div>
-                <h1 className="text-3xl font-bold leading-tight">Knowledge Galaxy</h1>
+                <h1 className="text-3xl font-bold leading-tight">Learning Hub</h1>
                 <p className="text-white/70 mt-2 text-sm leading-relaxed max-w-lg">
                   An AI-driven knowledge universe. Every concept is interactive, explorable,
                   experimentable, and explainable across all difficulty levels.
@@ -262,8 +273,47 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
 
           {/* Subject grid */}
           <div className="space-y-6">
+            {myClassSubjectIds.size > 0 && (() => {
+              const mySubjects = SUBJECTS.filter(s => myClassSubjectIds.has(s.id));
+              const otherSubjects = SUBJECTS.filter(s => !myClassSubjectIds.has(s.id));
+              return (
+                <>
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <GraduationCap className="w-4 h-4 text-greyed-navy" />
+                      <h2 className="text-base font-bold text-premium-navy">Your Class Subjects</h2>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {mySubjects.map(subject => (
+                        <SubjectCard
+                          key={subject.id}
+                          subject={subject}
+                          isMyClass
+                          onClick={() => setView({ layer: 'domains', subjectId: subject.id })}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  {otherSubjects.length > 0 && (
+                    <div>
+                      <h2 className="text-base font-bold text-premium-navy mb-3">All Subjects</h2>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {otherSubjects.map(subject => (
+                          <SubjectCard
+                            key={subject.id}
+                            subject={subject}
+                            onClick={() => setView({ layer: 'domains', subjectId: subject.id })}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
+            {myClassSubjectIds.size === 0 && (
               <div>
-                <h2 className="text-lg font-bold text-premium-navy mb-4">Choose a Subject to Explore</h2>
+                <h2 className="text-lg font-bold text-premium-navy mb-4">Choose a Subject</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {SUBJECTS.map(subject => (
                     <SubjectCard
@@ -274,6 +324,7 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
                   ))}
                 </div>
               </div>
+            )}
           </div>
 
           {/* Discovery feed */}
@@ -362,7 +413,7 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
     return null;
   };
 
-  // ─── Layout shell ───────────────────
+  // ─── Layout shell (matches TeacherCoursesPage pattern) ───────────────────
 
   return (
     <div className="min-h-screen bg-greyed-white">
@@ -383,8 +434,8 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
             ? `fixed inset-y-0 pt-16 z-50 transition-transform transform ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`
             : 'fixed top-0 left-0 bottom-0 z-40'
         } ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
-          <StudentSidebar
-            activePage={/* @ts-ignore */"knowledge"}
+          <TeacherSidebar
+            activePage="knowledge"
             onLogout={handleLogout}
             collapsed={sidebarCollapsed}
             onToggleCollapse={handleToggleSidebar}
@@ -410,4 +461,4 @@ const StudentKnowledgeGalaxyPage: React.FC = () => {
   );
 };
 
-export default StudentKnowledgeGalaxyPage;
+export default LearningHubPage;

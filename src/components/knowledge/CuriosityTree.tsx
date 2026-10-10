@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Compass, ChevronRight, Sparkles } from 'lucide-react';
-import type { CuriosityBranch } from '../../data/knowledgeGalaxy';
+import type { CuriosityBranch } from '../../data/learningHub';
 
 interface CuriosityTreeProps {
   branches: CuriosityBranch[];

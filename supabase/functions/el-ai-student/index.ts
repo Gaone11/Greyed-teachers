@@ -1,3 +1,5 @@
+import { consumeAiRequest } from "../_shared/ai-usage.ts";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -47,6 +49,15 @@ Deno.serve(async (req: Request) => {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
       );
+    }
+
+    // Count this request against the caller's daily tier limit
+    const aiUsage = await consumeAiRequest(req);
+    if (!aiUsage.ok) {
+      return new Response(JSON.stringify(aiUsage.body), {
+        status: aiUsage.status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Prepare the payload for Uhuru AI API
@@ -114,7 +125,7 @@ PERSONALITY:
     const aiResponse = data?.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response at this time.";
 
     return new Response(
-      JSON.stringify({ response: aiResponse }),
+      JSON.stringify({ response: aiResponse, usage: aiUsage.usage }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }

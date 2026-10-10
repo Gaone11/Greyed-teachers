@@ -89,7 +89,7 @@ const RoleSelectionModal: React.FC = () => {
                 <div>
                   <h3 className="text-lg font-headline font-semibold text-greyed-navy">Student</h3>
                   <p className="text-xs text-greyed-navy/70 mt-1">
-                    Access your dashboard, timetable, notes, and Knowledge Galaxy
+                    Access your dashboard, timetable, notes, and Learning Hub
                   </p>
                 </div>
               </button>

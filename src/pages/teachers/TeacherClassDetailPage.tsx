@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTier } from '../../context/TierContext';
 import {
   Folder,
   BookMarked,
@@ -33,6 +34,8 @@ import { getSidebarCollapsedPreference, setSidebarCollapsedPreference } from '..
 
 const TeacherClassDetailPage: React.FC = () => {
   const { user, signOut, loading: authLoading } = useAuth();
+  const { hasTier } = useTier();
+  const canUseAiGenerators = hasTier('premium');
   const navigate = useNavigate();
   const { classId } = useParams<{ classId: string }>();
   const location = useLocation();
@@ -278,13 +281,19 @@ const TeacherClassDetailPage: React.FC = () => {
                     <div className="flex justify-between items-center mb-4">
                       <h2 className="text-lg font-semibold text-black">Lesson Plans</h2>
                       <div className="flex space-x-2">
-                        <Link
-                          to={`/teachers/lesson-planner/generate?classId=${classId}`}
-                          className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
-                        >
-                          <PlusCircle size={14} className="mr-1" />
-                          Generate New Plan
-                        </Link>
+                        {canUseAiGenerators ? (
+                          <Link
+                            to={`/teachers/lesson-planner/generate?classId=${classId}`}
+                            className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
+                          >
+                            <PlusCircle size={14} className="mr-1" />
+                            Generate New Plan
+                          </Link>
+                        ) : (
+                          <Link to="/pricing" className="text-sm font-semibold text-greyed-blue hover:text-greyed-navy">
+                            AI generation is part of Premium
+                          </Link>
+                        )}
                         <button className="px-3 py-1.5 bg-greyed-navy/10 text-greyed-navy rounded hover:bg-greyed-navy/20 text-sm transition-colors">
                           Import Plan
                         </button>
@@ -298,13 +307,19 @@ const TeacherClassDetailPage: React.FC = () => {
                         <p className="text-black/70 max-w-md mx-auto mb-4">
                           Generate AI-powered lesson plans based on your curriculum and teaching style.
                         </p>
-                        <Link 
-                          to={`/teachers/lesson-planner/generate?classId=${classId}`}
-                          className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
-                        >
-                          <PlusCircle size={16} className="mr-2" />
-                          Generate First Lesson Plan
-                        </Link>
+                        {canUseAiGenerators ? (
+                          <Link 
+                            to={`/teachers/lesson-planner/generate?classId=${classId}`}
+                            className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
+                          >
+                            <PlusCircle size={16} className="mr-2" />
+                            Generate First Lesson Plan
+                          </Link>
+                        ) : (
+                          <Link to="/pricing" className="text-sm font-semibold text-greyed-blue hover:text-greyed-navy">
+                            AI generation is part of Premium
+                          </Link>
+                        )}
                       </div>
                     ) : (
                       <div className="overflow-x-auto">
@@ -370,13 +385,19 @@ const TeacherClassDetailPage: React.FC = () => {
                     <div className="flex justify-between items-center mb-4">
                       <h2 className="text-lg font-semibold text-black">Assessments</h2>
                       <div className="flex space-x-2">
-                        <Link
-                          to={`/teachers/assessments/generate?classId=${classId}`}
-                          className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
-                        >
-                          <PlusCircle size={14} className="mr-1" />
-                          Create Assessment
-                        </Link>
+                        {canUseAiGenerators ? (
+                          <Link
+                            to={`/teachers/assessments/generate?classId=${classId}`}
+                            className="px-3 py-1.5 bg-greyed-navy text-white rounded hover:bg-greyed-navy/90 text-sm transition-colors flex items-center"
+                          >
+                            <PlusCircle size={14} className="mr-1" />
+                            Create Assessment
+                          </Link>
+                        ) : (
+                          <Link to="/pricing" className="text-sm font-semibold text-greyed-blue hover:text-greyed-navy">
+                            AI generation is part of Premium
+                          </Link>
+                        )}
                       </div>
                     </div>
                     
@@ -387,13 +408,19 @@ const TeacherClassDetailPage: React.FC = () => {
                         <p className="text-black/70 max-w-md mx-auto mb-4">
                           Create auto-graded assessments aligned with your curriculum and teaching objectives.
                         </p>
-                        <Link 
-                          to={`/teachers/assessments/generate?classId=${classId}`}
-                          className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
-                        >
-                          <PlusCircle size={16} className="mr-2" />
-                          Create First Assessment
-                        </Link>
+                        {canUseAiGenerators ? (
+                          <Link 
+                            to={`/teachers/assessments/generate?classId=${classId}`}
+                            className="px-4 py-2 bg-greyed-navy text-white rounded-lg hover:bg-greyed-navy/90 transition-colors inline-flex items-center"
+                          >
+                            <PlusCircle size={16} className="mr-2" />
+                            Create First Assessment
+                          </Link>
+                        ) : (
+                          <Link to="/pricing" className="text-sm font-semibold text-greyed-blue hover:text-greyed-navy">
+                            AI generation is part of Premium
+                          </Link>
+                        )}
                       </div>
                     ) : (
                       <div className="overflow-x-auto">

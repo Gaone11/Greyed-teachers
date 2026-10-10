@@ -3,8 +3,8 @@ import {
   BookOpen, FlaskConical, Brain, Compass, Network,
   Globe, HelpCircle, ChevronLeft, Star, CheckCircle2
 } from 'lucide-react';
-import type { FlagshipTopic, DifficultyLevel, MicroTopic } from '../../data/knowledgeGalaxy';
-import { saveQuizScore } from '../../lib/kgProgress';
+import type { FlagshipTopic, DifficultyLevel, MicroTopic } from '../../data/learningHub';
+import { saveQuizScore } from '../../lib/learningHubProgress';
 import DifficultySelector from './DifficultySelector';
 import FlashcardDeck from './FlashcardDeck';
 import ExperimentCard from './ExperimentCard';

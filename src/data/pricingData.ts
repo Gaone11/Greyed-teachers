@@ -48,7 +48,7 @@ export const pricingPlans: Plan[] = [
       'Student, teacher, or parent hub (parent hub is fully free)',
       'Dashboard, timetable, messaging, and connections',
       'Homework, assessments, and basic grades',
-      'Ask El AI chat: 20 messages a day',
+      'El AI: 20 requests a day',
       'Teachers: up to 2 classes'
     ]
   },
@@ -62,9 +62,9 @@ export const pricingPlans: Plan[] = [
     ctaLink: '#',
     features: [
       'Everything in Basic',
-      'Higher daily AI chat limits',
-      'Knowledge Galaxy, smart notes, and flashcards',
-      'Learning goals, achievements, and lesson planner',
+      'El AI: 100 requests a day',
+      'Learning Hub, smart notes, and flashcards',
+      'Learning goals, achievements, and courses',
       'Unlimited classes and family progress updates'
     ],
     isPrimary: true,
@@ -80,9 +80,9 @@ export const pricingPlans: Plan[] = [
     ctaLink: '#',
     features: [
       'Everything in Standard',
-      'AI lesson plan and assessment generators',
-      'AI auto-grading and GreyEd TA avatar',
-      'Personal analytics and your own knowledge base',
+      'El AI: 300 requests a day',
+      'AI lesson planner, test maker, and auto-grading',
+      'GreyEd TA avatar, exam prep, and personal analytics',
       'Priority support'
     ],
     stripePriceId: 'price_premium_placeholder'
@@ -100,7 +100,7 @@ export const pricingPlans: Plan[] = [
       'Everything in Premium',
       'Organisation admin controls and bulk onboarding',
       'School-wide analytics and reporting',
-      'Custom curriculum, SSO, and dedicated support'
+      'Custom curriculum and dedicated support'
     ],
     stripePriceId: 'price_enterprise_placeholder'
   }
@@ -149,11 +149,11 @@ export const featureMatrix: Feature[] = [
   },
   {
     id: 'ai-chat',
-    name: 'Ask El / GreyEd AI chat',
+    name: 'El AI requests (Ask El, GreyEd AI, generators)',
     availableIn: {
       basic: '20 / day',
-      standard: 'Higher limit',
-      premium: 'Highest limit',
+      standard: '100 / day',
+      premium: '300 / day',
       enterprise: 'Custom'
     }
   },
@@ -168,8 +168,8 @@ export const featureMatrix: Feature[] = [
     }
   },
   {
-    id: 'knowledge-galaxy',
-    name: 'Knowledge Galaxy, smart notes, and flashcards',
+    id: 'learning-hub',
+    name: 'Learning Hub, smart notes, and flashcards',
     availableIn: {
       basic: false,
       standard: true,
@@ -189,7 +189,7 @@ export const featureMatrix: Feature[] = [
   },
   {
     id: 'planning',
-    name: 'Lesson planner, courses, and assessment library',
+    name: 'Courses and assessment library',
     availableIn: {
       basic: false,
       standard: true,
@@ -209,7 +209,7 @@ export const featureMatrix: Feature[] = [
   },
   {
     id: 'ai-generators',
-    name: 'AI lesson plan and assessment generators',
+    name: 'AI lesson planner and test maker',
     availableIn: {
       basic: false,
       standard: false,
@@ -240,16 +240,6 @@ export const featureMatrix: Feature[] = [
   {
     id: 'personal-analytics',
     name: 'Personal analytics and reports',
-    availableIn: {
-      basic: false,
-      standard: false,
-      premium: true,
-      enterprise: true
-    }
-  },
-  {
-    id: 'knowledge-base',
-    name: 'Upload your own knowledge base',
     availableIn: {
       basic: false,
       standard: false,
@@ -289,7 +279,7 @@ export const featureMatrix: Feature[] = [
   },
   {
     id: 'custom-setup',
-    name: 'Custom curriculum, SSO, and dedicated support',
+    name: 'Custom curriculum and dedicated support',
     availableIn: {
       basic: false,
       standard: false,
@@ -308,7 +298,7 @@ export const faqItems: FAQ[] = [
   {
     id: 'tier-differences',
     question: 'How do the tiers differ?',
-    answer: 'Basic is free and covers your hub, messaging, connections, homework, and 20 AI chat messages a day. Standard adds higher AI limits, Knowledge Galaxy, learning goals, and planning tools. Premium unlocks AI lesson and assessment generators, auto-grading, analytics, and priority support. Enterprise adds organisation admin, school-wide analytics, and custom setup.'
+    answer: 'Basic is free and covers your hub, messaging, connections, homework, and 20 El AI requests a day. Standard adds 100 AI requests a day, the Learning Hub, learning goals, courses, and unlimited classes. Premium adds 300 AI requests a day, the AI lesson planner and test maker, auto-grading, analytics, and priority support. Enterprise adds organisation admin, school-wide analytics, and custom setup.'
   },
   {
     id: 'change-tiers',

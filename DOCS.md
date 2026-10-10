@@ -27,7 +27,7 @@ GreyEd is an AI-powered teaching platform that helps teachers plan lessons, gene
 5. **Assessments** → Generate questions by topic → AI Auto-Grading uploads student work and returns scored feedback.
 6. **El AI** → Conversational assistant scoped to teaching tasks. Conversations persist per teacher in Supabase and stream into the sidebar.
 7. **Tutor Updates** → Weekly digest per class, previewable and sendable to tutors.
-8. **Knowledge Galaxy** → Visual curriculum explorer across 9 subjects with subtopic notes, flashcards, and quizzes.
+8. **Learning Hub** → Visual curriculum explorer across 9 subjects with subtopic notes, flashcards, and quizzes.
 
 ## Repo layout
 - `src/pages/teachers/` — teacher-facing routes

@@ -13,10 +13,10 @@
 5. [Assessments](#5-assessments)
 6. [AI Auto-Grading](#6-ai-auto-grading)
 7. [Tutor & Family Updates](#7-tutor--family-updates)
-8. [Knowledge Galaxy](#8-knowledge-galaxy)
+8. [Learning Hub](#8-learning-hub)
 9. [Siyafunda AI Assistant](#9-siyafunda-ai-assistant)
 10. [GreyEd Teaching Assistant (Avatar)](#10-greyed-teaching-assistant-avatar)
-11. [Knowledge Galaxy Progress (Courses)](#11-knowledge-galaxy-progress-courses)
+11. [Learning Hub Progress (Courses)](#11-learning-hub-progress-courses)
 12. [Settings](#12-settings)
 13. [Accessibility & UI](#13-accessibility--ui)
 
@@ -202,7 +202,7 @@ From within a class, select individual students:
 
 ---
 
-## 8. Knowledge Galaxy
+## 8. Learning Hub
 
 An interactive, multi-layer knowledge universe for teacher professional learning and classroom content reference.
 
@@ -326,9 +326,9 @@ An AI avatar-powered teaching assistant available across the platform.
 
 ---
 
-## 11. Knowledge Galaxy Progress (Courses)
+## 11. Learning Hub Progress (Courses)
 
-A personal analytics dashboard showing the teacher's Knowledge Galaxy exploration activity (`/teachers/courses`).
+A personal analytics dashboard showing the teacher's Learning Hub exploration activity (`/teachers/courses`).
 
 **Stat Tiles:**
 - Topics Explored (of total available)
@@ -354,7 +354,7 @@ A personal analytics dashboard showing the teacher's Knowledge Galaxy exploratio
 - Relative completion time
 - Green checkmark for scores ≥80%
 
-**Continue Exploring button** in the NavBar links directly back to the Knowledge Galaxy.
+**Continue Exploring button** in the NavBar links directly back to the Learning Hub.
 
 ---
 

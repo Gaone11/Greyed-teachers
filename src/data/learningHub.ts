@@ -1,4 +1,4 @@
-// Knowledge Galaxy — Static data tree
+// Learning Hub — Static data tree
 // Structure: Subject → Domain → Flagship Topic → Micro Topic
 // Each flagship topic contains: multi-level explanations, flashcards, experiments, real-world apps, quiz, curiosity branches
 

@@ -12,7 +12,7 @@ const hubPlans = [
     title: 'Student Hub',
     icon: GraduationCap,
     price: 'Basic: Free',
-    description: 'Timetable, assignments, Knowledge Galaxy, progress tracking, and study support.',
+    description: 'Timetable, assignments, Learning Hub, progress tracking, and study support.',
     highlights: ['Core learning dashboard', 'Basic AI study support', 'Upgrade for advanced tools']
   },
   {

@@ -1,15 +1,18 @@
 import { supabase } from './supabase';
 import { searchKnowledgeBase } from './api/kb-api';
 
-// Constants
-const FREE_MESSAGES_DAILY_LIMIT = 10; // Free accounts are limited to 10 messages per day
-
 /**
- * Check if a user has reached their daily message limit
+ * Thrown when the user has used all AI requests their tier includes today.
+ * The message is safe to show to the user.
  */
-export async function checkMessageLimit(userId: string): Promise<{ limitReached: boolean, count: number }> {
-  // All users have unlimited messages - platform is free
-  return { limitReached: false, count: 0 };
+export class AiLimitError extends Error {}
+
+async function readAiError(response: Response, fallback: string): Promise<Error> {
+  const errorData = await response.json().catch(() => ({}));
+  if (response.status === 429 && errorData.code === 'ai_limit_reached') {
+    return new AiLimitError(errorData.error);
+  }
+  return new Error(errorData.error || fallback);
 }
 
 /**
@@ -41,8 +44,7 @@ export async function sendMessageToAI(message: string, userId: string): Promise<
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to get response from Uhuru AI');
+      throw await readAiError(response, 'Failed to get response from Uhuru AI');
     }
     
     const data = await response.json();
@@ -144,8 +146,7 @@ export async function processTeacherQuery(query: string, teacherId: string) {
     });
     
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to get response from Uhuru AI Teacher');
+      throw await readAiError(response, 'Failed to get response from Uhuru AI Teacher');
     }
     
     const data = await response.json();

@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import StudentLayout from '../../components/students/StudentLayout';
 import { useAuth } from '../../context/AuthContext';
-import { sendMessageToAI } from '../../lib/api';
+import { AiLimitError, sendMessageToAI } from '../../lib/api';
 import {
   Bot,
   Send,
@@ -138,8 +138,10 @@ const AIStudyAssistantPage: React.FC = () => {
     let reply: string;
     try {
       reply = await sendMessageToAI(buildPrompt(text, selectedTypes, modeId), user?.id || 'student');
-    } catch {
-      reply = "I couldn't reach El just now. Check that you're signed in and connected, then try again.";
+    } catch (error) {
+      reply = error instanceof AiLimitError
+        ? error.message
+        : "I couldn't reach El just now. Check that you're signed in and connected, then try again.";
     }
 
     setMessages(prev => [...prev, { id: Date.now() + 1, sender: 'ai', text: reply }]);

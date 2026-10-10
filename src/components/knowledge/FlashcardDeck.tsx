@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, RotateCcw, Shuffle, Trophy, Brain, BookOpen } from 'lucide-react';
-import type { Flashcard } from '../../data/knowledgeGalaxy';
+import type { Flashcard } from '../../data/learningHub';
 
 type DeckMode = 'memory' | 'quiz' | 'battle';
 
